@@ -1,0 +1,18 @@
+[submodule "libs/phet/scenery"]
+	path = libs/phet/scenery
+	url = https://github.com/phetsims/scenery.git
+[submodule "libs/phet/dot"]
+	path = libs/phet/dot
+	url = https://github.com/phetsims/dot.git
+[submodule "libs/phet/phet-core"]
+	path = libs/phet/phet-core
+	url = https://github.com/phetsims/phet-core.git
+[submodule "libs/phet/kite"]
+	path = libs/phet/kite
+	url = https://github.com/phetsims/kite.git
+[submodule "libs/phet/phetcommon"]
+	path = libs/phet/phetcommon
+	url = https://github.com/phetsims/phetcommon.git
+[submodule "libs/phet/assert"]
+	path = libs/phet/assert
+	url = https://github.com/phetsims/assert.git
