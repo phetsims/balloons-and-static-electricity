@@ -1,0 +1,20 @@
+define( {
+          "Common.HelpPanel.ShowHelp": "Помощь",
+          "balloons.description": "Почему шарик прилипает к вашему свитеру? Потрите шарик о свитер, затем отпустите шарик и он полетит и прилипнет к свитеру. Изучите заряды на свитере, шариках и стене.",
+          "BalloonApplet.Reset": "Сброс",
+          "BalloonApplet.OnlyOneBalloon": "Только один шарик",
+          "near.the.wall": "к стене",
+          "BalloonApplet.ChargeDisplay": "Показ зарядов",
+          "BalloonApplet.ShowChargeDifferences": "Показывать преобладающий заряд",
+          "on.the.sweater": "о свитер",
+          "rub.the.balloon": "Потрите шарик",
+          "Common.HelpPanel.HideHelp": "Убрать помощь",
+          "BalloonApplet.Wall": "Стена",
+          "Common.HelpPanel.MegaHelp": "Подробно",
+          "BalloonApplet.TwoBalloons": "Два шарика",
+          "balloons.name": "Шарики и статическое электричество",
+          "bring.the.balloon": "Поднесите шарик",
+          "BalloonApplet.IgnoreInitialBalloonCharge": "Нет начального заряда шарика",
+          "BalloonApplet.ShowAllCharges": "Показывать все заряды",
+          "BalloonApplet.ShowNoCharges": "Не показывать заряды"
+        } );

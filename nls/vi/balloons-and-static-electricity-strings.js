@@ -1,0 +1,15 @@
+define( {
+          "rub.the.balloon": "Cọ xát bong bóng",
+          "BalloonApplet.Wall": "Tường",
+          "on.the.sweater": "lên áo len",
+          "balloons.name": "Bong bóng và tĩnh điện",
+          "BalloonApplet.ShowChargeDifferences": "Hiển thị hiệu điện tích ",
+          "BalloonApplet.IgnoreInitialBalloonCharge": "Bỏ qua điện tích ban đầu của bóng",
+          "balloons.description": "Tại sao bong bóng dính vào áo len của bạn? Cọ xát bong bóng vào áo len xong thả ra và quan sát. Chú ý điện tích trên áo len, bong bóng và tường. PhET_VN",
+          "bring.the.balloon": "Mang bong bóng ",
+          "BalloonApplet.ShowNoCharges": "Không hiển thị điện tích",
+          "BalloonApplet.ShowAllCharges": "Hiển thị tất cả điện tích",
+          "near.the.wall": "đến gần tường",
+          "BalloonApplet.TwoBalloons": "Hai bong bóng",
+          "BalloonApplet.ChargeDisplay": "Hiển thị điện tích"
+        } );

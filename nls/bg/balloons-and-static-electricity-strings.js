@@ -1,0 +1,14 @@
+define( {
+          "rub.the.balloon": "Натъркай балона",
+          "BalloonApplet.Wall": "Стена",
+          "on.the.sweater": "върху пуловера",
+          "balloons.name": "Балони и статично електричество",
+          "BalloonApplet.ShowChargeDifferences": "Покажи разликата между зарядите",
+          "BalloonApplet.IgnoreInitialBalloonCharge": "Без отчитане на първоначалния заряд",
+          "bring.the.balloon": "Дръпни балона",
+          "BalloonApplet.ShowNoCharges": "Не показвай зарядите",
+          "BalloonApplet.ShowAllCharges": "Покажи всички заряди",
+          "near.the.wall": "близо до стената",
+          "BalloonApplet.TwoBalloons": "Два балона",
+          "BalloonApplet.ChargeDisplay": "Показване на заряда"
+        } );
