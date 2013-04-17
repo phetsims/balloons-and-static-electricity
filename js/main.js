@@ -10,8 +10,9 @@ require( [
            'fastclick',
            'PHETCOMMON/util/ImagesLoader',
            'FORT/Fort',
-           'SCENERY/nodes/Text'
-         ], function( FastClick, ImagesLoader, Fort, Text ) {
+           'SCENERY/nodes/Text',
+           'Strings'
+         ], function( FastClick, ImagesLoader, Fort, Text, Strings ) {
   'use strict';
 
   //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
@@ -26,4 +27,7 @@ require( [
   //make sure scenery loaded
   var text = new Text( "hello" );
   console.log( text );
+
+  console.log( "Loaded strings:" );
+  console.log( Strings );
 } );
