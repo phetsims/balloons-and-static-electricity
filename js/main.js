@@ -11,8 +11,12 @@ require( [
            'PHETCOMMON/util/ImagesLoader',
            'FORT/Fort',
            'SCENERY/nodes/Text',
-           'Strings'
-         ], function( FastClick, ImagesLoader, Fort, Text, Strings ) {
+           'SCENERY/nodes/Rectangle',
+           'Strings',
+           'JOIST/Sim',
+           'model/BalloonsAndStaticElectricityModel',
+           'view/BalloonsAndStaticElectricityPlayArea'
+         ], function( FastClick, ImagesLoader, Fort, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
   'use strict';
 
   //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
@@ -30,4 +34,16 @@ require( [
 
   console.log( "Loaded strings:" );
   console.log( Strings );
+
+  new ImagesLoader( function( loader ) {
+
+    //Create and start the sim
+    new Sim( Strings['balloons.name'], [
+      { name: Strings['balloons.name'],
+        icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
+        createModel: function() {return new BalloonsAndStaticElectricityModel();},
+        createView: function( model ) {return new BalloonsAndStaticElectricityPlayArea( model );}
+      }
+    ] ).start();
+  } )
 } );

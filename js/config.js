@@ -25,6 +25,8 @@ require.config( {
                     DOT: '../lib/phet/joist/lib/phet/scenery/common/dot/js',
                     ASSERT: '../lib/phet/joist/lib/phet/scenery/common/assert/js',
                     FORT: '../lib/phet/joist/lib/phet/fort/js',
+                    SUN: '../lib/phet/joist/lib/phet/sun/js',
+                    JOIST: '../lib/phet/joist/js',
 
                     // contrib dependencies required by common directories
                     stats: '../lib/phet/joist/lib/phet/phetcommon/contrib/stats-r11',
