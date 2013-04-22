@@ -18,17 +18,17 @@ require.config( {
                   paths: {
 
                     // common directories, uppercase names to identify them in require imports
-                    PHETCOMMON: '../lib/phet/phetcommon/js',
-                    SCENERY: '../lib/phet/scenery/js',
-                    KITE: '../lib/phet/scenery/common/kite/js',
-                    PHET_CORE: '../lib/phet/scenery/common/phet-core/js',
-                    DOT: '../lib/phet/scenery/common/dot/js',
-                    ASSERT: '../lib/phet/scenery/common/assert/js',
-                    FORT: '../lib/phet/fort/js',
+                    PHETCOMMON: '../lib/phet/joist/lib/phet/phetcommon/js',
+                    SCENERY: '../lib/phet/joist/lib/phet/scenery/js',
+                    KITE: '../lib/phet/joist/lib/phet/scenery/common/kite/js',
+                    PHET_CORE: '../lib/phet/joist/lib/phet/scenery/common/phet-core/js',
+                    DOT: '../lib/phet/joist/lib/phet/scenery/common/dot/js',
+                    ASSERT: '../lib/phet/joist/lib/phet/scenery/common/assert/js',
+                    FORT: '../lib/phet/joist/lib/phet/fort/js',
 
                     // contrib dependencies required by common directories
-                    stats: '../lib/phet/phetcommon/contrib/stats-r11',
-                    imagesloaded: '../lib/phet/phetcommon/contrib/jquery.imagesloaded-2.1.1',
+                    stats: '../lib/phet/joist/lib/phet/phetcommon/contrib/stats-r11',
+                    imagesloaded: '../lib/phet/joist/lib/phet/phetcommon/contrib/jquery.imagesloaded-2.1.1',
 
                     // local contrib dependencies
                     i18n: '../lib/i18n-2.0.2',
