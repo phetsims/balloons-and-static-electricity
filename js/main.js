@@ -16,34 +16,22 @@ require( [
            'JOIST/Sim',
            'model/BalloonsAndStaticElectricityModel',
            'view/BalloonsAndStaticElectricityPlayArea'
-         ], function( FastClick, ImagesLoader, Fort, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
+         ], function ( FastClick, ImagesLoader, Fort, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
   'use strict';
 
   //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
-  new FastClick( document.body );
+  var f = new FastClick( document.body );
 
-  //Make sure Fort loaded
-  console.log( "started" );
-  var Model = Fort.Model.extend( {paused: true} );
-  var model = new Model();
-  console.log( model );
-
-  //make sure scenery loaded
-  var text = new Text( "hello" );
-  console.log( text );
-
-  console.log( "Loaded strings:" );
-  console.log( Strings );
-
-  new ImagesLoader( function( loader ) {
+  var i = new ImagesLoader( function ( loader ) {
 
     //Create and start the sim
     new Sim( Strings['balloons.name'], [
-      { name: Strings['balloons.name'],
+      {
+        name: Strings['balloons.name'],
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
-        createModel: function() {return new BalloonsAndStaticElectricityModel();},
-        createView: function( model ) {return new BalloonsAndStaticElectricityPlayArea( model );}
+        createModel: function () {return new BalloonsAndStaticElectricityModel();},
+        createView: function ( model ) {return new BalloonsAndStaticElectricityPlayArea( model );}
       }
     ] ).start();
-  } )
+  } );
 } );
