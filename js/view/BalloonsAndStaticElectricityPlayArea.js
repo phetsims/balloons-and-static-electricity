@@ -1,6 +1,6 @@
 define( function( require ) {
   "use strict";
-  var PlayArea = require( 'JOIST/PlayArea' );
+  var PlayArea = require( 'JOIST/TabView' );
   var Sweater = require( 'view/SweaterNode' );
   var Wall = require( 'view/WallNode' );
   var inherit = require( 'PHET_CORE/inherit' );
