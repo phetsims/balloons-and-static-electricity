@@ -14,7 +14,7 @@ define( function ( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
-  function BalloonNode( x, y, model, imgsrc ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel ) {
     var self = this;
 
     // super constructor
@@ -30,14 +30,17 @@ define( function ( require ) {
 
                                                     //Translate on drag events
                                                     translate: function ( args ) {
-                                                      console.log("translating!")
-                                                      this.location = args.position;
+                                                      model.location = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
                                                     }
                                                   } ) );
 
-    // add the Sweater image
-    this.addChild( new Image( imgsrc ) );
+    // add the Balloon image
+    this.addChild( new Image( imgsrc, {
+    } ) );
 
+    model.link( 'location', function updateLocation( location ) {
+      self.translation = location;
+    } );
   }
 
   inherit( BalloonNode, Node ); // prototype chaining

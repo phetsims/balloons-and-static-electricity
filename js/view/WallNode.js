@@ -12,18 +12,37 @@ define( function ( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var PlusCharge = require( 'view/PlusCharge' );
+  var MinusCharge = require( 'view/MinusCharge' );
+  var PointChargeModel = require( 'model/PointChargeModel' );
+  var Vector2 = require( 'DOT/Vector2' );
 
-  function WallNode( maxX, maxY ) {
+  function WallNode( wallModel ) {
     var self = this;
 
     // super constructor
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this );
 
-    // add the centered bar magnet image
-
-    this.addChild( new Rectangle( maxX - 70, 0, 70, maxY, {
+    // add the background
+    this.addChild( new Rectangle( wallModel.x, 0, wallModel.width, wallModel.height, {
       fill: '#ff0'
     } ) );
+
+    wallModel.plusCharges.forEach( function ( entry ) {
+      entry.view = new PlusCharge( entry.location );
+      self.addChild( entry.view );
+    } );
+
+
+    wallModel.minusCharges.forEach( function ( entry ) {
+      entry.view = new MinusCharge( entry.location );
+      entry.link( 'location', function updateLocation( location ) {
+        entry.view.x = location.x+PointChargeModel.radius;
+        entry.view.y = location.y+PointChargeModel.radius;
+      } );
+      self.addChild( entry.view );
+    } );
+
 
   }
 

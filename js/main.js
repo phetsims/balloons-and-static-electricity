@@ -24,12 +24,13 @@ require( [
 
   var i = new ImagesLoader( function ( loader ) {
 
+    //TODO dimensions!
     //Create and start the sim
     new Sim( Strings['balloons.name'], [
       {
         name: Strings['balloons.name'],
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
-        createModel: function () {return new BalloonsAndStaticElectricityModel();},
+        createModel: function () {return new BalloonsAndStaticElectricityModel(1024, 504);},
         createView: function ( model ) {return new BalloonsAndStaticElectricityPlayArea( model );}
       }
     ] ).start();

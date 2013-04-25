@@ -17,13 +17,16 @@ define( function ( require ) {
     var self = this;
 
     // super constructor
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this );
 
     this.x = x;
     this.y = y;
 
     // add the Sweater image
-    this.addChild( new Image( "images/sweater.svg" ) );
+    this.addChild( new Image( "images/sweater.svg", {
+      centerX: 0,
+      centerY: 0
+    } ) );
 
   }
 
