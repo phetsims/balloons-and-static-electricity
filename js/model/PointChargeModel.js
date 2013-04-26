@@ -14,7 +14,6 @@ define( function ( require ) {
   var Charge = Fort.Model.extend(
       {
         defaults: {
-          charge: -1,
           location: new Vector2( 0, 0 )
         },
         init: function ( x, y ) {
@@ -29,7 +28,9 @@ define( function ( require ) {
         }
 
       }, {
-          radius: 6
+        radius: 6,
+        //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (here only 57 )
+        charge: -1.754
       } );
 
   return Charge;

@@ -35,8 +35,14 @@ define( function ( require ) {
 
         // Called by the animation loop
         step: function () {
+          var self = this;
           // Make model changes here.
-          this.wall.step( this.balloons );
+          this.wall.step( self );
+          this.balloons.forEach( function(entry){
+            if(entry.isVisible) {
+              entry.step(self);
+            }
+          });
         },
 
         // Reset the entire model

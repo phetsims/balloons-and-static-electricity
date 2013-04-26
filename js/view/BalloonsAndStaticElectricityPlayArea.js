@@ -18,8 +18,12 @@ define( function ( require ) {
     this.addChild( new Sweater( model.sweater ) );
     this.addChild( new Wall( model.wall ) );
 
-    this.addChild( new Balloon( 400, 200, model.balloons[0], "images/balloon-green.png", model ) );
-    this.addChild( new Balloon( 500, 200, model.balloons[1], "images/balloon-yellow.png", model) );
+    this.addChild( new Balloon( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
+    this.addChild( new Balloon( 500, 200, model.balloons[1], "images/balloon-green.png", model) );
+
+
+    //TODO remove this
+    model.balloons[1].isVisible = false;
   }
 
   inherit( BalloonsAndStaticElectricityPlayArea, PlayArea );

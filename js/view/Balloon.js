@@ -41,6 +41,12 @@ define( function ( require ) {
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;
     } );
+
+    model.link('isVisible',function updateVisibility (boolean) {
+      self.visible = boolean;
+    });
+
+    model.view = this;
   }
 
   inherit( BalloonNode, Node ); // prototype chaining

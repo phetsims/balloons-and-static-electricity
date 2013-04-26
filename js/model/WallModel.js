@@ -50,14 +50,14 @@ define( function ( require ) {
         },
 
         // Called by the animation loop
-        step: function ( balloons ) {
+        step: function ( model ) {
 
-          var k = -1000000 / 5;
+          var k = 1000000 / 5;
 
           this.minusCharges.forEach( function ( entry ) {
             var ch = entry;
-            var kqq = k * (-1) * balloons[0].charge;
-            var dv = Balloon.getForce( ch.location, balloons[0].getCenter(), kqq, 2.7 );
+            var kqq = k * PointCharge.charge * model.balloons[0].charge;
+            var dv = Balloon.getForce( ch.location, model.balloons[0].getCenter(), kqq, 2.7 );
             entry.location = new Vector2( entry.defaultLocation.x + dv.x, entry.defaultLocation.y + dv.y );
           } );
           // Make model changes here.
