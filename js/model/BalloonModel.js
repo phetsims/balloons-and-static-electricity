@@ -19,7 +19,7 @@ define( function ( require ) {
           isVisible: true,
           width: 161,
           height: 266,
-          location: new Vector2( 0, 0 )
+          location: new Vector2( 0, 0 ),
         },
         init: function ( x, y ) {
           this.location = new Vector2( x, y );

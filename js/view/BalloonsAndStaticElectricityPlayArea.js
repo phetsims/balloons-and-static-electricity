@@ -15,7 +15,7 @@ define( function ( require ) {
   function BalloonsAndStaticElectricityPlayArea( model ) {
     PlayArea.call( this );
 
-    this.addChild( new Sweater( 0, 0 ) );
+    this.addChild( new Sweater( model.sweater ) );
     this.addChild( new Wall( model.wall ) );
 
     this.addChild( new Balloon( 400, 200, model.balloons[0], "images/balloon-green.png", model ) );

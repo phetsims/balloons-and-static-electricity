@@ -12,21 +12,37 @@ define( function ( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var PlusCharge = require( 'view/PlusCharge' );
+  var MinusCharge = require( 'view/MinusCharge' );
+  var PointChargeModel = require( 'model/PointChargeModel' );
+  var Vector2 = require( 'DOT/Vector2' );
 
-  function SweaterNode( x, y ) {
+  function SweaterNode( sweaterModel ) {
     var self = this;
 
     // super constructor
     Node.call( this );
 
-    this.x = x;
-    this.y = y;
-
     // add the Sweater image
     this.addChild( new Image( "images/sweater.svg", {
-      centerX: 0,
-      centerY: 0
+      x: sweaterModel.x,
+      y: sweaterModel.y
     } ) );
+
+    sweaterModel.plusCharges.forEach( function ( entry ) {
+      entry.view = new PlusCharge( entry.location );
+      self.addChild( entry.view );
+    } );
+
+
+    sweaterModel.minusCharges.forEach( function ( entry ) {
+      entry.view = new MinusCharge( entry.location );
+      entry.link( 'location', function updateLocation( location ) {
+        entry.view.x = location.x + PointChargeModel.radius;
+        entry.view.y = location.y + PointChargeModel.radius;
+      } );
+      self.addChild( entry.view );
+    } );
 
   }
 

@@ -9,6 +9,7 @@ define( function ( require ) {
   'use strict';
   var Balloon = require( 'model/BalloonModel' );
   var Wall = require( 'model/WallModel' );
+  var Sweater = require( 'model/SweaterModel' );
   var Fort = require( 'FORT/Fort' );
 
   var BalloonsAndStaticElectricityModel = Fort.Model.extend(
@@ -25,10 +26,11 @@ define( function ( require ) {
           this.height = height;
 
           this.balloons = [
-            new Balloon( 10, 10 ),
-            new Balloon( 100, 100 )
+            new Balloon( 500, 10 ),
+            new Balloon( 400, 100 )
           ];
           this.wall = new Wall( width - this.wallWidth, 300, height );
+          this.sweater = new Sweater(0, 0);
         },
 
         // Called by the animation loop
