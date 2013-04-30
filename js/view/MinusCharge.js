@@ -32,7 +32,8 @@ define( function ( require ) {
       fill: new Grad( 1, -2, 0, 1, -2, 5 )
           .addColorStop( 0, '#fff' )
           .addColorStop( 0.5, '#6cd0f5' )
-          .addColorStop( 1, '#00a9e8  ' )
+          .addColorStop( 1, '#00a9e8  ' ),
+      renderer:'svg'
     } ) );
 
     this.addChild( new Text( "–", {

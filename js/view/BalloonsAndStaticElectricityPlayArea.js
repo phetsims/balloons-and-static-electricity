@@ -1,6 +1,5 @@
 define( function ( require ) {
   "use strict";
-  var ModelViewTransform2D = require( 'PHETCOMMON/view/ModelViewTransform2D' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Vector2 = require( 'DOT/Vector2' );
   var PlayArea = require( 'JOIST/TabView' );
