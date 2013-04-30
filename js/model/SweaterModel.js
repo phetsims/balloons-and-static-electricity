@@ -75,7 +75,9 @@ define( function ( require ) {
             [296, 362],
             [291, 393]
           ],
-          isVisible: true
+          isVisible: true,
+          width: 315,
+          height: 420
         },
 
         //Main constructor
@@ -83,8 +85,8 @@ define( function ( require ) {
           var self = this;
 
           this.x = x;
-          this.y = y;
-
+          this.y = y*1;
+          this.center = new Vector2(self.x+self.width/2,self.y+self.height/2);
           this.plusCharges = [];
           this.minusCharges = [];
 
@@ -134,7 +136,7 @@ define( function ( require ) {
             }
           } );
         }
-      } );
+      });
 
   return Sweater;
 } )

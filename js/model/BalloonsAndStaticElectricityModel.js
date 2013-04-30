@@ -29,20 +29,33 @@ define( function ( require ) {
             new Balloon( 500, 10 ),
             new Balloon( 400, 100 )
           ];
+          this.balloons[0].other = this.balloons[1];
+          this.balloons[1].other = this.balloons[0];
+
           this.wall = new Wall( width - this.wallWidth, 300, height );
-          this.sweater = new Sweater(0, 0);
+          //if we write 0 instead of "0", then parameter becomes object, not number
+          this.sweater = new Sweater( 0, "0" );
+
+          this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
+
+          this.reset();
         },
 
         // Called by the animation loop
         step: function () {
           var self = this;
           // Make model changes here.
+          var curTime = new Date().getTime();
+          var dt = curTime - this.oldTime;
+
           this.wall.step( self );
-          this.balloons.forEach( function(entry){
-            if(entry.isVisible) {
-              entry.step(self);
+          this.balloons.forEach( function ( entry ) {
+            if ( entry.isVisible ) {
+              entry.step( self, dt );
             }
-          });
+          } );
+
+          this.oldTime = curTime;
         },
 
         // Reset the entire model
@@ -55,6 +68,8 @@ define( function ( require ) {
           this.balloons.forEach( function ( entry ) {
             entry.reset();
           } );
+
+          this.oldTime = new Date().getTime();
         },
         getBalloonRestrictions: function ( position, objWidth, objHeight ) {
           var rightBound = this.width;
@@ -66,9 +81,10 @@ define( function ( require ) {
             position.x = rightBound - objWidth;
           }
 
-          if ( position.y < 0) {
+          if ( position.y < 0 ) {
             position.y = 0;
-          } else if (position.y+objHeight > this.height) {
+          }
+          else if ( position.y + objHeight > this.height ) {
             position.y = this.height - objHeight;
           }
 

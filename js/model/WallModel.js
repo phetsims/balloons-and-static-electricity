@@ -56,9 +56,15 @@ define( function ( require ) {
 
           this.minusCharges.forEach( function ( entry ) {
             var ch = entry;
-            var kqq = k * PointCharge.charge * model.balloons[0].charge;
-            var dv = Balloon.getForce( ch.location, model.balloons[0].getCenter(), kqq, 2.7 );
-            entry.location = new Vector2( entry.defaultLocation.x + dv.x, entry.defaultLocation.y + dv.y );
+            var dv1 = new Vector2( 0, 0 );
+            var dv2 = new Vector2( 0, 0 );
+            if ( model.balloons[0].isVisible ) {
+              dv1 = Balloon.getForce( ch.location, model.balloons[0].getCenter(), k * PointCharge.charge * model.balloons[0].charge, 2.7 );
+            }
+            if ( model.balloons[1].isVisible ) {
+              dv2 = Balloon.getForce( ch.location, model.balloons[1].getCenter(), k * PointCharge.charge * model.balloons[1].charge, 2.7 );
+            }
+            entry.location = new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y );
           } );
           // Make model changes here.
         },

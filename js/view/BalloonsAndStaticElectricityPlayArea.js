@@ -23,7 +23,7 @@ define( function ( require ) {
 
 
     //TODO remove this
-    model.balloons[1].isVisible = false;
+    //model.balloons[1].isVisible = false;
   }
 
   inherit( BalloonsAndStaticElectricityPlayArea, PlayArea );

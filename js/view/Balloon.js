@@ -13,6 +13,7 @@ define( function ( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
     var self = this;
@@ -27,7 +28,13 @@ define( function ( require ) {
     this.addInputListener( new SimpleDragHandler( {
                                                     //When dragging across it in a mobile device, pick it up
                                                     allowTouchSnag: true,
-
+                                                    start: function () {
+                                                      model.isDragged = true;
+                                                    },
+                                                    end: function () {
+                                                      model.isDragged = false;
+                                                      model.velocity = new Vector2( 0, 0 );
+                                                    },
                                                     //Translate on drag events
                                                     translate: function ( args ) {
                                                       model.location = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
@@ -42,9 +49,9 @@ define( function ( require ) {
       self.translation = location;
     } );
 
-    model.link('isVisible',function updateVisibility (boolean) {
+    model.link( 'isVisible', function updateVisibility( boolean ) {
       self.visible = boolean;
-    });
+    } );
 
     model.view = this;
   }
