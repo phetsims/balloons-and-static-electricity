@@ -128,7 +128,6 @@ define( function ( require ) {
 
         // Reset the entire model
         reset: function () {
-          //TODO
           this.charge = 0;
           this.minusCharges.forEach( function ( entry ) {
             if(entry.view) {

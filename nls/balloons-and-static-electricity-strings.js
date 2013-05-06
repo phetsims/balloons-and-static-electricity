@@ -11,7 +11,9 @@ define( {
             "BalloonApplet.ShowNoCharges": "Show no charges",
             "near.the.wall": "near the wall",
             "BalloonApplet.TwoBalloons": "Two Balloons",
-            "BalloonApplet.ChargeDisplay": "Charge Display"
+            "BalloonApplet.ChargeDisplay": "Charge Display",
+            "BalloonApplet.removeWall": "Remove Wall",
+            "BalloonApplet.addWall": "Add Wall"
           },
           "af": true,
           "ar": true,

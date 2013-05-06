@@ -9,6 +9,7 @@ define( function ( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
+  var PointCharge = require( 'model/PointChargeModel' );
 
   // Constructor for BarMagnet.
   var Balloon = Fort.Model.extend(
@@ -21,10 +22,79 @@ define( function ( require ) {
           height: 266,
           location: new Vector2( 0, 0 ),
           thresholdSpeed: 0.38,
-          minusCharges: []
+          positions: [
+            [20, 66],
+            [24, 56],
+            [14, 86],
+            [20, 156],
+            [14, 116],
+            [20, 81],
+            [14, 126],
+            [14, 104],
+            [30, 46],
+            [40, 196],
+            [14, 96],
+            [16, 76],
+            [46, 206],
+            [37, 186],
+            [51, 26],
+            [36, 36],
+            [28, 68],
+            [26, 101],
+            [16, 136],
+            [18, 146],
+            [22, 166],
+            [26, 181],
+            [30, 173],
+            [26, 66],
+            [32, 56],
+            [34, 86],
+            [26, 156],
+            [26, 146],
+            [30, 78],
+            [28, 126],
+            [26, 104],
+            [26, 46],
+            [36, 190],
+            [26, 96],
+            [31, 86],
+            [36, 181],
+            [30, 186],
+            [31, 46],
+            [46, 36],
+            [28, 68],
+            [26, 101],
+            [26, 136],
+            [26, 116],
+            [26, 156],
+            [26, 181],
+            [30, 173],
+            [31, 86],
+            [36, 181],
+            [30, 186],
+            [31, 46],
+            [42, 30],
+            [28, 68],
+            [26, 101],
+            [26, 136],
+            [30, 116],
+            [26, 156],
+            [26, 181],
+            [30, 173]
+          ]
         },
         init: function ( x, y ) {
+          var self = this;
+
           this.location = new Vector2( x, y );
+          this.plusCharges = [];
+          this.minusCharges = [];
+
+          this.positions.forEach( function ( entry ) {
+            //minus
+            var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + PointCharge.radius );
+            self.minusCharges.push( minusCharge );
+          } );
           this.reset();
         },
         getCenter: function () {
@@ -38,6 +108,12 @@ define( function ( require ) {
           this.oldLoc = this.location.copy();
           this.charge = 0;
           this.velocity = new Vector2( 0, 0 );
+          this.charge = 0;
+          this.minusCharges.forEach( function ( entry ) {
+            if ( entry.view ) {
+              entry.view.visible = false;
+            }
+          } );
           this.isDragged = false;
         },
         step: function ( model, dt ) {

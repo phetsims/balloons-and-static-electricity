@@ -13,6 +13,8 @@ define( function ( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var PlusCharge = require( 'view/PlusCharge' );
+  var MinusCharge = require( 'view/MinusCharge' );
   var Vector2 = require( 'DOT/Vector2' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
@@ -44,6 +46,18 @@ define( function ( require ) {
     // add the Balloon image
     this.addChild( new Image( imgsrc, {
     } ) );
+
+    model.minusCharges.forEach( function ( entry ) {
+      entry.view = new MinusCharge( entry.location );
+      entry.view.visible = false;
+      self.addChild( entry.view );
+    } );
+
+    model.link( 'charge', function updateLocation( chargeVal ) {
+      if(chargeVal) {
+        model.minusCharges[-chargeVal-1].view.visible = true;
+      }
+    });
 
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;

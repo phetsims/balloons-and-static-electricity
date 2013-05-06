@@ -32,7 +32,7 @@ define( function ( require ) {
           this.balloons[0].other = this.balloons[1];
           this.balloons[1].other = this.balloons[0];
 
-          this.wall = new Wall( width - this.wallWidth, 300, height );
+          this.wall = new Wall( width-this.wallWidth,300, height );
           //if we write 0 instead of "0", then parameter becomes object, not number
           this.sweater = new Sweater( 0, "0" );
 

@@ -19,7 +19,8 @@ define( function ( require ) {
         defaults: {
           numX: 3, //number of columns with charges
           numY: 18, //number of rows with charges
-          isVisible: true
+          isVisible: true,
+          x: 0
         },
 
         //Main constructor
@@ -82,7 +83,7 @@ define( function ( require ) {
 
         calculatePosition: function ( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-          return [i * this.dx + this.x + 1, k * this.dy + y0];
+          return [i * this.dx + 1, k * this.dy + y0];
         }
 
       } );

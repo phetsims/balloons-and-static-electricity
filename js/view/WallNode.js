@@ -24,7 +24,7 @@ define( function ( require ) {
     Node.call( this );
 
     // add the background
-    this.addChild( new Rectangle( wallModel.x, 0, wallModel.width, wallModel.height, {
+    this.addChild( new Rectangle( 0, 0, wallModel.width, wallModel.height, {
       fill: '#ff0'
     } ) );
 
@@ -41,6 +41,10 @@ define( function ( require ) {
         entry.view.y = location.y+PointChargeModel.radius;
       } );
       self.addChild( entry.view );
+    } );
+
+    wallModel.link( 'x', function updateLocation( xCoord ) {
+      self.x = xCoord;
     } );
 
 
