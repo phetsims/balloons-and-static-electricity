@@ -44,7 +44,7 @@ define( function ( require ) {
 
               //minus
               position = this.calculatePosition( i, k );
-              var minusCharge = new PointCharge( position[0] + PointCharge.radius, position[1] + PointCharge.radius );
+              var minusCharge = new PointCharge( position[0], position[1] );
               this.minusCharges.push( minusCharge );
             }
           }
@@ -83,7 +83,7 @@ define( function ( require ) {
 
         calculatePosition: function ( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-          return [i * this.dx + 1, k * this.dy + y0];
+          return [i * this.dx + PointCharge.radius + 1, k * this.dy + PointCharge.radius + y0];
         }
 
       } );

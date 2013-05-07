@@ -18,9 +18,9 @@ define( function ( require ) {
 
     PlayArea.call( this );
 
-    this.addChild( new Sweater( model.sweater ) );
+    this.addChild( new Sweater( model ) );
 
-    var wall = new Wall( model.wall );
+    var wall = new Wall( model );
     this.addChild( wall );
 
 

@@ -16,8 +16,8 @@ define( function ( require ) {
       {
         //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
         defaults: {
-          isWallVisible: true,
-          wallWidth: 70
+          wallWidth: 70,
+          showCharges: "all"
         },
 
         //Main constructor
@@ -26,17 +26,19 @@ define( function ( require ) {
           this.height = height;
 
           this.balloons = [
-            new Balloon( 500, 10 ),
-            new Balloon( 400, 100 )
+            new Balloon( 500, 10, true ),
+            new Balloon( 400, 100, false )
           ];
           this.balloons[0].other = this.balloons[1];
           this.balloons[1].other = this.balloons[0];
 
-          this.wall = new Wall( width - this.wallWidth, 300, height );
+          this.wall = new Wall( width - this.wallWidth, 600, height );
           //if we write 0 instead of "0", then parameter becomes object, not number
           this.sweater = new Sweater( 0, "0" );
 
           this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
+
+
 
           this.reset();
         },
@@ -69,11 +71,13 @@ define( function ( require ) {
             entry.reset();
           } );
 
+          this.sweater.reset();
+
           this.oldTime = new Date().getTime();
         },
         getBalloonRestrictions: function ( position, objWidth, objHeight ) {
           var rightBound = this.width;
-          if ( this.isWallVisible ) {
+          if ( this.wall.isVisible ) {
             rightBound -= this.wallWidth;
           }
 
@@ -83,6 +87,10 @@ define( function ( require ) {
 
           if ( position.y < 0 ) {
             position.y = 0;
+          }
+
+          if ( position.x < 0 ) {
+            position.x = 0;
           }
           else if ( position.y + objHeight > this.height ) {
             position.y = this.height - objHeight;

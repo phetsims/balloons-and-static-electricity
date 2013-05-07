@@ -1,12 +1,32 @@
 .reset-button-container {
   position: absolute;
-  top: 470px;
+  bottom: -470px;
   left: 640px;
 }
 
 .switch-wall-button-container {
   position: absolute;
-  top: 450px;
-  left: 700px;
+  bottom: -450px;
+  left: 697px;
 }
 
+.switch-wall-button-container button {
+  padding: 4px 0;
+  width:70px;
+}
+
+#addWallButton {
+  display:none;
+}
+
+.show-charges-choice-container {
+  position: absolute;
+  bottom: -412px;
+  left: 70px;
+}
+
+.show-balloons-choice-container {
+  position: absolute;
+  bottom: -460px;
+  left: 525px;
+}

@@ -81,18 +81,36 @@ define( function ( require ) {
             [26, 156],
             [26, 181],
             [30, 173]
+          ],
+          positionsOfStartCharges: [
+            [50, 50],
+            [100, 50],
+            [50, 150],
+            [100, 150]
           ]
         },
-        init: function ( x, y ) {
+        init: function ( x, y, isVisibleByDefault ) {
           var self = this;
 
           this.location = new Vector2( x, y );
+          this.isVisibleByDefault = isVisibleByDefault;
+          this.initialLocation = this.location.copy();
           this.plusCharges = [];
           this.minusCharges = [];
 
-          this.positions.forEach( function ( entry ) {
+          this.positionsOfStartCharges.forEach( function ( entry ) {
+            //plus
+            var plusCharge = new PointCharge( entry[0], entry[1] );
+            self.plusCharges.push( plusCharge );
+
             //minus
             var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + PointCharge.radius );
+            self.minusCharges.push( minusCharge );
+          } );
+
+          this.positions.forEach( function ( entry ) {
+            //minus
+            var minusCharge = new PointCharge( entry[0], entry[1] );
             self.minusCharges.push( minusCharge );
           } );
           this.reset();
@@ -105,15 +123,17 @@ define( function ( require ) {
           this.xVelocityArr.counter = 0;
           this.yVelocityArr = [0, 0, 0, 0, 0];
           this.yVelocityArr.counter = 0;
-          this.oldLoc = this.location.copy();
           this.charge = 0;
           this.velocity = new Vector2( 0, 0 );
+          this.location = this.initialLocation.copy();
           this.charge = 0;
-          this.minusCharges.forEach( function ( entry ) {
-            if ( entry.view ) {
-              entry.view.visible = false;
+          this.isVisible = this.isVisibleByDefault;
+
+          for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
+            if ( this.minusCharges[i].view ) {
+              this.minusCharges[i].view.visible = false;
             }
-          } );
+          }
           this.isDragged = false;
         },
         step: function ( model, dt ) {
@@ -192,15 +212,35 @@ define( function ( require ) {
 
           var newVelocity = balloonModel.velocity.add( force.timesScalar( dt ) );
           var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
+          var isStopped = false;
           if ( newLocation.x > model.bounds[0] && newLocation.y > model.bounds[1] ) {
             var right = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
             if ( newLocation.x + balloonModel.width < right && newLocation.y + balloonModel.height < model.bounds[3] ) {
-              balloonModel.velocity = newVelocity;
-              balloonModel.location = newLocation;
-              return;
+            }
+            else {
+              isStopped = true;
+              if ( newLocation.x + balloonModel.width >= right ) {
+                newLocation.x = right-balloonModel.width;
+              }
+              if ( newLocation.y + balloonModel.height >= model.bounds[3] ) {
+                newLocation.y = model.bounds[3]-balloonModel.height;
+              }
             }
           }
-          balloonModel.velocity = new Vector2( 0, 0 );
+          else {
+            isStopped = true;
+            if ( newLocation.x <= model.bounds[0] ) {
+              newLocation.x = model.bounds[0];
+            }
+            if ( newLocation.y <= model.bounds[1] ) {
+              newLocation.y = model.bounds[1];
+            }
+          }
+          balloonModel.velocity = newVelocity;
+          balloonModel.location = newLocation;
+          if ( isStopped ) {
+            balloonModel.velocity = new Vector2( 0, 0 );
+          }
         },
         koeff: 1
       } );

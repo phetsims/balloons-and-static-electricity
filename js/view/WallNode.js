@@ -17,20 +17,25 @@ define( function ( require ) {
   var PointChargeModel = require( 'model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  function WallNode( wallModel ) {
+  function WallNode( model ) {
     var self = this;
+    var wallModel = model.wall;
 
     // super constructor
     Node.call( this );
+
+    this.translate(wallModel.x,0);
 
     // add the background
     this.addChild( new Rectangle( 0, 0, wallModel.width, wallModel.height, {
       fill: '#ff0'
     } ) );
 
+    var chargesNode = new Node();
+
     wallModel.plusCharges.forEach( function ( entry ) {
       entry.view = new PlusCharge( entry.location );
-      self.addChild( entry.view );
+      chargesNode.addChild( entry.view );
     } );
 
 
@@ -40,11 +45,17 @@ define( function ( require ) {
         entry.view.x = location.x + PointChargeModel.radius;
         entry.view.y = location.y + PointChargeModel.radius;
       } );
-      self.addChild( entry.view );
+      chargesNode.addChild( entry.view );
     } );
 
-    wallModel.link( 'x', function updateLocation( xCoord ) {
-      self.x = xCoord;
+    this.addChild(chargesNode);
+
+    wallModel.link( 'isVisible', function updateWallVisibility( isVisible ) {
+      self.visible = isVisible;
+    } );
+
+    model.link( 'showCharges', function switchWallChargesView( value ) {
+      chargesNode.visible = (value === 'all');
     } );
 
 
