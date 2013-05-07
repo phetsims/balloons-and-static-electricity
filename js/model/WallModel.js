@@ -38,13 +38,13 @@ define( function ( require ) {
             for ( var k = 0; k < this.numY; k++ ) {
               //plus
               var position = this.calculatePosition( i, k );
-              var plusCharge = new PointCharge( position[0], position[1] );
+              var plusCharge = new PointCharge( x + position[0], position[1] );
 
               this.plusCharges.push( plusCharge );
 
               //minus
               position = this.calculatePosition( i, k );
-              var minusCharge = new PointCharge( position[0], position[1] );
+              var minusCharge = new PointCharge( x + position[0], position[1] );
               this.minusCharges.push( minusCharge );
             }
           }
@@ -83,7 +83,7 @@ define( function ( require ) {
 
         calculatePosition: function ( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-          return [i * this.dx + PointCharge.radius + 1, k * this.dy + PointCharge.radius + y0];
+          return [i * this.dx +PointCharge.radius+ 1, k * this.dy + y0];
         }
 
       } );

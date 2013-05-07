@@ -215,24 +215,20 @@ define( function ( require ) {
           var isStopped = false;
           if ( newLocation.x > model.bounds[0] && newLocation.y > model.bounds[1] ) {
             var right = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
-            if ( newLocation.x + balloonModel.width < right && newLocation.y + balloonModel.height < model.bounds[3] ) {
-            }
-            else {
+            if ( newLocation.x + balloonModel.width > right ) {
               isStopped = true;
-              if ( newLocation.x + balloonModel.width >= right ) {
-                newLocation.x = right-balloonModel.width;
-              }
-              if ( newLocation.y + balloonModel.height >= model.bounds[3] ) {
-                newLocation.y = model.bounds[3]-balloonModel.height;
-              }
+              newLocation.x = right - balloonModel.width;
+            }
+            if ( newLocation.y + balloonModel.height > model.bounds[3] ) {
+              newLocation.y = model.bounds[3] - balloonModel.height;
             }
           }
           else {
             isStopped = true;
-            if ( newLocation.x <= model.bounds[0] ) {
+            if ( newLocation.x < model.bounds[0] ) {
               newLocation.x = model.bounds[0];
             }
-            if ( newLocation.y <= model.bounds[1] ) {
+            if ( newLocation.y < model.bounds[1] ) {
               newLocation.y = model.bounds[1];
             }
           }

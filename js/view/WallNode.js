@@ -32,6 +32,7 @@ define( function ( require ) {
     } ) );
 
     var chargesNode = new Node();
+    chargesNode.translate(-wallModel.x,0);
 
     wallModel.plusCharges.forEach( function ( entry ) {
       entry.view = new PlusCharge( entry.location );
