@@ -77,10 +77,6 @@ module.exports = function( grunt ) {
                           host: 'localhost',
                           port: 8080
                         }
-                      },
-                      watch: {
-                        files: ['index.html', 'js/**/*.js', 'css/*.css'],
-                        tasks: ['reload']
                       }
                     } );
 
@@ -91,5 +87,4 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-reload' );
-  grunt.loadNpmTasks( 'grunt-contrib-watch' );
 };
