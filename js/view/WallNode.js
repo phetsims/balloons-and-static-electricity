@@ -37,8 +37,8 @@ define( function ( require ) {
     wallModel.minusCharges.forEach( function ( entry ) {
       entry.view = new MinusCharge( entry.location );
       entry.link( 'location', function updateLocation( location ) {
-        entry.view.x = location.x+PointChargeModel.radius;
-        entry.view.y = location.y+PointChargeModel.radius;
+        entry.view.x = location.x + PointChargeModel.radius;
+        entry.view.y = location.y + PointChargeModel.radius;
       } );
       self.addChild( entry.view );
     } );

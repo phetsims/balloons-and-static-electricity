@@ -30,7 +30,7 @@ require( [
       {
         name: Strings['balloons.name'],
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
-        createModel: function () {return new BalloonsAndStaticElectricityModel(768, 504);},
+        createModel: function () {return new BalloonsAndStaticElectricityModel( 768, 504 );},
         createView: function ( model ) {return new BalloonsAndStaticElectricityPlayArea( model );}
       }
     ] ).start();

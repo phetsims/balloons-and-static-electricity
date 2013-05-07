@@ -24,16 +24,16 @@ define( function ( require ) {
     this.addChild( wall );
 
 
-
     this.addChild( new Balloon( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
-    this.addChild( new Balloon( 500, 200, model.balloons[1], "images/balloon-green.png", model) );
+    this.addChild( new Balloon( 500, 200, model.balloons[1], "images/balloon-green.png", model ) );
 
     this.addChild( new ControlPanel( strings, model ) );
 
-    var handleResize = function() {
-      if(self._bounds.maxX===Number.NEGATIVE_INFINITY) {
-        setTimeout(handleResize,100);
-      } else {
+    var handleResize = function () {
+      if ( self._bounds.maxX === Number.NEGATIVE_INFINITY ) {
+        setTimeout( handleResize, 100 );
+      }
+      else {
         //TODO
         //model.wall.x = self.bounds.maxX - model.wall.width;
       }

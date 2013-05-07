@@ -54,10 +54,10 @@ define( function ( require ) {
     } );
 
     model.link( 'charge', function updateLocation( chargeVal ) {
-      if(chargeVal) {
-        model.minusCharges[-chargeVal-1].view.visible = true;
+      if ( chargeVal ) {
+        model.minusCharges[-chargeVal - 1].view.visible = true;
       }
-    });
+    } );
 
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;

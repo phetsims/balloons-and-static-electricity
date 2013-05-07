@@ -23,7 +23,7 @@ define( function ( require ) {
     Node.call( this );
 
     var radius = 6;
-    this.translate(location.x+radius,location.y+radius);
+    this.translate( location.x + radius, location.y + radius );
 
     // add the centered bar magnet image
 
@@ -36,12 +36,12 @@ define( function ( require ) {
       renderer: 'svg'
     } ) );
 
-    this.addChild (new Text("+", {
+    this.addChild( new Text( "+", {
       font: '14px sans-serif',
-      fill : 'white',
+      fill: 'white',
       centerX: 0,
       centerY: 0
-    }));
+    } ) );
   }
 
   inherit( PlusChargeNode, Node ); // prototype chaining

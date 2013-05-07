@@ -85,8 +85,8 @@ define( function ( require ) {
           var self = this;
 
           this.x = x;
-          this.y = y*1;
-          this.center = new Vector2(self.x+self.width/2,self.y+self.height/2);
+          this.y = y * 1;
+          this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
           this.plusCharges = [];
           this.minusCharges = [];
 
@@ -130,12 +130,12 @@ define( function ( require ) {
         reset: function () {
           this.charge = 0;
           this.minusCharges.forEach( function ( entry ) {
-            if(entry.view) {
+            if ( entry.view ) {
               entry.view.visible = true;
             }
           } );
         }
-      });
+      } );
 
   return Sweater;
 } )
