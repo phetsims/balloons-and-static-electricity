@@ -26,15 +26,15 @@ define( function ( require ) {
           this.height = height;
 
           this.balloons = [
-            new Balloon( 500, 10, true ),
-            new Balloon( 400, 100, false )
+            new Balloon( 500, 10 ),
+            new Balloon( 400, 100)
           ];
           this.balloons[0].other = this.balloons[1];
           this.balloons[1].other = this.balloons[0];
 
           this.wall = new Wall( width - this.wallWidth, 600, height );
           //if we write 0 instead of "0", then parameter becomes object, not number
-          this.sweater = new Sweater( 0, "0" );
+          this.sweater = new Sweater( 0, -50 );
 
           this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
 
@@ -70,7 +70,6 @@ define( function ( require ) {
           } );
 
           this.sweater.reset();
-
           this.oldTime = new Date().getTime();
         },
         getBalloonRestrictions: function ( position, objWidth, objHeight ) {

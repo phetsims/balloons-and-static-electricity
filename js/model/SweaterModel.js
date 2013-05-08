@@ -78,7 +78,7 @@ define( function ( require ) {
           isVisible: true,
           width: 315,
           height: 420,
-          charge : 0
+          charge: 0
         },
 
         //Main constructor
@@ -92,11 +92,11 @@ define( function ( require ) {
           this.minusCharges = [];
 
           this.positions.forEach( function ( entry ) {
-            var plusCharge = new PointCharge( entry[0], entry[1] );
+            var plusCharge = new PointCharge( entry[0], entry[1] + y );
             self.plusCharges.push( plusCharge );
 
             //minus
-            var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + PointCharge.radius );
+            var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + y + PointCharge.radius );
             self.minusCharges.push( minusCharge );
           } );
           this.reset();

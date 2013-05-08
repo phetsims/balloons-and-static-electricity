@@ -57,11 +57,13 @@ define( function ( require ) {
     var customShape = new KiteShape();
     customShape.moveTo( model.width / 2, model.height - 2 );
     customShape.lineTo( 500 - model.location.x, globalModel.height - model.location.y );
-    this.addChild( new Path( {
-                               shape: customShape,
-                               stroke: '#000000',
-                               lineWidth: 1
-                             } ) );
+    var path = new Path( {
+                           shape: customShape,
+                           stroke: '#000000',
+                           lineWidth: 1
+                         } );
+
+    this.addChild( path );
 
 
     // static charges

@@ -89,11 +89,10 @@ define( function ( require ) {
             [100, 150]
           ]
         },
-        init: function ( x, y, isVisibleByDefault ) {
+        init: function ( x, y) {
           var self = this;
 
           this.location = new Vector2( x, y );
-          this.isVisibleByDefault = isVisibleByDefault;
           this.initialLocation = this.location.copy();
           this.plusCharges = [];
           this.minusCharges = [];
@@ -127,7 +126,6 @@ define( function ( require ) {
           this.velocity = new Vector2( 0, 0 );
           this.location = this.initialLocation.copy();
           this.charge = 0;
-          this.isVisible = this.isVisibleByDefault;
 
           for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
             if ( this.minusCharges[i].view ) {
