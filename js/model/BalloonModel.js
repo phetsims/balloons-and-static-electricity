@@ -182,7 +182,11 @@ define( function ( require ) {
           return fa;
         },
         getSweaterForce: function ( sweaterModel, balloonModel ) {
-          return Balloon.getForce( sweaterModel.center, balloonModel.getCenter(), -Balloon.koeff * sweaterModel.charge * balloonModel.charge );
+          var retValue = new Vector2();
+          if ( balloonModel.location.x > sweaterModel.center.x ) {
+            retValue = Balloon.getForce( sweaterModel.center, balloonModel.getCenter(), -Balloon.koeff * sweaterModel.charge * balloonModel.charge );
+          }
+          return retValue;
         },
         getOtherForce: function ( balloonModel ) {
           if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
@@ -208,32 +212,33 @@ define( function ( require ) {
           return force.plus( other );
         },
         applyForce: function ( model, balloonModel, dt ) {
-          var force = Balloon.getTotalForce( model, balloonModel );
+          var rightBound = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
 
+          var isStopped = false;
+
+          var force = Balloon.getTotalForce( model, balloonModel );
           var newVelocity = balloonModel.velocity.add( force.timesScalar( dt ) );
           var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
-          var isStopped = false;
-          if ( newLocation.x > model.bounds[0] && newLocation.y > model.bounds[1] ) {
-            var right = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
-            if ( newLocation.x + balloonModel.width > right ) {
-              isStopped = true;
-              newLocation.x = right - balloonModel.width;
-            }
-            if ( newLocation.y + balloonModel.height > model.bounds[3] ) {
-              newLocation.y = model.bounds[3] - balloonModel.height;
-            }
-          }
-          else {
+          if ( newLocation.x + balloonModel.width > rightBound ) {
             isStopped = true;
-            if ( newLocation.x < model.bounds[0] ) {
-              newLocation.x = model.bounds[0];
-            }
-            if ( newLocation.y < model.bounds[1] ) {
-              newLocation.y = model.bounds[1];
-            }
+            newLocation.x = rightBound - balloonModel.width;
           }
+          if ( newLocation.y + balloonModel.height > model.bounds[3] ) {
+            isStopped = true;
+            newLocation.y = model.bounds[3] - balloonModel.height;
+          }
+          if ( newLocation.x < model.bounds[0] ) {
+            isStopped = true;
+            newLocation.x = model.bounds[0];
+          }
+          if ( newLocation.y < model.bounds[1] ) {
+            isStopped = true;
+            newLocation.y = model.bounds[1];
+          }
+
           balloonModel.velocity = newVelocity;
           balloonModel.location = newLocation;
+
           if ( isStopped ) {
             balloonModel.velocity = new Vector2( 0, 0 );
           }

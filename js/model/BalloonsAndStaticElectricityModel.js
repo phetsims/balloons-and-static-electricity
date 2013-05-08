@@ -38,8 +38,6 @@ define( function ( require ) {
 
           this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
 
-
-
           this.reset();
         },
 
