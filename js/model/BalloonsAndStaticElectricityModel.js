@@ -1,15 +1,15 @@
 // Copyright 2002-2013, University of Colorado
 
 /**
- * Model container.
- *
+ * main Model container.
+ * Model contains wall, balloons, sweater
  * @author Vasily Shakhov (Mlearner.com)
  */
 define( function ( require ) {
   'use strict';
-  var Balloon = require( 'model/BalloonModel' );
-  var Wall = require( 'model/WallModel' );
-  var Sweater = require( 'model/SweaterModel' );
+  var BalloonModel = require( 'model/BalloonModel' );
+  var WallModel = require( 'model/WallModel' );
+  var SweaterModel = require( 'model/SweaterModel' );
   var Fort = require( 'FORT/Fort' );
 
   var BalloonsAndStaticElectricityModel = Fort.Model.extend(
@@ -26,15 +26,15 @@ define( function ( require ) {
           this.height = height;
 
           this.balloons = [
-            new Balloon( 500, 10 ),
-            new Balloon( 400, 100)
+            new BalloonModel( 500, 10 ),
+            new BalloonModel( 400, 100)
           ];
           this.balloons[0].other = this.balloons[1];
           this.balloons[1].other = this.balloons[0];
 
-          this.wall = new Wall( width - this.wallWidth, 600, height );
+          this.wall = new WallModel( width - this.wallWidth, 600, height );
           //if we write 0 instead of "0", then parameter becomes object, not number
-          this.sweater = new Sweater( 0, -50 );
+          this.sweater = new SweaterModel( 0, -50 );
 
           this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
 
@@ -63,8 +63,9 @@ define( function ( require ) {
 
           //Reset the properties in this model
           Fort.Model.prototype.reset.call( this );
+          this.resetChildren();
 
-          //Reset child models
+          //Reset balloons, resetChildren don't get them
           this.balloons.forEach( function ( entry ) {
             entry.reset();
           } );

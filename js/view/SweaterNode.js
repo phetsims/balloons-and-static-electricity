@@ -1,8 +1,7 @@
 // Copyright 2002-2013, University of Colorado
 
 /**
- * Scenery display object (scene graph node) for the Sweater of the model.
- *
+ * Scenery display object (scene graph node) for the sweater of the model.
  *
  @author Vasily Shakhov (Mlearner)
  */
@@ -12,8 +11,8 @@ define( function ( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var PlusCharge = require( 'view/PlusCharge' );
-  var MinusCharge = require( 'view/MinusCharge' );
+  var PlusChargeNode = require( 'view/PlusChargeNode' );
+  var MinusChargeNode = require( 'view/MinusChargeNode' );
   var PointChargeModel = require( 'model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -33,14 +32,13 @@ define( function ( require ) {
       y: this.sweaterModel.y
     } ) );
 
+    //draw plus and minus charges
     this.sweaterModel.plusCharges.forEach( function ( entry ) {
-      entry.view = new PlusCharge( entry.location );
+      entry.view = new PlusChargeNode( entry.location );
       self.chargesNode.addChild( entry.view );
-    } );
-
-
+      } );
     this.sweaterModel.minusCharges.forEach( function ( entry ) {
-      entry.view = new MinusCharge( entry.location );
+      entry.view = new MinusChargeNode( entry.location );
       entry.link( 'location', function updateLocation( location ) {
         entry.view.x = location.x;
         entry.view.y = location.y;
@@ -50,6 +48,7 @@ define( function ( require ) {
 
     this.addChild( this.chargesNode );
 
+    //show all, none or charge difference
     var updateChargesVisibilityOnSweater = function ( value ) {
       if ( value === 'none' ) {
         self.chargesNode.visible = false;

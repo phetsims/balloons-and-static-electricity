@@ -1,8 +1,8 @@
 // Copyright 2002-2013, University of Colorado
 
 /**
- * Model of a balloon.
- * Wall have electrons which can change position under force
+ * Model of a wall.
+ * Wall have electrons which can change position under force from balloons
  * @author Vasily Shakhov (Mlearner)
  */
 define( function ( require ) {
@@ -12,8 +12,7 @@ define( function ( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointCharge = require( 'model/PointChargeModel' );
 
-  // Constructor for BarMagnet.
-  var Wall = Fort.Model.extend(
+  var WallModel = Fort.Model.extend(
       {
         //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
         defaults: {
@@ -22,8 +21,6 @@ define( function ( require ) {
           isVisible: true,
           x: 0
         },
-
-        //Main constructor
         init: function ( x, width, height ) {
           this.dx = Math.round( 70 / this.numX + 2 );
           this.dy = height / this.numY;
@@ -50,11 +47,10 @@ define( function ( require ) {
           }
         },
 
-        // Called by the animation loop
         step: function ( model ) {
 
           var k = 1000000 / 5;
-
+          //calculate force from Balloon to each charge in the wall
           this.minusCharges.forEach( function ( entry ) {
             var ch = entry;
             var dv1 = new Vector2( 0, 0 );
@@ -75,12 +71,12 @@ define( function ( require ) {
 
           //Reset the properties in this model
           Fort.Model.prototype.reset.call( this );
-
-          this.minusCharges.each( function ( entry ) {
+          this.minusCharges.forEach( function ( entry ) {
             entry.reset();
           } );
         },
 
+        //function to place charges on wall's grid
         calculatePosition: function ( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
           return [i * this.dx +PointCharge.radius+ 1, k * this.dy + y0];
@@ -88,6 +84,6 @@ define( function ( require ) {
 
       } );
 
-  return Wall;
+  return WallModel;
 } )
 ;

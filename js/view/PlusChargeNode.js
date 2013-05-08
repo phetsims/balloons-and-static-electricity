@@ -1,8 +1,7 @@
 // Copyright 2002-2013, University of Colorado
 
 /**
- * Scenery display object (scene graph node) for the static elements of the model.
- * sweater, wall
+ * Scenery display object (scene graph node) for the plusCharge.
  *
  @author Vasily Shakhov (Mlearner)
  */
@@ -23,7 +22,7 @@ define( function ( require ) {
     Node.call( this );
 
     var radius = 6;
-    this.translate( location.x, location.y );
+    this.translate( location.x, location.y);
 
     // add the centered bar magnet image
 
@@ -31,12 +30,12 @@ define( function ( require ) {
       x: 0, y: 0,
       fill: new Grad( 1, -2, 0, 1, -2, 5 )
           .addColorStop( 0, '#fff' )
-          .addColorStop( 0.5, '#6cd0f5' )
-          .addColorStop( 1, '#00a9e8  ' ),
+          .addColorStop( 0.5, '#f47c81' )
+          .addColorStop( 1, '#f00' ),
       renderer: 'svg'
     } ) );
 
-    this.addChild( new Text( "–", {
+    this.addChild( new Text( "+", {
       font: '14px sans-serif',
       fill: 'white',
       centerX: 0,

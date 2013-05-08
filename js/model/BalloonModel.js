@@ -9,10 +9,9 @@ define( function ( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PointCharge = require( 'model/PointChargeModel' );
+  var PointChargeModel = require( 'model/PointChargeModel' );
 
-  // Constructor for BarMagnet.
-  var Balloon = Fort.Model.extend(
+  var BalloonModel = Fort.Model.extend(
       {
         defaults: {
           charge: 0,
@@ -97,21 +96,25 @@ define( function ( require ) {
           this.plusCharges = [];
           this.minusCharges = [];
 
+
+          //neutral pair of charges
           this.positionsOfStartCharges.forEach( function ( entry ) {
             //plus
-            var plusCharge = new PointCharge( entry[0], entry[1] );
+            var plusCharge = new PointChargeModel( entry[0], entry[1] );
             self.plusCharges.push( plusCharge );
 
             //minus
-            var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + PointCharge.radius );
+            var minusCharge = new PointChargeModel( entry[0] + PointChargeModel.radius, entry[1] + PointChargeModel.radius );
             self.minusCharges.push( minusCharge );
           } );
 
+          //charges that we can get from sweater
           this.positions.forEach( function ( entry ) {
             //minus
-            var minusCharge = new PointCharge( entry[0], entry[1] );
+            var minusCharge = new PointChargeModel( entry[0], entry[1] );
             self.minusCharges.push( minusCharge );
           } );
+
           this.reset();
         },
         getCenter: function () {
@@ -140,7 +143,7 @@ define( function ( require ) {
               this.dragBalloon( model, dt );
             }
             else {
-              Balloon.applyForce( model, this, dt );
+              BalloonModel.applyForce( model, this, dt );
             }
           }
           this.oldLoc = this.location.copy();
@@ -169,6 +172,7 @@ define( function ( require ) {
           }
         }
       }, {
+        //force between two objects
         getForce: function ( p1, p2, kqq, power ) {
           power = power || 2;
           var diff = p1.minus( p2 );
@@ -179,20 +183,24 @@ define( function ( require ) {
           var fa = diff.timesScalar( kqq / ( Math.pow( r, power + 1 ) ) );
           return fa;
         },
+
+        //sweater + balloon
         getSweaterForce: function ( sweaterModel, balloonModel ) {
           var retValue = new Vector2();
           if ( balloonModel.location.x > sweaterModel.center.x ) {
-            retValue = Balloon.getForce( sweaterModel.center, balloonModel.getCenter(), -Balloon.koeff * sweaterModel.charge * balloonModel.charge );
+            retValue = BalloonModel.getForce( sweaterModel.center, balloonModel.getCenter(), -BalloonModel.koeff * sweaterModel.charge * balloonModel.charge );
           }
           return retValue;
         },
+        //two balloons
         getOtherForce: function ( balloonModel ) {
           if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
             return new Vector2( 0, 0 );
           }
-          var kqq = Balloon.koeff * balloonModel.charge * balloonModel.other.charge;
-          return Balloon.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
+          var kqq = BalloonModel.koeff * balloonModel.charge * balloonModel.other.charge;
+          return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
         },
+        //sum of forces
         getTotalForce: function ( model, balloonModel ) {
           if ( model.wall.isVisible ) {
             var distFromWall = model.wall.x - balloonModel.location.x;
@@ -205,16 +213,17 @@ define( function ( require ) {
             }
           }
 
-          var force = Balloon.getSweaterForce( model.sweater, balloonModel );
-          var other = Balloon.getOtherForce( balloonModel );
+          var force = BalloonModel.getSweaterForce( model.sweater, balloonModel );
+          var other = BalloonModel.getOtherForce( balloonModel );
           return force.plus( other );
         },
+        //move balloon this step to
         applyForce: function ( model, balloonModel, dt ) {
           var rightBound = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
 
           var isStopped = false;
 
-          var force = Balloon.getTotalForce( model, balloonModel );
+          var force = BalloonModel.getTotalForce( model, balloonModel );
           var newVelocity = balloonModel.velocity.add( force.timesScalar( dt ) );
           var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
           if ( newLocation.x + balloonModel.width > rightBound ) {
@@ -244,5 +253,5 @@ define( function ( require ) {
         koeff: 1
       } );
 
-  return Balloon;
+  return BalloonModel;
 } );

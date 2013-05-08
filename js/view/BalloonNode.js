@@ -16,8 +16,8 @@ define( function ( require ) {
   var KiteShape = require( 'KITE/Shape' );
 
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var PlusCharge = require( 'view/PlusCharge' );
-  var MinusCharge = require( 'view/MinusCharge' );
+  var PlusChargeNode = require( 'view/PlusChargeNode' );
+  var MinusChargeNode = require( 'view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
@@ -68,17 +68,17 @@ define( function ( require ) {
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      model.plusCharges[i].view = new PlusCharge( model.plusCharges[i].location );
+      model.plusCharges[i].view = new PlusChargeNode( model.plusCharges[i].location );
       startChargesNode.addChild( model.plusCharges[i].view );
 
-      model.minusCharges[i].view = new MinusCharge( model.minusCharges[i].location );
+      model.minusCharges[i].view = new MinusChargeNode( model.minusCharges[i].location );
       startChargesNode.addChild( model.minusCharges[i].view );
     }
 
 
     //posssible charges
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      model.minusCharges[i].view = new MinusCharge( model.minusCharges[i].location );
+      model.minusCharges[i].view = new MinusChargeNode( model.minusCharges[i].location );
       model.minusCharges[i].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[i].view );
     }
@@ -87,21 +87,24 @@ define( function ( require ) {
     this.addChild( addedChargesNode );
 
 
-    //link model below
+    //if change charge, show more minus charges
     model.link( 'charge', function updateLocation( chargeVal ) {
       if ( chargeVal ) {
         model.minusCharges[model.plusCharges.length - 1 - chargeVal - 1].view.visible = true;
       }
     } );
 
+    //changes visual position
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;
     } );
 
+    //hides balloon
     model.link( 'isVisible', function updateVisibility( booleanValue ) {
       self.visible = booleanValue;
     } );
 
+    //show charges based on showCharges property
     globalModel.link( 'showCharges', function updateChargesVisibilityOnBalloon( value ) {
       if ( value === 'diff' ) {
         startChargesNode.visible = false;

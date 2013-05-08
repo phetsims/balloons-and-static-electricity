@@ -1,8 +1,8 @@
 // Copyright 2002-2013, University of Colorado
 
 /**
- * Model of a balloon.
- * Wall have electrons which can change position under force
+ * Model of a Sweater.
+ * Sweater can loose minus charges
  * @author Vasily Shakhov (Mlearner)
  */
 define( function ( require ) {
@@ -11,8 +11,7 @@ define( function ( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointCharge = require( 'model/PointChargeModel' );
 
-  // Constructor for BarMagnet.
-  var Sweater = Fort.Model.extend(
+  var SweaterModel = Fort.Model.extend(
       {
         //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
         defaults: {
@@ -80,8 +79,6 @@ define( function ( require ) {
           height: 420,
           charge: 0
         },
-
-        //Main constructor
         init: function ( x, y ) {
           var self = this;
 
@@ -102,6 +99,7 @@ define( function ( require ) {
           this.reset();
         },
 
+        //is balloon over minus charge on sweater?
         findIntersection: function ( balloon ) {
           var self = this;
 
@@ -120,7 +118,7 @@ define( function ( require ) {
             }
           } );
         },
-
+        //charge from sweater to balloon
         moveChargeTo: function ( charge, balloon ) {
           charge.moved = true;
           charge.view.visible = false;
@@ -140,6 +138,6 @@ define( function ( require ) {
         }
       } );
 
-  return Sweater;
+  return SweaterModel;
 } )
 ;

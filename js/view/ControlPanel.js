@@ -1,5 +1,6 @@
 /**
  * Copyright 2002-2013, University of Colorado
+ * buttons and model control elements
  * Author: Vasily Shakhov (Mlearner)
  */
 

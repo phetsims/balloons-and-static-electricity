@@ -2,7 +2,7 @@
 
 /**
  * Model of a balloon.
- * Balloon can have charge, position and velocity.
+ * Point charge model. Each charge have location.
  * @author Vasily Shakhov (Mlearner)
  */
 define( function ( require ) {
@@ -10,8 +10,7 @@ define( function ( require ) {
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  // Constructor for BarMagnet.
-  var Charge = Fort.Model.extend(
+  var PointChargeModel = Fort.Model.extend(
       {
         defaults: {
           location: new Vector2( 0, 0 )
@@ -29,9 +28,9 @@ define( function ( require ) {
 
       }, {
         radius: 6,
-        //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (here only 57 )
+        //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
         charge: -1.754
       } );
 
-  return Charge;
+  return PointChargeModel;
 } );
