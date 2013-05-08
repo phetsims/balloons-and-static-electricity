@@ -22,7 +22,7 @@ define( function ( require ) {
 
 
     //reset button
-    var resetButton = new DOM( $( resetButtonTemplate( {} ) ) );
+    var resetButton = new DOM( $( resetButtonTemplate() ) );
     this.addChild( resetButton );
     resetButton._$element.bind( 'click', model.reset.bind( model ) );
 

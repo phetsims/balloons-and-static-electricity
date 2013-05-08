@@ -121,10 +121,10 @@ define( function ( require ) {
           return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );
         },
         reset: function () {
-          this.xVelocityArr = [0, 0, 0, 0, 0];
-          this.xVelocityArr.counter = 0;
-          this.yVelocityArr = [0, 0, 0, 0, 0];
-          this.yVelocityArr.counter = 0;
+          this.xVelocityArray = [0, 0, 0, 0, 0];
+          this.xVelocityArray.counter = 0;
+          this.yVelocityArray = [0, 0, 0, 0, 0];
+          this.yVelocityArray.counter = 0;
           this.charge = 0;
           this.velocity = new Vector2( 0, 0 );
           this.location = this.initialLocation.copy();
@@ -146,22 +146,22 @@ define( function ( require ) {
               BalloonModel.applyForce( model, this, dt );
             }
           }
-          this.oldLoc = this.location.copy();
+          this.oldLocation = this.location.copy();
         },
         dragBalloon: function ( model, dt ) {
-          var dx = (this.location.x - this.oldLoc.x) / dt,
-              dy = (this.location.y - this.oldLoc.y) / dt;
+          var dx = (this.location.x - this.oldLocation.x) / dt,
+              dy = (this.location.y - this.oldLocation.y) / dt;
 
-          this.xVelocityArr[this.xVelocityArr.counter++] = dx * dx;
-          this.xVelocityArr.counter %= 5;
-          this.yVelocityArr[this.yVelocityArr.counter++] = dy * dy;
-          this.yVelocityArr.counter %= 5;
+          this.xVelocityArray[this.xVelocityArray.counter++] = dx * dx;
+          this.xVelocityArray.counter %= 5;
+          this.yVelocityArray[this.yVelocityArray.counter++] = dy * dy;
+          this.yVelocityArray.counter %= 5;
 
           var averageX = 0,
               averageY = 0;
           for ( var i = 0; i < 5; i++ ) {
-            averageX += this.xVelocityArr[0];
-            averageY += this.yVelocityArr[0];
+            averageX += this.xVelocityArray[0];
+            averageY += this.yVelocityArray[0];
           }
           averageX /= 5;
           averageY /= 5;

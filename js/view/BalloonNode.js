@@ -50,8 +50,7 @@ define( function ( require ) {
                                                   } ) );
 
     // add the Balloon image
-    this.addChild( new Image( imgsrc, {
-    } ) );
+    this.addChild( new Image( imgsrc ) );
 
     //rope
     var customShape = new KiteShape();
