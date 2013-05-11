@@ -50,10 +50,13 @@ define( function ( require ) {
                                                                      showAllCharges: strings["BalloonApplet.ShowAllCharges"],
                                                                      showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
     this.addChild( showChargesChoice );
+    var choicesIcons = showChargesChoice._$element.find("i");
     showChargesChoice._$element.find( "button" ).each( function () {
       var button = this;
       $( this ).bind( 'click', function switchChargeView() {
         model.showCharges = button.value;
+        choicesIcons.removeClass("icon-circle");
+        $(this).find("i").addClass("icon-circle");
       } );
     } );
 

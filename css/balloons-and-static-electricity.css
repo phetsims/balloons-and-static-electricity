@@ -25,10 +25,23 @@
   left: 70px;
 }
 
+.show-charges-choice-container button {
+  text-align: left;
+}
+
+.show-charges-choice-container i {
+  float: left;
+  margin: 3px 5px 0 0;
+}
+
 .show-balloons-choice-container {
   position: absolute;
-  bottom: -460px;
+  bottom: -420px;
   left: 525px;
+}
+
+.reset-balloons-button {
+  padding-top:4px;
 }
 
 .icon-refresh {
