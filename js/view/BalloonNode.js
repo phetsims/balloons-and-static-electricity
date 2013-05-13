@@ -96,17 +96,10 @@ define( function ( require ) {
     //changes visual position
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;
-      path.detach();
       customShape = new KiteShape();
       customShape.moveTo( model.width / 2, model.height - 2 );
       customShape.lineTo( 460 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      path = new Path( {
-                         shape: customShape,
-                         stroke: '#000000',
-                         lineWidth: 1
-                       } );
-
-      self.addChild( path );
+      path.shape = customShape;
     } );
 
     //hides balloon
