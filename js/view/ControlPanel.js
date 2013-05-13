@@ -79,9 +79,17 @@ define( function ( require ) {
         entry.reset( true );
       } );
     } );
-    model.balloons[1].link( 'isVisible', function updateTextOnResetBalloonButton( value ) {
+    model.balloons[1].link( 'isVisible', function updateTextOnResetBalloonButtonAndChangeVisual( value ) {
       var string = value ? strings["BalloonApplet.resetBalloons"] : strings["BalloonApplet.resetBalloon"];
       showBalloonsChoice._$element.find( "#resetBalloons" ).html( string );
+      if ( value ) {
+        showBalloonsChoice._$element.find( "#showOneBalloon" ).addClass( "show-balloons-button-unpressed" );
+        showBalloonsChoice._$element.find( "#showTwoBalloons" ).removeClass( "show-balloons-button-unpressed" );
+      }
+      else {
+        showBalloonsChoice._$element.find( "#showTwoBalloons" ).addClass( "show-balloons-button-unpressed" );
+        showBalloonsChoice._$element.find( "#showOneBalloon" ).removeClass( "show-balloons-button-unpressed" );
+      }
     } );
   }
 
