@@ -10,7 +10,7 @@ define( function ( require ) {
   'use strict';
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'view/PlusChargeNode' );
   var MinusChargeNode = require( 'view/MinusChargeNode' );
   var PointChargeModel = require( 'model/PointChargeModel' );
@@ -26,9 +26,8 @@ define( function ( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    this.addChild( new Rectangle( 0, 0, wallModel.width, wallModel.height, {
-      fill: '#ff0'
-    } ) );
+    // add the Balloon image
+    this.addChild( new Image( "images/wall.png" ) );
 
     var chargesNode = new Node();
     chargesNode.translate( -wallModel.x, 0 );
