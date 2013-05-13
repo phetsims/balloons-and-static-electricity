@@ -27,7 +27,7 @@ define( function ( require ) {
 
           this.balloons = [
             new BalloonModel( 500, 10 ),
-            new BalloonModel( 400, 100)
+            new BalloonModel( 400, 100 )
           ];
           this.balloons[0].other = this.balloons[1];
           this.balloons[1].other = this.balloons[0];

@@ -23,7 +23,7 @@ define( function ( require ) {
     // super constructor
     Node.call( this );
 
-    this.translate(wallModel.x,0);
+    this.translate( wallModel.x, 0 );
 
     // add the background
     this.addChild( new Rectangle( 0, 0, wallModel.width, wallModel.height, {
@@ -31,7 +31,7 @@ define( function ( require ) {
     } ) );
 
     var chargesNode = new Node();
-    chargesNode.translate(-wallModel.x,0);
+    chargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
     wallModel.plusCharges.forEach( function ( entry ) {
@@ -49,7 +49,7 @@ define( function ( require ) {
       chargesNode.addChild( entry.view );
     } );
 
-    this.addChild(chargesNode);
+    this.addChild( chargesNode );
 
     wallModel.link( 'isVisible', function updateWallVisibility( isVisible ) {
       self.visible = isVisible;

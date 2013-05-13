@@ -22,7 +22,7 @@ define( function ( require ) {
     Node.call( this );
 
     var radius = 6;
-    this.translate( location.x, location.y);
+    this.translate( location.x, location.y );
 
     // add the centered bar magnet image
 

@@ -50,13 +50,13 @@ define( function ( require ) {
                                                                      showAllCharges: strings["BalloonApplet.ShowAllCharges"],
                                                                      showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
     this.addChild( showChargesChoice );
-    var choicesIcons = showChargesChoice._$element.find("i");
+    var choicesIcons = showChargesChoice._$element.find( "i" );
     showChargesChoice._$element.find( "button" ).each( function () {
       var button = this;
       $( this ).bind( 'click', function switchChargeView() {
         model.showCharges = button.value;
-        choicesIcons.removeClass("icon-circle");
-        $(this).find("i").addClass("icon-circle");
+        choicesIcons.removeClass( "icon-circle" );
+        $( this ).find( "i" ).addClass( "icon-circle" );
       } );
     } );
 
@@ -64,12 +64,12 @@ define( function ( require ) {
     //show balloons radioGroup
     var showBalloonsChoice = new DOM( $( showBalloonsChoiceTemplate() ) );
     this.addChild( showBalloonsChoice );
-    showBalloonsChoice._$element.find("#showOneBalloon" ).bind('click',function showSingleBalloon(){
+    showBalloonsChoice._$element.find( "#showOneBalloon" ).bind( 'click', function showSingleBalloon() {
       model.balloons[1].isVisible = false;
-    });
-    showBalloonsChoice._$element.find("#showTwoBalloons" ).bind('click',function showTwoBalloons(){
+    } );
+    showBalloonsChoice._$element.find( "#showTwoBalloons" ).bind( 'click', function showTwoBalloons() {
       model.balloons[1].isVisible = true;
-    });
+    } );
 
 
   }

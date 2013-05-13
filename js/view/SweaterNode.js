@@ -36,7 +36,7 @@ define( function ( require ) {
     this.sweaterModel.plusCharges.forEach( function ( entry ) {
       entry.view = new PlusChargeNode( entry.location );
       self.chargesNode.addChild( entry.view );
-      } );
+    } );
     this.sweaterModel.minusCharges.forEach( function ( entry ) {
       entry.view = new MinusChargeNode( entry.location );
       entry.link( 'location', function updateLocation( location ) {

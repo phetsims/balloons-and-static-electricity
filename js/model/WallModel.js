@@ -79,7 +79,7 @@ define( function ( require ) {
         //function to place charges on wall's grid
         calculatePosition: function ( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-          return [i * this.dx +PointCharge.radius+ 1, k * this.dy + y0];
+          return [i * this.dx + PointCharge.radius + 1, k * this.dy + y0];
         }
 
       } );

@@ -88,7 +88,7 @@ define( function ( require ) {
             [100, 150]
           ]
         },
-        init: function ( x, y) {
+        init: function ( x, y ) {
           var self = this;
 
           this.location = new Vector2( x, y );
