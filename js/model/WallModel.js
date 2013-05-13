@@ -49,17 +49,17 @@ define( function ( require ) {
 
         step: function ( model ) {
 
-          var k = 1000000 / 5;
+          var k = 20000;
           //calculate force from Balloon to each charge in the wall
           this.minusCharges.forEach( function ( entry ) {
             var ch = entry;
             var dv1 = new Vector2( 0, 0 );
             var dv2 = new Vector2( 0, 0 );
             if ( model.balloons[0].isVisible ) {
-              dv1 = Balloon.getForce( ch.location, model.balloons[0].getCenter(), k * PointCharge.charge * model.balloons[0].charge, 2.7 );
+              dv1 = Balloon.getForce( ch.defaultLocation, model.balloons[0].getCenter(), k * PointCharge.charge * model.balloons[0].charge, 2.7 );
             }
             if ( model.balloons[1].isVisible ) {
-              dv2 = Balloon.getForce( ch.location, model.balloons[1].getCenter(), k * PointCharge.charge * model.balloons[1].charge, 2.7 );
+              dv2 = Balloon.getForce( ch.defaultLocation, model.balloons[1].getCenter(), k * PointCharge.charge * model.balloons[1].charge, 2.7 );
             }
             entry.location = new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y );
           } );
