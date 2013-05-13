@@ -88,11 +88,12 @@ define( function ( require ) {
             [100, 150]
           ]
         },
-        init: function ( x, y ) {
+        init: function ( x, y, defaultVisibily ) {
           var self = this;
 
           this.location = new Vector2( x, y );
           this.initialLocation = this.location.copy();
+          this.defaultVisibily = defaultVisibily;
           this.plusCharges = [];
           this.minusCharges = [];
 
@@ -135,6 +136,7 @@ define( function ( require ) {
               this.minusCharges[i].view.visible = false;
             }
           }
+          this.isVisible = this.defaultVisibily;
           this.isDragged = false;
         },
         step: function ( model, dt ) {
