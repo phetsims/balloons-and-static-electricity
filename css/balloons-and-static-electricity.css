@@ -12,11 +12,22 @@
 
 .switch-wall-button-container button {
   padding: 4px 0;
-  width:70px;
+  width: 70px;
+  background-image: linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
+  background-image: -o-linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
+  background-image: -moz-linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
+  background-image: -webkit-linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
+  background-image: -ms-linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
+
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254, 223, 50)), color-stop(1, rgb(232, 182, 34)));
+}
+
+.switch-wall-button-container button:hover {
+  background-color: rgb(232, 182, 34);
 }
 
 #addWallButton {
-  display:none;
+  display: none;
 }
 
 .show-charges-choice-container {
@@ -41,9 +52,23 @@
 }
 
 .reset-balloons-button {
-  padding-top:4px;
+  padding-top: 4px;
+}
+
+.reset-balloons-button button {
+  background-image: linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
+  background-image: -o-linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
+  background-image: -moz-linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
+  background-image: -webkit-linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
+  background-image: -ms-linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
+
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254, 244, 158)), color-stop(1, rgb(222, 208, 55)));
+}
+
+.reset-balloons-button button:hover {
+  background-color: rgb(222, 208, 55);
 }
 
 .icon-refresh {
-  background-image:none;
+  background-image: none;
 }
