@@ -55,7 +55,7 @@ define( function ( require ) {
     //rope
     var customShape = new KiteShape();
     customShape.moveTo( model.width / 2, model.height - 2 );
-    customShape.lineTo( 500 - model.location.x, globalModel.height - model.location.y );
+    customShape.lineTo( 500 - model.location.x, 50 + globalModel.height - model.location.y );
     var path = new Path( {
                            shape: customShape,
                            stroke: '#000000',
