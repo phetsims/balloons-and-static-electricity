@@ -55,14 +55,16 @@ define( function ( require ) {
       var button = this;
       $( this ).bind( 'click', function switchChargeView() {
         model.showCharges = button.value;
-        choicesIcons.removeClass( "icon-circle" );
-        $( this ).find( "i" ).addClass( "icon-circle" );
       } );
+    } );
+    model.link( 'showCharges', function updateChargeChoiceVisual( value ) {
+      choicesIcons.removeClass( "icon-circle" );
+      showChargesChoice._$element.find( "button[value=" + value + "]" ).find( "i" ).addClass( "icon-circle" );
     } );
 
 
     //show balloons radioGroup
-    var showBalloonsChoice = new DOM( $( showBalloonsChoiceTemplate() ) );
+    var showBalloonsChoice = new DOM( $( showBalloonsChoiceTemplate( {"resetBalloon": strings["BalloonApplet.resetBalloon"]} ) ) );
     this.addChild( showBalloonsChoice );
     showBalloonsChoice._$element.find( "#showOneBalloon" ).bind( 'click', function showSingleBalloon() {
       model.balloons[1].isVisible = false;
@@ -70,8 +72,17 @@ define( function ( require ) {
     showBalloonsChoice._$element.find( "#showTwoBalloons" ).bind( 'click', function showTwoBalloons() {
       model.balloons[1].isVisible = true;
     } );
-
-
+    //reset balloon
+    showBalloonsChoice._$element.find( "#resetBalloons" ).bind( 'click', function resetBalloons() {
+      model.sweater.reset();
+      model.balloons.forEach( function ( entry ) {
+        entry.reset( true );
+      } );
+    } );
+    model.balloons[1].link( 'isVisible', function updateTextOnResetBalloonButton( value ) {
+      var string = value ? strings["BalloonApplet.resetBalloons"] : strings["BalloonApplet.resetBalloon"];
+      showBalloonsChoice._$element.find( "#resetBalloons" ).html( string );
+    } );
   }
 
   inherit( ControlPanel, Node );

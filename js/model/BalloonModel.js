@@ -121,7 +121,7 @@ define( function ( require ) {
         getCenter: function () {
           return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );
         },
-        reset: function () {
+        reset: function ( notResetVisibility ) {
           this.xVelocityArray = [0, 0, 0, 0, 0];
           this.xVelocityArray.counter = 0;
           this.yVelocityArray = [0, 0, 0, 0, 0];
@@ -136,7 +136,9 @@ define( function ( require ) {
               this.minusCharges[i].view.visible = false;
             }
           }
-          this.isVisible = this.defaultVisibily;
+          if ( !notResetVisibility ) {
+            this.isVisible = this.defaultVisibily;
+          }
           this.isDragged = false;
         },
         step: function ( model, dt ) {

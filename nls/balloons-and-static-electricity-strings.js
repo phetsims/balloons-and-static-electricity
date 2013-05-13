@@ -13,7 +13,9 @@ define( {
             "BalloonApplet.TwoBalloons": "Two Balloons",
             "BalloonApplet.ChargeDisplay": "Charge Display",
             "BalloonApplet.removeWall": "Remove Wall",
-            "BalloonApplet.addWall": "Add Wall"
+            "BalloonApplet.addWall": "Add Wall",
+            "BalloonApplet.resetBalloon": "resetBalloon",
+            "BalloonApplet.resetBalloons": "resetBalloons"
           },
           "af": true,
           "ar": true,

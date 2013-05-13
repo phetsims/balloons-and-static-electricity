@@ -128,13 +128,12 @@ define( function ( require ) {
 
         // Reset the entire model
         reset: function () {
-          this.charge = 0;
           this.minusCharges.forEach( function ( entry ) {
             if ( entry.view ) {
-              entry.view.visible = true;
               entry.moved = false;
             }
           } );
+          this.charge = 0;
         }
       } );
 
