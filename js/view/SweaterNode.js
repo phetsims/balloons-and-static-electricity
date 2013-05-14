@@ -40,8 +40,7 @@ define( function ( require ) {
     this.sweaterModel.minusCharges.forEach( function ( entry ) {
       entry.view = new MinusChargeNode( entry.location );
       entry.link( 'location', function updateLocation( location ) {
-        entry.view.x = location.x;
-        entry.view.y = location.y;
+        entry.view.setTranslation( location );
       } );
       self.chargesNode.addChild( entry.view );
     } );
