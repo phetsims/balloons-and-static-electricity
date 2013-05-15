@@ -16,10 +16,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   function PlusChargeNode( location ) {
-    var self = this;
 
     // super constructor
-    Node.call( this );
+    // Use svg for the shape and text
+    Node.call( this, {renderer: 'svg'} );
 
     var radius = 6;
     this.translate( location.x, location.y );
@@ -31,8 +31,7 @@ define( function( require ) {
       fill: new Grad( 1, -2, 0, 1, -2, 5 )
           .addColorStop( 0, '#fff' )
           .addColorStop( 0.5, '#f47c81' )
-          .addColorStop( 1, '#f00' ),
-      renderer: 'svg'
+          .addColorStop( 1, '#f00' )
     } ) );
 
     this.addChild( new Text( "+", {
