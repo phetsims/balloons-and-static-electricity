@@ -1,13 +1,13 @@
 {
   "name": "balloons-and-static-electricity",
-  "version": "0.0.1",
+  "version": "0.0.0-3",
+  "resourceDirs": "images",
+  "include": "../phetcommon/css/phetcommon.css ../phetcommon/js/util/check-assertions.js ../phetcommon/js/util/query-parameters.js",
+  "phetLibs": "beers-law-lab assert dot fort joist kite phet-core phetcommon scenery scenery-phet sun",
   "license": "GPL",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-requirejs": "~0.3.4",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-concat": "~0.1.2",
-    "grunt-contrib-uglify": "~0.1.1",
-    "grunt-reload": "git://github.com/webxl/grunt-reload.git"
+    "grunt-requirejs": "~0.3.2",
+    "grunt-contrib-jshint": "~0.3.0"
   }
 }
