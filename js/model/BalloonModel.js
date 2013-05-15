@@ -5,7 +5,7 @@
  * Balloon can have charge, position and velocity.
  * @author Vasily Shakhov (Mlearner)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -88,7 +88,7 @@ define( function ( require ) {
             [75, 110]
           ]
         },
-        init: function ( x, y, defaultVisibily ) {
+        init: function( x, y, defaultVisibily ) {
           var self = this;
 
           this.location = new Vector2( x, y );
@@ -99,7 +99,7 @@ define( function ( require ) {
 
 
           //neutral pair of charges
-          this.positionsOfStartCharges.forEach( function ( entry ) {
+          this.positionsOfStartCharges.forEach( function( entry ) {
             //plus
             var plusCharge = new PointChargeModel( entry[0], entry[1] );
             self.plusCharges.push( plusCharge );
@@ -110,7 +110,7 @@ define( function ( require ) {
           } );
 
           //charges that we can get from sweater
-          this.positions.forEach( function ( entry ) {
+          this.positions.forEach( function( entry ) {
             //minus
             var minusCharge = new PointChargeModel( entry[0], entry[1] );
             self.minusCharges.push( minusCharge );
@@ -118,10 +118,10 @@ define( function ( require ) {
 
           this.reset();
         },
-        getCenter: function () {
+        getCenter: function() {
           return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );
         },
-        reset: function ( notResetVisibility ) {
+        reset: function( notResetVisibility ) {
           this.xVelocityArray = [0, 0, 0, 0, 0];
           this.xVelocityArray.counter = 0;
           this.yVelocityArray = [0, 0, 0, 0, 0];
@@ -141,7 +141,7 @@ define( function ( require ) {
           }
           this.isDragged = false;
         },
-        step: function ( model, dt ) {
+        step: function( model, dt ) {
           if ( dt > 0 ) {
             if ( this.isDragged ) {
               this.dragBalloon( model, dt );
@@ -152,7 +152,7 @@ define( function ( require ) {
           }
           this.oldLocation = this.location.copy();
         },
-        dragBalloon: function ( model, dt ) {
+        dragBalloon: function( model, dt ) {
           var dx = (this.location.x - this.oldLocation.x) / dt,
               dy = (this.location.y - this.oldLocation.y) / dt;
 
@@ -177,7 +177,7 @@ define( function ( require ) {
         }
       }, {
         //force between two objects
-        getForce: function ( p1, p2, kqq, power ) {
+        getForce: function( p1, p2, kqq, power ) {
           power = power || 2;
           var diff = p1.minus( p2 );
           var r = diff.magnitude();
@@ -189,7 +189,7 @@ define( function ( require ) {
         },
 
         //sweater + balloon
-        getSweaterForce: function ( sweaterModel, balloonModel ) {
+        getSweaterForce: function( sweaterModel, balloonModel ) {
           var retValue = new Vector2();
           if ( balloonModel.location.x > sweaterModel.center.x ) {
             retValue = BalloonModel.getForce( sweaterModel.center, balloonModel.getCenter(), -BalloonModel.koeff * sweaterModel.charge * balloonModel.charge );
@@ -197,7 +197,7 @@ define( function ( require ) {
           return retValue;
         },
         //two balloons
-        getOtherForce: function ( balloonModel ) {
+        getOtherForce: function( balloonModel ) {
           if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
             return new Vector2( 0, 0 );
           }
@@ -205,7 +205,7 @@ define( function ( require ) {
           return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
         },
         //sum of forces
-        getTotalForce: function ( model, balloonModel ) {
+        getTotalForce: function( model, balloonModel ) {
           if ( model.wall.isVisible ) {
             var distFromWall = model.wall.x - balloonModel.location.x;
             if ( balloonModel.charge < -5 ) {
@@ -222,7 +222,7 @@ define( function ( require ) {
           return force.plus( other );
         },
         //move balloon this step to
-        applyForce: function ( model, balloonModel, dt ) {
+        applyForce: function( model, balloonModel, dt ) {
           var rightBound = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
 
           var isStopped = false;

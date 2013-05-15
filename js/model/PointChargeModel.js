@@ -5,7 +5,7 @@
  * Point charge model. Each charge have location.
  * @author Vasily Shakhov (Mlearner)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -15,14 +15,14 @@ define( function ( require ) {
         defaults: {
           location: new Vector2( 0, 0 )
         },
-        init: function ( x, y ) {
+        init: function( x, y ) {
           this.defaultLocation = new Vector2( x, y );
           this.reset();
         },
-        reset: function () {
+        reset: function() {
           this.location = this.defaultLocation.copy();
         },
-        getCenter: function () {
+        getCenter: function() {
           return new Vector2( this.location.x + this.radius, this.location.y + this.radius );
         }
 

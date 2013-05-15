@@ -5,7 +5,7 @@
  * Wall have electrons which can change position under force from balloons
  * @author Vasily Shakhov (Mlearner)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Balloon = require( "model/BalloonModel" );
@@ -21,7 +21,7 @@ define( function ( require ) {
           isVisible: true,
           x: 0
         },
-        init: function ( x, width, height ) {
+        init: function( x, width, height ) {
           this.dx = Math.round( 70 / this.numX + 2 );
           this.dy = height / this.numY;
           this.x = x;
@@ -47,11 +47,11 @@ define( function ( require ) {
           }
         },
 
-        step: function ( model ) {
+        step: function( model ) {
 
           var k = 20000;
           //calculate force from Balloon to each charge in the wall
-          this.minusCharges.forEach( function ( entry ) {
+          this.minusCharges.forEach( function( entry ) {
             var ch = entry;
             var dv1 = new Vector2( 0, 0 );
             var dv2 = new Vector2( 0, 0 );
@@ -67,17 +67,17 @@ define( function ( require ) {
         },
 
         // Reset the entire model
-        reset: function () {
+        reset: function() {
 
           //Reset the properties in this model
           Fort.Model.prototype.reset.call( this );
-          this.minusCharges.forEach( function ( entry ) {
+          this.minusCharges.forEach( function( entry ) {
             entry.reset();
           } );
         },
 
         //function to place charges on wall's grid
-        calculatePosition: function ( i, k ) {
+        calculatePosition: function( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
           return [i * this.dx + PointCharge.radius + 1, k * this.dy + y0];
         }

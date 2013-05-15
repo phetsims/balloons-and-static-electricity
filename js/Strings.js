@@ -3,7 +3,7 @@
  * So just load them once and make them easily available
  * @author Sam Reid
  */
-define( function ( require ) {
+define( function( require ) {
   "use strict";
   var Strings = require( "i18n!../nls/balloons-and-static-electricity-strings" );
   return Strings;

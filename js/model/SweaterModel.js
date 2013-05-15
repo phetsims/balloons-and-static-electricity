@@ -5,7 +5,7 @@
  * Sweater can loose minus charges
  * @author Vasily Shakhov (Mlearner)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -79,7 +79,7 @@ define( function ( require ) {
           height: 420,
           charge: 0
         },
-        init: function ( x, y ) {
+        init: function( x, y ) {
           var self = this;
 
           this.x = x;
@@ -88,7 +88,7 @@ define( function ( require ) {
           this.plusCharges = [];
           this.minusCharges = [];
 
-          this.positions.forEach( function ( entry ) {
+          this.positions.forEach( function( entry ) {
             var plusCharge = new PointCharge( entry[0], entry[1] + y );
             self.plusCharges.push( plusCharge );
 
@@ -100,7 +100,7 @@ define( function ( require ) {
         },
 
         //is balloon over minus charge on sweater?
-        findIntersection: function ( balloon ) {
+        findIntersection: function( balloon ) {
           var self = this;
 
           var x1 = balloon.location.x,
@@ -108,7 +108,7 @@ define( function ( require ) {
               y1 = balloon.location.y,
               y2 = balloon.location.y + balloon.height - 10;
 
-          this.minusCharges.forEach( function ( entry ) {
+          this.minusCharges.forEach( function( entry ) {
             if ( !entry.moved ) {
               if ( x1 < entry.location.x && entry.location.x < x2 ) {
                 if ( y1 < entry.location.y && entry.location.y < y2 ) {
@@ -119,7 +119,7 @@ define( function ( require ) {
           } );
         },
         //charge from sweater to balloon
-        moveChargeTo: function ( charge, balloon ) {
+        moveChargeTo: function( charge, balloon ) {
           charge.moved = true;
           charge.view.visible = false;
           balloon.charge--;
@@ -127,8 +127,8 @@ define( function ( require ) {
         },
 
         // Reset the entire model
-        reset: function () {
-          this.minusCharges.forEach( function ( entry ) {
+        reset: function() {
+          this.minusCharges.forEach( function( entry ) {
             if ( entry.view ) {
               entry.moved = false;
             }

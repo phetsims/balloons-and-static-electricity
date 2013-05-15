@@ -6,7 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -33,11 +33,11 @@ define( function ( require ) {
     } ) );
 
     //draw plus and minus charges
-    this.sweaterModel.plusCharges.forEach( function ( entry ) {
+    this.sweaterModel.plusCharges.forEach( function( entry ) {
       entry.view = new PlusChargeNode( entry.location );
       self.chargesNode.addChild( entry.view );
     } );
-    this.sweaterModel.minusCharges.forEach( function ( entry ) {
+    this.sweaterModel.minusCharges.forEach( function( entry ) {
       entry.view = new MinusChargeNode( entry.location );
       entry.link( 'location', function updateLocation( location ) {
         entry.view.setTranslation( location );
@@ -48,7 +48,7 @@ define( function ( require ) {
     this.addChild( this.chargesNode );
 
     //show all, none or charge difference
-    var updateChargesVisibilityOnSweater = function ( value ) {
+    var updateChargesVisibilityOnSweater = function( value ) {
       if ( value === 'none' ) {
         self.chargesNode.visible = false;
       }
@@ -63,11 +63,11 @@ define( function ( require ) {
     };
 
 
-    model.link( 'showCharges', function ( value ) {
+    model.link( 'showCharges', function( value ) {
       updateChargesVisibilityOnSweater( value );
     } );
 
-    this.sweaterModel.link( 'charge', function () {
+    this.sweaterModel.link( 'charge', function() {
       updateChargesVisibilityOnSweater( model.showCharges );
     } );
   }

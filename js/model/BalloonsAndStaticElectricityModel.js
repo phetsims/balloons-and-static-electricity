@@ -5,7 +5,7 @@
  * Model contains wall, balloons, sweater
  * @author Vasily Shakhov (Mlearner.com)
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var BalloonModel = require( 'model/BalloonModel' );
   var WallModel = require( 'model/WallModel' );
@@ -21,7 +21,7 @@ define( function ( require ) {
         },
 
         //Main constructor
-        init: function ( width, height ) {
+        init: function( width, height ) {
           this.width = width;
           this.height = height;
 
@@ -42,14 +42,14 @@ define( function ( require ) {
         },
 
         // Called by the animation loop
-        step: function () {
+        step: function() {
           var self = this;
           // Make model changes here.
           var curTime = new Date().getTime();
           var dt = curTime - this.oldTime;
 
           this.wall.step( self );
-          this.balloons.forEach( function ( entry ) {
+          this.balloons.forEach( function( entry ) {
             if ( entry.isVisible ) {
               entry.step( self, dt );
             }
@@ -59,21 +59,21 @@ define( function ( require ) {
         },
 
         // Reset the entire model
-        reset: function () {
+        reset: function() {
 
           //Reset the properties in this model
           Fort.Model.prototype.reset.call( this );
           this.resetChildren();
 
           //Reset balloons, resetChildren don't get them
-          this.balloons.forEach( function ( entry ) {
+          this.balloons.forEach( function( entry ) {
             entry.reset();
           } );
 
           this.sweater.reset();
           this.oldTime = new Date().getTime();
         },
-        getBalloonRestrictions: function ( position, objWidth, objHeight ) {
+        getBalloonRestrictions: function( position, objWidth, objHeight ) {
           var rightBound = this.width;
           if ( this.wall.isVisible ) {
             rightBound -= this.wallWidth;

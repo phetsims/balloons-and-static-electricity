@@ -6,7 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -33,16 +33,16 @@ define( function ( require ) {
     chargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
-    wallModel.plusCharges.forEach( function ( entry ) {
+    wallModel.plusCharges.forEach( function( entry ) {
       entry.view = new PlusChargeNode( entry.location );
       chargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
-    wallModel.minusCharges.forEach( function ( entry ) {
+    wallModel.minusCharges.forEach( function( entry ) {
       entry.view = new MinusChargeNode( entry.location );
       entry.link( 'location', function updateLocation( location ) {
-        entry.view.setTranslation(location.x + PointChargeModel.radius,location.y + PointChargeModel.radius);
+        entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
       } );
       chargesNode.addChild( entry.view );
     } );

@@ -1,4 +1,4 @@
-define( function ( require ) {
+define( function( require ) {
   "use strict";
   var ControlPanel = require( 'view/ControlPanel' );
   var strings = require( 'Strings' );

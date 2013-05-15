@@ -4,7 +4,7 @@
  * Author: Vasily Shakhov (Mlearner)
  */
 
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var resetButtonTemplate = require( 'tpl!../../html/reset-button.html' );
   var switchWallButtonTemplate = require( 'tpl!../../html/switch-wall-button.html' );
@@ -31,8 +31,8 @@ define( function ( require ) {
     var switchWallButton = new DOM( $( switchWallButtonTemplate( {removeWall: strings["BalloonApplet.removeWall"],
                                                                    addWall: strings["BalloonApplet.addWall"]} ) ) );
     this.addChild( switchWallButton );
-    switchWallButton._$element.find( "#removeWallButton" ).bind( 'click', function () {model.wall.isVisible = false;} );
-    switchWallButton._$element.find( "#addWallButton" ).bind( 'click', function () {model.wall.isVisible = true;} );
+    switchWallButton._$element.find( "#removeWallButton" ).bind( 'click', function() {model.wall.isVisible = false;} );
+    switchWallButton._$element.find( "#addWallButton" ).bind( 'click', function() {model.wall.isVisible = true;} );
 
     model.wall.link( 'isVisible', function updateLocation( value ) {
       if ( value ) {
@@ -51,7 +51,7 @@ define( function ( require ) {
                                                                      showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
     this.addChild( showChargesChoice );
     var choicesIcons = showChargesChoice._$element.find( "i" );
-    showChargesChoice._$element.find( "button" ).each( function () {
+    showChargesChoice._$element.find( "button" ).each( function() {
       var button = this;
       $( this ).bind( 'click', function switchChargeView() {
         model.showCharges = button.value;
@@ -75,7 +75,7 @@ define( function ( require ) {
     //reset balloon
     showBalloonsChoice._$element.find( "#resetBalloons" ).bind( 'click', function resetBalloons() {
       model.sweater.reset();
-      model.balloons.forEach( function ( entry ) {
+      model.balloons.forEach( function( entry ) {
         entry.reset( true );
       } );
     } );

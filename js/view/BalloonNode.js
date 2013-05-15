@@ -7,7 +7,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-define( function ( require ) {
+define( function( require ) {
   'use strict';
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -36,15 +36,15 @@ define( function ( require ) {
     this.addInputListener( new SimpleDragHandler( {
                                                     //When dragging across it in a mobile device, pick it up
                                                     allowTouchSnag: true,
-                                                    start: function () {
+                                                    start: function() {
                                                       model.isDragged = true;
                                                     },
-                                                    end: function () {
+                                                    end: function() {
                                                       model.isDragged = false;
                                                       model.velocity = new Vector2( 0, 0 );
                                                     },
                                                     //Translate on drag events
-                                                    translate: function ( args ) {
+                                                    translate: function( args ) {
                                                       model.location = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
                                                     }
                                                   } ) );
