@@ -75,7 +75,7 @@ define( function ( require ) {
     }
 
 
-    //posssible charges
+    //possible charges
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       model.minusCharges[i].view = new MinusChargeNode( model.minusCharges[i].location );
       model.minusCharges[i].view.visible = false;
