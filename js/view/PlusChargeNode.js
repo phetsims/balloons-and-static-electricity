@@ -34,12 +34,18 @@ define( function( require ) {
           .addColorStop( 1, '#f00' )
     } ) );
 
-    this.addChild( new Text( "+", {
-      font: '14px sans-serif',
+    this.addChild( new Rectangle( 0, 0, 8, 2, {
       fill: 'white',
       centerX: 0,
       centerY: 0
     } ) );
+
+    this.addChild( new Rectangle( 0, 0, 2, 8, {
+      fill: 'white',
+      centerX: 0,
+      centerY: 0
+    } ) );
+
   }
 
   inherit( PlusChargeNode, Node ); // prototype chaining

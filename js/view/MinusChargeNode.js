@@ -34,8 +34,7 @@ define( function( require ) {
           .addColorStop( 1, '#00a9e8  ' )
     } ) );
 
-    this.addChild( new Text( "–", {
-      font: '14px sans-serif',
+    this.addChild( new Rectangle( 0, 0, 8, 2, {
       fill: 'white',
       centerX: 0,
       centerY: 0
