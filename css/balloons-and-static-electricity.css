@@ -89,7 +89,7 @@
 }
 
 .reset-balloons-button button {
-  float: right;
+  display: inline-block;
   margin-top: 4px;
   background-image: linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
   background-image: -o-linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
@@ -102,6 +102,10 @@
 
 .reset-balloons-button button:hover {
   background-color: rgb(222, 208, 55);
+}
+
+.reset-balloons-button {
+  text-align: center;
 }
 
 .icon-refresh {
