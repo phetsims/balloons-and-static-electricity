@@ -21,8 +21,8 @@ define( function( require ) {
     var wall = new WallNode( model );
     this.addChild( wall );
 
-    this.addChild( new BalloonNode( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
     this.addChild( new BalloonNode( 500, 200, model.balloons[1], "images/balloon-green.png", model ) );
+    this.addChild( new BalloonNode( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
 
     this.addChild( new ControlPanel( strings, model ) );
   }

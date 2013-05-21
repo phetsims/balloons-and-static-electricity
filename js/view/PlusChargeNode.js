@@ -35,13 +35,13 @@ define( function( require ) {
           .addColorStop( 1, '#f00' )
     } ) );
 
-    this.addChild( new Rectangle( 0, 0, 11, 3, {
+    this.addChild( new Rectangle( 0, 0, 11, 2, {
       fill: 'white',
       centerX: 0,
       centerY: 0
     } ) );
 
-    this.addChild( new Rectangle( 0, 0, 3, 11, {
+    this.addChild( new Rectangle( 0, 0, 2, 11, {
       fill: 'white',
       centerX: 0,
       centerY: 0
