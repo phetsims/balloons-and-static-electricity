@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PointCharge = require( 'model/PointChargeModel' );
+  var PointChargeModel = require( 'model/PointChargeModel' );
 
   var SweaterModel = Fort.Model.extend(
       {
@@ -89,11 +89,11 @@ define( function( require ) {
           this.minusCharges = [];
 
           this.positions.forEach( function( entry ) {
-            var plusCharge = new PointCharge( entry[0], entry[1] + y );
+            var plusCharge = new PointChargeModel( entry[0], entry[1] + y );
             self.plusCharges.push( plusCharge );
 
             //minus
-            var minusCharge = new PointCharge( entry[0] + PointCharge.radius, entry[1] + y + PointCharge.radius );
+            var minusCharge = new PointChargeModel( entry[0] + PointChargeModel.radius, entry[1] + y + PointChargeModel.radius );
             self.minusCharges.push( minusCharge );
           } );
           this.reset();
