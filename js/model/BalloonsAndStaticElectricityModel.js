@@ -44,7 +44,7 @@ define( function( require ) {
         step: function() {
           var self = this;
           // Make model changes here.
-          var curTime = new Date().getTime();
+          var curTime = Date.now();
           var dt = curTime - this.oldTime;
 
           this.wall.step( self );
@@ -70,7 +70,7 @@ define( function( require ) {
           } );
 
           this.sweater.reset();
-          this.oldTime = new Date().getTime();
+          this.oldTime = Date.now();
         },
         getBalloonRestrictions: function( position, objWidth, objHeight ) {
           var rightBound = this.width;
