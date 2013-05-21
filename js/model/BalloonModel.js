@@ -20,7 +20,7 @@ define( function( require ) {
           width: 134,
           height: 222,
           location: new Vector2( 0, 0 ),
-          thresholdSpeed: 0.38,
+          thresholdSpeed: 0.36,
           positions: [
             [14, 70],
             [18, 60],
