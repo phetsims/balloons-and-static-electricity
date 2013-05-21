@@ -113,3 +113,7 @@
 .icon-refresh {
   background-image: none;
 }
+
+.reset-all-button,.reset-all-button:hover {
+  color:white;
+}
