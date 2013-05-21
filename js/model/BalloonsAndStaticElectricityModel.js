@@ -16,7 +16,7 @@ define( function( require ) {
       {
         //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
         defaults: {
-          wallWidth: 70,
+          wallWidth: 80,
           showCharges: "all"
         },
 

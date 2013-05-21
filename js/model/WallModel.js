@@ -22,7 +22,7 @@ define( function( require ) {
           x: 0
         },
         init: function( x, width, height ) {
-          this.dx = Math.round( 70 / this.numX + 2 );
+          this.dx = Math.round( 80 / this.numX + 2 );
           this.dy = height / this.numY;
           this.x = x;
           this.width = width;

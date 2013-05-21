@@ -27,7 +27,7 @@ define( function( require ) {
         }
 
       }, {
-        radius: 6,
+        radius: 9,
         //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
         charge: -1.754
       } );
