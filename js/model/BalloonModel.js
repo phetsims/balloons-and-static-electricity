@@ -210,8 +210,8 @@ define( function( require ) {
             var distFromWall = model.wall.x - balloonModel.location.x;
             if ( balloonModel.charge < -5 ) {
               var relDist = distFromWall - balloonModel.width;
-              var fright = 0.3;
-              if ( relDist <= 20 + balloonModel.charge / 8 ) {
+              var fright = 0.003;
+              if ( relDist <= 40 + balloonModel.charge / 8 ) {
                 return new Vector2( -fright * balloonModel.charge / 20.0, 0 );
               }
             }
@@ -254,7 +254,7 @@ define( function( require ) {
             balloonModel.velocity = new Vector2( 0, 0 );
           }
         },
-        koeff: 1
+        koeff: 0.1
       } );
 
   return BalloonModel;
