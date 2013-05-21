@@ -11,6 +11,7 @@
 }
 
 .switch-wall-button-container button {
+  border:1px solid #000;
   padding: 4px 0;
   width: 70px;
   background-image: linear-gradient(top, rgb(254, 223, 50) 0%, rgb(232, 182, 34) 100%);
@@ -89,6 +90,7 @@
 }
 
 .reset-balloons-button button {
+  border:1px solid #000;
   display: inline-block;
   margin-top: 4px;
   background-image: linear-gradient(top, rgb(254, 244, 158) 0%, rgb(222, 208, 55) 100%);
