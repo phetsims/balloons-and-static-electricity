@@ -40,6 +40,14 @@
   text-align: left;
 }
 
+.btn:hover {
+  color: #000;
+}
+
+.btn {
+  color: #000;
+}
+
 .show-charges-choice-container i {
   float: left;
   margin: 3px 5px 0 0;
