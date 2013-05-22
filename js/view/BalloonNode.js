@@ -33,21 +33,31 @@ define( function( require ) {
     var addedChargesNode = new Node();
 
     //When dragging, move the balloon
-    this.addInputListener( new SimpleDragHandler( {
-                                                    //When dragging across it in a mobile device, pick it up
-                                                    allowTouchSnag: true,
-                                                    start: function() {
-                                                      model.isDragged = true;
-                                                    },
-                                                    end: function() {
-                                                      model.isDragged = false;
-                                                      model.velocity = new Vector2( 0, 0 );
-                                                    },
-                                                    //Translate on drag events
-                                                    translate: function( args ) {
-                                                      model.location = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
-                                                    }
-                                                  } ) );
+    var balloonDragHandler = new SimpleDragHandler( {
+                                                      //When dragging across it in a mobile device, pick it up
+                                                      allowTouchSnag: true,
+                                                      start: function() {
+                                                        model.isDragged = true;
+                                                      },
+                                                      end: function() {
+                                                        model.isDragged = false;
+                                                        model.velocity = new Vector2( 0, 0 );
+                                                      },
+                                                      //Translate on drag events
+                                                      translate: function( args ) {
+                                                        //balloonDragHandler.endDrag();
+                                                        var newLocation = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
+                                                        if ( newLocation.isOutBounds ) {
+                                                          balloonDragHandler.endDrag();
+                                                        }
+                                                        else {
+                                                          model.location = newLocation;
+                                                        }
+
+                                                      }
+                                                    } );
+
+    this.addInputListener( balloonDragHandler );
 
     // add the Balloon image
     this.addChild( new Image( imgsrc ) );

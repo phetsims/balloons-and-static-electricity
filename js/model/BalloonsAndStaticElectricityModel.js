@@ -74,25 +74,30 @@ define( function( require ) {
         },
         getBalloonRestrictions: function( position, objWidth, objHeight ) {
           var rightBound = this.width;
+          var isOutBounds = false;
           if ( this.wall.isVisible ) {
             rightBound -= this.wallWidth;
           }
 
           if ( position.x + objWidth > rightBound ) {
             position.x = rightBound - objWidth;
+            isOutBounds = true;
           }
 
           if ( position.y < 0 ) {
             position.y = 0;
+            isOutBounds = true;
           }
 
           if ( position.x < 0 ) {
             position.x = 0;
+            isOutBounds = true;
           }
           else if ( position.y + objHeight > this.height ) {
             position.y = this.height - objHeight;
+            isOutBounds = true;
           }
-
+          position.isOutBounds = isOutBounds;
           return position;
         }
       } );
