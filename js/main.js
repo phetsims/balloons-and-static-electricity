@@ -20,11 +20,10 @@ require( [
   'use strict';
 
   //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
-  var f = new FastClick( document.body );
+  var FastClickInstance = new FastClick( document.body );
 
-  var i = new ImagesLoader( function( loader ) {
+  var ImagesLoaderInstance = new ImagesLoader( function( loader ) {
 
-    //TODO dimensions!
     //Create and start the sim
     var sim = new Sim( Strings['balloons.name'], [
       {

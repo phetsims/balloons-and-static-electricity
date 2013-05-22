@@ -12,7 +12,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Grad = require( 'SCENERY/util/RadialGradient' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'model/PointChargeModel' );
 
@@ -29,7 +29,7 @@ define( function( require ) {
 
     this.addChild( new Circle( radius, {
       x: 0, y: 0,
-      fill: new Grad( 1, -2, 0, 1, -2, 5 )
+      fill: new RadialGradient( 1, -2, 0, 1, -2, 5 )
           .addColorStop( 0, '#fff' )
           .addColorStop( 0.5, '#6cd0f5' )
           .addColorStop( 1, '#00a9e8  ' )

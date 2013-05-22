@@ -13,7 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var KiteShape = require( 'KITE/Shape' );
+  var Shape = require( 'KITE/Shape' );
 
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var PlusChargeNode = require( 'view/PlusChargeNode' );
@@ -63,7 +63,7 @@ define( function( require ) {
     this.addChild( new Image( imgsrc ) );
 
     //rope
-    var customShape = new KiteShape();
+    var customShape = new Shape();
     customShape.moveTo( model.width / 2, model.height - 2 );
     customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
     var path = new Path( {
@@ -106,7 +106,7 @@ define( function( require ) {
     //changes visual position
     model.link( 'location', function updateLocation( location ) {
       self.translation = location;
-      customShape = new KiteShape();
+      customShape = new Shape();
       customShape.moveTo( model.width / 2, model.height - 2 );
       customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
       path.shape = customShape;

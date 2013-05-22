@@ -8,9 +8,9 @@
 define( function( require ) {
   'use strict';
   var Fort = require( 'FORT/Fort' );
-  var Balloon = require( "model/BalloonModel" );
+  var BalloonModel = require( "model/BalloonModel" );
   var Vector2 = require( 'DOT/Vector2' );
-  var PointCharge = require( 'model/PointChargeModel' );
+  var PointChargeModel = require( 'model/PointChargeModel' );
 
   var WallModel = Fort.Model.extend(
       {
@@ -35,13 +35,13 @@ define( function( require ) {
             for ( var k = 0; k < this.numY; k++ ) {
               //plus
               var position = this.calculatePosition( i, k );
-              var plusCharge = new PointCharge( x + position[0], position[1] );
+              var plusCharge = new PointChargeModel( x + position[0], position[1] );
 
               this.plusCharges.push( plusCharge );
 
               //minus
               position = this.calculatePosition( i, k );
-              var minusCharge = new PointCharge( x + position[0], position[1] );
+              var minusCharge = new PointChargeModel( x + position[0], position[1] );
               this.minusCharges.push( minusCharge );
             }
           }
@@ -56,10 +56,10 @@ define( function( require ) {
             var dv1 = new Vector2( 0, 0 );
             var dv2 = new Vector2( 0, 0 );
             if ( model.balloons[0].isVisible ) {
-              dv1 = Balloon.getForce( ch.defaultLocation, model.balloons[0].getCenter(), k * PointCharge.charge * model.balloons[0].charge, 2.35 );
+              dv1 = BalloonModel.getForce( ch.defaultLocation, model.balloons[0].getCenter(), k * PointChargeModel.charge * model.balloons[0].charge, 2.35 );
             }
             if ( model.balloons[1].isVisible ) {
-              dv2 = Balloon.getForce( ch.defaultLocation, model.balloons[1].getCenter(), k * PointCharge.charge * model.balloons[1].charge, 2.35 );
+              dv2 = BalloonModel.getForce( ch.defaultLocation, model.balloons[1].getCenter(), k * PointChargeModel.charge * model.balloons[1].charge, 2.35 );
             }
             entry.location = new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y );
           } );
@@ -79,7 +79,7 @@ define( function( require ) {
         //function to place charges on wall's grid
         calculatePosition: function( i, k ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-          return [i * this.dx + PointCharge.radius + 1, k * this.dy + y0];
+          return [i * this.dx + PointChargeModel.radius + 1, k * this.dy + y0];
         }
 
       } );

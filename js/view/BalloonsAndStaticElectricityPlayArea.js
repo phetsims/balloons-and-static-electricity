@@ -1,10 +1,10 @@
 define( function( require ) {
   "use strict";
   var ControlPanel = require( 'view/ControlPanel' );
-  var strings = require( 'Strings' );
+  var Strings = require( 'Strings' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PlayArea = require( 'JOIST/TabView' );
+  var TabView = require( 'JOIST/TabView' );
   var SweaterNode = require( 'view/SweaterNode' );
   var WallNode = require( 'view/WallNode' );
   var BalloonNode = require( 'view/BalloonNode' );
@@ -14,7 +14,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'view/MinusChargeNode' );
 
   function BalloonsAndStaticElectricityPlayArea( model ) {
-    PlayArea.call( this );
+    TabView.call( this );
 
     this.addChild( new SweaterNode( model ) );
 
@@ -24,9 +24,9 @@ define( function( require ) {
     this.addChild( new BalloonNode( 500, 200, model.balloons[1], "images/balloon-green.png", model ) );
     this.addChild( new BalloonNode( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
 
-    this.addChild( new ControlPanel( strings, model ) );
+    this.addChild( new ControlPanel( Strings, model ) );
   }
 
-  inherit( BalloonsAndStaticElectricityPlayArea, PlayArea );
+  inherit( BalloonsAndStaticElectricityPlayArea, TabView );
   return BalloonsAndStaticElectricityPlayArea;
 } );
