@@ -58,7 +58,10 @@
   position: absolute;
   bottom: -404px;
   right: -510px;
+}
 
+.show-balloons-choice-container .btn-group {
+  float:none;
 }
 
 .show-balloons-button {
@@ -117,3 +120,4 @@
 .reset-all-button,.reset-all-button:hover {
   color:white;
 }
+
