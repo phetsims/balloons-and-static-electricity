@@ -32,7 +32,7 @@
 }
 
 .show-charges-choice-container {
-  position: absolute;
+  position: relative;
   bottom: -412px;
   left: 70px;
 }
