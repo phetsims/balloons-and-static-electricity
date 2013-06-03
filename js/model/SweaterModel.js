@@ -103,9 +103,9 @@ define( function( require ) {
         findIntersection: function( balloon ) {
           var self = this;
 
-          var x1 = balloon.location.x-5,
+          var x1 = balloon.location.x - 5,
               x2 = balloon.location.x + 50,
-              y1 = balloon.location.y-10,
+              y1 = balloon.location.y - 10,
               y2 = balloon.location.y + balloon.height + 10;
 
           this.minusCharges.forEach( function( entry ) {
@@ -138,5 +138,4 @@ define( function( require ) {
       } );
 
   return SweaterModel;
-} )
-;
+} );

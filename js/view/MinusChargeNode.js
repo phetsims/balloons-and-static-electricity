@@ -25,8 +25,7 @@ define( function( require ) {
     var radius = PointChargeModel.radius;
     this.translate( location.x, location.y );
 
-    // add the centered bar magnet image
-
+    // add the circle for the body of the charge
     this.addChild( new Circle( radius, {
       x: 0, y: 0,
       fill: new RadialGradient( 1, -2, 0, 1, -2, 5 )

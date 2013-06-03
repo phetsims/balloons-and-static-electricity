@@ -34,6 +34,5 @@ require( [
         backgroundColor: "#9ddcf8"
       }
     ] ).start();
-
   } );
 } );

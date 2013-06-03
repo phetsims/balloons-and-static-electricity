@@ -57,8 +57,6 @@ define( function( require ) {
     model.link( 'showCharges', function switchWallChargesView( value ) {
       chargesNode.visible = (value === 'all');
     } );
-
-
   }
 
   inherit( WallNode, Node ); // prototype chaining

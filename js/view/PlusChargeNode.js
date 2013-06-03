@@ -46,7 +46,6 @@ define( function( require ) {
       centerX: 0,
       centerY: 0
     } ) );
-
   }
 
   inherit( PlusChargeNode, Node ); // prototype chaining

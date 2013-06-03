@@ -81,9 +81,7 @@ define( function( require ) {
           var y0 = i % 2 === 0 ? this.dy / 2 : 1;
           return [i * this.dx + PointChargeModel.radius + 1, k * this.dy + y0];
         }
-
       } );
 
   return WallModel;
-} )
-;
+} );

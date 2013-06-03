@@ -20,7 +20,6 @@ define( function( require ) {
     // super constructor
     Node.call( this );
 
-
     //reset button
     var resetButton = new DOM( $( resetButtonTemplate() ) );
     this.addChild( resetButton );
@@ -61,7 +60,6 @@ define( function( require ) {
       choicesIcons.removeClass( "icon-circle" );
       showChargesChoice._$element.find( "button[value=" + value + "]" ).find( "i" ).addClass( "icon-circle" );
     } );
-
 
     //show balloons radioGroup
     var showBalloonsChoice = new DOM( $( showBalloonsChoiceTemplate( {"resetBalloon": strings["BalloonApplet.resetBalloon"]} ) ) );

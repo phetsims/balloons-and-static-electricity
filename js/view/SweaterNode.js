@@ -25,7 +25,6 @@ define( function( require ) {
     this.chargesNode = new Node();
     this.sweaterModel = model.sweater;
 
-
     // add the Sweater image
     this.addChild( new Image( "images/sweater.svg", {
       x: this.sweaterModel.x,
@@ -62,7 +61,6 @@ define( function( require ) {
       }
     };
 
-
     model.link( 'showCharges', function( value ) {
       updateChargesVisibilityOnSweater( value );
     } );
@@ -71,7 +69,6 @@ define( function( require ) {
       updateChargesVisibilityOnSweater( model.showCharges );
     } );
   }
-
 
   inherit( SweaterNode, Node ); // prototype chaining
 

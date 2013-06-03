@@ -71,9 +71,7 @@ define( function( require ) {
                            stroke: '#000000',
                            lineWidth: 1
                          } );
-
     this.addChild( path );
-
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
@@ -84,7 +82,6 @@ define( function( require ) {
       startChargesNode.addChild( model.minusCharges[i].view );
     }
 
-
     //possible charges
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       model.minusCharges[i].view = new MinusChargeNode( model.minusCharges[i].location );
@@ -94,7 +91,6 @@ define( function( require ) {
 
     this.addChild( startChargesNode );
     this.addChild( addedChargesNode );
-
 
     //if change charge, show more minus charges
     model.link( 'charge', function updateLocation( chargeVal ) {
