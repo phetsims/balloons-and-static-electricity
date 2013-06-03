@@ -2,16 +2,11 @@ define( function( require ) {
   "use strict";
   var ControlPanel = require( 'view/ControlPanel' );
   var Strings = require( 'Strings' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var TabView = require( 'JOIST/TabView' );
   var SweaterNode = require( 'view/SweaterNode' );
   var WallNode = require( 'view/WallNode' );
   var BalloonNode = require( 'view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var PlusChargeNode = require( 'view/PlusChargeNode' );
-  var MinusChargeNode = require( 'view/MinusChargeNode' );
 
   function BalloonsAndStaticElectricityPlayArea( model ) {
     TabView.call( this );
