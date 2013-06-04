@@ -35,7 +35,12 @@ define( function( require ) {
           this.wall = new WallModel( width - this.wallWidth, 600, height );
           this.sweater = new SweaterModel( 0, -50 );
 
-          this.bounds = [this.sweater.center.x, 0, width - this.wallWidth, height];
+          this.bounds = {
+            minX : this.sweater.center.x,
+            minY : 0,
+            maxX : width - this.wallWidth,
+            maxY : height
+          };
 
           this.reset();
         },
