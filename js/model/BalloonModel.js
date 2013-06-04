@@ -118,9 +118,11 @@ define( function( require ) {
 
           this.reset();
         },
+        //get center of Balloon
         getCenter: function() {
           return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );
         },
+        //reset balloon to initial state
         reset: function( notResetVisibility ) {
           this.xVelocityArray = [0, 0, 0, 0, 0];
           this.xVelocityArray.counter = 0;
@@ -152,6 +154,7 @@ define( function( require ) {
           }
           this.oldLocation = this.location.copy();
         },
+        //when balloon dragged check if we can catch minus charges
         dragBalloon: function( model, dt ) {
           var dx = (this.location.x - this.oldLocation.x) / dt,
               dy = (this.location.y - this.oldLocation.y) / dt;
@@ -170,13 +173,14 @@ define( function( require ) {
           averageX /= 5;
           averageY /= 5;
 
+          //if average speed larger than thresholdSpeed - we try to move minus charges from sweater to balloon
           var speed = Math.sqrt( averageX * averageX + averageY * averageY );
           if ( speed >= this.thresholdSpeed ) {
             model.sweater.findIntersection( this );
           }
         }
       }, {
-        //force between two objects
+        //force between two objects with positions p1 and p2, kqq - koefficient, F = kqq / (distance^power)
         getForce: function( p1, p2, kqq, power ) {
           power = power || 2;
           var diff = p1.minus( p2 );
@@ -188,7 +192,7 @@ define( function( require ) {
           return fa;
         },
 
-        //sweater + balloon
+        //force between sweater and balloon
         getSweaterForce: function( sweaterModel, balloonModel ) {
           var retValue = new Vector2();
           if ( balloonModel.location.x > sweaterModel.center.x ) {
@@ -196,7 +200,7 @@ define( function( require ) {
           }
           return retValue;
         },
-        //two balloons
+        //force between two balloons
         getOtherForce: function( balloonModel ) {
           if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
             return new Vector2( 0, 0 );
@@ -204,10 +208,11 @@ define( function( require ) {
           var kqq = BalloonModel.koeff * balloonModel.charge * balloonModel.other.charge;
           return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
         },
-        //sum of forces
+        //sum of all forces applying to balloons
         getTotalForce: function( model, balloonModel ) {
           if ( model.wall.isVisible ) {
             var distFromWall = model.wall.x - balloonModel.location.x;
+            //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
             if ( balloonModel.charge < -5 ) {
               var relDist = distFromWall - balloonModel.width;
               var fright = 0.003;
@@ -221,7 +226,7 @@ define( function( require ) {
           var other = BalloonModel.getOtherForce( balloonModel );
           return force.plus( other );
         },
-        //move balloon this step to
+        //applying force and move balloon to new coords each step
         applyForce: function( model, balloonModel, dt ) {
           var rightBound = model.wall.isVisible ? model.bounds[2] : model.bounds[2] + model.wall.width;
 
