@@ -46,7 +46,7 @@ define( function( require ) {
                                                       //Translate on drag events
                                                       translate: function( args ) {
                                                         //balloonDragHandler.endDrag();
-                                                        var newLocation = globalModel.getBalloonRestrictions( args.position, model.width, model.height );
+                                                        var newLocation = globalModel.checkBalloonRestrictions( args.position, model.width, model.height );
                                                         if ( newLocation.isOutBounds ) {
                                                           balloonDragHandler.endDrag();
                                                         }

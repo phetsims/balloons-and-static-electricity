@@ -72,31 +72,40 @@ define( function( require ) {
           this.sweater.reset();
           this.oldTime = Date.now();
         },
-        getBalloonRestrictions: function( position, objWidth, objHeight ) {
+        //check if balloon outside world borders and return it to border if outside
+        checkBalloonRestrictions: function( position, objWidth, objHeight ) {
           var rightBound = this.width;
+          //flag to check if we outside borders
           var isOutBounds = false;
+          //if wall exist - right border smaller on wallWidth
           if ( this.wall.isVisible ) {
             rightBound -= this.wallWidth;
           }
 
+          //if more than maxRight position - set maxRight position
           if ( position.x + objWidth > rightBound ) {
             position.x = rightBound - objWidth;
             isOutBounds = true;
           }
 
+          //if less then top border set y to minTop position
           if ( position.y < 0 ) {
             position.y = 0;
             isOutBounds = true;
-          }
-
-          if ( position.x < 0 ) {
-            position.x = 0;
-            isOutBounds = true;
-          }
+          }//if larger then bottom border set y to maxTop position
           else if ( position.y + objHeight > this.height ) {
             position.y = this.height - objHeight;
             isOutBounds = true;
           }
+
+          //if smaller then left border set x to minLeft position
+          if ( position.x < 0 ) {
+            position.x = 0;
+            isOutBounds = true;
+          }
+
+
+          //set flag
           position.isOutBounds = isOutBounds;
           return position;
         }
