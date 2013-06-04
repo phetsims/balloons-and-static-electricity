@@ -47,13 +47,7 @@ define( function( require ) {
                                                       translate: function( args ) {
                                                         //balloonDragHandler.endDrag();
                                                         var newLocation = globalModel.checkBalloonRestrictions( args.position, model.width, model.height );
-                                                        if ( newLocation.isOutBounds ) {
-                                                          balloonDragHandler.endDrag();
-                                                        }
-                                                        else {
                                                           model.location = newLocation;
-                                                        }
-
                                                       }
                                                     } );
 
