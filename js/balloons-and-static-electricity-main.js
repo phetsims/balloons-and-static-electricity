@@ -7,16 +7,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 require( [
-  'fastclick',
-  'PHETCOMMON/util/ImagesLoader',
-  'FORT/Fort',
-  'SCENERY/nodes/Text',
-  'SCENERY/nodes/Rectangle',
-  'Strings',
-  'JOIST/Sim',
-  'model/BalloonsAndStaticElectricityModel',
-  'view/BalloonsAndStaticElectricityPlayArea'
-], function( FastClick, ImagesLoader, Fort, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
+           'fastclick',
+           'PHETCOMMON/util/ImagesLoader',
+           'FORT/Fort',
+           'SCENERY/nodes/Text',
+           'SCENERY/nodes/Rectangle',
+           'Strings',
+           'JOIST/Sim',
+           'model/BalloonsAndStaticElectricityModel',
+           'view/BalloonsAndStaticElectricityPlayArea'
+         ], function( FastClick, ImagesLoader, Fort, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
   'use strict';
 
   //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
