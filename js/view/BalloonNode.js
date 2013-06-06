@@ -34,22 +34,22 @@ define( function( require ) {
 
     //When dragging, move the balloon
     var balloonDragHandler = new SimpleDragHandler( {
-                                                      //When dragging across it in a mobile device, pick it up
-                                                      allowTouchSnag: true,
-                                                      start: function() {
-                                                        model.isDragged = true;
-                                                      },
-                                                      end: function() {
-                                                        model.isDragged = false;
-                                                        model.velocity = new Vector2( 0, 0 );
-                                                      },
-                                                      //Translate on drag events
-                                                      translate: function( args ) {
-                                                        //balloonDragHandler.endDrag();
-                                                        var newLocation = globalModel.checkBalloonRestrictions( args.position, model.width, model.height );
-                                                          model.location = newLocation;
-                                                      }
-                                                    } );
+      //When dragging across it in a mobile device, pick it up
+      allowTouchSnag: true,
+      start: function() {
+        model.isDragged = true;
+      },
+      end: function() {
+        model.isDragged = false;
+        model.velocity = new Vector2( 0, 0 );
+      },
+      //Translate on drag events
+      translate: function( args ) {
+        //balloonDragHandler.endDrag();
+        var newLocation = globalModel.checkBalloonRestrictions( args.position, model.width, model.height );
+        model.location = newLocation;
+      }
+    } );
 
     this.addInputListener( balloonDragHandler );
 
@@ -61,10 +61,10 @@ define( function( require ) {
     customShape.moveTo( model.width / 2, model.height - 2 );
     customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
     var path = new Path( {
-                           shape: customShape,
-                           stroke: '#000000',
-                           lineWidth: 1
-                         } );
+      shape: customShape,
+      stroke: '#000000',
+      lineWidth: 1
+    } );
     this.addChild( path );
 
     // static charges

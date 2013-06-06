@@ -29,9 +29,9 @@ define( function( require ) {
     this.addChild( new Circle( radius, {
       x: 0, y: 0,
       fill: new RadialGradient( 1, -2, 0, 1, -2, 5 )
-          .addColorStop( 0, '#fff' )
-          .addColorStop( 0.5, '#6cd0f5' )
-          .addColorStop( 1, '#00a9e8  ' )
+        .addColorStop( 0, '#fff' )
+        .addColorStop( 0.5, '#6cd0f5' )
+        .addColorStop( 1, '#00a9e8  ' )
     } ) );
 
     this.addChild( new Rectangle( 0, 0, 11, 2, {

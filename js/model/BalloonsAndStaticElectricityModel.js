@@ -13,108 +13,108 @@ define( function( require ) {
   var Fort = require( 'FORT/Fort' );
 
   var BalloonsAndStaticElectricityModel = Fort.Model.extend(
-      {
-        //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-        defaults: {
-          wallWidth: 80,
-          showCharges: "all"
-        },
+    {
+      //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+      defaults: {
+        wallWidth: 80,
+        showCharges: "all"
+      },
 
-        //Main constructor
-        init: function( width, height ) {
-          this.width = width;
-          this.height = height;
+      //Main constructor
+      init: function( width, height ) {
+        this.width = width;
+        this.height = height;
 
-          this.balloons = [
-            new BalloonModel( 440, 100, true ),
-            new BalloonModel( 380, 130, false )
-          ];
-          this.balloons[0].other = this.balloons[1];
-          this.balloons[1].other = this.balloons[0];
+        this.balloons = [
+          new BalloonModel( 440, 100, true ),
+          new BalloonModel( 380, 130, false )
+        ];
+        this.balloons[0].other = this.balloons[1];
+        this.balloons[1].other = this.balloons[0];
 
-          this.wall = new WallModel( width - this.wallWidth, 600, height );
-          this.sweater = new SweaterModel( 0, -50 );
+        this.wall = new WallModel( width - this.wallWidth, 600, height );
+        this.sweater = new SweaterModel( 0, -50 );
 
-          this.bounds = {
-            minX : this.sweater.center.x,
-            minY : 0,
-            maxX : width - this.wallWidth,
-            maxY : height
-          };
+        this.bounds = {
+          minX: this.sweater.center.x,
+          minY: 0,
+          maxX: width - this.wallWidth,
+          maxY: height
+        };
 
-          this.reset();
-        },
+        this.reset();
+      },
 
-        // Called by the animation loop
-        step: function() {
-          var self = this;
-          // Make model changes here.
-          var curTime = Date.now();
-          var dt = curTime - this.oldTime;
+      // Called by the animation loop
+      step: function() {
+        var self = this;
+        // Make model changes here.
+        var curTime = Date.now();
+        var dt = curTime - this.oldTime;
 
-          this.wall.step( self );
-          this.balloons.forEach( function( entry ) {
-            if ( entry.isVisible ) {
-              entry.step( self, dt );
-            }
-          } );
-
-          this.oldTime = curTime;
-        },
-
-        // Reset the entire model
-        reset: function() {
-
-          //Reset the properties in this model
-          Fort.Model.prototype.reset.call( this );
-          this.resetChildren();
-
-          //Reset balloons, resetChildren don't get them
-          this.balloons.forEach( function( entry ) {
-            entry.reset();
-          } );
-
-          this.sweater.reset();
-          this.oldTime = Date.now();
-        },
-        //check if balloon outside world borders and return it to border if outside
-        checkBalloonRestrictions: function( position, objWidth, objHeight ) {
-          var rightBound = this.width;
-          //flag to check if we outside borders
-          var isOutBounds = false;
-          //if wall exist - right border smaller on wallWidth
-          if ( this.wall.isVisible ) {
-            rightBound -= this.wallWidth;
+        this.wall.step( self );
+        this.balloons.forEach( function( entry ) {
+          if ( entry.isVisible ) {
+            entry.step( self, dt );
           }
+        } );
 
-          //if more than maxRight position - set maxRight position
-          if ( position.x + objWidth > rightBound ) {
-            position.x = rightBound - objWidth;
-            isOutBounds = true;
-          }
+        this.oldTime = curTime;
+      },
 
-          //if less then top border set y to minTop position
-          if ( position.y < 0 ) {
-            position.y = 0;
-            isOutBounds = true;
-          }//if larger then bottom border set y to maxTop position
-          else if ( position.y + objHeight > this.height ) {
-            position.y = this.height - objHeight;
-            isOutBounds = true;
-          }
+      // Reset the entire model
+      reset: function() {
 
-          //if smaller then left border set x to minLeft position
-          if ( position.x < 0 ) {
-            position.x = 0;
-            isOutBounds = true;
-          }
+        //Reset the properties in this model
+        Fort.Model.prototype.reset.call( this );
+        this.resetChildren();
 
+        //Reset balloons, resetChildren don't get them
+        this.balloons.forEach( function( entry ) {
+          entry.reset();
+        } );
 
-          //set flag
-          position.isOutBounds = isOutBounds;
-          return position;
+        this.sweater.reset();
+        this.oldTime = Date.now();
+      },
+      //check if balloon outside world borders and return it to border if outside
+      checkBalloonRestrictions: function( position, objWidth, objHeight ) {
+        var rightBound = this.width;
+        //flag to check if we outside borders
+        var isOutBounds = false;
+        //if wall exist - right border smaller on wallWidth
+        if ( this.wall.isVisible ) {
+          rightBound -= this.wallWidth;
         }
-      } );
+
+        //if more than maxRight position - set maxRight position
+        if ( position.x + objWidth > rightBound ) {
+          position.x = rightBound - objWidth;
+          isOutBounds = true;
+        }
+
+        //if less then top border set y to minTop position
+        if ( position.y < 0 ) {
+          position.y = 0;
+          isOutBounds = true;
+        }//if larger then bottom border set y to maxTop position
+        else if ( position.y + objHeight > this.height ) {
+          position.y = this.height - objHeight;
+          isOutBounds = true;
+        }
+
+        //if smaller then left border set x to minLeft position
+        if ( position.x < 0 ) {
+          position.x = 0;
+          isOutBounds = true;
+        }
+
+
+        //set flag
+        position.isOutBounds = isOutBounds;
+        return position;
+      }
+    } );
 
   return BalloonsAndStaticElectricityModel;
 } );
