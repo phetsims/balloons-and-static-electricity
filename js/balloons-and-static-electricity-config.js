@@ -16,7 +16,8 @@ require.config( {
                   // Path mappings for module names not found directly under baseUrl. The path settings are assumed to be
                   // relative to baseUrl unless the paths setting starts with a '/' or has a URL protocol.
                   paths: {
-
+                    AXON: '../../axon/js',
+                    
                     // common directories, uppercase names to identify them in require imports
                     PHETCOMMON: '../../phetcommon/js',
                     SCENERY: '../../scenery/js',
