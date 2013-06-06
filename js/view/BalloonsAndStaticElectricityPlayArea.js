@@ -22,6 +22,6 @@ define( function( require ) {
     this.addChild( new ControlPanel( Strings, model ) );
   }
 
-  inherit( BalloonsAndStaticElectricityPlayArea, TabView );
+  inherit( TabView, BalloonsAndStaticElectricityPlayArea );
   return BalloonsAndStaticElectricityPlayArea;
 } );

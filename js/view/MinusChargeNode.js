@@ -41,7 +41,7 @@ define( function( require ) {
     } ) );
   }
 
-  inherit( MinusChargeNode, Node ); // prototype chaining
+  inherit( Node, MinusChargeNode ); // prototype chaining
 
   return MinusChargeNode;
 } );

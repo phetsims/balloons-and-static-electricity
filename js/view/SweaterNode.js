@@ -70,7 +70,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( SweaterNode, Node ); // prototype chaining
+  inherit( Node, SweaterNode ); // prototype chaining
 
   return SweaterNode;
 } );

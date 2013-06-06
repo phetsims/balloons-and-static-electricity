@@ -91,7 +91,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( ControlPanel, Node );
+  inherit( Node, ControlPanel );
 
   return ControlPanel;
 } );

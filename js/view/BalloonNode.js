@@ -123,7 +123,7 @@ define( function( require ) {
     model.view = this;
   }
 
-  inherit( BalloonNode, Node ); // prototype chaining
+  inherit( Node, BalloonNode ); // prototype chaining
 
   return BalloonNode;
 } );
