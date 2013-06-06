@@ -180,7 +180,7 @@ define( function( require ) {
           }
         }
       }, {
-        //force between two objects with positions p1 and p2, kqq - koefficient, F = kqq / (distance^power)
+        //force between two objects with positions p1 and p2, kqq - coefficient, F = kqq / (distance^power)
         getForce: function( p1, p2, kqq, power ) {
           power = power || 2;
           var diff = p1.minus( p2 );
@@ -196,7 +196,7 @@ define( function( require ) {
         getSweaterForce: function( sweaterModel, balloonModel ) {
           var retValue = new Vector2();
           if ( balloonModel.location.x > sweaterModel.center.x ) {
-            retValue = BalloonModel.getForce( sweaterModel.center, balloonModel.getCenter(), -BalloonModel.koeff * sweaterModel.charge * balloonModel.charge );
+            retValue = BalloonModel.getForce( sweaterModel.center, balloonModel.getCenter(), -BalloonModel.coeff * sweaterModel.charge * balloonModel.charge );
           }
           return retValue;
         },
@@ -205,7 +205,7 @@ define( function( require ) {
           if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
             return new Vector2( 0, 0 );
           }
-          var kqq = BalloonModel.koeff * balloonModel.charge * balloonModel.other.charge;
+          var kqq = BalloonModel.coeff * balloonModel.charge * balloonModel.other.charge;
           return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
         },
         //sum of all forces applying to balloons
@@ -259,7 +259,7 @@ define( function( require ) {
             balloonModel.velocity = new Vector2( 0, 0 );
           }
         },
-        koeff: 0.1
+        coeff: 0.1
       } );
 
   return BalloonModel;
