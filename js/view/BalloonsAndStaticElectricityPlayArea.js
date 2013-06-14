@@ -12,9 +12,6 @@ define( function( require ) {
   function BalloonsAndStaticElectricityPlayArea( model ) {
     TabView.call( this );
 
-    //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );
-
     this.addChild( new SweaterNode( model ) );
 
     var wall = new WallNode( model );
@@ -23,7 +20,10 @@ define( function( require ) {
     this.addChild( new BalloonNode( 500, 200, model.balloons[1], "images/balloon-green.png", model ) );
     this.addChild( new BalloonNode( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
 
-    this.addChild( new ControlPanel( Strings, model ) );
+    this.addChild( new ControlPanel( Strings, model, this.layoutBounds ) );
+
+    //A black rectangle that vertically 'extends' the navbar from joist, see #54
+    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );
   }
 
   inherit( TabView, BalloonsAndStaticElectricityPlayArea );

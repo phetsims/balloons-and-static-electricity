@@ -6,89 +6,70 @@
 
 define( function( require ) {
   'use strict';
-  var resetButtonTemplate = require( 'tpl!../../html/reset-button.html' );
-  var switchWallButtonTemplate = require( 'tpl!../../html/switch-wall-button.html' );
-  var showChargesChoiceTemplate = require( 'tpl!../../html/show-charges-choice.html' );
-  var showBalloonsChoiceTemplate = require( 'tpl!../../html/show-balloons-choice.html' );
-  var DOM = require( 'SCENERY/nodes/DOM' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
+  var Button = require( 'SUN/Button' );
+  var PushButton = require( 'SUN/PushButton' );
+  var PanelNode = require( 'SUN/PanelNode' );
+  var VerticalCheckBoxGroup = require( 'SUN/VerticalCheckBoxGroup' );
+  var Property = require( 'AXON/Property' );
 
+  function ControlPanel( strings, model, layoutBounds ) {
 
-  function ControlPanel( strings, model ) {
+    var fontSize = 18;
 
     // super constructor
     Node.call( this );
 
-    //reset button
-    var resetButton = new DOM( $( resetButtonTemplate() ) );
-    this.addChild( resetButton );
-    resetButton._$element.bind( 'click', model.reset.bind( model ) );
+    //TODO: Could use ToggleButton?
+    var buttonText = new Text( 'Add Wall', {fontSize: fontSize} );
+    model.wall.isVisibleProperty.link( function( isVisible ) {buttonText.text = isVisible ? 'Remove Wall' : 'Add Wall'} );
+    var wallButton = new Button( buttonText, function() {model.wall.isVisible = !model.wall.isVisible;} );
 
-
-    //switch wall button
-    var switchWallButton = new DOM( $( switchWallButtonTemplate( {removeWall: strings["BalloonApplet.removeWall"],
-      addWall: strings["BalloonApplet.addWall"]} ) ) );
-    this.addChild( switchWallButton );
-    switchWallButton._$element.find( "#removeWallButton" ).bind( 'click', function() {model.wall.isVisible = false;} );
-    switchWallButton._$element.find( "#addWallButton" ).bind( 'click', function() {model.wall.isVisible = true;} );
-
-    model.wall.isVisibleProperty.link( function updateLocation( value ) {
-      if ( value ) {
-        $( "#removeWallButton" ).show();
-        $( "#addWallButton" ).hide();
-      }
-      else {
-        $( "#removeWallButton" ).hide();
-        $( "#addWallButton" ).show();
-      }
-    } );
+    //Wrap properties to use in check boxes to simulate radio buttons.
+    function createChargeProperty( type ) {
+      var p = new Property( model.showCharges === type );
+      model.showChargesProperty.link( function( showCharges ) { p.value = showCharges === type; } );
+      p.link( function( value ) {if ( value ) {model.showCharges = type;}} );
+      return p;
+    }
 
     //show charges radioGroup
-    var showChargesChoice = new DOM( $( showChargesChoiceTemplate( {showChargeDifferences: strings["BalloonApplet.ShowChargeDifferences"],
-      showAllCharges: strings["BalloonApplet.ShowAllCharges"],
-      showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
-    this.addChild( showChargesChoice );
-    var choicesIcons = showChargesChoice._$element.find( "i" );
-    showChargesChoice._$element.find( "button" ).each( function() {
-      var button = this;
-      $( this ).bind( 'click', function switchChargeView() {
-        model.showCharges = button.value;
-      } );
-    } );
-    model.showChargesProperty.link( function updateChargeChoiceVisual( value ) {
-      choicesIcons.removeClass( "icon-circle" );
-      showChargesChoice._$element.find( "button[value=" + value + "]" ).find( "i" ).addClass( "icon-circle" );
-    } );
+    var showChargesRadioButtonGroup = new VerticalCheckBoxGroup( [
+      { content: new Text( strings["BalloonApplet.ShowAllCharges"], {fontSize: fontSize} ), property: createChargeProperty( 'all' ) },
+      { content: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: createChargeProperty( 'none' ) },
+      { content: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: createChargeProperty( 'diff' ) }
+    ] );
+    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY} ) );
 
-    //show balloons radioGroup
-    var showBalloonsChoice = new DOM( $( showBalloonsChoiceTemplate( {"resetBalloon": strings["BalloonApplet.resetBalloon"]} ) ) );
-    this.addChild( showBalloonsChoice );
-    showBalloonsChoice._$element.find( "#showOneBalloon" ).bind( 'click', function showSingleBalloon() {
-      model.balloons[1].isVisible = false;
-    } );
-    showBalloonsChoice._$element.find( "#showTwoBalloons" ).bind( 'click', function showTwoBalloons() {
-      model.balloons[1].isVisible = true;
-    } );
-    //reset balloon
-    showBalloonsChoice._$element.find( "#resetBalloons" ).bind( 'click', function resetBalloons() {
+    //Wrap properties to use in check boxes to simulate radio buttons.
+    function createBalloonChoiceProperty( type ) {
+      var p = new Property( model.showCharges === type );
+      model.showChargesProperty.link( function( showCharges ) { p.value = showCharges === type; } );
+      p.link( function( value ) {if ( value ) {model.showCharges = type;}} );
+      return p;
+    }
+
+    var showBalloonsChoice = new HBox( {children: [
+      new PushButton( new Text( 'one' ), model.balloons[1].isVisibleProperty.not() ),
+      new PushButton( new Text( 'two' ), model.balloons[1].isVisibleProperty )]} );
+
+    var balloonsPanel = new VBox( {children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
       model.sweater.reset();
       model.balloons.forEach( function( entry ) {
         entry.reset( true );
       } );
-    } );
-    model.balloons[1].isVisibleProperty.link( function updateTextOnResetBalloonButtonAndChangeVisual( value ) {
-      var string = value ? strings["BalloonApplet.resetBalloons"] : strings["BalloonApplet.resetBalloon"];
-      showBalloonsChoice._$element.find( "#resetBalloons" ).html( string );
-      if ( value ) {
-        showBalloonsChoice._$element.find( "#showOneBalloon" ).addClass( "show-balloons-button-unpressed" );
-        showBalloonsChoice._$element.find( "#showTwoBalloons" ).removeClass( "show-balloons-button-unpressed" );
-      }
-      else {
-        showBalloonsChoice._$element.find( "#showTwoBalloons" ).addClass( "show-balloons-button-unpressed" );
-        showBalloonsChoice._$element.find( "#showOneBalloon" ).removeClass( "show-balloons-button-unpressed" );
-      }
-    } );
+    } )]} );
+    var controls = new HBox( {spacing: 10, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
+
+    controls.right = layoutBounds.maxX;
+    controls.bottom = layoutBounds.maxY;
+
+    this.addChild( controls );
   }
 
   inherit( Node, ControlPanel );

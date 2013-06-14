@@ -21,6 +21,7 @@ require.config( {
     // common directories, uppercase names to identify them in require imports
     PHETCOMMON: '../../phetcommon/js',
     SCENERY: '../../scenery/js',
+    SCENERY_PHET: '../../scenery-phet/js',
     KITE: '../../kite/js',
     PHET_CORE: '../../phet-core/js',
     DOT: '../../dot/js',
