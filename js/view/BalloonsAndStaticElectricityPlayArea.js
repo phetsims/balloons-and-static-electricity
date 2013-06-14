@@ -1,6 +1,7 @@
 define( function( require ) {
   "use strict";
   var ControlPanel = require( 'view/ControlPanel' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Strings = require( 'Strings' );
   var TabView = require( 'JOIST/TabView' );
   var SweaterNode = require( 'view/SweaterNode' );
@@ -20,6 +21,9 @@ define( function( require ) {
     this.addChild( new BalloonNode( 400, 200, model.balloons[0], "images/balloon-yellow.png", model ) );
 
     this.addChild( new ControlPanel( Strings, model ) );
+
+    //A black rectangle that vertically 'extends' the navbar from joist, see #54
+    this.addChild( new Rectangle( -1000, this.layoutBounds.height, 3000, this.layoutBounds.height, {fill: 'black'} ) );
   }
 
   inherit( TabView, BalloonsAndStaticElectricityPlayArea );
