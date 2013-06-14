@@ -28,7 +28,7 @@ define( function( require ) {
 
     //switch wall button
     var switchWallButton = new DOM( $( switchWallButtonTemplate( {removeWall: strings["BalloonApplet.removeWall"],
-                                                                   addWall: strings["BalloonApplet.addWall"]} ) ) );
+      addWall: strings["BalloonApplet.addWall"]} ) ) );
     this.addChild( switchWallButton );
     switchWallButton._$element.find( "#removeWallButton" ).bind( 'click', function() {model.wall.isVisible = false;} );
     switchWallButton._$element.find( "#addWallButton" ).bind( 'click', function() {model.wall.isVisible = true;} );
@@ -46,8 +46,8 @@ define( function( require ) {
 
     //show charges radioGroup
     var showChargesChoice = new DOM( $( showChargesChoiceTemplate( {showChargeDifferences: strings["BalloonApplet.ShowChargeDifferences"],
-                                                                     showAllCharges: strings["BalloonApplet.ShowAllCharges"],
-                                                                     showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
+      showAllCharges: strings["BalloonApplet.ShowAllCharges"],
+      showNoCharges: strings["BalloonApplet.ShowNoCharges"]} ) ) );
     this.addChild( showChargesChoice );
     var choicesIcons = showChargesChoice._$element.find( "i" );
     showChargesChoice._$element.find( "button" ).each( function() {
@@ -77,7 +77,7 @@ define( function( require ) {
         entry.reset( true );
       } );
     } );
-    model.balloons[1].link( 'isVisible', function updateTextOnResetBalloonButtonAndChangeVisual( value ) {
+    model.balloons[1].isVisibleProperty.link( function updateTextOnResetBalloonButtonAndChangeVisual( value ) {
       var string = value ? strings["BalloonApplet.resetBalloons"] : strings["BalloonApplet.resetBalloon"];
       showBalloonsChoice._$element.find( "#resetBalloons" ).html( string );
       if ( value ) {
