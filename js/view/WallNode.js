@@ -49,7 +49,7 @@ define( function( require ) {
 
     this.addChild( chargesNode );
 
-    wallModel.link( 'isVisible', function updateWallVisibility( isVisible ) {
+    wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
       self.visible = isVisible;
     } );
 

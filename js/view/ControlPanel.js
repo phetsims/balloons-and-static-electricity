@@ -33,7 +33,7 @@ define( function( require ) {
     switchWallButton._$element.find( "#removeWallButton" ).bind( 'click', function() {model.wall.isVisible = false;} );
     switchWallButton._$element.find( "#addWallButton" ).bind( 'click', function() {model.wall.isVisible = true;} );
 
-    model.wall.link( 'isVisible', function updateLocation( value ) {
+    model.wall.isVisibleProperty.link( function updateLocation( value ) {
       if ( value ) {
         $( "#removeWallButton" ).show();
         $( "#addWallButton" ).hide();
