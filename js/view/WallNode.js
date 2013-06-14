@@ -21,7 +21,7 @@ define( function( require ) {
     var wallModel = model.wall;
 
     // super constructor
-    Node.call( this );
+    Node.call( this, {pickable: false} );
 
     this.translate( wallModel.x, 0 );
 

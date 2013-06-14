@@ -20,7 +20,7 @@ define( function( require ) {
     var self = this;
 
     // super constructor
-    Node.call( this );
+    Node.call( this, {pickable: false} );
 
     this.chargesNode = new Node();
     this.sweaterModel = model.sweater;
