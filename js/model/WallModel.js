@@ -25,7 +25,6 @@ define( function( require ) {
 
     this.dx = Math.round( 80 / this.numX + 2 );
     this.dy = height / this.numY;
-    this.x = x;
     this.width = width;
     this.height = height;
 
