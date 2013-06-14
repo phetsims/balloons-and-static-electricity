@@ -61,7 +61,7 @@ define( function( require ) {
       }
     };
 
-    model.link( 'showCharges', function( value ) {
+    model.showChargesProperty.link( function( value ) {
       updateChargesVisibilityOnSweater( value );
     } );
 

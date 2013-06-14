@@ -108,7 +108,7 @@ define( function( require ) {
     } );
 
     //show charges based on showCharges property
-    globalModel.link( 'showCharges', function updateChargesVisibilityOnBalloon( value ) {
+    globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {
       if ( value === 'diff' ) {
         startChargesNode.visible = false;
         addedChargesNode.visible = true;

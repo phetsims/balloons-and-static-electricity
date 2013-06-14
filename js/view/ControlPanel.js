@@ -56,7 +56,7 @@ define( function( require ) {
         model.showCharges = button.value;
       } );
     } );
-    model.link( 'showCharges', function updateChargeChoiceVisual( value ) {
+    model.showChargesProperty.link( function updateChargeChoiceVisual( value ) {
       choicesIcons.removeClass( "icon-circle" );
       showChargesChoice._$element.find( "button[value=" + value + "]" ).find( "i" ).addClass( "icon-circle" );
     } );

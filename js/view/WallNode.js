@@ -54,7 +54,7 @@ define( function( require ) {
     } );
 
     //show charges based on draw  property
-    model.link( 'showCharges', function switchWallChargesView( value ) {
+    model.showChargesProperty.link( function switchWallChargesView( value ) {
       chargesNode.visible = (value === 'all');
     } );
   }
