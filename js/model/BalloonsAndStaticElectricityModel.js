@@ -71,6 +71,7 @@ define( function( require ) {
       } );
 
       this.sweater.reset();
+      this.wall.reset();
       this.oldTime = Date.now();
     },
     //check if balloon outside world borders and return it to border if outside

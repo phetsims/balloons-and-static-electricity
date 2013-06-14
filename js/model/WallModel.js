@@ -20,7 +20,7 @@ define( function( require ) {
       numX: 3, //number of columns with charges
       numY: 18, //number of rows with charges
       isVisible: true,
-      x: 0
+      x: x
     } );
 
     this.dx = Math.round( 80 / this.numX + 2 );
