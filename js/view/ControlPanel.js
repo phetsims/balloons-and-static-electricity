@@ -15,7 +15,7 @@ define( function( require ) {
   var Button = require( 'SUN/Button' );
   var PushButton = require( 'SUN/PushButton' );
   var PanelNode = require( 'SUN/PanelNode' );
-  var VerticalCheckBoxGroup = require( 'SUN/VerticalCheckBoxGroup' );
+  var VerticalRadioButtonGroup = require( 'SUN/VerticalRadioButtonGroup' );
   var MultiLineTextWorkaround = require( 'SCENERY_PHET/MultiLineTextWorkaround' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
@@ -31,19 +31,11 @@ define( function( require ) {
     var removeWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
     var wallButton = new ToggleNode( addWallButton, removeWallButton, model.wall.isVisibleProperty );
 
-    //Wrap properties to use in check boxes to simulate radio buttons.
-    function createChargeProperty( type ) {
-      var p = new Property( model.showCharges === type );
-      model.showChargesProperty.link( function( showCharges ) { p.value = showCharges === type; } );
-      p.link( function( value ) {if ( value ) {model.showCharges = type;}} );
-      return p;
-    }
-
     //show charges radioGroup
-    var showChargesRadioButtonGroup = new VerticalCheckBoxGroup( [
-      { content: new Text( strings["BalloonApplet.ShowAllCharges"], {fontSize: fontSize} ), property: createChargeProperty( 'all' ) },
-      { content: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: createChargeProperty( 'none' ) },
-      { content: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: createChargeProperty( 'diff' ) }
+    var showChargesRadioButtonGroup = new VerticalRadioButtonGroup( [
+      { node: new Text( strings["BalloonApplet.ShowAllCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'all' },
+      { node: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'none' },
+      { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'diff' }
     ] );
     this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY - 2} ) );
 
