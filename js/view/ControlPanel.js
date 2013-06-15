@@ -7,6 +7,7 @@
 define( function( require ) {
   'use strict';
   var Node = require( 'SCENERY/nodes/Node' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -41,16 +42,21 @@ define( function( require ) {
     ] );
     this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY - 2} ) );
 
-    function createBalloonChoiceNode( bothVisible ) {
-      return new Node( {children: [
-        new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-green.png' ), {x: 50, visible: bothVisible} ),
-        new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) )
-      ], scale: 0.27} );
-    }
+    var scale = 0.18;
+    var yellowBalloonImage = new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) );
+    var twoBalloonIcon = new Node( {children: [
+      new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-green.png' ), {x: 160} ),
+      yellowBalloonImage
+    ], scale: scale} );
+
+    var oneBalloonIcon = new Node( {children: [
+      new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ), {x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
+      new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {fill: 'black', visible: false} )
+    ], scale: scale} );
 
     var showBalloonsChoice = new HBox( {children: [
-      new PushButton( createBalloonChoiceNode( false ), model.balloons[1].isVisibleProperty.not() ),
-      new PushButton( createBalloonChoiceNode( true ), model.balloons[1].isVisibleProperty )]} );
+      new PushButton( oneBalloonIcon, model.balloons[1].isVisibleProperty.not() ),
+      new PushButton( twoBalloonIcon, model.balloons[1].isVisibleProperty )]} );
 
     var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
       model.sweater.reset();
