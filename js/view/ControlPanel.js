@@ -25,7 +25,7 @@ define( function( require ) {
 
   function ControlPanel( strings, model, layoutBounds ) {
 
-    var fontSize = 18;
+    var fontSize = 15;
 
     // super constructor
     Node.call( this );
