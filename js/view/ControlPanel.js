@@ -28,7 +28,7 @@ define( function( require ) {
     var fontSize = 15;
 
     // super constructor
-    Node.call( this );
+    Node.call( this, {renderer: 'svg'} );
 
     var addWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.addWall"], {fontSize: 18} ), function() {model.wall.isVisible = true;} );
     var removeWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
