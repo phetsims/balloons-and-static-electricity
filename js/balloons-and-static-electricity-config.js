@@ -34,9 +34,7 @@ require.config( {
     imagesloaded: '../../phetcommon/contrib/jquery.imagesloaded-2.1.1',
 
     // local contrib dependencies
-    i18n: '../lib/i18n-2.0.2',
-    tpl: '../lib/tpl-0.2',
-    fastclick: '../lib/fastclick-0.5.6'
+    i18n: '../lib/i18n-2.0.2'
   },
 
   // Configure the dependencies and exports for older, traditional 'browser globals' scripts
@@ -44,9 +42,6 @@ require.config( {
   shim: {
     stats: {
       exports: 'Stats'
-    },
-    fastclick: {
-      exports: 'FastClick'
     }
   },
 

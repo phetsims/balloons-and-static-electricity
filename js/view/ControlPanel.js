@@ -43,7 +43,7 @@ define( function( require ) {
       new PushButton( new Text( 'one' ), model.balloons[1].isVisibleProperty.not() ),
       new PushButton( new Text( 'two' ), model.balloons[1].isVisibleProperty )]} );
 
-    var balloonsPanel = new VBox( {children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
+    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
       model.sweater.reset();
       model.balloons.forEach( function( entry ) {
         entry.reset( true );

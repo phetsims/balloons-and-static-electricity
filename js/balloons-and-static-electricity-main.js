@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 require( [
-  'fastclick',
   'PHETCOMMON/util/ImagesLoader',
   'SCENERY/nodes/Text',
   'SCENERY/nodes/Rectangle',
@@ -15,11 +14,8 @@ require( [
   'JOIST/Sim',
   'model/BalloonsAndStaticElectricityModel',
   'view/BalloonsAndStaticElectricityPlayArea'
-], function( FastClick, ImagesLoader, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
+], function( ImagesLoader, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
   'use strict';
-
-  //On iPad, prevent buttons from flickering 300ms after press.  See https://github.com/twitter/bootstrap/issues/3772
-  var FastClickInstance = new FastClick( document.body );
 
   var ImagesLoaderInstance = new ImagesLoader( function( loader ) {
 
