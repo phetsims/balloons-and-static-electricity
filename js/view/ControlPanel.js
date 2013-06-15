@@ -40,9 +40,9 @@ define( function( require ) {
       { node: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'none' },
       { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'diff' }
     ] );
-    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY - 2} ) );
+    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 85, bottom: layoutBounds.maxY - 2} ) );
 
-    var scale = 0.18;
+    var scale = 0.14;
     var yellowBalloonImage = new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) );
     var twoBalloonIcon = new Node( {children: [
       new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-green.png' ), {x: 160} ),
@@ -64,7 +64,7 @@ define( function( require ) {
         entry.reset( true );
       } );
     } )]} );
-    var controls = new HBox( {spacing: 10, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
+    var controls = new HBox( {spacing: 4, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 2;
