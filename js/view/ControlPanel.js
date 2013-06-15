@@ -58,12 +58,17 @@ define( function( require ) {
       new PushButton( oneBalloonIcon, model.balloons[1].isVisibleProperty.not() ),
       new PushButton( twoBalloonIcon, model.balloons[1].isVisibleProperty )]} );
 
-    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
+    var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {fontSize: fontSize} );
+
+    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( resetBalloonText, function() {
       model.sweater.reset();
       model.balloons.forEach( function( entry ) {
         entry.reset( true );
       } );
     } )]} );
+
+    //Link plural vs singular afterwards so the button layout will accommodate both
+    model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"]} );
     var controls = new HBox( {spacing: 4, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
