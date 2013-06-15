@@ -27,7 +27,7 @@ define( function( require ) {
 
     //TODO: Could use ToggleButton?
     var buttonText = new Text( 'Add Wall', {fontSize: fontSize} );
-    model.wall.isVisibleProperty.link( function( isVisible ) {buttonText.text = isVisible ? 'Remove Wall' : 'Add Wall'} );
+    model.wall.isVisibleProperty.link( function( isVisible ) {buttonText.text = isVisible ? 'Remove Wall' : 'Add Wall';} );
     var wallButton = new Button( buttonText, function() {model.wall.isVisible = !model.wall.isVisible;} );
 
     //Wrap properties to use in check boxes to simulate radio buttons.
