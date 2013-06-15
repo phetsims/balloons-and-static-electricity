@@ -13,14 +13,16 @@ require( [
   'Strings',
   'JOIST/Sim',
   'model/BalloonsAndStaticElectricityModel',
-  'view/BalloonsAndStaticElectricityPlayArea'
-], function( ImagesLoader, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea ) {
+  'view/BalloonsAndStaticElectricityPlayArea',
+  'JOIST/SimLauncher',
+  'balloons-and-static-electricity-images'
+], function( ImagesLoader, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityPlayArea, SimLauncher, balloonsAndStaticElectricityImages ) {
   'use strict';
 
-  var ImagesLoaderInstance = new ImagesLoader( function( loader ) {
+  SimLauncher.launch( balloonsAndStaticElectricityImages, function() {
 
     //Create and start the sim
-    var sim = new Sim( Strings['balloons.name'], [
+    new Sim( Strings['balloons.name'], [
       {
         name: Strings['balloons.name'],
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),

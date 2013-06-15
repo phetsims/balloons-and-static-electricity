@@ -10,6 +10,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
   var Button = require( 'SUN/Button' );
@@ -19,6 +20,7 @@ define( function( require ) {
   var MultiLineTextWorkaround = require( 'SCENERY_PHET/MultiLineTextWorkaround' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
+  var balloonsAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
 
   function ControlPanel( strings, model, layoutBounds ) {
 
@@ -39,9 +41,16 @@ define( function( require ) {
     ] );
     this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY - 2} ) );
 
+    function createBalloonChoiceNode( bothVisible ) {
+      return new Node( {children: [
+        new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-green.png' ), {x: 50, visible: bothVisible} ),
+        new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) )
+      ], scale: 0.27} );
+    }
+
     var showBalloonsChoice = new HBox( {children: [
-      new PushButton( new Text( 'one' ), model.balloons[1].isVisibleProperty.not() ),
-      new PushButton( new Text( 'two' ), model.balloons[1].isVisibleProperty )]} );
+      new PushButton( createBalloonChoiceNode( false ), model.balloons[1].isVisibleProperty.not() ),
+      new PushButton( createBalloonChoiceNode( true ), model.balloons[1].isVisibleProperty )]} );
 
     var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( new Text( strings["BalloonApplet.resetBalloon"], {fontSize: fontSize} ), function() {
       model.sweater.reset();
