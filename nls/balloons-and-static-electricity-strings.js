@@ -12,7 +12,7 @@ define( {
     "near.the.wall": "near the wall",
     "BalloonApplet.TwoBalloons": "Two Balloons",
     "BalloonApplet.ChargeDisplay": "Charge Display",
-    "BalloonApplet.removeWall": "Remove Wall",
+    "BalloonApplet.removeWall": "Remove\nWall",
     "BalloonApplet.addWall": "Add\nWall",
     "BalloonApplet.resetBalloon": "Reset Balloon",
     "BalloonApplet.resetBalloons": "Reset Balloons"

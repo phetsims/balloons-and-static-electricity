@@ -16,7 +16,9 @@ define( function( require ) {
   var PushButton = require( 'SUN/PushButton' );
   var PanelNode = require( 'SUN/PanelNode' );
   var VerticalCheckBoxGroup = require( 'SUN/VerticalCheckBoxGroup' );
+  var MultiLineTextWorkaround = require( 'SCENERY_PHET/MultiLineTextWorkaround' );
   var Property = require( 'AXON/Property' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
 
   function ControlPanel( strings, model, layoutBounds ) {
 
@@ -25,10 +27,9 @@ define( function( require ) {
     // super constructor
     Node.call( this );
 
-    //TODO: Could use ToggleButton?
-    var buttonText = new Text( 'Add Wall', {fontSize: fontSize} );
-    model.wall.isVisibleProperty.link( function( isVisible ) {buttonText.text = isVisible ? 'Remove Wall' : 'Add Wall';} );
-    var wallButton = new Button( buttonText, function() {model.wall.isVisible = !model.wall.isVisible;} );
+    var addWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.addWall"], {fontSize: 18} ), function() {model.wall.isVisible = true;} );
+    var removeWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
+    var wallButton = new ToggleNode( addWallButton, removeWallButton, model.wall.isVisibleProperty );
 
     //Wrap properties to use in check boxes to simulate radio buttons.
     function createChargeProperty( type ) {
@@ -44,15 +45,7 @@ define( function( require ) {
       { content: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: createChargeProperty( 'none' ) },
       { content: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: createChargeProperty( 'diff' ) }
     ] );
-    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY} ) );
-
-    //Wrap properties to use in check boxes to simulate radio buttons.
-    function createBalloonChoiceProperty( type ) {
-      var p = new Property( model.showCharges === type );
-      model.showChargesProperty.link( function( showCharges ) { p.value = showCharges === type; } );
-      p.link( function( value ) {if ( value ) {model.showCharges = type;}} );
-      return p;
-    }
+    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 10, bottom: layoutBounds.maxY - 2} ) );
 
     var showBalloonsChoice = new HBox( {children: [
       new PushButton( new Text( 'one' ), model.balloons[1].isVisibleProperty.not() ),
@@ -66,8 +59,8 @@ define( function( require ) {
     } )]} );
     var controls = new HBox( {spacing: 10, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
-    controls.right = layoutBounds.maxX;
-    controls.bottom = layoutBounds.maxY;
+    controls.right = layoutBounds.maxX - 2;
+    controls.bottom = layoutBounds.maxY - 2;
 
     this.addChild( controls );
   }
