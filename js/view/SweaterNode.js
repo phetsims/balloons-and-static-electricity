@@ -27,8 +27,9 @@ define( function( require ) {
 
     // add the Sweater image
     this.addChild( new Image( "images/sweater.svg", {
-      x: this.sweaterModel.x,
-      y: this.sweaterModel.y
+      x: this.sweaterModel.x + 5,
+      y: this.sweaterModel.y + 35,
+      scale: 0.7
     } ) );
 
     //draw plus and minus charges
