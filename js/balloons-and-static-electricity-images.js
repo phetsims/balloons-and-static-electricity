@@ -16,7 +16,7 @@ define( function() {
     imageNames: [
       "balloon-green.png",
       "balloon-yellow.png",
-      "sweater.svg",
+      "sweater.png",
       "wall.png"
     ]
   };
