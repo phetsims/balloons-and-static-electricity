@@ -15,7 +15,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var DragListener = require( 'view/DragListener' );
   var PlusChargeNode = require( 'view/PlusChargeNode' );
   var MinusChargeNode = require( 'view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -32,8 +32,17 @@ define( function( require ) {
     var startChargesNode = new Node();
     var addedChargesNode = new Node();
 
+    var property = {
+
+      //Set only to the legal positions in the frame
+      set: function( location ) { model.location = globalModel.checkBalloonRestrictions( location, model.width, model.height ); },
+
+      //Get the location of the model
+      get: function() { return model.location; }
+    };
+
     //When dragging, move the balloon
-    var balloonDragHandler = new SimpleDragHandler( {
+    var balloonDragHandler = new DragListener( property, {
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       start: function() {
