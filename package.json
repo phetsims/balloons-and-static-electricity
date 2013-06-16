@@ -1,6 +1,6 @@
 {
   "name": "balloons-and-static-electricity",
-  "version": "0.0.0-5",
+  "version": "0.0.0-6",
   "resourceDirs": "images",
   "include": "../phetcommon/css/phetcommon.css ../phetcommon/js/util/check-assertions.js ../phetcommon/js/util/query-parameters.js",
   "phetLibs": "balloons-and-static-electricity assert dot axon joist kite phet-core phetcommon scenery scenery-phet sun",
