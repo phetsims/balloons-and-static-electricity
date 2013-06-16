@@ -15,6 +15,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'view/MinusChargeNode' );
   var PointChargeModel = require( 'model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
+  var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
 
   function SweaterNode( model ) {
     var self = this;
@@ -26,7 +27,7 @@ define( function( require ) {
     this.sweaterModel = model.sweater;
 
     // add the Sweater image
-    this.addChild( new Image( "images/sweater.jpg", {
+    this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'sweater.jpg' ), {
       x: this.sweaterModel.x + 25,
       y: this.sweaterModel.y + 70,
       scale: 0.47

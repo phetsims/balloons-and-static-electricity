@@ -15,6 +15,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'view/MinusChargeNode' );
   var PointChargeModel = require( 'model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
+  var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
 
   function WallNode( model ) {
     var self = this;
@@ -27,7 +28,7 @@ define( function( require ) {
 
     // add the background
     // add the Balloon image
-    this.addChild( new Image( "images/wall.png" ) );
+    this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) ) );
 
     var chargesNode = new Node();
     chargesNode.translate( -wallModel.x, 0 );
