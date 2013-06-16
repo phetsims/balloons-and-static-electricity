@@ -68,7 +68,7 @@ define( function( require ) {
     } )]} );
 
     //Link plural vs singular afterwards so the button layout will accommodate both
-    model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"]} );
+    model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"];} );
     var controls = new HBox( {spacing: 4, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
