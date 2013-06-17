@@ -53,7 +53,7 @@ define( function( require ) {
     // Use svg for the shape and text
     Node.call( this, {pickable: false} );
 
-    this.translate( location.x, location.y );
+    this.translate( location.x - radius, location.y - radius );
 
     this.addChild( node );
   }
