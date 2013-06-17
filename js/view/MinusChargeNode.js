@@ -15,30 +15,38 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'model/PointChargeModel' );
+  
+  var radius = PointChargeModel.radius;
+  
+  var minusChargeNode = new Node( {
+    children: [
+      new Circle( radius, {
+        x: 0, y: 0,
+        fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
+          .addColorStop( 0, '#fff' )
+          .addColorStop( 0.5, '#6cd0f5' )
+          .addColorStop( 1, '#00a9e8' )
+      } ),
 
+      new Rectangle( 0, 0, 11, 2, {
+        fill: 'white',
+        centerX: 0,
+        centerY: 0
+      } )
+    ]
+  } );
+  
+  var subnode = minusChargeNode.toCanvasNodeSynchronous( -minusChargeNode.left, -minusChargeNode.top, minusChargeNode.width, minusChargeNode.height );
+  subnode.x = minusChargeNode.left;
+  subnode.y = minusChargeNode.top;
+  
   function MinusChargeNode( location ) {
 
     // super constructor
     // Use svg for the shape and text
-    Node.call( this, {renderer: 'svg'} );
+    Node.call( this, {pickable: false} );
 
-    var radius = PointChargeModel.radius;
-    this.translate( location.x, location.y );
-
-    // add the circle for the body of the charge
-    this.addChild( new Circle( radius, {
-      x: 0, y: 0,
-      fill: new RadialGradient( 1, -2, 0, 1, -2, 5 )
-        .addColorStop( 0, '#fff' )
-        .addColorStop( 0.5, '#6cd0f5' )
-        .addColorStop( 1, '#00a9e8  ' )
-    } ) );
-
-    this.addChild( new Rectangle( 0, 0, 11, 2, {
-      fill: 'white',
-      centerX: 0,
-      centerY: 0
-    } ) );
+    this.addChild( subnode );
   }
 
   inherit( Node, MinusChargeNode ); // prototype chaining

@@ -30,13 +30,15 @@ define( function( require ) {
     // add the Balloon image
     this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) ) );
 
-    var chargesNode = new Node();
-    chargesNode.translate( -wallModel.x, 0 );
+    var plusChargesNode = new Node();
+    var minusChargesNode = new Node( { layerSplit: true } );
+    plusChargesNode.translate( -wallModel.x, 0 );
+    minusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
     wallModel.plusCharges.forEach( function( entry ) {
       entry.view = new PlusChargeNode( entry.location );
-      chargesNode.addChild( entry.view );
+      plusChargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
@@ -45,10 +47,11 @@ define( function( require ) {
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
       } );
-      chargesNode.addChild( entry.view );
+      minusChargesNode.addChild( entry.view );
     } );
 
-    this.addChild( chargesNode );
+    this.addChild( plusChargesNode );
+    this.addChild( minusChargesNode );
 
     wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
       self.visible = isVisible;
@@ -56,7 +59,8 @@ define( function( require ) {
 
     //show charges based on draw  property
     model.showChargesProperty.link( function switchWallChargesView( value ) {
-      chargesNode.visible = (value === 'all');
+      plusChargesNode.visible = (value === 'all');
+      minusChargesNode.visible = (value === 'all');
     } );
   }
 

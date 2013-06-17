@@ -23,7 +23,8 @@ define( function( require ) {
     // super constructor
     Node.call( this, {pickable: false} );
 
-    this.chargesNode = new Node();
+    this.plusChargesNode = new Node();
+    this.minusChargesNode = new Node( { layerSplit: true } );
     this.sweaterModel = model.sweater;
 
     // add the Sweater image
@@ -36,25 +37,28 @@ define( function( require ) {
     //draw plus and minus charges
     this.sweaterModel.plusCharges.forEach( function( entry ) {
       entry.view = new PlusChargeNode( entry.location );
-      self.chargesNode.addChild( entry.view );
+      self.plusChargesNode.addChild( entry.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( entry ) {
       entry.view = new MinusChargeNode( entry.location );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location );
       } );
-      self.chargesNode.addChild( entry.view );
+      self.minusChargesNode.addChild( entry.view );
     } );
 
-    this.addChild( this.chargesNode );
+    this.addChild( this.plusChargesNode );
+    this.addChild( this.minusChargesNode );
 
     //show all, none or charge difference
     var updateChargesVisibilityOnSweater = function( value ) {
       if ( value === 'none' ) {
-        self.chargesNode.visible = false;
+        self.plusChargesNode.visible = false;
+        self.minusChargesNode.visible = false;
       }
       else {
-        self.chargesNode.visible = true;
+        self.plusChargesNode.visible = true;
+        self.minusChargesNode.visible = true;
         var showAll = (value === 'all');
         for ( var i = 0, l = self.sweaterModel.minusCharges.length; i < l; i++ ) {
           self.sweaterModel.plusCharges[i].view.visible = showAll || self.sweaterModel.minusCharges[i].moved;

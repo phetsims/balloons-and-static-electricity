@@ -24,7 +24,7 @@ define( function( require ) {
     var self = this;
 
     // super constructor
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this, { cursor: 'pointer', renderer: 'svg', rendererOptions: { cssTransform: true } } );
 
     this.x = x;
     this.y = y;
@@ -74,7 +74,7 @@ define( function( require ) {
       stroke: '#000000',
       lineWidth: 1
     } );
-    this.addChild( path );
+    // this.addChild( path );
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
