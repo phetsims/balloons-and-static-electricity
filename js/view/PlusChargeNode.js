@@ -43,9 +43,9 @@ define( function( require ) {
     ]
   } );
 
-  var image = new Image();
+  var node = new Node();
   plusChargeNode.toImage( function( im ) {
-    image.image = im;
+    node.children = [new Image( im )];
   } );
 
   function PlusChargeNode( location ) {
@@ -55,7 +55,7 @@ define( function( require ) {
 
     this.translate( location.x, location.y );
 
-    this.addChild( image );
+    this.addChild( node );
   }
 
   inherit( Node, PlusChargeNode ); // prototype chaining
