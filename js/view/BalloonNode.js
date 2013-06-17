@@ -66,15 +66,18 @@ define( function( require ) {
     this.addChild( new Image( imgsrc ) );
 
     //rope
+    //TODO: For performance, move this out of BalloonNode and into a separate layer ?
     var customShape = new Shape();
     customShape.moveTo( model.width / 2, model.height - 2 );
     customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
     var path = new Path( {
       shape: customShape,
       stroke: '#000000',
-      lineWidth: 1
+      lineWidth: 1,
+      pickable: false,
+      renderer: 'svg'
     } );
-    // this.addChild( path );
+    this.addChild( path );
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
