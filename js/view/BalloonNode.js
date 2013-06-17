@@ -114,11 +114,6 @@ define( function( require ) {
       path.shape = customShape;
     } );
 
-    //hides balloon
-    model.isVisibleProperty.link( function updateVisibility( booleanValue ) { //TODO: Rename isVisible => visible
-      self.visible = booleanValue;
-    } );
-
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {
       if ( value === 'diff' ) {

@@ -9,6 +9,7 @@ define( function( require ) {
   var BalloonNode = require( 'view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityPlayArea( model ) {
     TabView.call( this );
@@ -18,8 +19,16 @@ define( function( require ) {
     var wall = new WallNode( model );
     this.addChild( wall );
 
-    this.addChild( new BalloonNode( 500, 200, model.balloons[1], balloonAndStaticElectricityImages.getImage( "balloon-green.png" ), model ) );
-    this.addChild( new BalloonNode( 400, 200, model.balloons[0], balloonAndStaticElectricityImages.getImage( "balloon-yellow.png" ), model ) );
+    var balloonsNode = new Node();
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[1], balloonAndStaticElectricityImages.getImage( "balloon-green.png" ), model );
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[0], balloonAndStaticElectricityImages.getImage( "balloon-yellow.png" ), model );
+    this.addChild( balloonsNode );
+
+    //Only show the selected balloon(s)
+    //It would be faster to do this with setting visibility flags, but there is currently a problem the visibility flag is not respected on startup when using SVG renderer 
+    model.balloons[1].isVisibleProperty.link( function updateVisibility( isVisible ) {
+      balloonsNode.children = isVisible ? [greenBalloon, yellowBalloon] : [yellowBalloon];
+    } );
 
     this.addChild( new ControlPanel( Strings, model, this.layoutBounds ) );
 
