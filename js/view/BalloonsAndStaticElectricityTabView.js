@@ -11,7 +11,7 @@ define( function( require ) {
   var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
   var Node = require( 'SCENERY/nodes/Node' );
 
-  function BalloonsAndStaticElectricityPlayArea( model ) {
+  function BalloonsAndStaticElectricityTabView( model ) {
     TabView.call( this );
 
     this.addChild( new SweaterNode( model ) );
@@ -37,6 +37,6 @@ define( function( require ) {
     this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );
   }
 
-  inherit( TabView, BalloonsAndStaticElectricityPlayArea );
-  return BalloonsAndStaticElectricityPlayArea;
+  inherit( TabView, BalloonsAndStaticElectricityTabView );
+  return BalloonsAndStaticElectricityTabView;
 } );
