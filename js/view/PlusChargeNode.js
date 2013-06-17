@@ -15,9 +15,10 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'model/PointChargeModel' );
-  
+  var Image = require( 'SCENERY/nodes/Image' );
+
   var radius = PointChargeModel.radius;
-  
+
   var plusChargeNode = new Node( {
     children: [
       new Circle( radius, {
@@ -41,19 +42,20 @@ define( function( require ) {
       } )
     ]
   } );
-  
-  var subnode = plusChargeNode.toCanvasNodeSynchronous( -plusChargeNode.left, -plusChargeNode.top, plusChargeNode.width, plusChargeNode.height );
-  subnode.x = plusChargeNode.left;
-  subnode.y = plusChargeNode.top;
+
+  var image = new Image();
+  plusChargeNode.toImage( function( im ) {
+    image.image = im;
+  } );
 
   function PlusChargeNode( location ) {
     // super constructor
     // Use svg for the shape and text
     Node.call( this, {pickable: false} );
-    
+
     this.translate( location.x, location.y );
-    
-    this.addChild( subnode );
+
+    this.addChild( image );
   }
 
   inherit( Node, PlusChargeNode ); // prototype chaining
