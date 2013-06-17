@@ -29,8 +29,8 @@ define( function( require ) {
     this.x = x;
     this.y = y;
 
-    var startChargesNode = new Node();
-    var addedChargesNode = new Node();
+    var startChargesNode = new Node( { pickable: false } );
+    var addedChargesNode = new Node( { pickable: false } );
 
     var property = {
 

@@ -21,7 +21,7 @@ define( function( require ) {
     var self = this;
 
     // super constructor
-    Node.call( this, {pickable: false} );
+    Node.call( this, { pickable: false } );
 
     this.plusChargesNode = new Node();
     this.minusChargesNode = new Node( { layerSplit: true } );
