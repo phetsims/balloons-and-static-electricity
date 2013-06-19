@@ -243,7 +243,8 @@ define( function( require ) {
         isStopped = true;
         newLocation.x = rightBound - balloonModel.width;
       }
-      if ( newLocation.y + balloonModel.height > model.maxY ) {
+
+      if ( newLocation.y + balloonModel.height > model.bounds.maxY ) {
         isStopped = true;
         newLocation.y = model.bounds.maxY - balloonModel.height;
       }
