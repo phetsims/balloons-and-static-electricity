@@ -17,7 +17,7 @@ define( function( require ) {
     this.reset();
   }
 
-  PointChargeModel.radius = 9;
+  PointChargeModel.radius = 8;
 
   //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
   PointChargeModel.charge = -1.754;
