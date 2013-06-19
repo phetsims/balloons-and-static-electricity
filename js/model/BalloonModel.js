@@ -126,6 +126,8 @@ define( function( require ) {
     },
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
+      //array of instantaneous velocity of balloon last 5 ticks
+      //then we calculate average velocity and compares it with treshold velocity to check if we catch minus charge from sweater
       this.xVelocityArray = [0, 0, 0, 0, 0];
       this.xVelocityArray.counter = 0;
       this.yVelocityArray = [0, 0, 0, 0, 0];
@@ -161,6 +163,7 @@ define( function( require ) {
       var dx = (this.location.x - this.oldLocation.x) / dt,
         dy = (this.location.y - this.oldLocation.y) / dt;
 
+      //calculate average velocity
       this.xVelocityArray[this.xVelocityArray.counter++] = dx * dx;
       this.xVelocityArray.counter %= 5;
       this.yVelocityArray[this.yVelocityArray.counter++] = dy * dy;
