@@ -27,7 +27,6 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    // add the Balloon image
     this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) ) );
 
     var plusChargesNode = new Node();
