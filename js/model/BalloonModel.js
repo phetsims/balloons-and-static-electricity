@@ -21,6 +21,9 @@ define( function( require ) {
       height: 222,
       location: new Vector2( 0, 0 ),
       thresholdSpeed: 0.36,
+      //positions of caught minus charges on balloon
+      // each new minus charge appears at positions[charge-1] coords
+      //should be at left side of balloon and look like java model
       positions: [
         [14, 70],
         [18, 60],
@@ -81,6 +84,7 @@ define( function( require ) {
         [30, 85],
         [34, 77]
       ],
+      //positions of neutral atoms on balloon, don't change during simulation
       positionsOfStartCharges: [
         [44, 50],
         [88, 50],
