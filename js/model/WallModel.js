@@ -40,8 +40,7 @@ define( function( require ) {
         this.plusCharges.push( plusCharge );
 
         //minus
-        position = this.calculatePosition( i, k );
-        var minusCharge = new PointChargeModel( x + position[0], position[1] );
+        var minusCharge = new PointChargeModel( x + position[0]- PointChargeModel.radius, position[1]- PointChargeModel.radius );
         this.minusCharges.push( minusCharge );
       }
     }

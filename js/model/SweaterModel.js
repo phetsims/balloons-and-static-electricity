@@ -99,7 +99,7 @@ define( function( require ) {
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[0] + PointChargeModel.radius, entry[1] + y + PointChargeModel.radius );
+      var minusCharge = new PointChargeModel( entry[0], entry[1] + y );
       self.minusCharges.push( minusCharge );
     } );
     this.reset();
