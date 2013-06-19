@@ -16,6 +16,7 @@ define( function( require ) {
 
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     PropertySet.call( this, {
+      //positions of all charges on sweater
       positions: [
         [104, 114],
         [94, 140],
@@ -75,9 +76,10 @@ define( function( require ) {
         [295, 358],
         [290, 387]
       ],
-      isVisible: true,
+      //width and height of rectangle with sweater
       width: 315,
       height: 420,
+      //sweater charge difference
       charge: 0
     } );
 
@@ -85,7 +87,10 @@ define( function( require ) {
 
     this.x = x;
     this.y = y;
+    //location of center of the sweater
     this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
+
+    //arrays of plus and minus charges on the sweater, created from positions array above
     this.plusCharges = [];
     this.minusCharges = [];
 
@@ -104,7 +109,7 @@ define( function( require ) {
     //is balloon over minus charge on sweater?
     findIntersection: function( balloon ) {
       var self = this;
-
+      //active area of balloon rectangle at the left of image
       var x1 = balloon.location.x - 5,
         x2 = balloon.location.x + 50,
         y1 = balloon.location.y - 10,
@@ -114,6 +119,7 @@ define( function( require ) {
         if ( !entry.moved ) {
           if ( x1 < entry.location.x && entry.location.x < x2 ) {
             if ( y1 < entry.location.y && entry.location.y < y2 ) {
+              //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
               self.moveChargeTo( entry, balloon );
             }
           }
