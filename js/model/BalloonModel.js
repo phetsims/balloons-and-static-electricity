@@ -20,7 +20,10 @@ define( function( require ) {
       width: 134,
       height: 222,
       location: new Vector2( 0, 0 ),
-      thresholdSpeed: 0.36,
+
+      //Speed the balloon must be dragged at to pick up charges, see https://github.com/phetsims/balloons-and-static-electricity/issues/28
+      thresholdSpeed: 0.025,
+
       //positions of caught minus charges on balloon
       // each new minus charge appears at positions[charge-1] coords
       //should be at left side of balloon and look like java model
