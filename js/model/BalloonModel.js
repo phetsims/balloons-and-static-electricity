@@ -186,6 +186,14 @@ define( function( require ) {
       if ( speed >= this.thresholdSpeed ) {
         model.sweater.findIntersection( this );
       }
+    },
+    //force between sweater and balloon
+    getSweaterForce: function( sweaterModel ) {
+      var retValue = new Vector2();
+      if ( this.location.x > sweaterModel.center.x ) {
+        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.charge );
+      }
+      return retValue;
     }
   } );
 
@@ -202,14 +210,6 @@ define( function( require ) {
       return fa;
     };
 
-    //force between sweater and balloon
-    BalloonModel.getSweaterForce = function( sweaterModel, balloonModel ) {
-      var retValue = new Vector2();
-      if ( balloonModel.location.x > sweaterModel.center.x ) {
-        retValue = BalloonModel.getForce( sweaterModel.center, balloonModel.getCenter(), -BalloonModel.coeff * sweaterModel.charge * balloonModel.charge );
-      }
-      return retValue;
-    };
     //force between two balloons
     BalloonModel.getOtherForce = function( balloonModel ) {
       if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
@@ -232,7 +232,7 @@ define( function( require ) {
         }
       }
 
-      var force = BalloonModel.getSweaterForce( model.sweater, balloonModel );
+      var force = balloonModel.getSweaterForce( model.sweater );
       var other = BalloonModel.getOtherForce( balloonModel );
       return force.plus( other );
     };
@@ -247,7 +247,7 @@ define( function( require ) {
       var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
 
       //if new position inside sweater, don't move it
-      if ( newLocation.x + balloonModel.width < model.sweater.x + model.sweater.width) {
+      if ( newLocation.x + balloonModel.width < model.sweater.x + model.sweater.width ) {
         newVelocity = new Vector2();
         newLocation = balloonModel.location;
       }
