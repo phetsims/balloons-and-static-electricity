@@ -77,7 +77,7 @@ define( function( require ) {
         [290, 387]
       ],
       //width and height of rectangle with sweater
-      width: 315,
+      width: 330,
       height: 420,
       //sweater charge difference
       charge: 0

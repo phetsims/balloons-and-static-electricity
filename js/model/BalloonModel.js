@@ -139,7 +139,6 @@ define( function( require ) {
       this.charge = 0;
       this.velocity = new Vector2( 0, 0 );
       this.location = this.initialLocation.copy();
-      this.charge = 0;
 
       for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
         if ( this.minusCharges[i].view ) {
@@ -246,6 +245,14 @@ define( function( require ) {
       var force = BalloonModel.getTotalForce( model, balloonModel );
       var newVelocity = balloonModel.velocity.add( force.timesScalar( dt ) );
       var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
+
+      //if new position inside sweater, don't move it
+      if ( newLocation.x + balloonModel.width < model.sweater.x + model.sweater.width) {
+        newVelocity = new Vector2();
+        newLocation = balloonModel.location;
+      }
+
+
       if ( newLocation.x + balloonModel.width > rightBound ) {
         isStopped = true;
         newLocation.x = rightBound - balloonModel.width;
