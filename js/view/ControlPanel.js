@@ -18,7 +18,7 @@ define( function( require ) {
   var PushButton = require( 'SUN/PushButton' );
   var PanelNode = require( 'SUN/PanelNode' );
   var VerticalRadioButtonGroup = require( 'SUN/VerticalRadioButtonGroup' );
-  var MultiLineTextWorkaround = require( 'SCENERY_PHET/MultiLineTextWorkaround' );
+  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var balloonsAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
@@ -30,8 +30,8 @@ define( function( require ) {
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
-    var addWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.addWall"], {fontSize: 18} ), function() {model.wall.isVisible = true;} );
-    var removeWallButton = new Button( new MultiLineTextWorkaround( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
+    var addWallButton = new Button( new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} ), function() {model.wall.isVisible = true;} );
+    var removeWallButton = new Button( new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
     var wallButton = new ToggleNode( addWallButton, removeWallButton, model.wall.isVisibleProperty );
 
     //show charges radioGroup
