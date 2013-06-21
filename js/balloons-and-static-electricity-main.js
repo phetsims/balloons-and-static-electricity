@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 require( [
-  'PHETCOMMON/util/ImagesLoader',
   'SCENERY/nodes/Text',
   'SCENERY/nodes/Rectangle',
   'Strings',
@@ -16,7 +15,7 @@ require( [
   'view/BalloonsAndStaticElectricityTabView',
   'JOIST/SimLauncher',
   'balloons-and-static-electricity-images'
-], function( ImagesLoader, Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityTabView, SimLauncher, balloonsAndStaticElectricityImages ) {
+], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityTabView, SimLauncher, balloonsAndStaticElectricityImages ) {
   'use strict';
 
   SimLauncher.launch( balloonsAndStaticElectricityImages, function() {
