@@ -19,12 +19,14 @@ define( function( require ) {
 
   var radius = PointChargeModel.radius;
 
+  //Scale up before rasterization so it won't be too pixellated/fuzzy
+  var scale = 2;
   var plusChargeNode = new Node( {
     children: [
       new Circle( radius, {
         x: 0, y: 0,
         fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
-          .addColorStop( 0, '#fff' )
+          .addColorStop( 0, '#ffc5c5' )
           .addColorStop( 0.5, '#f47c81' )
           .addColorStop( 1, '#f00' )
       } ),
@@ -40,12 +42,13 @@ define( function( require ) {
         centerX: 0,
         centerY: 0
       } )
-    ]
-  } );
+    ], scale: scale} );
 
   var node = new Node();
   plusChargeNode.toImage( function( im ) {
-    node.children = [new Image( im )];
+
+    //Scale back down so the image will be the desired size
+    node.children = [new Image( im, {scale: 1.0 / scale} )];
   } );
 
   function PlusChargeNode( location ) {
