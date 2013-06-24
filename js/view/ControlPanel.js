@@ -30,9 +30,12 @@ define( function( require ) {
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
-    var addWallButton = new Button( new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} ), function() {model.wall.isVisible = true;} );
-    var removeWallButton = new Button( new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18} ), function() {model.wall.isVisible = false;} );
-    var wallButton = new ToggleNode( addWallButton, removeWallButton, model.wall.isVisibleProperty );
+    // Add/Remove wall button.  
+    var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} );
+    var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18, center: addWallText.center} );
+    var toggleNode = new ToggleNode( addWallText, removeWallText, model.wall.isVisibleProperty );
+    var wallButton = new PanelNode( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
+    wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
 
     //show charges radioGroup
     var showChargesRadioButtonGroup = new VerticalRadioButtonGroup( [
