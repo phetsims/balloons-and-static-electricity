@@ -40,7 +40,6 @@ define( function( require ) {
       { node: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'none' },
       { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'diff' }
     ] );
-    this.addChild( new PanelNode( showChargesRadioButtonGroup, {left: 85, bottom: layoutBounds.maxY - 2} ) );
 
     var scale = 0.14;
     var yellowBalloonImage = new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) );
@@ -69,11 +68,12 @@ define( function( require ) {
 
     //Link plural vs singular afterwards so the button layout will accommodate both
     model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"];} );
-    var controls = new HBox( {spacing: 4, align: 'bottom', children: [balloonsPanel, new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
+    var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 2;
 
+    this.addChild( new HBox( {spacing: 35, children: [new PanelNode( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 2} ) );
     this.addChild( controls );
   }
 
