@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'view/PlusChargeNode' );
   var MinusChargeNode = require( 'view/MinusChargeNode' );
@@ -27,7 +28,11 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) ) );
+    var wallImage = new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) );
+    this.addChild( wallImage );
+
+    //Show black to the side of the wall so it doesn't look like empty space over there
+    this.addChild( new Rectangle( wallImage.width, 0, 1000, 1000, {fill: 'black'} ) );
 
     var plusChargesNode = new Node();
     var minusChargesNode = new Node( { layerSplit: true } );
