@@ -31,7 +31,6 @@ require.config( {
 
     // contrib dependencies required by common directories
     stats: '../../phetcommon/contrib/stats-r11',
-    imagesloaded: '../../phetcommon/contrib/jquery.imagesloaded-2.1.1',
 
     // local contrib dependencies
     i18n: '../lib/i18n-2.0.2'
