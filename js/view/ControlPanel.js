@@ -59,8 +59,8 @@ define( function( require ) {
     ], scale: scale} );
 
     var showBalloonsChoice = new HBox( {children: [
-      new PushButton( oneBalloonIcon, model.balloons[1].isVisibleProperty.not() ),
-      new PushButton( twoBalloonIcon, model.balloons[1].isVisibleProperty )]} );
+      new PushButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
+      new PushButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
     var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {fontSize: fontSize} );
 
