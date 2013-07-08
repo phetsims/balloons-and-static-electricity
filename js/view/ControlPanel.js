@@ -19,7 +19,7 @@ define( function( require ) {
   var Button = require( 'SUN/Button' );
   var PushButton = require( 'SUN/PushButton' );
   var Panel = require( 'SUN/Panel' );
-  var VerticalRadioButtonGroup = require( 'SUN/VerticalRadioButtonGroup' );
+  var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
@@ -40,7 +40,7 @@ define( function( require ) {
     wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
 
     //show charges radioGroup
-    var showChargesRadioButtonGroup = new VerticalRadioButtonGroup( [
+    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
       { node: new Text( strings["BalloonApplet.ShowAllCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'all' },
       { node: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'none' },
       { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'diff' }
