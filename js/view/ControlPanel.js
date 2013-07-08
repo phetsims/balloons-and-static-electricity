@@ -17,7 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
   var Button = require( 'SUN/Button' );
-  var PushButton = require( 'SUN/PushButton' );
+  var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
@@ -59,8 +59,8 @@ define( function( require ) {
     ], scale: scale} );
 
     var showBalloonsChoice = new HBox( {children: [
-      new PushButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
-      new PushButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
+      new InOutRadioButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
+      new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
     var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {fontSize: fontSize} );
 
