@@ -35,7 +35,7 @@ define( function( require ) {
     // Add/Remove wall button.  
     var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} );
     var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18, center: addWallText.center} );
-    var toggleNode = new ToggleNode( addWallText, removeWallText, model.wall.isVisibleProperty );
+    var toggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButton = new Panel( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
     wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
 
