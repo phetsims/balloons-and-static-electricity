@@ -18,7 +18,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
   var Button = require( 'SUN/Button' );
   var PushButton = require( 'SUN/PushButton' );
-  var PanelNode = require( 'SUN/PanelNode' );
+  var Panel = require( 'SUN/Panel' );
   var VerticalRadioButtonGroup = require( 'SUN/VerticalRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
@@ -36,7 +36,7 @@ define( function( require ) {
     var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} );
     var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18, center: addWallText.center} );
     var toggleNode = new ToggleNode( addWallText, removeWallText, model.wall.isVisibleProperty );
-    var wallButton = new PanelNode( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
+    var wallButton = new Panel( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
     wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
 
     //show charges radioGroup
@@ -78,7 +78,7 @@ define( function( require ) {
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 2;
 
-    this.addChild( new HBox( {spacing: 35, children: [new PanelNode( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 2} ) );
+    this.addChild( new HBox( {spacing: 35, children: [new Panel( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 2} ) );
     this.addChild( controls );
   }
 
