@@ -27,8 +27,8 @@ define( function( require ) {
       new Circle( radius, {
         x: 0, y: 0,
         fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
-          .addColorStop( 0, '#ffc5c5' )
-          .addColorStop( 0.5, '#f47c81' )
+          .addColorStop( 0, '#f97d7d' )
+          .addColorStop( 0.5, '#ed4545' )
           .addColorStop( 1, '#f00' )
       } ),
 

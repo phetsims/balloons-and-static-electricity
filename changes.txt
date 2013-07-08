@@ -1,0 +1,1 @@
+Reduced the specular highlight on the charges
