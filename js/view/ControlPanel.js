@@ -16,7 +16,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
-  var Button = require( 'SUN/Button' );
+  var RectangleButton = require( 'SUN/RectangleButton' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
@@ -64,7 +64,7 @@ define( function( require ) {
 
     var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {fontSize: fontSize} );
 
-    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new Button( resetBalloonText, function() {
+    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new RectangleButton( resetBalloonText, function() {
       model.sweater.reset();
       model.balloons.forEach( function( entry ) {
         entry.reset( true );
