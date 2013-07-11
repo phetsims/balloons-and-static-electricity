@@ -28,14 +28,8 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    var wallImage = new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) );
+    var wallImage = this.wallImage = new Image( balloonAndStaticElectricityImages.getImage( 'wall.png' ) );
     this.addChild( wallImage );
-
-    //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.addChild( new Rectangle( wallImage.width, 0, 1000, 1000, {fill: 'black'} ) );
-
-    //Add black to the left of the screen to match the black region to the right of the wall
-    this.addChild( new Rectangle( -1000 - wallModel.x, 0, 1000, 1000, {fill: 'black'} ) );
 
     var plusChargesNode = new Node();
     var minusChargesNode = new Node( { layerSplit: true } );
