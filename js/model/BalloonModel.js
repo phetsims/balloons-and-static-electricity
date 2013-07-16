@@ -241,7 +241,7 @@ define( function( require ) {
     };
     //applying force and move balloon to new coords each step
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
-      var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wall.width;
+      var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
 
       var isStopped = false;
 
