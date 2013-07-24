@@ -1,2 +1,3 @@
+Added local copy of new ResetAllButton and associated images
 Added black to the left of the screen to match the black region to the right of the wall
 Reduced the specular highlight on the charges

@@ -16,6 +16,10 @@ define( function() {
     imageNames: [
       "balloon-green.png",
       "balloon-yellow.png",
+      'reset_button_disabled.png',
+      'reset_button_down.png',
+      'reset_button_over.png',
+      'reset_button_up.png',
       "sweater.jpg",
       "wall.png"
     ]

@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
+  var ResetAllButton = require( 'view/ResetAllButton' );
   var RectangleButton = require( 'SUN/RectangleButton' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
