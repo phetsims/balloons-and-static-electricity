@@ -76,9 +76,9 @@ define( function( require ) {
     var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( model.reset.bind( model ) ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
-    controls.bottom = layoutBounds.maxY - 2;
+    controls.bottom = layoutBounds.maxY - 4;
 
-    this.addChild( new HBox( {spacing: 35, children: [new Panel( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 2} ) );
+    this.addChild( new HBox( {spacing: 35, children: [new Panel( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 4} ) );
     this.addChild( controls );
   }
 
