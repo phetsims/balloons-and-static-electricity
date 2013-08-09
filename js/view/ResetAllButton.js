@@ -32,7 +32,6 @@ define( function( require ) {
   }
   inherit( Image, ResetAllImage, {
     containsPointSelf: function( point ) {
-      console.log( point );
       return point.distanceSquared( center ) <= radiusSquared;
     }
   } );
