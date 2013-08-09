@@ -8,7 +8,7 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var imageLoader = require( 'gravity-force-lab-images' );
+  var imageLoader = require( 'balloons-and-static-electricity-images' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PushButton = require( 'SUN/PushButton' );
