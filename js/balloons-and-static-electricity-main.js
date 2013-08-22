@@ -12,10 +12,10 @@ require( [
   'Strings',
   'JOIST/Sim',
   'model/BalloonsAndStaticElectricityModel',
-  'view/BalloonsAndStaticElectricityTabView',
+  'view/BalloonsAndStaticElectricityView',
   'JOIST/SimLauncher',
   'balloons-and-static-electricity-images'
-], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityTabView, SimLauncher, balloonsAndStaticElectricityImages ) {
+], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, balloonsAndStaticElectricityImages ) {
   'use strict';
 
   SimLauncher.launch( balloonsAndStaticElectricityImages, function() {
@@ -36,7 +36,7 @@ require( [
         name: Strings['balloons.name'],
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
         createModel: function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
-        createView: function( model ) {return new BalloonsAndStaticElectricityTabView( model );},
+        createView: function( model ) {return new BalloonsAndStaticElectricityView( model );},
         backgroundColor: "#9ddcf8"
       }
     ], simOptions ).start();

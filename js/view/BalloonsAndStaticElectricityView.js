@@ -5,7 +5,7 @@ define( function( require ) {
   var ControlPanel = require( 'view/ControlPanel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Strings = require( 'Strings' );
-  var TabView = require( 'JOIST/TabView' );
+  var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'view/SweaterNode' );
   var WallNode = require( 'view/WallNode' );
   var BalloonNode = require( 'view/BalloonNode' );
@@ -13,8 +13,8 @@ define( function( require ) {
   var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
   var Node = require( 'SCENERY/nodes/Node' );
 
-  function BalloonsAndStaticElectricityTabView( model ) {
-    TabView.call( this );
+  function BalloonsAndStaticElectricityView( model ) {
+    ScreenView.call( this );
 
     this.addChild( new SweaterNode( model ) );
 
@@ -46,6 +46,6 @@ define( function( require ) {
     this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );
   }
 
-  inherit( TabView, BalloonsAndStaticElectricityTabView );
-  return BalloonsAndStaticElectricityTabView;
+  inherit( ScreenView, BalloonsAndStaticElectricityView );
+  return BalloonsAndStaticElectricityView;
 } );

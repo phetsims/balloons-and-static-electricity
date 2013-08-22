@@ -75,7 +75,7 @@ define( function( require ) {
     model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"];} );
 
     //Add the controls at the right, with the reset all button and the wall button
-    //The reset all button is scaled to match the size in Beer's Law Lab (which is also scaled because of the TabView/ScreenView)
+    //The reset all button is scaled to match the size in Beer's Law Lab (which is also scaled because of the ScreenView.layoutBounds)
     //TODO: remove the reset all button scale factor after the ResetAllButton is specifying the correct size itself, after Phase I deploys
     var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( model.reset.bind( model ), {scale: 88 / 121} ), wallButton]} );
 
