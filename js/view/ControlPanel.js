@@ -24,26 +24,27 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var balloonsAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   function ControlPanel( strings, model, layoutBounds ) {
-
-    var fontSize = 15;
 
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
-    // Add/Remove wall button.  
-    var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {fontSize: 18} );
-    var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {fontSize: 18, center: addWallText.center} );
+    // Add/Remove wall button.
+    var addRemoveFont = new PhetFont( 18 );
+    var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {font: addRemoveFont} );
+    var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {font: addRemoveFont, center: addWallText.center} );
     var toggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButton = new Panel( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
     wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
 
     //show charges radioGroup
+    var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      { node: new Text( strings["BalloonApplet.ShowAllCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'all' },
-      { node: new Text( strings["BalloonApplet.ShowNoCharges"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'none' },
-      { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {fontSize: fontSize} ), property: model.showChargesProperty, value: 'diff' }
+      { node: new Text( strings["BalloonApplet.ShowAllCharges"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'all' },
+      { node: new Text( strings["BalloonApplet.ShowNoCharges"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'none' },
+      { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'diff' }
     ] );
 
     var scale = 0.14;
@@ -62,7 +63,7 @@ define( function( require ) {
       new InOutRadioButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
       new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
-    var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {fontSize: fontSize} );
+    var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {font: new PhetFont( 15 )} );
 
     var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new RectangleButton( resetBalloonText, function() {
       model.sweater.reset();
