@@ -15,9 +15,9 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
-  var DragListener = require( 'view/DragListener' );
-  var PlusChargeNode = require( 'view/PlusChargeNode' );
-  var MinusChargeNode = require( 'view/MinusChargeNode' );
+  var DragListener = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/DragListener' );
+  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/PlusChargeNode' );
+  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
@@ -70,7 +70,7 @@ define( function( require ) {
     var customShape = new Shape();
     customShape.moveTo( model.width / 2, model.height - 2 );
     customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-    var path = new Path( customShape,{
+    var path = new Path( customShape, {
       stroke: '#000000',
       lineWidth: 1,
       pickable: false,

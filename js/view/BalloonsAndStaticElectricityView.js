@@ -2,15 +2,15 @@
 
 define( function( require ) {
   "use strict";
-  var ControlPanel = require( 'view/ControlPanel' );
+  var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/ControlPanel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Strings = require( 'Strings' );
+  var Strings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/Strings' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var SweaterNode = require( 'view/SweaterNode' );
-  var WallNode = require( 'view/WallNode' );
-  var BalloonNode = require( 'view/BalloonNode' );
+  var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/SweaterNode' );
+  var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/WallNode' );
+  var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
+  var balloonAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {

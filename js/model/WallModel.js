@@ -8,9 +8,9 @@
 define( function( require ) {
   'use strict';
   var PropertySet = require( 'AXON/PropertySet' );
-  var BalloonModel = require( "model/BalloonModel" );
+  var BalloonModel = require( "BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonModel" );
   var Vector2 = require( 'DOT/Vector2' );
-  var PointChargeModel = require( 'model/PointChargeModel' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   function WallModel( x, width, height ) {
@@ -40,7 +40,7 @@ define( function( require ) {
         this.plusCharges.push( plusCharge );
 
         //minus
-        var minusCharge = new PointChargeModel( x + position[0]- PointChargeModel.radius, position[1]- PointChargeModel.radius );
+        var minusCharge = new PointChargeModel( x + position[0] - PointChargeModel.radius, position[1] - PointChargeModel.radius );
         this.minusCharges.push( minusCharge );
       }
     }

@@ -9,12 +9,12 @@
 require( [
   'SCENERY/nodes/Text',
   'SCENERY/nodes/Rectangle',
-  'Strings',
+  'BALLOONS_AND_STATIC_ELECTRICITY/Strings',
   'JOIST/Sim',
-  'model/BalloonsAndStaticElectricityModel',
-  'view/BalloonsAndStaticElectricityView',
+  'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel',
+  'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView',
   'JOIST/SimLauncher',
-  'balloons-and-static-electricity-images'
+  'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images'
 ], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, balloonsAndStaticElectricityImages ) {
   'use strict';
 

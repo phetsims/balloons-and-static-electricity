@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
   var PropertySet = require( 'AXON/PropertySet' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PointChargeModel = require( 'model/PointChargeModel' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   function BalloonModel( x, y, defaultVisibility ) {

@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButton = require( 'view/ResetAllButton' );
+  var ResetAllButton = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/ResetAllButton' );
   var RectangleButton = require( 'SUN/RectangleButton' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
@@ -23,7 +23,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
-  var balloonsAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
+  var balloonsAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   function ControlPanel( strings, model, layoutBounds ) {

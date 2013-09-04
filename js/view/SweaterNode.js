@@ -11,11 +11,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var PlusChargeNode = require( 'view/PlusChargeNode' );
-  var MinusChargeNode = require( 'view/MinusChargeNode' );
-  var PointChargeModel = require( 'model/PointChargeModel' );
+  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/PlusChargeNode' );
+  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
-  var balloonAndStaticElectricityImages = require( 'balloons-and-static-electricity-images' );
+  var balloonAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
 
   function SweaterNode( model ) {
     var self = this;

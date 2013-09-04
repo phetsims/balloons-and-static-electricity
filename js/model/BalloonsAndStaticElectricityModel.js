@@ -7,9 +7,9 @@
  */
 define( function( require ) {
   'use strict';
-  var BalloonModel = require( 'model/BalloonModel' );
-  var WallModel = require( 'model/WallModel' );
-  var SweaterModel = require( 'model/SweaterModel' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonModel' );
+  var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/WallModel' );
+  var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/SweaterModel' );
   var PropertySet = require( 'AXON/PropertySet' );
   var inherit = require( 'PHET_CORE/inherit' );
 

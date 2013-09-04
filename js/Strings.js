@@ -7,6 +7,6 @@
  */
 define( function( require ) {
   "use strict";
-  var Strings = require( "i18n!../nls/balloons-and-static-electricity-strings" );
+  var Strings = require( "i18n!BALLOONS_AND_STATIC_ELECTRICITY/../nls/balloons-and-static-electricity-strings" );
   return Strings;
 } );
