@@ -18,7 +18,9 @@ require( [
 ], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, balloonsAndStaticElectricityImages ) {
   'use strict';
 
-  SimLauncher.launch( balloonsAndStaticElectricityImages, function() {
+  SimLauncher.launch( [
+    {name: 'balloons-and-static-electricity', imageLoader: balloonsAndStaticElectricityImages}
+  ], function() {
 
     var simOptions = {
       credits: 'PhET Development Team -\n' +

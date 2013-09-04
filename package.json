@@ -5,9 +5,21 @@
   "phetLibs": "balloons-and-static-electricity assert dot axon joist kite phet-core phetcommon scenery scenery-phet sun",
   "preload": "lib/jquery-2.0.2.js lib/lodash-1.3.1.js lib/has.js lib/PxLoader.js lib/PxLoaderImage.js ../phetcommon/js/util/query-parameters.js ../phetcommon/js/util/check-assertions.js ../phetcommon/js/analytics/google-analytics.js",
   "license": "GPLv3",
+  "images": [
+    "../balloons-and-static-electricity/images/balloon-green.png",
+    "../balloons-and-static-electricity/images/balloon-yellow.png",
+    "../balloons-and-static-electricity/images/reset_button_disabled.png",
+    "../balloons-and-static-electricity/images/reset_button_down.png",
+    "../balloons-and-static-electricity/images/reset_button_over.png",
+    "../balloons-and-static-electricity/images/reset_button_up.png",
+    "../balloons-and-static-electricity/images/sweater.jpg",
+    "../balloons-and-static-electricity/images/wall.png"
+  ],
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-requirejs": "~0.3.2",
-    "grunt-contrib-jshint": "~0.5.4"
+    "grunt-contrib-jshint": "~0.5.4",
+    "uglify-js": "~2.4.0",
+    "requirejs": "~2.1.8"
   }
 }
