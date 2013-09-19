@@ -3,17 +3,17 @@
   "version": "1.0.0-rc2",
   "resourceDirs": "images",
   "phetLibs": "balloons-and-static-electricity assert dot axon joist kite phet-core phetcommon scenery scenery-phet sun",
-  "preload": "lib/jquery-2.0.2.js lib/lodash-1.3.1.js lib/has.js lib/PxLoader.js lib/PxLoaderImage.js ../phetcommon/js/util/query-parameters.js ../phetcommon/js/util/check-assertions.js ../phetcommon/js/analytics/google-analytics.js",
+  "preload": "../sherpa/jquery-2.0.3.js ../sherpa/lodash-2.0.0.js ../sherpa/has.js ../sherpa/PxLoader.js ../sherpa/PxLoaderImage.js ../phetcommon/js/util/query-parameters.js ../phetcommon/js/util/check-assertions.js ../phetcommon/js/analytics/google-analytics.js",
   "license": "GPLv3",
   "images": [
-    "../balloons-and-static-electricity/images/balloon-green.png",
-    "../balloons-and-static-electricity/images/balloon-yellow.png",
-    "../balloons-and-static-electricity/images/reset_button_disabled.png",
-    "../balloons-and-static-electricity/images/reset_button_down.png",
-    "../balloons-and-static-electricity/images/reset_button_over.png",
-    "../balloons-and-static-electricity/images/reset_button_up.png",
-    "../balloons-and-static-electricity/images/sweater.jpg",
-    "../balloons-and-static-electricity/images/wall.png"
+    "images/balloon-green.png",
+    "images/balloon-yellow.png",
+    "images/reset_button_disabled.png",
+    "images/reset_button_down.png",
+    "images/reset_button_over.png",
+    "images/reset_button_up.png",
+    "images/sweater.jpg",
+    "images/wall.png"
   ],
   "devDependencies": {
     "grunt": "~0.4.1",

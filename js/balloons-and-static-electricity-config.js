@@ -34,7 +34,7 @@ require.config( {
     stats: '../../phetcommon/contrib/stats-r11',
 
     // local contrib dependencies
-    i18n: '../lib/i18n-2.0.2'
+    i18n: '../../sherpa/i18n-2.0.4'
   },
 
   // Configure the dependencies and exports for older, traditional 'browser globals' scripts
