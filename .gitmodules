@@ -1,3 +1,0 @@
-[submodule "lib/phet/joist"]
-	path = lib/phet/joist
-	url = https://github.com/phetsims/joist.git
