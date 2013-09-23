@@ -10,7 +10,8 @@ define( function( require ) {
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/WallNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var balloonAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
+  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-green.png' );
+  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-yellow.png' );
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {
@@ -29,8 +30,8 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, {fill: 'black'} ) );
 
     var balloonsNode = new Node();
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[1], balloonAndStaticElectricityImages.getImage( "balloon-green.png" ), model );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[0], balloonAndStaticElectricityImages.getImage( "balloon-yellow.png" ), model );
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[1], balloonGreen, model );
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[0], balloonYellow, model );
     this.addChild( balloonsNode );
 
     //Only show the selected balloon(s)

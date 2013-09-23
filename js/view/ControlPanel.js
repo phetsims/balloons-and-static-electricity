@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButton = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/ResetAllButton' );
+  var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
   var RectangleButton = require( 'SUN/RectangleButton' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
@@ -23,7 +23,8 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
-  var balloonsAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
+  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-green.png' );
+  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-yellow.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   function ControlPanel( strings, model, layoutBounds ) {
@@ -48,14 +49,14 @@ define( function( require ) {
     ] );
 
     var scale = 0.14;
-    var yellowBalloonImage = new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ) );
+    var yellowBalloonImage = new Image( balloonYellow );
     var twoBalloonIcon = new Node( {children: [
-      new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-green.png' ), {x: 160} ),
+      new Image( balloonGreen, {x: 160} ),
       yellowBalloonImage
     ], scale: scale} );
 
     var oneBalloonIcon = new Node( {children: [
-      new Image( balloonsAndStaticElectricityImages.getImage( 'balloon-yellow.png' ), {x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
+      new Image( balloonYellow, {x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
       new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {fill: 'black', visible: false} )
     ], scale: scale} );
 

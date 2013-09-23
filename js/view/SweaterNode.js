@@ -15,7 +15,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
-  var balloonAndStaticElectricityImages = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images' );
+  var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/sweater.jpg' );
 
   function SweaterNode( model ) {
     var self = this;
@@ -28,7 +28,7 @@ define( function( require ) {
     this.sweaterModel = model.sweater;
 
     // add the Sweater image
-    this.addChild( new Image( balloonAndStaticElectricityImages.getImage( 'sweater.jpg' ), {
+    this.addChild( new Image( sweater, {
       x: this.sweaterModel.x + 25,
       y: this.sweaterModel.y + 70,
       scale: 0.47

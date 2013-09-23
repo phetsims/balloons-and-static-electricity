@@ -13,12 +13,11 @@ require( [
   'JOIST/Sim',
   'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel',
   'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView',
-  'JOIST/SimLauncher',
-  'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity-images'
-], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, balloonsAndStaticElectricityImages ) {
+  'JOIST/SimLauncher'
+], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher ) {
   'use strict';
 
-  SimLauncher.launch( balloonsAndStaticElectricityImages, function() {
+  SimLauncher.launch( {imageNames: []}, function() {
 
     var simOptions = {
       credits: 'PhET Development Team -\n' +
