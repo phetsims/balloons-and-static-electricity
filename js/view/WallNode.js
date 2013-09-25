@@ -65,7 +65,5 @@ define( function( require ) {
     } );
   }
 
-  inherit( Node, WallNode ); // prototype chaining
-
-  return WallNode;
+  return inherit( Node, WallNode );
 } );

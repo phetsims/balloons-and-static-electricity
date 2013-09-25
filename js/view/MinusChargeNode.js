@@ -59,7 +59,5 @@ define( function( require ) {
     this.addChild( node );
   }
 
-  inherit( Node, MinusChargeNode ); // prototype chaining
-
-  return MinusChargeNode;
+  return inherit( Node, MinusChargeNode );
 } );
