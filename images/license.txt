@@ -1,0 +1,5 @@
+balloon-green.png
+balloon-yellow.png
+sweater.jpg
+sweater.svg
+wall.png
