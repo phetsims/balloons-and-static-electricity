@@ -1,5 +1,5 @@
-balloon-green.png
-balloon-yellow.png
-sweater.jpg
-sweater.svg
-wall.png
+balloon-green.png author=PhET
+balloon-yellow.png author=PhET
+sweater.jpg author=PhET
+sweater.svg author=PhET
+wall.png author=PhET
