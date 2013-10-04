@@ -9,12 +9,12 @@
 require( [
   'SCENERY/nodes/Text',
   'SCENERY/nodes/Rectangle',
-  'BALLOONS_AND_STATIC_ELECTRICITY/Strings',
   'JOIST/Sim',
   'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel',
   'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView',
-  'JOIST/SimLauncher'
-], function( Text, Rectangle, Strings, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher ) {
+  'JOIST/SimLauncher',
+  'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons.name'
+], function( Text, Rectangle, Sim, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, title ) {
   'use strict';
 
   SimLauncher.launch( function() {
@@ -30,9 +30,9 @@ require( [
     };
 
     //Create and start the sim
-    new Sim( Strings['balloons.name'], [
+    new Sim( title, [
       {
-        name: Strings['balloons.name'],
+        name: title,
         icon: new Rectangle( 0, 0, 50, 50, {fill: 'blue'} ),
         createModel: function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
         createView: function( model ) {return new BalloonsAndStaticElectricityView( model );},

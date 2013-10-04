@@ -4,7 +4,6 @@ define( function( require ) {
   "use strict";
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/ControlPanel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Strings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/Strings' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/SweaterNode' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/WallNode' );
@@ -41,7 +40,7 @@ define( function( require ) {
       balloonsNode.children = isVisible ? [greenBalloon, yellowBalloon] : [yellowBalloon];
     } );
 
-    this.addChild( new ControlPanel( Strings, model, this.layoutBounds ) );
+    this.addChild( new ControlPanel( model, this.layoutBounds ) );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
     this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );

@@ -27,15 +27,23 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-yellow.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
-  function ControlPanel( strings, model, layoutBounds ) {
+  var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.addWall' );
+  var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.removeWall' );
+  var showAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
+  var showNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
+  var showChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
+  var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.resetBalloon' );
+  var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.resetBalloons' );
+
+  function ControlPanel( model, layoutBounds ) {
 
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
-    var addWallText = new MultiLineText( strings["BalloonApplet.addWall"], {font: addRemoveFont} );
-    var removeWallText = new MultiLineText( strings["BalloonApplet.removeWall"], {font: addRemoveFont, center: addWallText.center} );
+    var addWallText = new MultiLineText( addWallString, {font: addRemoveFont} );
+    var removeWallText = new MultiLineText( removeWallString, {font: addRemoveFont, center: addWallText.center} );
     var toggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButton = new Panel( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
     wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
@@ -43,9 +51,9 @@ define( function( require ) {
     //show charges radioGroup
     var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      { node: new Text( strings["BalloonApplet.ShowAllCharges"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'all' },
-      { node: new Text( strings["BalloonApplet.ShowNoCharges"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'none' },
-      { node: new Text( strings["BalloonApplet.ShowChargeDifferences"], {font: radioButtonFont} ), property: model.showChargesProperty, value: 'diff' }
+      { node: new Text( showAllChargesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'all' },
+      { node: new Text( showNoChargesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'none' },
+      { node: new Text( showChargeDifferencesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'diff' }
     ] );
 
     var scale = 0.14;
@@ -64,7 +72,7 @@ define( function( require ) {
       new InOutRadioButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
       new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
-    var resetBalloonText = new Text( strings["BalloonApplet.resetBalloons" ], {font: new PhetFont( 15 )} );
+    var resetBalloonText = new Text( resetBalloonsString, {font: new PhetFont( 15 )} );
 
     var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new RectangleButton( resetBalloonText, function() {
       model.sweater.reset();
@@ -74,7 +82,9 @@ define( function( require ) {
     } )]} );
 
     //Link plural vs singular afterwards so the button layout will accommodate both
-    model.balloons[1].isVisibleProperty.link( function( both ) {resetBalloonText.text = strings[both ? "BalloonApplet.resetBalloons" : "BalloonApplet.resetBalloon"];} );
+    model.balloons[1].isVisibleProperty.link( function( both ) {
+      resetBalloonText.text = both ? resetBalloonsString : resetBalloonString;
+    } );
 
     //Add the controls at the right, with the reset all button and the wall button
     //The reset all button is scaled to match the size in Beer's Law Lab (which is also scaled because of the ScreenView.layoutBounds)

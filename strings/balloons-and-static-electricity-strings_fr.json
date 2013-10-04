@@ -1,0 +1,20 @@
+{
+  "Common.HelpPanel.ShowHelp": "Aide",
+  "balloons.description": "Pourquoi un ballon se colle-t-il à votre pull? Frottez un ballon sur un pull, ensuite lâchez le ballon et il ira se coller au pull. Visualisez les charges électriques du pull, des ballons, et du mur.",
+  "BalloonApplet.Reset": "Réinitialisation",
+  "BalloonApplet.OnlyOneBalloon": "Seulement un ballon",
+  "near.the.wall": "près du mur",
+  "BalloonApplet.ChargeDisplay": "Visualisation des charges",
+  "BalloonApplet.ShowChargeDifferences": "Montrer les différences de charge",
+  "on.the.sweater": "sur le pull",
+  "rub.the.balloon": "Frotter le ballon",
+  "Common.HelpPanel.HideHelp": "Masquer l'aide",
+  "BalloonApplet.Wall": "Mur",
+  "Common.HelpPanel.MegaHelp": "Aide détaillée",
+  "BalloonApplet.TwoBalloons": "Deux ballons",
+  "balloons.name": "Ballons et Electricité statique",
+  "bring.the.balloon": "Approcher le ballon",
+  "BalloonApplet.IgnoreInitialBalloonCharge": "Ignorer la charge initiale du ballon",
+  "BalloonApplet.ShowNoCharges": "Ne pas montrer les charges",
+  "BalloonApplet.ShowAllCharges": "Montrer toutes les charges"
+}

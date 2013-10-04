@@ -1,0 +1,20 @@
+{
+  "Common.HelpPanel.ShowHelp": "Hilfe",
+  "balloons.description": "Warum bleibt ein Ballon an deinem Pullover hängen? Reibe einen Ballon an einem Pullover, lasse ihn los und er wird hinüberfliegen und am Pullover hängen bleiben. Betrachte die Ladungen am Pullover, am Ball und an der Wand.",
+  "BalloonApplet.Reset": "Alles neu",
+  "BalloonApplet.OnlyOneBalloon": "Nur EIN Ballon",
+  "near.the.wall": "zur Wand",
+  "BalloonApplet.ChargeDisplay": "Ladungsverteilung",
+  "BalloonApplet.ShowChargeDifferences": "Zeige Ladungsunterschiede",
+  "on.the.sweater": "am Pullover",
+  "rub.the.balloon": "Reibe den Ballon",
+  "Common.HelpPanel.HideHelp": "keine Hilfe",
+  "BalloonApplet.Wall": "Wand",
+  "Common.HelpPanel.MegaHelp": "Ausführliche Hilfe",
+  "BalloonApplet.TwoBalloons": "Zwei Ballons",
+  "balloons.name": "Ballons und statische Elektrizität",
+  "bring.the.balloon": "Bewege den Ballon",
+  "BalloonApplet.IgnoreInitialBalloonCharge": "Ballons ohne Anfangsladung",
+  "BalloonApplet.ShowAllCharges": "Zeige alle Ladungen",
+  "BalloonApplet.ShowNoCharges": "Zeige keine Ladungen"
+}

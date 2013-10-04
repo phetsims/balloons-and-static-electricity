@@ -45,7 +45,7 @@ define( function( require ) {
     this.dragListener = {
       // mouse/touch up
       up: function( event ) {
-        sceneryAssert && sceneryAssert( event.pointer === handler.pointer );
+        assert && assert( event.pointer === handler.pointer );
         if ( !event.pointer.isMouse || event.domEvent.button === handler.mouseButton ) {
           handler.endDrag( event );
         }
@@ -53,7 +53,7 @@ define( function( require ) {
 
       // touch cancel
       cancel: function( event ) {
-        sceneryAssert && sceneryAssert( event.pointer === handler.pointer );
+        assert && assert( event.pointer === handler.pointer );
         handler.endDrag( event );
 
         // since it's a cancel event, go back!
@@ -62,7 +62,7 @@ define( function( require ) {
 
       // mouse/touch move
       move: function( event ) {
-        sceneryAssert && sceneryAssert( event.pointer === handler.pointer );
+        assert && assert( event.pointer === handler.pointer );
 
         var point = dragListener.transform.inversePosition2( event.pointer.point );
         point = point.minus( dragListener.relativePoint );

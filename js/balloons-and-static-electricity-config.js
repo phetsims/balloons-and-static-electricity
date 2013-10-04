@@ -28,12 +28,14 @@ require.config( {
     ASSERT: '../../assert/js',
     SUN: '../../sun/js',
     JOIST: '../../joist/js',
-    BALLOONS_AND_STATIC_ELECTRICITY: '../../balloons-and-static-electricity/js',
+    BALLOONS_AND_STATIC_ELECTRICITY: '.',
 
     // local contrib dependencies
-    i18n: '../../sherpa/i18n-2.0.4',
     image: '../../chipper/requirejs-plugins/image',
-    audio: '../../chipper/requirejs-plugins/audio'
+    audio: '../../chipper/requirejs-plugins/audio',
+    string: '../../chipper/requirejs-plugins/string',
+
+    text: '../../sherpa/text'
   },
 
   // Configure the dependencies and exports for older, traditional 'browser globals' scripts
