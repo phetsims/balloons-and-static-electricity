@@ -15,7 +15,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
-  var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/sweater.jpg' );
+  var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
 
   function SweaterNode( model ) {
     var self = this;

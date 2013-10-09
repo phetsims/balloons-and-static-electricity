@@ -16,7 +16,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var Vector2 = require( 'DOT/Vector2' );
-  var wallImageDOM = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/wall.png' );
+  var wallImageDOM = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
   function WallNode( model ) {
     var self = this;

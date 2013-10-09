@@ -9,8 +9,8 @@ define( function( require ) {
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/WallNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-green.png' );
-  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-yellow.png' );
+  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
+  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {

@@ -23,8 +23,8 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
-  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-green.png' );
-  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/../images/balloon-yellow.png' );
+  var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
+  var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.addWall' );
