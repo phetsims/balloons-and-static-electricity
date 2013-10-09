@@ -27,13 +27,13 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
-  var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.addWall' );
-  var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.removeWall' );
+  var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
+  var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var showAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
   var showNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
   var showChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
-  var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.resetBalloon' );
-  var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.resetBalloons' );
+  var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
+  var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
 
   function ControlPanel( model, layoutBounds ) {
 

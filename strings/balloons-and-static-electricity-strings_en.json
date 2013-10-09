@@ -11,8 +11,8 @@
   "near.the.wall": "near the wall",
   "BalloonApplet.TwoBalloons": "Two Balloons",
   "BalloonApplet.ChargeDisplay": "Charge Display",
-  "BalloonApplet.removeWall": "Remove\nWall",
-  "BalloonApplet.addWall": "Add\nWall",
-  "BalloonApplet.resetBalloon": "Reset Balloon",
-  "BalloonApplet.resetBalloons": "Reset Balloons"
+  "removeWall": "Remove\nWall",
+  "addWall": "Add\nWall",
+  "resetBalloon": "Reset Balloon",
+  "resetBalloons": "Reset Balloons"
 }
