@@ -46,11 +46,5 @@ require.config( {
     }
   },
 
-  config: {
-    i18n: {
-      locale: 'en_us' // change this to test other locales
-    }
-  },
-
   urlArgs: new Date().getTime()  // cache buster to make browser reload all included scripts
 } );
