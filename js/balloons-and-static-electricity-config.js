@@ -38,13 +38,5 @@ require.config( {
     text: '../../sherpa/text'
   },
 
-  // Configure the dependencies and exports for older, traditional 'browser globals' scripts
-  // that do not use define() to declare the dependencies and set a module value.
-  shim: {
-    stats: {
-      exports: 'Stats'
-    }
-  },
-
   urlArgs: new Date().getTime()  // cache buster to make browser reload all included scripts
 } );
