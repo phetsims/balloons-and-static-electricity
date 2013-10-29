@@ -8,7 +8,7 @@ Why does a balloon stick to your sweater? Rub a balloon on a sweater, then let g
 By PhET Interactive Simulations
 http://phet.colorado.edu/
 
-NOTE: This repository has dependency on other repositories. Those repositories
+NOTE: This repository has dependencies on other repositories. Those repositories
 much be checked out as siblings to this repository in your directory structure.
 See package.json for a list of dependencies.
 
