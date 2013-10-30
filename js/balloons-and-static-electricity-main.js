@@ -6,17 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-require( [
-  'SCENERY/nodes/Text',
-  'SCENERY/nodes/Rectangle',
-  'JOIST/Sim',
-  'JOIST/Screen',
-  'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel',
-  'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView',
-  'JOIST/SimLauncher',
-  'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons.name'
-], function( Text, Rectangle, Sim, Screen, BalloonsAndStaticElectricityModel, BalloonsAndStaticElectricityView, SimLauncher, title ) {
+define( function( require ) {
   'use strict';
+
+  var
+    Text = require( 'SCENERY/nodes/Text' ),
+    Rectangle = require( 'SCENERY/nodes/Rectangle' ),
+    Sim = require( 'JOIST/Sim' ),
+    Screen = require( 'JOIST/Screen' ),
+    BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel' ),
+    BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView' ),
+    SimLauncher = require( 'JOIST/SimLauncher' ),
+    title = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons.name' );
 
   SimLauncher.launch( function() {
 
