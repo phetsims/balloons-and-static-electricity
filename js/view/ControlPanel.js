@@ -74,7 +74,7 @@ define( function( require ) {
 
     var resetBalloonText = new Text( resetBalloonsString, {font: new PhetFont( 15 )} );
     var resetBalloonButton = new RectangleButton( resetBalloonText, {
-      callback: function() {
+      listener: function() {
         model.sweater.reset();
         model.balloons.forEach( function( entry ) {
           entry.reset( true );
