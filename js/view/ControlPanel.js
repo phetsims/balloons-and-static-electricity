@@ -73,13 +73,16 @@ define( function( require ) {
       new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
     var resetBalloonText = new Text( resetBalloonsString, {font: new PhetFont( 15 )} );
+    var resetBalloonButton = new RectangleButton( resetBalloonText, {
+      callback: function() {
+        model.sweater.reset();
+        model.balloons.forEach( function( entry ) {
+          entry.reset( true );
+        } );
+      }
+    } );
 
-    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, new RectangleButton( resetBalloonText, function() {
-      model.sweater.reset();
-      model.balloons.forEach( function( entry ) {
-        entry.reset( true );
-      } );
-    } )]} );
+    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, resetBalloonButton]} );
 
     //Link plural vs singular afterwards so the button layout will accommodate both
     model.balloons[1].isVisibleProperty.link( function( both ) {
