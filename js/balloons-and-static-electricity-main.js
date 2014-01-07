@@ -10,8 +10,6 @@ define( function( require ) {
   'use strict';
 
   var
-    Text = require( 'SCENERY/nodes/Text' ),
-    Rectangle = require( 'SCENERY/nodes/Rectangle' ),
     Sim = require( 'JOIST/Sim' ),
     Screen = require( 'JOIST/Screen' ),
     BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel' ),

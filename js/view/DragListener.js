@@ -9,10 +9,6 @@
 define( function( require ) {
   'use strict';
 
-  var Matrix3 = require( 'DOT/Matrix3' );
-
-  var scenery = require( 'SCENERY/scenery' );
-
   /*
    * Allowed options: {
    *    allowTouchSnag: false // allow touch swipes across an object to pick it up,

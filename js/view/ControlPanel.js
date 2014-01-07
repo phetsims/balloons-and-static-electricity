@@ -21,7 +21,6 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var Property = require( 'AXON/Property' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
