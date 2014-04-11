@@ -17,6 +17,7 @@ require.config( {
   // relative to baseUrl unless the paths setting starts with a '/' or has a URL protocol.
   paths: {
     AXON: '../../axon/js',
+    BRAND: '../../brand/js',
 
     // common directories, uppercase names to identify them in require imports
     PHETCOMMON: '../../phetcommon/js',
