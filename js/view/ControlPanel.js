@@ -16,7 +16,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButtonDeprecated = require( 'SCENERY_PHET/ResetAllButtonDeprecated' );
-  var RectanglePushButton = require( 'SUN/RectanglePushButton' );
+  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
@@ -72,7 +72,7 @@ define( function( require ) {
       new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
     var resetBalloonText = new Text( resetBalloonsString, {font: new PhetFont( 15 )} );
-    var resetBalloonButton = new RectanglePushButton( resetBalloonText, {
+    var resetBalloonButton = new RectanglePushButtonDeprecated( resetBalloonText, {
       listener: function() {
         model.sweater.reset();
         model.balloons.forEach( function( entry ) {
