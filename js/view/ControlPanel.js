@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButtonDeprecated = require( 'SCENERY_PHET/ResetAllButtonDeprecated' );
+  var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
   var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
@@ -89,9 +89,7 @@ define( function( require ) {
     } );
 
     //Add the controls at the right, with the reset all button and the wall button
-    //The reset all button is scaled to match the size in Beer's Law Lab (which is also scaled because of the ScreenView.layoutBounds)
-    //TODO: remove the reset all button scale factor after the ResetAllButtonDeprecated is specifying the correct size itself, after Phase I deploys
-    var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButtonDeprecated( model.reset.bind( model ), {scale: 88 / 121} ), wallButton]} );
+    var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } ), wallButton]} );
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 4;
