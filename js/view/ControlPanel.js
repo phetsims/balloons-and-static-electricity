@@ -8,6 +8,8 @@
 
 define( function( require ) {
   'use strict';
+
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -16,7 +18,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/ResetAllButton' );
-  var RectanglePushButtonDeprecated = require( 'SUN/RectanglePushButtonDeprecated' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
@@ -26,6 +28,7 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
+  // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var showAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
@@ -39,6 +42,7 @@ define( function( require ) {
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
+    //TODO convert this to a button
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, {font: addRemoveFont} );
@@ -71,8 +75,15 @@ define( function( require ) {
       new InOutRadioButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
       new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
 
-    var resetBalloonText = new Text( resetBalloonsString, {font: new PhetFont( 15 )} );
-    var resetBalloonButton = new RectanglePushButtonDeprecated( resetBalloonText, {
+    // 'Reset Balloons' button
+    var resetBalloonToggleNode = new ToggleNode(
+      new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
+      new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
+      model.balloons[1].isVisibleProperty
+    );
+    var resetBalloonButton = new RectangularPushButton( {
+      content: resetBalloonToggleNode,
+      baseColor: 'rgb( 255, 200, 0 )',
       listener: function() {
         model.sweater.reset();
         model.balloons.forEach( function( entry ) {
@@ -82,11 +93,6 @@ define( function( require ) {
     } );
 
     var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, resetBalloonButton]} );
-
-    //Link plural vs singular afterwards so the button layout will accommodate both
-    model.balloons[1].isVisibleProperty.link( function( both ) {
-      resetBalloonText.text = both ? resetBalloonsString : resetBalloonString;
-    } );
 
     //Add the controls at the right, with the reset all button and the wall button
     var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } ), wallButton]} );
