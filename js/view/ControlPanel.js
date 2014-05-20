@@ -42,14 +42,17 @@ define( function( require ) {
     // super constructor
     Node.call( this, {renderer: 'svg'} );
 
-    //TODO convert this to a button
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, {font: addRemoveFont} );
     var removeWallText = new MultiLineText( removeWallString, {font: addRemoveFont, center: addWallText.center} );
-    var toggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
-    var wallButton = new Panel( toggleNode, {fill: '#eec227', cursor: 'pointer'} );
-    wallButton.addInputListener( {down: function() {model.wall.isVisible = !model.wall.isVisible;}} );
+    var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
+    var wallButton = new RectangularPushButton( {
+        content: wallToggleNode,
+        baseColor: 'rgb( 255, 200, 0 )',
+        listener: function() { model.wall.isVisible = !model.wall.isVisible; }
+      }
+    );
 
     //show charges radioGroup
     var radioButtonFont = new PhetFont( 15 );
