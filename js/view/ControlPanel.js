@@ -54,7 +54,7 @@ define( function( require ) {
       }
     );
 
-    //show charges radioGroup
+    // Radio buttons related to charges
     var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
       { node: new Text( showAllChargesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'all' },
@@ -62,6 +62,7 @@ define( function( require ) {
       { node: new Text( showChargeDifferencesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'diff' }
     ] );
 
+    // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
     var yellowBalloonImage = new Image( balloonYellow );
     var twoBalloonIcon = new Node( {children: [
