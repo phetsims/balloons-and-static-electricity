@@ -15,7 +15,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/PointChargeModel' );
   var Image = require( 'SCENERY/nodes/Image' );
-  require( 'SCENERY/Scene' ); //Force Scene to load before using Node.toImage
 
   var radius = PointChargeModel.radius;
 
