@@ -134,7 +134,7 @@ define( function( require ) {
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks
-      //then we calculate average velocity and compares it with treshold velocity to check if we catch minus charge from sweater
+      //then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
       this.xVelocityArray = [0, 0, 0, 0, 0];
       this.xVelocityArray.counter = 0;
       this.yVelocityArray = [0, 0, 0, 0, 0];
@@ -237,7 +237,16 @@ define( function( require ) {
 
       var force = balloonModel.getSweaterForce( model.sweater );
       var other = BalloonModel.getOtherForce( balloonModel );
-      return force.plus( other );
+      var sumOfForces = force.plus( other );
+
+      //Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
+      var mag = sumOfForces.magnitude();
+      var max = 1E-2;
+      if ( mag > max ) {
+        sumOfForces.normalize();
+        sumOfForces.multiplyScalar( max );
+      }
+      return sumOfForces;
     };
     //applying force and move balloon to new coords each step
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
