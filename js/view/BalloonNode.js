@@ -24,7 +24,7 @@ define( function( require ) {
     var self = this;
 
     // super constructor
-    Node.call( this, { cursor: 'pointer', renderer: 'svg', rendererOptions: { cssTransform: true } } );
+    Node.call( this, { cursor: 'pointer'} );
 
     this.x = x;
     this.y = y;
@@ -73,8 +73,7 @@ define( function( require ) {
     var path = new Path( customShape, {
       stroke: '#000000',
       lineWidth: 1,
-      pickable: false,
-      renderer: 'svg'
+      pickable: false
     } );
     this.addChild( path );
 
