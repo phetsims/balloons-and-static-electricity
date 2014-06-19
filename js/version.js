@@ -6,5 +6,5 @@
  */
 define( function( require ) {
   'use strict';
-  return function() { return "1.1.0-rc.1"; };
+  return function() { return "1.1.0-rc.2"; };
 } );
