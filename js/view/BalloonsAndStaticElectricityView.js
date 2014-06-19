@@ -14,7 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {
-    ScreenView.call( this );
+    ScreenView.call( this, {renderer: 'svg'} );
 
     this.addChild( new SweaterNode( model ) );
 

@@ -40,7 +40,7 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
-    Node.call( this, {renderer: 'svg'} );
+    Node.call( this );
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
