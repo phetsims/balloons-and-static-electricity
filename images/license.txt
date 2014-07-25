@@ -1,5 +1,5 @@
-balloon-green.png author=PhET
-balloon-yellow.png author=PhET
+balloon-green.png author=PhET (Noah or Sharon)
+balloon-yellow.png author=PhET (Noah or Sharon)
 sweater.jpg author=PhET
 sweater.svg author=PhET
 wall.png author=PhET
