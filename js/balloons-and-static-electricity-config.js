@@ -26,7 +26,6 @@ require.config( {
     KITE: '../../kite/js',
     PHET_CORE: '../../phet-core/js',
     DOT: '../../dot/js',
-    ASSERT: '../../assert/js',
     SUN: '../../sun/js',
     JOIST: '../../joist/js',
     BALLOONS_AND_STATIC_ELECTRICITY: '.',
