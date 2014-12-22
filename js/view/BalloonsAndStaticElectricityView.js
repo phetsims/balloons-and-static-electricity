@@ -2,6 +2,9 @@
 
 define( function( require ) {
   "use strict";
+
+  // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/ControlPanel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -14,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: 'svg', layoutBounds: new Bounds2(  0, 0, 768, 504 ) } );
 
     this.addChild( new SweaterNode( model ) );
 
