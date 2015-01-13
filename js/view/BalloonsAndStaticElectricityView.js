@@ -17,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {
-    ScreenView.call( this, {renderer: 'svg', layoutBounds: new Bounds2(  0, 0, 768, 504 ) } );
+    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     this.addChild( new SweaterNode( model ) );
 
@@ -25,28 +25,28 @@ define( function( require ) {
     this.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.addChild( new Rectangle( model.wall.x + wall.wallImage.width, 0, 1000, 1000, {fill: 'black'} ) );
+    this.addChild( new Rectangle( model.wall.x + wall.wallImage.width, 0, 1000, 1000, { fill: 'black' } ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallImage.width;
-    this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, {fill: 'black'} ) );
+    this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node();
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[1], balloonGreen, model );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[0], balloonYellow, model );
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model );
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model );
     this.addChild( balloonsNode );
 
     //Only show the selected balloon(s)
     //It would be faster to do this with setting visibility flags, but there is currently a problem the visibility flag is not respected on startup when using SVG renderer
     //TODO: When scenery fixes the initial SVG visibility problem, switch to using visible flags
-    model.balloons[1].isVisibleProperty.link( function updateVisibility( isVisible ) {
-      balloonsNode.children = isVisible ? [greenBalloon, yellowBalloon] : [yellowBalloon];
+    model.balloons[ 1 ].isVisibleProperty.link( function updateVisibility( isVisible ) {
+      balloonsNode.children = isVisible ? [ greenBalloon, yellowBalloon ] : [ yellowBalloon ];
     } );
 
     this.addChild( new ControlPanel( model, this.layoutBounds ) );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false} ) );
+    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, { fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false } ) );
   }
 
   inherit( ScreenView, BalloonsAndStaticElectricityView );

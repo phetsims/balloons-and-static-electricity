@@ -42,18 +42,19 @@ define( function( require ) {
         centerX: 0,
         centerY: 0
       } )
-    ], scale: scale} );
+    ], scale: scale
+  } );
 
   var node = new Node();
   plusChargeNode.toImage( function( im ) {
     //Scale back down so the image will be the desired size
-    node.children = [new Image( im, {scale: 1.0 / scale} )];
+    node.children = [ new Image( im, { scale: 1.0 / scale } ) ];
   } );
 
   function PlusChargeNode( location ) {
     // super constructor
     // Use svg for the shape and text
-    Node.call( this, {pickable: false} );
+    Node.call( this, { pickable: false } );
 
     this.translate( location.x - radius, location.y - radius );
 

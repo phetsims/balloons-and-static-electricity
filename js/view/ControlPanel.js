@@ -44,8 +44,8 @@ define( function( require ) {
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
-    var addWallText = new MultiLineText( addWallString, {font: addRemoveFont} );
-    var removeWallText = new MultiLineText( removeWallString, {font: addRemoveFont, center: addWallText.center} );
+    var addWallText = new MultiLineText( addWallString, { font: addRemoveFont } );
+    var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButton = new RectangularPushButton( {
         content: wallToggleNode,
@@ -57,33 +57,39 @@ define( function( require ) {
     // Radio buttons related to charges
     var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      { node: new Text( showAllChargesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'all' },
-      { node: new Text( showNoChargesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'none' },
-      { node: new Text( showChargeDifferencesString, {font: radioButtonFont} ), property: model.showChargesProperty, value: 'diff' }
+      { node: new Text( showAllChargesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'all' },
+      { node: new Text( showNoChargesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'none' },
+      { node: new Text( showChargeDifferencesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'diff' }
     ] );
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
     var yellowBalloonImage = new Image( balloonYellow );
-    var twoBalloonIcon = new Node( {children: [
-      new Image( balloonGreen, {x: 160} ),
-      yellowBalloonImage
-    ], scale: scale} );
+    var twoBalloonIcon = new Node( {
+      children: [
+        new Image( balloonGreen, { x: 160 } ),
+        yellowBalloonImage
+      ], scale: scale
+    } );
 
-    var oneBalloonIcon = new Node( {children: [
-      new Image( balloonYellow, {x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
-      new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {fill: 'black', visible: false} )
-    ], scale: scale} );
+    var oneBalloonIcon = new Node( {
+      children: [
+        new Image( balloonYellow, { x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
+        new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, { fill: 'black', visible: false } )
+      ], scale: scale
+    } );
 
-    var showBalloonsChoice = new HBox( {children: [
-      new InOutRadioButton( model.balloons[1].isVisibleProperty, false, oneBalloonIcon ),
-      new InOutRadioButton( model.balloons[1].isVisibleProperty, true, twoBalloonIcon )]} );
+    var showBalloonsChoice = new HBox( {
+      children: [
+        new InOutRadioButton( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon ),
+        new InOutRadioButton( model.balloons[ 1 ].isVisibleProperty, true, twoBalloonIcon ) ]
+    } );
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
       new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
       new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
-      model.balloons[1].isVisibleProperty
+      model.balloons[ 1 ].isVisibleProperty
     );
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
@@ -96,15 +102,25 @@ define( function( require ) {
       }
     } );
 
-    var balloonsPanel = new VBox( {spacing: 2, children: [showBalloonsChoice, resetBalloonButton]} );
+    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButton ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
-    var controls = new HBox( {spacing: 16, align: 'bottom', children: [new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } ), wallButton]} );
+    var controls = new HBox( {
+      spacing: 16,
+      align: 'bottom',
+      children: [ new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } ), wallButton ]
+    } );
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 4;
 
-    this.addChild( new HBox( {spacing: 35, children: [new Panel( showChargesRadioButtonGroup ), balloonsPanel], align: 'bottom', left: 70, bottom: layoutBounds.maxY - 4} ) );
+    this.addChild( new HBox( {
+      spacing: 35,
+      children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
+      align: 'bottom',
+      left: 70,
+      bottom: layoutBounds.maxY - 4
+    } ) );
     this.addChild( controls );
   }
 

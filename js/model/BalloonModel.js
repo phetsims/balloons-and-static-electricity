@@ -28,71 +28,71 @@ define( function( require ) {
       // each new minus charge appears at positions[charge-1] coords
       //should be at left side of balloon and look like java model
       positions: [
-        [14, 70],
-        [18, 60],
-        [14, 90],
-        [24, 130],
-        [22, 120],
-        [14, 79],
-        [22, 120],
-        [18, 108],
-        [19, 50],
-        [44, 150],
-        [16, 100],
-        [20, 80],
-        [50, 160],
-        [34, 140],
-        [50, 20],
-        [30, 30],
-        [22, 72],
-        [24, 105],
-        [20, 110],
-        [40, 150],
-        [26, 110],
-        [30, 115],
-        [24, 87],
-        [24, 60],
-        [24, 40],
-        [38, 24],
-        [30, 80],
-        [30, 50],
-        [34, 82],
-        [32, 130],
-        [30, 108],
-        [30, 50],
-        [40, 94],
-        [30, 100],
-        [35, 90],
-        [24, 95],
-        [34, 100],
-        [35, 40],
-        [30, 60],
-        [32, 72],
-        [30, 105],
-        [34, 140],
-        [30, 120],
-        [30, 130],
-        [30, 85],
-        [34, 77],
-        [35, 90],
-        [40, 85],
-        [34, 90],
-        [35, 50],
-        [46, 34],
-        [32, 72],
-        [30, 105],
-        [34, 140],
-        [34, 120],
-        [30, 60],
-        [30, 85],
-        [34, 77]
+        [ 14, 70 ],
+        [ 18, 60 ],
+        [ 14, 90 ],
+        [ 24, 130 ],
+        [ 22, 120 ],
+        [ 14, 79 ],
+        [ 22, 120 ],
+        [ 18, 108 ],
+        [ 19, 50 ],
+        [ 44, 150 ],
+        [ 16, 100 ],
+        [ 20, 80 ],
+        [ 50, 160 ],
+        [ 34, 140 ],
+        [ 50, 20 ],
+        [ 30, 30 ],
+        [ 22, 72 ],
+        [ 24, 105 ],
+        [ 20, 110 ],
+        [ 40, 150 ],
+        [ 26, 110 ],
+        [ 30, 115 ],
+        [ 24, 87 ],
+        [ 24, 60 ],
+        [ 24, 40 ],
+        [ 38, 24 ],
+        [ 30, 80 ],
+        [ 30, 50 ],
+        [ 34, 82 ],
+        [ 32, 130 ],
+        [ 30, 108 ],
+        [ 30, 50 ],
+        [ 40, 94 ],
+        [ 30, 100 ],
+        [ 35, 90 ],
+        [ 24, 95 ],
+        [ 34, 100 ],
+        [ 35, 40 ],
+        [ 30, 60 ],
+        [ 32, 72 ],
+        [ 30, 105 ],
+        [ 34, 140 ],
+        [ 30, 120 ],
+        [ 30, 130 ],
+        [ 30, 85 ],
+        [ 34, 77 ],
+        [ 35, 90 ],
+        [ 40, 85 ],
+        [ 34, 90 ],
+        [ 35, 50 ],
+        [ 46, 34 ],
+        [ 32, 72 ],
+        [ 30, 105 ],
+        [ 34, 140 ],
+        [ 34, 120 ],
+        [ 30, 60 ],
+        [ 30, 85 ],
+        [ 34, 77 ]
       ],
       //positions of neutral atoms on balloon, don't change during simulation
       positionsOfStartCharges: [
-        [44, 50],
-        [88, 50],
-        [44, 140],
-        [88, 140]
+        [ 44, 50 ],
+        [ 88, 50 ],
+        [ 44, 140 ],
+        [ 88, 140 ]
       ]
     } );
 
@@ -107,18 +107,18 @@ define( function( require ) {
     //neutral pair of charges
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
-      var plusCharge = new PointChargeModel( entry[0], entry[1] );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[0] + PointChargeModel.radius, entry[1] + PointChargeModel.radius );
+      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.radius, entry[ 1 ] + PointChargeModel.radius );
       self.minusCharges.push( minusCharge );
     } );
 
     //charges that we can get from sweater
     this.positions.forEach( function( entry ) {
       //minus
-      var minusCharge = new PointChargeModel( entry[0], entry[1] );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       self.minusCharges.push( minusCharge );
     } );
 
@@ -135,17 +135,17 @@ define( function( require ) {
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks
       //then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
-      this.xVelocityArray = [0, 0, 0, 0, 0];
+      this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.xVelocityArray.counter = 0;
-      this.yVelocityArray = [0, 0, 0, 0, 0];
+      this.yVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.yVelocityArray.counter = 0;
       this.charge = 0;
       this.velocity = new Vector2( 0, 0 );
       this.location = this.initialLocation.copy();
 
       for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
-        if ( this.minusCharges[i].view ) {
-          this.minusCharges[i].view.visible = false;
+        if ( this.minusCharges[ i ].view ) {
+          this.minusCharges[ i ].view.visible = false;
         }
       }
       if ( !notResetVisibility ) {
@@ -170,16 +170,16 @@ define( function( require ) {
         dy = (this.location.y - this.oldLocation.y) / dt;
 
       //calculate average velocity
-      this.xVelocityArray[this.xVelocityArray.counter++] = dx * dx;
+      this.xVelocityArray[ this.xVelocityArray.counter++ ] = dx * dx;
       this.xVelocityArray.counter %= 5;
-      this.yVelocityArray[this.yVelocityArray.counter++] = dy * dy;
+      this.yVelocityArray[ this.yVelocityArray.counter++ ] = dy * dy;
       this.yVelocityArray.counter %= 5;
 
       var averageX = 0,
         averageY = 0;
       for ( var i = 0; i < 5; i++ ) {
-        averageX += this.xVelocityArray[0];
-        averageY += this.yVelocityArray[0];
+        averageX += this.xVelocityArray[ 0 ];
+        averageY += this.yVelocityArray[ 0 ];
       }
       averageX /= 5;
       averageY /= 5;

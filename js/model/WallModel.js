@@ -35,12 +35,12 @@ define( function( require ) {
       for ( var k = 0; k < this.numY; k++ ) {
         //plus
         var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[0], position[1] );
+        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ] );
 
         this.plusCharges.push( plusCharge );
 
         //minus
-        var minusCharge = new PointChargeModel( x + position[0] - PointChargeModel.radius, position[1] - PointChargeModel.radius );
+        var minusCharge = new PointChargeModel( x + position[ 0 ] - PointChargeModel.radius, position[ 1 ] - PointChargeModel.radius );
         this.minusCharges.push( minusCharge );
       }
     }
@@ -57,11 +57,11 @@ define( function( require ) {
         var ch = entry;
         var dv1 = new Vector2( 0, 0 );
         var dv2 = new Vector2( 0, 0 );
-        if ( model.balloons[0].isVisible ) {
-          dv1 = BalloonModel.getForce( ch.defaultLocation, model.balloons[0].getCenter(), k * PointChargeModel.charge * model.balloons[0].charge, 2.35 );
+        if ( model.balloons[ 0 ].isVisible ) {
+          dv1 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 0 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 0 ].charge, 2.35 );
         }
-        if ( model.balloons[1].isVisible ) {
-          dv2 = BalloonModel.getForce( ch.defaultLocation, model.balloons[1].getCenter(), k * PointChargeModel.charge * model.balloons[1].charge, 2.35 );
+        if ( model.balloons[ 1 ].isVisible ) {
+          dv2 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 1 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 1 ].charge, 2.35 );
         }
         entry.location = new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y );
       } );
@@ -81,7 +81,7 @@ define( function( require ) {
     //function to place charges on wall's grid
     calculatePosition: function( i, k ) {
       var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-      return [i * this.dx + PointChargeModel.radius + 1, k * this.dy + y0];
+      return [ i * this.dx + PointChargeModel.radius + 1, k * this.dy + y0 ];
     }
   } );
   return WallModel;
