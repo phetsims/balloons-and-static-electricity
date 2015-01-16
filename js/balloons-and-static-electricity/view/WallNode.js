@@ -29,8 +29,8 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    var wallImage = this.wallImage = new Image( wallImage );
-    this.addChild( wallImage );
+    this.wallNode = new Image( wallImage );
+    this.addChild( this.wallNode );
 
     var plusChargesNode = new Node();
     var minusChargesNode = new Node( { layerSplit: true } );

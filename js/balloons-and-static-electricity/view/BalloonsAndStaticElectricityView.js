@@ -27,10 +27,10 @@ define( function( require ) {
     this.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.addChild( new Rectangle( model.wall.x + wall.wallImage.width, 0, 1000, 1000, { fill: 'black' } ) );
+    this.addChild( new Rectangle( model.wall.x + wall.wallNode.width, 0, 1000, 1000, { fill: 'black' } ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
-    var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallImage.width;
+    var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node();
