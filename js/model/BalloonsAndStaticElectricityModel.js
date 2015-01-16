@@ -7,6 +7,8 @@
  */
 define( function( require ) {
   'use strict';
+
+  // modules
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonModel' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/SweaterModel' );

@@ -3,18 +3,17 @@
 /**
  * Scenery display object (scene graph node) for the Balloon of the model.
  *
- *
  @author Vasily Shakhov (Mlearner)
  */
-
 define( function( require ) {
   'use strict';
+
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-
   var DragListener = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/DragListener' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );

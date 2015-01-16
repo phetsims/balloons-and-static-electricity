@@ -5,14 +5,17 @@
  *
  @author Vasily Shakhov (Mlearner)
  */
-
 define( function( require ) {
   'use strict';
+
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
+
+  // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
 
   function SweaterNode( model ) {

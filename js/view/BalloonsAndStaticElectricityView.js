@@ -12,9 +12,11 @@ define( function( require ) {
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/WallNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+
+  // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
-  var Node = require( 'SCENERY/nodes/Node' );
 
   function BalloonsAndStaticElectricityView( model ) {
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
