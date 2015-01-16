@@ -11,8 +11,8 @@ define( function( require ) {
 
   var Sim = require( 'JOIST/Sim' );
   var Screen = require( 'JOIST/Screen' );
-  var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/model/BalloonsAndStaticElectricityModel' );
-  var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/BalloonsAndStaticElectricityView' );
+  var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
+  var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var title = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons.name' );
 

@@ -14,9 +14,9 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var DragListener = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/DragListener' );
-  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/PlusChargeNode' );
-  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/view/MinusChargeNode' );
+  var DragListener = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/DragListener' );
+  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
+  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
