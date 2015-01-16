@@ -17,7 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
 
   // images
-  var wallImageDOM = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
+  var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
   function WallNode( model ) {
     var self = this;
@@ -29,7 +29,7 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    var wallImage = this.wallImage = new Image( wallImageDOM );
+    var wallImage = this.wallImage = new Image( wallImage );
     this.addChild( wallImage );
 
     var plusChargesNode = new Node();
