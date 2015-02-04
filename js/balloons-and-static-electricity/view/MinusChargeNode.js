@@ -16,7 +16,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Image = require( 'SCENERY/nodes/Image' );
-  require( 'SCENERY/Scene' ); // workaround for require.js loading
 
   var radius = PointChargeModel.radius;
 
