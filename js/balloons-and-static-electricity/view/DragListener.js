@@ -82,7 +82,7 @@ define( function( require ) {
       this.transform = this.trail.getTransform();
       this.node = event.currentTarget;
       this.lastDragPoint = event.pointer.point;
-      this.startTransformMatrix = event.currentTarget.getMatrix();
+      this.startTransformMatrix = event.currentTarget.getMatrix().copy();
       this.mouseButton = event.domEvent.button; // should be undefined for touch events
       var point = this.transform.inversePosition2( event.pointer.point );
       this.relativePoint = point.minus( this.positionProperty.get() );
