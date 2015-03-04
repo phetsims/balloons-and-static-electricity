@@ -19,7 +19,7 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   function BalloonsAndStaticElectricityView( model ) {
-    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     this.addChild( new SweaterNode( model ) );
 
