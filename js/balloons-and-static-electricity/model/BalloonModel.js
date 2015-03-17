@@ -168,6 +168,11 @@ define( function( require ) {
     },
     //when balloon dragged check if we can catch minus charges
     dragBalloon: function( model, dt ) {
+
+      // Prevent a fuzzer error that tries to drag the balloon before step is called.
+      if ( !this.oldLocation ) {
+        return;
+      }
       var dx = (this.location.x - this.oldLocation.x) / dt,
         dy = (this.location.y - this.oldLocation.y) / dt;
 
