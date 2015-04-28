@@ -17,12 +17,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var InOutRadioButton = require( 'SUN/InOutRadioButton' );
   var Panel = require( 'SUN/Panel' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -79,10 +79,13 @@ define( function( require ) {
       ], scale: scale
     } );
 
-    var showBalloonsChoice = new HBox( {
-      children: [
-        new InOutRadioButton( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon ),
-        new InOutRadioButton( model.balloons[ 1 ].isVisibleProperty, true, twoBalloonIcon ) ]
+    var showBalloonsChoice = new RadioButtonGroup( model.balloons[ 1 ].isVisibleProperty, [
+      { value: false, node: oneBalloonIcon },
+      { value: true, node: twoBalloonIcon }
+    ], {
+      orientation: 'horizontal',
+      baseColor: 'white',
+      spacing: 5
     } );
 
     // 'Reset Balloons' button
