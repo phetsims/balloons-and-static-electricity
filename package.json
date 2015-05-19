@@ -4,21 +4,7 @@
   "license": "GPLv3",
   "simTitleStringKey": "BALLOONS_AND_STATIC_ELECTRICITY/balloons.name",
   "phetLibs": [
-    "balloons-and-static-electricity",
-    "assert",
-    "axon",
-    "babel",
-    "brand",
-    "chipper",
-    "dot",
-    "joist",
-    "kite",
-    "phet-core",
-    "phetcommon",
-    "scenery",
-    "scenery-phet",
-    "sherpa",
-    "sun"
+    "balloons-and-static-electricity"
   ],
   "repository": {
     "type": "git",
