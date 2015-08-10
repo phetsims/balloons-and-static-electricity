@@ -2,6 +2,7 @@
   "name": "balloons-and-static-electricity",
   "version": "1.2.0-dev.1",
   "license": "GPLv3",
+  "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
   "simTitleStringKey": "BALLOONS_AND_STATIC_ELECTRICITY/balloons.name",
   "phetLibs": [
     "balloons-and-static-electricity"
