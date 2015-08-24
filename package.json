@@ -17,6 +17,6 @@
   },
   "phet": {
     "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
-    "simTitleStringKey": "BALLOONS_AND_STATIC_ELECTRICITY/balloons.name"
+    "simTitleStringKey": "BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.name"
   }
 }
