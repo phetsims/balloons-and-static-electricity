@@ -16,7 +16,6 @@
     "escodegen": "~0.0.27"
   },
   "phet": {
-    "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
-    "simTitleStringKey": "BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.name"
+    "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY"
   }
 }
