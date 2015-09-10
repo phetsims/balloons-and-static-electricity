@@ -13,7 +13,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var title = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.name' );
+  var title = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
 
   SimLauncher.launch( function() {
 
