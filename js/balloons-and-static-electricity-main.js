@@ -32,7 +32,7 @@ define( function( require ) {
       new Screen( title, null /* no icon, single-screen sim */,
         function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
         function( model ) {return new BalloonsAndStaticElectricityView( model );},
-        { backgroundColor: "#9ddcf8" }
+        { backgroundColor: '#9ddcf8' }
       )
     ], simOptions ).start();
   } );

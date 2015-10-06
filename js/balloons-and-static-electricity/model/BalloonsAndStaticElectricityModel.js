@@ -18,7 +18,7 @@ define( function( require ) {
   function BalloonsAndStaticElectricityModel( width, height ) {
 
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    PropertySet.call( this, { wallWidth: 80, showCharges: "all" } );
+    PropertySet.call( this, { wallWidth: 80, showCharges: 'all' } );
 
     this.width = width;
     this.height = height;
