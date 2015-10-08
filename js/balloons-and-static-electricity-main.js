@@ -22,7 +22,7 @@ define( function( require ) {
         leadDesign: 'Noah Podolefsky & Sam Reid',
         softwareDevelopment: 'Sam Reid',
         team: 'Wendy Adams, Ariel Paul, Kathy Perkins, Trish Loeblein',
-        graphicArts: 'Sharon Simon-Tov',
+        graphicArts: 'Sharon Siman-Tov',
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       }
     };
