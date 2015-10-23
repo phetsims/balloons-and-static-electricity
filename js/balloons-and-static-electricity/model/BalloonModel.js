@@ -173,8 +173,8 @@ define( function( require ) {
       if ( !this.oldLocation ) {
         return;
       }
-      var dx = (this.location.x - this.oldLocation.x) / dt,
-        dy = (this.location.y - this.oldLocation.y) / dt;
+      var dx = (this.location.x - this.oldLocation.x) / dt;
+      var dy = (this.location.y - this.oldLocation.y) / dt;
 
       //calculate average velocity
       this.xVelocityArray[ this.xVelocityArray.counter++ ] = dx * dx;
@@ -182,8 +182,8 @@ define( function( require ) {
       this.yVelocityArray[ this.yVelocityArray.counter++ ] = dy * dy;
       this.yVelocityArray.counter %= 5;
 
-      var averageX = 0,
-        averageY = 0;
+      var averageX = 0;
+      var averageY = 0;
       for ( var i = 0; i < 5; i++ ) {
         averageX += this.xVelocityArray[ 0 ];
         averageY += this.yVelocityArray[ 0 ];
