@@ -23,6 +23,7 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -57,9 +58,21 @@ define( function( require ) {
     // Radio buttons related to charges
     var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      { node: new Text( showAllChargesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'all' },
-      { node: new Text( showNoChargesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'none' },
-      { node: new Text( showChargeDifferencesString, { font: radioButtonFont } ), property: model.showChargesProperty, value: 'diff' }
+      {
+        node: new Text( showAllChargesString, { font: radioButtonFont } ),
+        property: model.showChargesProperty,
+        value: 'all'
+      },
+      {
+        node: new Text( showNoChargesString, { font: radioButtonFont } ),
+        property: model.showChargesProperty,
+        value: 'none'
+      },
+      {
+        node: new Text( showChargeDifferencesString, { font: radioButtonFont } ),
+        property: model.showChargesProperty,
+        value: 'diff'
+      }
     ] );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -75,7 +88,10 @@ define( function( require ) {
     var oneBalloonIcon = new Node( {
       children: [
         new Image( balloonYellow, { x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
-        new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, { fill: 'black', visible: false } )
+        new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {
+          fill: 'black',
+          visible: false
+        } )
       ], scale: scale
     } );
 
@@ -96,6 +112,7 @@ define( function( require ) {
     );
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
+      buttonValue: resetBalloonString,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: function() {
         model.sweater.reset();
@@ -108,10 +125,11 @@ define( function( require ) {
     var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButton ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
+    var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } ), wallButton ]
+      children: [ resetAllButton, wallButton ]
     } );
 
     controls.right = layoutBounds.maxX - 2;
@@ -125,6 +143,62 @@ define( function( require ) {
       bottom: layoutBounds.maxY - 4
     } ) );
     this.addChild( controls );
+
+    // outfit elements of the control panel with accessible content
+
+    // VerticalAquaRadioButtonGroup is unstable.  Defining accessible content here until that sun element is more
+    // stable.
+    showChargesRadioButtonGroup.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        /*
+         * The content should look like the following in the parallel DOM:
+         * <div> </div> // TODO: Update once you know what this should be.
+         */
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = '0';
+        domElement.className = 'ControlPanel';
+
+        // TODO: Implement drag and drop behavior for balloons
+        return new AccessiblePeer( accessibleInstance, domElement );
+      }
+    };
+
+    // provide the restBalloonButton with the o
+
+    showBalloonsChoice.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        /*
+         * The content should look like the following in the parallel DOM:
+         * <div> </div> // TODO: Update once you know what this should be.
+         */
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = '0';
+        domElement.className = 'ControlPanel';
+
+        // TODO: Implement drag and drop behavior for balloons
+        return new AccessiblePeer( accessibleInstance, domElement );
+
+      }
+    };
+
+    wallButton.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        /*
+         * The content should look like the following in the parallel DOM:
+         * <div> </div> // TODO: Update once you know what this should be.
+         */
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = '0';
+        domElement.className = 'ControlPanel';
+
+        // TODO: Implement drag and drop behavior for balloons
+        return new AccessiblePeer( accessibleInstance, domElement );
+      }
+    };
+
+    // define the navigation order for accessible content in the control panel.
+    this.accessibleOrder = [ showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, wallButton, resetAllButton ];
+
   }
 
   inherit( Node, ControlPanel );

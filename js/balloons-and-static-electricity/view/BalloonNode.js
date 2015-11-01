@@ -18,6 +18,7 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
     var self = this;
@@ -123,6 +124,24 @@ define( function( require ) {
         addedChargesNode.visible = visiblity;
       }
     } );
+
+    // outfit with accessible content
+    this.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        /*
+         * The content should look like the following in the parallel DOM:
+         * <div> </div> // TODO: Update once you know what this should be.
+         */
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = '0';
+        domElement.setAttribute( 'aria-grabbed', 'false' );
+        domElement.draggable = true;
+        domElement.className = 'Balloon';
+
+        // TODO: Implement drag and drop behavior for balloons
+        return new AccessiblePeer( accessibleInstance, domElement );
+      }
+    };
 
     model.view = this;
   }

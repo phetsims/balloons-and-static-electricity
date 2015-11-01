@@ -48,7 +48,16 @@ define( function( require ) {
     this.addChild( new ControlPanel( model, this.layoutBounds ) );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, { fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false } ) );
+    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
+      fill: 'black',
+      x: -1000,
+      y: this.layoutBounds.height,
+      pickable: false
+    } ) );
+
+    // define the accessible order for this screen
+    this.accessibleOrder = [ yellowBalloon, greenBalloon, wall ];
+
   }
 
   inherit( ScreenView, BalloonsAndStaticElectricityView );
