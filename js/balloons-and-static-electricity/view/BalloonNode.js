@@ -19,6 +19,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Input = require( 'SCENERY/input/Input' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
     var self = this;
@@ -138,7 +139,25 @@ define( function( require ) {
         domElement.draggable = true;
         domElement.className = 'Balloon';
 
-        // TODO: Implement drag and drop behavior for balloons
+        // keyboard interaction sets the keyState object to track press and hold and multiple key presses
+        domElement.addEventListener( 'keydown', function( event ) {
+
+          // update the keyState object for keyboard interaction
+          model.keyState[ event.keyCode || event.which ] = true;
+
+          // if the user presses any of the arrow keys, immediately pick up the balloon for drag and drop
+          if ( model.keyState[ Input.KEY_RIGHT_ARROW ] || model.keyState[ Input.KEY_LEFT_ARROW ] ||
+               model.keyState[ Input.KEY_UP_ARROW ] || model.keyState[ Input.KEY_DOWN_ARROW ] ) {
+            // pick up the balloon
+            model.isDragged = true;
+          }
+        } );
+        domElement.addEventListener( 'keyup', function( event ) {
+          // update the keyState object for keyboard interaction
+          model.keyState[ event.keyCode || event.which ] = false;
+        } );
+
+
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };

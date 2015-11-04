@@ -13,8 +13,17 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Input = require( 'SCENERY/input/Input' );
 
-  function BalloonModel( x, y, defaultVisibility ) {
+  /**
+   * Constructor
+   * @param {number} x
+   * @param {number} y
+   * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
+   * @param {boolean} defaultVisibility - is the balloon visible by default?
+   * @constructor
+   */
+  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility ) {
     PropertySet.call( this, {
       charge: 0,
       velocity: 0,
@@ -105,6 +114,7 @@ define( function( require ) {
     this.defaultVisibily = defaultVisibility;
     this.plusCharges = [];
     this.minusCharges = [];
+    this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
 
     //neutral pair of charges
     this.positionsOfStartCharges.forEach( function( entry ) {
@@ -123,6 +133,10 @@ define( function( require ) {
       var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       self.minusCharges.push( minusCharge );
     } );
+
+    // Track key presses in a keyState object for accessibility.
+    // TODO: This should eventually be internal.  It seems all keyboard interaction should use such an object.
+    this.keyState = {};
 
     this.reset();
   }
@@ -157,7 +171,46 @@ define( function( require ) {
     },
     step: function( model, dt ) {
       if ( dt > 0 ) {
+
         if ( this.isDragged ) {
+
+          // determine if the user wants to move the balloon quickly or slowly by pressing 'shift'
+          var positionDelta = 1;
+          if ( this.keyState[ Input.KEY_SHIFT ] ) {
+            positionDelta = 5;
+          }
+
+          var deltaX = 0;
+          var deltaY = 0;
+
+          // handle balloon position changes due to keyboard navigation
+          // if the user presses any arrow key, pick it up immediately
+          if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
+            deltaX = -positionDelta;
+          }
+          if ( this.keyState[ Input.KEY_RIGHT_ARROW ] ) {
+            deltaX = +positionDelta;
+          }
+          if ( this.keyState[ Input.KEY_UP_ARROW ] ) {
+            deltaY = -positionDelta;
+          }
+          if ( this.keyState[ Input.KEY_DOWN_ARROW ] ) {
+            deltaY = +positionDelta;
+          }
+
+          // set the new location from keyboard deltas, checking to make sure that the balloon is in a valid position
+          var newLocation = this.locationProperty.value.plusXY( deltaX, deltaY );
+          if ( newLocation !== this.locationProperty.value ) {
+            newLocation = this.balloonsAndStaticElectricityModel.checkBalloonRestrictions( newLocation, this.width, this.height );
+            this.locationProperty.set( newLocation );
+          }
+
+          // if the user presses shift + enter, release the balloon to observe the force of charges
+          if ( this.keyState[ Input.KEY_SHIFT ] && this.keyState[ Input.KEY_ENTER ] ) {
+            this.isDragged = false;
+          }
+
+          // check to see if we can catch any minus charges
           this.dragBalloon( model, dt );
         }
         else {

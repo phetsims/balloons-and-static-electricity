@@ -24,8 +24,8 @@ define( function( require ) {
     this.height = height;
 
     this.balloons = [
-      new BalloonModel( 440, 100, true ),
-      new BalloonModel( 380, 130, false )
+      new BalloonModel( 440, 100, this, true ),
+      new BalloonModel( 380, 130, this, false )
     ];
     this.balloons[ 0 ].other = this.balloons[ 1 ];
     this.balloons[ 1 ].other = this.balloons[ 0 ];
