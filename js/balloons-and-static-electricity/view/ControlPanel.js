@@ -96,12 +96,13 @@ define( function( require ) {
     } );
 
     var showBalloonsChoice = new RadioButtonGroup( model.balloons[ 1 ].isVisibleProperty, [
-      { value: false, node: oneBalloonIcon },
-      { value: true, node: twoBalloonIcon }
+      { value: false, node: oneBalloonIcon, accessibleDescription: 'some accessible description' },
+      { value: true, node: twoBalloonIcon, accessibleDescription: 'some accessible description' }
     ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      spacing: 5
+      spacing: 5,
+      accessibleLegendDescription: 'This will be a string describing the radio button group'
     } );
 
     // 'Reset Balloons' button
@@ -158,26 +159,7 @@ define( function( require ) {
         domElement.tabIndex = '0';
         domElement.className = 'ControlPanel';
 
-        // TODO: Implement drag and drop behavior for balloons
         return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
-
-    // provide the restBalloonButton with the o
-
-    showBalloonsChoice.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        /*
-         * The content should look like the following in the parallel DOM:
-         * <div> </div> // TODO: Update once you know what this should be.
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-        domElement.className = 'ControlPanel';
-
-        // TODO: Implement drag and drop behavior for balloons
-        return new AccessiblePeer( accessibleInstance, domElement );
-
       }
     };
 
