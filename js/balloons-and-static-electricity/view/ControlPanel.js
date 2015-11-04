@@ -181,21 +181,6 @@ define( function( require ) {
       }
     };
 
-    wallButton.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        /*
-         * The content should look like the following in the parallel DOM:
-         * <div> </div> // TODO: Update once you know what this should be.
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-        domElement.className = 'ControlPanel';
-
-        // TODO: Implement drag and drop behavior for balloons
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
-
     // define the navigation order for accessible content in the control panel.
     this.accessibleOrder = [ showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, wallButton, resetAllButton ];
 
