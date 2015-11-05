@@ -26,7 +26,7 @@ define( function( require ) {
     options = _.extend( {
       allowTouchSnag: false
     }, options );
-    this.options = options;
+    this.options = options; // @private
 
     this.dragging = false;     // whether a node is being dragged with this handler
     this.pointer = null;      // the pointer doing the current dragging
