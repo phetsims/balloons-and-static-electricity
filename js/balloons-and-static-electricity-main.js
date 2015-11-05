@@ -8,12 +8,15 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Sim = require( 'JOIST/Sim' );
   var Screen = require( 'JOIST/Screen' );
   var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var title = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
+
+  // strings
+  var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
 
   SimLauncher.launch( function() {
 
@@ -28,8 +31,8 @@ define( function( require ) {
     };
 
     //Create and start the sim
-    new Sim( title, [
-      new Screen( title, null /* no icon, single-screen sim */,
+    new Sim( balloonsAndStaticElectricityTitleString, [
+      new Screen( balloonsAndStaticElectricityTitleString, null /* no icon, single-screen sim */,
         function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
         function( model ) {return new BalloonsAndStaticElectricityView( model );},
         { backgroundColor: '#9ddcf8' }
