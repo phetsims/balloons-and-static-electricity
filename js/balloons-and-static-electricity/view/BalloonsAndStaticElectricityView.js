@@ -40,11 +40,6 @@ define( function( require ) {
     this.addChild( balloonsNode );
 
     //Only show the selected balloon(s)
-    //It would be faster to do this with setting visibility flags, but there is currently a problem the visibility flag is not respected on startup when using SVG renderer
-    //TODO: When scenery fixes the initial SVG visibility problem, switch to using visible flags
-    //model.balloons[ 1 ].isVisibleProperty.link( function updateVisibility( isVisible ) {
-    //  balloonsNode.children = isVisible ? [ greenBalloon, yellowBalloon ] : [ yellowBalloon ];
-    //} );
     model.balloons[ 1 ].isVisibleProperty.link( function( isVisible ) {
       greenBalloon.visible = isVisible;
     } );

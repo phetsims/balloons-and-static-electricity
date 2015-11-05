@@ -30,6 +30,8 @@ define( function( require ) {
     this.x = x;
     this.y = y;
 
+    this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
+
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
 
@@ -138,6 +140,8 @@ define( function( require ) {
         domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.draggable = true;
         domElement.className = 'Balloon';
+        domElement.hidden = !model.isVisible;
+        domElement.id = self.accessibleId;
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
@@ -161,6 +165,12 @@ define( function( require ) {
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
+
+    // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
+    model.isVisibleProperty.lazyLink( function( isVisible ) {
+      var accessibleBalloonPeer = document.getElementById( self.accessibleId );
+      accessibleBalloonPeer.hidden = !isVisible;
+    } );
 
     model.view = this;
   }

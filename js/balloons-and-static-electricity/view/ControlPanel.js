@@ -146,7 +146,6 @@ define( function( require ) {
     this.addChild( controls );
 
     // outfit elements of the control panel with accessible content
-
     // VerticalAquaRadioButtonGroup is unstable.  Defining accessible content here until that sun element is more
     // stable.
     showChargesRadioButtonGroup.accessibleContent = {
