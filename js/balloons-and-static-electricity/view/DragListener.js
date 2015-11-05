@@ -23,9 +23,10 @@ define( function( require ) {
     var handler = this;
     var dragListener = this;
 
-    this.options = _.extend( {
+    options = _.extend( {
       allowTouchSnag: false
     }, options );
+    this.options = options;
 
     this.dragging = false;     // whether a node is being dragged with this handler
     this.pointer = null;      // the pointer doing the current dragging
