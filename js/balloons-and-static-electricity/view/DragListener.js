@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2013-2015, University of Colorado Boulder
 
 /**
  * Copied from SimpleDragHandler on 6-15-2013.  This drag listener keeps the mouse in the same relative location and respects constraints.
