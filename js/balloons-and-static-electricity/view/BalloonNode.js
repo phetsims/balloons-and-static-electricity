@@ -14,7 +14,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var DragListener = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/DragListener' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -49,21 +49,15 @@ define( function( require ) {
     };
 
     //When dragging, move the balloon
-    var balloonDragHandler = new DragListener( property, {
+    var balloonDragHandler = new MovableDragHandler( property, {
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
-      start: function() {
+      startDrag: function() {
         model.isDragged = true;
       },
-      end: function() {
+      endDrag: function() {
         model.isDragged = false;
         model.velocity = new Vector2( 0, 0 );
-      },
-      //Translate on drag events
-      translate: function( args ) {
-        //balloonDragHandler.endDrag();
-        var newLocation = globalModel.checkBalloonRestrictions( args.position, model.width, model.height );
-        model.location = newLocation;
       }
     } );
 
