@@ -32,9 +32,9 @@ define( function( require ) {
   // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-  var showAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
-  var showNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
-  var showChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
+  var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
+  var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
+  var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var removeBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.description' );
@@ -61,17 +61,17 @@ define( function( require ) {
     var radioButtonFont = new PhetFont( 15 );
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
       {
-        node: new Text( showAllChargesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
         value: 'all'
       },
       {
-        node: new Text( showNoChargesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowNoChargesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
         value: 'none'
       },
       {
-        node: new Text( showChargeDifferencesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowChargeDifferencesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
         value: 'diff'
       }
