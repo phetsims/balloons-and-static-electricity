@@ -14,6 +14,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
 
+  // strings
+  var yellowBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.description' );
+  var greenBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.description' );
+
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
@@ -34,8 +38,8 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node();
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model );
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { accessibleDescription: greenBalloonDescriptionString } );
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, { accessibleDescription: yellowBalloonDescriptionString } );
     balloonsNode.children = [ greenBalloon, yellowBalloon ];
     this.addChild( balloonsNode );
 

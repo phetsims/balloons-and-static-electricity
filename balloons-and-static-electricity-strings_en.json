@@ -46,5 +46,21 @@
   },
   "resetBalloons": {
     "value": "Reset Balloons"
+  },
+  "removeBalloon.description": {
+    "value": "Remove green balloon",
+    "visible": false
+  },
+  "addBalloon.description": {
+    "value": "Add green balloon",
+    "visible": false
+  },
+  "yellowBalloon.description": {
+    "value": "Balloon one",
+    "visible": false
+  },
+  "greenBalloon.description": {
+    "value": "Balloon two",
+    "visible": false
   }
 }

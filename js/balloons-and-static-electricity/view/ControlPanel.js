@@ -37,6 +37,8 @@ define( function( require ) {
   var showChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
+  var removeBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.description' );
+  var addBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.description' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -96,13 +98,13 @@ define( function( require ) {
     } );
 
     var showBalloonsChoice = new RadioButtonGroup( model.balloons[ 1 ].isVisibleProperty, [
-      { value: false, node: oneBalloonIcon, accessibleDescription: 'some accessible description' },
-      { value: true, node: twoBalloonIcon, accessibleDescription: 'some accessible description' }
+      { value: false, node: oneBalloonIcon, accessibleDescription: removeBalloonDescriptionString },
+      { value: true, node: twoBalloonIcon, accessibleDescription: addBalloonDescriptionString }
     ], {
       orientation: 'horizontal',
       baseColor: 'white',
       spacing: 5,
-      accessibleLegendDescription: 'This will be a string describing the radio button group'
+      accessibleLegendDescription: 'Balloon settings'
     } );
 
     // 'Reset Balloons' button

@@ -21,8 +21,12 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
 
-  function BalloonNode( x, y, model, imgsrc, globalModel ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
     var self = this;
+
+    options = _.extend( {
+      accessibleDescription: ''
+    }, options );
 
     // super constructor
     Node.call( this, { cursor: 'pointer' } );
@@ -135,8 +139,9 @@ define( function( require ) {
          * The content should look like the following in the parallel DOM:
          * <div> </div> // TODO: Update once you know what this should be.
          */
-        var domElement = document.createElement( 'div' );
+        var domElement = document.createElement( 'img' );
         domElement.tabIndex = '0';
+        domElement.setAttribute( 'alt', options.accessibleDescription );
         domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.draggable = true;
         domElement.className = 'Balloon';
