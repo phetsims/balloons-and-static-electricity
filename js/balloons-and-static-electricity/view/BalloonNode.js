@@ -160,17 +160,16 @@ define( function( require ) {
           model.keyState[ event.keyCode || event.which ] = false;
         } );
 
+        // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
+        model.isVisibleProperty.lazyLink( function( isVisible ) {
+          var accessibleBalloonPeer = document.getElementById( self.accessibleId );
+          accessibleBalloonPeer.hidden = !isVisible;
+        } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
-
-    // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
-    model.isVisibleProperty.lazyLink( function( isVisible ) {
-      var accessibleBalloonPeer = document.getElementById( self.accessibleId );
-      accessibleBalloonPeer.hidden = !isVisible;
-    } );
-
+    
     model.view = this;
   }
 
