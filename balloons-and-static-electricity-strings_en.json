@@ -74,5 +74,13 @@
   "screen.label": {
     "value": "The scene for Balloons and Static Electricity",
     "visible": false
+  },
+  "sweater.label": {
+    "value": "Sweater",
+    "visible": false
+  },
+  "sweater.description": {
+    "value": "The sweater has a neutral charge, no more positive charges than negative ones.",
+    "visible": false
   }
 }

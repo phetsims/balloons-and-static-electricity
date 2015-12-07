@@ -14,6 +14,11 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+
+  // strings
+  var sweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.label' );
+  var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -75,6 +80,45 @@ define( function( require ) {
     this.sweaterModel.chargeProperty.link( function() {
       updateChargesVisibilityOnSweater( model.showCharges );
     } );
+
+    // outfit a11y
+    this.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
+
+        // the parallel DOM element should look like this:
+        // <!-- Sweater is not in the tab order, but needs to be a live region, so changes in charges are communicated. -->
+        //  <div id="sweater-widget" aria-labelledby="sweater-label" aria-describedby="balloon-description">
+        //    <h3 id="sweater-label">Sweater</h3>
+        //    <!-- Sweater charge information changes and will need to be associated with the balloon. -->
+        //    <p id="sweater-description">The sweater has a neutral charge, no more positive charges than negative ones.</p>
+        //  </div>  
+
+        // create the div element and assign it a unique id.
+        var domElement = document.createElement( 'div' );
+        domElement.id = 'sweater-' + uniqueId;
+
+        // create the label element, and assign it as an aria label for the above div
+        var labelElement = document.createElement( 'h3' );
+        labelElement.innerText = sweaterLabelString;
+        labelElement.id = 'sweater-label-' + uniqueId;
+        domElement.setAttribute( 'aria-labelledby', labelElement.id );
+
+        // create the description element and assign it a unique id.
+        var descriptionElement = document.createElement( 'p' );
+        descriptionElement.id = 'sweater-description-' + uniqueId;
+        descriptionElement.innerText = sweaterDescriptionString;
+        domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        // structure the elements
+        domElement.appendChild( labelElement );
+        domElement.appendChild( descriptionElement );
+
+        return new AccessiblePeer( accessibleInstance, domElement );
+
+      }
+    };
   }
 
   return inherit( Node, SweaterNode );
