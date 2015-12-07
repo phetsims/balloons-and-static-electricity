@@ -44,7 +44,7 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node();
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { accessibleDescription: greenBalloonDescriptionString } );
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { zibleDescription: greenBalloonDescriptionString } );
     var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, { accessibleDescription: yellowBalloonDescriptionString } );
     balloonsNode.children = [ greenBalloon, yellowBalloon ];
     this.addChild( balloonsNode );
