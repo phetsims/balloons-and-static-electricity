@@ -62,5 +62,13 @@
   "greenBalloon.description": {
     "value": "Balloon two",
     "visible": false
+  },
+  "screen.description": {
+    "value": "A balloon floats evenly between a large woolly sweater and a removable wall. The sweater is to the left and the wall is to the right.  Each object shows negative and positive charges. Charges are shown in pairs. Currently, the sweater and the wall have many pairs of charges, the balloon, just a few. The control panel has controls to add a second balloon, adjust charge views and to reset the entire experiment. Select Tab for next item. Select K or question mark for keyboard help. Select H for a heading outline.",
+    "visible": false
+  },
+  "screen.label": {
+    "value": "The scene for Balloons and Static Electricity",
+    "visible": false
   }
 }
