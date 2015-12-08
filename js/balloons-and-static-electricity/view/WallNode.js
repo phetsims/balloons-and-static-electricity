@@ -17,6 +17,10 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
+  // strings
+  var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
+  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
@@ -69,15 +73,42 @@ define( function( require ) {
     // outfit with accessible content
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
-        /*
-         * The content should look like the following in the parallel DOM:
-         * <div> </div> // TODO: Update once you know what this should be.
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-        domElement.className = 'Wall';
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
 
-        // TODO: Implement drag and drop behavior for balloons
+        // representation should look like the following in the parallel DOM
+        //  <div id="wall-widget">
+        //    <h3 id="wall-label">Wall</h3>
+        //    <!-- Wall charge information changes and will need to be associated with the balloon. -->
+        //    <p id="wall-description">The wall has a neutral charge, no more positive charges than negative ones.</p>
+        //
+        //     TODO: Shouldn't these be part of the control panel?? Not implementing for now.
+        //     <!-- Jesse. We discussed a Toggle Button for the Wall -->
+        //     <!-- If the button text is an image, use aria-label="Remove Wall" and aria-label="Add Wall". -->                     
+        //     <button aria-pressed="true" aria-describedby="wall-button-description">Remove Wall</button>
+        //     <!-- <button aria-pressed="true" aria-describedby="wall-button-description">Add Wall</button> -->
+        //     <p id="wall-button-description">Toggle to conduct experiments with or without the wall.</p>
+        //  </div>
+
+        // create the element representing the wall
+        var domElement = document.createElement( 'div' );
+        domElement.id = 'wall-' + uniqueId;
+
+        // create the label element for the wall
+        var labelElement = document.createElement( 'h3' );
+        labelElement.id = 'wall-label-' + uniqueId;
+        labelElement.innerText = wallLabelString;
+        domElement.setAttribute( 'aria-labelledby', labelElement );
+
+        // create the descriptoin element for the wall
+        var descriptionElement = document.createElement( 'p' );
+        descriptionElement.id = 'wall-description-' + uniqueId;
+        descriptionElement.innerText = wallDescriptionString;
+
+        // structure the wall element with its descriptions
+        domElement.appendChild( labelElement );
+        domElement.appendChild( descriptionElement );
+
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };

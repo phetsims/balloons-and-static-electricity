@@ -39,6 +39,7 @@ define( function( require ) {
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var removeBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.description' );
   var addBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.description' );
+  var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -146,6 +147,33 @@ define( function( require ) {
       bottom: layoutBounds.maxY - 4
     } ) );
     this.addChild( controls );
+
+    // the control panel itself has accessible content.  Even though there is no 'control panel' in the view, 
+    // containing the elements inside of a section makes sense as a thematic structure for accessibility.
+    this.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
+
+        //  the control panel should be represented by the following in the parallel DOM:
+        //  <section id="control-panel">
+        //    <h2 id="cp-label">Control Panel</h2>
+
+        // create the section tag
+        var domElement = document.createElement( 'section' );
+        domElement.id = 'control-panel-' + uniqueId;
+
+        // create the accessible label for the section
+        var labelElement = document.createElement( 'h2' );
+        labelElement.id = 'control-panel-label';
+        labelElement.innerText = controlPanelLabelString;
+
+        domElement.appendChild( labelElement );
+
+        return new AccessiblePeer( accessibleInstance, domElement );
+
+      }
+    };
 
     // outfit elements of the control panel with accessible content
     // VerticalAquaRadioButtonGroup is unstable.  Defining accessible content here until that sun element is more

@@ -90,5 +90,17 @@
   "sweater.description": {
     "value": "The sweater has a neutral charge, no more positive charges than negative ones.",
     "visible": false
+  },
+  "wall.label": {
+    "value": "Wall",
+    "visible": false
+  },
+  "wall.description": {
+    "value": "The wall has a neutral charge, no more positive charges than negative ones.",
+    "visible": false
+  },
+  "controlPanel.label": {
+    "value": "Control Panel",
+    "visible" : false
   }
 }
