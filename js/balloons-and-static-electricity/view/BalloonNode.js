@@ -25,7 +25,8 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      accessibleDescription: ''
+      accessibleDescription: '',
+      accessibleLabel: ''
     }, options );
 
     // super constructor
@@ -129,18 +130,47 @@ define( function( require ) {
     // outfit with accessible content
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
-        /*
-         * The content should look like the following in the parallel DOM:
-         * <div> </div> // TODO: Update once you know what this should be.
-         */
-        var domElement = document.createElement( 'img' );
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
+
+        //  content for the accessibility tree should look like
+        //  <div id="balloon" aria-labelledby="balloon-label" aria-describedby="balloon-description" tabindex="0">
+        //    <h3 id="balloon-label">Balloon</h3>
+        //    <!-- Parts of the Balloon description change dynamically. Let's discuss this further. Multiple ids can be associated in aria-describedby. --> 
+        //    <div id="balloon-description">
+        //      <p id="balloon-charge">The balloon has a neutral charge, no more negative charges than positive ones.</p>
+        //      <p id="balloon-position">Currently, positioned at equal distance between sweater and wall. The sweater is to the left and the wall is to the right. The top of the balloon is level with the chest area of the sweater.</p> 
+        //      <p id="balloon-nav-help">Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select K or question mark for keyboard help.</p>
+        //    </div>
+        //  </div>
+
+        // create the element for the balloon, initialize its hidden state
+        var domElement = document.createElement( 'div' );
+        domElement.id = 'balloon-' + uniqueId;
         domElement.tabIndex = '0';
-        domElement.setAttribute( 'alt', options.accessibleDescription );
-        domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.draggable = true;
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
-        domElement.id = self.accessibleId;
+
+        // create the accessible label
+        var labelElement = document.createElement( 'h3' );
+        labelElement.id = 'balloon-label-' + uniqueId;
+        labelElement.innerText = options.accessibleLabel;        
+        domElement.setAttribute( 'aria-labelledby', labelElement.id );
+
+        // create a container for the accessible descriptions
+        var descriptionElement = document.createElement( 'div' );
+        descriptionElement.id = 'balloon-description-' + uniqueId;
+        domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        var descriptionParagraphElement = document.createElement( 'p' );
+        descriptionParagraphElement.innerText = options.accessibleDescription;
+
+        // structure the domElement and its accessible descriptions
+        domElement.appendChild( labelElement );
+        domElement.appendChild( descriptionElement );
+        descriptionElement.appendChild( descriptionParagraphElement );
+
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {

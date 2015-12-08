@@ -55,12 +55,20 @@
     "value": "Add green balloon",
     "visible": false
   },
-  "yellowBalloon.description": {
+  "yellowBalloon.label": {
     "value": "Balloon one",
     "visible": false
   },
-  "greenBalloon.description": {
+  "greenBalloon.label": {
     "value": "Balloon two",
+    "visible": false
+  },
+  "yellowBalloon.description": {
+    "value": "The balloon has a neutral charge, no more negative charges than positive ones. Currently, positioned at equal distance between sweater and wall. The sweater is to the left and the wall is to the right. The top of the balloon is level with the chest area of the sweater. Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select K or question mark for keyboard help.",
+    "visible": false
+  },
+  "greenBalloon.description": {
+    "value": "The balloon has a neutral charge, no more negative charges than positive ones. Currently, positioned at equal distance between sweater and wall. The sweater is to the left and the wall is to the right. The top of the balloon is level with the chest area of the sweater. Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select K or question mark for keyboard help.",
     "visible": false
   },
   "playArea.label": {

@@ -16,6 +16,8 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // strings
+  var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
+  var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
   var yellowBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.description' );
   var greenBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.description' );
   var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
@@ -74,8 +76,14 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { zibleDescription: greenBalloonDescriptionString } );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, { accessibleDescription: yellowBalloonDescriptionString } );
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
+      accessibleLabel: greenBalloonLabelString,
+      accessibleDescription: greenBalloonDescriptionString
+    } );
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
+      accessibleLabel: yellowBalloonLabelString,
+      accessibleDescription: yellowBalloonDescriptionString
+    } );
     balloonsNode.children = [ greenBalloon, yellowBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
 
