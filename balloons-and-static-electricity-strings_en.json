@@ -106,5 +106,13 @@
   "controlPanel.label": {
     "value": "Control Panel",
     "visible" : false
+  },
+  "chargeSettings.label": {
+    "value": "Charge Settings",
+    "visible": false
+  },
+  "chargeSettings.description": {
+    "value": "Select how you want to see or hear the charges.",
+    "visible": false
   }
 }

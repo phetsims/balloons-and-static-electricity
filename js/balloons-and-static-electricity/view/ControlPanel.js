@@ -41,6 +41,8 @@ define( function( require ) {
   var addBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.description' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
+  var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
+  var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -79,7 +81,10 @@ define( function( require ) {
         property: model.showChargesProperty,
         value: 'diff'
       }
-    ] );
+    ], {
+      accessibleDescription: chargeSettingsDescriptionString,
+      accessibleLabel: chargeSettingsLabelString
+    } );
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
@@ -107,8 +112,7 @@ define( function( require ) {
     ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      spacing: 5,
-      accessibleLegendDescription: 'Balloon settings'
+      spacing: 5
     } );
 
     // 'Reset Balloons' button
@@ -175,23 +179,6 @@ define( function( require ) {
 
         return new AccessiblePeer( accessibleInstance, domElement );
 
-      }
-    };
-
-    // outfit elements of the control panel with accessible content
-    // VerticalAquaRadioButtonGroup is unstable.  Defining accessible content here until that sun element is more
-    // stable.
-    showChargesRadioButtonGroup.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        /*
-         * The content should look like the following in the parallel DOM:
-         * <div> </div> // TODO: Update once you know what this should be.
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-        domElement.className = 'ControlPanel';
-
-        return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
 
