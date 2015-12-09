@@ -40,6 +40,7 @@ define( function( require ) {
   var removeBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.description' );
   var addBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.description' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
+  var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -53,6 +54,8 @@ define( function( require ) {
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButton = new RectangularPushButton( {
         content: wallToggleNode,
+        accessibleLabel: removeWallString,
+        accessibleDescription: wallButtonDescriptionString,
         baseColor: 'rgb( 255, 200, 0 )',
         listener: function() { model.wall.isVisible = !model.wall.isVisible; }
       }
@@ -193,7 +196,7 @@ define( function( require ) {
     };
 
     // define the navigation order for accessible content in the control panel.
-    this.accessibleOrder = [ showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, wallButton, resetAllButton ];
+    this.accessibleOrder = [ wallButton, showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, resetAllButton ];
 
   }
 

@@ -150,6 +150,7 @@ define( function( require ) {
         domElement.tabIndex = '0';
         domElement.draggable = true;
         domElement.className = 'Balloon';
+        domElement.setAttribute( 'role', 'application' );
         domElement.hidden = !model.isVisible;
 
         // create the accessible label
