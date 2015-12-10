@@ -146,11 +146,12 @@ define( function( require ) {
 
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'div' );
+        domElement.setAttribute( 'role', 'application' );
         domElement.id = 'balloon-' + uniqueId;
         domElement.tabIndex = '0';
         domElement.draggable = true;
+        domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.className = 'Balloon';
-        domElement.setAttribute( 'role', 'application' );
         domElement.hidden = !model.isVisible;
 
         // create the accessible label

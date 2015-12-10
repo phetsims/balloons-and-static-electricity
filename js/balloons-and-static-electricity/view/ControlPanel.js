@@ -12,7 +12,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var Text = require( nSCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -43,6 +43,9 @@ define( function( require ) {
   var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
   var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
   var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
+  var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
+  var balloonSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.label' );
+  var resetBalloonsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.description' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -69,17 +72,20 @@ define( function( require ) {
       {
         node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
-        value: 'all'
+        value: 'all',
+        accessibleLabel: balloonAppletShowAllChargesString
       },
       {
         node: new Text( balloonAppletShowNoChargesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
-        value: 'none'
+        value: 'none',
+        accessibleLabel: balloonAppletShowNoChargesString
       },
       {
         node: new Text( balloonAppletShowChargeDifferencesString, { font: radioButtonFont } ),
         property: model.showChargesProperty,
-        value: 'diff'
+        value: 'diff',
+        accessibleLabel: balloonAppletShowChargeDifferencesString
       }
     ], {
       accessibleDescription: chargeSettingsDescriptionString,
@@ -112,7 +118,9 @@ define( function( require ) {
     ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      spacing: 5
+      spacing: 5,
+      accessibleDescription: balloonSettingsDescriptionString,
+      accessibleLabel: balloonSettingsLabelString
     } );
 
     // 'Reset Balloons' button
@@ -130,7 +138,9 @@ define( function( require ) {
         model.balloons.forEach( function( entry ) {
           entry.reset( true );
         } );
-      }
+      },
+      accessibleDescription: resetBalloonsDescriptionString,
+      accessibleLabel: resetBalloonsString
     } );
 
     var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButton ] } );
