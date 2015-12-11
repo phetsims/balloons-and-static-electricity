@@ -1,8 +1,10 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A Scenery node used to contain a heading element in the Parallel DOM.  By giving the element its own node, we can 
- * contain it and have full control of its location in the parallel DOM relative to other child elements.
+ * A Scenery node used to contain a legend element in the Parallel DOM.  By giving the element its own node, we can 
+ * contain it and have full control of its location in the parallel DOM relative to other child elements.  This node
+ * is only necessary because this element must exist and is not directly associated with a visual Scenery node on the
+ * ScreenView.
  * 
  * This node is entirely invisible, other than its representation in the accessibility tree.
  * 
@@ -16,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
-  function AccessibleHeadingNode( headingLevel, textContent ) {
+  function AccessibleHeadingNode( accessibleLabel ) {
 
     Node.call( this, {
       accessibleContent: {
@@ -25,10 +27,15 @@ define( function( require ) {
           var uniqueId = trail.getUniqueId();
           this.node = trail.lastNode(); // @public (a11y)
 
+          // we want the accessible content to look like:
+          // <legend id="legend-id">accessibleLabel</legend>
+
           // heading element
-          var headingElement = document.createElement( headingLevel );
-          headingElement.textContent = textContent;
-          headingElement.id = 'heading-node-' + uniqueId;
+          var headingElement = document.createElement( 'legend' );
+          headingElement.textContent = accessibleLabel;
+          headingElement.id = 'legend-' + uniqueId;
+
+          // @public (a11y), assign the node an id to quickly look up its a11y DOM element
           this.node.accessibleId = uniqueId;
 
           return new AccessiblePeer( accessibleInstance, headingElement );

@@ -24,11 +24,14 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
+  var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
+  var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
 
-  // images
+  // images 
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
-
+  
   // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
@@ -46,7 +49,6 @@ define( function( require ) {
   var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var balloonSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.label' );
   var resetBalloonsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.description' );
-  var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -190,6 +192,22 @@ define( function( require ) {
 
       }
     };
+
+    // create a scenery node to contain and structure the legend as as the first child of the showChargesRadioButtonGroup
+    var chargesLegendContainerNode = new AccessibleLegendNode( chargeSettingsLabelString );
+    showChargesRadioButtonGroup.addChild( chargesLegendContainerNode );
+
+    // create accessible content for the charges radio button group, and make sure that the legend comes first.
+    showChargesRadioButtonGroup.accessibleContent = AccessibleRadioButtonGroupContent.createAccessibleContent( chargeSettingsDescriptionString );
+    showChargesRadioButtonGroup.accessibleOrder = [ chargesLegendContainerNode ];
+
+    // create a scenery node to contain and structure the legend as the first child of the showBalloonsChoice radio button group
+    var balloonsLegendContainerNode = new AccessibleLegendNode( balloonSettingsLabelString );
+    showBalloonsChoice.addChild( balloonsLegendContainerNode );
+
+    // create accessible content for the balloons radio button group, making sure the legend comes first
+    showBalloonsChoice.accessibleContent = AccessibleRadioButtonGroupContent.createAccessibleContent( balloonSettingsDescriptionString );
+    showBalloonsChoice.accessibleOrder = [ balloonsLegendContainerNode ];
 
     // define the navigation order for accessible content in the control panel.
     this.accessibleOrder = [ accessibleHeadingNode, wallButton, showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, resetAllButton ];
