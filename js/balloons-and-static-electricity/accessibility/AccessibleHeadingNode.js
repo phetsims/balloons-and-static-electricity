@@ -16,6 +16,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
+  /**
+   * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
+   * 
+   * @param {string} headingLevel
+   * @param {string} textContent
+   * @constructor
+   **/
   function AccessibleHeadingNode( headingLevel, textContent ) {
 
     Node.call( this, {

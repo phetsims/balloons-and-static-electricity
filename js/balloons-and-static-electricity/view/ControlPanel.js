@@ -23,7 +23,7 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
   var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
@@ -40,8 +40,8 @@ define( function( require ) {
   var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
-  var removeBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.description' );
-  var addBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.description' );
+  var removeBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.label' );
+  var addBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
   var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
@@ -120,8 +120,8 @@ define( function( require ) {
     } );
 
     var showBalloonsChoice = new RadioButtonGroup( model.balloons[ 1 ].isVisibleProperty, [
-      { value: false, node: oneBalloonIcon, accessibleDescription: removeBalloonDescriptionString },
-      { value: true, node: twoBalloonIcon, accessibleDescription: addBalloonDescriptionString }
+      { value: false, node: oneBalloonIcon, accessibleLabel: removeBalloonLabelString },
+      { value: true, node: twoBalloonIcon, accessibleLabel: addBalloonLabelString }
     ], {
       orientation: 'horizontal',
       baseColor: 'white',

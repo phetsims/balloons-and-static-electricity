@@ -148,6 +148,7 @@ define( function( require ) {
         var domElement = document.createElement( 'div' );
         domElement.setAttribute( 'role', 'application' );
         domElement.id = 'balloon-' + uniqueId;
+        domElement.setAttribute( 'role', 'slider' );
         domElement.tabIndex = '0';
         domElement.draggable = true;
         domElement.setAttribute( 'aria-grabbed', 'false' );

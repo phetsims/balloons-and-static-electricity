@@ -47,11 +47,11 @@
   "resetBalloons": {
     "value": "Reset Balloons"
   },
-  "removeBalloon.description": {
+  "removeBalloon.label": {
     "value": "Remove green balloon",
     "visible": false
   },
-  "addBalloon.description": {
+  "addBalloon.label": {
     "value": "Add green balloon",
     "visible": false
   },

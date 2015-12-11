@@ -18,6 +18,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
+  /**
+   * Create a node that contains a legend for radio button groups.
+   * 
+   * @param {string} accessibleLabel
+   * @constructor
+   **/
   function AccessibleHeadingNode( accessibleLabel ) {
 
     Node.call( this, {

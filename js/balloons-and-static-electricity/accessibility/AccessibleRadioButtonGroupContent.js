@@ -16,6 +16,12 @@ define( function( require ) {
 
   var AccessibleRadioButtonGroupContent =  {
 
+    /**
+     * Create accessible content for a radio button group.  This should eventually live in sun but
+     * is local to balloons-and-static-electricity for testing.
+     * 
+     * @param {string} accessibleDescription
+     **/
     createAccessibleContent: function( accessibleDescription ) {
       return {
         createPeer: function( accessibleInstance ) {
