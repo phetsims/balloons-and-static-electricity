@@ -35,6 +35,28 @@ define( function( require ) {
       screenLabel: screenLabelString
     } );
 
+    // create an accessibility node to contain the heading element for the ScreenView
+    // TODO: Eventually, Scenery should structure these types of heading nodes.  For now, a special node
+    // must be defined here so that we can control the order.  Scenery wants to place navigable children
+    // first, but this must come before all children of the section above.
+    var headingContainerNode = new Node( {
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          var trail = accessibleInstance.trail;
+          var uniqueId = trail.getUniqueId();
+          this.node = trail.lastNode(); // @public (a1)
+
+          // heading element
+          var headingElement = document.createElement( 'h2' );
+          headingElement.textContent = playAreaLabelString;
+          headingElement.id = 'play-area-label-' + uniqueId;
+          this.node.accessibleId = uniqueId;
+
+          return new AccessiblePeer( accessibleInstance, headingElement );
+        }
+      }
+    } );
+
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new Node( {
       accessibleContent: {
@@ -47,20 +69,16 @@ define( function( require ) {
           //  <h2 id="pa-label">Play Area</h2>
           var sectionElement = document.createElement( 'section' );
           sectionElement.id = 'play-area-' + uniqueId;
-
-          // heading element
-          var headingElement = document.createElement( 'h2' );
-          headingElement.innerText = playAreaLabelString;
-          headingElement.id = 'play-area-label-' + uniqueId;
-          sectionElement.setAttribute( 'aria-labelledby', headingElement.id );
-
-          // structure the heading
-          sectionElement.appendChild( headingElement );
+          sectionElement.setAttribute( 'aria-labelledby', headingContainerNode.accessibleId );
 
           return new AccessiblePeer( accessibleInstance, sectionElement );
         }
       }
     } );
+
+    // add the heading to the container element, and make sure it comes first
+    playAreaContainerNode.addChild( headingContainerNode );
+    playAreaContainerNode.accessibleOrder = [headingContainerNode];
     this.addChild( playAreaContainerNode );
 
     playAreaContainerNode.addChild( new SweaterNode( model ) );
@@ -101,10 +119,6 @@ define( function( require ) {
       y: this.layoutBounds.height,
       pickable: false
     } ) );
-
-    // define the accessible order for this screen
-    // this.accessibleOrder = [ yellowBalloon, greenBalloon, wall ];
-
   }
 
   inherit( ScreenView, BalloonsAndStaticElectricityView );
