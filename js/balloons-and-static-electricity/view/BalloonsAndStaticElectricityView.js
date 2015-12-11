@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
 
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -35,27 +36,8 @@ define( function( require ) {
       screenLabel: screenLabelString
     } );
 
-    // create an accessibility node to contain the heading element for the ScreenView
-    // TODO: Eventually, Scenery should structure these types of heading nodes.  For now, a special node
-    // must be defined here so that we can control the order.  Scenery wants to place navigable children
-    // first, but this must come before all children of the section above.
-    var headingContainerNode = new Node( {
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var trail = accessibleInstance.trail;
-          var uniqueId = trail.getUniqueId();
-          this.node = trail.lastNode(); // @public (a1)
-
-          // heading element
-          var headingElement = document.createElement( 'h2' );
-          headingElement.textContent = playAreaLabelString;
-          headingElement.id = 'play-area-label-' + uniqueId;
-          this.node.accessibleId = uniqueId;
-
-          return new AccessiblePeer( accessibleInstance, headingElement );
-        }
-      }
-    } );
+    // create an accessible heading for the entire screen view
+    var accessibleHeadingNode = new AccessibleHeadingNode( 'h2', playAreaLabelString );
 
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new Node( {
@@ -69,7 +51,7 @@ define( function( require ) {
           //  <h2 id="pa-label">Play Area</h2>
           var sectionElement = document.createElement( 'section' );
           sectionElement.id = 'play-area-' + uniqueId;
-          sectionElement.setAttribute( 'aria-labelledby', headingContainerNode.accessibleId );
+          sectionElement.setAttribute( 'aria-labelledby', accessibleHeadingNode.accessibleId );
 
           return new AccessiblePeer( accessibleInstance, sectionElement );
         }
@@ -77,8 +59,8 @@ define( function( require ) {
     } );
 
     // add the heading to the container element, and make sure it comes first
-    playAreaContainerNode.addChild( headingContainerNode );
-    playAreaContainerNode.accessibleOrder = [headingContainerNode];
+    playAreaContainerNode.addChild( accessibleHeadingNode );
+    playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode ];
     this.addChild( playAreaContainerNode );
 
     playAreaContainerNode.addChild( new SweaterNode( model ) );

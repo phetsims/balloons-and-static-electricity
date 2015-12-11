@@ -46,11 +46,16 @@ define( function( require ) {
   var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var balloonSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.label' );
   var resetBalloonsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.description' );
+  var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
 
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
     Node.call( this );
+
+    // create an accesible heading element for the parallel DOM
+    var accessibleHeadingNode = new AccessibleHeadingNode( 'h2', controlPanelLabelString );
+    this.addChild( accessibleHeadingNode );
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
@@ -179,13 +184,7 @@ define( function( require ) {
         // create the section tag
         var domElement = document.createElement( 'section' );
         domElement.id = 'control-panel-' + uniqueId;
-
-        // create the accessible label for the section
-        var labelElement = document.createElement( 'h2' );
-        labelElement.id = 'control-panel-label';
-        labelElement.innerText = controlPanelLabelString;
-
-        domElement.appendChild( labelElement );
+        domElement.setAttribute( 'aria-labelledby', accessibleHeadingNode.accessibleId );
 
         return new AccessiblePeer( accessibleInstance, domElement );
 
@@ -193,7 +192,7 @@ define( function( require ) {
     };
 
     // define the navigation order for accessible content in the control panel.
-    this.accessibleOrder = [ wallButton, showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, resetAllButton ];
 
   }
 
