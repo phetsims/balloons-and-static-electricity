@@ -97,13 +97,13 @@ define( function( require ) {
         // create the label element for the wall
         var labelElement = document.createElement( 'h3' );
         labelElement.id = 'wall-label-' + uniqueId;
-        labelElement.innerText = wallLabelString;
+        labelElement.textContent = wallLabelString;
         domElement.setAttribute( 'aria-labelledby', labelElement );
 
         // create the descriptoin element for the wall
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'wall-description-' + uniqueId;
-        descriptionElement.innerText = wallDescriptionString;
+        descriptionElement.textContent = wallDescriptionString;
 
         // structure the wall element with its descriptions
         domElement.appendChild( labelElement );

@@ -157,7 +157,7 @@ define( function( require ) {
         // create the accessible label
         var labelElement = document.createElement( 'h3' );
         labelElement.id = 'balloon-label-' + uniqueId;
-        labelElement.innerText = options.accessibleLabel;        
+        labelElement.textContent = options.accessibleLabel;        
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
         // create a container for the accessible descriptions
@@ -166,7 +166,7 @@ define( function( require ) {
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
         var descriptionParagraphElement = document.createElement( 'p' );
-        descriptionParagraphElement.innerText = options.accessibleDescription;
+        descriptionParagraphElement.textContent = options.accessibleDescription;
 
         // structure the domElement and its accessible descriptions
         domElement.appendChild( labelElement );
