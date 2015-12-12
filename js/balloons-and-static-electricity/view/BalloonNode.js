@@ -190,6 +190,7 @@ define( function( require ) {
             // pick up the balloon
             model.isDragged = true;
           }
+          // If the user presses j, enter jumping mode and pick the balloon up
           else if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
             model.isDragged = true;

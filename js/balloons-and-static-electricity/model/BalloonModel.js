@@ -182,25 +182,27 @@ define( function( require ) {
           var balloonYValue = this.locationProperty.value.y;
 
           // determine where the user wants the balloon to go based on the next key press
+          // If location is defined by the press, exit jumping mode
           if( this.keyState[ KEY_W ] ) {
             // Move the balloon over to the wall
             this.locationProperty.set( new Vector2( model.wall.x, balloonYValue ) );
+            this.isJumping = false;
           }
           if( this.keyState[ KEY_S ] ) {
             // move the balloon over to the edge of the sweater
             this.locationProperty.set( new Vector2( model.sweater.x + model.sweater.width, balloonYValue ) );
+            this.isJumping = false;
           }
           if( this.keyState[ KEY_M ] ) {
             // move the balloon back to its initial x location
             this.locationProperty.set( new Vector2( this.initialLocation.x, balloonYValue ) );
+            this.isJumping = false;
           }
           if( this.keyState[ KEY_N ] ) {
             // move the balloon close to the wall, but not touching it
             this.locationProperty.set( new Vector2( model.wall.x - 170, balloonYValue ) );
-          }
-
-          // after jumping the balloon, take out of jumping mode
-          this.isJumping = false;
+            this.isJumping = false;
+          }          
         }
 
         if ( this.isDragged ) {
