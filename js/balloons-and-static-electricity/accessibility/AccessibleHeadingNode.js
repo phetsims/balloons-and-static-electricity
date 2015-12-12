@@ -25,18 +25,19 @@ define( function( require ) {
    **/
   function AccessibleHeadingNode( headingLevel, textContent ) {
 
+    var thisNode = this;
+
     Node.call( this, {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           var trail = accessibleInstance.trail;
-          var uniqueId = trail.getUniqueId();
           this.node = trail.lastNode(); // @public (a11y)
 
           // heading element
           var headingElement = document.createElement( headingLevel );
           headingElement.textContent = textContent;
-          headingElement.id = 'heading-node-' + uniqueId;
-          this.node.accessibleId = uniqueId;
+          headingElement.id = 'heading-node-' + this.node.id;
+          thisNode.accessibleId = headingElement.id;
 
           return new AccessiblePeer( accessibleInstance, headingElement );
         }

@@ -186,7 +186,7 @@ define( function( require ) {
         // create the section tag
         var domElement = document.createElement( 'section' );
         domElement.id = 'control-panel-' + uniqueId;
-        domElement.setAttribute( 'aria-labelledby', accessibleHeadingNode.accessibleId );
+        domElement.setAttribute( 'aria-labelledby', 'heading-node-' + accessibleHeadingNode.id );
 
         return new AccessiblePeer( accessibleInstance, domElement );
 

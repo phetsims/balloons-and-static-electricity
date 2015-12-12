@@ -51,7 +51,7 @@ define( function( require ) {
           //  <h2 id="pa-label">Play Area</h2>
           var sectionElement = document.createElement( 'section' );
           sectionElement.id = 'play-area-' + uniqueId;
-          sectionElement.setAttribute( 'aria-labelledby', accessibleHeadingNode.accessibleId );
+          sectionElement.setAttribute( 'aria-labelledby', 'heading-node-' + accessibleHeadingNode.id );
 
           return new AccessiblePeer( accessibleInstance, sectionElement );
         }
