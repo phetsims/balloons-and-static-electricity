@@ -21,6 +21,9 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
 
+  // constants
+  var KEY_J = 74; // the user can press J to go into a 'jump' mode for the balloon
+
   function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
     var self = this;
 
@@ -186,6 +189,9 @@ define( function( require ) {
                model.keyState[ Input.KEY_UP_ARROW ] || model.keyState[ Input.KEY_DOWN_ARROW ] ) {
             // pick up the balloon
             model.isDragged = true;
+          }
+          else if ( model.keyState[ KEY_J ] ) {
+            model.isJumping = true;
           }
         } );
         domElement.addEventListener( 'keyup', function( event ) {

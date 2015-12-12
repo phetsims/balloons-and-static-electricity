@@ -15,6 +15,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
 
+  // constants
+  // var KEY_S = 83; // keycode for 's'
+  var KEY_W = 87; // keyvode for 'w'
+  // var KEY_N = 78; // keycode for 'n'
+  // var KEY_M = 77; // keycode for 'm'
+
   /**
    * Constructor
    * @param {number} x
@@ -171,6 +177,18 @@ define( function( require ) {
     },
     step: function( model, dt ) {
       if ( dt > 0 ) {
+
+        if ( this.isJumping ) {
+
+          // determine where the user wants the balloon to go based on the next key press
+          if( this.keyState[ KEY_W ] ) {
+            // Move the balloon over to the wall
+            this.locationProperty.set( new Vector2( model.wall.x, this.locationProperty.value.y ) );
+          }
+
+          // after jumping the balloon, take out of jumping mode
+          this.isJumping = false;
+        }
 
         if ( this.isDragged ) {
 
