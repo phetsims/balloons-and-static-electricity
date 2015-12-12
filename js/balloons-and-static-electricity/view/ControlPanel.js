@@ -210,7 +210,7 @@ define( function( require ) {
     showBalloonsChoice.accessibleOrder = [ balloonsLegendContainerNode ];
 
     // define the navigation order for accessible content in the control panel.
-    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showChargesRadioButtonGroup, showBalloonsChoice, resetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
 
   }
 

@@ -84,7 +84,7 @@ define( function( require ) {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescription: yellowBalloonDescriptionString
     } );
-    balloonsNode.children = [ greenBalloon, yellowBalloon ];
+    balloonsNode.children = [ yellowBalloon, greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
 
     //Only show the selected balloon(s)

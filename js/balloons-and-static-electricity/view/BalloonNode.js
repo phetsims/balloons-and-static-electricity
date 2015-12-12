@@ -145,13 +145,13 @@ define( function( require ) {
         //  </div>
 
         // create the element for the balloon, initialize its hidden state
-        var domElement = document.createElement( 'div' );
-        domElement.setAttribute( 'role', 'application' );
-        domElement.id = 'balloon-' + uniqueId;
+        var domElement = document.createElement( 'button' );
         domElement.setAttribute( 'role', 'slider' );
-        domElement.tabIndex = '0';
+        domElement.setAttribute( 'title', 'Balloon');
+        domElement.id = 'balloon-' + uniqueId;
+        // domElement.tabIndex = '0';
         domElement.draggable = true;
-        domElement.setAttribute( 'aria-grabbed', 'false' );
+        // domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
