@@ -201,6 +201,11 @@ define( function( require ) {
           model.keyState[ event.keyCode || event.which ] = false;
         } );
 
+        // release the balloon when the user shifts focus
+        domElement.addEventListener( 'blur', function( event ) {
+          model.isDragged = false;
+        } );
+
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         model.isVisibleProperty.lazyLink( function( isVisible ) {
           var accessibleBalloonPeer = document.getElementById( domElement.id );
