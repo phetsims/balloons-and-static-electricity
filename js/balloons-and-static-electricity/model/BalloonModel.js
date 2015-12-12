@@ -239,7 +239,7 @@ define( function( require ) {
           }
 
           // if the user presses shift + enter, release the balloon to observe the force of charges
-          if ( this.keyState[ Input.KEY_SHIFT ] && this.keyState[ Input.KEY_ENTER ] ) {
+          if ( this.keyState[ Input.KEY_SHIFT ] && this.keyState[ Input.KEY_ENTER ]  || this.keyState[Input.KEY_SPACE ] ) {
             this.isDragged = false;
           }
 
