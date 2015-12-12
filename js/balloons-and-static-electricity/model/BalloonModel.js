@@ -16,10 +16,10 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
 
   // constants
-  // var KEY_S = 83; // keycode for 's'
+  var KEY_S = 83; // keycode for 's'
   var KEY_W = 87; // keyvode for 'w'
-  // var KEY_N = 78; // keycode for 'n'
-  // var KEY_M = 77; // keycode for 'm'
+  var KEY_N = 78; // keycode for 'n'
+  var KEY_M = 77; // keycode for 'm'
 
   /**
    * Constructor
@@ -179,11 +179,24 @@ define( function( require ) {
       if ( dt > 0 ) {
 
         if ( this.isJumping ) {
+          var balloonYValue = this.locationProperty.value.y;
 
           // determine where the user wants the balloon to go based on the next key press
           if( this.keyState[ KEY_W ] ) {
             // Move the balloon over to the wall
-            this.locationProperty.set( new Vector2( model.wall.x, this.locationProperty.value.y ) );
+            this.locationProperty.set( new Vector2( model.wall.x, balloonYValue ) );
+          }
+          if( this.keyState[ KEY_S ] ) {
+            // move the balloon over to the edge of the sweater
+            this.locationProperty.set( new Vector2( model.sweater.x + model.sweater.width, balloonYValue ) );
+          }
+          if( this.keyState[ KEY_M ] ) {
+            // move the balloon back to its initial x location
+            this.locationProperty.set( new Vector2( this.initialLocation.x, balloonYValue ) );
+          }
+          if( this.keyState[ KEY_N ] ) {
+            // move the balloon close to the wall, but not touching it
+            this.locationProperty.set( new Vector2( model.wall.x - 170, balloonYValue ) );
           }
 
           // after jumping the balloon, take out of jumping mode

@@ -192,6 +192,7 @@ define( function( require ) {
           }
           else if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
+            model.isDragged = true;
           }
         } );
         domElement.addEventListener( 'keyup', function( event ) {
