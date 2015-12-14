@@ -83,7 +83,6 @@ define( function( require ) {
         //    <p id="wall-description">The wall has a neutral charge, no more positive charges than negative ones.</p>
         //
         //     TODO: Shouldn't these be part of the control panel?? Not implementing for now.
-        //     <!-- Jesse. We discussed a Toggle Button for the Wall -->
         //     <!-- If the button text is an image, use aria-label="Remove Wall" and aria-label="Add Wall". -->                     
         //     <button aria-pressed="true" aria-describedby="wall-button-description">Remove Wall</button>
         //     <!-- <button aria-pressed="true" aria-describedby="wall-button-description">Add Wall</button> -->
@@ -98,7 +97,7 @@ define( function( require ) {
         var labelElement = document.createElement( 'h3' );
         labelElement.id = 'wall-label-' + uniqueId;
         labelElement.textContent = wallLabelString;
-        domElement.setAttribute( 'aria-labelledby', labelElement );
+        domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
         // create the descriptoin element for the wall
         var descriptionElement = document.createElement( 'p' );
