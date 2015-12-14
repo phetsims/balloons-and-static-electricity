@@ -63,7 +63,8 @@ define( function( require ) {
     playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode ];
     this.addChild( playAreaContainerNode );
 
-    playAreaContainerNode.addChild( new SweaterNode( model ) );
+    var sweaterNode = new SweaterNode( model );
+    playAreaContainerNode.addChild( sweaterNode );
 
     var wall = new WallNode( model );
     playAreaContainerNode.addChild( wall );
@@ -101,6 +102,10 @@ define( function( require ) {
       y: this.layoutBounds.height,
       pickable: false
     } ) );
+
+    // set the accessible order: sweater, balloons wall
+    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wall ];
+
   }
 
   inherit( ScreenView, BalloonsAndStaticElectricityView );
