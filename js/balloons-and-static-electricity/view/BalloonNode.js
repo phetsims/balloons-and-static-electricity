@@ -68,7 +68,8 @@ define( function( require ) {
     this.addInputListener( balloonDragHandler );
 
     // add the Balloon image
-    this.addChild( new Image( imgsrc ) );
+    var balloonImageNode = new Image( imgsrc );
+    this.addChild( balloonImageNode );
 
     //rope
     //TODO: For performance, move this out of BalloonNode and into a separate layer ?
@@ -131,7 +132,7 @@ define( function( require ) {
     } );
 
     // outfit with accessible content
-    this.accessibleContent = {
+    balloonImageNode.accessibleContent = {
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
         var uniqueId = trail.getUniqueId();
@@ -152,9 +153,7 @@ define( function( require ) {
         domElement.setAttribute( 'role', 'slider' );
         domElement.setAttribute( 'title', 'Balloon');
         domElement.id = 'balloon-' + uniqueId;
-        // domElement.tabIndex = '0';
         domElement.draggable = true;
-        // domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
