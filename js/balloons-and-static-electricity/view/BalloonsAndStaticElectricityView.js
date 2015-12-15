@@ -21,7 +21,8 @@ define( function( require ) {
   var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
   var yellowBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.description' );
   var greenBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.description' );
-  var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
+  // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
+  // var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
 
@@ -32,7 +33,8 @@ define( function( require ) {
   function BalloonsAndStaticElectricityView( model ) {
     ScreenView.call( this, { 
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      screenDescription: screenDescriptionString,
+      // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
+      // screenDescription: screenDescriptionString,
       screenLabel: screenLabelString
     } );
 

@@ -177,7 +177,9 @@ define( function( require ) {
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
         var descriptionParagraphElement = document.createElement( 'p' );
-        descriptionParagraphElement.textContent = options.accessibleDescription;
+
+        // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
+        // descriptionParagraphElement.textContent = options.accessibleDescription;
 
         // structure the domElement and its accessible descriptions
         domElement.appendChild( labelElement );

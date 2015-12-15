@@ -18,7 +18,8 @@ define( function( require ) {
 
   // strings
   var sweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.label' );
-  var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
+  // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
+  // var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -101,14 +102,16 @@ define( function( require ) {
 
         // create the label element, and assign it as an aria label for the above div
         var labelElement = document.createElement( 'h3' );
-        labelElement.innerText = sweaterLabelString;
+        labelElement.textContent = sweaterLabelString;
         labelElement.id = 'sweater-label-' + uniqueId;
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
         // create the description element and assign it a unique id.
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'sweater-description-' + uniqueId;
-        descriptionElement.innerText = sweaterDescriptionString;
+
+        // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
+        // descriptionElement.textContent = sweaterDescriptionString;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
         // structure the elements
