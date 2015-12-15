@@ -34,6 +34,7 @@ define( function( require ) {
       charge: 0,
       velocity: 0,
       isVisible: true,
+      isDragged: false,
       width: 134,
       height: 222,
       location: new Vector2( 0, 0 ),
