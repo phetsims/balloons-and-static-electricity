@@ -20,6 +20,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constants
   var KEY_J = 74; // the user can press J to go into a 'jump' mode for the balloon
@@ -131,8 +132,15 @@ define( function( require ) {
       }
     } );
 
-    // outfit with accessible content
+    // create a unique node for the balloon's focus highlight so that the stroke can change when the balloon is being
+    // dragged.
+    // @private
+    this.focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+        lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude()
+    } ); 
+    // outfit with accessible content.  Add to balloon
     balloonImageNode.accessibleContent = {
+      focusHighlight: self.focusHighlightNode,
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
         var uniqueId = trail.getUniqueId();
@@ -209,6 +217,11 @@ define( function( require ) {
         model.isVisibleProperty.lazyLink( function( isVisible ) {
           var accessibleBalloonPeer = document.getElementById( domElement.id );
           accessibleBalloonPeer.hidden = !isVisible;
+        } );
+
+        // change the focus highlight to black when the balloon is being dragged.
+        model.isDraggedProperty.link( function( isDragged ) {
+          self.focusHighlightNode.stroke = isDragged ? 'rgba(0, 0, 0, 0.9)' : 'rgba( 250, 40, 135, 0.9 )';  
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
