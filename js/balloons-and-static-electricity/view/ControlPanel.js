@@ -64,14 +64,30 @@ define( function( require ) {
     var addWallText = new MultiLineText( addWallString, { font: addRemoveFont } );
     var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
+    var wallButtonListener = function() { model.wall.isVisible = !model.wall.isVisible; };
     var wallButton = new RectangularPushButton( {
         content: wallToggleNode,
-        accessibleLabel: removeWallString,
-        accessibleDescription: wallButtonDescriptionString,
         baseColor: 'rgb( 255, 200, 0 )',
-        listener: function() { model.wall.isVisible = !model.wall.isVisible; }
+        listener: wallButtonListener
       }
     );
+
+    // accessible content for the wallButton
+    wallButton.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+
+        // generate the 'supertype peer' for the push button in the parallel DOM.
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
+          accessibleInstance, wallButtonDescriptionString, removeWallString, wallButtonListener );
+
+        // when the button is pressed, the button value needs to toggle to match the text on screen
+        model.wall.isVisibleProperty.link( function( wallVisible ) {
+          accessiblePeer.domElement.value = wallVisible ? removeWallString : addWallString;
+        } );
+
+        return accessiblePeer;
+      }
+    };
 
     // Radio buttons related to charges
     var radioButtonFont = new PhetFont( 15 );
