@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
+  var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
 
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -30,7 +31,13 @@ define( function( require ) {
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
+  // constants
+  var KEY_QUESTION_MARK = 63; // keypress keycode for '?'
+
   function BalloonsAndStaticElectricityView( model ) {
+
+    var thisScreenView = this;
+
     ScreenView.call( this, { 
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
       // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
@@ -107,6 +114,57 @@ define( function( require ) {
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wall ];
+
+    var keyboardHelpDialog = new KeyboardHelpDialog( this );
+    keyboardHelpDialog.center = yellowBalloon.center;
+
+    // set the accessible content
+
+    this.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
+
+        // generate the 'supertype peer' for the ScreenView in the parallel DOM.
+        var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, '', screenLabelString );
+        // accessiblePeer.domElement.setAttribute( 'role', 'application' );
+        
+        // give this screenView element and the node a unique ID for convenient DOM lookup
+        accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
+        thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
+
+        // add a global event listener to all children of this screen view, bubbles through all children
+        // keypress event used to find '?'
+        var activeElement;
+        window.addEventListener( 'keypress', function( event ) {
+          console.log( event.keyCode );
+          // 'global' event behavior in here...
+          if( event.which === KEY_QUESTION_MARK ) {
+
+            // track the active element so we can focus it once the help dialog closes
+            activeElement = document.activeElement;
+
+            // pull up the help dialog
+            keyboardHelpDialog.shownProperty.set( true );
+
+          }
+          
+        } );
+
+        window.addEventListener( 'keydown', function( event ) {
+          if( event.keyCode === 27 ) {
+
+            // hide the keyboardHelpDialog
+            keyboardHelpDialog.shownProperty.set( false );
+
+            // reset focus to the domElement
+            if( activeElement ) { activeElement.focus(); }
+          } 
+        } );
+
+        return accessiblePeer;
+      }
+    };
 
   }
 

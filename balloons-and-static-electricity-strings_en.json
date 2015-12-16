@@ -126,5 +126,60 @@
   "resetBalloons.description": {
     "value": "Select to return balloon(s) to initial position and an uncharged state.",
     "visible": false
+  },
+  "keyboardHelp.dialog": {
+    "value": "Keyboard Help Dialog"
+  },
+  "keyboardHelp.title": {
+    "value": "Keyboard Help",
+    "visible": false
+  },
+  "keyboardHelp.quickMove": {
+    "value": "Quick Move Hotkey Combinations",
+    "visible": false
+  },
+  "keyboardHelp.balloonInteractions": {
+    "value": "Balloon Interactions",
+    "visible": false
+  },
+  "keyboardHelp.simNavigation": {
+    "value": "Sim Navigation and Help",
+    "visible": false
+  },
+  "keyboardHelp.interactions.arrowKeys": {
+    "value": "Arrow Keys: Grabs and moves balloon in any direction.",
+    "visible": false
+  },
+  "keyboardHelp.interactions.spacebarControlEnter": {
+    "value": "Spacebar or Control plus Enter: Releases balloon.",
+    "visible": false
+  },
+  "keyboardHelp.interactions.shiftPlusArrow": {
+    "value": "Shift plus Arrow Key: Grabs and Moves balloon with bigger steps.",
+    "visible": false
+  },
+  "keyboardHelp.hotKeys.balloonJumpToSweater": {
+    "value": "J plus S: Jumps to edge of Sweater.",
+    "visible": false
+  },
+  "keyboardHelp.hotKeys.balloonJumpToWall": {
+    "value": "J plus W: Jumps to Wall.",
+    "visible": false
+  },
+  "keyboardHelp.hotKeys.balloonJumpToNearWall": {
+    "value": "J plus N: Jumps to Near Wall.",
+    "visible": false
+  },
+  "keyboardHelp.hotKeys.balloonJumpToMiddle": {
+    "value": "J plus M: Jumps to Middle of Play Area.",
+    "visible": false
+  },
+  "keyboardHelp.navigation.tab": {
+    "value": "Tab key: Goes to next focusable item.",
+    "visible": false
+  },
+  "keyboardHelp.navigation.questionMark": {
+    "value": "Question Mark: Opens keyboard help.",
+    "visible": false
   }
 }
