@@ -137,7 +137,6 @@ define( function( require ) {
         // keypress event used to find '?'
         var activeElement;
         window.addEventListener( 'keypress', function( event ) {
-          console.log( event.keyCode );
           // 'global' event behavior in here...
           if( event.which === KEY_QUESTION_MARK ) {
 

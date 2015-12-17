@@ -20,6 +20,7 @@ define( function( require ) {
   var KEY_W = 87; // keyvode for 'w'
   var KEY_N = 78; // keycode for 'n'
   var KEY_M = 77; // keycode for 'm'
+  var KEY_CTRL = 17; // keycode for 'ctrl'
 
   /**
    * Constructor
@@ -240,7 +241,7 @@ define( function( require ) {
           }
 
           // if the user presses shift + enter, release the balloon to observe the force of charges
-          if ( this.keyState[ Input.KEY_SHIFT ] && this.keyState[ Input.KEY_ENTER ]  || this.keyState[Input.KEY_SPACE ] ) {
+          if ( this.keyState[ KEY_CTRL ] && this.keyState[ Input.KEY_ENTER ]  || this.keyState[Input.KEY_SPACE ] ) {
             this.isDragged = false;
           }
 
