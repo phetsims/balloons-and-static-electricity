@@ -181,5 +181,9 @@
   "keyboardHelp.navigation.questionMark": {
     "value": "Question Mark: Opens keyboard help.",
     "visible": false
+  },
+  "keyboardHelp.close": {
+    "value": "Close",
+    "visible": false
   }
 }

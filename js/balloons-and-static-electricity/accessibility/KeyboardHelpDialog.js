@@ -38,6 +38,7 @@ define( function( require ) {
   var keyboardHelpHotKeysBalloonJumpToMiddleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToMiddle' );
   var keyboardHelpNavigationTabString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.navigation.tab' );
   var keyboardHelpNavigationQuestionMarkString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.navigation.questionMark' );
+  var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
@@ -99,31 +100,41 @@ define( function( require ) {
         // The dialog needs to look like the following in the parallel DOM:
         // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
         // visual representation yet, DOM elements are all created here.
-        // <h1>Keyboard Help</h1>
-        // <h2>Balloon Interactions</h2>
-        // <ul>
-        //     <li>Arrow Keys: Grabs &amp; moves balloon in any direction.</li>
-        //     <li>Spacebar or Control plus Enter: Releases balloon.</li>
-        //     <li>Shift plus Arrow Key: Grabs &amp; Moves balloon with bigger steps.</li> 
-        // </ul>
-        // <h2>Quick Move Hotkey Combinations</h2>
-        // <ul>
-        //     <li>J plus S: Jumps to edge of Sweater.</li> 
-        //     <li>J plus W: Jumps to Wall.</li>
-        //     <li>J plus N: Jumps to Near Wall.</li>
-        //     <li>J plus M: Jumps to Middle of Play Area.</li>  
-        // </ul>
-        // <h2>Sim Navigation &amp; Help</h2>  
-        // <ul>
-        //     <li>Tab key: Goes to next focusable item.</li>
-        //     <li>Question Mark: Opens keyboard help.</li>
-        // </ul>
+        // <div role="dialog" aria-labelledby="dialog1Title" aria-describedby="dialog1Desc">
+        // <h1 id="dialog1Title">Keyboard Help</h1>
+        //     <section id="dialog1Desc">
+        //         <h2>Balloon Interactions </h2>
+        //         <ul>
+        //             <li>Arrow Keys: Grabs &amp; moves balloon in any direction.</li>
+        //             <li>Spacebar or Control plus Enter: Releases balloon.</li>
+        //             <li>Shift plus Arrow Key: Grabs &amp; Moves balloon with bigger steps.</li> 
+        //         </ul>
+        //         <h2>Quick Move Hotkey Combinations</h2>
+        //         <ul>
+        //             <li>J plus S: Jumps to edge of Sweater.</li> 
+        //             <li>J plus W: Jumps to Wall.</li>
+        //             <li>J plus N: Jumps to Near Wall.</li>
+        //             <li>J plus M: Jumps to Middle of Play Area.</li>  
+        //         </ul>
+        //         <h2>Sim Navigation &amp; Help</h2>  
+        //         <ul>
+        //             <li>Tab key: Goes to next focusable item.</li>
+        //             <li>Question Mark: Opens keyboard help.</li>
+        //         </ul>
+        //     </section>
+        //   <button>Close</button> 
+        // </div>
 
         // create the h1
         var keyboardHelpHeadingElement = document.createElement( 'h1' );
         keyboardHelpHeadingElement.id = 'dialog-label-' + uniqueId;
         domElement.setAttribute( 'aria-labelledby', keyboardHelpHeadingElement.id );
         keyboardHelpHeadingElement.textContent = keyboardHelpTitleString;
+
+        // create the containing section element
+        var containingSectionElement = document.createElement( 'section' );
+        containingSectionElement.id ='dialog-section-' + uniqueId;
+        domElement.setAttribute( 'aria-describedby', containingSectionElement.id );
 
         // create the h2 elements
         var balloonInteractionsHeadingElement = document.createElement( 'h2' );
@@ -172,6 +183,10 @@ define( function( require ) {
         var questionMarkListItemElement = document.createElement( 'li' );
         questionMarkListItemElement.textContent = keyboardHelpNavigationQuestionMarkString;
 
+        // create the button to close the dialog
+        var closeButtonElement = document.createElement( 'button' );
+        closeButtonElement.textContent = keyboardHelpCloseString; 
+
         // structure the help content, starting with the lists
         balloonInteractionsListElement.appendChild( arrowKeysListItemElement );
         balloonInteractionsListElement.appendChild( spacebarControlEnterListItemElement );
@@ -185,25 +200,26 @@ define( function( require ) {
         simNavigationListElement.appendChild( tabKeyListItemElement );
         simNavigationListElement.appendChild( questionMarkListItemElement );
 
-        // structure lists and headings under domElement
+        // structure lists and headings under the domElement and containingSectionElement
         domElement.appendChild( keyboardHelpHeadingElement );
-        domElement.appendChild( balloonInteractionsHeadingElement );
-        domElement.appendChild( balloonInteractionsListElement );
-        domElement.appendChild( quickMoveHeadingElement );
-        domElement.appendChild( quickMoveListElement );
-        domElement.appendChild( simNavigationHeadingElement );
-        domElement.appendChild( simNavigationListElement );
+        domElement.appendChild( containingSectionElement );
+        containingSectionElement.appendChild( balloonInteractionsHeadingElement );
+        containingSectionElement.appendChild( balloonInteractionsListElement );
+        containingSectionElement.appendChild( quickMoveHeadingElement );
+        containingSectionElement.appendChild( quickMoveListElement );
+        containingSectionElement.appendChild( simNavigationHeadingElement );
+        containingSectionElement.appendChild( simNavigationListElement );
+        domElement.appendChild( closeButtonElement );
+
+        // the close button should close the dialog
+        closeButtonElement.addEventListener( 'click', function( event ) {
+          thisDialog.shownProperty.set( false );
+        } );
 
         // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
         // in the screen view.
         thisDialog.shownProperty.link( function( isShown ) {
 
-          // // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
-          // if ( isShown ) {
-          //   debugger;
-          //   accessiblePeer.domElement.focus();
-          // }
-          // debugger;
           var screenViewElement = document.getElementById( screenView.accessibleId );
           screenViewElement.hidden = isShown;
 
