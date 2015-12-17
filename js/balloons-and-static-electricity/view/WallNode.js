@@ -19,8 +19,7 @@ define( function( require ) {
 
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
-  // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
-  // var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -103,9 +102,7 @@ define( function( require ) {
         // create the descriptoin element for the wall
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'wall-description-' + uniqueId;
-
-        // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
-        // descriptionElement.textContent = wallDescriptionString;
+        descriptionElement.textContent = wallDescriptionString;
 
         // structure the wall element with its descriptions
         domElement.appendChild( labelElement );

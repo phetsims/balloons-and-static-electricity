@@ -18,8 +18,7 @@ define( function( require ) {
 
   // strings
   var sweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.label' );
-  // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
-  // var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
+  var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -110,8 +109,7 @@ define( function( require ) {
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'sweater-description-' + uniqueId;
 
-        // disable for now, see https://github.com/phetsims/balloons-and-static-electricity/issues/103
-        // descriptionElement.textContent = sweaterDescriptionString;
+        descriptionElement.textContent = sweaterDescriptionString;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
         // structure the elements
