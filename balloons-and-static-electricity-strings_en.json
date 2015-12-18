@@ -87,8 +87,8 @@
     "value": "Sweater",
     "visible": false
   },
-  "sweater.description": {
-    "value": "The sweater has a neutral charge, no more positive charges than negative ones.",
+  "sweater.descriptionPattern": {
+    "value": "The sweater has a {0} charge, with {1} more positive charges than negative ones.",
     "visible": false
   },
   "wall.label": {
@@ -184,6 +184,30 @@
   },
   "keyboardHelp.close": {
     "value": "Close",
+    "visible": false
+  },
+  "neutral": {
+    "value": "neutral",
+    "visible": false
+  },
+  "netPositive": {
+    "value": "net positive",
+    "visible": false
+  },
+  "no": {
+    "value": "no",
+    "visible": false
+  },
+  "aFew": {
+    "value": "a few",
+    "visible": false
+  },
+  "several": {
+    "value": "several",
+    "visible": false
+  },
+  "many": {
+    "value": "many",
     "visible": false
   }
 }

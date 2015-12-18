@@ -15,13 +15,28 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var sweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.label' );
-  var sweaterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.description' );
+  var sweaterDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.descriptionPattern' );
+  var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
+  var netPositiveString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netPositive' );
+  var noString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/no' );
+  var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
+  var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
+  var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
+
+  // // a map to get the correct charge description for the sweater - based on the net model charge
+  // var chargeAmountDescriptionMap = {
+  //   0: noString,
+  //   5: aFewString,
+  //   25: severalString,
+  //   45: manyString
+  // };
 
   function SweaterNode( model ) {
     var self = this;
@@ -98,6 +113,7 @@ define( function( require ) {
         // create the div element and assign it a unique id.
         var domElement = document.createElement( 'div' );
         domElement.id = 'sweater-' + uniqueId;
+        domElement.setAttribute( 'aria-live', 'assertive' );
 
         // create the label element, and assign it as an aria label for the above div
         var labelElement = document.createElement( 'h3' );
@@ -109,12 +125,38 @@ define( function( require ) {
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'sweater-description-' + uniqueId;
 
-        descriptionElement.textContent = sweaterDescriptionString;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
         // structure the elements
         domElement.appendChild( labelElement );
         domElement.appendChild( descriptionElement );
+
+        // build up the correct charge description based on the state of the model
+        var createDescription = function( charge ) {
+          var chargeNeutralityDescriptionString = charge > 0 ? netPositiveString : neutralString;
+
+          var chargeAmountString;
+          if( charge === 0 ) {
+            chargeAmountString = noString;
+          }
+          else if( charge <= 15 ) {
+            chargeAmountString = aFewString;
+          }
+          else if( charge <= 40 && charge > 10 ) {
+            chargeAmountString = severalString;
+          }
+          else if ( charge > 40 ) {
+            chargeAmountString = manyString;
+          }
+          assert && assert( chargeAmountString, 'String charge amount description not defined.' );
+
+          return StringUtils.format( sweaterDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
+        };
+
+        // whenever the model charge changes, update the accesible description
+        self.sweaterModel.chargeProperty.link( function( charge ) {
+          descriptionElement.textContent = createDescription( charge );
+        } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
 
