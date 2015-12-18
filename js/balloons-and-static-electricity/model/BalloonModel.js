@@ -210,9 +210,9 @@ define( function( require ) {
         if ( this.isDragged ) {
 
           // determine if the user wants to move the balloon quickly or slowly by pressing 'shift'
-          var positionDelta = 3;
+          var positionDelta = 7;
           if ( this.keyState[ Input.KEY_SHIFT ] ) {
-            positionDelta = 7;
+            positionDelta = 8;
           }
 
           var deltaX = 0;
