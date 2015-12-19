@@ -21,6 +21,15 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+
+  // strings
+  var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
+  var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
+  var noString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/no' );
+  var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
+  var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
+  var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
 
   // constants
   var KEY_J = 74; // the user can press J to go into a 'jump' mode for the balloon
@@ -29,7 +38,7 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      accessibleDescription: '',
+      accessibleDescriptionPatternString: '',
       accessibleLabel: ''
     }, options );
 
@@ -159,6 +168,7 @@ define( function( require ) {
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'div' );
         domElement.setAttribute( 'role', 'slider' );
+        domElement.setAttribute( 'aria-live', 'polite' );
         domElement.id = 'balloon-' + uniqueId;
         domElement.draggable = true;
         domElement.tabIndex = '0';
@@ -176,14 +186,13 @@ define( function( require ) {
         descriptionElement.id = 'balloon-description-' + uniqueId;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
+        // create the paragraph containing the actual description
         var descriptionParagraphElement = document.createElement( 'p' );
-        descriptionParagraphElement.textContent = options.accessibleDescription;
 
         // structure the domElement and its accessible descriptions
         domElement.appendChild( labelElement );
         domElement.appendChild( descriptionElement );
         descriptionElement.appendChild( descriptionParagraphElement );
-
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
@@ -202,6 +211,33 @@ define( function( require ) {
             model.isJumping = true;
             model.isDragged = true;
           }
+        } );
+
+        // build up the correct charge description based on the state of the model
+        var createDescription = function( charge ) {
+          var chargeNeutralityDescriptionString = charge < 0 ? netNegativeString : neutralString;
+
+          var chargeAmountString;
+          if( charge === 0 ) {
+            chargeAmountString = noString;
+          }
+          else if( charge >= -15 ) {
+            chargeAmountString = aFewString;
+          }
+          else if( charge >= -40 && charge < -10 ) {
+            chargeAmountString = severalString;
+          }
+          else if ( charge < -40 ) {
+            chargeAmountString = manyString;
+          }
+          assert && assert( chargeAmountString, 'String charge amount description not defined.' );
+
+          return StringUtils.format( options.accessibleDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
+        };
+
+        // whenever the model charge changes, update the accesible description
+        model.chargeProperty.link( function( charge ) {
+          descriptionParagraphElement.textContent = createDescription( charge );
         } );
         domElement.addEventListener( 'keyup', function( event ) {
           // update the keyState object for keyboard interaction

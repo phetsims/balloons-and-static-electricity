@@ -20,8 +20,8 @@ define( function( require ) {
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
   var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
-  var yellowBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.description' );
-  var greenBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.description' );
+  var yellowBalloonDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.descriptionPattern' );
+  var greenBalloonDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.descriptionPattern' );
   var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
@@ -86,11 +86,11 @@ define( function( require ) {
     var balloonsNode = new Node(); // TODO: Why this container?
     var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
       accessibleLabel: greenBalloonLabelString,
-      accessibleDescription: greenBalloonDescriptionString
+      accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
     var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
       accessibleLabel: yellowBalloonLabelString,
-      accessibleDescription: yellowBalloonDescriptionString
+      accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
     balloonsNode.children = [ yellowBalloon, greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
