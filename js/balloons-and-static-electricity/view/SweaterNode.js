@@ -26,6 +26,7 @@ define( function( require ) {
   var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
   var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
   var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
+  var sweaterNoMoreChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.noMoreCharges' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -150,7 +151,11 @@ define( function( require ) {
           }
           assert && assert( chargeAmountString, 'String charge amount description not defined.' );
 
-          return StringUtils.format( sweaterDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
+          // build the formatted string
+          var chargeDescriptionString = StringUtils.format( sweaterDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
+
+          // notify if no more charges remain on sweater
+          return charge === 57 ? chargeDescriptionString + ' ' + sweaterNoMoreChargesString : chargeDescriptionString;
         };
 
         // whenever the model charge changes, update the accesible description

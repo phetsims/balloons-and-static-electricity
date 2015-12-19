@@ -91,6 +91,10 @@
     "value": "The sweater has a {0} charge, with {1} more positive charges than negative ones.",
     "visible": false
   },
+  "sweater.noMoreCharges": {
+    "value": "No more charges remaining on sweater",
+    "visible": false
+  },
   "wall.label": {
     "value": "Wall",
     "visible": false
