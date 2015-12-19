@@ -99,8 +99,36 @@
     "value": "Wall",
     "visible": false
   },
-  "wall.description": {
+  "wall.chargeNeutralityDescription": {
     "value": "The wall has a neutral charge, no more positive charges than negative ones.",
+    "visible": false
+  },
+  "wall.chargeDisplacementDescriptionPattern": {
+    "value": "Negative charges in the wall {0} balloon in a {1} arch.",
+    "visible": false
+  },
+  "wallCharges.remainInPlace": {
+    "value": "remain in place",
+    "visible": false
+  },
+  "wallCharges.repelAwayFrom": {
+    "value": "repel away from",
+    "visible": false
+  },
+  "wallCharges.arch.no": {
+    "value": "no",
+    "visible": false
+  },
+  "wallCharges.arch.small": {
+    "value": "small",
+    "visible": false
+  },
+  "wallCharges.arch.mediumSized": {
+    "value": "mediumSized",
+    "visible": false
+  },
+  "wallCharges.arch.large": {
+    "value": "large",
     "visible": false
   },
   "wallButton.description": {

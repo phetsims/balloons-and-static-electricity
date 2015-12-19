@@ -16,10 +16,18 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
-  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+  var wallChargeNeutralityDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeNeutralityDescription' );
+  var wallChargeDisplacementDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeDisplacementDescriptionPattern' );
+  var wallChargesRemainInPlaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.remainInPlace' );
+  var wallChargesRepelAwayFromString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.repelAwayFrom' );
+  var wallChargesArchNoString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.no' );
+  var wallChargesArchSmallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.small' );
+  var wallChargesArchMediumSizedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.mediumSized' );
+  var wallChargesArchLargeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.large' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -92,6 +100,7 @@ define( function( require ) {
         // create the element representing the wall
         var domElement = document.createElement( 'div' );
         domElement.id = 'wall-' + uniqueId;
+        // domElement.setAttribute( 'aria-live', 'polite' ); TODO: This makes descriptions loop forever!
 
         // create the label element for the wall
         var labelElement = document.createElement( 'h3' );
@@ -102,7 +111,51 @@ define( function( require ) {
         // create the descriptoin element for the wall
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'wall-description-' + uniqueId;
-        descriptionElement.textContent = wallDescriptionString;
+        descriptionElement.textContent = wallChargeNeutralityDescriptionString;
+
+        // update the description element text content when balloon position changes, accounting 
+        // for the charge of the balloon.
+        model.balloons.forEach( function( balloon ) {
+          balloon.locationProperty.link( function( location ) {
+            var distFromWall = model.wall.x - location.x;
+
+            var wallDescriptionString = '';
+            var chargeMovementString;
+            var archSizeString = '';
+            if( distFromWall < 170 ) {
+
+              // build the charge displacement description.
+              var chargeDisplacementDescriptionString = '';
+              if( balloon.charge === 0 ) {
+                chargeMovementString = wallChargesRemainInPlaceString;
+                archSizeString = wallChargesArchNoString;
+              }
+              else if( balloon.charge > -15 && balloon.charge < 0 ) {
+                chargeMovementString = wallChargesRepelAwayFromString;
+                archSizeString = wallChargesArchSmallString;
+              }
+              else if( balloon.charge > -35 && balloon.charge < -16) {
+                chargeMovementString = wallChargesRepelAwayFromString;
+                archSizeString = wallChargesArchMediumSizedString;
+              }
+              else if( balloon.charge > -60 && balloon.charge < -36 ) {
+                chargeMovementString = wallChargesRepelAwayFromString;
+                archSizeString = wallChargesArchLargeString;
+              }
+              assert && assert( archSizeString, 'description string not defined' );
+
+              chargeDisplacementDescriptionString = StringUtils.format( wallChargeDisplacementDescriptionPatternString, chargeMovementString, archSizeString );
+              wallDescriptionString = wallChargeNeutralityDescriptionString + chargeDisplacementDescriptionString;
+
+            }
+            else{
+              wallDescriptionString = wallChargeNeutralityDescriptionString;
+            }
+
+            descriptionElement.textContent = wallDescriptionString;
+
+          } );
+        } );
 
         // structure the wall element with its descriptions
         domElement.appendChild( labelElement );

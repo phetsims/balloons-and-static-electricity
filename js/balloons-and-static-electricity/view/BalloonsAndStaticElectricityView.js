@@ -124,7 +124,7 @@ define( function( require ) {
         var uniqueId = trail.getUniqueId();
 
         // generate the 'supertype peer' for the ScreenView in the parallel DOM.
-        var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, '', screenLabelString );
+        var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, screenDescriptionString, screenLabelString );
         // accessiblePeer.domElement.setAttribute( 'role', 'application' );
         
         // give this screenView element and the node a unique ID for convenient DOM lookup
