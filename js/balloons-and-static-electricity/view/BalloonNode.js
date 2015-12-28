@@ -21,15 +21,6 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-
-  // strings
-  var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
-  var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
-  var noString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/no' );
-  var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
-  var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
-  var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
 
   // constants
   var KEY_J = 74; // the user can press J to go into a 'jump' mode for the balloon
@@ -155,44 +146,27 @@ define( function( require ) {
         var uniqueId = trail.getUniqueId();
 
         //  content for the accessibility tree should look like
-        //  <div id="balloon" aria-labelledby="balloon-label" aria-describedby="balloon-description" tabindex="0">
-        //    <h3 id="balloon-label">Balloon</h3>
-        //    <!-- Parts of the Balloon description change dynamically. Let's discuss this further. Multiple ids can be associated in aria-describedby. --> 
-        //    <div id="balloon-description">
-        //      <p id="balloon-charge">The balloon has a neutral charge, no more negative charges than positive ones.</p>
-        //      <p id="balloon-position">Currently, positioned at equal distance between sweater and wall. The sweater is to the left and the wall is to the right. The top of the balloon is level with the chest area of the sweater.</p> 
-        //      <p id="balloon-nav-help">Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select K or question mark for keyboard help.</p>
-        //    </div>
-        //  </div>
+        // <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346"
+        //      id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label" 
+        //      aria-describedby="balloon-description">
 
         // create the element for the balloon, initialize its hidden state
-        var domElement = document.createElement( 'div' );
-        domElement.setAttribute( 'role', 'slider' );
-        domElement.setAttribute( 'aria-live', 'polite' );
+        var domElement = document.createElement( 'input' );
+        domElement.setAttribute( 'role', 'application' );
+        domElement.setAttribute( 'type', 'image' );
+        domElement.setAttribute( 'alt', '' ); // alt tag null because we are using an aria-label
         domElement.id = 'balloon-' + uniqueId;
+        domElement.name = domElement.id;
         domElement.draggable = true;
-        domElement.tabIndex = '0';
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
-        // create the accessible label
-        var labelElement = document.createElement( 'h3' );
-        labelElement.id = 'balloon-label-' + uniqueId;
-        labelElement.textContent = options.accessibleLabel;        
-        domElement.setAttribute( 'aria-labelledby', labelElement.id );
+        // set label and description attributes
+        domElement.setAttribute( 'aria-labelledby', options.accessibleLabelId );
+        domElement.setAttribute( 'aria-describedby', options.accessibleDescriptionId );
 
-        // create a container for the accessible descriptions
-        var descriptionElement = document.createElement( 'div' );
-        descriptionElement.id = 'balloon-description-' + uniqueId;
-        domElement.setAttribute( 'aria-describedby', descriptionElement.id );
-
-        // create the paragraph containing the actual description
-        var descriptionParagraphElement = document.createElement( 'p' );
-
-        // structure the domElement and its accessible descriptions
-        domElement.appendChild( labelElement );
-        domElement.appendChild( descriptionElement );
-        descriptionElement.appendChild( descriptionParagraphElement );
+        // @private (a11y) - allow for lookup of element within view
+        self.domElement = domElement;
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
@@ -213,32 +187,6 @@ define( function( require ) {
           }
         } );
 
-        // build up the correct charge description based on the state of the model
-        var createDescription = function( charge ) {
-          var chargeNeutralityDescriptionString = charge < 0 ? netNegativeString : neutralString;
-
-          var chargeAmountString;
-          if( charge === 0 ) {
-            chargeAmountString = noString;
-          }
-          else if( charge >= -15 ) {
-            chargeAmountString = aFewString;
-          }
-          else if( charge >= -40 && charge < -10 ) {
-            chargeAmountString = severalString;
-          }
-          else if ( charge < -40 ) {
-            chargeAmountString = manyString;
-          }
-          assert && assert( chargeAmountString, 'String charge amount description not defined.' );
-
-          return StringUtils.format( options.accessibleDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
-        };
-
-        // whenever the model charge changes, update the accesible description
-        model.chargeProperty.link( function( charge ) {
-          descriptionParagraphElement.textContent = createDescription( charge );
-        } );
         domElement.addEventListener( 'keyup', function( event ) {
           // update the keyState object for keyboard interaction
           model.keyState[ event.keyCode || event.which ] = false;
