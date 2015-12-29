@@ -154,19 +154,35 @@ define( function( require ) {
       new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
       model.balloons[ 1 ].isVisibleProperty
     );
+    var resetBalloonButtonListener = function() {
+      model.sweater.reset();
+      model.balloons.forEach( function( entry ) {
+        entry.reset( true );
+      } );
+    };
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
       buttonValue: resetBalloonString,
       baseColor: 'rgb( 255, 200, 0 )',
-      listener: function() {
-        model.sweater.reset();
-        model.balloons.forEach( function( entry ) {
-          entry.reset( true );
-        } );
-      },
-      accessibleDescription: resetBalloonsDescriptionString,
-      accessibleLabel: resetBalloonsString
+      listener: resetBalloonButtonListener
     } );
+
+    // accessible content for the resetBalloonButton
+    resetBalloonButton.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+
+        // generate the 'supertype peer' for the push button in the parallel DOM.
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
+          accessibleInstance, resetBalloonsDescriptionString, resetBalloonString, resetBalloonButtonListener );
+
+        // when the button is pressed, the button value needs to toggle to match the text on screen
+        model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
+          accessiblePeer.domElement.value = balloonVisible ? resetBalloonsString : resetBalloonString;
+        } );
+
+        return accessiblePeer;
+      }
+    };
 
     var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButton ] } );
 
