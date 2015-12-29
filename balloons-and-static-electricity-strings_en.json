@@ -84,7 +84,7 @@
     "visible": false
   },
   "screen.description": {
-    "value": "A balloon floats evenly between a large woolly sweater and a removable wall. The sweater is to the left and the wall is to the right.  Each object shows negative and positive charges. Charges are shown in pairs. Currently, the sweater and the wall have many pairs of charges, the balloon, just a few. The control panel has controls to add a second balloon, adjust charge views and to reset the entire experiment. Select Tab for next item. Select K or question mark for keyboard help. Select H for a heading outline.",
+    "value": "In the Play Area, there are one or two balloons, a sweater and a removable wall. Each object shows negative and positive charges. Charges are shown in pairs. Below the Play Area, a Control Panel allows you to add and remove objects, adjust charge views and reset the entire experiment. Currently, the sweater and wall have many pairs of charges, the balloon, just a few. Tab to navigate between objects. Select question mark for keyboard help.",
     "visible": false
   },
   "screen.label": {
