@@ -35,6 +35,14 @@
   "BalloonApplet.ChargeDisplay": {
     "value": "Charge Display"
   },
+  "removeWall.label": {
+    "value": "Remove Wall",
+    "visible": false
+  },
+  "addWall.label": {
+    "value": "Add Wall",
+    "visible": false
+  },
   "removeWall": {
     "value": "Remove\nWall"
   },

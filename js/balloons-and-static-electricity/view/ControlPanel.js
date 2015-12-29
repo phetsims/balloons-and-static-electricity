@@ -49,6 +49,8 @@ define( function( require ) {
   var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var balloonSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.label' );
   var resetBalloonsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.description' );
+  var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
+  var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -78,11 +80,11 @@ define( function( require ) {
 
         // generate the 'supertype peer' for the push button in the parallel DOM.
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
-          accessibleInstance, wallButtonDescriptionString, removeWallString, wallButtonListener );
+          accessibleInstance, wallButtonDescriptionString, removeWallLabelString, wallButtonListener );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
-          accessiblePeer.domElement.value = wallVisible ? removeWallString : addWallString;
+          accessiblePeer.domElement.value = wallVisible ? removeWallLabelString : addWallLabelString;
         } );
 
         return accessiblePeer;
