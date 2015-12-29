@@ -67,7 +67,6 @@ define( function( require ) {
 
     // add the heading to the container element, and make sure it comes first
     playAreaContainerNode.addChild( accessibleHeadingNode );
-    playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode ];
     this.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model );
@@ -111,7 +110,7 @@ define( function( require ) {
     } ) );
 
     // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wall ];
+    playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode, sweaterNode, balloonsNode, wall ];
 
     var keyboardHelpDialog = new KeyboardHelpDialog( this );
     keyboardHelpDialog.center = yellowBalloon.center;
