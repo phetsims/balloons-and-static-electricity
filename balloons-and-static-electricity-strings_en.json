@@ -64,19 +64,19 @@
     "visible": false
   },
   "yellowBalloon.label": {
-    "value": "Balloon one",
+    "value": "Yellow Balloon",
     "visible": false
   },
   "greenBalloon.label": {
-    "value": "Balloon two",
+    "value": "Green Balloon",
     "visible": false
   },
   "yellowBalloon.descriptionPattern": {
-    "value": "Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
     "visible": false
   },
   "greenBalloon.descriptionPattern": {
-    "value": "Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
     "visible": false
   },
   "playArea.label": {
