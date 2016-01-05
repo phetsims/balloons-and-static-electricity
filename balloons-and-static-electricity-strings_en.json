@@ -163,8 +163,8 @@
     "value": "Toggle to conduct experiments with two balloons or just one.",
     "visible": false
   },
-  "resetBalloons.description": {
-    "value": "Select to return balloon(s) to initial position and an uncharged state.",
+  "resetBalloons.descriptionPattern": {
+    "value": "Select to {0} to initial position and an uncharged state.",
     "visible": false
   },
   "keyboardHelp.dialog": {

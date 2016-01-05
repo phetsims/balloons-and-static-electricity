@@ -27,6 +27,7 @@ define( function( require ) {
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
   var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // images 
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -48,7 +49,7 @@ define( function( require ) {
   var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
   var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var balloonSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.label' );
-  var resetBalloonsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.description' );
+  var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
 
@@ -171,13 +172,22 @@ define( function( require ) {
     resetBalloonButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
 
+        var balloonVisibleProperty = model.balloons[1].isVisibleProperty;
+
+        // generate the correct description string for the button
+        var generateDescriptionString = function( balloonVisible ) {
+          var resetString = balloonVisible ? resetBalloonsString : resetBalloonString;
+          return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
+        };
+
         // generate the 'supertype peer' for the push button in the parallel DOM.
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
-          accessibleInstance, resetBalloonsDescriptionString, resetBalloonString, resetBalloonButtonListener );
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance,
+         generateDescriptionString( balloonVisibleProperty.value ), resetBalloonString, resetBalloonButtonListener );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
           accessiblePeer.domElement.value = balloonVisible ? resetBalloonsString : resetBalloonString;
+          accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) );
         } );
 
         return accessiblePeer;
