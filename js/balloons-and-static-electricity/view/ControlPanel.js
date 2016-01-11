@@ -72,7 +72,9 @@ define( function( require ) {
         property: model.showChargesProperty,
         value: 'diff'
       }
-    ] );
+    ], {
+      touchXPadding: 5
+    } );
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
