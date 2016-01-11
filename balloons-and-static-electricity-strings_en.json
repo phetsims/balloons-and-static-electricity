@@ -1,39 +1,15 @@
-{
-  "rub.the.balloon": {
-    "value": "Rub the balloon"
-  },
-  "BalloonApplet.Wall": {
-    "value": "Wall"
-  },
-  "on.the.sweater": {
-    "value": "on the sweater"
-  },
+ {
   "balloons-and-static-electricity.title": {
     "value": "Balloons and Static Electricity"
   },
   "BalloonApplet.ShowChargeDifferences": {
     "value": "Show charge differences"
   },
-  "BalloonApplet.IgnoreInitialBalloonCharge": {
-    "value": "Ignore Initial Balloon Charge"
-  },
-  "bring.the.balloon": {
-    "value": "Bring the balloon"
-  },
   "BalloonApplet.ShowAllCharges": {
     "value": "Show all charges"
   },
   "BalloonApplet.ShowNoCharges": {
     "value": "Show no charges"
-  },
-  "near.the.wall": {
-    "value": "near the wall"
-  },
-  "BalloonApplet.TwoBalloons": {
-    "value": "Two Balloons"
-  },
-  "BalloonApplet.ChargeDisplay": {
-    "value": "Charge Display"
   },
   "removeWall": {
     "value": "Remove\nWall"
