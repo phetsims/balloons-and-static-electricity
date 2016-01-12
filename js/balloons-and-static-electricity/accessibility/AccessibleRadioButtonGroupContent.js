@@ -31,14 +31,14 @@ define( function( require ) {
           /**
            *  We want elements of the parallel DOM to look like:
            * 
-           *    <fieldset id="radio-button-group-id" role="radiogroup" aria-describedby="radio-group-description-id legend-id">
-           *      <legend> (defined and added in another node so that we can place it on top of following children) </legend>
+           *    <div id="radio-button-group-id" aria-describedby="radio-group-description-id legend-id">
+           *      <h3> (defined and added in another node so that we can place it on top of following children) </h3>
            *       ...(elements of the button group)
            *      <p id="radio-group-description-id">Translatable description of the radio group</p>
+           *    </div>
            */
           var domElement = document.createElement( 'fieldset' );
           domElement.id = 'radio-button-group-' + uniqueId;
-          domElement.setAttribute( 'role', 'radiogroup' );
 
           var descriptionElement = document.createElement( 'p' );
           descriptionElement.id = 'radio-group-description-' + uniqueId;
