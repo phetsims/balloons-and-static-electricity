@@ -19,11 +19,15 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var Input = require( 'SCENERY/input/Input' );
+  // var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constants
-  var KEY_J = 74; // the user can press J to go into a 'jump' mode for the balloon
+  var KEY_J = 74; // keycode for the 'j' key
+  var KEY_A = 65; // keycode for the 'a' key
+  var KEY_S = 83; // keycode for the 's' key
+  var KEY_D = 68; // keycode for the 'd' key
+  var KEY_W = 87; // keycode for the 'w' key
 
   function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
     var self = this;
@@ -152,12 +156,13 @@ define( function( require ) {
 
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'input' );
-        domElement.setAttribute( 'role', 'application' );
-        domElement.setAttribute( 'type', 'image' );
+        domElement.setAttribute( 'role', 'button' );
+        domElement.setAttribute( 'type', 'text' );
+        domElement.setAttribute( 'readonly', 'true' );
         domElement.setAttribute( 'alt', '' ); // alt tag null because we are using an aria-label
         domElement.id = 'balloon-' + uniqueId;
         domElement.name = domElement.id;
-        domElement.draggable = true;
+        domElement.setAttribute( 'draggable', 'true' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
@@ -170,13 +175,18 @@ define( function( require ) {
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
+          console.log( 'keydown' );
 
           // update the keyState object for keyboard interaction
           model.keyState[ event.keyCode || event.which ] = true;
 
+          // Temporarily replace arrow keys for WASD keys, see
+          // https://github.com/phetsims/balloons-and-static-electricity/issues/108
           // if the user presses any of the arrow keys, immediately pick up the balloon for drag and drop
-          if ( model.keyState[ Input.KEY_RIGHT_ARROW ] || model.keyState[ Input.KEY_LEFT_ARROW ] ||
-               model.keyState[ Input.KEY_UP_ARROW ] || model.keyState[ Input.KEY_DOWN_ARROW ] ) {
+          // if ( model.keyState[ Input.KEY_RIGHT_ARROW ] || model.keyState[ Input.KEY_LEFT_ARROW ] ||
+          //      model.keyState[ Input.KEY_UP_ARROW ] || model.keyState[ Input.KEY_DOWN_ARROW ] ) {
+          if ( model.keyState[ KEY_W ] || model.keyState[ KEY_D ] ||
+               model.keyState[ KEY_A ] || model.keyState[ KEY_S ] ) {
             // pick up the balloon
             model.isDragged = true;
           }
@@ -188,13 +198,14 @@ define( function( require ) {
         } );
 
         domElement.addEventListener( 'keyup', function( event ) {
-          // update the keyState object for keyboard interaction
+          console.log( 'keyup' );
+          // update the keyState object for keyboard interaction 
           model.keyState[ event.keyCode || event.which ] = false;
         } );
 
         // release the balloon when the user shifts focus
         domElement.addEventListener( 'blur', function( event ) {
-          model.isDragged = false;
+          model.isDraggedProperty.set( false );
         } );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery

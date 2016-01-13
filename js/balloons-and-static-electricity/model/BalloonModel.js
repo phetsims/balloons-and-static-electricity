@@ -20,6 +20,8 @@ define( function( require ) {
   var KEY_W = 87; // keyvode for 'w'
   var KEY_N = 78; // keycode for 'n'
   var KEY_M = 77; // keycode for 'm'
+  var KEY_A = 65; // keycode for the 'a'
+  var KEY_D = 68; // keycode for the 'd'
   var KEY_CTRL = 17; // keycode for 'ctrl'
 
   /**
@@ -218,18 +220,33 @@ define( function( require ) {
           var deltaX = 0;
           var deltaY = 0;
 
+          // Temporarily replace arrow keys for WASD keys, see
+          // https://github.com/phetsims/balloons-and-static-electricity/issues/108
+          
           // handle balloon position changes due to keyboard navigation
           // if the user presses any arrow key, pick it up immediately
-          if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
+          // if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
+          //   deltaX = -positionDelta;
+          // }
+          // if ( this.keyState[ Input.KEY_RIGHT_ARROW ] ) {
+          //   deltaX = +positionDelta;
+          // }
+          // if ( this.keyState[ Input.KEY_UP_ARROW ] ) {
+          //   deltaY = -positionDelta;
+          // }
+          // if ( this.keyState[ Input.KEY_DOWN_ARROW ] ) {
+          //   deltaY = +positionDelta;
+          // }
+          if ( this.keyState[ KEY_A ] ) {
             deltaX = -positionDelta;
           }
-          if ( this.keyState[ Input.KEY_RIGHT_ARROW ] ) {
+          if ( this.keyState[ KEY_D ] ) {
             deltaX = +positionDelta;
           }
-          if ( this.keyState[ Input.KEY_UP_ARROW ] ) {
+          if ( this.keyState[ KEY_W ] ) {
             deltaY = -positionDelta;
           }
-          if ( this.keyState[ Input.KEY_DOWN_ARROW ] ) {
+          if ( this.keyState[ KEY_S ] ) {
             deltaY = +positionDelta;
           }
 
