@@ -91,12 +91,10 @@ define( function( require ) {
 
       }
     };
-    console.log( thisNode.bounds );
     // create a scenery node that contains all of the accessibility information for the toggle button
     var accessibilityNode = new Rectangle( thisNode.bounds.dilated( 5 ), {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
-          console.log( thisNode.bounds );
           var trail = accessibleInstance.trail;
           var uniqueId = trail.getUniqueId();
 
