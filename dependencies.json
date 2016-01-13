@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.7 Mon Dec 28 2015 17:59:10 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.8 Tue Jan 12 2016 18:30:56 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "48acd79002f4cde06c2504e4da1ef71de475864c",
+    "sha": "caf31daf3527fc356c767fa36f43511346d38422",
     "branch": "accessible-instance"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "a57d7701cd75ac5f94fda8c38eff90130927928e",
+    "sha": "8ef60fcf7b594e8764c2b7840c9e8f6259a98475",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "71122bc5f30b6f6c67318001049b7db7ca8978aa",
+    "sha": "fa1196f6e353f71a290ca38b807c5aa6a59f14b7",
     "branch": "master"
   },
   "kite": {
@@ -33,7 +33,7 @@
     "branch": "master"
   },
   "phet-core": {
-    "sha": "73a034c676ee7b14b99aeeb1e7aad79f579b91b1",
+    "sha": "f78b5cfe4765cc949fdcdee511777dae4d6856ba",
     "branch": "master"
   },
   "phetcommon": {
@@ -41,11 +41,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "94be6161d94137e0d099ae365cec95ec7975890c",
+    "sha": "0f5a6f9c426c91327bf2855f2e18473abdc9e83e",
     "branch": "accessible-instance"
   },
   "scenery-phet": {
-    "sha": "518d7edb07599d3eb920c1e18dd8c5db6a0661af",
+    "sha": "6bed84d9cfd8253be8d8334ae8ffcb50ce65ecda",
     "branch": "master"
   },
   "sherpa": {
@@ -53,11 +53,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "441ad636b8d16d42e3c1319c3038ce381647081b",
+    "sha": "982a49b8b0381ccec86dba8eeb17d4205876b4cb",
     "branch": "master"
   },
   "tandem": {
-    "sha": "07fbe58cf2944bbc3f12b6714622017f73504e15",
+    "sha": "873e03879d6af9bf642151585cb27e1605c817fb",
     "branch": "master"
   }
 }
