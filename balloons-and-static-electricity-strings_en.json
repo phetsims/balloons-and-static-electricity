@@ -131,10 +131,6 @@
     "value": "Select how you want to see or hear the charges.",
     "visible": false
   },
-  "balloonSettings.label": {
-    "value": "Balloon Controls",
-    "visible": false
-  },
   "balloonSettings.description": {
     "value": "Toggle to conduct experiments with two balloons or just one.",
     "visible": false
