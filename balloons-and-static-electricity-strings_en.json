@@ -48,11 +48,11 @@
     "visible": false
   },
   "yellowBalloon.descriptionPattern": {
-    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Select WASD key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
     "visible": false
   },
   "greenBalloon.descriptionPattern": {
-    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Select any Arrow key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Select WASD key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
     "visible": false
   },
   "playArea.label": {
@@ -158,16 +158,16 @@
     "value": "Sim Navigation and Help",
     "visible": false
   },
-  "keyboardHelp.interactions.arrowKeys": {
-    "value": "Arrow Keys: Grabs and moves balloon in any direction.",
+  "keyboardHelp.interactions.WASD": {
+    "value": "WASD Keys: Grabs and moves balloon in any direction.",
     "visible": false
   },
   "keyboardHelp.interactions.spacebarControlEnter": {
     "value": "Spacebar or Control plus Enter: Releases balloon.",
     "visible": false
   },
-  "keyboardHelp.interactions.shiftPlusArrow": {
-    "value": "Shift plus Arrow Key: Grabs and Moves balloon with bigger steps.",
+  "keyboardHelp.interactions.shiftPlusWASD": {
+    "value": "Shift plus WASD Key: Grabs and Moves balloon with bigger steps.",
     "visible": false
   },
   "keyboardHelp.hotKeys.balloonJumpToSweater": {

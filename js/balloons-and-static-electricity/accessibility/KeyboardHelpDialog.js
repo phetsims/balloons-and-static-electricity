@@ -29,9 +29,9 @@ define( function( require ) {
   var keyboardHelpQuickMoveString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove' );
   var keyboardHelpBalloonInteractionsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.balloonInteractions' );
   var keyboardHelpSimNavigationString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.simNavigation' );
-  var keyboardHelpInteractionsArrowKeysString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.arrowKeys' );
+  var keyboardHelpInteractionsWASDString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.WASD' );
   var keyboardHelpInteractionsSpacebarControlEnterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.spacebarControlEnter' );
-  var keyboardHelpInteractionsShiftPlusArrowString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.shiftPlusArrow' );
+  var keyboardHelpInteractionsShiftPlusWASDString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.shiftPlusWASD' );
   var keyboardHelpHotKeysBalloonJumpToSweaterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToSweater' );
   var keyboardHelpHotKeysBalloonJumpToWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToWall' );
   var keyboardHelpHotKeysBalloonJumpToNearWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToNearWall' );
@@ -151,13 +151,13 @@ define( function( require ) {
         var balloonInteractionsListElement = document.createElement( 'ul' );
 
         var arrowKeysListItemElement = document.createElement( 'li' );
-        arrowKeysListItemElement.textContent = keyboardHelpInteractionsArrowKeysString;
+        arrowKeysListItemElement.textContent = keyboardHelpInteractionsWASDString;
 
         var spacebarControlEnterListItemElement = document.createElement( 'li' );
         spacebarControlEnterListItemElement.textContent = keyboardHelpInteractionsSpacebarControlEnterString;
 
         var shiftPlusArrowListItemElement = document.createElement( 'li' );
-        shiftPlusArrowListItemElement.textContent = keyboardHelpInteractionsShiftPlusArrowString;
+        shiftPlusArrowListItemElement.textContent = keyboardHelpInteractionsShiftPlusWASDString;
 
         // create the quick move list
         var quickMoveListElement = document.createElement( 'ul' );
