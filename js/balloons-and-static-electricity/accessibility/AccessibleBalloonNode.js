@@ -81,6 +81,7 @@ define( function( require ) {
         var domElement = document.createElement( 'div' );
         domElement.id = 'balloon-container-' + uniqueId;
         domElement.setAttribute( 'aria-live', 'polite' );
+        domElement.setAttribute( 'role', 'application' );
 
         // create the accessible label
         var labelElement = document.createElement( 'h3' );
@@ -93,6 +94,9 @@ define( function( require ) {
         descriptionElement.id = thisNode.accessibleDescriptionId;
         descriptionElement.textContent = options.accessibleDescription;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        // data-at-shortcutkeys is the JAWS API for allowing key pressed to go to the browser.  This is a test to see if it works.
+        domElement.setAttribute( 'data-at-shortcutkeys', "{'j': 'Key to start jumping', 'w': 'Key to jump to wall', 's': 'Key to jump to sweater'}"  ); // eslint-disable-line quotes
 
         // structure the domElement
         domElement.appendChild( labelElement );
