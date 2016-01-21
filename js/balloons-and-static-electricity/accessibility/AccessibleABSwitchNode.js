@@ -90,8 +90,8 @@ define( function( require ) {
           domElement.id = 'abswitch-' + uniqueId;
 
           // set the value and label, which acts as an accessible label
-          domElement.setAttribute( 'value', options.accessibleLabelB );
-          domElement.setAttribute( 'aria-label', options.accessibleLabelB );
+          domElement.setAttribute( 'value', options.accessibleLabelA );
+          domElement.setAttribute( 'aria-label', options.accessibleLabelA );
 
           // set the 'aria-pressed' attribute which provides toggle functionality, initially false
           domElement.setAttribute( 'aria-pressed', false );
