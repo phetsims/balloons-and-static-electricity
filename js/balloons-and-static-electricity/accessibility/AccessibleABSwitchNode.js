@@ -6,12 +6,9 @@
  * one for the <input> element and another for the <p> element.
  *
  * The HTML should look like:
- * <div id="button-container-id">
- *    <input type="button" id="abswitch-id" value="translatable label" aria-describedby="button-description">
- *    <p id="balloon-description">
- *        Translatable description...
- *    </p>
- * </div
+ * <div id="toggle-container14-35-417-492-484-473-468">
+ *   <input type="button" id="abswitch-14-35-417-492-484-473-468-472" aria-label="Single Balloon Experiment" value="‪Single Balloon Experiment‬" aria-pressed="true">
+ * </div>
  * 
  * NOTE: This type of structure is experimental. If this structure is successful and can be applied to additional 
  * simulation elements, Scenery should eventually be able to handle this kind of thing.
@@ -67,31 +64,21 @@ define( function( require ) {
         var uniqueId = trail.getUniqueId();
 
         // The element should look like the following in the Parallel DOM.
-        // <div id="button-container-id">
-        //    <input type="button" id="abswitch-id" value="translatable label..." aria-describedby="button-description"
-        //    aria-pressed="false">
-        //    <p id="balloon-description">
-        //        Translatable description...
-        //    </p>
-        // </div
+        // <div id="toggle-container14-35-417-492-484-473-468">
+        //   <input type="button" id="abswitch-14-35-417-492-484-473-468-472" aria-label="Single Balloon Experiment" value="‪Single Balloon Experiment‬" aria-pressed="true">
+        // </div>
 
         // create the div, set its id
         var domElement = document.createElement( 'div' );
         domElement.id = 'toggle-container' + uniqueId;
 
-        // create the accessible description, added as child, but aria-describes the input element
-        var descriptionElement = document.createElement( 'p' );
-        descriptionElement.textContent = options.accessibleDescription;
-        descriptionElement.id = thisNode.accessibleDescriptionId;
-
-        // structure the domElement
-        domElement.appendChild( descriptionElement );
-
         return new AccessiblePeer( accessibleInstance, domElement );
 
       }
     };
+
     // create a scenery node that contains all of the accessibility information for the toggle button
+    // the scenery rectangle cleanly instantiates bounds for the focus highlight
     var accessibilityNode = new Rectangle( thisNode.bounds.dilated( 5 ), {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
@@ -99,7 +86,7 @@ define( function( require ) {
           var uniqueId = trail.getUniqueId();
 
           // The element should look like the following in the Parallel DOM.
-          // <input type="button" id="abswitch-id" value="translatable label..." aria-pressed="false">
+          // <input type="button" id="abswitch-id" aria-label="translatable label..." value="translatable label..." aria-pressed="false">
 
           // create the input element, set its type and id
           var domElement = document.createElement( 'input' );
@@ -109,8 +96,9 @@ define( function( require ) {
           // add the aria-description, defined in accessibleContent above
           domElement.setAttribute( 'aria-describedby', thisNode.accessibleDescriptionId );
 
-          // set the value, which acts as an accessible label
+          // set the value and label, which acts as an accessible label
           domElement.setAttribute( 'value', options.accessibleLabelB );
+          domElement.setAttribute( 'aria-label', options.accessibleLabelB );
 
           // set the 'aria-pressed' attribute which provides toggle functionality, initially false
           domElement.setAttribute( 'aria-pressed', false );
@@ -119,10 +107,12 @@ define( function( require ) {
           domElement.addEventListener( 'click', function( event ) {
 
             var pressed = property.value === valueA ? valueB : valueA;
+            var labelString = pressed ? options.accessibleLabelA : options.accessibleLabelB;
 
             property.set( pressed );
             domElement.setAttribute( 'aria-pressed', pressed );
-            domElement.setAttribute( 'value', pressed? options.accessibleLabelA : options.accessibleLabelB );
+            domElement.setAttribute( 'value', labelString );
+            domElement.setAttribute( 'aria-label', labelString );
 
           } );
 
