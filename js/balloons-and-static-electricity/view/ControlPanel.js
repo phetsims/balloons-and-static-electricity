@@ -42,8 +42,8 @@ define( function( require ) {
   var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
-  var removeBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeBalloon.label' );
-  var addBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addBalloon.label' );
+  var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
+  var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
   var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
@@ -142,8 +142,8 @@ define( function( require ) {
     var showBalloonsChoice = new Panel(
       new AccessibleABSwitchNode( model.balloons[1].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon,
         { switchSize: new Dimension2( 32, 16 ),
-        accessibleLabelA: removeBalloonLabelString,
-        accessibleLabelB: addBalloonLabelString,
+        accessibleLabelA: twoBalloonExperimentLabelString,
+        accessibleLabelB: singleBalloonExperimentLabelString,
         accessibleDescription: balloonSettingsDescriptionString }
       ), { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );

@@ -31,12 +31,12 @@
   "resetBalloons": {
     "value": "Reset Balloons"
   },
-  "removeBalloon.label": {
-    "value": "Remove green balloon",
+  "singleBalloonExperiment.label": {
+    "value": "Single Balloon Experiment",
     "visible": false
   },
-  "addBalloon.label": {
-    "value": "Add green balloon",
+  "twoBalloonExperiment.label": {
+    "value": "Two Balloon Experiment",
     "visible": false
   },
   "yellowBalloon.label": {
