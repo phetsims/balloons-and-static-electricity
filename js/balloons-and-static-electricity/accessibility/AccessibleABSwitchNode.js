@@ -53,10 +53,6 @@ define( function( require ) {
     ABSwitch.call( this, property, valueA, labelA, valueB, labelB, options );
     var thisNode = this;
 
-    // The accessible balloon node needs to track the id's of accessible labels so that they can be passed to the 
-    // BalloonNode
-    this.accessibleDescriptionId = 'button-description-' + this.id; // @private (a11y)
-
     // create the div container for this element
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
@@ -92,9 +88,6 @@ define( function( require ) {
           var domElement = document.createElement( 'input' );
           domElement.setAttribute( 'type', 'button' );
           domElement.id = 'abswitch-' + uniqueId;
-
-          // add the aria-description, defined in accessibleContent above
-          domElement.setAttribute( 'aria-describedby', thisNode.accessibleDescriptionId );
 
           // set the value and label, which acts as an accessible label
           domElement.setAttribute( 'value', options.accessibleLabelB );
