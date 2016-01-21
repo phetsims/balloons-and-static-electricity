@@ -96,11 +96,11 @@ define( function( require ) {
           // set the 'aria-pressed' attribute which provides toggle functionality, initially false
           domElement.setAttribute( 'aria-pressed', false );
 
-          // register observers
+          // register observers TODO: This does not sync with teh model property, IT SHOULD
           domElement.addEventListener( 'click', function( event ) {
 
             var pressed = property.value === valueA ? valueB : valueA;
-            var labelString = pressed ? options.accessibleLabelA : options.accessibleLabelB;
+            var labelString = pressed ? options.accessibleLabelB : options.accessibleLabelA;
 
             property.set( pressed );
             domElement.setAttribute( 'aria-pressed', pressed );
