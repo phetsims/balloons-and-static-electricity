@@ -1,6 +1,12 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
+ * All buttons and control elements for Balloons and Static Electricity.
+ * 
+ * Note: All code related to the charge radio buttons is commented out until descriptions are designed
+ * for the state of the radio button group.  Strings are removed from strings json file as well.
+ * See https://github.com/phetsims/balloons-and-static-electricity/issues/120. 
+ *
  * buttons and model control elements
  * Author: Vasily Shakhov (Mlearner)
  */
@@ -18,14 +24,14 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Panel = require( 'SUN/Panel' );
-  var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
+  // var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
-  var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
+  // var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
+  // var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );  
@@ -37,17 +43,17 @@ define( function( require ) {
   // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-  var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
-  var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
-  var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
+  // var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
+  // var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
+  // var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
-  var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
-  var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
+  // var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
+  // var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
   var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
@@ -93,30 +99,32 @@ define( function( require ) {
     };
 
     // Radio buttons related to charges
-    var radioButtonFont = new PhetFont( 15 );
-    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      {
-        node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
-        property: model.showChargesProperty,
-        value: 'all',
-        accessibleLabel: balloonAppletShowAllChargesString
-      },
-      {
-        node: new Text( balloonAppletShowNoChargesString, { font: radioButtonFont } ),
-        property: model.showChargesProperty,
-        value: 'none',
-        accessibleLabel: balloonAppletShowNoChargesString
-      },
-      {
-        node: new Text( balloonAppletShowChargeDifferencesString, { font: radioButtonFont } ),
-        property: model.showChargesProperty,
-        value: 'diff',
-        accessibleLabel: balloonAppletShowChargeDifferencesString
-      }
-    ], {
-      accessibleDescription: chargeSettingsDescriptionString,
-      accessibleLabelA: chargeSettingsLabelString
-    } );
+    // NOTE: We are removing the radios for charge visibility for now, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/120
+    // var radioButtonFont = new PhetFont( 15 );
+    // var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
+    //   {
+    //     node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
+    //     property: model.showChargesProperty,
+    //     value: 'all',
+    //     accessibleLabel: balloonAppletShowAllChargesString
+    //   },
+    //   {
+    //     node: new Text( balloonAppletShowNoChargesString, { font: radioButtonFont } ),
+    //     property: model.showChargesProperty,
+    //     value: 'none',
+    //     accessibleLabel: balloonAppletShowNoChargesString
+    //   },
+    //   {
+    //     node: new Text( balloonAppletShowChargeDifferencesString, { font: radioButtonFont } ),
+    //     property: model.showChargesProperty,
+    //     value: 'diff',
+    //     accessibleLabel: balloonAppletShowChargeDifferencesString
+    //   }
+    // ], {
+    //   accessibleDescription: chargeSettingsDescriptionString,
+    //   accessibleLabelA: chargeSettingsLabelString
+    // } );
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
@@ -208,9 +216,10 @@ define( function( require ) {
 
     this.addChild( new HBox( {
       spacing: 35,
-      children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
+      children: [ balloonsPanel ],
+      // children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
       align: 'bottom',
-      left: 70,
+      left: 768 / 2 - balloonsPanel.width / 2, // layoutBounds.x / 2 - panelWidth / 2
       bottom: layoutBounds.maxY - 4
     } ) );
     this.addChild( controls );
@@ -236,16 +245,21 @@ define( function( require ) {
       }
     };
 
+    // NOTE: We are removing the radio button group for charges for now, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/120
+
     // create a scenery node to contain and structure the legend as as the first child of the showChargesRadioButtonGroup
-    var chargesLegendContainerNode = new AccessibleLegendNode( chargeSettingsLabelString );
-    showChargesRadioButtonGroup.addChild( chargesLegendContainerNode );
+    // var chargesLegendContainerNode = new AccessibleLegendNode( chargeSettingsLabelString );
+    // showChargesRadioButtonGroup.addChild( chargesLegendContainerNode );
 
     // create accessible content for the charges radio button group, and make sure that the legend comes first.
-    showChargesRadioButtonGroup.accessibleContent = AccessibleRadioButtonGroupContent.createAccessibleContent( chargeSettingsDescriptionString );
-    showChargesRadioButtonGroup.accessibleOrder = [ chargesLegendContainerNode ];
+    // showChargesRadioButtonGroup.accessibleContent = AccessibleRadioButtonGroupContent.createAccessibleContent( chargeSettingsDescriptionString );
+    // showChargesRadioButtonGroup.accessibleOrder = [ chargesLegendContainerNode ];
 
     // define the navigation order for accessible content in the control panel.
-    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
+    // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, resetAllButton ];
+
 
   }
 
