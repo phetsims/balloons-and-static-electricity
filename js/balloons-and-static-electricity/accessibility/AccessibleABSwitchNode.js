@@ -96,17 +96,16 @@ define( function( require ) {
           // set the 'aria-pressed' attribute which provides toggle functionality, initially false
           domElement.setAttribute( 'aria-pressed', false );
 
-          // register observers TODO: This does not sync with teh model property, IT SHOULD
+          // Set the property with interaction in the parallel DOM
           domElement.addEventListener( 'click', function( event ) {
-
             var pressed = property.value === valueA ? valueB : valueA;
-            var labelString = pressed ? options.accessibleLabelB : options.accessibleLabelA;
-
             property.set( pressed );
-            domElement.setAttribute( 'aria-pressed', pressed );
-            domElement.setAttribute( 'value', labelString );
-            domElement.setAttribute( 'aria-label', labelString );
+          } );
 
+          // Link the property to the toggled state
+          property.link( function( value ) {
+            var pressed = value === valueA ? false : true;
+            domElement.setAttribute( 'aria-pressed', pressed );
           } );
 
           return new AccessiblePeer( accessibleInstance, domElement );
