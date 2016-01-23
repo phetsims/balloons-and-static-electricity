@@ -22,23 +22,31 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-
+ 
   // strings
   var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
-  var keyboardHelpTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.title' );
-  var keyboardHelpQuickMoveString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove' );
-  var keyboardHelpBalloonInteractionsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.balloonInteractions' );
-  var keyboardHelpSimNavigationString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.simNavigation' );
-  var keyboardHelpInteractionsWASDString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.WASD' );
-  var keyboardHelpInteractionsSpacebarControlEnterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.spacebarControlEnter' );
-  var keyboardHelpInteractionsShiftPlusWASDString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.interactions.shiftPlusWASD' );
-  var keyboardHelpHotKeysBalloonJumpToSweaterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToSweater' );
-  var keyboardHelpHotKeysBalloonJumpToWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToWall' );
-  var keyboardHelpHotKeysBalloonJumpToNearWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToNearWall' );
-  var keyboardHelpHotKeysBalloonJumpToMiddleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.hotKeys.balloonJumpToMiddle' );
-  var keyboardHelpNavigationTabString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.navigation.tab' );
-  var keyboardHelpNavigationQuestionMarkString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.navigation.questionMark' );
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
+  var keyboardHelpBalloonInteractionsHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.balloonInteractions.heading' );  
+  var keyboardHelpGrabAndDragHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.grabAndDrag.heading' );
+  var keyboardHelpWASDKeysDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WASDKeys.description' );
+  var keyboardHelpWKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WKey.description' );
+  var keyboardHelpAKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.AKey.description' );
+  var keyboardHelpSKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.SKey.description' );
+  var keyboardHelpDKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.DKey.description' );
+  var keyboardHelpReleaseBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.releaseBalloon.heading' );
+  var keyboardHelpSpacebarDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.spacebar.description' );
+  var keyboardHelpControlPlusEnterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.controlPlusEnter.description' );
+  var keyboardHelpTabBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tabBalloon.description' );
+  var keyboardHelpQuickMoveHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.heading' );
+  var keyboardHelpQuickMoveDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.description' );
+  var keyboardHelpJPlusSDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusS.description' );
+  var keyboardHelpJPlusWDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusW.description' );
+  var keyboardHelpJPlusNDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusN.description' );
+  var keyboardHelpJPlusMDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusM.description' );
+  var keyboardHelpSimNavigationAndHelpHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.simNavigationAndHelp.heading' );
+  var keyboardHelpTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tab.description' );
+  var keyboardHelpShiftPlusTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.shiftPlusTab.description' );
+  var keyboardHelpQuestionMarkDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.questionMark.description' );
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
@@ -90,9 +98,6 @@ define( function( require ) {
 
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
-        var trail = accessibleInstance.trail;
-        var uniqueId = trail.getUniqueId();
-
         var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, thisDialog );
         var domElement = accessiblePeer.domElement;
         thisDialog.domElement = domElement;
@@ -100,116 +105,160 @@ define( function( require ) {
         // The dialog needs to look like the following in the parallel DOM:
         // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
         // visual representation yet, DOM elements are all created here.
-        // <div role="dialog" aria-labelledby="dialog1Title" aria-describedby="dialog1Desc">
-        // <h1 id="dialog1Title">Keyboard Help</h1>
-        //     <section id="dialog1Desc">
-        //         <h2>Balloon Interactions </h2>
+        // <div id="dialog-14-498-496" role="dialog" tabindex="0" aria-labelledby="dialog-label-14-498-496" aria-describedby="dialog-section-14-498-496">
+        //     <h1 id="dialog-label-14-498-496">‪Keyboard Commands and Help‬</h1>
+        //     <section id="dialog-section-14-498-496">
+        //         <h2>‪Balloon Interactions‬</h2>
+        //         <h3>Grab and Drag Balloon</h3>
+        //         <p>Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.</p>
         //         <ul>
-        //             <li>Arrow Keys: Grabs &amp; moves balloon in any direction.</li>
-        //             <li>Spacebar or Control plus Enter: Releases balloon.</li>
-        //             <li>Shift plus Arrow Key: Grabs &amp; Moves balloon with bigger steps.</li> 
+        //             <li>W key drags up. Shift plus W drags up a lot.</li>
+        //             <li>A key drags left.</li>
+        //             <li>S key drags down.</li>
+        //             <li>D key drags right.</li>
+        //        </ul>
+        //        <h3>Release Balloon</h3>
+        //        <ul>
+        //            <li>‪Spacebar: Releases balloon.‬</li>
+        //            <li>‪Control plus Enter (Windows-only): Releases balloon.‬</li>
+        //            <li>‪Tabbing away from the balloon will release it.‬</li>
         //         </ul>
-        //         <h2>Quick Move Hotkey Combinations</h2>
+        //         <h3>‪Quick Move Hotkeys‬</h3>
+        //        <p>Use these key combinations to jump to a location in the Play Area.</p>
         //         <ul>
-        //             <li>J plus S: Jumps to edge of Sweater.</li> 
-        //             <li>J plus W: Jumps to Wall.</li>
-        //             <li>J plus N: Jumps to Near Wall.</li>
-        //             <li>J plus M: Jumps to Middle of Play Area.</li>  
+        //             <li>‪J plus S jumps to edge of sweater.‬</li>
+        //             <li>‪J plus W jumps to wall.‬</li>
+        //             <li>‪J plus N jumps to near wall.‬</li>
+        //             <li>‪J plus M jumps to middle of Play Area.‬</li>
         //         </ul>
-        //         <h2>Sim Navigation &amp; Help</h2>  
+
+        //   <h2>‪Sim Navigation and Help‬</h2>
         //         <ul>
-        //             <li>Tab key: Goes to next focusable item.</li>
-        //             <li>Question Mark: Opens keyboard help.</li>
+        //             <li>‪Press Tab to go to next item.‬</li>
+        //             <li>‪Shift plus Tab to go to previous item.‬</li>
+        //             <li>‪Press Question Mark to opens keyboard commands and help.‬</li>
         //         </ul>
         //     </section>
-        //   <button>Close</button> 
         // </div>
 
-        // create the h1
-        var keyboardHelpHeadingElement = document.createElement( 'h1' );
-        keyboardHelpHeadingElement.id = 'dialog-label-' + uniqueId;
-        domElement.setAttribute( 'aria-labelledby', keyboardHelpHeadingElement.id );
-        keyboardHelpHeadingElement.textContent = keyboardHelpTitleString;
+        // create the h1 element, and add its content
+        var titleHeadingElement = document.createElement( 'h1' );
+        titleHeadingElement.textContent = keyboardHelpDialogString;
 
         // create the containing section element
-        var containingSectionElement = document.createElement( 'section' );
-        containingSectionElement.id ='dialog-section-' + uniqueId;
-        domElement.setAttribute( 'aria-describedby', containingSectionElement.id );
+        var sectionElement = document.createElement( 'section' );
 
         // create the h2 elements
         var balloonInteractionsHeadingElement = document.createElement( 'h2' );
-        balloonInteractionsHeadingElement.textContent = keyboardHelpBalloonInteractionsString;
+        balloonInteractionsHeadingElement.textContent = keyboardHelpBalloonInteractionsHeadingString;
 
-        var quickMoveHeadingElement = document.createElement( 'h2' );
-        quickMoveHeadingElement.textContent = keyboardHelpQuickMoveString;
+        var simNavigationAndHelpHeadingElement = document.createElement( 'h2' );
+        simNavigationAndHelpHeadingElement.textContent = keyboardHelpSimNavigationAndHelpHeadingString;
 
-        var simNavigationHeadingElement = document.createElement( 'h2' );
-        simNavigationHeadingElement.textContent = keyboardHelpSimNavigationString;
+        // create the h3 elements
+        var grabAndDragBalloonHeadingElement = document.createElement( 'h3' );
+        grabAndDragBalloonHeadingElement.textContent = keyboardHelpGrabAndDragHeadingString;
 
+        var releaseBalloonHeadingElement = document.createElement( 'h3' );
+        releaseBalloonHeadingElement.textContent = keyboardHelpReleaseBalloonHeadingString;
 
-        // create the balloon interactions list
-        var balloonInteractionsListElement = document.createElement( 'ul' );
+        var quickMoveHotkeysHeadingElement = document.createElement( 'h3' );
+        quickMoveHotkeysHeadingElement.textContent = keyboardHelpQuickMoveHeadingString;
 
-        var arrowKeysListItemElement = document.createElement( 'li' );
-        arrowKeysListItemElement.textContent = keyboardHelpInteractionsWASDString;
+        // create the description paragraphs
+        var WASDDescriptionParagraphElement = document.createElement( 'p' );
+        WASDDescriptionParagraphElement.textContent = keyboardHelpWASDKeysDescriptionString;
 
-        var spacebarControlEnterListItemElement = document.createElement( 'li' );
-        spacebarControlEnterListItemElement.textContent = keyboardHelpInteractionsSpacebarControlEnterString;
+        var keyCombinationsDescriptionParagraphElement = document.createElement( 'p' );
+        keyCombinationsDescriptionParagraphElement.textContent = keyboardHelpQuickMoveDescriptionString;
 
-        var shiftPlusArrowListItemElement = document.createElement( 'li' );
-        shiftPlusArrowListItemElement.textContent = keyboardHelpInteractionsShiftPlusWASDString;
+        // create the unordered list elements
+        var WASDKeyListElement = document.createElement( 'ul' );
+        var releaseBalloonListElement = document.createElement( 'ul' );
+        var keyCombinationListElement = document.createElement( 'ul' );
+        var simNavigationAndHelpListElement = document.createElement( 'ul' );
 
-        // create the quick move list
-        var quickMoveListElement = document.createElement( 'ul' );
+        // create the list items
+        var WKeyListItem = document.createElement( 'li' );
+        WKeyListItem.textContent = keyboardHelpWKeyDescriptionString;
 
-        var balloonJumpToSweaterListItemElement = document.createElement( 'li' );
-        balloonJumpToSweaterListItemElement.textContent = keyboardHelpHotKeysBalloonJumpToSweaterString;
+        var AKeyListItem = document.createElement( 'li' );
+        AKeyListItem.textContent = keyboardHelpAKeyDescriptionString;
 
-        var balloonJumpToWallListItemElement = document.createElement( 'li' );
-        balloonJumpToWallListItemElement.textContent = keyboardHelpHotKeysBalloonJumpToWallString;
+        var SKeyListItem = document.createElement( 'li' );
+        SKeyListItem.textContent = keyboardHelpSKeyDescriptionString;
 
-        var balloonJumpToNearWallListItemElement = document.createElement( 'li' );
-        balloonJumpToNearWallListItemElement.textContent = keyboardHelpHotKeysBalloonJumpToNearWallString;
+        var DKeyListItem = document.createElement( 'li' );
+        DKeyListItem.textContent = keyboardHelpDKeyDescriptionString;
 
-        var balloonJumpToMiddleListItemElement = document.createElement( 'li' );
-        balloonJumpToMiddleListItemElement.textContent = keyboardHelpHotKeysBalloonJumpToMiddleString;
+        var spacebarListItem = document.createElement( 'li' );
+        spacebarListItem.textContent = keyboardHelpSpacebarDescriptionString;
 
-        // create the sim navigation list
-        var simNavigationListElement = document.createElement( 'ul' );
+        var controlListItem = document.createElement( 'li' );
+        controlListItem.textContent = keyboardHelpControlPlusEnterDescriptionString;
 
-        var tabKeyListItemElement = document.createElement( 'li' );
-        tabKeyListItemElement.textContent = keyboardHelpNavigationTabString;
+        var tabBalloonListItem = document.createElement( 'li' );
+        tabBalloonListItem.textContent = keyboardHelpTabBalloonDescriptionString;
 
-        var questionMarkListItemElement = document.createElement( 'li' );
-        questionMarkListItemElement.textContent = keyboardHelpNavigationQuestionMarkString;
+        var JPlusSListItem = document.createElement( 'li' );
+        JPlusSListItem.textContent = keyboardHelpJPlusSDescriptionString;
 
-        // create the button to close the dialog
+        var JPlusWListItem = document.createElement( 'li' );
+        JPlusWListItem.textContent = keyboardHelpJPlusWDescriptionString;
+
+        var JPlusNListItem = document.createElement( 'li' );
+        JPlusNListItem.textContent = keyboardHelpJPlusNDescriptionString;
+
+        var JPlusMListItem = document.createElement( 'li' );
+        JPlusMListItem.textContent = keyboardHelpJPlusMDescriptionString;
+
+        var tabListItem = document.createElement( 'li' );
+        tabListItem.textContent = keyboardHelpTabDescriptionString;
+
+        var shiftPlusTabListItem = document.createElement( 'li' );
+        shiftPlusTabListItem.textContent = keyboardHelpShiftPlusTabDescriptionString;
+
+        var questionMarkListItem = document.createElement( 'li' );
+        questionMarkListItem.textContent = keyboardHelpQuestionMarkDescriptionString;
+
+        // create an invisible, accessible button to close the dialog
         var closeButtonElement = document.createElement( 'button' );
         closeButtonElement.textContent = keyboardHelpCloseString; 
 
-        // structure the help content, starting with the lists
-        balloonInteractionsListElement.appendChild( arrowKeysListItemElement );
-        balloonInteractionsListElement.appendChild( spacebarControlEnterListItemElement );
-        balloonInteractionsListElement.appendChild( shiftPlusArrowListItemElement );
+        // build up the lists
+        WASDKeyListElement.appendChild( WKeyListItem );
+        WASDKeyListElement.appendChild( AKeyListItem );
+        WASDKeyListElement.appendChild( SKeyListItem );
+        WASDKeyListElement.appendChild( DKeyListItem );
 
-        quickMoveListElement.appendChild( balloonJumpToSweaterListItemElement );
-        quickMoveListElement.appendChild( balloonJumpToWallListItemElement );
-        quickMoveListElement.appendChild( balloonJumpToNearWallListItemElement );
-        quickMoveListElement.appendChild( balloonJumpToMiddleListItemElement );
+        releaseBalloonListElement.appendChild( spacebarListItem );
+        releaseBalloonListElement.appendChild( controlListItem );
+        releaseBalloonListElement.appendChild( tabBalloonListItem );
 
-        simNavigationListElement.appendChild( tabKeyListItemElement );
-        simNavigationListElement.appendChild( questionMarkListItemElement );
+        keyCombinationListElement.appendChild( JPlusSListItem );
+        keyCombinationListElement.appendChild( JPlusWListItem );
+        keyCombinationListElement.appendChild( JPlusNListItem );
+        keyCombinationListElement.appendChild( JPlusMListItem );
 
-        // structure lists and headings under the domElement and containingSectionElement
-        domElement.appendChild( keyboardHelpHeadingElement );
-        domElement.appendChild( containingSectionElement );
-        containingSectionElement.appendChild( balloonInteractionsHeadingElement );
-        containingSectionElement.appendChild( balloonInteractionsListElement );
-        containingSectionElement.appendChild( quickMoveHeadingElement );
-        containingSectionElement.appendChild( quickMoveListElement );
-        containingSectionElement.appendChild( simNavigationHeadingElement );
-        containingSectionElement.appendChild( simNavigationListElement );
-        domElement.appendChild( closeButtonElement );
+        simNavigationAndHelpListElement.appendChild( tabListItem );
+        simNavigationAndHelpListElement.appendChild( shiftPlusTabListItem );
+        simNavigationAndHelpListElement.appendChild( questionMarkListItem );
+
+        // structure the help menu, adding headings, lists, and paragraphs
+        sectionElement.appendChild( balloonInteractionsHeadingElement );
+        sectionElement.appendChild( grabAndDragBalloonHeadingElement );
+        sectionElement.appendChild( WASDDescriptionParagraphElement );
+        sectionElement.appendChild( WASDKeyListElement );
+        sectionElement.appendChild( releaseBalloonHeadingElement );
+        sectionElement.appendChild( releaseBalloonListElement );
+        sectionElement.appendChild( quickMoveHotkeysHeadingElement );
+        sectionElement.appendChild( keyCombinationsDescriptionParagraphElement );
+        sectionElement.appendChild( keyCombinationListElement );
+        sectionElement.appendChild( simNavigationAndHelpHeadingElement );
+        sectionElement.appendChild( simNavigationAndHelpListElement );
+
+        // add the section to the dom element
+        domElement.appendChild( sectionElement );
 
         // the close button should close the dialog
         closeButtonElement.addEventListener( 'click', function( event ) {

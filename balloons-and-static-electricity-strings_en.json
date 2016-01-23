@@ -117,56 +117,88 @@
   "keyboardHelp.dialog": {
     "value": "Keyboard Help Dialog"
   },
-  "keyboardHelp.title": {
-    "value": "Keyboard Help",
-    "visible": false
-  },
-  "keyboardHelp.quickMove": {
-    "value": "Quick Move Hotkey Combinations",
-    "visible": false
-  },
-  "keyboardHelp.balloonInteractions": {
+  "keyboardHelp.balloonInteractions.heading": {
     "value": "Balloon Interactions",
     "visible": false
   },
-  "keyboardHelp.simNavigation": {
-    "value": "Sim Navigation and Help",
+  "keyboardHelp.grabAndDrag.heading": {
+    "value": "Grab and Drag Balloon",
     "visible": false
   },
-  "keyboardHelp.interactions.WASD": {
-    "value": "WASD Keys: Grabs and moves balloon in any direction.",
+  "keyboardHelp.WASDKeys.description": {
+    "value": "Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.",
     "visible": false
   },
-  "keyboardHelp.interactions.spacebarControlEnter": {
-    "value": "Spacebar or Control plus Enter: Releases balloon.",
+  "keyboardHelp.WKey.description": {
+    "value": "W key drags up. Shift plus W drags up a lot.",
     "visible": false
   },
-  "keyboardHelp.interactions.shiftPlusWASD": {
-    "value": "Shift plus WASD Key: Grabs and Moves balloon with bigger steps.",
+  "keyboardHelp.AKey.description": {
+    "value": "A key drags left.",
     "visible": false
   },
-  "keyboardHelp.hotKeys.balloonJumpToSweater": {
-    "value": "J plus S: Jumps to edge of Sweater.",
+  "keyboardHelp.SKey.description": {
+    "value": "S key drags down.",
     "visible": false
   },
-  "keyboardHelp.hotKeys.balloonJumpToWall": {
-    "value": "J plus W: Jumps to Wall.",
+  "keyboardHelp.DKey.description": {
+    "value": "D key drags right.",
     "visible": false
   },
-  "keyboardHelp.hotKeys.balloonJumpToNearWall": {
-    "value": "J plus N: Jumps to Near Wall.",
+  "keyboardHelp.releaseBalloon.heading": {
+    "value": "Release Balloon",
     "visible": false
   },
-  "keyboardHelp.hotKeys.balloonJumpToMiddle": {
-    "value": "J plus M: Jumps to Middle of Play Area.",
+  "keyboardHelp.spacebar.description": {
+    "value": "‪Spacebar: Releases balloon.",
     "visible": false
   },
-  "keyboardHelp.navigation.tab": {
-    "value": "Tab key: Goes to next focusable item.",
+  "keyboardHelp.controlPlusEnter.description": {
+    "value": "‪Control plus Enter (Windows-only): Releases balloon.",
     "visible": false
   },
-  "keyboardHelp.navigation.questionMark": {
-    "value": "Question Mark: Opens keyboard help.",
+  "keyboardHelp.tabBalloon.description": {
+    "value": "‪Tabbing away from the balloon will release it.",
+    "visible": false
+  },
+  "keyboardHelp.quickMove.heading": {
+    "value": "‪Quick Move Hotkeys",
+    "visible": false
+  },
+  "keyboardHelp.quickMove.description": {
+    "value": "Use these key combinations to jump to a location in the Play Area.",
+    "visible": false
+  },
+  "keyboardHelp.JPlusS.description": {
+    "value": "J plus S jumps to edge of sweater.‬",
+    "visible": false
+  },
+  "keyboardHelp.JPlusW.description": {
+    "value": "‪J plus W jumps to wall.‬",
+    "visible": false
+  },
+  "keyboardHelp.JPlusN.description": {
+    "value": "‪J plus N jumps to near wall.‬",
+    "visible": false
+  },
+  "keyboardHelp.JPlusM.description": {
+    "value": "‪J plus M jumps to middle of Play Area.",
+    "visible": false
+  },
+  "keyboardHelp.simNavigationAndHelp.heading": {
+    "value": "‪Sim Navigation and Help‬",
+    "visible": false
+  },
+  "keyboardHelp.tab.description": {
+    "value": "‪Press Tab to go to next item.",
+    "visible": false
+  },
+  "keyboardHelp.shiftPlusTab.description": {
+    "value": "‪Shift plus Tab to go to previous item.",
+    "visible": false
+  },
+  "keyboardHelp.questionMark.description": {
+    "value": "‪‪Press Question Mark to opens keyboard commands and help.",
     "visible": false
   },
   "keyboardHelp.close": {

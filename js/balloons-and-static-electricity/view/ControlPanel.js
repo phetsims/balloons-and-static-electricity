@@ -181,7 +181,7 @@ define( function( require ) {
 
         // generate the 'supertype peer' for the push button in the parallel DOM.
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance,
-         generateDescriptionString( balloonVisibleProperty.value ), resetBalloonString, resetBalloonButtonListener );
+          resetBalloonButtonListener, generateDescriptionString( balloonVisibleProperty.value ), resetBalloonString );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
