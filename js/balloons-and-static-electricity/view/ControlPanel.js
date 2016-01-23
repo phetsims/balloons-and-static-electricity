@@ -24,14 +24,11 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Panel = require( 'SUN/Panel' );
-  // var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  // var AccessibleRadioButtonGroupContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleRadioButtonGroupContent' );
-  // var AccessibleLegendNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleLegendNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );  
@@ -43,18 +40,11 @@ define( function( require ) {
   // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-  // var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
-  // var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
-  // var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
-  var wallButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallButton.description' );
-  // var chargeSettingsLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.label' );
-  // var chargeSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/chargeSettings.description' );
-  var balloonSettingsDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonSettings.description' );
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
@@ -86,8 +76,10 @@ define( function( require ) {
       createPeer: function( accessibleInstance ) {
 
         // generate the 'supertype peer' for the push button in the parallel DOM.
+        // NOTE: For now, we are removing the description string for the wallButton, see 
+        // https://github.com/phetsims/balloons-and-static-electricity/issues/120
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
-          accessibleInstance, wallButtonDescriptionString, removeWallLabelString, wallButtonListener );
+          accessibleInstance, wallButtonListener, '', removeWallLabelString );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
@@ -150,9 +142,9 @@ define( function( require ) {
     var showBalloonsChoice = new Panel(
       new AccessibleABSwitchNode( model.balloons[1].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon,
         { switchSize: new Dimension2( 32, 16 ),
-        accessibleLabelA: twoBalloonExperimentLabelString,
-        accessibleLabelB: singleBalloonExperimentLabelString,
-        accessibleDescription: balloonSettingsDescriptionString }
+          accessibleLabelA: twoBalloonExperimentLabelString,
+          accessibleLabelB: singleBalloonExperimentLabelString
+        }
       ), { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
 

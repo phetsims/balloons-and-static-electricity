@@ -106,17 +106,9 @@
     "value": "large",
     "visible": false
   },
-  "wallButton.description": {
-    "value" : "Toggle to conduct experiments with or without the wall.",
-    "visible": false
-  },
   "controlPanel.label": {
     "value": "Control Panel",
     "visible" : false
-  },
-  "balloonSettings.description": {
-    "value": "Toggle to conduct experiments with two balloons or just one.",
-    "visible": false
   },
   "resetBalloons.descriptionPattern": {
     "value": "Select to {0} to initial position and an uncharged state.",
