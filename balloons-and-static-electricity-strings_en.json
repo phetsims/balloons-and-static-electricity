@@ -47,11 +47,11 @@
     "visible": false
   },
   "yellowBalloon.descriptionPattern": {
-    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
     "visible": false
   },
   "greenBalloon.descriptionPattern": {
-    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Select Tab for next item. Select question mark for keyboard help.",
+    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Select Tab for next item. Press question mark for keyboard commands and help.",
     "visible": false
   },
   "playArea.label": {
@@ -162,7 +162,7 @@
     "visible": false
   },
   "keyboardHelp.controlPlusEnter.description": {
-    "value": "‪Control plus Enter (Windows-only): Releases balloon.",
+    "value": "‪Control plus Enter: Releases balloon.",
     "visible": false
   },
   "keyboardHelp.tabBalloon.description": {
