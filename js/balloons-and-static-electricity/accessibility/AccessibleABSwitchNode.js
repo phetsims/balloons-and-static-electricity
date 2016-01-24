@@ -43,11 +43,17 @@ define( function( require ) {
    * accessibleDescription: translatable description, read by the screen reader upon focus of this element
    * accessibleLabelA: translatable label for valueA read when the ABSwitch receives focus or changes value
    * accessibleLabelB: translatable label for valueB, read when the toggle changes value
+   * live: does this element prived live feedback to the user?
+   * accessibleDescriptionA: tanslatable description read after button placed in 'A' state, part of live region
+   * accessibleDescriptionB: tanslatable description read after button placed in 'B' state, part of live region
    */
     options = _.extend( {
       accessibleDescription: '',
       accessibleLabelA: '',
-      accessibleLabelB: ''
+      accessibleLabelB: '',
+      live: false,
+      accessibleDescriptionA: '',
+      accessibleDescriptionB: ''
     }, options );
 
     ABSwitch.call( this, property, valueA, labelA, valueB, labelB, options );
@@ -67,7 +73,22 @@ define( function( require ) {
         // create the div, set its id
         var domElement = document.createElement( 'div' );
         domElement.id = 'toggle-container' + uniqueId;
+        domElement.setAttribute( 'aria-live', 'polite' );
 
+        domElement.setAttribute( 'aria-live', 'polite' );
+        var liveDescriptionElement = document.createElement( 'p' );
+        liveDescriptionElement.setAttribute( 'aria-hidden', 'true' );
+        liveDescriptionElement.textContent = options.accessibleDescriptionA;
+
+        // link property to the live description
+        property.link( function( value ) {
+            liveDescriptionElement.setAttribute( 'aria-hidden', false );
+            var pressed = value === valueA ? false : true;
+            liveDescriptionElement.textContent = pressed ? options.accessibleDescriptionB : options.accessibleDescriptionA;
+            liveDescriptionElement.setAttribute( 'aria-hidden', true );
+        } );
+
+        domElement.appendChild( liveDescriptionElement );
         return new AccessiblePeer( accessibleInstance, domElement );
 
       }

@@ -38,6 +38,14 @@
     "value": "Green Balloon",
     "visible": false
   },
+  "greenBalloonRemoved": {
+    "value": "Green balloon removed from Play Area",
+    "visible": false
+  },
+  "greenBalloonAdded": {
+    "value": "Green balloon added to Play Area",
+    "visible": false
+  },
   "yellowBalloon.descriptionPattern": {
     "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Select WASD key to grab the balloon and start dragging. Select Tab for next item. Select question mark for keyboard help.",
     "visible": false

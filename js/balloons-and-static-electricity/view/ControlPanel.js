@@ -48,6 +48,8 @@ define( function( require ) {
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
+  var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
+  var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
 
   function ControlPanel( model, layoutBounds ) {
 
@@ -143,7 +145,9 @@ define( function( require ) {
       new AccessibleABSwitchNode( model.balloons[1].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon,
         { switchSize: new Dimension2( 32, 16 ),
           accessibleLabelA: twoBalloonExperimentLabelString,
-          accessibleLabelB: singleBalloonExperimentLabelString
+          accessibleLabelB: singleBalloonExperimentLabelString,
+          accessibleDescriptionA: greenBalloonRemovedString,
+          accessibleDescriptionB: greenBalloonAddedString
         }
       ), { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
