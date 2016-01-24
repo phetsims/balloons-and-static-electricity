@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.9 Wed Jan 13 2016 16:10:51 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.10 Sun Jan 24 2016 14:51:43 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
     "branch": "master"
@@ -9,23 +9,23 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "8b89b32d802f2fe7f5d6ccd0bff441b5b9139086",
+    "sha": "155a8260f6e08f6264b059f24d1fcbfbfdc6de55",
     "branch": "accessible-instance"
   },
   "brand": {
-    "sha": "c9282935819904d033c0e22d9d36e3590019f38b",
+    "sha": "48ab5fab525f08efd72208ecae50d14e5103e1a1",
     "branch": "master"
   },
   "chipper": {
-    "sha": "8ef60fcf7b594e8764c2b7840c9e8f6259a98475",
+    "sha": "57c99807c0b8747ad05cf1f5faa87459ade78c1d",
     "branch": "master"
   },
   "dot": {
-    "sha": "7a28b1a92733cee778e2cf5d22ca45042884d416",
+    "sha": "ddf82014392e9956043fab8608d5b8222e6134dc",
     "branch": "master"
   },
   "joist": {
-    "sha": "fa1196f6e353f71a290ca38b807c5aa6a59f14b7",
+    "sha": "4c228a327558f18681a136f64c23a28006f16b9f",
     "branch": "master"
   },
   "kite": {
@@ -33,11 +33,11 @@
     "branch": "master"
   },
   "phet-core": {
-    "sha": "f78b5cfe4765cc949fdcdee511777dae4d6856ba",
+    "sha": "874a703dc94ace52f052a7339ea8b26cfefce482",
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "d712ace0fd0fa47ab617934aec8721228aefc0fc",
+    "sha": "3db92af30d53b7d6bb3ce3c47c632f622f17986c",
     "branch": "master"
   },
   "scenery": {
@@ -45,19 +45,19 @@
     "branch": "accessible-instance"
   },
   "scenery-phet": {
-    "sha": "6bed84d9cfd8253be8d8334ae8ffcb50ce65ecda",
+    "sha": "e903fad21de1daea73dc854965e6f8c50d72ac6f",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "f699921576e4d4a9e196a94894a7c20377fd3b3d",
+    "sha": "bf82eb95d808250f7191328b3b30179ec1f44090",
     "branch": "master"
   },
   "sun": {
-    "sha": "982a49b8b0381ccec86dba8eeb17d4205876b4cb",
+    "sha": "45c7d334c5417ec96dcf6e43b9735c4064a44a8c",
     "branch": "master"
   },
   "tandem": {
-    "sha": "873e03879d6af9bf642151585cb27e1605c817fb",
+    "sha": "5388a9e411c9b75bcfde1c4ca504c2774e630f11",
     "branch": "master"
   }
 }
