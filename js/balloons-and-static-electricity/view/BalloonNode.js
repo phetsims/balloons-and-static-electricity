@@ -175,7 +175,6 @@ define( function( require ) {
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
-          console.log( 'keydown' );
 
           // update the keyState object for keyboard interaction
           model.keyState[ event.keyCode || event.which ] = true;
@@ -198,7 +197,6 @@ define( function( require ) {
         } );
 
         domElement.addEventListener( 'keyup', function( event ) {
-          console.log( 'keyup' );
           // update the keyState object for keyboard interaction 
           model.keyState[ event.keyCode || event.which ] = false;
         } );
