@@ -59,11 +59,15 @@
     "visible": false
   },
   "screen.description": {
-    "value": "In the Play Area, there are one or two balloons, a sweater and a removable wall. Each object shows negative and positive charges. Charges are shown in pairs. Below the Play Area, a Control Panel allows you to add and remove objects, adjust charge views and reset the entire experiment. Currently, the sweater and wall have many pairs of charges, the balloon, just a few. Tab to navigate between objects. Select question mark for keyboard help.",
+    "value": "This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove wall and reset entire experiment. Currently, sweater and wall have many pairs of negative and positive charges, the balloon, just a few. Balloon is in middle of Play Area, evenly between sweater and wall. Tab to navigate to next object. Press question mark for keyboard commands and help.",
     "visible": false
   },
   "screen.label": {
-    "value": "The scene for Balloons and Static Electricity",
+    "value": "Balloons and Static Electricity",
+    "visible": false
+  },
+  "sceneSummary.label": {
+    "value": "Scene Summary",
     "visible": false
   },
   "sweater.label": {
@@ -162,7 +166,7 @@
     "visible": false
   },
   "keyboardHelp.controlPlusEnter.description": {
-    "value": "‪Control plus Enter: Releases balloon.",
+    "value": "‪Control plus Enter Releases balloon.",
     "visible": false
   },
   "keyboardHelp.tabBalloon.description": {

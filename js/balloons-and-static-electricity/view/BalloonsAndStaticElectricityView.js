@@ -25,6 +25,8 @@ define( function( require ) {
   var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
+  var sceneSummaryLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sceneSummary.label' );
+
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -42,6 +44,35 @@ define( function( require ) {
       screenDescription: screenDescriptionString,
       screenLabel: screenLabelString
     } );
+
+    // create an element for the parallel DOM that will act as a a section containing the screen description.
+    // NOTE: Eventually this will be handled in scenery, but waiting until testing results to move to common code.
+    var descriptionSectionNode = new Node( {
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+
+          // this section should look like:
+          // <section id="scene-description-id">
+          //   <h2 id='scene-description-label-id'>Scene Summary</h2>
+          //   <p>This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove the wall and reset the entire experiment. Currently, the sweater and wall have many pairs of charges, the balloon, just a few. Balloon is in middle of Play Area, evenly placed between sweater and wall. Tab to navigate between objects. Press question mark for keyboard commands and help.</p>
+          // </section>
+
+          var sectionElement = document.createElement( 'section' );
+
+          var headerElement = document.createElement( 'h2' );
+          headerElement.textContent = sceneSummaryLabelString;
+
+          var descriptionParagraphElement = document.createElement( 'p' );
+          descriptionParagraphElement.textContent = screenDescriptionString;
+
+          sectionElement.appendChild( headerElement );
+          sectionElement.appendChild( descriptionParagraphElement );
+
+          return new AccessiblePeer( accessibleInstance, sectionElement );
+        }
+      }
+    } );
+    this.addChild( descriptionSectionNode );
 
     // create an accessible heading for the entire screen view
     var accessibleHeadingNode = new AccessibleHeadingNode( 'h2', playAreaLabelString );
@@ -66,7 +97,7 @@ define( function( require ) {
     } );
 
     // add the heading to the container element, and make sure it comes first
-    playAreaContainerNode.addChild( accessibleHeadingNode );
+      
     this.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model );
@@ -123,7 +154,7 @@ define( function( require ) {
         var uniqueId = trail.getUniqueId();
 
         // generate the 'supertype peer' for the ScreenView in the parallel DOM.
-        var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, screenDescriptionString, screenLabelString );
+        var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, '', screenLabelString );
         // accessiblePeer.domElement.setAttribute( 'role', 'application' );
         
         // give this screenView element and the node a unique ID for convenient DOM lookup
