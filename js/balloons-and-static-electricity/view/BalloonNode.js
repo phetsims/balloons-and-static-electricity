@@ -155,11 +155,9 @@ define( function( require ) {
         //      aria-describedby="balloon-description">
 
         // create the element for the balloon, initialize its hidden state
-        var domElement = document.createElement( 'input' );
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = '0';
         domElement.setAttribute( 'role', 'button' );
-        domElement.setAttribute( 'type', 'text' );
-        domElement.setAttribute( 'readonly', 'true' );
-        domElement.setAttribute( 'alt', '' ); // alt tag null because we are using an aria-label
         domElement.id = 'balloon-' + uniqueId;
         domElement.name = domElement.id;
         domElement.setAttribute( 'draggable', 'true' );
