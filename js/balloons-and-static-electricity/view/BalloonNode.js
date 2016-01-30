@@ -166,10 +166,11 @@ define( function( require ) {
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'div' );
         domElement.tabIndex = '0';
-        domElement.setAttribute( 'role', 'button' );
+        domElement.setAttribute( 'role', 'application' );
         domElement.id = 'balloon-' + uniqueId;
         domElement.name = domElement.id;
         domElement.setAttribute( 'draggable', 'true' );
+        domElement.setAttribute( 'aria-grabbed', 'false' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
@@ -264,7 +265,10 @@ define( function( require ) {
 
         // change the focus highlight to black when the balloon is being dragged.
         model.isDraggedProperty.link( function( isDragged ) {
-          self.focusHighlightNode.stroke = isDragged ? 'rgba(0, 0, 0, 0.9)' : 'rgba( 250, 40, 135, 0.9 )';  
+          self.focusHighlightNode.stroke = isDragged ? 'rgba(0, 0, 0, 0.9)' : 'rgba( 250, 40, 135, 0.9 )';
+
+          // whenever the model is dragged, aria-dragged should be true
+          domElement.setAttribute( 'aria-dragged', isDragged );
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
