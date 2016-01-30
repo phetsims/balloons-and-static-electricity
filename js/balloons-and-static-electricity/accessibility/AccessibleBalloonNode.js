@@ -81,6 +81,7 @@ define( function( require ) {
         var domElement = document.createElement( 'div' );
         domElement.id = 'balloon-container-' + uniqueId;
         domElement.setAttribute( 'aria-live', 'polite' );
+        domElement.setAttribute( 'aria-grabbed', 'true' );
         domElement.setAttribute( 'role', 'application' );
 
         // create the accessible label

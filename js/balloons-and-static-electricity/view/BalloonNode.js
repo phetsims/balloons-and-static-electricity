@@ -21,6 +21,15 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   // var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+
+  // strings
+  var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
+  var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
+  var noString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/no' );
+  var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
+  var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
+  var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -164,9 +173,52 @@ define( function( require ) {
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
-        // set label and description attributes
-        domElement.setAttribute( 'aria-labelledby', options.accessibleLabelId );
-        domElement.setAttribute( 'aria-describedby', options.accessibleDescriptionId );
+        // create the accessible label 
+        var labelElement = document.createElement( 'h3' );
+        labelElement.id = 'balloon-label-' + uniqueId;
+        labelElement.textContent = options.accessibleLabel;
+        domElement.setAttribute( 'aria-labelledby', labelElement.id );
+
+        // create the accessible description
+        var descriptionElement = document.createElement( 'p' );
+        descriptionElement.id = 'balloon-description-' + uniqueId;
+        descriptionElement.textContent = options.accessibleDescription;
+        domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        domElement.appendChild( labelElement );
+        domElement.appendChild( descriptionElement );
+
+        // build up the correct charge description based on the state of the model
+        var createDescription = function( charge ) {
+          var chargeNeutralityDescriptionString = charge < 0 ? netNegativeString : neutralString;
+
+          var chargeAmountString;
+          if( charge === 0 ) {
+            chargeAmountString = noString;
+          }
+          else if( charge >= -15 ) {
+            chargeAmountString = aFewString;
+          }
+          else if( charge >= -40 && charge < -10 ) {
+            chargeAmountString = severalString;
+          }
+          else if ( charge < -40 ) {
+            chargeAmountString = manyString;
+          }
+          assert && assert( chargeAmountString, 'String charge amount description not defined.' );
+
+          return StringUtils.format( options.accessibleDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
+        };
+
+        // whenever the model charge changes, update the accesible description
+        model.chargeProperty.link( function( charge ) {
+          descriptionElement.textContent = createDescription( charge );
+        } );
+
+        // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
+        model.isVisibleProperty.link( function( isVisible ) {
+          domElement.hidden = !isVisible;
+        } );
 
         // @private (a11y) - allow for lookup of element within view
         self.domElement = domElement;

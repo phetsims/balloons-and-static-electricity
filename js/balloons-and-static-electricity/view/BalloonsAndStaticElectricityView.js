@@ -14,7 +14,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
+  // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
+  var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
 
   // strings
@@ -114,11 +115,11 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    var greenBalloon = new AccessibleBalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
-    var yellowBalloon = new AccessibleBalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
