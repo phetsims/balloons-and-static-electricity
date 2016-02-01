@@ -267,8 +267,8 @@ define( function( require ) {
         model.isDraggedProperty.link( function( isDragged ) {
           self.focusHighlightNode.stroke = isDragged ? 'rgba(0, 0, 0, 0.9)' : 'rgba( 250, 40, 135, 0.9 )';
 
-          // whenever the model is dragged, aria-dragged should be true
-          domElement.setAttribute( 'aria-dragged', isDragged );
+          // whenever the model is dragged, aria-grabbed should be true
+          domElement.setAttribute( 'aria-grabbed', isDragged );
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
