@@ -171,6 +171,7 @@ define( function( require ) {
         domElement.name = domElement.id;
         domElement.setAttribute( 'draggable', 'true' );
         domElement.setAttribute( 'aria-grabbed', 'false' );
+        domElement.setAttribute( 'aria-live', 'assertive' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 

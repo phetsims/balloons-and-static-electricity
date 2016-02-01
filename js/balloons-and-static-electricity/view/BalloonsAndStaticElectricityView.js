@@ -164,17 +164,15 @@ define( function( require ) {
 
         // add a global event listener to all children of this screen view, bubbles through all children
         // keypress event used to find '?'
-        var activeElement;
         window.addEventListener( 'keypress', function( event ) {
           // 'global' event behavior in here...
           if( event.which === KEY_QUESTION_MARK ) {
 
-            // track the active element so we can focus it once the help dialog closes
-            activeElement = document.activeElement;
+            // @private - track the active element so we can 2 it once the help dialog closes
+            thisScreenView.activeElement = document.activeElement;
 
             // pull up the help dialog
             keyboardHelpDialog.shownProperty.set( true );
-
           }
           
         } );
@@ -186,7 +184,7 @@ define( function( require ) {
             keyboardHelpDialog.shownProperty.set( false );
 
             // reset focus to the domElement
-            if( activeElement ) { activeElement.focus(); }
+            if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
           } 
         } );
 

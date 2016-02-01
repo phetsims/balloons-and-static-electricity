@@ -270,6 +270,9 @@ define( function( require ) {
         // the close button should close the dialog
         closeButtonElement.addEventListener( 'click', function( event ) {
           thisDialog.shownProperty.set( false );
+
+          // set focus to the active screen view element
+          screenView.activeElement.focus();
         } );
 
         // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
