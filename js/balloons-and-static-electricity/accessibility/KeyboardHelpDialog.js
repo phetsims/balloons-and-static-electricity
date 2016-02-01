@@ -106,8 +106,8 @@ define( function( require ) {
         // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
         // visual representation yet, DOM elements are all created here.
         // <div id="dialog-14-498-496" role="dialog" tabindex="0" aria-labelledby="dialog-label-14-498-496" aria-describedby="dialog-section-14-498-496">
-        //     <h1 id="dialog-label-14-498-496">‪Keyboard Commands and Help‬</h1>
-        //     <section id="dialog-section-14-498-496">
+        //     <h1 id="dialog-label-14-498-496">‪Keyboard Commands and Help‬ Dialog</h1>
+        //     <section id="dialog-section-14-498-496" role="document">
         //         <h2>‪Balloon Interactions‬</h2>
         //         <h3>Grab and Drag Balloon</h3>
         //         <p>Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.</p>
@@ -145,8 +145,9 @@ define( function( require ) {
         var titleHeadingElement = document.createElement( 'h1' );
         titleHeadingElement.textContent = keyboardHelpDialogString;
 
-        // create the containing section element
+        // create the containing section element, and give it the document role
         var sectionElement = document.createElement( 'section' );
+        // sectionElement.setAttribute( 'role', 'document' );
 
         // create the h2 elements
         var balloonInteractionsHeadingElement = document.createElement( 'h2' );
@@ -257,8 +258,14 @@ define( function( require ) {
         sectionElement.appendChild( simNavigationAndHelpHeadingElement );
         sectionElement.appendChild( simNavigationAndHelpListElement );
 
+        // add the title to the domElement
+        domElement.appendChild( titleHeadingElement );
+
         // add the section to the dom element
         domElement.appendChild( sectionElement );
+
+        // add the close button to the domElement
+        domElement.appendChild( closeButtonElement );
 
         // the close button should close the dialog
         closeButtonElement.addEventListener( 'click', function( event ) {

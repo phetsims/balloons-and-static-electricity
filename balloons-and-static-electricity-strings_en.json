@@ -127,10 +127,10 @@
     "visible": false
   },
   "keyboardHelp.dialog": {
-    "value": "Keyboard Help Dialog"
+    "value": "Keyboard Commands and Help Dialog"
   },
   "keyboardHelp.balloonInteractions.heading": {
-    "value": "Balloon Interactions",
+    "value": "Balloon Interactions",  
     "visible": false
   },
   "keyboardHelp.grabAndDrag.heading": {
@@ -214,7 +214,7 @@
     "visible": false
   },
   "keyboardHelp.close": {
-    "value": "Close",
+    "value": "Close Dialog",
     "visible": false
   },
   "neutral": {
