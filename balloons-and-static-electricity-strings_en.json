@@ -46,6 +46,14 @@
     "value": "Green balloon added to Play Area",
     "visible": false
   },
+  "wallRemoved": {
+    "value": "Wall removed from Play Area",
+    "visible": false
+  },
+  "wallAdded": {
+    "value": "Wall added to Play Area",
+    "visible": false
+  },
   "yellowBalloon.descriptionPattern": {
     "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
     "visible": false
@@ -214,7 +222,7 @@
     "visible": false
   },
   "keyboardHelp.close": {
-    "value": "Close Dialog",
+    "value": "Close Dialog``",
     "visible": false
   },
   "neutral": {

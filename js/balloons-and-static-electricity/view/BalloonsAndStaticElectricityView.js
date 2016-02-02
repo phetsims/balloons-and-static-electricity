@@ -15,6 +15,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
+  var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
 
@@ -27,7 +28,8 @@ define( function( require ) {
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
   var sceneSummaryLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sceneSummary.label' );
-
+  var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
+  var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -144,8 +146,28 @@ define( function( require ) {
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode, sweaterNode, balloonsNode, wall ];
 
+    // create the keyboard help dialog for accessibility
     var keyboardHelpDialog = new KeyboardHelpDialog( this );
     keyboardHelpDialog.center = yellowBalloon.center;
+
+    // add a live region that updates when the wall is added and removed from the screen
+    // TODO: This should all probably exist in the control panel for code cleanliness
+    var liveDescriptionFunction = function( isVisibleProperty ) {
+      if( isVisibleProperty.value ) {
+        return wallAddedString;
+      }
+      else{
+        return wallRemovedString;  
+      }
+    };
+
+    var liveDescriptionNode = new AccessibleDescriptionNode( {
+      isLive: true,
+      property: model.wall.isVisibleProperty,
+      accessibleDescription: wallAddedString,
+      liveDescriptionFunction: liveDescriptionFunction
+    });
+    this.addChild( liveDescriptionNode );
 
     // set the accessible content
 

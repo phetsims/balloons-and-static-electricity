@@ -75,7 +75,6 @@ define( function( require ) {
         domElement.id = 'toggle-container' + uniqueId;
         domElement.setAttribute( 'aria-live', 'polite' );
 
-        domElement.setAttribute( 'aria-live', 'polite' );
         var liveDescriptionElement = document.createElement( 'p' );
         liveDescriptionElement.setAttribute( 'aria-hidden', 'true' );
         liveDescriptionElement.textContent = options.accessibleDescriptionA;
