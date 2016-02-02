@@ -30,6 +30,7 @@ define( function( require ) {
   var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
   var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
   var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
+  var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -185,10 +186,16 @@ define( function( require ) {
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.id = 'balloon-description-' + uniqueId;
         descriptionElement.textContent = options.accessibleDescription;
-        domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        var navigationDescriptionElement = document.createElement( 'p' );
+        navigationDescriptionElement.id = 'navigation-description-' + uniqueId;
+        navigationDescriptionElement.textContent = balloonNavigationCuesString;
+
+        domElement.setAttribute( 'aria-describedby', descriptionElement.id + ' ' + navigationDescriptionElement.id );
 
         domElement.appendChild( labelElement );
         domElement.appendChild( descriptionElement );
+        domElement.appendChild( navigationDescriptionElement );
 
         // build up the correct charge description based on the state of the model
         var createDescription = function( charge ) {

@@ -55,11 +55,15 @@
     "visible": false
   },
   "yellowBalloon.descriptionPattern": {
-    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
+    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.",
     "visible": false
   },
   "greenBalloon.descriptionPattern": {
-    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.  Use WASD keys to grab and drag balloon up, left, down and right. Select Tab for next item. Press question mark for keyboard commands and help.",
+    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.",
+    "visible": false
+  },
+  "balloon.navigationCues": {
+    "value": "Use WASD keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
     "visible": false
   },
   "playArea.label": {
