@@ -172,7 +172,7 @@ define( function( require ) {
         domElement.name = domElement.id;
         domElement.setAttribute( 'draggable', 'true' );
         domElement.setAttribute( 'aria-grabbed', 'false' );
-        domElement.setAttribute( 'aria-live', 'assertive' );
+        // domElement.setAttribute( 'aria-live', 'assertive' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
@@ -184,6 +184,7 @@ define( function( require ) {
 
         // create the accessible description
         var descriptionElement = document.createElement( 'p' );
+        descriptionElement.setAttribute( 'aria-live', 'assertive' );
         descriptionElement.id = 'balloon-description-' + uniqueId;
         descriptionElement.textContent = options.accessibleDescription;
 

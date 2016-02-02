@@ -63,7 +63,7 @@
     "visible": false
   },
   "balloon.navigationCues": {
-    "value": "Use WASD keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
+    "value": "Use W A S D keys to grab and drag balloon up, left, down and right. Tab for next object. Press question mark for keyboard commands and help.",
     "visible": false
   },
   "playArea.label": {
@@ -150,7 +150,7 @@
     "visible": false
   },
   "keyboardHelp.WASDKeys.description": {
-    "value": "Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.",
+    "value": "Use the W A S D keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.",
     "visible": false
   },
   "keyboardHelp.WKey.description": {
