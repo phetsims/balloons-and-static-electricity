@@ -147,7 +147,6 @@ define( function( require ) {
 
         // create the containing section element, and give it the document role
         var sectionElement = document.createElement( 'section' );
-        // sectionElement.setAttribute( 'role', 'document' );
 
         // create the h2 elements
         var balloonInteractionsHeadingElement = document.createElement( 'h2' );
@@ -274,6 +273,11 @@ define( function( require ) {
           // set focus to the active screen view element
           screenView.activeElement.focus();
         } );
+
+        // the domElement should be of role document.
+        // NOTE: Not in joist/Dialog because this feature is experimental.  this dialog is brought up with the '?' key,
+        // in 'forms' mode.  Because of this, the document role is only used to this subtype.
+        domElement.setAttribute( 'role', 'document' );
 
         // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
         // in the screen view.
