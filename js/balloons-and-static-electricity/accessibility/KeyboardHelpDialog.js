@@ -284,7 +284,7 @@ define( function( require ) {
         thisDialog.shownProperty.link( function( isShown ) {
 
           var screenViewElement = document.getElementById( screenView.accessibleId );
-          screenViewElement.hidden = isShown;
+          screenViewElement.setAttribute( 'aria-hidden', isShown );
 
         } );
 
