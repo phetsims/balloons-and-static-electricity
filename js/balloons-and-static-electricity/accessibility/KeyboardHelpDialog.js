@@ -22,7 +22,13 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
- 
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var HSeparator = require( 'SUN/HSeparator' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Input = require( 'SCENERY/input/Input' );
+
   // strings
   var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
@@ -48,6 +54,16 @@ define( function( require ) {
   var keyboardHelpShiftPlusTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.shiftPlusTab.description' );
   var keyboardHelpQuestionMarkDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.questionMark.description' );
 
+  // constants
+  var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
+  var SUB_SECTION_HEADING_FONT = new PhetFont( 11 );
+  var CONTENT_FONT = new PhetFont( 9 );
+
+  var SEPARATOR_OPTIONS = { fill: 'white', lineWidth: 0 };
+  var SECTION_TAB = new HSeparator( 30 , SEPARATOR_OPTIONS );
+  var SUB_SECTION_TAB = new HSeparator( 50 , SEPARATOR_OPTIONS );
+  var CONTENT_TAB = new HSeparator( 70 , SEPARATOR_OPTIONS );
+
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    * 
@@ -62,6 +78,85 @@ define( function( require ) {
     var dialogLabelText = new Text( keyboardHelpDialogString, { 
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
       fill: 'rgba( 0, 0, 0, 0.5 )'
+    } );
+
+    // create visual text for the keyboard help dialog
+    var createTextContent = function( string, font, spacing ) {
+      var textContent = new Text( string, font );
+
+      var spacedContent = new HBox( {
+        children: [ spacing, textContent ]
+      } );
+
+      return spacedContent;
+    };
+
+    var textChildren = [
+      createTextContent( keyboardHelpBalloonInteractionsHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
+      createTextContent( keyboardHelpGrabAndDragHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpWASDKeysDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpWKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpAKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpSKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpDKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpReleaseBalloonHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpSpacebarDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpControlPlusEnterDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpTabBalloonDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpQuickMoveHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpQuickMoveDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpJPlusSDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpJPlusWDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpJPlusNDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpJPlusMDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpSimNavigationAndHelpHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
+      createTextContent( keyboardHelpTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpShiftPlusTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
+      createTextContent( keyboardHelpQuestionMarkDescriptionString, CONTENT_FONT, CONTENT_TAB )
+    ];
+
+    // all visual text in a layout box
+    var keyboardHelpText = new VBox( {
+      children: textChildren,
+      spacing: 5,
+      align: 'left'
+    } );
+
+    // Add a custom close button to this dialdog.
+    var closeText = new Text( keyboardHelpCloseString, { font: new PhetFont( 18 ) } );
+    var closeFunction = function() {
+      thisDialog.shownProperty.set( false );
+
+      // set focus to the previously active screen view element
+      screenView.activeElement.focus();
+    };
+    var closeButton = new RectangularPushButton( { 
+      content: closeText,
+      listener: closeFunction
+     } );
+
+    // define the accessible content for the close button - close button neds to have a unique event listener
+    // that sets focus to the dialog content if 'tab' is pressed
+    closeButton.accessibleContent = {
+      createPeer: function( accessibleInstance ) {
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, '', keyboardHelpCloseString, closeFunction );
+
+        accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
+          if( event.keyCode === Input.KEY_TAB ) {
+            // TODO: Scenery should eventually be able to provide a reference to the node's domElement?
+            keyboardHelpText.accessibleInstances[0].peer.domElement.focus();
+            event.preventDefault();
+          }
+        } );
+
+        return accessiblePeer;
+      }
+    };
+
+    // dialogLabelText and closeText in an VBox to center in the dialog
+    var contentVBox = new VBox( {
+      children: [ dialogLabelText, keyboardHelpText, closeButton ],
+      spacing: 20
     } );
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
@@ -82,32 +177,28 @@ define( function( require ) {
       manageDialog( shown );
     } );
 
-    Dialog.call( this, dialogLabelText, {
+    Dialog.call( this, contentVBox, {
       modal: true,
       focusable: true,
       hasCloseButton: false,
       layoutStrategy: function( window, simBounds, screenBounds, scale ) {
         // if simBounds are null, return without setting center.
         if ( simBounds !== null ) {
-
-        // Update the location of the dialog (size is set in Sim.js)
-        this.center = simBounds.center.times( 1.0 / scale );
+          // Update the location of the dialog (size is set in Sim.js)
+          thisDialog.center = simBounds.center.times( 1.0 / scale );
         }
       }
     } );
 
-    this.accessibleContent = {
+    keyboardHelpText.accessibleContent = {
       createPeer: function( accessibleInstance ) {
-        var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, thisDialog );
-        var domElement = accessiblePeer.domElement;
-        thisDialog.domElement = domElement;
 
         // The dialog needs to look like the following in the parallel DOM:
         // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
         // visual representation yet, DOM elements are all created here.
         // <div id="dialog-14-498-496" role="dialog" tabindex="0" aria-labelledby="dialog-label-14-498-496" aria-describedby="dialog-section-14-498-496">
         //     <h1 id="dialog-label-14-498-496">‪Keyboard Commands and Help‬ Dialog</h1>
-        //     <section id="dialog-section-14-498-496" role="document">
+        //     <section id="dialog-section-14-498-496" role="document" tabIndex="0">
         //         <h2>‪Balloon Interactions‬</h2>
         //         <h3>Grab and Drag Balloon</h3>
         //         <p>Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.</p>
@@ -140,6 +231,10 @@ define( function( require ) {
         //         </ul>
         //     </section>
         // </div>
+
+        var domElement = document.createElement( 'div' );
+        domElement.setAttribute( 'role', 'document' );
+        domElement.tabIndex = '0';
 
         // create the h1 element, and add its content
         var titleHeadingElement = document.createElement( 'h1' );
@@ -221,10 +316,6 @@ define( function( require ) {
         var questionMarkListItem = document.createElement( 'li' );
         questionMarkListItem.textContent = keyboardHelpQuestionMarkDescriptionString;
 
-        // create an invisible, accessible button to close the dialog
-        var closeButtonElement = document.createElement( 'button' );
-        closeButtonElement.textContent = keyboardHelpCloseString; 
-
         // build up the lists
         WASDKeyListElement.appendChild( WKeyListItem );
         WASDKeyListElement.appendChild( AKeyListItem );
@@ -263,22 +354,6 @@ define( function( require ) {
         // add the section to the dom element
         domElement.appendChild( sectionElement );
 
-        // add the close button to the domElement
-        domElement.appendChild( closeButtonElement );
-
-        // the close button should close the dialog
-        closeButtonElement.addEventListener( 'click', function( event ) {
-          thisDialog.shownProperty.set( false );
-
-          // set focus to the active screen view element
-          screenView.activeElement.focus();
-        } );
-
-        // the domElement should be of role document.
-        // NOTE: Not in joist/Dialog because this feature is experimental.  this dialog is brought up with the '?' key,
-        // in 'forms' mode.  Because of this, the document role is only used to this subtype.
-        domElement.setAttribute( 'role', 'document' );
-
         // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
         // in the screen view.
         thisDialog.shownProperty.link( function( isShown ) {
@@ -288,7 +363,18 @@ define( function( require ) {
 
         } );
 
-        return accessiblePeer;
+        // if shift tab is pressed on this element, we need to restrict navigation to what is in the close dialog
+        domElement.addEventListener( 'keydown', function( event ) {
+          if( event.keyCode === Input.KEY_TAB ) {
+            if( event.shiftKey ) {
+              // TODO: Scenery should eventually be able to provide a reference to the node's DOM element?
+              closeButton.accessibleInstances[0].peer.domElement.focus();
+              event.preventDefault();
+            }
+          }
+        } );
+
+        return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
 
@@ -298,7 +384,8 @@ define( function( require ) {
 
       // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
       if ( isShown ) {
-        thisDialog.domElement.focus();
+        // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
+        keyboardHelpText.accessibleInstances[0].peer.domElement.focus();
       }
     } );
 

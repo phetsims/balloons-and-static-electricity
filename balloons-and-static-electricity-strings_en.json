@@ -174,7 +174,7 @@
     "visible": false
   },
   "keyboardHelp.spacebar.description": {
-    "value": "‪Spacebar: Releases balloon.",
+    "value": "‪Spacebar Releases balloon.",
     "visible": false
   },
   "keyboardHelp.controlPlusEnter.description": {
@@ -222,7 +222,7 @@
     "visible": false
   },
   "keyboardHelp.questionMark.description": {
-    "value": "‪‪Press Question Mark to opens keyboard commands and help.",
+    "value": "‪‪Press Question Mark to open keyboard commands and help.",
     "visible": false
   },
   "keyboardHelp.close": {

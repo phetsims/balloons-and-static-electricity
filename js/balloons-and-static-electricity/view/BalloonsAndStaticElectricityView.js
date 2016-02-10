@@ -147,8 +147,9 @@ define( function( require ) {
     playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode, sweaterNode, balloonsNode, wall ];
 
     // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this );
-    keyboardHelpDialog.center = yellowBalloon.center;
+    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
+      maxWidth: thisScreenView.layoutBounds.width
+    } );
 
     // add a live region that updates when the wall is added and removed from the screen
     // TODO: This should all probably exist in the control panel for code cleanliness
