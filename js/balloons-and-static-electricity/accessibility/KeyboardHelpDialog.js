@@ -233,7 +233,6 @@ define( function( require ) {
         // </div>
 
         var domElement = document.createElement( 'div' );
-        domElement.setAttribute( 'role', 'document' );
         domElement.tabIndex = '0';
 
         // create the h1 element, and add its content
