@@ -98,13 +98,6 @@ define( function( require ) {
       ]
     } );
 
-    // NOTE: Invert y positions of charges to match balloon hanging from ceiling, revisit this code after testing 
-    // results - see https://github.com/phetsims/balloons-and-static-electricity/issues/127
-    this.positions.forEach( function( position ) {
-      position[1] = -position[1];
-    } );
-
-
     var self = this;
 
     this.location = new Vector2( x, y );
