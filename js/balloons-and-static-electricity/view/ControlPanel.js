@@ -46,7 +46,9 @@ define( function( require ) {
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, { font: addRemoveFont } );
     var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
-    var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
+    var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
+      maxWidth: 120
+    } );
     var wallButton = new RectangularPushButton( {
         content: wallToggleNode,
         baseColor: 'rgb( 255, 200, 0 )',
@@ -56,19 +58,23 @@ define( function( require ) {
 
     // Radio buttons related to charges
     var radioButtonFont = new PhetFont( 15 );
+    var RADIO_BUTTON_TEXT_OPTIONS = {
+      font: radioButtonFont,
+      maxWidth: 200
+    };
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
       {
-        node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowAllChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
         property: model.showChargesProperty,
         value: 'all'
       },
       {
-        node: new Text( balloonAppletShowNoChargesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowNoChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
         property: model.showChargesProperty,
         value: 'none'
       },
       {
-        node: new Text( balloonAppletShowChargeDifferencesString, { font: radioButtonFont } ),
+        node: new Text( balloonAppletShowChargeDifferencesString, RADIO_BUTTON_TEXT_OPTIONS ),
         property: model.showChargesProperty,
         value: 'diff'
       }
@@ -106,7 +112,9 @@ define( function( require ) {
     var resetBalloonToggleNode = new ToggleNode(
       new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
       new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
-      model.balloons[ 1 ].isVisibleProperty
+      model.balloons[ 1 ].isVisibleProperty, {
+        maxWidth: 140
+      }
     );
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
