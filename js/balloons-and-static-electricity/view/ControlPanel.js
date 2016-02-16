@@ -29,6 +29,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
+  var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
   // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );  
@@ -72,6 +73,10 @@ define( function( require ) {
         listener: wallButtonListener
       }
     );
+
+    // create a container div element to parent the wall button so that it can have a more explicit description
+    var wallButtonContainerNode = new AccessibleDivNode();
+    wallButtonContainerNode.addChild( wallButton );
 
     // accessible content for the wallButton
     wallButton.accessibleContent = {
@@ -172,6 +177,11 @@ define( function( require ) {
       listener: resetBalloonButtonListener
     } );
 
+    // create a parent div container for the reset balloon button so that it can have a detailed description
+    var resetBalloonButtonContainerNode = new AccessibleDivNode();
+    resetBalloonButtonContainerNode.addChild( resetBalloonButton );
+
+
     // accessible content for the resetBalloonButton
     resetBalloonButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
@@ -199,14 +209,14 @@ define( function( require ) {
       }
     };
 
-    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButton ] } );
+    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButtonContainerNode ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ resetAllButton, wallButton ]
+      children: [ resetAllButton, wallButtonContainerNode ]
     } );
 
     controls.right = layoutBounds.maxX - 2;
@@ -256,7 +266,7 @@ define( function( require ) {
 
     // define the navigation order for accessible content in the control panel.
     // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
-    this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, wallButtonContainerNode, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
 
 
   }
