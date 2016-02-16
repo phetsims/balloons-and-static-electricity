@@ -29,7 +29,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );  
 
@@ -45,7 +45,7 @@ define( function( require ) {
   var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
-  var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
+  // var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
   var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
@@ -81,11 +81,12 @@ define( function( require ) {
         // NOTE: For now, we are removing the description string for the wallButton, see 
         // https://github.com/phetsims/balloons-and-static-electricity/issues/120
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
-          accessibleInstance, wallButtonListener, '', removeWallLabelString );
+          accessibleInstance, removeWallLabelString, wallButtonListener );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
-          accessiblePeer.domElement.value = wallVisible ? removeWallLabelString : addWallLabelString;
+          var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
+          accessiblePeer.domElement.setAttribute( 'aria-label', updatedLabel );
         } );
 
         return accessiblePeer;
@@ -95,7 +96,7 @@ define( function( require ) {
     // Radio buttons related to charges
     // NOTE: We are removing the radios for charge visibility for now, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/120
-    // var radioButtonFont = new PhetFont( 15 );
+    // `r radioButtonFont = new PhetFont( 15 );
     // var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
     //   {
     //     node: new Text( balloonAppletShowAllChargesString, { font: radioButtonFont } ),
@@ -175,22 +176,23 @@ define( function( require ) {
     resetBalloonButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
 
-        var balloonVisibleProperty = model.balloons[1].isVisibleProperty;
+        // var balloonVisibleProperty = model.balloons[1].isVisibleProperty;
 
         // generate the correct description string for the button
-        var generateDescriptionString = function( balloonVisible ) {
-          var resetString = balloonVisible ? resetBalloonsString : resetBalloonString;
-          return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
-        };
+        // var generateDescriptionString = function( balloonVisible ) {
+        //   var resetString = balloonVisible ? resetBalloonsString : resetBalloonString;
+        //   return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
+        // };
 
         // generate the 'supertype peer' for the push button in the parallel DOM.
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance,
-          resetBalloonButtonListener, generateDescriptionString( balloonVisibleProperty.value ), resetBalloonString );
+          resetBalloonString, resetBalloonButtonListener );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
-          accessiblePeer.domElement.value = balloonVisible ? resetBalloonsString : resetBalloonString;
-          accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) );
+          var updatedLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
+          accessiblePeer.domElement.setAttribute( 'aria-label', updatedLabel );
+          // accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) );
         } );
 
         return accessiblePeer;
