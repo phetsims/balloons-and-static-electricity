@@ -164,6 +164,7 @@ define( function( require ) {
 
     var liveDescriptionNode = new AccessibleDescriptionNode( {
       isLive: true,
+      hidden: true,
       property: model.wall.isVisibleProperty,
       accessibleDescription: wallAddedString,
       liveDescriptionFunction: liveDescriptionFunction

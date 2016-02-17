@@ -30,8 +30,11 @@ define( function( require ) {
       liveDescriptionFunction: function( property ) {
         // a function to be called whenever the text chanes
       },
-      property: null
+      property: null,
+      hidden: true
     }, options );
+
+    var thisNode = this;
 
     Node.call( this, {
       accessibleContent: {
@@ -41,17 +44,20 @@ define( function( require ) {
 
           var domElement = document.createElement( 'p' );
           domElement.textContent = options.accessibleDescription;
+          domElement.id = thisNode.id;
 
           if( options.isLive ) {
-            domElement.setAttribute( 'aria-live', 'polite' );
+            domElement.setAttribute( 'aria-live', 'assertive' );
+          }
+
+          if( options.hidden ) {
+            domElement.setAttribute( 'aria-hidden', true );
           }
 
           if( options.property ) {
             options.property.link( function( value ) {
-              domElement.setAttribute( 'aria-hidden', false );
               var newDescription = options.liveDescriptionFunction( options.property );
               domElement.textContent = newDescription;
-              domElement.setAttribute( 'aria-hidden', true );
             } );
           }
           return new AccessiblePeer( accessibleInstance, domElement );

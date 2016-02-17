@@ -81,10 +81,8 @@ define( function( require ) {
 
         // link property to the live description
         property.link( function( value ) {
-            liveDescriptionElement.setAttribute( 'aria-hidden', false );
             var pressed = value === valueA ? false : true;
             liveDescriptionElement.textContent = pressed ? options.accessibleDescriptionB : options.accessibleDescriptionA;
-            liveDescriptionElement.setAttribute( 'aria-hidden', true );
         } );
 
         domElement.appendChild( liveDescriptionElement );

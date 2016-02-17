@@ -16,6 +16,9 @@
   "addWall": {
     "value": "Add\nWall"
   },
+  "wall.description": {
+    "value": "Toggle to conduct experiments with or without the wall."
+  },
   "resetBalloon": {
     "value": "Reset Balloon"
   },

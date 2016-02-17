@@ -31,7 +31,7 @@ define( function( require ) {
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
-  // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );  
 
@@ -42,12 +42,13 @@ define( function( require ) {
   // strings
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
+  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
-  // var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
+  var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
   var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
@@ -81,7 +82,7 @@ define( function( require ) {
 
     // create the accesssible description for the wall button
     var wallButtonDescriptionNode = new AccessibleDescriptionNode( {
-
+      accessibleDescription: wallDescriptionString
     } );
     wallButtonContainerNode.addChild( wallButtonDescriptionNode );
 
@@ -94,6 +95,8 @@ define( function( require ) {
         // https://github.com/phetsims/balloons-and-static-electricity/issues/120
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
           accessibleInstance, removeWallLabelString, wallButtonListener );
+
+        accessiblePeer.domElement.setAttribute( 'aria-describedby', wallButtonDescriptionNode.id );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
@@ -189,7 +192,16 @@ define( function( require ) {
     resetBalloonButtonContainerNode.addChild( resetBalloonButton );
 
     // create the accessible description for the reset balloon button
-    var resetBalloonButtonDescriptionNode = new AccessibleDescriptionNode();
+    var generateDescriptionString = function( balloonVisibleProperty ) {
+      var resetString = balloonVisibleProperty.value ? resetBalloonsString : resetBalloonString;
+      return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
+    };
+
+    var resetBalloonButtonDescriptionNode = new AccessibleDescriptionNode( {
+      accessibleDescription: StringUtils.format( resetBalloonsDescriptionPatternString, resetBalloonString ),
+      liveDescriptionFunction: generateDescriptionString,
+      property: model.balloons[1].isVisibleProperty
+    } );
     resetBalloonButtonContainerNode.addChild( resetBalloonButtonDescriptionNode );
 
 
