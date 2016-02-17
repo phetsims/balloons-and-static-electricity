@@ -31,7 +31,7 @@ define( function( require ) {
         // a function to be called whenever the text chanes
       },
       property: null,
-      hidden: true
+      hidden: false
     }, options );
 
     var thisNode = this;
