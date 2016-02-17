@@ -19,8 +19,7 @@ define( function( require ) {
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    * 
-   * @param {string} headingLevel
-   * @param {string} textContent
+   * @param {Obejct} options
    * @constructor
    **/
   function AccessibleDescriptionNode( options ) {
@@ -40,14 +39,8 @@ define( function( require ) {
           var trail = accessibleInstance.trail;
           this.node = trail.lastNode(); // @public (a11y)
 
-          // heading element
-          var domElement = document.createElement( 'div' );
-          domElement.id = 'description-element-' + trail.getUniqueId();
-
-          var descriptionElement = document.createElement( 'p' );
-          descriptionElement.textContent = options.accessibleDescription;
-
-          domElement.appendChild( descriptionElement );
+          var domElement = document.createElement( 'p' );
+          domElement.textContent = options.accessibleDescription;
 
           if( options.isLive ) {
             domElement.setAttribute( 'aria-live', 'polite' );
@@ -55,10 +48,10 @@ define( function( require ) {
 
           if( options.property ) {
             options.property.link( function( value ) {
-              descriptionElement.setAttribute( 'aria-hidden', false );
+              domElement.setAttribute( 'aria-hidden', false );
               var newDescription = options.liveDescriptionFunction( options.property );
-              descriptionElement.textContent = newDescription;
-              descriptionElement.setAttribute( 'aria-hidden', true );
+              domElement.textContent = newDescription;
+              domElement.setAttribute( 'aria-hidden', true );
             } );
           }
           return new AccessiblePeer( accessibleInstance, domElement );

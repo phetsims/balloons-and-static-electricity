@@ -29,6 +29,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
+  var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
   // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
@@ -77,6 +78,12 @@ define( function( require ) {
     // create a container div element to parent the wall button so that it can have a more explicit description
     var wallButtonContainerNode = new AccessibleDivNode();
     wallButtonContainerNode.addChild( wallButton );
+
+    // create the accesssible description for the wall button
+    var wallButtonDescriptionNode = new AccessibleDescriptionNode( {
+
+    } );
+    wallButtonContainerNode.addChild( wallButtonDescriptionNode );
 
     // accessible content for the wallButton
     wallButton.accessibleContent = {
@@ -180,6 +187,10 @@ define( function( require ) {
     // create a parent div container for the reset balloon button so that it can have a detailed description
     var resetBalloonButtonContainerNode = new AccessibleDivNode();
     resetBalloonButtonContainerNode.addChild( resetBalloonButton );
+
+    // create the accessible description for the reset balloon button
+    var resetBalloonButtonDescriptionNode = new AccessibleDescriptionNode();
+    resetBalloonButtonContainerNode.addChild( resetBalloonButtonDescriptionNode );
 
 
     // accessible content for the resetBalloonButton
