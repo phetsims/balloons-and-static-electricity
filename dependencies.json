@@ -1,15 +1,15 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-dev.3 Mon Feb 15 2016 14:28:39 GMT-0700 (MST)",
+  "comment": "# balloons-and-static-electricity 1.2.0-dev.4 Thu Feb 18 2016 17:12:35 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
     "branch": "master"
   },
   "axon": {
-    "sha": "60213ff7028991c5be284cf5f1d436739fe87f97",
+    "sha": "9457f36aec22935c7b5f41a9d0777255dd5d9884",
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "263c5ecefb07fefb4e0479dd83d1b9b24e526637",
+    "sha": "39cc8f44ce2209f0fe1153b246d1ca4757504908",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "a0be095e20c438757fe5ad1ea3043d978bb4065c",
+    "sha": "933982a9b51f64e748af6759432c180755372659",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "03e28c2c65da16bce8b93bfa795cc426807958d3",
+    "sha": "10671cfcff4e505e91627794cc4fbb35089c6644",
     "branch": "master"
   },
   "kite": {
@@ -37,15 +37,15 @@
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "35c2abc1378ec6a00435124922a360b721576a72",
+    "sha": "140ddaeb05c322c932364c96036bb1f1f08fb78c",
     "branch": "master"
   },
   "scenery": {
-    "sha": "6bd54e23257cbb6d2557e332bd2cbf1e0a5b6f27",
+    "sha": "a0593aab0515f069ba40b7aa724017437afd44df",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "e217d38e32263e17c0d0cd77a9e71969d626a0cc",
+    "sha": "4fcb44b9147be5cd129621d879b2c52a1414b74c",
     "branch": "master"
   },
   "sherpa": {
@@ -53,11 +53,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "2f236352156037a4eec24680a709a4f6b50ea18e",
+    "sha": "9f2381e8483db35e579a1a3a7452729c67b883e5",
     "branch": "master"
   },
   "tandem": {
-    "sha": "d0be78ddaf3bbbba746ecd7a4bf891fef99fc7ee",
+    "sha": "2441eec6b422cb20e08682da02ab2bf7bf73250c",
     "branch": "master"
   }
 }
