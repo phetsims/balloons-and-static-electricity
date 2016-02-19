@@ -12,8 +12,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
+  // var Path = require( 'SCENERY/nodes/Path' );
+  // var Shape = require( 'KITE/Shape' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -61,15 +61,15 @@ define( function( require ) {
 
     //rope
     //TODO: For performance, move this out of BalloonNode and into a separate layer ?
-    var customShape = new Shape();
-    customShape.moveTo( model.width / 2, model.height - 2 );
-    customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-    var path = new Path( customShape, {
-      stroke: '#000000',
-      lineWidth: 1,
-      pickable: false
-    } );
-    this.addChild( path );
+    // var customShape = new Shape();
+    // customShape.moveTo( model.width / 2, model.height - 2 );
+    // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
+    // var path = new Path( customShape, {
+    //   stroke: '#000000',
+    //   lineWidth: 1,
+    //   pickable: false
+    // } );
+    // this.addChild( path );
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
@@ -101,10 +101,10 @@ define( function( require ) {
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
-      customShape = new Shape();
+      // customShape = new Shape();
       // customShape.moveTo( model.width / 2, model.height - 2 );
       // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      path.shape = customShape;
+      // path.shape = customShape;
     } );
 
     //show charges based on showCharges property
