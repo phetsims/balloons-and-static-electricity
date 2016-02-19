@@ -96,12 +96,14 @@ define( function( require ) {
       }
     } );
 
+    // TODO: Balloon 'string' removevd for now, we are investigating ways of removing confusion involving buoyant forces
+    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
       customShape = new Shape();
-      customShape.moveTo( model.width / 2, model.height - 2 );
-      customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
+      // customShape.moveTo( model.width / 2, model.height - 2 );
+      // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
       path.shape = customShape;
     } );
 
