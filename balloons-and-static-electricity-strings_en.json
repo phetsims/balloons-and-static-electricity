@@ -1,0 +1,26 @@
+ {
+  "balloons-and-static-electricity.title": {
+    "value": "Balloons and Static Electricity"
+  },
+  "BalloonApplet.ShowChargeDifferences": {
+    "value": "Show charge differences"
+  },
+  "BalloonApplet.ShowAllCharges": {
+    "value": "Show all charges"
+  },
+  "BalloonApplet.ShowNoCharges": {
+    "value": "Show no charges"
+  },
+  "removeWall": {
+    "value": "Remove\nWall"
+  },
+  "addWall": {
+    "value": "Add\nWall"
+  },
+  "resetBalloon": {
+    "value": "Reset Balloon"
+  },
+  "resetBalloons": {
+    "value": "Reset Balloons"
+  }
+}

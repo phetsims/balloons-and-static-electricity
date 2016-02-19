@@ -1,0 +1,63 @@
+{
+  "comment": "# balloons-and-static-electricity 1.2.0-rc.1 Mon Feb 15 2016 16:27:25 GMT-0700 (Mountain Standard Time)",
+  "assert": {
+    "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
+    "branch": "master"
+  },
+  "axon": {
+    "sha": "60213ff7028991c5be284cf5f1d436739fe87f97",
+    "branch": "master"
+  },
+  "balloons-and-static-electricity": {
+    "sha": "8be47fd62d505264cb49835d227453d7b3850608",
+    "branch": "1.2"
+  },
+  "brand": {
+    "sha": "ac9ccaa74427844b170dcd1582f3e9bb931edef4",
+    "branch": "master"
+  },
+  "chipper": {
+    "sha": "62dbf3dee15ead3bad65773a62886585790e5cc1",
+    "branch": "master"
+  },
+  "dot": {
+    "sha": "da78031b6f080d20bc8346beaa1d37148188371e",
+    "branch": "master"
+  },
+  "joist": {
+    "sha": "03e28c2c65da16bce8b93bfa795cc426807958d3",
+    "branch": "master"
+  },
+  "kite": {
+    "sha": "10ca8bf2b2712307ff528352de8451c0c8afe093",
+    "branch": "master"
+  },
+  "phet-core": {
+    "sha": "c48bf32035dc5a4ed092ad611012fcbdeb5c6351",
+    "branch": "master"
+  },
+  "phetcommon": {
+    "sha": "35c2abc1378ec6a00435124922a360b721576a72",
+    "branch": "master"
+  },
+  "scenery": {
+    "sha": "f2a142e56d16506853e7e3f57365ed344674689a",
+    "branch": "master"
+  },
+  "scenery-phet": {
+    "sha": "e217d38e32263e17c0d0cd77a9e71969d626a0cc",
+    "branch": "master"
+  },
+  "sherpa": {
+    "sha": "bb68bbbc6e8e3ce98fc37a956f1e19fe8365c107",
+    "branch": "master"
+  },
+  "sun": {
+    "sha": "e2b9bd9b539b5602fc7e01b0a31a4c914b2d372e",
+    "branch": "master"
+  },
+  "tandem": {
+    "sha": "d0be78ddaf3bbbba746ecd7a4bf891fef99fc7ee",
+    "branch": "master"
+  }
+}
