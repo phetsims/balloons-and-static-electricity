@@ -57,7 +57,6 @@ define( function( require ) {
 
     // add the Balloon image
     var balloonImageNode = new Image( imgsrc );
-    balloonImageNode.rotateAround( balloonImageNode.center, Math.PI );
     this.addChild( balloonImageNode );
 
     //rope
@@ -87,10 +86,6 @@ define( function( require ) {
       model.minusCharges[ i ].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[ i ].view );
     }
-
-    // center the added charges node since the charge locations are inverted in BalloonModel.
-    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
-    addedChargesNode.leftCenter = balloonImageNode.leftCenter.plusXY( 5, 10 );
     this.addChild( startChargesNode );
     this.addChild( addedChargesNode );
 
@@ -101,14 +96,12 @@ define( function( require ) {
       }
     } );
 
-     // NOTE: Changes to line shape so that the balloons hang from the ceiling, revisit this code after testing results
-    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
       customShape = new Shape();
-      customShape.moveTo( model.width / 2, 5 );
-      customShape.lineTo( 440 - model.location.x + model.width / 2, -model.location.y );
+      customShape.moveTo( model.width / 2, model.height - 2 );
+      customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
       path.shape = customShape;
     } );
 
