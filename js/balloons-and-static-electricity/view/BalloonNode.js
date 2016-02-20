@@ -92,11 +92,11 @@ define( function( require ) {
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateLocation( chargeVal ) {
       if ( chargeVal ) {
-        model.minusCharges[ model.plusCharges.length - 1 - chargeVal - 1 ].view.visible = true;
+        model.minusCharges[ model.plusCharges.length - 1 - chargeVal ].view.visible = true;
       }
     } );
 
-    // TODO: Balloon 'string' removevd for now, we are investigating ways of removing confusion involving buoyant forces
+    // TODO: Balloon 'string' removevd for now, we gitare investigating ways of removing confusion involving buoyant forces
     // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
