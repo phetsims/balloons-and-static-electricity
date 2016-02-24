@@ -53,7 +53,9 @@ define( function( require ) {
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
   var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
   var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
-
+  var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
+  var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
+  
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
@@ -107,6 +109,26 @@ define( function( require ) {
         return accessiblePeer;
       }
     };
+
+    // add a live region that updates when the wall is added and removed from the screen, contained by the wall button
+    // container div
+    var liveDescriptionFunction = function( isVisibleProperty ) {
+      if( isVisibleProperty.value ) {
+        return wallAddedString;
+      }
+      else{
+        return wallRemovedString;  
+      }
+    };
+
+    var liveDescriptionNode = new AccessibleDescriptionNode( {
+      isLive: true,
+      hidden: true,
+      property: model.wall.isVisibleProperty,
+      accessibleDescription: wallAddedString,
+      liveDescriptionFunction: liveDescriptionFunction
+    });
+    wallButtonContainerNode.addChild( liveDescriptionNode );
 
     // Radio buttons related to charges
     // NOTE: We are removing the radios for charge visibility for now, see
