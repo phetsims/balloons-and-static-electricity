@@ -157,6 +157,11 @@ define( function( require ) {
           } );
         } );
 
+        // link accessible visibility to the model
+        wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
+          domElement.hidden = !isVisible;
+        } );
+
         // structure the wall element with its descriptions
         domElement.appendChild( labelElement );
         domElement.appendChild( descriptionElement );
