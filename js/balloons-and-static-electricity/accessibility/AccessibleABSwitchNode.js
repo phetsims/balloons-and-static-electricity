@@ -103,13 +103,13 @@ define( function( require ) {
           // <input type="button" id="abswitch-id" aria-label="translatable label..." value="translatable label..." aria-pressed="false">
 
           // create the input element, set its type and id
-          var domElement = document.createElement( 'input' );
-          domElement.setAttribute( 'type', 'button' );
+          var domElement = document.createElement( 'button' );
           domElement.id = 'abswitch-' + uniqueId;
 
           // set the value and label, which acts as an accessible label
-          domElement.setAttribute( 'value', options.accessibleLabelA );
-          domElement.setAttribute( 'aria-label', options.accessibleLabelA );
+          // domElement.setAttribute( 'value', options.accessibleLabelA );
+          domElement.innerText = options.accessibleLabelA;
+          // domElement.setAttribute( 'aria-label', options.accessibleLabelA );
 
           // set the 'aria-pressed' attribute which provides toggle functionality, initially false
           domElement.setAttribute( 'aria-pressed', false );

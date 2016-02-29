@@ -103,7 +103,7 @@ define( function( require ) {
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
           var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
-          accessiblePeer.domElement.setAttribute( 'aria-label', updatedLabel );
+          accessiblePeer.domElement.textContent = updatedLabel;
         } );
 
         return accessiblePeer;
@@ -246,8 +246,9 @@ define( function( require ) {
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
           var updatedLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
-          accessiblePeer.domElement.setAttribute( 'aria-label', updatedLabel );
-          // accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) );
+          accessiblePeer.domElement.textContent = updatedLabel;
+          // accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) )
+
         } );
 
         return accessiblePeer;
