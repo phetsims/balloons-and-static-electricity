@@ -19,7 +19,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  // var Input = require( 'SCENERY/input/Input' );
+  var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
@@ -34,10 +34,7 @@ define( function( require ) {
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
-  var KEY_A = 65; // keycode for the 'a' key
-  var KEY_S = 83; // keycode for the 's' key
-  var KEY_D = 68; // keycode for the 'd' key
-  var KEY_W = 87; // keycode for the 'w' key
+  var KEY_CTRL = 17; // keycode for 'ctrl'
 
   function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
     var self = this;
@@ -146,23 +143,49 @@ define( function( require ) {
       }
     } );
 
+
     // create a unique node for the balloon's focus highlight so that the stroke can change when the balloon is being
     // dragged.
     // @private
     this.focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
         lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude()
     } ); 
-    // outfit with accessible content.  Add to balloon
-    balloonImageNode.accessibleContent = {
+
+    // initial accesible representation for balloon.  A 'button' that is pressed to begin interaction
+    // once user decided to interact with balloon, it becomes a highly interactive 'application' div
+    // releasing the balloon with spacebar or ctrl+enter will set content back accessible button representation
+    var buttonContent = {
+      focusHighlight: self.focusHighlightNode,
+      createPeer: function( accessibleInstance ) {
+        var domElement = document.createElement( 'button' );
+        domElement.innerText = 'Play with ' + options.accessibleLabel;
+
+        model.isVisibleProperty.link( function( isVisible ) {
+          domElement.hidden = !isVisible;
+        } );
+
+        self.focusHighlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
+
+        domElement.addEventListener( 'click', function() {
+          self.accessibleContent = applicationContent;
+          model.isDragged = true;
+          self.accessibleInstances[0].peer.domElement.focus();
+        } );
+
+        return new AccessiblePeer( accessibleInstance, domElement );
+      }
+    };
+    this.accessibleContent = buttonContent;
+
+    // outfit with accessible content.
+    var applicationContent = {
       focusHighlight: self.focusHighlightNode,
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
         var uniqueId = trail.getUniqueId();
 
-        //  content for the accessibility tree should look like
-        // <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346"
-        //      id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label" 
-        //      aria-describedby="balloon-description">
+        // update the stroke of the focus highlight
+        self.focusHighlightNode.stroke = 'rgba(0, 0, 0, 0.9)';
 
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'div' );
@@ -171,8 +194,7 @@ define( function( require ) {
         domElement.id = 'balloon-' + uniqueId;
         domElement.name = domElement.id;
         domElement.setAttribute( 'draggable', 'true' );
-        domElement.setAttribute( 'aria-grabbed', 'false' );
-        // domElement.setAttribute( 'aria-live', 'assertive' );
+        domElement.setAttribute( 'aria-grabbed', 'true' );
         domElement.className = 'Balloon';
         domElement.hidden = !model.isVisible;
 
@@ -183,7 +205,7 @@ define( function( require ) {
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
         // create the accessible description
-        var descriptionElement = document.createElement( 'p' );
+        var descriptionElement = document.createElement( 'p' );+
         descriptionElement.setAttribute( 'aria-live', 'assertive' );
         descriptionElement.id = 'balloon-description-' + uniqueId;
         descriptionElement.textContent = options.accessibleDescription;
@@ -239,18 +261,8 @@ define( function( require ) {
           // update the keyState object for keyboard interaction
           model.keyState[ event.keyCode || event.which ] = true;
 
-          // Temporarily replace arrow keys for WASD keys, see
-          // https://github.com/phetsims/balloons-and-static-electricity/issues/108
-          // if the user presses any of the arrow keys, immediately pick up the balloon for drag and drop
-          // if ( model.keyState[ Input.KEY_RIGHT_ARROW ] || model.keyState[ Input.KEY_LEFT_ARROW ] ||
-          //      model.keyState[ Input.KEY_UP_ARROW ] || model.keyState[ Input.KEY_DOWN_ARROW ] ) {
-          if ( model.keyState[ KEY_W ] || model.keyState[ KEY_D ] ||
-               model.keyState[ KEY_A ] || model.keyState[ KEY_S ] ) {
-            // pick up the balloon
-            model.isDragged = true;
-          }
           // If the user presses j, enter jumping mode and pick the balloon up
-          else if ( model.keyState[ KEY_J ] ) {
+          if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
             model.isDragged = true;
           }
@@ -259,25 +271,26 @@ define( function( require ) {
         domElement.addEventListener( 'keyup', function( event ) {
           // update the keyState object for keyboard interaction 
           model.keyState[ event.keyCode || event.which ] = false;
+
+          // if the user presses ctrl + enter or spacebar, set accessible content back to button
+          // this is done on key up so that model.keyState can be properly updated
+          // 
+          if ( event.keyCode === KEY_CTRL && event.keyCode === Input.KEY_ENTER || event.keyCode === Input.KEY_SPACE ) {
+            self.accessibleContent = buttonContent;
+            model.isDragged = false;
+            self.accessibleInstances[0].peer.domElement.focus();
+          }
         } );
 
         // release the balloon when the user shifts focus
         domElement.addEventListener( 'blur', function( event ) {
-          model.isDraggedProperty.set( false );
+          // model.isDraggedProperty.set( false );
         } );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         model.isVisibleProperty.lazyLink( function( isVisible ) {
           var accessibleBalloonPeer = document.getElementById( domElement.id );
           accessibleBalloonPeer.hidden = !isVisible;
-        } );
-
-        // change the focus highlight to black when the balloon is being dragged.
-        model.isDraggedProperty.link( function( isDragged ) {
-          self.focusHighlightNode.stroke = isDragged ? 'rgba(0, 0, 0, 0.9)' : 'rgba( 250, 40, 135, 0.9 )';
-
-          // whenever the model is dragged, aria-grabbed should be true
-          domElement.setAttribute( 'aria-grabbed', isDragged );
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
