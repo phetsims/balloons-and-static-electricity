@@ -35,5 +35,9 @@ define( function( require ) {
         { backgroundColor: '#9ddcf8' }
       )
     ], simOptions ).start();
+
   } );
+
+  // HACK ALERT!!
+  parent && parent.simLaunched && parent.simLaunched();
 } );
