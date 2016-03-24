@@ -33,7 +33,7 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   // constants
-  var KEY_QUESTION_MARK = 63; // keypress keycode for '?'
+  var KEY_H = 72; // keypress keycode for '?'
 
   function BalloonsAndStaticElectricityView( model ) {
 
@@ -54,7 +54,7 @@ define( function( require ) {
           // this section should look like:
           // <section id="scene-description-id">
           //   <h2 id='scene-description-label-id'>Scene Summary</h2>
-          //   <p>This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove the wall and reset the entire experiment. Currently, the sweater and wall have many pairs of charges, the balloon, just a few. Balloon is in middle of Play Area, evenly placed between sweater and wall. Tab to navigate between objects. Press question mark for keyboard commands and help.</p>
+          //   <p>Description text here</p>
           // </section>
 
           var sectionElement = document.createElement( 'section' );
@@ -163,10 +163,11 @@ define( function( require ) {
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
         // add a global event listener to all children of this screen view, bubbles through all children
-        // keypress event used to find '?'
-        window.addEventListener( 'keypress', function( event ) {
+        // keypress should event used to find '?'
+        // keydown should be used for all other standard keys
+        window.addEventListener( 'keydown', function( event ) {
           // 'global' event behavior in here...
-          if( event.which === KEY_QUESTION_MARK ) {
+          if( event.keyCode === KEY_H ) {
 
             // @private - track the active element so we can 2 it once the help dialog closes
             thisScreenView.activeElement = document.activeElement;
