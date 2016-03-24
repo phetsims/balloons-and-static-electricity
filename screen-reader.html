@@ -26,7 +26,6 @@
   };
   window.updateAccessibilityReadoutText = function( text ) {
 
-    console.log( 'hello from updateAccessibilityReadoutText' );
     document.getElementById( 'accessibilityTextReadout' ).innerText = text;
 
     if ( window.phetSpeechSynthesisEnabled && window.speechSynthesis && SpeechSynthesisUtterance && window.speechSynthesis.speak ) {
