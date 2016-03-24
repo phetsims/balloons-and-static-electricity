@@ -287,7 +287,8 @@ define( function( require ) {
 
         // release the balloon when the user shifts focus
         domElement.addEventListener( 'blur', function( event ) {
-          // model.isDraggedProperty.set( false );
+          self.accessibleContent = buttonContent;
+          model.isDraggedProperty.set( false );
         } );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
