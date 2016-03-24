@@ -78,7 +78,7 @@
     "visible": false
   },
   "screen.description": {
-    "value": "This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove wall and reset entire experiment. Currently, sweater and wall have many pairs of negative and positive charges, the balloon, just a few. Balloon is in middle of Play Area, evenly between sweater and wall. Tab to navigate to next object. Press question mark for keyboard commands and help.",
+    "value": "This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove wall and reset entire experiment. Currently, sweater and wall have many pairs of negative and positive charges, the balloon, just a few. Balloon is in middle of Play Area, evenly between sweater and wall. Tab to navigate to next object.",
     "visible": false
   },
   "screen.label": {
