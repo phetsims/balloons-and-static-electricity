@@ -41,6 +41,10 @@
     "value": "Green Balloon",
     "visible": false
   },
+  "grabPattern": {
+    "value": "Grab {0}",
+    "visible": false 
+  },
   "greenBalloonRemoved": {
     "value": "Green balloon removed from Play Area",
     "visible": false

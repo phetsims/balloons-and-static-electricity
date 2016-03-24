@@ -31,6 +31,7 @@ define( function( require ) {
   var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
   var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
   var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
+  var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -157,8 +158,10 @@ define( function( require ) {
     var buttonContent = {
       focusHighlight: self.focusHighlightNode,
       createPeer: function( accessibleInstance ) {
+
         var domElement = document.createElement( 'button' );
-        domElement.innerText = 'Play with ' + options.accessibleLabel;
+        var grabBalloonString = StringUtils.format( grabPatternString, options.accessibleLabel );
+        domElement.innerText = grabBalloonString;
 
         model.isVisibleProperty.link( function( isVisible ) {
           domElement.hidden = !isVisible;
