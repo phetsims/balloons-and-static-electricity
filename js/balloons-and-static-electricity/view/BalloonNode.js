@@ -158,10 +158,16 @@ define( function( require ) {
     var buttonContent = {
       focusHighlight: self.focusHighlightNode,
       createPeer: function( accessibleInstance ) {
+        var trail = accessibleInstance.trail;
+        var uniqueId = trail.getUniqueId();
 
         var domElement = document.createElement( 'button' );
         var grabBalloonString = StringUtils.format( grabPatternString, options.accessibleLabel );
         domElement.innerText = grabBalloonString;
+        domElement.id = 'balloon-button-' + uniqueId;
+
+        // @private (a11y) - allow for lookup of element within view
+        self.domElement = domElement;
 
         model.isVisibleProperty.link( function( isVisible ) {
           domElement.hidden = !isVisible;
@@ -293,7 +299,7 @@ define( function( require ) {
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         model.isVisibleProperty.lazyLink( function( isVisible ) {
-          var accessibleBalloonPeer = document.getElementById( domElement.id );
+          var accessibleBalloonPeer = document.getElementById( self.domElement.id );
           accessibleBalloonPeer.hidden = !isVisible;
         } );
 
