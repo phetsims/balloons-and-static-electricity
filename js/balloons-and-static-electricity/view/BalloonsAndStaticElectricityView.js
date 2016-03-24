@@ -100,6 +100,8 @@ define( function( require ) {
       
     this.addChild( playAreaContainerNode );
 
+    playAreaContainerNode.addChild( accessibleHeadingNode );
+
     var sweaterNode = new SweaterNode( model );
     playAreaContainerNode.addChild( sweaterNode );
 
