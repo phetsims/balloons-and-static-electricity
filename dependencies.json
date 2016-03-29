@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.13 Thu Mar 24 2016 16:34:14 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.14 Tue Mar 29 2016 15:15:51 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "578fd68fb910ae5f8370a121ad6dbf3899b9482c",
+    "sha": "5a155189a1df5c4c3d15e83b01d7e608180d5bf2",
     "branch": "accessible-instance"
   },
   "brand": {
@@ -25,11 +25,11 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "bacc122ca7ff361a305f4a61dda471752dc1d3cf",
+    "sha": "150c8138c794ea7946f71345ad74f0f78de8473c",
     "branch": "master"
   },
   "kite": {
-    "sha": "10ca8bf2b2712307ff528352de8451c0c8afe093",
+    "sha": "24ad131a77aee78e266436ef6b618c8353953f28",
     "branch": "master"
   },
   "phet-core": {
