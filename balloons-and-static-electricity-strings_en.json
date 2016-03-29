@@ -228,8 +228,8 @@
     "value": "‪Shift plus Tab to go to previous item.",
     "visible": false
   },
-  "keyboardHelp.questionMark.description": {
-    "value": "‪‪Press Question Mark to open keyboard commands and help.",
+  "keyboardHelp.h.description": {
+    "value": "‪‪Press H to open keyboard commands and help.",
     "visible": false
   },
   "keyboardHelp.close": {

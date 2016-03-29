@@ -52,7 +52,7 @@ define( function( require ) {
   var keyboardHelpSimNavigationAndHelpHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.simNavigationAndHelp.heading' );
   var keyboardHelpTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tab.description' );
   var keyboardHelpShiftPlusTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.shiftPlusTab.description' );
-  var keyboardHelpQuestionMarkDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.questionMark.description' );
+  var keyboardHelpHDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.h.description' );
 
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
@@ -112,7 +112,7 @@ define( function( require ) {
       createTextContent( keyboardHelpSimNavigationAndHelpHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
       createTextContent( keyboardHelpTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
       createTextContent( keyboardHelpShiftPlusTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpQuestionMarkDescriptionString, CONTENT_FONT, CONTENT_TAB )
+      createTextContent( keyboardHelpHDescriptionString, CONTENT_FONT, CONTENT_TAB )
     ];
 
     // all visual text in a layout box
@@ -227,7 +227,7 @@ define( function( require ) {
         //         <ul>
         //             <li>‪Press Tab to go to next item.‬</li>
         //             <li>‪Shift plus Tab to go to previous item.‬</li>
-        //             <li>‪Press Question Mark to opens keyboard commands and help.‬</li>
+        //             <li>‪Press H to opens keyboard commands and help.‬</li>
         //         </ul>
         //     </section>
         // </div>
@@ -312,8 +312,8 @@ define( function( require ) {
         var shiftPlusTabListItem = document.createElement( 'li' );
         shiftPlusTabListItem.textContent = keyboardHelpShiftPlusTabDescriptionString;
 
-        var questionMarkListItem = document.createElement( 'li' );
-        questionMarkListItem.textContent = keyboardHelpQuestionMarkDescriptionString;
+        var hListItem = document.createElement( 'li' );
+        hListItem.textContent = keyboardHelpHDescriptionString;
 
         // build up the lists
         WASDKeyListElement.appendChild( WKeyListItem );
@@ -332,7 +332,7 @@ define( function( require ) {
 
         simNavigationAndHelpListElement.appendChild( tabListItem );
         simNavigationAndHelpListElement.appendChild( shiftPlusTabListItem );
-        simNavigationAndHelpListElement.appendChild( questionMarkListItem );
+        simNavigationAndHelpListElement.appendChild( hListItem );
 
         // structure the help menu, adding headings, lists, and paragraphs
         sectionElement.appendChild( balloonInteractionsHeadingElement );
