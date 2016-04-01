@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.1.1 Fri Apr 01 2016 13:05:10 GMT-0600 (MDT)",
+  "comment": "# balloons-and-static-electricity 1.1.1 Fri Apr 01 2016 14:27:56 GMT-0600 (MDT)",
   "assert": {
     "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
     "branch": "HEAD"
@@ -9,12 +9,12 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "76abfc27668176588b28951693bcc034dec52f9f",
+    "sha": "f95295dcdcc4e2eec95e17d80f40baa1302db4f0",
     "branch": "1.1"
   },
   "brand": {
-    "sha": "ac9ccaa74427844b170dcd1582f3e9bb931edef4",
-    "branch": "HEAD"
+    "sha": "d9e64f424ae3ca05f3d10964f5845460a6ccbce6",
+    "branch": "balloons-and-static-electricity-1.1"
   },
   "chipper": {
     "sha": "62dbf3dee15ead3bad65773a62886585790e5cc1",
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "28f510089c0f5312ca58526b10ff063466ebbc5a",
-    "branch": "HEAD"
+    "sha": "c2998c16b418aebaae8da09278ecd2ea35863dc9",
+    "branch": "balloons-and-static-electricity-1.1"
   },
   "kite": {
     "sha": "10ca8bf2b2712307ff528352de8451c0c8afe093",
@@ -38,7 +38,7 @@
   },
   "phetcommon": {
     "sha": "c1d016e74269e7f7482fb39d18421bbb84b34927",
-    "branch": "balloons-and-static-electricity-1.1"
+    "branch": "HEAD"
   },
   "scenery": {
     "sha": "f2a142e56d16506853e7e3f57365ed344674689a",
