@@ -139,7 +139,7 @@ define( function( require ) {
     // that sets focus to the dialog content if 'tab' is pressed
     closeButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, '', keyboardHelpCloseString, closeFunction );
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, keyboardHelpCloseString, closeFunction );
 
         accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
           if( event.keyCode === Input.KEY_TAB ) {
