@@ -156,8 +156,12 @@
     "value": "Grab and Drag Balloon",
     "visible": false
   },
+  "keyboardHelp.grab.description": {
+    "value": "Spacebar or Enter to pick up balloon for dragging.",
+    "visible": false
+  },
   "keyboardHelp.WASDKeys.description": {
-    "value": "Use the W, A, S, D keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.",
+    "value": "Use the W, A, S, D keys to drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.",
     "visible": false
   },
   "keyboardHelp.WKey.description": {

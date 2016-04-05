@@ -34,6 +34,7 @@ define( function( require ) {
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
   var keyboardHelpBalloonInteractionsHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.balloonInteractions.heading' );  
   var keyboardHelpGrabAndDragHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.grabAndDrag.heading' );
+  var keyboardHelpGrabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.grab.description' );
   var keyboardHelpWASDKeysDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WASDKeys.description' );
   var keyboardHelpWKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WKey.description' );
   var keyboardHelpAKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.AKey.description' );
@@ -94,6 +95,7 @@ define( function( require ) {
     var textChildren = [
       createTextContent( keyboardHelpBalloonInteractionsHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
       createTextContent( keyboardHelpGrabAndDragHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
+      createTextContent( keyboardHelpGrabDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
       createTextContent( keyboardHelpWASDKeysDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
       createTextContent( keyboardHelpWKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
       createTextContent( keyboardHelpAKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
@@ -260,6 +262,8 @@ define( function( require ) {
         quickMoveHotkeysHeadingElement.textContent = keyboardHelpQuickMoveHeadingString;
 
         // create the description paragraphs
+        var enterToGrabBalloonParagraphElement = document.createElement( 'p' );
+        enterToGrabBalloonParagraphElement.textContent = keyboardHelpGrabDescriptionString;
         var WASDDescriptionParagraphElement = document.createElement( 'p' );
         WASDDescriptionParagraphElement.textContent = keyboardHelpWASDKeysDescriptionString;
 
@@ -337,6 +341,7 @@ define( function( require ) {
         // structure the help menu, adding headings, lists, and paragraphs
         sectionElement.appendChild( balloonInteractionsHeadingElement );
         sectionElement.appendChild( grabAndDragBalloonHeadingElement );
+        sectionElement.appendChild( enterToGrabBalloonParagraphElement );
         sectionElement.appendChild( WASDDescriptionParagraphElement );
         sectionElement.appendChild( WASDKeyListElement );
         sectionElement.appendChild( releaseBalloonHeadingElement );
