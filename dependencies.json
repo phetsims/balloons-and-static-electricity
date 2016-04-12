@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.15 Tue Apr 05 2016 18:04:06 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-accessible-instance.16 Tue Apr 12 2016 08:58:00 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "b1c81602e4690504cb313fb43c8f9ce4a3d79a87",
+    "sha": "df89d3e4157d11c7903300779749ea3c89c70c1f",
     "branch": "accessible-instance"
   },
   "brand": {
@@ -21,11 +21,11 @@
     "branch": "master"
   },
   "dot": {
-    "sha": "33ae235e302fbfb1aa0a541265b7241237501865",
+    "sha": "833eef12a0c06039634802ebb2b50acd347a0a09",
     "branch": "master"
   },
   "joist": {
-    "sha": "ecd8d968e09ee1be00a444a261a01d1b391422e2",
+    "sha": "393ac1c96784522e6720ea69c41fab388df4b8f0",
     "branch": "master"
   },
   "kite": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "953074cca0879fe5c5d1041670a45ff697796742",
+    "sha": "3c696e66010e9d43f127e57b0367e64d3cdf61c6",
     "branch": "master"
   },
   "tandem": {
