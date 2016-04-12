@@ -150,6 +150,9 @@ define( function( require ) {
       maxWidth: thisScreenView.layoutBounds.width
     } );
 
+    // keybaord help dialog must be centered since it is instantiated within the screen view constructor
+    keyboardHelpDialog.centerBottom = this.center;
+
     // set the accessible content
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
