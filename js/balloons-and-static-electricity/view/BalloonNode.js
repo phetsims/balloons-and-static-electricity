@@ -177,6 +177,10 @@ define( function( require ) {
 
         domElement.addEventListener( 'click', function() {
           self.accessibleContent = applicationContent;
+
+          // reset the velocity when picked up
+          model.velocityProperty.set( new Vector2( 0, 0 ) );
+
           model.isDragged = true;
           self.accessibleInstances[0].peer.domElement.focus();
         } );
