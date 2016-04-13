@@ -35,7 +35,6 @@ define( function( require ) {
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
-  var KEY_CTRL = 17; // keycode for 'ctrl'
 
   function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
     var self = this;
@@ -285,10 +284,10 @@ define( function( require ) {
           // update the keyState object for keyboard interaction 
           model.keyState[ event.keyCode || event.which ] = false;
 
-          // if the user presses ctrl + enter or spacebar, set accessible content back to button
+          // if the user presses spacebar, set accessible content back to button
           // this is done on key up so that model.keyState can be properly updated
           // 
-          if ( event.keyCode === KEY_CTRL && event.keyCode === Input.KEY_ENTER || event.keyCode === Input.KEY_SPACE ) {
+          if ( event.keyCode === Input.KEY_SPACE ) {
             self.accessibleContent = buttonContent;
             model.isDragged = false;
             self.accessibleInstances[0].peer.domElement.focus();
