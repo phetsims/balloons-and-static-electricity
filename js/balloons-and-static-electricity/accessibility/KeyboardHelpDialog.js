@@ -42,7 +42,6 @@ define( function( require ) {
   var keyboardHelpDKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.DKey.description' );
   var keyboardHelpReleaseBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.releaseBalloon.heading' );
   var keyboardHelpSpacebarDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.spacebar.description' );
-  var keyboardHelpControlPlusEnterDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.controlPlusEnter.description' );
   var keyboardHelpTabBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tabBalloon.description' );
   var keyboardHelpQuickMoveHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.heading' );
   var keyboardHelpQuickMoveDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.description' );
@@ -103,7 +102,6 @@ define( function( require ) {
       createTextContent( keyboardHelpDKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
       createTextContent( keyboardHelpReleaseBalloonHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
       createTextContent( keyboardHelpSpacebarDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpControlPlusEnterDescriptionString, CONTENT_FONT, CONTENT_TAB ),
       createTextContent( keyboardHelpTabBalloonDescriptionString, CONTENT_FONT, CONTENT_TAB ),
       createTextContent( keyboardHelpQuickMoveHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
       createTextContent( keyboardHelpQuickMoveDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
@@ -292,9 +290,6 @@ define( function( require ) {
         var spacebarListItem = document.createElement( 'li' );
         spacebarListItem.textContent = keyboardHelpSpacebarDescriptionString;
 
-        var controlListItem = document.createElement( 'li' );
-        controlListItem.textContent = keyboardHelpControlPlusEnterDescriptionString;
-
         var tabBalloonListItem = document.createElement( 'li' );
         tabBalloonListItem.textContent = keyboardHelpTabBalloonDescriptionString;
 
@@ -326,7 +321,6 @@ define( function( require ) {
         WASDKeyListElement.appendChild( DKeyListItem );
 
         releaseBalloonListElement.appendChild( spacebarListItem );
-        releaseBalloonListElement.appendChild( controlListItem );
         releaseBalloonListElement.appendChild( tabBalloonListItem );
 
         keyCombinationListElement.appendChild( JPlusSListItem );

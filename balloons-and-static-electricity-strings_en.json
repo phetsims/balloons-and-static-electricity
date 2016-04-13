@@ -188,10 +188,6 @@
     "value": "‪Spacebar Releases balloon.",
     "visible": false
   },
-  "keyboardHelp.controlPlusEnter.description": {
-    "value": "‪Control plus Enter Releases balloon.",
-    "visible": false
-  },
   "keyboardHelp.tabBalloon.description": {
     "value": "‪Tabbing away from the balloon will release it.",
     "visible": false
