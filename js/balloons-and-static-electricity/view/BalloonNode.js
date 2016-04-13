@@ -296,6 +296,10 @@ define( function( require ) {
 
         // release the balloon when the user shifts focus
         domElement.addEventListener( 'blur', function( event ) {
+
+          // balloon has been released, it is no longer being dragged.  Reset the accessible content to the button 
+          // and reset the keystate object
+          model.keyState = {};
           self.accessibleContent = buttonContent;
           model.isDraggedProperty.set( false );
         } );
