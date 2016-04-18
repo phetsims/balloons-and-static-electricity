@@ -247,6 +247,8 @@ define( function( require ) {
             chargeAmountString = severalString;
           }
           else if ( charge < -40 ) {
+            // alert( 'here' );
+            console.log( 'at least 40 electrons on balloon' );
             chargeAmountString = manyString;
           }
           assert && assert( chargeAmountString, 'String charge amount description not defined.' );
@@ -255,14 +257,19 @@ define( function( require ) {
         };
 
         // whenever the model charge changes, update the accesible description
-        model.chargeProperty.link( function( charge ) {
+        // this needs to be unlinked when accessible content changes to prevent a memory leak
+        var chargeObserver = function( charge ) {
+          console.log( charge );
           descriptionElement.textContent = createDescription( charge );
-        } );
+        };
+        model.chargeProperty.lazyLink( chargeObserver );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
-        model.isVisibleProperty.link( function( isVisible ) {
+        // this needs to be unlinked when accessible content changes to prevent a memory leak
+        var visibleObserver = function( isVisible ) {
           domElement.hidden = !isVisible;
-        } );
+        };
+        model.isVisibleProperty.link( visibleObserver );
 
         // @private (a11y) - allow for lookup of element within view
         self.domElement = domElement;
@@ -297,6 +304,11 @@ define( function( require ) {
         // release the balloon when the user shifts focus
         domElement.addEventListener( 'blur', function( event ) {
 
+          // disose of the peer and unlink the model events
+          // TODO: These should be nested in a dispose function that calls AccessiblePeer.prototype.dispose
+          model.isVisibleProperty.unlink( visibleObserver );
+          model.chargeProperty.unlink( chargeObserver );
+
           // balloon has been released, it is no longer being dragged.  Reset the accessible content to the button 
           // and reset the keystate object
           model.keyState = {};
@@ -306,6 +318,7 @@ define( function( require ) {
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         model.isVisibleProperty.lazyLink( function( isVisible ) {
+
           var accessibleBalloonPeer = document.getElementById( self.domElement.id );
           accessibleBalloonPeer.hidden = !isVisible;
         } );
