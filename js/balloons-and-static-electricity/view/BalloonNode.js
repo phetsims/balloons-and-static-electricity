@@ -22,7 +22,7 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-
+  
   // strings
   var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
   var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
@@ -55,6 +55,9 @@ define( function( require ) {
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
 
+    // flag for accessibility so that keyboard and mouse events can work together
+    var mouseDown = false;
+
     var property = {
 
       //Set only to the legal positions in the frame
@@ -70,10 +73,25 @@ define( function( require ) {
       allowTouchSnag: true,
       startDrag: function() {
         model.isDragged = true;
+
+        mouseDown = true;
+
+        // if there is mouse interaction, we need to change the content so the appropriate description is created
+        self.accessibleContent = applicationContent;
+        self.accessibleInstances[0].peer.domElement.focus();
+
       },
       endDrag: function() {
+        mouseDown = false;
         model.isDragged = false;
         model.velocity = new Vector2( 0, 0 );
+
+        // accessible content needs to be set to the button
+        // dispose of the application content
+        applicationContent.dispose();
+        self.accessibleContent = buttonContent;
+        self.accessibleInstances[0].peer.domElement.focus();
+
       }
     } );
 
@@ -147,15 +165,21 @@ define( function( require ) {
     // create a unique node for the balloon's focus highlight so that the stroke can change when the balloon is being
     // dragged.
     // @private
-    this.focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
-        lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude()
+    this.buttonHightlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+        lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
+        stroke: 'rgba( 250, 40, 135, 0.9 )'
+    } ); 
+
+    this.applicationHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+        lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
+        stroke: 'black'
     } ); 
 
     // initial accesible representation for balloon.  A 'button' that is pressed to begin interaction
     // once user decided to interact with balloon, it becomes a highly interactive 'application' div
     // releasing the balloon with spacebar or ctrl+enter will set content back accessible button representation
     var buttonContent = {
-      focusHighlight: self.focusHighlightNode,
+      focusHighlight: self.buttonHightlightNode,
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
         var uniqueId = trail.getUniqueId();
@@ -172,7 +196,7 @@ define( function( require ) {
           domElement.hidden = !isVisible;
         } );
 
-        self.focusHighlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
+        // self.focusHighlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
 
         domElement.addEventListener( 'click', function() {
           self.accessibleContent = applicationContent;
@@ -191,13 +215,20 @@ define( function( require ) {
 
     // outfit with accessible content.
     var applicationContent = {
-      focusHighlight: self.focusHighlightNode,
+      dispose: function() {
+
+        // TODO: Lets test out this pattern for disposal!
+        model.isVisibleProperty.unlink( this.visibleObserver );
+        model.chargeProperty.unlink( this.chargeObserver );
+      },
+
+      focusHighlight: self.applicationHighlightNode,
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
         var uniqueId = trail.getUniqueId();
 
         // update the stroke of the focus highlight
-        self.focusHighlightNode.stroke = 'rgba(0, 0, 0, 0.9)';
+        // self.focusHighlightNode.stroke = 'rgba(0, 0, 0, 0.9)';
 
         // create the element for the balloon, initialize its hidden state
         var domElement = document.createElement( 'div' );
@@ -247,8 +278,6 @@ define( function( require ) {
             chargeAmountString = severalString;
           }
           else if ( charge < -40 ) {
-            // alert( 'here' );
-            console.log( 'at least 40 electrons on balloon' );
             chargeAmountString = manyString;
           }
           assert && assert( chargeAmountString, 'String charge amount description not defined.' );
@@ -258,18 +287,18 @@ define( function( require ) {
 
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
-        var chargeObserver = function( charge ) {
+        this.chargeObserver = function( charge ) {
           console.log( charge );
           descriptionElement.textContent = createDescription( charge );
         };
-        model.chargeProperty.lazyLink( chargeObserver );
+        model.chargeProperty.lazyLink( this.chargeObserver );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         // this needs to be unlinked when accessible content changes to prevent a memory leak
-        var visibleObserver = function( isVisible ) {
+        this.visibleObserver = function( isVisible ) {
           domElement.hidden = !isVisible;
         };
-        model.isVisibleProperty.link( visibleObserver );
+        model.isVisibleProperty.link( this.visibleObserver );
 
         // @private (a11y) - allow for lookup of element within view
         self.domElement = domElement;
@@ -302,25 +331,24 @@ define( function( require ) {
         } );
 
         // release the balloon when the user shifts focus
+        var thisContent = this;
+
         domElement.addEventListener( 'blur', function( event ) {
 
-          // disose of the peer and unlink the model events
-          // TODO: These should be nested in a dispose function that calls AccessiblePeer.prototype.dispose
-          model.isVisibleProperty.unlink( visibleObserver );
-          model.chargeProperty.unlink( chargeObserver );
+          if( !mouseDown ) {
 
-          // balloon has been released, it is no longer being dragged.  Reset the accessible content to the button 
-          // and reset the keystate object
-          model.keyState = {};
-          self.accessibleContent = buttonContent;
-          model.isDraggedProperty.set( false );
-        } );
+          // if( !model.isDragged ) {
 
-        // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
-        model.isVisibleProperty.lazyLink( function( isVisible ) {
+            // disose of the content to unlink the model events
+            thisContent.dispose();
 
-          var accessibleBalloonPeer = document.getElementById( self.domElement.id );
-          accessibleBalloonPeer.hidden = !isVisible;
+            // balloon has been released, it is no longer being dragged.  Reset the accessible content to the button 
+            // and reset the keystate object
+            model.keyState = {};
+            self.accessibleContent = buttonContent;
+            model.isDraggedProperty.set( false );
+
+          }
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
