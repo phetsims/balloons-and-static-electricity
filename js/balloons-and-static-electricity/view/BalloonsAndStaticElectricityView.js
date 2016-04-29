@@ -13,6 +13,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
+  var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
+  var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
@@ -33,7 +36,7 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   // constants
-  var KEY_H = 72; // keypress keycode for '?'
+  // var KEY_H = 72; // keypress keycode for '?'
 
   function BalloonsAndStaticElectricityView( model ) {
 
@@ -167,21 +170,21 @@ define( function( require ) {
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
-        // add a global event listener to all children of this screen view, bubbles through all children
-        // keypress should event used to find '?'
-        // keydown should be used for all other standard keys
-        window.addEventListener( 'keydown', function( event ) {
-          // 'global' event behavior in here...
-          if( event.keyCode === KEY_H ) {
+        // // add a global event listener to all children of this screen view, bubbles through all children
+        // // keypress should event used to find '?'
+        // // keydown should be used for all other standard keys
+        // window.addEventListener( 'keydown', function( event ) {
+        //   // 'global' event behavior in here...
+        //   if( event.keyCode === KEY_H ) {
 
-            // @private - track the active element so we can 2 it once the help dialog closes
-            thisScreenView.activeElement = document.activeElement;
+        //     // @private - track the active element so we can 2 it once the help dialog closes
+        //     thisScreenView.activeElement = document.activeElement;
 
-            // pull up the help dialog
-            keyboardHelpDialog.shownProperty.set( true );
-          }
+        //     // pull up the help dialog
+        //     keyboardHelpDialog.shownProperty.set( true );
+        //   }
           
-        } );
+        // } );
 
         window.addEventListener( 'keydown', function( event ) {
           if( event.keyCode === 27 ) {
@@ -197,6 +200,14 @@ define( function( require ) {
         return accessiblePeer;
       }
     };
+
+    var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
+    var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
+    var display = new ReaderDisplayNode( cursor, readerDisplayBounds );
+    this.addChild( display );
+
+    // eslint complains about the unused var reader
+    this.reader = new Reader( cursor );
 
   }
 

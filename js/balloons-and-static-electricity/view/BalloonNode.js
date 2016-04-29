@@ -249,7 +249,7 @@ define( function( require ) {
 
         // create the accessible description
         var descriptionElement = document.createElement( 'p' );+
-        descriptionElement.setAttribute( 'aria-live', 'assertive' );
+        descriptionElement.setAttribute( 'aria-live', 'polite' );
         descriptionElement.id = 'balloon-description-' + uniqueId;
         descriptionElement.textContent = options.accessibleDescription;
 
@@ -288,7 +288,6 @@ define( function( require ) {
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
         this.chargeObserver = function( charge ) {
-          console.log( charge );
           descriptionElement.textContent = createDescription( charge );
         };
         model.chargeProperty.lazyLink( this.chargeObserver );
