@@ -18,6 +18,7 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function BalloonNode( x, y, model, imgsrc, globalModel ) {
     var self = this;
@@ -123,5 +124,7 @@ define( function( require ) {
     model.view = this;
   }
 
+  balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
+  
   return inherit( Node, BalloonNode );
 } );

@@ -14,6 +14,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -77,5 +78,7 @@ define( function( require ) {
     } );
   }
 
+  balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );
+  
   return inherit( Node, SweaterNode );
 } );

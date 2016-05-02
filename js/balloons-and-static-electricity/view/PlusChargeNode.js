@@ -16,6 +16,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   var radius = PointChargeModel.radius;
 
@@ -61,5 +62,7 @@ define( function( require ) {
     this.addChild( node );
   }
 
+  balloonsAndStaticElectricity.register( 'PlusChargeNode', PlusChargeNode );
+  
   return inherit( Node, PlusChargeNode );
 } );

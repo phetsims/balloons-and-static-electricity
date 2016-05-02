@@ -14,6 +14,7 @@ define( function( require ) {
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   var PropertySet = require( 'AXON/PropertySet' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function BalloonsAndStaticElectricityModel( width, height ) {
 
@@ -43,6 +44,8 @@ define( function( require ) {
     this.reset();
   }
 
+  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
+  
   inherit( PropertySet, BalloonsAndStaticElectricityModel, {
     // Called by the animation loop
     step: function() {

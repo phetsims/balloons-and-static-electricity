@@ -23,6 +23,7 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -149,6 +150,8 @@ define( function( require ) {
     this.addChild( controls );
   }
 
+  balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
+  
   inherit( Node, ControlPanel );
 
   return ControlPanel;

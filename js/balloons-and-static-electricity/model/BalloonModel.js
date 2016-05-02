@@ -13,6 +13,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function BalloonModel( x, y, defaultVisibility ) {
     PropertySet.call( this, {
@@ -127,6 +128,8 @@ define( function( require ) {
     this.reset();
   }
 
+  balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
+  
   inherit( PropertySet, BalloonModel, {
 
     //get center of Balloon

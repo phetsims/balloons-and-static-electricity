@@ -14,6 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function WallModel( x, width, height ) {
 
@@ -49,6 +50,8 @@ define( function( require ) {
 
   }
 
+  balloonsAndStaticElectricity.register( 'WallModel', WallModel );
+  
   inherit( PropertySet, WallModel, {
 
     step: function( model ) {

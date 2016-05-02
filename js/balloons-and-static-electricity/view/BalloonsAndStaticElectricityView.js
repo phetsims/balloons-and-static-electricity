@@ -13,6 +13,7 @@ define( function( require ) {
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -50,6 +51,8 @@ define( function( require ) {
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
     this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, { fill: 'black', x: -1000, y: this.layoutBounds.height, pickable: false } ) );
   }
+
+  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
 
   inherit( ScreenView, BalloonsAndStaticElectricityView );
   return BalloonsAndStaticElectricityView;

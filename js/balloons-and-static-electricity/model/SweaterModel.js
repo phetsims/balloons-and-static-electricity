@@ -13,6 +13,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function SweaterModel( x, y ) {
 
@@ -107,6 +108,8 @@ define( function( require ) {
     this.reset();
   }
 
+  balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
+  
   inherit( PropertySet, SweaterModel, {
     //is balloon over minus charge on sweater?
     findIntersection: function( balloon ) {
