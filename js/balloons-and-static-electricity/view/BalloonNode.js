@@ -25,6 +25,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
@@ -257,6 +258,8 @@ define( function( require ) {
       self.draggableNode.setFocusable( isDragged );
     } );
   }
+
+  balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
   return inherit( Node, BalloonNode, {
 

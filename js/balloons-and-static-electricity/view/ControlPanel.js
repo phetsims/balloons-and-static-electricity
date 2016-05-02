@@ -35,6 +35,8 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  // var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -358,6 +360,8 @@ define( function( require ) {
 
 
   }
+
+  balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
 
   inherit( Node, ControlPanel );
 

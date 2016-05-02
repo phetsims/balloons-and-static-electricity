@@ -16,6 +16,7 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
   var KEY_S = 83; // keycode for 's'
@@ -153,6 +154,8 @@ define( function( require ) {
 
     this.reset();
   }
+
+  balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
 
   inherit( PropertySet, BalloonModel, {
 

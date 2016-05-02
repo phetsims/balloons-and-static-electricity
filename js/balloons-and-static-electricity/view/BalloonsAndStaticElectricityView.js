@@ -24,6 +24,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Range = require( 'DOT/Range' );
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
   var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
@@ -332,5 +333,9 @@ define( function( require ) {
       this.yellowBalloon.step( dt );
     }
   } );
+  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
+
+  inherit( ScreenView, BalloonsAndStaticElectricityView );
+  
   return BalloonsAndStaticElectricityView;
 } );

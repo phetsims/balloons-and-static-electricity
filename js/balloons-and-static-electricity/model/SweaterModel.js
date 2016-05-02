@@ -14,6 +14,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
   var sweaterNetChargePatternString = 'Sweater has a {0} charge';
@@ -113,6 +114,8 @@ define( function( require ) {
     this.reset();
   }
 
+  balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
+
   inherit( PropertySet, SweaterModel, {
     //is balloon over minus charge on sweater?
     findIntersection: function( balloon ) {
@@ -144,7 +147,7 @@ define( function( require ) {
 
     /**
      * Get a description of the sweater's charge for accessibility
-     * 
+     *
      * @accessibility
      * @return {string}
      */

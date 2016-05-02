@@ -27,6 +27,7 @@ define( function( require ) {
   var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
   var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
   var sweaterNoMoreChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.noMoreCharges' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -171,6 +172,8 @@ define( function( require ) {
       }
     };
   }
+
+  balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );
 
   return inherit( Node, SweaterNode );
 } );

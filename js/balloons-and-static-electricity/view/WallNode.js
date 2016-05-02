@@ -21,6 +21,7 @@ define( function( require ) {
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
   var wallChargeNeutralityDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeNeutralityDescription' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -168,6 +169,8 @@ define( function( require ) {
       }
     };
   }
+
+  balloonsAndStaticElectricity.register( 'WallNode', WallNode );
 
   return inherit( Node, WallNode );
 } );
