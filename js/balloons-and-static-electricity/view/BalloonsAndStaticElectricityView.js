@@ -203,11 +203,12 @@ define( function( require ) {
 
     var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
     var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
-    var display = new ReaderDisplayNode( cursor, readerDisplayBounds );
-    this.addChild( display );
 
     // eslint complains about the unused var reader
-    this.reader = new Reader( cursor );
+    var reader = new Reader( cursor );
+
+    var display = new ReaderDisplayNode( reader, readerDisplayBounds );
+    this.addChild( display );
 
   }
 

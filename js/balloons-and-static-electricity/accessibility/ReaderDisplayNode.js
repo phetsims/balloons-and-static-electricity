@@ -17,7 +17,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function ReaderDisplayNode( cursor, rectBounds ) {
+  function ReaderDisplayNode( reader, rectBounds ) {
 
     Rectangle.call( this, rectBounds, 10, 10, {
       fill: 'rgb( 247, 247, 239 )',
@@ -27,9 +27,8 @@ define( function( require ) {
     var text = new Text( '', { font: new PhetFont( 18 ), maxWidth: rectBounds.width, center: this.center } );
     this.addChild( text );
 
-    // TODO: we only want this to update after the utterance has been read.  Wait to update until
-    // the Reader itself fires some event?
-    cursor.outputUtteranceProperty.link( function( outputUtterance ) {
+    // when the reader begins to speak a new utterance, update the text in the display node
+    reader.speakingStartedEmitter.addListener( function speakingStartedListener( outputUtterance ) {
       // text goes in the center of the rectangle
       text.setText( outputUtterance.text );
       text.center = rectBounds.center;
