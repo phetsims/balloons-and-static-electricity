@@ -20,6 +20,8 @@ define( function( require ) {
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Range = require( 'DOT/Range' );
 
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -30,6 +32,13 @@ define( function( require ) {
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
   var sceneSummaryLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sceneSummary.label' );
+
+  // experimental strings for patterns describing the screen overview - i18n once they are reviewed and tested
+  var roomDescriptionPatternString = 'This simulation contains a Play Area and a Control Panel. The Play Area is a small room. It has {0}.';
+  var balloonLocationDescriptionString = 'The {0} Balloon is in the {1}{2}{3}{4}.';
+  var chargeDescriptionPatternString = 'Sweater {0} many pairs of negative and positive charges. Charges can change as you play and learn about static electricity.';
+  var controlPanelDescriptionString = 'The Control Panel allows you to add and remove the wall, add and remove a second balloon, and reset Balloon charges and position.';
+  var navigationDescriptionString = 'Tab to play with Balloon.';
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -50,6 +59,8 @@ define( function( require ) {
 
     // create an element for the parallel DOM that will act as a a section containing the screen description.
     // NOTE: Eventually this will be handled in scenery, but waiting until testing results to move to common code.
+    // At this time, we are experimenting with adding structure to the screen description so that the user can
+    // quickly find information that they are looking for.
     var descriptionSectionNode = new Node( {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
@@ -57,7 +68,11 @@ define( function( require ) {
           // this section should look like:
           // <section id="scene-description-id">
           //   <h2 id='scene-description-label-id'>Scene Summary</h2>
-          //   <p>Description text here</p>
+          //   <ul>
+          //    <li>...</li>
+          //    <li>...</li>
+          //    ...
+          //   </ul>
           // </section>
 
           var sectionElement = document.createElement( 'section' );
@@ -65,11 +80,124 @@ define( function( require ) {
           var headerElement = document.createElement( 'h2' );
           headerElement.textContent = sceneSummaryLabelString;
 
-          var descriptionParagraphElement = document.createElement( 'p' );
-          descriptionParagraphElement.textContent = screenDescriptionString;
+          // create the description list and its items, and add in the desired order
+          var descriptionList = document.createElement( 'ul' );
+
+          var roomDescriptionItem = document.createElement( 'li' );
+          descriptionList.appendChild( roomDescriptionItem );
+
+          var locationDescriptionItem = document.createElement( 'li' );
+          descriptionList.appendChild( locationDescriptionItem );
+
+          var chargeDescriptionItem = document.createElement( 'li' );
+          descriptionList.appendChild( chargeDescriptionItem );
+
+          // TODO: This is not fully described in the design documentation
+          // var releaseDescriptionItem = document.createElement( 'li' );
+          // descriptionList.appendChild( releaseDescriptionItem );
+
+          var controlPanelDescriptionItem = document.createElement( 'li' );
+          controlPanelDescriptionItem.textContent = controlPanelDescriptionString;
+          descriptionList.appendChild( controlPanelDescriptionItem );
+
+          var navigationDescriptionItem = document.createElement( 'li' );
+          navigationDescriptionItem.textContent = navigationDescriptionString; 
+          descriptionList.appendChild( controlPanelDescriptionItem );
 
           sectionElement.appendChild( headerElement );
-          sectionElement.appendChild( descriptionParagraphElement );
+          sectionElement.appendChild( descriptionList );
+
+          var updateVisibleItemsDescription = function() {
+            var textContent;
+
+            // update the description of items in the play area when visibility changes
+            var roomItemsString = '';
+            roomItemsString += ( model.balloons[ 1 ].isVisible ? 'two balloons, ' : 'a balloon, ' );
+            roomItemsString += ( model.wall.isVisible ? 'a sweater, and a removable wall' : 'and a sweater' );
+
+            textContent = StringUtils.format( roomDescriptionPatternString, roomItemsString );
+            roomDescriptionItem.textContent = textContent;
+          };
+
+          var updateBalloonLocationDescription = function( balloon ) {
+            // what color is the balloon?
+            var balloonColor = balloon === model.balloons[ 0 ] ? 'yellow' : 'green';
+
+            // update the description depending on the location of the balloon and the visibility of the items
+            var middleRange = new Range( 65, 150 );
+            var upperRange = new Range( 0, 65 );
+            var lowerRange = new Range( 150, 235 );
+            var yPosition = balloon.locationProperty.value.y;
+            var verticalPositionString = middleRange.contains( yPosition ) ? 'middle ' :
+                                          upperRange.contains( yPosition ) ? 'upper part ' :
+                                          lowerRange.contains( yPosition ) ? 'lower part ' :
+                                          'bottom part ';
+
+            // is the balloon in the sweater, play area, or wall?
+            var xPosition = balloon.locationProperty.value.x;
+            var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
+            var inSweater = xPosition + balloon.width < model.sweater.x + model.sweater.width;
+            var atWall = xPosition + balloon.width >= rightBound;
+
+            var containedInString = inSweater ? 'of sweater' :
+                                    atWall ? 'of wall' :
+                                    'of play area, ';
+
+            // where is the balloon relative to other objects in the play area?
+            var nearSweaterRange = new Range( 250, 350 );
+            var closerToSweaterRange = new Range( 350, 415 );
+            var middleXRange = new Range( 415, 460 );
+            var closerToWallRange = new Range( 460, 539 );
+            var nearWallRange = new Range( 539, 554 );
+
+            var relativePositionString = '';
+            // if the balloon is in the play area and the wall is visible, describe its relative location
+            if ( !atWall && !inSweater && model.wall.isVisible ) {
+              relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall' :
+                                          closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall' :
+                                          nearSweaterRange.contains( xPosition ) ? 'near sweater' : 
+                                          closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater' :
+                                          nearWallRange.contains( xPosition ) ? 'near wall' :
+                                          'against wall';
+            }
+
+            // describe the position of the other elements on the screen
+            var otherItemDescriptions = model.wall.isVisible ? 'Sweater is at far left, wall is at far right' :
+                                                              'Sweater is at far left';
+
+            // put it all together!
+            var textContent = StringUtils.format( balloonLocationDescriptionString, balloonColor, verticalPositionString,
+              containedInString, relativePositionString, otherItemDescriptions );
+
+            locationDescriptionItem.textContent = textContent;
+
+          };
+
+          // update the screen description for charges, depending on 
+          // TODO: I am unclear if this is the correct behavior from the design documents - it is not sufficient
+          // to group elements in this way.
+          var updateChargeDescription = function() {
+            // is the wall visible?
+            var sweaterAndWallString = model.wall.isVisible ? 'and wall have' : 'has';
+
+            var textContent = StringUtils.format( chargeDescriptionPatternString, sweaterAndWallString );
+            chargeDescriptionItem.textContent = textContent;
+          };
+
+          model.balloons[ 1 ].isVisibleProperty.link( function( isVisible ) {
+            updateVisibleItemsDescription();
+          } );
+
+          model.balloons.forEach( function( balloon ) {
+            balloon.locationProperty.link( function( location ) {
+              updateBalloonLocationDescription( balloon );
+            } );
+          } );
+
+          model.wall.isVisibleProperty.link( function( isVisible ) {
+            updateVisibleItemsDescription();
+            updateChargeDescription();
+          } );
 
           return new AccessiblePeer( accessibleInstance, sectionElement );
         }
