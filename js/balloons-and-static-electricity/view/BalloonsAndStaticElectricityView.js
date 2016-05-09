@@ -13,6 +13,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
+  var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
+  var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
@@ -42,7 +45,7 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   // constants
-  var KEY_H = 72; // keypress keycode for '?'
+  // var KEY_H = 72; // keypress keycode for '?'
 
   function BalloonsAndStaticElectricityView( model ) {
 
@@ -133,11 +136,12 @@ define( function( require ) {
             // is the balloon in the sweater, play area, or wall?
             var xPosition = balloon.locationProperty.value.x;
             var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
-            var inSweater = xPosition + balloon.width < model.sweater.x + model.sweater.width;
+
+            var inSweater = xPosition + balloon.width < model.sweater.x + model.sweater.width + 2;
             var atWall = xPosition + balloon.width >= rightBound;
 
-            var containedInString = inSweater ? 'of sweater' :
-                                    atWall ? 'of wall' :
+            var containedInString = inSweater ? 'of sweater, ' :
+                                    atWall ? 'of wall, ' :
                                     'of play area, ';
 
             // where is the balloon relative to other objects in the play area?
@@ -150,12 +154,12 @@ define( function( require ) {
             var relativePositionString = '';
             // if the balloon is in the play area and the wall is visible, describe its relative location
             if ( !atWall && !inSweater && model.wall.isVisible ) {
-              relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall' :
-                                          closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall' :
-                                          nearSweaterRange.contains( xPosition ) ? 'near sweater' : 
-                                          closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater' :
+              relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall. ' :
+                                          closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall. ' :
+                                          nearSweaterRange.contains( xPosition ) ? 'near sweater. ' : 
+                                          closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater. ' :
                                           nearWallRange.contains( xPosition ) ? 'near wall' :
-                                          'against wall';
+                                          'against wall. ';
             }
 
             // describe the position of the other elements on the screen
@@ -224,6 +228,11 @@ define( function( require ) {
       }
     } );
 
+    // create the keyboard help dialog for accessibility
+    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
+      maxWidth: thisScreenView.layoutBounds.width
+    } );
+
     // add the heading to the container element, and make sure it comes first
       
     this.addChild( playAreaContainerNode );
@@ -244,11 +253,11 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
@@ -273,11 +282,6 @@ define( function( require ) {
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode, sweaterNode, balloonsNode, wall ];
 
-    // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
-      maxWidth: thisScreenView.layoutBounds.width
-    } );
-
     // keybaord help dialog must be centered since it is instantiated within the screen view constructor
     keyboardHelpDialog.centerBottom = this.center;
 
@@ -295,36 +299,45 @@ define( function( require ) {
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
-        // add a global event listener to all children of this screen view, bubbles through all children
-        // keypress should event used to find '?'
-        // keydown should be used for all other standard keys
-        window.addEventListener( 'keydown', function( event ) {
-          // 'global' event behavior in here...
-          if( event.keyCode === KEY_H ) {
+        // // add a global event listener to all children of this screen view, bubbles through all children
+        // // keypress should event used to find '?'
+        // // keydown should be used for all other standard keys
+        // window.addEventListener( 'keydown', function( event ) {
+        //   // 'global' event behavior in here...
+        //   if( event.keyCode === KEY_H ) {
 
-            // @private - track the active element so we can 2 it once the help dialog closes
-            thisScreenView.activeElement = document.activeElement;
+        //     // @private - track the active element so we can 2 it once the help dialog closes
+        //     thisScreenView.activeElement = document.activeElement;
 
-            // pull up the help dialog
-            keyboardHelpDialog.shownProperty.set( true );
-          }
+        //     // pull up the help dialog
+        //     keyboardHelpDialog.shownProperty.set( true );
+        //   }
           
-        } );
+        // } );
 
-        window.addEventListener( 'keydown', function( event ) {
-          if( event.keyCode === 27 ) {
+        // window.addEventListener( 'keydown', function( event ) {
+        //   if( event.keyCode === 27 ) {
 
-            // hide the keyboardHelpDialog
-            keyboardHelpDialog.shownProperty.set( false );
+        //     // hide the keyboardHelpDialog
+        //     keyboardHelpDialog.shownProperty.set( false );
 
-            // reset focus to the domElement
-            if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
-          } 
-        } );
+        //     // reset focus to the domElement
+        //     if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
+        //   } 
+        // } );
 
         return accessiblePeer;
       }
     };
+
+    var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
+    var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
+
+    // eslint complains about the unused var reader
+    var reader = new Reader( cursor );
+
+    var display = new ReaderDisplayNode( reader, readerDisplayBounds );
+    this.addChild( display );
 
   }
 

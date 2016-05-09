@@ -35,8 +35,9 @@ define( function( require ) {
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
+  var KEY_H = 72; // keypress keycode for '?'
 
-  function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, keyboardHelpDialog, options ) {
     var self = this;
 
     options = _.extend( {
@@ -249,7 +250,7 @@ define( function( require ) {
 
         // create the accessible description
         var descriptionElement = document.createElement( 'p' );+
-        descriptionElement.setAttribute( 'aria-live', 'assertive' );
+        descriptionElement.setAttribute( 'aria-live', 'polite' );
         descriptionElement.id = 'balloon-description-' + uniqueId;
         descriptionElement.textContent = options.accessibleDescription;
 
@@ -288,7 +289,6 @@ define( function( require ) {
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
         this.chargeObserver = function( charge ) {
-          console.log( charge );
           descriptionElement.textContent = createDescription( charge );
         };
         model.chargeProperty.lazyLink( this.chargeObserver );
@@ -313,6 +313,14 @@ define( function( require ) {
           if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
             model.isDragged = true;
+          }
+
+          if ( model.keyState[ KEY_H ] ) {
+            // blur the balloon immediately
+            document.activeElement.blur();
+          
+            keyboardHelpDialog.activeElement = self.accessibleInstances[0].peer.domElement;
+            keyboardHelpDialog.shownProperty.set( true );
           }
         } );
 

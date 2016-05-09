@@ -73,7 +73,7 @@ define( function( require ) {
         // create the div, set its id
         var domElement = document.createElement( 'div' );
         domElement.id = 'toggle-container' + uniqueId;
-        domElement.setAttribute( 'aria-live', 'polite' );
+        domElement.setAttribute( 'aria-live', 'assertive' );
 
         var liveDescriptionElement = document.createElement( 'p' );
         liveDescriptionElement.setAttribute( 'aria-hidden', 'true' );
