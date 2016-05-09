@@ -136,11 +136,11 @@ define( function( require ) {
             // is the balloon in the sweater, play area, or wall?
             var xPosition = balloon.locationProperty.value.x;
             var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
-            var inSweater = xPosition + balloon.width < model.sweater.x + model.sweater.width;
+            var inSweater = xPosition + balloon.width < model.sweater.x + model.sweater.width + 2;
             var atWall = xPosition + balloon.width >= rightBound;
 
-            var containedInString = inSweater ? 'of sweater' :
-                                    atWall ? 'of wall' :
+            var containedInString = inSweater ? 'of sweater, ' :
+                                    atWall ? 'of wall, ' :
                                     'of play area, ';
 
             // where is the balloon relative to other objects in the play area?
@@ -153,12 +153,12 @@ define( function( require ) {
             var relativePositionString = '';
             // if the balloon is in the play area and the wall is visible, describe its relative location
             if ( !atWall && !inSweater && model.wall.isVisible ) {
-              relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall' :
-                                          closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall' :
-                                          nearSweaterRange.contains( xPosition ) ? 'near sweater' : 
-                                          closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater' :
+              relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall. ' :
+                                          closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall. ' :
+                                          nearSweaterRange.contains( xPosition ) ? 'near sweater. ' : 
+                                          closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater. ' :
                                           nearWallRange.contains( xPosition ) ? 'near wall' :
-                                          'against wall';
+                                          'against wall. ';
             }
 
             // describe the position of the other elements on the screen
