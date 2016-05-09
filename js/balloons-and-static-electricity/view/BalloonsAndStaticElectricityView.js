@@ -21,6 +21,7 @@ define( function( require ) {
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Range = require( 'DOT/Range' );
 
   // strings
@@ -330,14 +331,18 @@ define( function( require ) {
       }
     };
 
-    var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
-    var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
+    // enable the prototype screen reader 
+    if( BalloonsAndStaticElectricityQueryParameters.READER ) {
+      var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
+      var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 
-    // eslint complains about the unused var reader
-    var reader = new Reader( cursor );
+      // eslint complains about the unused var reader
+      var reader = new Reader( cursor );
 
-    var display = new ReaderDisplayNode( reader, readerDisplayBounds );
-    this.addChild( display );
+      var display = new ReaderDisplayNode( reader, readerDisplayBounds );
+      this.addChild( display );      
+    }
+
 
   }
 
