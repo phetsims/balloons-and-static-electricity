@@ -74,6 +74,8 @@ define( function( require ) {
 
     var thisDialog = this;
 
+    this.activeElement = null;
+
     // create the content for this dialog, temporarily just a text label
     var dialogLabelText = new Text( keyboardHelpDialogString, { 
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
@@ -127,8 +129,9 @@ define( function( require ) {
     var closeFunction = function() {
       thisDialog.shownProperty.set( false );
 
+
       // set focus to the previously active screen view element
-      screenView.activeElement.focus();
+      thisDialog.activeElement.focus();
     };
     var closeButton = new RectangularPushButton( { 
       content: closeText,
@@ -192,6 +195,7 @@ define( function( require ) {
 
     keyboardHelpText.accessibleContent = {
       createPeer: function( accessibleInstance ) {
+        var uniqueID = accessibleInstance.trail.getUniqueId();
 
         // The dialog needs to look like the following in the parallel DOM:
         // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
@@ -231,13 +235,15 @@ define( function( require ) {
         //         </ul>
         //     </section>
         // </div>
-
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-
+        
         // create the h1 element, and add its content
         var titleHeadingElement = document.createElement( 'h1' );
+        titleHeadingElement.id = 'dialog-title-' + uniqueID;
         titleHeadingElement.textContent = keyboardHelpDialogString;
+
+        var domElement = document.createElement( 'div' );
+        domElement.setAttribute( 'aria-labelledby', titleHeadingElement.id );
+        domElement.tabIndex = '0';
 
         // create the containing section element, and give it the document role
         var sectionElement = document.createElement( 'section' );
@@ -361,6 +367,7 @@ define( function( require ) {
 
         } );
 
+
         // if shift tab is pressed on this element, we need to restrict navigation to what is in the close dialog
         domElement.addEventListener( 'keydown', function( event ) {
           if( event.keyCode === Input.KEY_TAB ) {
@@ -369,6 +376,11 @@ define( function( require ) {
               closeButton.accessibleInstances[0].peer.domElement.focus();
               event.preventDefault();
             }
+          }
+          else if ( event.keyCode === 27 ) {
+            // hide the dialog
+            thisDialog.shownProperty.set( false );
+            thisDialog.activeElement.focus(); 
           }
         } );
 

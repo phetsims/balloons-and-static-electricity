@@ -35,8 +35,9 @@ define( function( require ) {
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
+  var KEY_H = 72; // keypress keycode for '?'
 
-  function BalloonNode( x, y, model, imgsrc, globalModel, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, keyboardHelpDialog, options ) {
     var self = this;
 
     options = _.extend( {
@@ -312,6 +313,14 @@ define( function( require ) {
           if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
             model.isDragged = true;
+          }
+
+          if ( model.keyState[ KEY_H ] ) {
+            // blur the balloon immediately
+            document.activeElement.blur();
+          
+            keyboardHelpDialog.activeElement = self.accessibleInstances[0].peer.domElement;
+            keyboardHelpDialog.shownProperty.set( true );
           }
         } );
 

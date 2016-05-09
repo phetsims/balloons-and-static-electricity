@@ -227,6 +227,11 @@ define( function( require ) {
       }
     } );
 
+    // create the keyboard help dialog for accessibility
+    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
+      maxWidth: thisScreenView.layoutBounds.width
+    } );
+
     // add the heading to the container element, and make sure it comes first
       
     this.addChild( playAreaContainerNode );
@@ -247,11 +252,11 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, { 
+    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, {
+    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
@@ -275,11 +280,6 @@ define( function( require ) {
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ accessibleHeadingNode, sweaterNode, balloonsNode, wall ];
-
-    // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
-      maxWidth: thisScreenView.layoutBounds.width
-    } );
 
     // keybaord help dialog must be centered since it is instantiated within the screen view constructor
     keyboardHelpDialog.centerBottom = this.center;
@@ -314,16 +314,16 @@ define( function( require ) {
           
         // } );
 
-        window.addEventListener( 'keydown', function( event ) {
-          if( event.keyCode === 27 ) {
+        // window.addEventListener( 'keydown', function( event ) {
+        //   if( event.keyCode === 27 ) {
 
-            // hide the keyboardHelpDialog
-            keyboardHelpDialog.shownProperty.set( false );
+        //     // hide the keyboardHelpDialog
+        //     keyboardHelpDialog.shownProperty.set( false );
 
-            // reset focus to the domElement
-            if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
-          } 
-        } );
+        //     // reset focus to the domElement
+        //     if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
+        //   } 
+        // } );
 
         return accessiblePeer;
       }
