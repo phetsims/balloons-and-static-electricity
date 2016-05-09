@@ -114,7 +114,7 @@ define( function( require ) {
         // create the div element and assign it a unique id.
         var domElement = document.createElement( 'div' );
         domElement.id = 'sweater-' + uniqueId;
-        domElement.setAttribute( 'aria-live', 'polite' );
+        domElement.setAttribute( 'aria-live', 'assertive' );
 
         // create the label element, and assign it as an aria label for the above div
         var labelElement = document.createElement( 'h3' );
