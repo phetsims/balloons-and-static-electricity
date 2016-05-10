@@ -28,36 +28,26 @@ define( function( require ) {
   var HSeparator = require( 'SUN/HSeparator' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
 
   // strings
   var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
-  var keyboardHelpBalloonInteractionsHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.balloonInteractions.heading' );  
-  var keyboardHelpGrabAndDragHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.grabAndDrag.heading' );
-  var keyboardHelpGrabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.grab.description' );
-  var keyboardHelpWASDKeysDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WASDKeys.description' );
-  var keyboardHelpWKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.WKey.description' );
-  var keyboardHelpAKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.AKey.description' );
-  var keyboardHelpSKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.SKey.description' );
-  var keyboardHelpDKeyDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.DKey.description' );
-  var keyboardHelpReleaseBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.releaseBalloon.heading' );
-  var keyboardHelpSpacebarDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.spacebar.description' );
-  var keyboardHelpTabBalloonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tabBalloon.description' );
-  var keyboardHelpQuickMoveHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.heading' );
-  var keyboardHelpQuickMoveDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.quickMove.description' );
-  var keyboardHelpJPlusSDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusS.description' );
-  var keyboardHelpJPlusWDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusW.description' );
-  var keyboardHelpJPlusNDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusN.description' );
-  var keyboardHelpJPlusMDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.JPlusM.description' );
-  var keyboardHelpSimNavigationAndHelpHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.simNavigationAndHelp.heading' );
-  var keyboardHelpTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.tab.description' );
-  var keyboardHelpShiftPlusTabDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.shiftPlusTab.description' );
-  var keyboardHelpHDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.h.description' );
+ 
+  var keysForDraggingAndRubbingString = 'Keys for Dragging and Rubbing';
+  var draggindDescriptionString = 'Press the following letter keys to drag the Balloon in any direction with small steps.';
+  var pressWString = 'Press W to drag up.';
+  var pressAString = 'Press A to drag left.';
+  var pressSString = 'Press S to drag down.';
+  var pressDString = 'Press D to drag right.';
+  var addShiftString = 'Add the Shift key to a letter key to drag with big steps.';
+  var shiftWString = 'Shift plus W makes a big step up.';
+  var shiftAString = 'Shift plus A makes a big step left, and so on.';
+
 
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
-  var SUB_SECTION_HEADING_FONT = new PhetFont( 11 );
-  var CONTENT_FONT = new PhetFont( 9 );
+  var CONTENT_FONT = new PhetFont( 10 );
 
   var SEPARATOR_OPTIONS = { fill: 'white', lineWidth: 0 };
   var SECTION_TAB = new HSeparator( 30 , SEPARATOR_OPTIONS );
@@ -95,11 +85,14 @@ define( function( require ) {
     } );
 
     // create visual text for the keyboard help dialog
-    var createTextContent = function( string, font, spacing, domRepresentation ) {
+    var createTextContent = function( string, font, spacing, domRepresentation, listItem ) {
       var textContent = new Text( string, font );
 
+      var children = listItem ? [ spacing, new Circle( 2, {fill: 'black' } ), textContent ] : [ spacing, textContent ];
+
       var spacedContent = new HBox( {
-        children: [ spacing, textContent ]
+        children: children,
+        spacing: 2
       } );
 
       spacedContent.accessibleContent = {
@@ -113,28 +106,31 @@ define( function( require ) {
       return spacedContent;
     };
 
+    var createListContent = function( strings ) {
+
+      var children = [];
+      strings.forEach( function( string ) {
+        children.push( createTextContent( string, CONTENT_FONT, CONTENT_TAB, 'li', true ) );
+      } );
+      return new VBox( {
+        children: children,
+        spacing: 5,
+        align: 'left',
+        accessibleContent: {
+          createPeer: function( accessibleInstance ) {
+            var domElement = document.createElement( 'ul' );
+            return new AccessiblePeer( accessibleInstance, domElement );
+          }
+        }
+      } );
+    };
+
     var textChildren = [
-      createTextContent( keyboardHelpBalloonInteractionsHeadingString, SECTION_HEADING_FONT, SECTION_TAB, 'h1' ),
-      createTextContent( keyboardHelpGrabAndDragHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h2' ),
-      createTextContent( keyboardHelpGrabDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createTextContent( keyboardHelpWASDKeysDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createTextContent( keyboardHelpWKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpAKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpSKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpDKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpReleaseBalloonHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h3' ),
-      createTextContent( keyboardHelpSpacebarDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpTabBalloonDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpQuickMoveHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h3' ),
-      createTextContent( keyboardHelpQuickMoveDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createTextContent( keyboardHelpJPlusSDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpJPlusWDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpJPlusNDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpJPlusMDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpSimNavigationAndHelpHeadingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( keyboardHelpTabDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpShiftPlusTabDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
-      createTextContent( keyboardHelpHDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' )
+      createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ pressWString, pressAString, pressSString, pressDString ] ),
+      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB ),
+      createListContent( [ shiftWString, shiftAString ] )
     ];
 
     // all visual text in a layout box

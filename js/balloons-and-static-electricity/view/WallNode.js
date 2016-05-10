@@ -21,13 +21,6 @@ define( function( require ) {
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
   var wallChargeNeutralityDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeNeutralityDescription' );
-  var wallChargeDisplacementDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeDisplacementDescriptionPattern' );
-  var wallChargesRemainInPlaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.remainInPlace' );
-  var wallChargesRepelAwayFromString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.repelAwayFrom' );
-  var wallChargesArchNoString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.no' );
-  var wallChargesArchSmallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.small' );
-  var wallChargesArchMediumSizedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.mediumSized' );
-  var wallChargesArchLargeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallCharges.arch.large' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -100,7 +93,6 @@ define( function( require ) {
         // create the element representing the wall
         var domElement = document.createElement( 'div' );
         domElement.id = 'wall-' + uniqueId;
-        // domElement.setAttribute( 'aria-live', 'polite' ); TODO: This makes descriptions loop forever!
 
         // create the label element for the wall
         var labelElement = document.createElement( 'h3' );
@@ -108,10 +100,14 @@ define( function( require ) {
         labelElement.textContent = wallLabelString;
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
-        // create the descriptoin element for the wall
-        var descriptionElement = document.createElement( 'p' );
-        descriptionElement.id = 'wall-description-' + uniqueId;
-        descriptionElement.textContent = wallChargeNeutralityDescriptionString;
+        // create the description element for the wall
+        var neutralDescriptionElement = document.createElement( 'p' );
+        neutralDescriptionElement.id = 'wall-description-' + uniqueId;
+        neutralDescriptionElement.textContent = wallChargeNeutralityDescriptionString;
+
+        var repelDescriptionElement = document.createElement( 'p' );
+        repelDescriptionElement.id = 'repel-description-' + uniqueId;
+        repelDescriptionElement.setAttribute( 'aria-live', 'polite' );
 
         // update the description element text content when balloon position changes, accounting 
         // for the charge of the balloon.
@@ -119,41 +115,40 @@ define( function( require ) {
           balloon.locationProperty.link( function( location ) {
             var distFromWall = model.wall.x - location.x;
 
-            var wallDescriptionString = '';
-            var chargeMovementString;
-            var archSizeString = '';
+            var atTouchPointString = 'At touch point, {0} {1}';
+            var unchangedString = 'charges in neutral wall remain unchanged';
+            var negativeChargesString = 'negative charges in the wall repel away from balloon';
+            var aLittleBitString = 'a little bit';
+            var aLotString = 'a lot';
+            var quiteALotString = 'quite a lot';
+
+            var repelDescriptionString = '';
             if( distFromWall < 170 ) {
 
               // build the charge displacement description.
-              var chargeDisplacementDescriptionString = '';
               if( balloon.charge === 0 ) {
-                chargeMovementString = wallChargesRemainInPlaceString;
-                archSizeString = wallChargesArchNoString;
+                repelDescriptionString = StringUtils.format( atTouchPointString, unchangedString, '' );
               }
               else if( balloon.charge > -15 && balloon.charge < 0 ) {
-                chargeMovementString = wallChargesRepelAwayFromString;
-                archSizeString = wallChargesArchSmallString;
+                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLittleBitString );
               }
               else if( balloon.charge > -35 && balloon.charge < -16) {
-                chargeMovementString = wallChargesRepelAwayFromString;
-                archSizeString = wallChargesArchMediumSizedString;
+                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLotString );
               }
               else if( balloon.charge > -60 && balloon.charge < -36 ) {
-                chargeMovementString = wallChargesRepelAwayFromString;
-                archSizeString = wallChargesArchLargeString;
+                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, quiteALotString );
               }
-              assert && assert( archSizeString, 'description string not defined' );
-
-              chargeDisplacementDescriptionString = StringUtils.format( wallChargeDisplacementDescriptionPatternString, chargeMovementString, archSizeString );
-              wallDescriptionString = wallChargeNeutralityDescriptionString + chargeDisplacementDescriptionString;
+              assert && assert( repelDescriptionString, 'description string not defined' );
 
             }
-            else{
-              wallDescriptionString = wallChargeNeutralityDescriptionString;
+
+            else {
+              repelDescriptionString = 'Negative charges in the wall no longer repel';
             }
 
-            descriptionElement.textContent = wallDescriptionString;
-
+            if ( wallModel.isVisible ) {
+              repelDescriptionElement.textContent = repelDescriptionString;
+            }
           } );
         } );
 
@@ -164,7 +159,8 @@ define( function( require ) {
 
         // structure the wall element with its descriptions
         domElement.appendChild( labelElement );
-        domElement.appendChild( descriptionElement );
+        domElement.appendChild( neutralDescriptionElement );
+        domElement.appendChild( repelDescriptionElement );
 
         return new AccessiblePeer( accessibleInstance, domElement );
       }

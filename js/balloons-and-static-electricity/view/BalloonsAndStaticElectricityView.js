@@ -88,6 +88,7 @@ define( function( require ) {
           descriptionList.appendChild( roomDescriptionItem );
 
           var locationDescriptionItem = document.createElement( 'li' );
+          locationDescriptionItem.setAttribute( 'aria-live', 'assertive' );
           descriptionList.appendChild( locationDescriptionItem );
 
           var chargeDescriptionItem = document.createElement( 'li' );
