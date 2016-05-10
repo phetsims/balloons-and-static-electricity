@@ -74,47 +74,67 @@ define( function( require ) {
 
     var thisDialog = this;
 
+    // generate a uniqueID for the accessible label
+    thisDialog.labelID = 'label-id-' + screenView.id;
+
     this.activeElement = null;
 
     // create the content for this dialog, temporarily just a text label
     var dialogLabelText = new Text( keyboardHelpDialogString, { 
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
-      fill: 'rgba( 0, 0, 0, 0.5 )'
+      fill: 'rgba( 0, 0, 0, 0.5 )',
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          var domElement = document.createElement( 'h1' );
+          domElement.id = thisDialog.labelID;
+          domElement.textContent = keyboardHelpDialogString;
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
     } );
 
     // create visual text for the keyboard help dialog
-    var createTextContent = function( string, font, spacing ) {
+    var createTextContent = function( string, font, spacing, domRepresentation ) {
       var textContent = new Text( string, font );
 
       var spacedContent = new HBox( {
         children: [ spacing, textContent ]
       } );
 
+      spacedContent.accessibleContent = {
+        createPeer: function( accessibleInstance ) {
+          var domElement = document.createElement( domRepresentation );
+          domElement.textContent = string;
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      };
+
       return spacedContent;
     };
 
     var textChildren = [
-      createTextContent( keyboardHelpBalloonInteractionsHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
-      createTextContent( keyboardHelpGrabAndDragHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpGrabDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpWASDKeysDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpWKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpAKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpSKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpDKeyDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpReleaseBalloonHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpSpacebarDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpTabBalloonDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpQuickMoveHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpQuickMoveDescriptionString, CONTENT_FONT, SUB_SECTION_TAB ),
-      createTextContent( keyboardHelpJPlusSDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpJPlusWDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpJPlusNDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpJPlusMDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpSimNavigationAndHelpHeadingString, SECTION_HEADING_FONT, SECTION_TAB ),
-      createTextContent( keyboardHelpTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpShiftPlusTabDescriptionString, CONTENT_FONT, CONTENT_TAB ),
-      createTextContent( keyboardHelpHDescriptionString, CONTENT_FONT, CONTENT_TAB )
+      createTextContent( keyboardHelpBalloonInteractionsHeadingString, SECTION_HEADING_FONT, SECTION_TAB, 'h1' ),
+      createTextContent( keyboardHelpGrabAndDragHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h2' ),
+      createTextContent( keyboardHelpGrabDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( keyboardHelpWASDKeysDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( keyboardHelpWKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpAKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpSKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpDKeyDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpReleaseBalloonHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h3' ),
+      createTextContent( keyboardHelpSpacebarDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpTabBalloonDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpQuickMoveHeadingString, SUB_SECTION_HEADING_FONT, SUB_SECTION_TAB, 'h3' ),
+      createTextContent( keyboardHelpQuickMoveDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( keyboardHelpJPlusSDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpJPlusWDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpJPlusNDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpJPlusMDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpSimNavigationAndHelpHeadingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( keyboardHelpTabDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpShiftPlusTabDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' ),
+      createTextContent( keyboardHelpHDescriptionString, CONTENT_FONT, CONTENT_TAB, 'p' )
     ];
 
     // all visual text in a layout box
@@ -147,7 +167,7 @@ define( function( require ) {
         accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
           if( event.keyCode === Input.KEY_TAB ) {
             // TODO: Scenery should eventually be able to provide a reference to the node's domElement?
-            keyboardHelpText.accessibleInstances[0].peer.domElement.focus();
+            contentVBox.accessibleInstances[0].peer.domElement.focus();
             event.preventDefault();
           }
         } );
@@ -158,7 +178,31 @@ define( function( require ) {
 
     // dialogLabelText and closeText in an VBox to center in the dialog
     var contentVBox = new VBox( {
-      children: [ dialogLabelText, keyboardHelpText, closeButton ],
+      children: [ dialogLabelText, keyboardHelpText ],
+      spacing: 20,
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          var domElement = document.createElement( 'div' );
+          domElement.tabIndex = 0;
+
+          domElement.setAttribute( 'aria-labelledby', thisDialog.labelID );
+
+          domElement.addEventListener( 'keydown', function( event ) {
+            if ( event.keyCode === Input.KEY_TAB ) {
+              if ( event.shiftKey ) {
+                closeButton.accessibleInstances[0].peer.domElement.focus();
+                event.preventDefault();
+              }
+            }
+          } );
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
+    } );
+
+    var dialogVBox = new VBox( {
+      children: [ contentVBox, closeButton ],
       spacing: 20
     } );
 
@@ -180,7 +224,7 @@ define( function( require ) {
       manageDialog( shown );
     } );
 
-    Dialog.call( this, contentVBox, {
+    Dialog.call( this, dialogVBox, {
       modal: true,
       focusable: true,
       hasCloseButton: false,
@@ -193,201 +237,6 @@ define( function( require ) {
       }
     } );
 
-    keyboardHelpText.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        var uniqueID = accessibleInstance.trail.getUniqueId();
-
-        // The dialog needs to look like the following in the parallel DOM:
-        // TODO: Eventually, this content will be distributed accross the visual scener nodes.  Since there is no
-        // visual representation yet, DOM elements are all created here.
-        // <div id="dialog-14-498-496" role="dialog" tabindex="0" aria-labelledby="dialog-label-14-498-496" aria-describedby="dialog-section-14-498-496">
-        //     <h1 id="dialog-label-14-498-496">‪Keyboard Commands and Help‬ Dialog</h1>
-        //     <section id="dialog-section-14-498-496" role="document" tabIndex="0">
-        //         <h2>‪Balloon Interactions‬</h2>
-        //         <h3>Grab and Drag Balloon</h3>
-        //         <p>Use the WASD keys to grab and drag the balloon in four directions. Add the Shift key to the letter to make bigger steps.</p>
-        //         <ul>
-        //             <li>W key drags up. Shift plus W drags up a lot.</li>
-        //             <li>A key drags left.</li>
-        //             <li>S key drags down.</li>
-        //             <li>D key drags right.</li>
-        //        </ul>
-        //        <h3>Release Balloon</h3>
-        //        <ul>
-        //            <li>‪Spacebar: Releases balloon.‬</li>
-        //            <li>‪Control plus Enter (Windows-only): Releases balloon.‬</li>
-        //            <li>‪Tabbing away from the balloon will release it.‬</li>
-        //         </ul>
-        //         <h3>‪Quick Move Hotkeys‬</h3>
-        //        <p>Use these key combinations to jump to a location in the Play Area.</p>
-        //         <ul>
-        //             <li>‪J plus S jumps to edge of sweater.‬</li>
-        //             <li>‪J plus W jumps to wall.‬</li>
-        //             <li>‪J plus N jumps to near wall.‬</li>
-        //             <li>‪J plus M jumps to middle of Play Area.‬</li>
-        //         </ul>
-
-        //   <h2>‪Sim Navigation and Help‬</h2>
-        //         <ul>
-        //             <li>‪Press Tab to go to next item.‬</li>
-        //             <li>‪Shift plus Tab to go to previous item.‬</li>
-        //             <li>‪Press H to opens keyboard commands and help.‬</li>
-        //         </ul>
-        //     </section>
-        // </div>
-        
-        // create the h1 element, and add its content
-        var titleHeadingElement = document.createElement( 'h1' );
-        titleHeadingElement.id = 'dialog-title-' + uniqueID;
-        titleHeadingElement.textContent = keyboardHelpDialogString;
-
-        var domElement = document.createElement( 'div' );
-        domElement.setAttribute( 'aria-labelledby', titleHeadingElement.id );
-        domElement.tabIndex = '0';
-
-        // create the containing section element, and give it the document role
-        var sectionElement = document.createElement( 'section' );
-
-        // create the h2 elements
-        var balloonInteractionsHeadingElement = document.createElement( 'h2' );
-        balloonInteractionsHeadingElement.textContent = keyboardHelpBalloonInteractionsHeadingString;
-
-        var simNavigationAndHelpHeadingElement = document.createElement( 'h2' );
-        simNavigationAndHelpHeadingElement.textContent = keyboardHelpSimNavigationAndHelpHeadingString;
-
-        // create the h3 elements
-        var grabAndDragBalloonHeadingElement = document.createElement( 'h3' );
-        grabAndDragBalloonHeadingElement.textContent = keyboardHelpGrabAndDragHeadingString;
-
-        var releaseBalloonHeadingElement = document.createElement( 'h3' );
-        releaseBalloonHeadingElement.textContent = keyboardHelpReleaseBalloonHeadingString;
-
-        var quickMoveHotkeysHeadingElement = document.createElement( 'h3' );
-        quickMoveHotkeysHeadingElement.textContent = keyboardHelpQuickMoveHeadingString;
-
-        // create the description paragraphs
-        var enterToGrabBalloonParagraphElement = document.createElement( 'p' );
-        enterToGrabBalloonParagraphElement.textContent = keyboardHelpGrabDescriptionString;
-        var WASDDescriptionParagraphElement = document.createElement( 'p' );
-        WASDDescriptionParagraphElement.textContent = keyboardHelpWASDKeysDescriptionString;
-
-        var keyCombinationsDescriptionParagraphElement = document.createElement( 'p' );
-        keyCombinationsDescriptionParagraphElement.textContent = keyboardHelpQuickMoveDescriptionString;
-
-        // create the unordered list elements
-        var WASDKeyListElement = document.createElement( 'ul' );
-        var releaseBalloonListElement = document.createElement( 'ul' );
-        var keyCombinationListElement = document.createElement( 'ul' );
-        var simNavigationAndHelpListElement = document.createElement( 'ul' );
-
-        // create the list items
-        var WKeyListItem = document.createElement( 'li' );
-        WKeyListItem.textContent = keyboardHelpWKeyDescriptionString;
-
-        var AKeyListItem = document.createElement( 'li' );
-        AKeyListItem.textContent = keyboardHelpAKeyDescriptionString;
-
-        var SKeyListItem = document.createElement( 'li' );
-        SKeyListItem.textContent = keyboardHelpSKeyDescriptionString;
-
-        var DKeyListItem = document.createElement( 'li' );
-        DKeyListItem.textContent = keyboardHelpDKeyDescriptionString;
-
-        var spacebarListItem = document.createElement( 'li' );
-        spacebarListItem.textContent = keyboardHelpSpacebarDescriptionString;
-
-        var tabBalloonListItem = document.createElement( 'li' );
-        tabBalloonListItem.textContent = keyboardHelpTabBalloonDescriptionString;
-
-        var JPlusSListItem = document.createElement( 'li' );
-        JPlusSListItem.textContent = keyboardHelpJPlusSDescriptionString;
-
-        var JPlusWListItem = document.createElement( 'li' );
-        JPlusWListItem.textContent = keyboardHelpJPlusWDescriptionString;
-
-        var JPlusNListItem = document.createElement( 'li' );
-        JPlusNListItem.textContent = keyboardHelpJPlusNDescriptionString;
-
-        var JPlusMListItem = document.createElement( 'li' );
-        JPlusMListItem.textContent = keyboardHelpJPlusMDescriptionString;
-
-        var tabListItem = document.createElement( 'li' );
-        tabListItem.textContent = keyboardHelpTabDescriptionString;
-
-        var shiftPlusTabListItem = document.createElement( 'li' );
-        shiftPlusTabListItem.textContent = keyboardHelpShiftPlusTabDescriptionString;
-
-        var hListItem = document.createElement( 'li' );
-        hListItem.textContent = keyboardHelpHDescriptionString;
-
-        // build up the lists
-        WASDKeyListElement.appendChild( WKeyListItem );
-        WASDKeyListElement.appendChild( AKeyListItem );
-        WASDKeyListElement.appendChild( SKeyListItem );
-        WASDKeyListElement.appendChild( DKeyListItem );
-
-        releaseBalloonListElement.appendChild( spacebarListItem );
-        releaseBalloonListElement.appendChild( tabBalloonListItem );
-
-        keyCombinationListElement.appendChild( JPlusSListItem );
-        keyCombinationListElement.appendChild( JPlusWListItem );
-        keyCombinationListElement.appendChild( JPlusNListItem );
-        keyCombinationListElement.appendChild( JPlusMListItem );
-
-        simNavigationAndHelpListElement.appendChild( tabListItem );
-        simNavigationAndHelpListElement.appendChild( shiftPlusTabListItem );
-        simNavigationAndHelpListElement.appendChild( hListItem );
-
-        // structure the help menu, adding headings, lists, and paragraphs
-        sectionElement.appendChild( balloonInteractionsHeadingElement );
-        sectionElement.appendChild( grabAndDragBalloonHeadingElement );
-        sectionElement.appendChild( enterToGrabBalloonParagraphElement );
-        sectionElement.appendChild( WASDDescriptionParagraphElement );
-        sectionElement.appendChild( WASDKeyListElement );
-        sectionElement.appendChild( releaseBalloonHeadingElement );
-        sectionElement.appendChild( releaseBalloonListElement );
-        sectionElement.appendChild( quickMoveHotkeysHeadingElement );
-        sectionElement.appendChild( keyCombinationsDescriptionParagraphElement );
-        sectionElement.appendChild( keyCombinationListElement );
-        sectionElement.appendChild( simNavigationAndHelpHeadingElement );
-        sectionElement.appendChild( simNavigationAndHelpListElement );
-
-        // add the title to the domElement
-        domElement.appendChild( titleHeadingElement );
-
-        // add the section to the dom element
-        domElement.appendChild( sectionElement );
-
-        // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
-        // in the screen view.
-        thisDialog.shownProperty.link( function( isShown ) {
-
-          var screenViewElement = document.getElementById( screenView.accessibleId );
-          screenViewElement.setAttribute( 'aria-hidden', isShown );
-
-        } );
-
-
-        // if shift tab is pressed on this element, we need to restrict navigation to what is in the close dialog
-        domElement.addEventListener( 'keydown', function( event ) {
-          if( event.keyCode === Input.KEY_TAB ) {
-            if( event.shiftKey ) {
-              // TODO: Scenery should eventually be able to provide a reference to the node's DOM element?
-              closeButton.accessibleInstances[0].peer.domElement.focus();
-              event.preventDefault();
-            }
-          }
-          else if ( event.keyCode === 27 ) {
-            // hide the dialog
-            thisDialog.shownProperty.set( false );
-            thisDialog.activeElement.focus(); 
-          }
-        } );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
-
     // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
     // in the screen view.
     thisDialog.shownProperty.link( function( isShown ) {
@@ -395,7 +244,7 @@ define( function( require ) {
       // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
       if ( isShown ) {
         // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
-        keyboardHelpText.accessibleInstances[0].peer.domElement.focus();
+        contentVBox.accessibleInstances[0].peer.domElement.focus();
       }
     } );
 
