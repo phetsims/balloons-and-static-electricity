@@ -235,13 +235,15 @@ define( function( require ) {
 
     // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
     // in the screen view.
-    thisDialog.shownProperty.link( function( isShown ) {
+    thisDialog.shownProperty.lazyLink( function( isShown ) {
 
       // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
       if ( isShown ) {
         // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
         contentVBox.accessibleInstances[0].peer.domElement.focus();
       }
+
+      screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
     } );
 
     // close it on a click
