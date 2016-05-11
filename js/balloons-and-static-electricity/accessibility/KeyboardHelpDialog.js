@@ -43,7 +43,17 @@ define( function( require ) {
   var addShiftString = 'Add the Shift key to a letter key to drag with big steps.';
   var shiftWString = 'Shift plus W makes a big step up.';
   var shiftAString = 'Shift plus A makes a big step left, and so on.';
-
+  var hotkeysJumpingString = 'Hotkeys for Jumping';
+  var pressToJumpString = 'Press the following hotkey combinations to jump the Balloon to a location in the Play Area.';
+  var JSString = 'JS jumps close to Sweater.';
+  var JWString = 'JW jumps to Wall.';
+  var JNString = 'JN jumps to near Wall.';
+  var JCString = 'JC jumps to center of Play Area.';
+  var releaseBalloonString = 'Release Balloon';
+  var spacebarString = 'Press Spacebar to release.';
+  var tabString = 'Pressing the Tab key also releases the Balloon as you go to the next item.';
+  var hotkeysJumpingString = 'Grab Balloon button';
+  var grabDescriptionString = 'Press Spacebar or Enter on the Grab Balloon button to pick up or grab the Balloon, then start dragging by pressing any of the following keys W, A, S, or D.';
 
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
@@ -129,8 +139,15 @@ define( function( require ) {
       createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createListContent( [ pressWString, pressAString, pressSString, pressDString ] ),
-      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB ),
-      createListContent( [ shiftWString, shiftAString ] )
+      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ shiftWString, shiftAString ] ),
+      createTextContent( hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( pressToJumpString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ JSString, JWString, JNString, JCString ] ),
+      createTextContent( releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ spacebarString, tabString ] ),
+      createTextContent( hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ grabDescriptionString ] )
     ];
 
     // all visual text in a layout box
