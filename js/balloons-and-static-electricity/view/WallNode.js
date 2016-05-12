@@ -112,42 +112,47 @@ define( function( require ) {
         // update the description element text content when balloon position changes, accounting 
         // for the charge of the balloon.
         model.balloons.forEach( function( balloon ) {
-          balloon.locationProperty.link( function( location ) {
-            var distFromWall = model.wall.x - location.x;
+          balloon.locationProperty.lazyLink( function( location, oldLocation ) {
 
-            var atTouchPointString = 'At touch point, {0} {1}';
-            var unchangedString = 'charges in neutral wall remain unchanged';
-            var negativeChargesString = 'negative charges in the wall repel away from balloon';
-            var aLittleBitString = 'a little bit';
-            var aLotString = 'a lot';
-            var quiteALotString = 'quite a lot';
+            if ( !location.equals( oldLocation ) ) {
 
-            var repelDescriptionString = '';
-            if( distFromWall < 170 ) {
+              var distFromWall = model.wall.x - location.x;
 
-              // build the charge displacement description.
-              if( balloon.charge === 0 ) {
-                repelDescriptionString = StringUtils.format( atTouchPointString, unchangedString, '' );
+              var atTouchPointString = 'At touch point, {0} {1}';
+              var unchangedString = 'charges in neutral wall remain unchanged';
+              var negativeChargesString = 'negative charges in the wall repel away from balloon';
+              var aLittleBitString = 'a little bit';
+              var aLotString = 'a lot';
+              var quiteALotString = 'quite a lot';
+
+              var repelDescriptionString = '';
+              if( distFromWall < 135 ) {
+
+                // build the charge displacement description.
+                if( balloon.charge === 0 ) {
+                  repelDescriptionString = StringUtils.format( atTouchPointString, unchangedString, '' );
+                }
+                else if( balloon.charge > -15 && balloon.charge < 0 ) {
+                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLittleBitString );
+                }
+                else if( balloon.charge > -35 && balloon.charge < -16) {
+                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLotString );
+                }
+                else if( balloon.charge > -60 && balloon.charge < -36 ) {
+                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, quiteALotString );
+                }
+                assert && assert( repelDescriptionString, 'description string not defined' );
               }
-              else if( balloon.charge > -15 && balloon.charge < 0 ) {
-                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLittleBitString );
-              }
-              else if( balloon.charge > -35 && balloon.charge < -16) {
-                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLotString );
-              }
-              else if( balloon.charge > -60 && balloon.charge < -36 ) {
-                repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, quiteALotString );
-              }
-              assert && assert( repelDescriptionString, 'description string not defined' );
 
-            }
+              else {
+                if ( balloon.charge !== 0 ) {
+                  repelDescriptionString = 'Negative charges in the wall no longer repel';
+                }
+              }
 
-            else {
-              repelDescriptionString = 'Negative charges in the wall no longer repel';
-            }
-
-            if ( wallModel.isVisible ) {
-              repelDescriptionElement.textContent = repelDescriptionString;
+              if ( wallModel.isVisible ) {
+                repelDescriptionElement.textContent = repelDescriptionString;
+              }
             }
           } );
         } );

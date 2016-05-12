@@ -297,6 +297,8 @@ define( function( require ) {
 
       //if average speed larger than thresholdSpeed - we try to move minus charges from sweater to balloon
       var speed = Math.sqrt( averageX * averageX + averageY * averageY );
+
+      this.dragSpeed = speed;
       if ( speed >= this.thresholdSpeed ) {
         model.sweater.findIntersection( this );
       }

@@ -22,6 +22,13 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Range = require( 'DOT/Range' );
+
+  // constants - to monitor the direction of dragging
+  var UP = 'UP';
+  var DOWN = 'DOWN';
+  var LEFT = 'LEFT';
+  var RIGHT = 'RIGHT';
   
   // strings
   var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
@@ -52,6 +59,7 @@ define( function( require ) {
     this.y = y;
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
+    this.initialGrab = true;
 
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
@@ -217,10 +225,10 @@ define( function( require ) {
     // outfit with accessible content.
     var applicationContent = {
       dispose: function() {
-
         // TODO: Lets test out this pattern for disposal!
         model.isVisibleProperty.unlink( this.visibleObserver );
         model.chargeProperty.unlink( this.chargeObserver );
+        model.locationProperty.unlink( this.locationObserver );
       },
 
       focusHighlight: self.applicationHighlightNode,
@@ -248,24 +256,38 @@ define( function( require ) {
         labelElement.textContent = options.accessibleLabel;
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
-        // create the accessible description
-        var descriptionElement = document.createElement( 'p' );+
-        descriptionElement.setAttribute( 'aria-live', 'polite' );
-        descriptionElement.id = 'balloon-description-' + uniqueId;
-        descriptionElement.textContent = options.accessibleDescription;
+        // create the accessible charge description
+        var chargeDescriptionElement = document.createElement( 'p' );
+        chargeDescriptionElement.setAttribute( 'aria-live', 'polite' );
+        chargeDescriptionElement.id = 'balloon-description-' + uniqueId;
+        chargeDescriptionElement.textContent = options.accessibleDescription;
+
+        // create the accessible position description
+        var locationDescriptionElement = document.createElement( 'p' );
+        locationDescriptionElement.setAttribute( 'aria-live', 'polite' );
+        locationDescriptionElement.id = 'position-descripton-' + uniqueId;
+        locationDescriptionElement.hidden = true;
+        // create a location description that is assertive, only updates when the balloon
+        // is initially moved or changes directions
+        var assertiveLocationDescriptionElement = document.createElement( 'p' );
+        assertiveLocationDescriptionElement.setAttribute( 'aria-live', 'assertive' );
+        assertiveLocationDescriptionElement.id = 'assertive-description-' + uniqueId;
+        assertiveLocationDescriptionElement.hidden = true;
 
         var navigationDescriptionElement = document.createElement( 'p' );
         navigationDescriptionElement.id = 'navigation-description-' + uniqueId;
         navigationDescriptionElement.textContent = balloonNavigationCuesString;
 
-        domElement.setAttribute( 'aria-describedby', descriptionElement.id + ' ' + navigationDescriptionElement.id );
+        domElement.setAttribute( 'aria-describedby', chargeDescriptionElement.id + ' ' + navigationDescriptionElement.id + ' ' + locationDescriptionElement.id );
 
         domElement.appendChild( labelElement );
-        domElement.appendChild( descriptionElement );
+        domElement.appendChild( chargeDescriptionElement );
+        domElement.appendChild( locationDescriptionElement );
         domElement.appendChild( navigationDescriptionElement );
+        domElement.appendChild( assertiveLocationDescriptionElement );
 
         // build up the correct charge description based on the state of the model
-        var createDescription = function( charge ) {
+        var createChargeDescription = function( charge ) {
           var chargeNeutralityDescriptionString = charge < 0 ? netNegativeString : neutralString;
 
           var chargeAmountString;
@@ -286,12 +308,97 @@ define( function( require ) {
           return StringUtils.format( options.accessibleDescriptionPatternString, chargeNeutralityDescriptionString, chargeAmountString );
         };
 
+        /**
+         * Create the description for the balloon.  The description is dependent on the state of the balloon,
+         * its location, and whether it is focussed and grabbed.
+         * 
+         * @param  {Vector2}
+         * @return {[type]}          [description]
+         */
+        var updateLocationDescriptions = function( location, oldLocation ) {
+          // perspective 2 - focused and grabbed
+          if ( document.activeElement === self.accessibleInstances[0].peer.domElement && model.isDragged ) {
+            var assertiveText;
+            var politeText;
+
+            // TODO: should the model track this?
+            self.draggingDirection = self.getDraggingDirection( location, oldLocation );
+
+            // update assertive portion
+            var objectString;
+            var directionString;
+            if ( self.draggingDirection === UP ) {
+              directionString = 'up';
+              objectString = 'top of play area';
+            }
+            else if ( self.draggingDirection === DOWN ) {
+              directionString = 'down';
+              objectString = 'bottom of play area';
+            }
+            else if ( self.draggingDirection === RIGHT ) {
+              objectString = globalModel.wall.isVisible ? 'wall' : 'right of play area';
+              directionString = 'right';
+            }
+            else if ( self.draggingDirection === LEFT ) {
+              objectString = 'sweater';
+              directionString = 'left';
+            }
+
+            var politeString;
+            if ( self.draggingDirection === UP || self.draggingDirection === DOWN ) {
+              var middleRange = new Range( 65, 150 );
+              var upperRange = new Range( 0, 65 );
+              var bottomRange = new Range( 235, 350 );
+              politeString = middleRange.contains( location.y ) ? 'halfway ' :
+                              upperRange.contains( location.y ) ? 'at very top of play area' :
+                              bottomRange.contains( location.y ) ? 'at very bottom of play area' :
+                              'closer';
+            }
+            else {
+              // where is the balloon relative to other objects in the play area?
+              var inSweaterRange = new Range( 0, 250 );
+              var nearSweaterRange = new Range( 250, 350 );
+              var middleXRange = new Range( 415, 460 );
+              var atWallRange = new Range( 554, 650 );
+
+              var rightEdgeString = globalModel.wall.isVisible ? 'at wall' : 'at edge of play area';
+
+              politeString = inSweaterRange.contains( location.x ) ? 'on sweater.' :
+                              atWallRange.contains( location.x ) ? rightEdgeString :
+                              nearSweaterRange.contains( location.x ) ? 'at edge of sweater' :
+                              middleXRange.contains( location.x ) ? 'halfway' :
+                              'closer';
+            }
+
+            politeText = politeString;
+            assertiveText = options.accessibleLabel + ', grabbed, moves ' + directionString + ' towards ' + objectString;
+
+            // if this not is the first interaction with the balloon, add 'Now' to the beginning of the assertive string
+            if ( !self.initialGrab ) {
+              assertiveText = 'Now, ' + assertiveText;
+            }
+            self.initialGrab = false;
+
+            // if there is assertive text, it should override the polite text
+            locationDescriptionElement.textContent = politeText;
+            assertiveLocationDescriptionElement.textContent = assertiveText;
+          }
+        };
+
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
         this.chargeObserver = function( charge ) {
-          descriptionElement.textContent = createDescription( charge );
+          chargeDescriptionElement.textContent = createChargeDescription( charge );
         };
         model.chargeProperty.lazyLink( this.chargeObserver );
+
+        this.locationObserver = function( location, oldLocation ) {
+          // only run through this function if necessary
+          if ( !location.equals( oldLocation ) ) {
+            updateLocationDescriptions( location, oldLocation );
+          } 
+        };
+        model.locationProperty.lazyLink( this.locationObserver );
 
         // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
         // this needs to be unlinked when accessible content changes to prevent a memory leak
@@ -330,7 +437,6 @@ define( function( require ) {
 
           // if the user presses spacebar, set accessible content back to button
           // this is done on key up so that model.keyState can be properly updated
-          // 
           if ( event.keyCode === Input.KEY_SPACE ) {
             self.accessibleContent = buttonContent;
             model.isDragged = false;
@@ -342,6 +448,9 @@ define( function( require ) {
         var thisContent = this;
 
         domElement.addEventListener( 'blur', function( event ) {
+
+          // reset the initialGrab variable
+          self.initialGrab = true;
 
           if( !mouseDown ) {
 
@@ -366,5 +475,35 @@ define( function( require ) {
     model.view = this;
   }
 
-  return inherit( Node, BalloonNode );
+  return inherit( Node, BalloonNode, {
+
+    /**
+     * Get the direction of dragging.  TODO: Do we need to handle diagonal dragging?
+     * 
+     * @param  {} location
+     * @param  {} oldLocations
+     * @return {string}
+     */
+    getDraggingDirection: function( location, oldLocation ) {
+
+      var deltaX = location.x - oldLocation.x;
+      var deltaY = location.y - oldLocation.y;
+
+      if ( deltaX > 0 ) {
+        return RIGHT;
+      }
+      else if ( deltaX < 0 ) {
+        return LEFT;
+      }
+      else if ( deltaY < 0 ) {
+        return UP;
+      }
+      else if ( deltaY > 0 ) {
+        return DOWN;
+      }
+      else {
+        assert && assert( 'case not supported in getDraggingDirection' );
+      }
+    }
+  } );
 } );
