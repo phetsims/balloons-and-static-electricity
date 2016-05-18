@@ -19,9 +19,9 @@ define( function( require ) {
   var KEY_S = 83; // keycode for 's'
   var KEY_W = 87; // keyvode for 'w'
   var KEY_N = 78; // keycode for 'n'
-  var KEY_M = 77; // keycode for 'm'
-  var KEY_A = 65; // keycode for the 'a'
-  var KEY_D = 68; // keycode for the 'd'
+  var KEY_A = 65; // keycode for 'a'
+  var KEY_D = 68; // keycode for 'd'
+  var KEY_C = 67; // keycode for 'c'
 
   /**
    * Constructor
@@ -196,7 +196,7 @@ define( function( require ) {
             this.locationProperty.set( new Vector2( model.sweater.x + model.sweater.width, balloonYValue ) );
             this.isJumping = false;
           }
-          if( this.keyState[ KEY_M ] ) {
+          if( this.keyState[ KEY_C ] ) {
             // move the balloon back to its initial x location
             this.locationProperty.set( new Vector2( this.initialLocation.x, balloonYValue ) );
             this.isJumping = false;
