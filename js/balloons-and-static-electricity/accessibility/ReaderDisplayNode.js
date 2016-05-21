@@ -11,6 +11,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
 
   // constants
 
@@ -27,13 +28,30 @@ define( function( require ) {
     var text = new Text( '', { font: new PhetFont( 18 ), maxWidth: rectBounds.width, center: this.center } );
     this.addChild( text );
 
-    // when the reader begins to speak a new utterance, update the text in the display node
-    reader.speakingStartedEmitter.addListener( function speakingStartedListener( outputUtterance ) {
-      // text goes in the center of the rectangle
-      text.setText( outputUtterance.text );
-      text.center = rectBounds.center;
-    } );
+    // this should override the output to show information about keyup events
+    if ( BalloonsAndStaticElectricityQueryParameters.KEY_DATA ) {
+      document.addEventListener( 'keyup', function( event ) {
+        var outputText;
+        var keyCode = event.keyCode ? event.keyCode : event.which;
+        if ( keyCode === 0 ) {
+          outputText = 'keyup event not supported, event.which = ' + keyCode;
+        }
+        else {
+          outputText = 'key up fired with keyCode ' + keyCode;
+        }
+        text.setText( outputText );
+        text.center = rectBounds.center;
+      } );
+    }
 
+    else {
+      // when the reader begins to speak a new utterance, update the text in the display node
+      reader.speakingStartedEmitter.addListener( function speakingStartedListener( outputUtterance ) {
+        // text goes in the center of the rectangle
+        text.setText( outputUtterance.text );
+        text.center = rectBounds.center;
+      } ); 
+    }
   }
 
   return inherit( Rectangle, ReaderDisplayNode, {} );
