@@ -419,7 +419,6 @@ define( function( require ) {
           // If the user presses j, enter jumping mode and pick the balloon up
           if ( model.keyState[ KEY_J ] ) {
             model.isJumping = true;
-            model.isDragged = true;
           }
 
           if ( model.keyState[ KEY_H ] ) {
