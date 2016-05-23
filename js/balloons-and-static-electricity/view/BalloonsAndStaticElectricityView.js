@@ -37,7 +37,7 @@ define( function( require ) {
   // experimental strings for patterns describing the screen overview - i18n once they are reviewed and tested
   var roomDescriptionPatternString = 'This simulation contains a Play Area and a Control Panel. The Play Area is a small room. It has {0}.';
   var balloonLocationDescriptionString = 'The {0} Balloon is in the {1}{2}{3}{4}.';
-  var chargeDescriptionPatternString = 'Sweater {0} many pairs of negative and positive charges. Charges can change as you play and learn about static electricity.';
+  var chargeDescriptionPatternString = 'Sweater {0} many pairs of negative and positive charges, the balloon has just a few pairs. Charges can change as you play and learn about static electricity.';
   var controlPanelDescriptionString = 'The Control Panel allows you to add and remove the wall, add and remove a second balloon, and reset Balloon charges and position.';
   var navigationDescriptionString = 'Tab to play with Balloon.';
 
