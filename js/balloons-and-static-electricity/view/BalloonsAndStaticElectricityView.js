@@ -39,7 +39,7 @@ define( function( require ) {
   var balloonLocationDescriptionString = 'The {0} Balloon is in the {1}{2}{3}{4}.';
   var chargeDescriptionPatternString = 'Sweater {0} many pairs of negative and positive charges, the balloon has just a few pairs. Charges can change as you play and learn about static electricity.';
   var controlPanelDescriptionString = 'The Control Panel allows you to add and remove the wall, add and remove a second balloon, and reset Balloon charges and position.';
-  var navigationDescriptionString = 'Tab to play with Balloon.';
+  var navigationDescriptionString = 'Tab to play with {0}.';
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -103,7 +103,7 @@ define( function( require ) {
 
           var navigationDescriptionItem = document.createElement( 'li' );
           navigationDescriptionItem.textContent = navigationDescriptionString; 
-          descriptionList.appendChild( controlPanelDescriptionItem );
+          descriptionList.appendChild( navigationDescriptionItem );
 
           sectionElement.appendChild( headerElement );
           sectionElement.appendChild( descriptionList );
@@ -111,13 +111,21 @@ define( function( require ) {
           var updateVisibleItemsDescription = function() {
             var textContent;
 
+            var twoBalloonsVisible = model.balloons[ 1 ].isVisible;
+
             // update the description of items in the play area when visibility changes
             var roomItemsString = '';
-            roomItemsString += ( model.balloons[ 1 ].isVisible ? 'two balloons, ' : 'a balloon, ' );
+            roomItemsString += ( twoBalloonsVisible ? 'two balloons, ' : 'a balloon, ' );
             roomItemsString += ( model.wall.isVisible ? 'a sweater, and a removable wall' : 'and a sweater' );
 
             textContent = StringUtils.format( roomDescriptionPatternString, roomItemsString );
             roomDescriptionItem.textContent = textContent;
+
+            // update the navigation cue
+            var balloonsString = twoBalloonsVisible ? 'Balloons' : 'Balloon';
+            var navitationCue = StringUtils.format( navigationDescriptionString, balloonsString );
+            navigationDescriptionItem.textContent = navitationCue;
+            
           };
 
           var updateBalloonLocationDescription = function( balloon ) {
