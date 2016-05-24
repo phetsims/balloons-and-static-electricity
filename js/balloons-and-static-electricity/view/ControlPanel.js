@@ -40,6 +40,8 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
   
   // strings
+  var balloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon' );
+  var balloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons' );
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
@@ -215,7 +217,7 @@ define( function( require ) {
 
     // create the accessible description for the reset balloon button
     var generateDescriptionString = function( balloonVisibleProperty ) {
-      var resetString = balloonVisibleProperty.value ? resetBalloonsString : resetBalloonString;
+      var resetString = balloonVisibleProperty.value ? balloonsString : balloonString;
       return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
     };
 

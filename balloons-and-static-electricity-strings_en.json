@@ -25,6 +25,14 @@
   "resetBalloons": {
     "value": "Reset Balloons"
   },
+  "balloon": {
+    "value": "Balloon",
+    "visible": false
+  },
+  "balloons": {
+    "value": "Balloons",
+    "visible": false
+  },
   "singleBalloonExperiment.label": {
     "value": "Single Balloon Experiment",
     "visible": false
@@ -118,7 +126,7 @@
     "visible" : false
   },
   "resetBalloons.descriptionPattern": {
-    "value": "Select to {0} to initial position and an uncharged state.",
+    "value": "Return {0} to start position and an uncharged state.",
     "visible": false
   },
   "keyboardHelp.dialog": {
