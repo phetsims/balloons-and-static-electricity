@@ -75,6 +75,9 @@ define( function( require ) {
         domElement.id = 'toggle-container' + uniqueId;
         domElement.setAttribute( 'aria-live', 'assertive' );
 
+        var descriptionElement = document.createElement( 'p' );
+        descriptionElement.textContent = options.accessibleDescription;
+
         var liveDescriptionElement = document.createElement( 'p' );
         liveDescriptionElement.setAttribute( 'aria-hidden', 'true' );
         liveDescriptionElement.textContent = options.accessibleDescriptionA;
@@ -86,6 +89,7 @@ define( function( require ) {
         } );
 
         domElement.appendChild( liveDescriptionElement );
+        domElement.appendChild( descriptionElement );
         return new AccessiblePeer( accessibleInstance, domElement );
 
       }

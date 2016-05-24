@@ -33,6 +33,10 @@
     "value": "Two Balloon Experiment",
     "visible": false
   },
+  "balloonToggleButton.description": {
+    "value": "Play with two balloons, or just one.",
+    "visible": false  
+  },
   "yellowBalloon.label": {
     "value": "Yellow Balloon",
     "visible": false

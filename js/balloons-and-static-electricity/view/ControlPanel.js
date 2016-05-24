@@ -55,6 +55,7 @@ define( function( require ) {
   var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
   var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
   var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
+  var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
   
   function ControlPanel( model, layoutBounds ) {
 
@@ -183,7 +184,8 @@ define( function( require ) {
           accessibleLabelA: twoBalloonExperimentLabelString,
           accessibleLabelB: singleBalloonExperimentLabelString,
           accessibleDescriptionA: greenBalloonRemovedString,
-          accessibleDescriptionB: greenBalloonAddedString
+          accessibleDescriptionB: greenBalloonAddedString,
+          accessibleDescription: balloonToggleButtonDescriptionString
         }
       ), { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
