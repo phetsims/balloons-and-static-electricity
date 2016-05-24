@@ -86,7 +86,7 @@
     "visible": false
   },
   "balloon.navigationCues": {
-    "value": "Use W, A, S, D keys to grab and drag balloon up, left, down and right. Press H for keyboard commands and help.",
+    "value": "Press W, A, S, or D key to drag balloon. Spacebar to release it. H key for more balloon hot keys.",
     "visible": false
   },
   "playArea.label": {
