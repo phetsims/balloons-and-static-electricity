@@ -98,8 +98,6 @@ define( function( require ) {
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
           accessibleInstance, removeWallLabelString, wallButtonListener );
 
-        accessiblePeer.domElement.setAttribute( 'aria-describedby', wallButtonDescriptionNode.id );
-
         // when the button is pressed, the button value needs to toggle to match the text on screen
         model.wall.isVisibleProperty.link( function( wallVisible ) {
           var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
