@@ -33,6 +33,7 @@ define( function( require ) {
   // strings
   var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
   var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
+  var releaseLocationPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/releaseLocationPattern' );
   var noString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/no' );
   var aFewString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/aFew' );
   var severalString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/several' );
@@ -233,6 +234,7 @@ define( function( require ) {
       dispose: function() {
         // TODO: Lets test out this pattern for disposal!
         model.isVisibleProperty.unlink( this.visibleObserver );
+        model.isDraggedProperty.unlink( this.draggedObserver );
         model.chargeProperty.unlink( this.chargeObserver );
         model.locationProperty.unlink( this.locationObserver );
       },
@@ -273,6 +275,7 @@ define( function( require ) {
         locationDescriptionElement.setAttribute( 'aria-live', 'polite' );
         locationDescriptionElement.id = 'position-descripton-' + uniqueId;
         locationDescriptionElement.hidden = true;
+
         // create a location description that is assertive, only updates when the balloon
         // is initially moved or changes directions
         var assertiveLocationDescriptionElement = document.createElement( 'p' );
@@ -284,6 +287,12 @@ define( function( require ) {
         navigationDescriptionElement.id = 'navigation-description-' + uniqueId;
         navigationDescriptionElement.textContent = balloonNavigationCuesString;
 
+        // create an alert for the release of the balloon
+        var releaseAlertDescriptionElement = document.createElement( 'p' );
+        releaseAlertDescriptionElement.setAttribute( 'aria-live', 'assertive' );
+        releaseAlertDescriptionElement.id = 'release-alert-' + uniqueId;
+        releaseAlertDescriptionElement.hidden = true;
+
         domElement.setAttribute( 'aria-describedby', chargeDescriptionElement.id + ' ' + navigationDescriptionElement.id + ' ' + locationDescriptionElement.id );
 
         domElement.appendChild( labelElement );
@@ -291,6 +300,24 @@ define( function( require ) {
         domElement.appendChild( locationDescriptionElement );
         domElement.appendChild( navigationDescriptionElement );
         domElement.appendChild( assertiveLocationDescriptionElement );
+        domElement.appendChild( releaseAlertDescriptionElement );
+
+        var updateReleaseDescription = function( charge, position ) {
+          // where in the play area is the balloon located
+          // TODO: Nothing in the design doc about content of this description yet.
+          var leftRange = new Range( 0, 375 );
+          var centerRange = new Range( 375, 450 );
+
+          var locationString = leftRange.contains( position.x ) ? 'left side' :
+                                centerRange.contains( position.x ) ? 'center' :
+                                'right side';
+
+          var releasePositionString = StringUtils.format( releaseLocationPatternString, locationString );
+
+          // set the text content
+          releaseAlertDescriptionElement.textContent = releasePositionString;
+
+        };
 
         // build up the correct charge description based on the state of the model
         var createChargeDescription = function( charge ) {
@@ -390,6 +417,14 @@ define( function( require ) {
             assertiveLocationDescriptionElement.textContent = assertiveText;
           }
         };
+
+        // when a balloon is released, fire the release alert
+        this.draggedObserver = function( isDragged ) {
+          if ( !isDragged ) {
+            updateReleaseDescription( model.charge, model.location );
+          }
+        };
+        model.isDraggedProperty.link( this.draggedObserver );
 
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
