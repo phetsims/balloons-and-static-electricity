@@ -16,6 +16,8 @@ define( function( require ) {
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
+  var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
+  var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
@@ -33,6 +35,7 @@ define( function( require ) {
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
   var sceneSummaryLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sceneSummary.label' );
+  var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
 
   // experimental strings for patterns describing the screen overview - i18n once they are reviewed and tested
   var roomDescriptionPatternString = 'This simulation contains a Play Area and a Control Panel. The Play Area is a small room. It has {0}.';
@@ -261,6 +264,20 @@ define( function( require ) {
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
+    // create accessible containers for the balloons so that they can contain descriptions
+    var greenBalloonContainer = new AccessibleDivNode();
+    var yellowBalloonContainer = new AccessibleDivNode();
+
+    // add the accessible descriptions under the containers
+    var greenBalloonDescription = new AccessibleDescriptionNode( {
+      accessibleDescription: balloonGrabCueString
+    } );
+    var yellowBalloonDescription = new AccessibleDescriptionNode( {
+      accessibleDescription: balloonGrabCueString
+    } );
+    greenBalloonContainer.addChild( greenBalloonDescription );
+    yellowBalloonContainer.addChild( yellowBalloonDescription );
+
     var balloonsNode = new Node(); // TODO: Why this container?
     var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
       accessibleLabel: greenBalloonLabelString,
@@ -270,7 +287,10 @@ define( function( require ) {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
-    balloonsNode.children = [ yellowBalloon, greenBalloon ];
+    greenBalloonContainer.addChild( greenBalloon );
+    yellowBalloonContainer.addChild( yellowBalloon );
+
+    balloonsNode.children = [ yellowBalloonContainer, greenBalloonContainer ];
     playAreaContainerNode.addChild( balloonsNode );
 
     //Only show the selected balloon(s)

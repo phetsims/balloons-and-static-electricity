@@ -39,6 +39,7 @@ define( function( require ) {
   var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
   var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
   var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
+  var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -198,6 +199,9 @@ define( function( require ) {
         domElement.innerText = grabBalloonString;
         domElement.id = 'balloon-button-' + uniqueId;
 
+        var descriptionElement = document.createElement( 'p' );
+        descriptionElement.textContent = balloonGrabCueString;
+
         // @private (a11y) - allow for lookup of element within view
         self.domElement = domElement;
 
@@ -216,6 +220,8 @@ define( function( require ) {
           model.isDragged = true;
           self.accessibleInstances[0].peer.domElement.focus();
         } );
+
+        // domElement.appendChild( descriptionElement );
 
         return new AccessiblePeer( accessibleInstance, domElement );
       }

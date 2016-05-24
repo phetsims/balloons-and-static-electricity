@@ -33,6 +33,10 @@
     "value": "Balloons",
     "visible": false
   },
+  "balloonGrabCue": {
+    "value": "Get ready to drag balloon. Once grabbed, press W, A, S, or D key to drag up, left, down, or right.",
+    "visible": false
+  },
   "singleBalloonExperiment.label": {
     "value": "Single Balloon Experiment",
     "visible": false
