@@ -2,8 +2,7 @@
 
 /**
  * Scenery display object (scene graph node) for the Balloon of the model.
- *
- @author Vasily Shakhov (Mlearner)
+ * @author Vasily Shakhov (Mlearner)
  */
 define( function( require ) {
   'use strict';
@@ -66,9 +65,6 @@ define( function( require ) {
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
 
-    // flag for accessibility so that keyboard and mouse events can work together
-    var mouseDown = false;
-
     var property = {
 
       //Set only to the legal positions in the frame
@@ -84,25 +80,10 @@ define( function( require ) {
       allowTouchSnag: true,
       startDrag: function() {
         model.isDragged = true;
-
-        mouseDown = true;
-
-        // if there is mouse interaction, we need to change the content so the appropriate description is created
-        self.accessibleContent = applicationContent;
-        self.accessibleInstances[0].peer.domElement.focus();
-
       },
       endDrag: function() {
-        mouseDown = false;
         model.isDragged = false;
         model.velocity = new Vector2( 0, 0 );
-
-        // accessible content needs to be set to the button
-        // dispose of the application content
-        applicationContent.dispose();
-        self.accessibleContent = buttonContent;
-        self.accessibleInstances[0].peer.domElement.focus();
-
       }
     } );
 
@@ -172,10 +153,14 @@ define( function( require ) {
       }
     } );
 
-
     // create a unique node for the balloon's focus highlight so that the stroke can change when the balloon is being
-    // dragged.
-    // @private
+    // dragged
+    var highlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+        lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
+        stroke: 'rgba( 250, 40, 135, 0.9 )'
+    } );
+
+
     this.buttonHightlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
         lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
         stroke: 'rgba( 250, 40, 135, 0.9 )'
@@ -184,123 +169,129 @@ define( function( require ) {
     this.applicationHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
         lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
         stroke: 'black'
-    } ); 
+    } );
 
-    // initial accesible representation for balloon.  A 'button' that is pressed to begin interaction
-    // once user decided to interact with balloon, it becomes a highly interactive 'application' div
-    // releasing the balloon with spacebar or ctrl+enter will set content back accessible button representation
-    var buttonContent = {
-      focusHighlight: self.buttonHightlightNode,
+    // NOTE: Trying a new representation for the balloon which uses aria roles instead of completely
+    // switching out the HTML content.  Hopefully, this will give us better control over the order
+    // of live updates, and the screen reader will not have to deal with the switch of focus.
+    var accessibleContent = {
+      focusHighlight: highlightNode,
+      dispose: function() {
+        // TODO: Lets test out this pattern for disposal!
+        model.isVisibleProperty.unlink( this.visibleObserver );
+        model.isDraggedProperty.unlink( this.releasedObserver );
+        model.isDraggedProperty.unlink( this.grabbedObserver );
+        model.chargeProperty.unlink( this.chargeObserver );
+        model.locationProperty.unlink( this.locationObserver );
+      },
       createPeer: function( accessibleInstance ) {
         var trail = accessibleInstance.trail;
-        var uniqueId = trail.getUniqueId();
+        var uniqueID = trail.getUniqueId();
 
-        var domElement = document.createElement( 'button' );
+        var domElement = document.createElement( 'div' );
+        domElement.tabIndex = 0;
+
+        // on first navigation, the dom element is a button
+        domElement.setAttribute( 'role', 'button' );
+
+        // create the description for the button
         var grabBalloonString = StringUtils.format( grabPatternString, options.accessibleLabel );
-        domElement.innerText = grabBalloonString;
-        domElement.id = 'balloon-button-' + uniqueId;
+        domElement.setAttribute( 'aria-label', grabBalloonString );
 
-        var descriptionElement = document.createElement( 'p' );
-        descriptionElement.textContent = balloonGrabCueString;
+        // on demand description - can be found by navigation
+        var buttonDescriptionElement = document.createElement( 'p' );
+        buttonDescriptionElement.textContent = balloonGrabCueString;
 
         // @private (a11y) - allow for lookup of element within view
         self.domElement = domElement;
 
+        // element should be invisible with balloon
         model.isVisibleProperty.link( function( isVisible ) {
           domElement.hidden = !isVisible;
         } );
 
-        // self.focusHighlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
-
-        domElement.addEventListener( 'click', function() {
-          self.accessibleContent = applicationContent;
-
-          // reset the velocity when picked up
-          model.velocityProperty.set( new Vector2( 0, 0 ) );
-
-          model.isDragged = true;
-          self.accessibleInstances[0].peer.domElement.focus();
-        } );
-
-        // domElement.appendChild( descriptionElement );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
-    this.accessibleContent = buttonContent;
-
-    // outfit with accessible content.
-    var applicationContent = {
-      dispose: function() {
-        // TODO: Lets test out this pattern for disposal!
-        model.isVisibleProperty.unlink( this.visibleObserver );
-        model.isDraggedProperty.unlink( this.draggedObserver );
-        model.chargeProperty.unlink( this.chargeObserver );
-        model.locationProperty.unlink( this.locationObserver );
-      },
-
-      focusHighlight: self.applicationHighlightNode,
-      createPeer: function( accessibleInstance ) {
-        var trail = accessibleInstance.trail;
-        var uniqueId = trail.getUniqueId();
-
-        // update the stroke of the focus highlight
-        // self.focusHighlightNode.stroke = 'rgba(0, 0, 0, 0.9)';
-
-        // create the element for the balloon, initialize its hidden state
-        var domElement = document.createElement( 'div' );
-        domElement.tabIndex = '0';
-        domElement.setAttribute( 'role', 'application' );
-        domElement.id = 'balloon-' + uniqueId;
-        domElement.name = domElement.id;
-        domElement.setAttribute( 'draggable', 'true' );
-        domElement.setAttribute( 'aria-grabbed', 'true' );
-        domElement.className = 'Balloon';
-        domElement.hidden = !model.isVisible;
-
-        // create the accessible label 
+        // create the accessible label for the dragged balloon
         var labelElement = document.createElement( 'h3' );
-        labelElement.id = 'balloon-label-' + uniqueId;
+        labelElement.id = 'balloon-label-' + uniqueID;
         labelElement.textContent = options.accessibleLabel;
-        domElement.setAttribute( 'aria-labelledby', labelElement.id );
+        labelElement.hidden = true;
 
         // create the accessible charge description
         var chargeDescriptionElement = document.createElement( 'p' );
         chargeDescriptionElement.setAttribute( 'aria-live', 'polite' );
-        chargeDescriptionElement.id = 'balloon-description-' + uniqueId;
+        chargeDescriptionElement.id = 'balloon-description-' + uniqueID;
         chargeDescriptionElement.textContent = options.accessibleDescription;
 
         // create the accessible position description
         var locationDescriptionElement = document.createElement( 'p' );
         locationDescriptionElement.setAttribute( 'aria-live', 'polite' );
-        locationDescriptionElement.id = 'position-descripton-' + uniqueId;
+        locationDescriptionElement.id = 'position-descripton-' + uniqueID;
         locationDescriptionElement.hidden = true;
 
         // create a location description that is assertive, only updates when the balloon
         // is initially moved or changes directions
         var assertiveLocationDescriptionElement = document.createElement( 'p' );
         assertiveLocationDescriptionElement.setAttribute( 'aria-live', 'assertive' );
-        assertiveLocationDescriptionElement.id = 'assertive-description-' + uniqueId;
+        assertiveLocationDescriptionElement.id = 'assertive-description-' + uniqueID;
         assertiveLocationDescriptionElement.hidden = true;
 
         var navigationDescriptionElement = document.createElement( 'p' );
-        navigationDescriptionElement.id = 'navigation-description-' + uniqueId;
+        navigationDescriptionElement.id = 'navigation-description-' + uniqueID;
         navigationDescriptionElement.textContent = balloonNavigationCuesString;
+
+        var grabbedAlertElement = document.createElement( 'p' );
+        grabbedAlertElement.setAttribute( 'aria-live', 'assertive' );
+        grabbedAlertElement.id = 'grabbed-alert-' + uniqueID;
+        grabbedAlertElement.hidden = true; 
 
         // create an alert for the release of the balloon
         var releaseAlertDescriptionElement = document.createElement( 'p' );
         releaseAlertDescriptionElement.setAttribute( 'aria-live', 'assertive' );
-        releaseAlertDescriptionElement.id = 'release-alert-' + uniqueId;
+        releaseAlertDescriptionElement.id = 'release-alert-' + uniqueID;
         releaseAlertDescriptionElement.hidden = true;
 
-        domElement.setAttribute( 'aria-describedby', chargeDescriptionElement.id + ' ' + navigationDescriptionElement.id + ' ' + locationDescriptionElement.id );
+        // create a polite live region that updates when the balloon is grabbed
+        var politeGrabbedDescription = document.createElement( 'p' );
+        politeGrabbedDescription.setAttribute( 'aria-live', 'polite' );
+        politeGrabbedDescription.id = 'release-description-' + uniqueID;
+        politeGrabbedDescription.hidden = true;
 
+        // create a polite live region that updates when the balloon is released
+        var politeReleasedDescription = document.createElement( 'p' );
+        politeReleasedDescription.setAttribute( 'aria-live', 'polite' );
+        politeReleasedDescription.id = 'release-description-' + uniqueID;
+        politeReleasedDescription.hidden = true;
+
+        domElement.appendChild( buttonDescriptionElement );
         domElement.appendChild( labelElement );
         domElement.appendChild( chargeDescriptionElement );
         domElement.appendChild( locationDescriptionElement );
         domElement.appendChild( navigationDescriptionElement );
         domElement.appendChild( assertiveLocationDescriptionElement );
         domElement.appendChild( releaseAlertDescriptionElement );
+        domElement.appendChild( grabbedAlertElement );
+        domElement.appendChild( politeGrabbedDescription );
+        domElement.appendChild( politeReleasedDescription );
+
+        var updateGrabbedDescription = function( charge, position ) {
+          var balloonLabel = options.accessibleLabel + ', grabbed';
+          grabbedAlertElement.textContent = balloonLabel;
+          grabbedAlertElement.textContent = '';
+
+          // now queue updates for the polite release description
+          // balloon location
+          // TODO: This should all be dynamic, but is in temporarily to see if this queuing scheme will work.
+          var locationYDescription = 'Yellow Balloon is in center of play area.';
+          var locationXDescription = 'Sweater is left.  Wall is right.';
+          var chargeDescription = 'Yellow Balloon has a net neutral charge';
+          var navigationCue = 'Press W, A, S, or D key to drag balloon.  Spacebar to release it. H key for more balloon hot keys';
+          
+          politeGrabbedDescription.textContent = locationYDescription;
+          politeGrabbedDescription.textContent = locationXDescription;
+          politeGrabbedDescription.textContent = chargeDescription;
+          politeGrabbedDescription.textContent = navigationCue;
+
+        };
 
         var updateReleaseDescription = function( charge, position ) {
           // where in the play area is the balloon located
@@ -316,7 +307,13 @@ define( function( require ) {
 
           // set the text content
           releaseAlertDescriptionElement.textContent = releasePositionString;
+          releaseAlertDescriptionElement.textContent = '';
 
+          // update the polite description
+          var politeString = 'Grab Yellow Balloon, Button';
+          politeReleasedDescription.textContent = politeString;
+          politeReleasedDescription.textContent = '';
+          console.log( politeReleasedDescription );
         };
 
         // build up the correct charge description based on the state of the model
@@ -414,17 +411,28 @@ define( function( require ) {
 
             // if there is assertive text, it should override the polite text
             locationDescriptionElement.textContent = politeText;
-            assertiveLocationDescriptionElement.textContent = assertiveText;
+
+            if ( assertiveLocationDescriptionElement.textContent !== assertiveText ) {
+              assertiveLocationDescriptionElement.textContent = assertiveText;
+            }
           }
         };
 
         // when a balloon is released, fire the release alert
-        this.draggedObserver = function( isDragged ) {
+        this.releasedObserver = function( isDragged ) {
           if ( !isDragged ) {
             updateReleaseDescription( model.charge, model.location );
           }
         };
-        model.isDraggedProperty.link( this.draggedObserver );
+        model.isDraggedProperty.link( this.releasedObserver );
+
+        // when a balloon is released, fire the release alert
+        this.grabbedObserver = function( isDragged ) {
+          if ( isDragged ) {
+            updateGrabbedDescription( model.charge, model.location );
+          }
+        };
+        model.isDraggedProperty.link( this.grabbedObserver );
 
         // whenever the model charge changes, update the accesible description
         // this needs to be unlinked when accessible content changes to prevent a memory leak
@@ -441,76 +449,126 @@ define( function( require ) {
         };
         model.locationProperty.lazyLink( this.locationObserver );
 
-        // TODO: it is starting to look like this kind of thing needs to be handled entirely by scenery
-        // this needs to be unlinked when accessible content changes to prevent a memory leak
-        this.visibleObserver = function( isVisible ) {
-          domElement.hidden = !isVisible;
-        };
-        model.isVisibleProperty.link( this.visibleObserver );
+        domElement.addEventListener( 'click', function() {
+          // update role, descriptions, and visibility of descriptions
+          
+          // toggle the role and set additional application attributes
+          if ( domElement.getAttribute( 'role' ) === 'button' ) {
+            domElement.setAttribute( 'role', 'application' );
 
-        // @private (a11y) - allow for lookup of element within view
-        self.domElement = domElement;
+            // the balloon should now have a black focus highlight
+            highlightNode.stroke = 'black';
+
+            // balloon is now draggable and grabbed
+            model.isDragged = true;
+            domElement.setAttribute( 'draggable', 'true' );
+            domElement.setAttribute( 'aria-grabbed', 'true' );
+
+            // unhide application descriptions
+            // TODO: Strip this out and make a function
+            buttonDescriptionElement.hidden = true;
+            labelElement.hidden = false;
+            navigationDescriptionElement.hidden = false;
+          }
+
+          // reset the velocity when picked up
+          model.velocityProperty.set( new Vector2( 0, 0 ) );
+
+        } );
 
         // keyboard interaction sets the keyState object to track press and hold and multiple key presses
         domElement.addEventListener( 'keydown', function( event ) {
 
-          // update the keyState object for keyboard interaction
-          model.keyState[ event.keyCode || event.which ] = true;
+          if ( ( event.keyCode === Input.KEY_SPACE || event.keyCode === Input.KEY_ENTER ) && model.isDragged ) {
+            model.isDragged = false;
 
-          // If the user presses j, enter jumping mode and pick the balloon up
-          if ( model.keyState[ KEY_J ] ) {
-            model.isJumping = true;
+            domElement.setAttribute( 'role', 'button' );
+
+            // return to default focus color
+            highlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
+
+            domElement.setAttribute( 'draggable', 'false' );
+            domElement.setAttribute( 'aria-grabbed', 'false' );
+
+            // most descriptions should now be hidden, and should no longer be live
+            buttonDescriptionElement.hidden = false;
+            labelElement.hidden = true;
+            navigationDescriptionElement.hidden = true;
+
+            // reset the keystate so it is fresh next time we pick up balloon
+            model.keyState = {};
+            return;
           }
 
-          if ( model.keyState[ KEY_H ] ) {
-            // blur the balloon immediately
-            document.activeElement.blur();
-          
-            keyboardHelpDialog.activeElement = self.accessibleInstances[0].peer.domElement;
-            keyboardHelpDialog.shownProperty.set( true );
+          // create a click event on spacebar or enter
+          if ( event.keyCode === 32 || event.keyCode === 13 ) {
+            var clickEvent = new Event( 'click' );
+
+            // dispatch the event
+            domElement.dispatchEvent( clickEvent );
+            return;
+          }
+
+          // if the element is of the application role, do the following
+          if ( domElement.getAttribute( 'role' ) === 'application' ) {
+            // update the keyState object for keyboard interaction
+            model.keyState[ event.keyCode || event.which ] = true;
+
+            // If the user presses j, enter jumping mode and pick the balloon up
+            if ( model.keyState[ KEY_J ] ) {
+              model.isJumping = true;
+            }
+
+            if ( model.keyState[ KEY_H ] ) {
+              // blur the balloon immediately
+              document.activeElement.blur();
+            
+              keyboardHelpDialog.activeElement = self.accessibleInstances[0].peer.domElement;
+              keyboardHelpDialog.shownProperty.set( true );
+            }  
           }
         } );
 
         domElement.addEventListener( 'keyup', function( event ) {
-          // update the keyState object for keyboard interaction 
-          model.keyState[ event.keyCode || event.which ] = false;
-
-          // if the user presses spacebar, set accessible content back to button
-          // this is done on key up so that model.keyState can be properly updated
-          if ( event.keyCode === Input.KEY_SPACE ) {
-            self.accessibleContent = buttonContent;
-            model.isDragged = false;
-            self.accessibleInstances[0].peer.domElement.focus();
+          if ( domElement.getAttribute( 'role' ) === 'application' ) {
+            // update the keyState object for keyboard interaction 
+            model.keyState[ event.keyCode || event.which ] = false;
           }
         } );
 
-        // release the balloon when the user shifts focus
-        var thisContent = this;
-
         domElement.addEventListener( 'blur', function( event ) {
+          // on blur, reset to the button config
+          model.isDragged = false;
+          domElement.setAttribute( 'role', 'button' );
 
-          // reset the initialGrab variable
-          self.initialGrab = true;
+          // return to default focus color
+          highlightNode.stroke = 'rgba( 250, 40, 135, 0.9 )';
 
-          if( !mouseDown ) {
+          domElement.setAttribute( 'draggable', 'false' );
+          domElement.setAttribute( 'aria-grabbed', 'false' );
 
-          // if( !model.isDragged ) {
+          // most descriptions should now be hidden, and should no longer be live
+          buttonDescriptionElement.hidden = false;
+          labelElement.hidden = true;
+          // chargeDescriptionElement.hidden = true;
+          // locationDescriptionElement.hidden = true;
+          navigationDescriptionElement.hidden = true;
+          // assertiveLocationDescriptionElement.hidden = true;
+          // releaseAlertDescriptionElement.hidden = true;
 
-            // disose of the content to unlink the model events
-            thisContent.dispose();
+          // update aria labels
+          // domElement.setAttribute( 'aria-describedby', navigationDescriptionElement.id );
 
-            // balloon has been released, it is no longer being dragged.  Reset the accessible content to the button 
-            // and reset the keystate object
-            model.keyState = {};
-            self.accessibleContent = buttonContent;
-            model.isDraggedProperty.set( false );
-
-          }
+          // reset the keystate so it is fresh next time we pick up balloon
+          model.keyState = {};
+          
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
+
+    this.setAccessibleContent( accessibleContent ); 
     
     model.view = this;
   }
