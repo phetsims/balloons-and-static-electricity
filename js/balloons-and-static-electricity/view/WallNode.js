@@ -118,6 +118,8 @@ define( function( require ) {
 
               var distFromWall = model.wall.x - location.x;
 
+              console.log( wallModel.dx );
+
               var atTouchPointString = 'At touch point, {0} {1}';
               var unchangedString = 'charges in neutral wall remain unchanged';
               var negativeChargesString = 'negative charges in the wall repel away from balloon';
@@ -142,12 +144,6 @@ define( function( require ) {
                   repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, quiteALotString );
                 }
                 assert && assert( repelDescriptionString, 'description string not defined' );
-              }
-
-              else {
-                if ( balloon.charge !== 0 ) {
-                  repelDescriptionString = 'Negative charges in the wall no longer repel';
-                }
               }
 
               if ( wallModel.isVisible ) {

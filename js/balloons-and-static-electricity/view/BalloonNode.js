@@ -410,7 +410,6 @@ define( function( require ) {
 
             // only change text content when necessary
             if ( locationDescriptionElement.textContent !== politeText ) {
-              console.log( politeText );
               locationDescriptionElement.textContent = politeText;
             }
 
