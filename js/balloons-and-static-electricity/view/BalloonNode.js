@@ -313,7 +313,6 @@ define( function( require ) {
           var politeString = 'Grab Yellow Balloon, Button';
           politeReleasedDescription.textContent = politeString;
           politeReleasedDescription.textContent = '';
-          console.log( politeReleasedDescription );
         };
 
         // build up the correct charge description based on the state of the model
@@ -409,9 +408,13 @@ define( function( require ) {
             }
             self.initialGrab = false;
 
-            // if there is assertive text, it should override the polite text
-            locationDescriptionElement.textContent = politeText;
+            // only change text content when necessary
+            if ( locationDescriptionElement.textContent !== politeText ) {
+              console.log( politeText );
+              locationDescriptionElement.textContent = politeText;
+            }
 
+            // if there is assertive text, it should override the polite text
             if ( assertiveLocationDescriptionElement.textContent !== assertiveText ) {
               assertiveLocationDescriptionElement.textContent = assertiveText;
             }
