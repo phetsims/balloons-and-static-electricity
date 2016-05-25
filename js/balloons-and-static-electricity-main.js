@@ -39,6 +39,9 @@ define( function( require ) {
 
   } );
 
+  // TODO: For testing, remove accessibility prototype info from title.  Remove before publication
+  document.title = 'Balloons and Static Electricity 1.2.0';
+
   // HACK ALERT!!
   parent && parent.simLaunched && parent.simLaunched();
 } );
