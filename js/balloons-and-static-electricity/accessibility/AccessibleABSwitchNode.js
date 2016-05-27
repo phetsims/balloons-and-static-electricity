@@ -59,6 +59,9 @@ define( function( require ) {
     ABSwitch.call( this, property, valueA, labelA, valueB, labelB, options );
     var thisNode = this;
 
+    // generate a unique id for the switch
+    var switchID = 'switch-' + this.id;
+
     // create the div container for this element
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
@@ -67,13 +70,20 @@ define( function( require ) {
 
         // The element should look like the following in the Parallel DOM.
         // <div id="toggle-container14-35-417-492-484-473-468">
-        //   <input type="button" id="abswitch-14-35-417-492-484-473-468-472" aria-label="Single Balloon Experiment" value="‪Single Balloon Experiment‬" aria-pressed="true">
+        //  <input id="abswitch-17-61-513-564-557-544-539-543" type="checkbox" role="switch" name="Two-balloon experiement" aria-checked="false">
+        //  <label for="abswitch-17-61-513-564-557-544-539-543">Translatable Label</label><br>
+        //  <p>...<p>
+        //  <p aria-live='assertive'>...</p>
         // </div>
 
         // create the div, set its id
         var domElement = document.createElement( 'div' );
-        domElement.id = 'toggle-container' + uniqueId;
+        domElement.id = 'toggle-switch-container' + uniqueId;
         domElement.setAttribute( 'aria-live', 'assertive' );
+
+        var labelElement = document.createElement( 'label' );
+        labelElement.textContent = options.accessibleLabelA;
+        labelElement.setAttribute( 'for', switchID );
 
         var descriptionElement = document.createElement( 'p' );
         descriptionElement.textContent = options.accessibleDescription;
@@ -88,6 +98,7 @@ define( function( require ) {
             liveDescriptionElement.textContent = pressed ? options.accessibleDescriptionB : options.accessibleDescriptionA;
         } );
 
+        domElement.appendChild( labelElement );
         domElement.appendChild( liveDescriptionElement );
         domElement.appendChild( descriptionElement );
         return new AccessiblePeer( accessibleInstance, domElement );
@@ -100,23 +111,15 @@ define( function( require ) {
     var accessibilityNode = new Rectangle( thisNode.bounds.dilated( 5 ), {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
-          var trail = accessibleInstance.trail;
-          var uniqueId = trail.getUniqueId();
-
           // The element should look like the following in the Parallel DOM.
-          // <input type="button" id="abswitch-id" aria-label="translatable label..." value="translatable label..." aria-pressed="false">
+          // <input id="abswitch-17-61-513-564-557-544-539-543" type="checkbox" role="switch" name="Two-balloon experiement" aria-checked="false">
+          // <label for="abswitch-17-61-513-564-557-544-539-543">Translatable Label</label><br>
 
           // create the input element, set its type and id
-          var domElement = document.createElement( 'button' );
-          domElement.id = 'abswitch-' + uniqueId;
-
-          // set the value and label, which acts as an accessible label
-          // domElement.setAttribute( 'value', options.accessibleLabelA );
-          domElement.innerText = options.accessibleLabelA;
-          // domElement.setAttribute( 'aria-label', options.accessibleLabelA );
-
-          // set the 'aria-pressed' attribute which provides toggle functionality, initially false
-          domElement.setAttribute( 'aria-pressed', false );
+          var domElement = document.createElement( 'input' );
+          domElement.setAttribute( 'type', 'checkbox' );
+          domElement.setAttribute( 'role', 'switch' );
+          domElement.id = switchID;
 
           // Set the property with interaction in the parallel DOM
           domElement.addEventListener( 'click', function( event ) {
@@ -127,7 +130,7 @@ define( function( require ) {
           // Link the property to the toggled state
           property.link( function( value ) {
             var pressed = value === valueA ? false : true;
-            domElement.setAttribute( 'aria-pressed', pressed );
+            domElement.setAttribute( 'aria-checked', pressed );
           } );
 
           return new AccessiblePeer( accessibleInstance, domElement );
