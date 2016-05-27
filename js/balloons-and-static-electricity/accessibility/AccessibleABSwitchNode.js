@@ -121,6 +121,9 @@ define( function( require ) {
           domElement.setAttribute( 'role', 'switch' );
           domElement.id = switchID;
 
+          // Safari seems to require that certain inputs have width, otherwise it will not be keyboard accessible.
+          domElement.style.width = '1px';
+
           // Set the property with interaction in the parallel DOM
           domElement.addEventListener( 'click', function( event ) {
             var pressed = property.value === valueA ? valueB : valueA;
