@@ -114,7 +114,7 @@ define( function( require ) {
         // create the div element and assign it a unique id.
         var domElement = document.createElement( 'div' );
         domElement.id = 'sweater-' + uniqueId;
-        domElement.setAttribute( 'aria-live', 'assertive' );
+        domElement.setAttribute( 'aria-live', 'polite' );
 
         // create the label element, and assign it as an aria label for the above div
         var labelElement = document.createElement( 'h3' );
@@ -160,7 +160,10 @@ define( function( require ) {
 
         // whenever the model charge changes, update the accesible description
         self.sweaterModel.chargeProperty.link( function( charge ) {
-          descriptionElement.textContent = createDescription( charge );
+          var chargeDescription = createDescription( charge );
+          if ( descriptionElement.textContent !== chargeDescription ) {
+            descriptionElement.textContent = chargeDescription;
+          }
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );

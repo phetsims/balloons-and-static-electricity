@@ -89,22 +89,6 @@
     "value": "Press W, A, S, or D key to drag balloon. Spacebar to release it. H key for more balloon hot keys.",
     "visible": false
   },
-  "negatively": {
-    "value": "Negatively",
-    "visible": false
-  },
-  "neutrally": {
-    "value": "Neutrally",
-    "visible": false
-  },
-  "charged": {
-    "value": "charged",
-    "visible": false
-  },
-  "chargedBalloonPattern": {
-    "value": "{0} charged balloon",
-    "visible": false
-  },
   "releaseLocationPattern": {
     "value": "Balloon released from {0} of play area",
     "visible": false

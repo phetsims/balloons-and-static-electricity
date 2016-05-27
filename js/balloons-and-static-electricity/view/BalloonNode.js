@@ -309,10 +309,12 @@ define( function( require ) {
           releaseAlertDescriptionElement.textContent = releasePositionString;
           releaseAlertDescriptionElement.textContent = '';
 
-          // update the polite description
-          var politeString = 'Grab Yellow Balloon, Button';
-          politeReleasedDescription.textContent = politeString;
-          politeReleasedDescription.textContent = '';
+          // let the user know they are still on the button after release, unless they are somewhere else
+          if ( document.activeElement === domElement ) {
+            var politeString = 'Grab Yellow Balloon, Button';
+            politeReleasedDescription.textContent = politeString;
+            politeReleasedDescription.textContent = '';
+          }
         };
 
         // build up the correct charge description based on the state of the model

@@ -118,8 +118,6 @@ define( function( require ) {
 
               var distFromWall = model.wall.x - location.x;
 
-              console.log( wallModel.dx );
-
               var atTouchPointString = 'At touch point, {0} {1}';
               var unchangedString = 'charges in neutral wall remain unchanged';
               var negativeChargesString = 'negative charges in the wall repel away from balloon';
