@@ -213,9 +213,25 @@ define( function( require ) {
       }
     } );
 
+    // dialog should close if 
     var dialogVBox = new VBox( {
       children: [ contentVBox, closeButton ],
-      spacing: 20
+      spacing: 20,
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          // just for structure
+          var domElement = document.createElement( 'div' );
+
+          // should bubble down to both text content and close button children
+          domElement.addEventListener( 'keydown', function( event ) {
+            // close on escape key
+            if ( event.keyCode === 27 ) {
+              closeFunction();
+            }
+          } );
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
     } );
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
