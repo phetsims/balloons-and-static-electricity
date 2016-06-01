@@ -23,6 +23,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Range = require( 'DOT/Range' );
+  var Line = require( 'SCENERY/nodes/Line' );
 
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -339,6 +340,60 @@ define( function( require ) {
         return accessiblePeer;
       }
     };
+
+    // visualise regions of the play area
+    if( BalloonsAndStaticElectricityQueryParameters.DEV ) {
+      var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
+      var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
+
+      // left edge
+      this.addChild( new Rectangle( model.playArea.leftEdge, greyOptions ) );
+
+      // left arm
+      this.addChild( new Rectangle( model.playArea.leftArm, blueOptions ) );
+
+      // right sweater body
+      this.addChild( new Rectangle( model.playArea.sweaterBodyLeft, greyOptions ) );
+
+      // left sweater body
+      this.addChild( new Rectangle( model.playArea.sweaterBodyRight, blueOptions ) );
+
+      // right arm
+      this.addChild( new Rectangle( model.playArea.rightArm, greyOptions ) );
+
+      // left side of play area
+      this.addChild( new Rectangle( model.playArea.playAreaLeft, blueOptions) );
+
+      // center of play area
+      this.addChild( new Rectangle( model.playArea.playAreaCenter, greyOptions ) );
+
+      // right side of play Area
+      this.addChild( new Rectangle( model.playArea.playAreaRight, blueOptions ) );
+
+      // right edge of play area
+      this.addChild( new Rectangle( model.playArea.rightEdge, greyOptions ) );
+
+      // top edge of play area
+      this.addChild( new Rectangle( model.playArea.topEdge, greyOptions ) );
+
+      // upper part of play area
+      this.addChild( new Rectangle( model.playArea.upper, blueOptions ) );
+
+      // lower part of play area
+      this.addChild( new Rectangle( model.playArea.lower, greyOptions ) );
+
+      // bottom part of play area
+      this.addChild( new Rectangle( model.playArea.bottomEdge, blueOptions ) );
+
+      // draw some lines to represent positions of critical balloon points
+      var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 5 };
+      this.addChild( new Line( model.playArea.atWall, model.playArea.minY, model.playArea.atWall, model.playArea.maxY, lineOptions ) );
+      this.addChild( new Line( model.playArea.atNearWall, model.playArea.minY, model.playArea.atNearWall, model.playArea.maxY, lineOptions ) );
+      this.addChild( new Line( model.playArea.atCenter, model.playArea.minY, model.playArea.atCenter, model.playArea.maxY, lineOptions ) );
+      this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
+
+
+    }
 
     // enable the prototype screen reader 
     if( BalloonsAndStaticElectricityQueryParameters.READER ) {

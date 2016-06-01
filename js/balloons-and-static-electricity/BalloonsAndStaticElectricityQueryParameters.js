@@ -12,12 +12,15 @@ define( function( require ) {
 
   var BalloonsAndStaticElectricityQueryParameters = {
 
-    // enables developer-only features
+    // enables prototype screen reader
     READER: getQueryParameter( 'reader' ) || false,
 
     // keyData - must be used with reader, shows key information instead of 
     // reader output, useful for debugging
-    KEY_DATA: getQueryParameter( 'keyData' ) || false
+    KEY_DATA: getQueryParameter( 'keyData' ) || false,
+
+    // dev - eneables developer only features
+    DEV: getQueryParameter( 'dev' ) || false
     
   };
 

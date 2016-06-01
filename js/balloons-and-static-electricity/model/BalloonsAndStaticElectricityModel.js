@@ -12,6 +12,7 @@ define( function( require ) {
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
+  var PlayArea = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea' );
   var PropertySet = require( 'AXON/PropertySet' );
   var inherit = require( 'PHET_CORE/inherit' );
 
@@ -22,6 +23,8 @@ define( function( require ) {
 
     this.width = width;
     this.height = height;
+
+    this.playArea = new PlayArea( width, height );
 
     this.balloons = [
       new BalloonModel( 440, 100, this, true ),

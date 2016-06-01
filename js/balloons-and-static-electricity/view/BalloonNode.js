@@ -22,6 +22,8 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Range = require( 'DOT/Range' );
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
 
   // constants - to monitor the direction of dragging
   var UP = 'UP';
@@ -571,6 +573,11 @@ define( function( require ) {
         return new AccessiblePeer( accessibleInstance, domElement );
       }
     };
+
+    // add a circle to the center of the balloon to assist with location
+    if ( BalloonsAndStaticElectricityQueryParameters.DEV ) {
+      this.addChild( new Circle( 5, { fill: 'black', center: balloonImageNode.center } ) );
+    }
 
     this.setAccessibleContent( accessibleContent ); 
     
