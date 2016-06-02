@@ -135,6 +135,7 @@ define( function( require ) {
 
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
+      console.log( model.getCenter() );
       self.translation = location;
       customShape = new Shape();
       customShape.moveTo( model.width / 2, model.height - 2 );

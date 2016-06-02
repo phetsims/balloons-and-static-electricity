@@ -182,6 +182,7 @@ define( function( require ) {
       if ( dt > 0 ) {
 
         if ( this.isJumping ) {
+          var halfWidth = this.width / 2;
           var balloonYValue = this.locationProperty.value.y;
           var jumpingKey;
 
@@ -189,22 +190,22 @@ define( function( require ) {
           // If location is defined by the press, exit jumping mode
           if( this.keyState[ KEY_W ] ) {
             // Move the balloon over to the wall
-            this.locationProperty.set( new Vector2( model.wall.x - this.width, balloonYValue ) );
+            this.locationProperty.set( new Vector2( model.playArea.atWall - halfWidth, balloonYValue ) );
             jumpingKey = KEY_W;
           }
           if( this.keyState[ KEY_S ] ) {
             // move the balloon over to the edge of the sweater
-            this.locationProperty.set( new Vector2( model.sweater.x + model.sweater.width, balloonYValue ) );
+            this.locationProperty.set( new Vector2( model.playArea.atNearSweater - halfWidth, balloonYValue ) );
             jumpingKey = KEY_S;
           }
           if( this.keyState[ KEY_C ] ) {
             // move the balloon back to its initial x location
-            this.locationProperty.set( new Vector2( this.initialLocation.x, balloonYValue ) );
+            this.locationProperty.set( new Vector2( model.playArea.atCenter - halfWidth, balloonYValue ) );
             jumpingKey = KEY_C;
           }
           if( this.keyState[ KEY_N ] ) {
             // move the balloon close to the wall, but not touching it
-            this.locationProperty.set( new Vector2( model.wall.x - 170, balloonYValue ) );
+            this.locationProperty.set( new Vector2( model.playArea.atNearWall - halfWidth, balloonYValue ) );
             jumpingKey = KEY_N;
           }
 

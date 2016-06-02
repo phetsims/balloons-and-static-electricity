@@ -28,7 +28,7 @@ define( function( require ) {
     // @public (read-only) - at the wall
     this.atWall = 621;
     this.atCenter = 507;
-    this.atNearSweater = 370;
+    this.atNearSweater = 393;
     this.atNearWall = 577;
 
     // width values for each collumn accross the play area
