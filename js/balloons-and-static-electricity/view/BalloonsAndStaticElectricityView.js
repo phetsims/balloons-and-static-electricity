@@ -263,21 +263,21 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    var greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
+    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
-    var yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, {
+    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
 
-    balloonsNode.children = [ yellowBalloon, greenBalloon ];
+    balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
 
     //Only show the selected balloon(s)
     model.balloons[ 1 ].isVisibleProperty.link( function( isVisible ) {
-      greenBalloon.visible = isVisible;
+      thisScreenView.greenBalloon.visible = isVisible;
     } );
 
     this.addChild( new ControlPanel( model, this.layoutBounds ) );
@@ -310,32 +310,30 @@ define( function( require ) {
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
-        // // add a global event listener to all children of this screen view, bubbles through all children
-        // // keypress should event used to find '?'
-        // // keydown should be used for all other standard keys
-        // window.addEventListener( 'keydown', function( event ) {
-        //   // 'global' event behavior in here...
-        //   if( event.keyCode === KEY_H ) {
-
-        //     // @private - track the active element so we can 2 it once the help dialog closes
-        //     thisScreenView.activeElement = document.activeElement;
-
-        //     // pull up the help dialog
-        //     keyboardHelpDialog.shownProperty.set( true );
-        //   }
-          
-        // } );
-
-        // window.addEventListener( 'keydown', function( event ) {
-        //   if( event.keyCode === 27 ) {
-
-        //     // hide the keyboardHelpDialog
-        //     keyboardHelpDialog.shownProperty.set( false );
-
-        //     // reset focus to the domElement
-        //     if( thisScreenView.activeElement ) { thisScreenView.activeElement.focus(); }
-        //   } 
-        // } );
+        // listen to the focusin event 
+        accessiblePeer.domElement.addEventListener( 'blur', function( event ) {
+          if ( event.target.getAttribute( 'role' ) === 'application' ) {
+            // the related target is the element that is about to receive focus - it should be described
+            // by the release description of the balloon (perpsective 3).
+            // @private
+            var balloonNode = thisScreenView.getBalloonByAccessibleID( event.target.id );
+            thisScreenView.relatedTarget = event.relatedTarget;
+            thisScreenView.relatedTargetDescription = event.relatedTarget.getAttribute( 'aria-describedby' );
+            event.relatedTarget.setAttribute( 'aria-describedby', balloonNode.descriptionContainer.id );
+          }
+          else if ( thisScreenView.relatedTarget ) {
+            // the related target should now have its original aria describedby content
+            if ( thisScreenView.relatedTargetDescription ) {
+              thisScreenView.relatedTarget.setAttribute( 'aria-describedby', thisScreenView.relatedTargetDescription );
+            }
+            else {
+              // no description
+              thisScreenView.relatedTarget.removeAttribute( 'aria-describedby' );
+            }
+            thisScreenView.relatedTarget = null;
+            thisScreenView.relatedTargetDescription = null;
+          }
+        }, true /*dispatch down the DOM tree, focusin not supported by Firefox*/ );
 
         return accessiblePeer;
       }
@@ -410,6 +408,26 @@ define( function( require ) {
 
   }
 
-  inherit( ScreenView, BalloonsAndStaticElectricityView );
+  inherit( ScreenView, BalloonsAndStaticElectricityView, {
+
+    /**
+     * Get the balloon node by its accessible id
+     * @param  {[type]} id [description]
+     * @return {[type]}    [description]
+     */
+    getBalloonByAccessibleID: function( id ) {
+      assert && assert( id, 'must use valid id to find balloon' );
+
+      if ( this.yellowBalloon.domElement.id === id ) {
+        return this.yellowBalloon;
+      }
+      else if ( this.greenBalloon.domElement.id === id ) {
+        return this.greenBalloon;
+      }
+      else {
+        assert && assert( false, 'No balloon node found for id: ' + id );
+      }
+    }
+  } );
   return BalloonsAndStaticElectricityView;
 } );
