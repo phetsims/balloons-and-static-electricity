@@ -274,44 +274,8 @@ define( function( require ) {
       }
     } );
 
-    // a node for dynamic descriptions
-    this.accessibleDescriptionNode = new Node( {
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var trail = accessibleInstance.trail;
-          var uniqueID = trail.getUniqueId();
-
-          // all of these descriptions are to be announced on release via aria-describedby
-          // they must be accessible to any botton that can receive focus after the balloon 
-          // is blurred.
-          var domElement = document.createElement( 'div' );
-          domElement.hidden = true;
-          domElement.id = 'description-container-' + uniqueID;
-
-          // @public, allows access for other nodes to reference outside of DOM 
-          self.descriptionContainer = domElement;
-
-          var locationDescription = document.createElement( 'p' );
-          locationDescription.textContent = 'Yellow Balloon released against upper wall. ';
-
-          var locationChangeDescription = document.createElement( 'p' );
-          locationChangeDescription.textContent = 'No change in position. ';
-
-          var chargeChangeDescription = document.createElement( 'p' );
-          chargeChangeDescription.textContent = 'No change in charges.';
-
-          domElement.appendChild( locationDescription );
-          domElement.appendChild( locationChangeDescription );
-          domElement.appendChild( chargeChangeDescription );
-
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
-    } );
-
     this.addChild( accessibleButtonNode );
     this.addChild( accessibleDragNode );
-    this.addChild( this.accessibleDescriptionNode );
 
     // add a circle to the center of the balloon to assist with location
     if ( BalloonsAndStaticElectricityQueryParameters.DEV ) {

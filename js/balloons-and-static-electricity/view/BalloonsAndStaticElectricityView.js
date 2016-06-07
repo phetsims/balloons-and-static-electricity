@@ -310,31 +310,6 @@ define( function( require ) {
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
-        // listen to the focusin event 
-        accessiblePeer.domElement.addEventListener( 'blur', function( event ) {
-          if ( event.target.getAttribute( 'role' ) === 'application' && event.relatedTarget) {
-            // the related target is the element that is about to receive focus - it should be described
-            // by the release description of the balloon (perpsective 3).
-            // @private
-            var balloonNode = thisScreenView.getBalloonByAccessibleID( event.target.id );
-            thisScreenView.relatedTarget = event.relatedTarget;
-            thisScreenView.relatedTargetDescription = event.relatedTarget.getAttribute( 'aria-describedby' );
-            event.relatedTarget.setAttribute( 'aria-describedby', balloonNode.descriptionContainer.id );
-          }
-          else if ( thisScreenView.relatedTarget ) {
-            // the related target should now have its original aria describedby content
-            if ( thisScreenView.relatedTargetDescription ) {
-              thisScreenView.relatedTarget.setAttribute( 'aria-describedby', thisScreenView.relatedTargetDescription );
-            }
-            else {
-              // no description
-              thisScreenView.relatedTarget.removeAttribute( 'aria-describedby' );
-            }
-            thisScreenView.relatedTarget = null;
-            thisScreenView.relatedTargetDescription = null;
-          }
-        }, true /*dispatch down the DOM tree, focusin not supported by Firefox*/ );
-
         return accessiblePeer;
       }
     };
@@ -408,26 +383,6 @@ define( function( require ) {
 
   }
 
-  inherit( ScreenView, BalloonsAndStaticElectricityView, {
-
-    /**
-     * Get the balloon node by its accessible id
-     * @param  {[type]} id [description]
-     * @return {[type]}    [description]
-     */
-    getBalloonByAccessibleID: function( id ) {
-      assert && assert( id, 'must use valid id to find balloon' );
-
-      if ( this.yellowBalloon.dragElement.id === id ) {
-        return this.yellowBalloon;
-      }
-      else if ( this.greenBalloon.dragElement.id === id ) {
-        return this.greenBalloon;
-      }
-      else {
-        assert && assert( false, 'No balloon node found for id: ' + id );
-      }
-    }
-  } );
+  inherit( ScreenView, BalloonsAndStaticElectricityView );
   return BalloonsAndStaticElectricityView;
 } );
