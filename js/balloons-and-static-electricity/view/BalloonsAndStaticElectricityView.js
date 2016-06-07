@@ -312,7 +312,7 @@ define( function( require ) {
 
         // listen to the focusin event 
         accessiblePeer.domElement.addEventListener( 'blur', function( event ) {
-          if ( event.target.getAttribute( 'role' ) === 'application' ) {
+          if ( event.target.getAttribute( 'role' ) === 'application' && event.relatedTarget) {
             // the related target is the element that is about to receive focus - it should be described
             // by the release description of the balloon (perpsective 3).
             // @private
