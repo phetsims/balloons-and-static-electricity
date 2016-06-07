@@ -418,10 +418,10 @@ define( function( require ) {
     getBalloonByAccessibleID: function( id ) {
       assert && assert( id, 'must use valid id to find balloon' );
 
-      if ( this.yellowBalloon.domElement.id === id ) {
+      if ( this.yellowBalloon.dragElement.id === id ) {
         return this.yellowBalloon;
       }
-      else if ( this.greenBalloon.domElement.id === id ) {
+      else if ( this.greenBalloon.dragElement.id === id ) {
         return this.greenBalloon;
       }
       else {

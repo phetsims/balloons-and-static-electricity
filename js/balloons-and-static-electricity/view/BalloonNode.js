@@ -216,6 +216,7 @@ define( function( require ) {
           // the domElement is a draggable application div
           var domElement = document.createElement( 'div' );
           domElement.setAttribute ( 'draggable', 'true' );
+          domElement.id = 'draggable-balloon-' + uniqueID;
           domElement.setAttribute( 'role', 'application' );
 
           // add the label
@@ -291,10 +292,10 @@ define( function( require ) {
           self.descriptionContainer = domElement;
 
           var locationDescription = document.createElement( 'p' );
-          locationDescription.textContent = 'Yellow Balloon released against upper wall.';
+          locationDescription.textContent = 'Yellow Balloon released against upper wall. ';
 
           var locationChangeDescription = document.createElement( 'p' );
-          locationChangeDescription.textContent = 'No change in position.';
+          locationChangeDescription.textContent = 'No change in position. ';
 
           var chargeChangeDescription = document.createElement( 'p' );
           chargeChangeDescription.textContent = 'No change in charges.';
