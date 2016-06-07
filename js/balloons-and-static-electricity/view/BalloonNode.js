@@ -39,7 +39,7 @@ define( function( require ) {
   // var manyString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/many' );
   // var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
   var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
-  // var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
+  var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -205,6 +205,17 @@ define( function( require ) {
       }
     } );
 
+    var buttonDescriptionNode = new Node( {
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          var domElement = document.createElement( 'p' );
+          domElement.textContent = balloonGrabCueString;
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
+    } );
+
     // this node will contain the 'Draggable Balloon' div
     var accessibleDragNode = new Rectangle( balloonImageNode.bounds, {
       accessibleContent: {
@@ -275,6 +286,7 @@ define( function( require ) {
     } );
 
     this.addChild( accessibleButtonNode );
+    this.addChild( buttonDescriptionNode );
     this.addChild( accessibleDragNode );
 
     // add a circle to the center of the balloon to assist with location
