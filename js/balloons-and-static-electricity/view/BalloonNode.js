@@ -55,15 +55,36 @@ define( function( require ) {
   var lowerAtHalfwayString = 'from lower part of play area at halfway mark.';
   var bottomAtHalfwayString = 'from bottom of Play Area at halfway mark.';
 
-  var topLeftSweaterString = 'from top left side of play area, just right of sweater.';
-  var upperLeftSweaterString = 'from upper left side of play area, just right of sweater.';
-  var lowerLeftSweaterString = 'from lower left side of play area, just right of sweater.';
-  var bottomLeftSweaterString = 'from bottom left side of play area, just right of sweater.';
+  var topLeftOfSweaterString = 'from top left side of play area, just right of sweater.';
+  var upperLeftOfSweaterString = 'from upper left side of play area, just right of sweater.';
+  var lowerLeftOfSweaterString = 'from lower left side of play area, just right of sweater.';
+  var bottomLeftOfSweaterString = 'from bottom left side of play area, just right of sweater.';
 
   var topRightCornerWallString = 'against top right corner of wall.';
   var upperWallString = 'against upper wall.';
   var lowerWallString = 'against lower wall.';
   var bottomRightCornerWallString = 'against bottom right corner of wall.';
+
+  var topRightArmString = 'top right arm.';
+  var upperRightArmString = 'upper right arm. ';
+  var lowerRightArmString = 'lower right arm.';
+  var bottomRightArmStrinig = 'bottom right arm.';
+
+  var topRightSweaterString = 'top right side of sweater.';
+  var upperRightSweaterString = 'upper right side of sweater.';
+  var lowerRightSweaterString = 'lower right side of sweater.';
+  var bottomRightSweaterString = 'bottom right side of sweater.';
+
+  var topLeftSweaterString = 'top left side of sweater.';
+  var upperLeftSweaterString = 'upper left side of sweater.';
+  var lowerLeftSweaterString = 'lower left side of sweater.';
+  var bottomLeftSweaterString = 'bottom left side of sweater.';
+
+  var topLeftArmString = 'top left arm.';
+  var upperLeftArmString = 'upper left arm.';
+  var lowerLeftArmString = 'lower left arm.';
+  var bottomLeftArmString = 'bottom left arm.';
+
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -453,13 +474,104 @@ define( function( require ) {
           return lowerWallString;
         }
         else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_PLAY_AREA ) {
-          return upperWallString;
+          return bottomRightCornerWallString;
         }
       }
-
       else {
         // the balloon is elswhere in the play area
-        return 'not there yet!';
+        // near wall strings
+        if ( bounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA ) {
+          return topRightNearWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
+          return upperRightNearWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_RIGHT_PLAY_AREA ) {
+          return lowerRightNearWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_PLAY_AREA ) {
+          return bottomRightNearWallString;
+        }
+        // center of play area strings
+        else if ( bounds === BalloonLocationEnum.TOP_CENTER_PLAY_AREA ) {
+          return topAtHalfwayString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_CENTER_PLAY_AREA ) {
+          return upperAtHalfwayString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_CENTER_PLAY_AREA ) {
+          return lowerAtHalfwayString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_CENTER_PLAY_AREA ) {
+          return bottomAtHalfwayString;
+        }
+        // left of play area strings
+        else if ( bounds === BalloonLocationEnum.TOP_LEFT_PLAY_AREA ) {
+          return topLeftOfSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
+          return upperLeftOfSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
+          return lowerLeftOfSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
+          return bottomLeftOfSweaterString;
+        }
+        // right arm strings
+        else if ( bounds === BalloonLocationEnum.TOP_RIGHT_ARM ) {
+          return topRightArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_RIGHT_ARM ) {
+          return upperRightArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_RIGHT_ARM ) {
+          return lowerRightArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_ARM ) {
+          return bottomRightArmStrinig;
+        }      
+        // right sweater body strings
+        else if ( bounds === BalloonLocationEnum.TOP_RIGHT_SWEATER ) {
+          return topRightSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_RIGHT_SWEATER ) {
+          return upperRightSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_RIGHT_SWEATER ) {
+          return lowerRightSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_SWEATER ) {
+          return bottomRightSweaterString;
+        }
+        // left sweater body strings
+        else if ( bounds === BalloonLocationEnum.TOP_LEFT_SWEATER ) {
+          return topLeftSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_SWEATER ) {
+          return upperLeftSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_LEFT_SWEATER ) {
+          return lowerLeftSweaterString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT_SWEATER ) {
+          return bottomLeftSweaterString;
+        }
+        // left sweater arm strings
+        else if ( bounds === BalloonLocationEnum.TOP_LEFT_ARM ) {
+          return topLeftArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_ARM ) {
+          return upperLeftArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_LEFT_ARM ) {
+          return lowerLeftArmString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT_ARM ) {
+          return bottomLeftArmString;
+        }  
+
+        return 'No description for this location!';
       }
     }
   } );
