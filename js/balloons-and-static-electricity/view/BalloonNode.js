@@ -235,7 +235,6 @@ define( function( require ) {
 
           // pick up the balloon for dragging when the button is clicked
           domElement.addEventListener( 'click', function() {
-            console.log( 'clicking' );
 
             // focus the draggable node
             self.dragElement.focus();
@@ -380,7 +379,6 @@ define( function( require ) {
 
 
                 descriptionString = balloonReleasedString + ' ' + noChangeInPositionString + ' ' + noChangeInChargeString;
-                console.log( descriptionString );
                 var politeElement = document.getElementById( 'polite-alert' );
                 politeElement.textContent = descriptionString;
               }
