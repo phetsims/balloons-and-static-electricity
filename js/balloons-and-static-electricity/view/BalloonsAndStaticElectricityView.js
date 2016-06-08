@@ -370,7 +370,7 @@ define( function( require ) {
 
     // enable the prototype screen reader 
     if( BalloonsAndStaticElectricityQueryParameters.READER ) {
-      var cursor = new Cursor( document.body.getElementsByClassName( 'accessibility' )[ 0 ] );
+      var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 
       // eslint complains about the unused var reader

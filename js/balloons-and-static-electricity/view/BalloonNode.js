@@ -22,6 +22,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
 
   // constants - to monitor the direction of dragging
   var UP = 'UP';
@@ -40,7 +41,7 @@ define( function( require ) {
   // var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
   var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
   var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
-  var balloonReleasedPatternString = '{0} released';
+  var balloonReleasedPatternString = '{0} released {1}';
   var noChangeInPositionString = 'No change in position.';
   var noChangeInChargeString = 'No change in charge.';
 
@@ -83,6 +84,7 @@ define( function( require ) {
     this.y = y;
 
     this.playArea = globalModel.playArea;
+    this.model = model;
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
     this.initialGrab = true;
@@ -212,13 +214,14 @@ define( function( require ) {
 
           // pick up the balloon for dragging when the button is clicked
           domElement.addEventListener( 'click', function() {
+            console.log( 'clicking' );
+
+            // focus the draggable node
+            self.dragElement.focus();
 
             // balloon is now draggable and grabbed
             model.isDragged = true;
             self.dragElement.setAttribute( 'aria-grabbed', 'true' );
-
-            // focus the draggable element
-            self.dragElement.focus();
 
             // reset the velocity when picked up
             model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -255,6 +258,10 @@ define( function( require ) {
           domElement.id = 'draggable-balloon-' + uniqueID;
           domElement.setAttribute( 'role', 'application' );
 
+          // flag for the prototype screen reader - on blur, the reader should notify the user
+          // of the newly focussed element with a polite message
+          domElement.setAttribute( 'data-polite', true );
+
           // add the label
           domElement.setAttribute( 'aria-label', options.accessibleLabel );
 
@@ -270,17 +277,20 @@ define( function( require ) {
           labelElement.textContent = options.accessibleLabel;
 
           domElement.addEventListener( 'keydown', function( event ) {
-            // when the user presses 'spacebar' or 'enter', release the balloon
-            if ( event.keyCode === 32 || event.keyCode === 13 ) {
-              model.isDragged = false;
-              domElement.setAttribute( 'aria-grabbed', 'false' );
-              self.buttonElement.focus();
+            // // when the user presses 'spacebar' or 'enter', release the balloon
+            // if ( event.keyCode === 32 || event.keyCode === 13 ) {
 
-              // reset the keystate and nothing else
-              model.keyState = {};
+            //   // set focus to the button before setting isDragged so order of aria-live messages is correct
+            //   self.buttonElement.focus();
 
-              return;
-            }
+            //   model.isDragged = false;
+            //   domElement.setAttribute( 'aria-grabbed', 'false' );
+
+            //   // reset the keystate and nothing else
+            //   model.keyState = {};
+
+            //   return;
+            // }
 
             // update the keyState object for keyboard interaction
             model.keyState[ event.keyCode || event.which ] = true;
@@ -304,17 +314,54 @@ define( function( require ) {
             // update the keyState object for keyboard interaction 
             model.keyState[ event.keyCode || event.which ] = false;
 
+            // when the user presses 'spacebar' or 'enter', release the balloon
+            // handled in keyup so spacebar isnt pressed immediately by the newly focused 
+            // button
+            if ( event.keyCode === 32 || event.keyCode === 13 ) {
+
+              // set focus to the button before setting isDragged so order of aria-live messages is correct
+              self.buttonElement.focus();
+
+              model.isDragged = false;
+              domElement.setAttribute( 'aria-grabbed', 'false' );
+
+              // reset the keystate and nothing else
+              model.keyState = {};
+
+              return;
+            }
+
           } );
 
-          var playArea = globalModel.playArea;
+          domElement.addEventListener( 'blur', function( event ) {
+            // on blur, release balloon
+            model.isDragged = false;
+
+            domElement.setAttribute( 'aria-grabbed', 'false' );
+
+            // reset the keystate so it is fresh next time we pick up balloon
+            model.keyState = {};
+          
+          } );
+
           model.isDraggedProperty.link( function( isDragged ) {
             if ( !isDragged ) {
+
               // when the balloon is released, we should hear a description about the released balloon
               // see https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=931000658
               if ( model.charge === 0 ) {
                 // when the charg is zero, we want to hear the balloon Label, release position, no change in position,
                 // no change in charges, button label
-                var balloonReleasedString = StringUtils.format( balloonReleasedPatternString )
+                // 
+                var descriptionString = '';
+                var locationDescription = self.getLocationDescriptionString();
+                var balloonReleasedString = StringUtils.format( balloonReleasedPatternString, options.accessibleLabel, locationDescription );
+
+
+                descriptionString = balloonReleasedString + ' ' + noChangeInPositionString + ' ' + noChangeInChargeString;
+                console.log( descriptionString );
+                var politeElement = document.getElementById( 'polite-alert' );
+                politeElement.textContent = descriptionString;
               }
 
             }
@@ -390,7 +437,30 @@ define( function( require ) {
       }
     },
 
-    getPositionDescriptionString: function() {
+    getLocationDescriptionString: function() {
+      var balloonCenter = this.model.getCenter();
+      var bounds = this.playArea.getPointBounds( balloonCenter );
+
+      // descriptiosn of balloon along wall
+      if ( balloonCenter.x === this.playArea.atWall ) {
+        if ( bounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA ) {
+          return topRightCornerWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
+          return upperWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_RIGHT_PLAY_AREA ) {
+          return lowerWallString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_PLAY_AREA ) {
+          return upperWallString;
+        }
+      }
+
+      else {
+        // the balloon is elswhere in the play area
+        return 'not there yet!';
+      }
     }
   } );
 } );
