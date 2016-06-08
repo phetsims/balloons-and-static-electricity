@@ -40,6 +40,29 @@ define( function( require ) {
   // var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
   var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
   var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
+  var balloonReleasedPatternString = '{0} released';
+  var noChangeInPositionString = 'No change in position.';
+  var noChangeInChargeString = 'No change in charge.';
+
+  var topRightNearWallString = 'from top right side of play area, near wall.';
+  var upperRightNearWallString = 'from upper right side of play area, near wall.';
+  var lowerRightNearWallString = 'from lower right side of play area, near wall.';
+  var bottomRightNearWallString = 'from bottom right side of play area, near wall.';
+
+  var topAtHalfwayString = 'from top of play area at halfway mark.';
+  var upperAtHalfwayString = 'from upper part of play area at halfway mark.';
+  var lowerAtHalfwayString = 'from lower part of play area at halfway mark.';
+  var bottomAtHalfwayString = 'from bottom of Play Area at halfway mark.';
+
+  var topLeftSweaterString = 'from top left side of play area, just right of sweater.';
+  var upperLeftSweaterString = 'from upper left side of play area, just right of sweater.';
+  var lowerLeftSweaterString = 'from lower left side of play area, just right of sweater.';
+  var bottomLeftSweaterString = 'from bottom left side of play area, just right of sweater.';
+
+  var topRightCornerWallString = 'against top right corner of wall.';
+  var upperWallString = 'against upper wall.';
+  var lowerWallString = 'against lower wall.';
+  var bottomRightCornerWallString = 'against bottom right corner of wall.';
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -58,6 +81,8 @@ define( function( require ) {
 
     this.x = x;
     this.y = y;
+
+    this.playArea = globalModel.playArea;
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
     this.initialGrab = true;
@@ -278,6 +303,21 @@ define( function( require ) {
           domElement.addEventListener( 'keyup', function( event ) {
             // update the keyState object for keyboard interaction 
             model.keyState[ event.keyCode || event.which ] = false;
+
+          } );
+
+          var playArea = globalModel.playArea;
+          model.isDraggedProperty.link( function( isDragged ) {
+            if ( !isDragged ) {
+              // when the balloon is released, we should hear a description about the released balloon
+              // see https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=931000658
+              if ( model.charge === 0 ) {
+                // when the charg is zero, we want to hear the balloon Label, release position, no change in position,
+                // no change in charges, button label
+                var balloonReleasedString = StringUtils.format( balloonReleasedPatternString )
+              }
+
+            }
           } );
 
           return new AccessiblePeer( accessibleInstance, domElement );
@@ -348,6 +388,9 @@ define( function( require ) {
       else {
         assert && assert( 'case not supported in getDraggingDirection' );
       }
+    },
+
+    getPositionDescriptionString: function() {
     }
   } );
 } );

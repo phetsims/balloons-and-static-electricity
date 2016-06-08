@@ -320,43 +320,43 @@ define( function( require ) {
       var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
 
       // left edge
-      this.addChild( new Rectangle( model.playArea.leftEdge, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.leftColumn, greyOptions ) );
 
       // left arm
-      this.addChild( new Rectangle( model.playArea.leftArm, blueOptions ) );
+      this.addChild( new Rectangle( model.playArea.leftArmColumn, blueOptions ) );
 
       // right sweater body
-      this.addChild( new Rectangle( model.playArea.sweaterBodyLeft, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.leftBodyColumn, greyOptions ) );
 
       // left sweater body
-      this.addChild( new Rectangle( model.playArea.sweaterBodyRight, blueOptions ) );
+      this.addChild( new Rectangle( model.playArea.rightBodyColumn, blueOptions ) );
 
       // right arm
-      this.addChild( new Rectangle( model.playArea.rightArm, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.rightArmColumn, greyOptions ) );
 
       // left side of play area
-      this.addChild( new Rectangle( model.playArea.playAreaLeft, blueOptions) );
+      this.addChild( new Rectangle( model.playArea.playAreaLeftColumn, blueOptions) );
 
       // center of play area
-      this.addChild( new Rectangle( model.playArea.playAreaCenter, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.playAreaCenterColumn, greyOptions ) );
 
       // right side of play Area
-      this.addChild( new Rectangle( model.playArea.playAreaRight, blueOptions ) );
+      this.addChild( new Rectangle( model.playArea.playAreaRightColumn, blueOptions ) );
 
       // right edge of play area
-      this.addChild( new Rectangle( model.playArea.rightEdge, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.rightColumn, greyOptions ) );
 
       // top edge of play area
-      this.addChild( new Rectangle( model.playArea.topEdge, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.topRow, greyOptions ) );
 
       // upper part of play area
-      this.addChild( new Rectangle( model.playArea.upper, blueOptions ) );
+      this.addChild( new Rectangle( model.playArea.upperRow, blueOptions ) );
 
       // lower part of play area
-      this.addChild( new Rectangle( model.playArea.lower, greyOptions ) );
+      this.addChild( new Rectangle( model.playArea.lowerRow, greyOptions ) );
 
       // bottom part of play area
-      this.addChild( new Rectangle( model.playArea.bottomEdge, blueOptions ) );
+      this.addChild( new Rectangle( model.playArea.bottomRow, blueOptions ) );
 
       // draw some lines to represent positions of critical balloon points
       var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 5 };
