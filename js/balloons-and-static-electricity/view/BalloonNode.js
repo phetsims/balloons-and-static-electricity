@@ -20,8 +20,10 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Range = require( 'DOT/Range' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
 
   // constants - to monitor the direction of dragging
@@ -85,7 +87,6 @@ define( function( require ) {
   var lowerLeftArmString = 'lower left arm.';
   var bottomLeftArmString = 'bottom left arm.';
 
-
   // constants
   var KEY_J = 74; // keycode for the 'j' key
   var KEY_H = 72; // keypress keycode for '?'
@@ -97,6 +98,7 @@ define( function( require ) {
       accessibleDescriptionPatternString: '',
       accessibleLabel: ''
     }, options );
+    this.accessibleLabel = options.accessibleLabel; // @private
 
     // super constructor
     Node.call( this, { cursor: 'pointer' } );
@@ -104,8 +106,9 @@ define( function( require ) {
     this.x = x;
     this.y = y;
 
-    this.playArea = globalModel.playArea;
+    // @private
     this.model = model;
+    this.globalModel = globalModel;
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
     this.initialGrab = true;
@@ -366,23 +369,10 @@ define( function( require ) {
 
           model.isDraggedProperty.link( function( isDragged ) {
             if ( !isDragged ) {
+              var releaseDescription = self.getReleaseDescription();
 
-              // when the balloon is released, we should hear a description about the released balloon
-              // see https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=931000658
-              if ( model.charge === 0 ) {
-                // when the charg is zero, we want to hear the balloon Label, release position, no change in position,
-                // no change in charges, button label
-                // 
-                var descriptionString = '';
-                var locationDescription = self.getLocationDescriptionString();
-                var balloonReleasedString = StringUtils.format( balloonReleasedPatternString, options.accessibleLabel, locationDescription );
-
-
-                descriptionString = balloonReleasedString + ' ' + noChangeInPositionString + ' ' + noChangeInChargeString;
-                var politeElement = document.getElementById( 'polite-alert' );
-                politeElement.textContent = descriptionString;
-              }
-
+              var politeElement = document.getElementById( 'polite-alert' );
+              politeElement.textContent = releaseDescription;
             }
           } );
 
@@ -456,12 +446,88 @@ define( function( require ) {
       }
     },
 
+    /**
+     * Get a description of how quickly the balloon moves to another object in the play area
+     * as a function of charge.
+     * @param  {number} charge
+     * @return {string}
+     */
+    getVelocityDescription: function( charge ) {
+      var velocityDescription = '';
+
+      var verySlowRange = new Range( 0, 14 );
+      var slowRange = new Range( 15, 29 );
+      var quickRange = new Range( 30, 44 );
+      var veryQuickRange = new Range( 45, 57 );
+      var absCharge = Math.abs( charge );
+
+      if ( verySlowRange.contains( absCharge ) ) {
+        velocityDescription = 'very slowly';
+      }
+      else if ( slowRange.contains( absCharge ) ) {
+        velocityDescription = 'slowly';
+      }
+      else if ( quickRange.contains( absCharge ) ) {
+        velocityDescription = 'quickly';
+      }
+      else if ( veryQuickRange.contains( absCharge ) ) {
+        velocityDescription = 'very quickly';
+      }
+      return velocityDescription;
+    },
+
+    /**
+     * Get a description of the balloon after it has been released.
+     * This description id dependent on the position.
+     * @return {string} [description]
+     */
+    getReleaseDescription: function() {
+      // when the balloon is released, we should hear a description about the released balloon
+      // see https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=931000658
+      var descriptionString = '';
+      var locationString = this.getLocationDescriptionString();
+      var balloonReleasedString = StringUtils.format( balloonReleasedPatternString, this.accessibleLabel, locationString );
+
+      if ( this.model.charge === 0 ) {
+        // when the charg is zero, we want to hear the balloon Label, release position, no change in position,
+        // no change in charges, button label
+
+        // TODO: This should be a string pattern
+        descriptionString = balloonReleasedString + ' ' + noChangeInPositionString + ' ' + noChangeInChargeString;
+      }
+      else {
+        // otherwise, we want to hear the balloon label, release position, description of what is happening during the
+        // release, followed by the resting position, summary description of closest object, balloon charge description,
+        // finally the lable of the focussed item
+        var velocityDescription = this.getVelocityDescription( this.model.charge );
+        var attractedQuicklyStringPattern = 'Attracted {0} {1}';
+        var toWallString = 'to wall';
+        var toSweaterString = 'to sweater';
+
+        var force = BalloonModel.getTotalForce( this.globalModel, this.model );
+        var toObjectString;
+        if ( force.x > 0 ) {
+          toObjectString = toWallString;
+        }
+        else {
+          toObjectString = toSweaterString;
+        }
+
+        var movementDescriptionString = StringUtils.format( attractedQuicklyStringPattern, velocityDescription, toObjectString );
+
+        descriptionString = balloonReleasedString + ' ' + movementDescriptionString;
+      }
+
+      console.log( descriptionString );
+      return descriptionString;
+    },
+
     getLocationDescriptionString: function() {
       var balloonCenter = this.model.getCenter();
-      var bounds = this.playArea.getPointBounds( balloonCenter );
+      var bounds = this.globalModel.playArea.getPointBounds( balloonCenter );
 
       // descriptiosn of balloon along wall
-      if ( balloonCenter.x === this.playArea.atWall ) {
+      if ( balloonCenter.x === this.globalModel.playArea.atWall ) {
         if ( bounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA ) {
           return topRightCornerWallString;
         }
