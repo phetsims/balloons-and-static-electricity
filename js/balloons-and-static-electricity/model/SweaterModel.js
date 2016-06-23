@@ -13,6 +13,12 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+
+  // strings
+  var sweaterNetChargePatternString = 'Sweater has a {0} charge';
+  var netNeutralString = 'net neutral';
+  var netPositiveString = 'net positive';
 
   function SweaterModel( x, y ) {
 
@@ -134,6 +140,21 @@ define( function( require ) {
       charge.view.visible = false;
       balloon.charge--;
       this.charge++;
+    },
+
+    /**
+     * Get a description of the sweater's charge for accessibility
+     * 
+     * @accessibility
+     * @return {string}
+     */
+    getChargeDescription: function() {
+      if ( this.charge > 0 ) {
+        return StringUtils.format( sweaterNetChargePatternString, netPositiveString );
+      }
+      else {
+        return StringUtils.format( sweaterNetChargePatternString, netNeutralString );
+      }
     },
 
     // Reset the entire model

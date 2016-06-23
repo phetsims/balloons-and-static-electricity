@@ -87,6 +87,13 @@ define( function( require ) {
   var lowerLeftArmString = 'lower left arm.';
   var bottomLeftArmString = 'bottom left arm.';
 
+  // now sticking to, balloon charge, sweater charge
+  var restingStringPattern = '{0}, {1}, {2}.';
+  var nowStickingToStringPattern = 'Now sticking {0}';
+  var balloonChargeStringPattern = 'Balloon has a {0} charge';
+  var netNegativeString = 'net negative';
+  var netNeutralString = 'Net neutral';
+
   // constants
   var KEY_J = 74; // keycode for the 'j' key
   var KEY_H = 72; // keypress keycode for '?'
@@ -356,7 +363,19 @@ define( function( require ) {
           model.isStoppedProperty.link( function ( isStopped ) {
             // once the balloon has reached a destination, describe its position and charge
             if ( isStopped ) {
-              console.log( 'balloon stopped' );
+              var positionDescription = self.getLocationDescriptionString();
+              var positionString = StringUtils.format( nowStickingToStringPattern, positionDescription );
+
+              var sweaterChargeDescription = self.globalModel.sweater.getChargeDescription();
+              var balloonChargeDescription = self.getChargeDescription();
+
+              // build the description string
+              var alertString = StringUtils.format( restingStringPattern, positionString, sweaterChargeDescription, balloonChargeDescription );
+              console.log( alertString );
+
+              var politeElement = document.getElementById( 'polite-alert' );
+              politeElement.textContent = alertString;
+
             }            
           } );
 
@@ -516,6 +535,22 @@ define( function( require ) {
 
       console.log( descriptionString );
       return descriptionString;
+    },
+
+    /**
+     * Get a description of the charge on the balloon
+     * For now, this is just relative based on neutrality
+     * @return {string}
+     */
+    getChargeDescription: function() {
+      // no more, a few more, several more, several more
+      console.log( this.model.charge );
+      if ( this.model.charge < 0 ) {
+        return StringUtils.format( balloonChargeStringPattern, netNegativeString );
+      }
+      else {
+        return StringUtils.format( balloonChargeStringPattern, netNeutralString );
+      }
     },
 
     getLocationDescriptionString: function() {
