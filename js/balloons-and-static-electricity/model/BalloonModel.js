@@ -40,6 +40,7 @@ define( function( require ) {
       width: 134,
       height: 222,
       location: new Vector2( 0, 0 ),
+      isStopped: false,
 
       //Speed the balloon must be dragged at to pick up charges, see https://github.com/phetsims/balloons-and-static-electricity/issues/28
       thresholdSpeed: 0.025,
@@ -401,6 +402,12 @@ define( function( require ) {
       if ( newLocation.y < model.bounds.minY ) {
         isStopped = true;
         newLocation.y = model.bounds.minY;
+      }
+
+      // once the balloon stops moving, notify observers that it has reached a resting
+      // destination
+      if ( !balloonModel.isStopped && ( balloonModel.location.equals( newLocation ) ) ) {
+        balloonModel.isStoppedProperty.set( true );
       }
 
       balloonModel.velocity = newVelocity;

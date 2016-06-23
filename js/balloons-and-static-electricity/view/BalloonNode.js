@@ -300,20 +300,6 @@ define( function( require ) {
           labelElement.textContent = options.accessibleLabel;
 
           domElement.addEventListener( 'keydown', function( event ) {
-            // // when the user presses 'spacebar' or 'enter', release the balloon
-            // if ( event.keyCode === 32 || event.keyCode === 13 ) {
-
-            //   // set focus to the button before setting isDragged so order of aria-live messages is correct
-            //   self.buttonElement.focus();
-
-            //   model.isDragged = false;
-            //   domElement.setAttribute( 'aria-grabbed', 'false' );
-
-            //   // reset the keystate and nothing else
-            //   model.keyState = {};
-
-            //   return;
-            // }
 
             // update the keyState object for keyboard interaction
             model.keyState[ event.keyCode || event.which ] = true;
@@ -367,12 +353,22 @@ define( function( require ) {
           
           } );
 
+          model.isStoppedProperty.link( function ( isStopped ) {
+            // once the balloon has reached a destination, describe its position and charge
+            if ( isStopped ) {
+              console.log( 'balloon stopped' );
+            }            
+          } );
+
           model.isDraggedProperty.link( function( isDragged ) {
             if ( !isDragged ) {
               var releaseDescription = self.getReleaseDescription();
 
               var politeElement = document.getElementById( 'polite-alert' );
               politeElement.textContent = releaseDescription;
+            }
+            else {
+              model.isStoppedProperty.set( false );
             }
           } );
 

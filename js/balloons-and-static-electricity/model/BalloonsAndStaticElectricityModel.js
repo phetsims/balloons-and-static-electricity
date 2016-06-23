@@ -43,6 +43,17 @@ define( function( require ) {
       maxY: height
     };
 
+    // when the wall changes visibility, the balloons could start moving if they have charge and are 
+    // near the wall
+    var self = this;
+    this.wall.isVisibleProperty.link( function( isVisible ) {
+      self.balloons.forEach( function( balloon ) {
+        if ( balloon.getCenter().x === self.playArea.atWall && balloon.charge !== 0 ) {
+          balloon.isStoppedProperty.set( false );
+        }
+      } );
+    } );
+
     this.reset();
   }
 
