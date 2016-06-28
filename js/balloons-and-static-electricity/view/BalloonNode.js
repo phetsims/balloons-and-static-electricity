@@ -531,10 +531,10 @@ define( function( require ) {
 
         // if the balloon is touching the wall or is on the sweater, only describe release
         if ( this.model.getCenter().x === this.globalModel.playArea.atWall ) {
-          movementDescriptionString = '';
+          movementDescriptionString = noChangeInPositionString;
         }
         else if ( this.model.getCenter().x < this.globalModel.playArea.atSweater ) {
-          movementDescriptionString = '';
+          movementDescriptionString = noChangeInPositionString;
         }
         else {
           movementDescriptionString = StringUtils.format( attractedQuicklyStringPattern, velocityDescription, toObjectString );
