@@ -43,29 +43,29 @@ define( function( require ) {
   // var balloonNavigationCuesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon.navigationCues' );
   var grabPatternString = require ('string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
   var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
-  var balloonReleasedPatternString = '{0} released {1}';
+  var balloonReleasedPatternString = '{0} released from {1}';
   var noChangeInPositionString = 'No change in position.';
   var noChangeInChargeString = 'No change in charge.';
 
-  var topRightNearWallString = 'from top right side of play area, near wall.';
-  var upperRightNearWallString = 'from upper right side of play area, near wall.';
-  var lowerRightNearWallString = 'from lower right side of play area, near wall.';
-  var bottomRightNearWallString = 'from bottom right side of play area, near wall.';
+  var topRightNearWallString = 'top right side of play area, near wall.';
+  var upperRightNearWallString = 'upper right side of play area, near wall.';
+  var lowerRightNearWallString = 'lower right side of play area, near wall.';
+  var bottomRightNearWallString = 'bottom right side of play area, near wall.';
 
-  var topAtHalfwayString = 'from top of play area at halfway mark.';
-  var upperAtHalfwayString = 'from upper part of play area at halfway mark.';
-  var lowerAtHalfwayString = 'from lower part of play area at halfway mark.';
-  var bottomAtHalfwayString = 'from bottom of Play Area at halfway mark.';
+  var topAtHalfwayString = 'top of play area at halfway mark.';
+  var upperAtHalfwayString = 'upper part of play area at halfway mark.';
+  var lowerAtHalfwayString = 'lower part of play area at halfway mark.';
+  var bottomAtHalfwayString = 'bottom of Play Area at halfway mark.';
 
-  var topLeftOfSweaterString = 'from top left side of play area, just right of sweater.';
-  var upperLeftOfSweaterString = 'from upper left side of play area, just right of sweater.';
-  var lowerLeftOfSweaterString = 'from lower left side of play area, just right of sweater.';
-  var bottomLeftOfSweaterString = 'from bottom left side of play area, just right of sweater.';
+  var topLeftOfSweaterString = 'top left side of play area, just right of sweater.';
+  var upperLeftOfSweaterString = 'upper left side of play area, just right of sweater.';
+  var lowerLeftOfSweaterString = 'lower left side of play area, just right of sweater.';
+  var bottomLeftOfSweaterString = 'bottom left side of play area, just right of sweater.';
 
-  var topRightCornerWallString = 'against top right corner of wall.';
-  var upperWallString = 'against upper wall.';
-  var lowerWallString = 'against lower wall.';
-  var bottomRightCornerWallString = 'against bottom right corner of wall.';
+  var topRightCornerWallString = 'top right corner of wall.';
+  var upperWallString = 'upper wall.';
+  var lowerWallString = 'lower wall.';
+  var bottomRightCornerWallString = 'bottom right corner of wall.';
 
   var topRightArmString = 'top right arm.';
   var upperRightArmString = 'upper right arm. ';
@@ -89,7 +89,7 @@ define( function( require ) {
 
   // now sticking to, balloon charge, sweater charge
   var restingStringPattern = '{0} {1}, {2}.';
-  var nowStickingToStringPattern = 'Now sticking {0}';
+  var nowStickingToStringPattern = 'Now sticking to {0}';
   var balloonChargeStringPattern = 'Balloon has a {0} charge';
   var netNegativeString = 'net negative';
   var netNeutralString = 'Net neutral';
@@ -285,6 +285,7 @@ define( function( require ) {
           // the domElement is a draggable application div
           var domElement = document.createElement( 'div' );
           domElement.setAttribute ( 'draggable', 'true' );
+          domElement.setAttribute( 'aria-grabbed', false );
           domElement.id = 'draggable-balloon-' + uniqueID;
           domElement.setAttribute( 'role', 'application' );
 
@@ -301,10 +302,20 @@ define( function( require ) {
           // this can only be found with the arrow keys
           domElement.tabIndex = -1;
 
-          // create the accessible label for the grabbed balloon
+          // create the accessible label for the draggable balloon
           var labelElement = document.createElement( 'h3' );
           labelElement.id = 'balloon-label-' + uniqueID;
           labelElement.textContent = options.accessibleLabel;
+          domElement.setAttribute( 'aria-labelledby', labelElement.id );
+          domElement.appendChild( labelElement );
+
+          // create the accessible description for the draggable balloon
+          var balloonDescriptionString = self.getBalloonDescriptionString();
+          var descriptionElement = document.createElement( 'p' );
+          descriptionElement.id = 'balloon-description-' + uniqueID;
+          domElement.setAttribute( 'aria-describedby', descriptionElement.id );
+          descriptionElement.textContent = balloonDescriptionString;
+          domElement.appendChild( descriptionElement );
 
           domElement.addEventListener( 'keydown', function( event ) {
 
@@ -349,6 +360,14 @@ define( function( require ) {
 
           } );
 
+          // when the location or charge changes, update the description of the draggable widget
+          model.multilink( [ 'location', 'charge' ], function() {
+            var newDescription = self.getBalloonDescriptionString();
+            if ( descriptionElement.textContent !== newDescription ) {
+              descriptionElement.textContent = newDescription;
+            }
+          } );
+
           domElement.addEventListener( 'blur', function( event ) {
             // on blur, release balloon
             model.isDragged = false;
@@ -363,15 +382,14 @@ define( function( require ) {
           model.isStoppedProperty.link( function ( isStopped ) {
             // once the charged balloon has reached a destination, describe its position and charge
             if ( isStopped && self.model.charge < 0 ) {
-              var positionDescription = self.getLocationDescriptionString();
-              var positionString = StringUtils.format( nowStickingToStringPattern, positionDescription );
+              var releasePositionDescription = self.getLocationDescriptionString();
+              var positionString = StringUtils.format( nowStickingToStringPattern, releasePositionDescription );
 
               var sweaterChargeDescription = self.globalModel.sweater.getChargeDescription();
-              var balloonChargeDescription = self.getChargeDescription();
+              var balloonChargeDescription = self.getChargeDescriptionString();
 
               // build the description string
               var alertString = StringUtils.format( restingStringPattern, positionString, sweaterChargeDescription, balloonChargeDescription );
-              console.log( alertString );
 
               var politeElement = document.getElementById( 'polite-alert' );
               politeElement.textContent = alertString;
@@ -379,14 +397,21 @@ define( function( require ) {
           } );
 
           model.isDraggedProperty.link( function( isDragged ) {
-            if ( !isDragged ) {
+            if ( isDragged ) {
+              model.isStoppedProperty.set( false );
+
+              // assemble the descripion of the balloon once it is picked up, perspective 2 from
+              // https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=1538722405
+              // var grabbedDescription = self.getGrabbedDescription();
+            }
+            else {
               var releaseDescription = self.getReleaseDescription();
+
+              // set the 'aria-grabbed' attribute back to false
+              self.domElement.setAttribute( 'aria-grabbed', false );
 
               var politeElement = document.getElementById( 'polite-alert' );
               politeElement.textContent = releaseDescription;
-            }
-            else {
-              model.isStoppedProperty.set( false );
             }
           } );
 
@@ -543,7 +568,6 @@ define( function( require ) {
         descriptionString = balloonReleasedString + ' ' + movementDescriptionString;
       }
 
-      console.log( descriptionString );
       return descriptionString;
     },
 
@@ -552,7 +576,7 @@ define( function( require ) {
      * For now, this is just relative based on neutrality
      * @return {string}
      */
-    getChargeDescription: function() {
+    getChargeDescriptionString: function() {
       // no more, a few more, several more, several more
       if ( this.model.charge < 0 ) {
         return StringUtils.format( balloonChargeStringPattern, netNegativeString );
@@ -560,6 +584,22 @@ define( function( require ) {
       else {
         return StringUtils.format( balloonChargeStringPattern, netNeutralString );
       }
+    },
+
+    /**
+     * Get an up to date description of the dragable balloon widget.  This includes a description about the location,
+     * charge, and a cue to use the 'grab balloon' button.
+     *
+     * @return {string}
+     */
+    getBalloonDescriptionString: function() {
+      var locationDescription = this.getLocationDescriptionString();
+      var chargeDescription = this.getChargeDescriptionString();
+      var buttonCueString  = 'Use the Grab Balloon Button to pick up balloon for dragging';
+
+      var balloonDescriptionPatternString = 'Balloon is at {0} {1}. {2}.';
+
+      return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, buttonCueString );
     },
 
     getLocationDescriptionString: function() {
