@@ -31,7 +31,7 @@ define( function( require ) {
   var DOWN = 'DOWN';
   var LEFT = 'LEFT';
   var RIGHT = 'RIGHT';
-  
+
   // strings
   // var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
   // var netNegativeString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/netNegative' );
@@ -88,7 +88,7 @@ define( function( require ) {
   var bottomLeftArmString = 'bottom left arm.';
 
   // now sticking to, balloon charge, sweater charge
-  var restingStringPattern = '{0}, {1}, {2}.';
+  var restingStringPattern = '{0} {1}, {2}.';
   var nowStickingToStringPattern = 'Now sticking {0}';
   var balloonChargeStringPattern = 'Balloon has a {0} charge';
   var netNegativeString = 'net negative';
@@ -214,7 +214,7 @@ define( function( require ) {
     this.buttonHightlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
         lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
         stroke: 'rgba( 250, 40, 135, 0.9 )'
-    } ); 
+    } );
 
     this.applicationHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
         lineWidth: 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude(),
@@ -223,10 +223,10 @@ define( function( require ) {
 
     // create child nodes for the sole purpose of accessibility - these are invisible but implement
     // keyboard navigation and auditory descriptions for the balloon.
-    // The balloon is represented by two elements.  A button that initiates dragging behavior, 
+    // The balloon is represented by two elements.  A button that initiates dragging behavior,
     // and a widget that can be dragged and dropped.
     // As rectangles, we get the bounds for the focus highlight
-    
+
     // this node will contain the 'Grab Balloon' button
     var accessibleButtonNode = new Rectangle( balloonImageNode.bounds, {
       accessibleContent: {
@@ -237,7 +237,7 @@ define( function( require ) {
           var domElement = document.createElement( 'button' );
 
           // @private - for easy access accross the dom
-          self.buttonElement = domElement; 
+          self.buttonElement = domElement;
 
           // the inner text of the button is the label
           var grabBalloonString = StringUtils.format( grabPatternString, options.accessibleLabel );
@@ -319,19 +319,19 @@ define( function( require ) {
             if ( model.keyState[ KEY_H ] ) {
               // blur the balloon immediately
               document.activeElement.blur();
-            
+
               keyboardHelpDialog.activeElement = self.accessibleInstances[0].peer.domElement;
               keyboardHelpDialog.shownProperty.set( true );
-            }  
+            }
           } );
 
           // update keystate
           domElement.addEventListener( 'keyup', function( event ) {
-            // update the keyState object for keyboard interaction 
+            // update the keyState object for keyboard interaction
             model.keyState[ event.keyCode || event.which ] = false;
 
             // when the user presses 'spacebar' or 'enter', release the balloon
-            // handled in keyup so spacebar isnt pressed immediately by the newly focused 
+            // handled in keyup so spacebar isnt pressed immediately by the newly focused
             // button
             if ( event.keyCode === 32 || event.keyCode === 13 ) {
 
@@ -357,12 +357,12 @@ define( function( require ) {
 
             // reset the keystate so it is fresh next time we pick up balloon
             model.keyState = {};
-          
+
           } );
 
           model.isStoppedProperty.link( function ( isStopped ) {
-            // once the balloon has reached a destination, describe its position and charge
-            if ( isStopped ) {
+            // once the charged balloon has reached a destination, describe its position and charge
+            if ( isStopped && self.model.charge < 0 ) {
               var positionDescription = self.getLocationDescriptionString();
               var positionString = StringUtils.format( nowStickingToStringPattern, positionDescription );
 
@@ -375,8 +375,7 @@ define( function( require ) {
 
               var politeElement = document.getElementById( 'polite-alert' );
               politeElement.textContent = alertString;
-
-            }            
+            }
           } );
 
           model.isDraggedProperty.link( function( isDragged ) {
@@ -426,7 +425,7 @@ define( function( require ) {
 
       }
     };
-    
+
     model.view = this;
   }
 
@@ -434,7 +433,7 @@ define( function( require ) {
 
     /**
      * Get the direction of dragging.  TODO: Do we need to handle diagonal dragging?
-     * 
+     *
      * @param  {} location
      * @param  {} oldLocations
      * @return {string}
@@ -625,7 +624,7 @@ define( function( require ) {
         }
         else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_ARM ) {
           return bottomRightArmStrinig;
-        }      
+        }
         // right sweater body strings
         else if ( bounds === BalloonLocationEnum.TOP_RIGHT_SWEATER ) {
           return topRightSweaterString;
@@ -664,7 +663,7 @@ define( function( require ) {
         }
         else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT_ARM ) {
           return bottomLeftArmString;
-        }  
+        }
 
         return 'No description for this location!';
       }

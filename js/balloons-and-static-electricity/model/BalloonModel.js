@@ -213,7 +213,7 @@ define( function( require ) {
           // as soon as the jumping key is up, stop jumping
           if ( !this.keyState[ jumpingKey ] ) {
             this.isJumping = false;
-          }         
+          }
         }
 
         else if ( this.isDragged ) {
@@ -229,7 +229,7 @@ define( function( require ) {
 
           // Temporarily replace arrow keys for WASD keys, see
           // https://github.com/phetsims/balloons-and-static-electricity/issues/108
-          
+
           // handle balloon position changes due to keyboard navigation
           // if the user presses any arrow key, pick it up immediately
           // if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
