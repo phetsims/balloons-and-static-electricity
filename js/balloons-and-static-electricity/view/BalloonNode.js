@@ -469,7 +469,7 @@ define( function( require ) {
     getVelocityDescription: function( charge ) {
       var velocityDescription = '';
 
-      var verySlowRange = new Range( 0, 14 );
+      var verySlowRange = new Range( 1, 14 );
       var slowRange = new Range( 15, 29 );
       var quickRange = new Range( 30, 44 );
       var veryQuickRange = new Range( 45, 57 );
@@ -527,7 +527,18 @@ define( function( require ) {
           toObjectString = toSweaterString;
         }
 
-        var movementDescriptionString = StringUtils.format( attractedQuicklyStringPattern, velocityDescription, toObjectString );
+        var movementDescriptionString = '';
+
+        // if the balloon is touching the wall or is on the sweater, only describe release
+        if ( this.model.getCenter().x === this.globalModel.playArea.atWall ) {
+          movementDescriptionString = '';
+        }
+        else if ( this.model.getCenter().x < this.globalModel.playArea.atSweater ) {
+          movementDescriptionString = '';
+        }
+        else {
+          movementDescriptionString = StringUtils.format( attractedQuicklyStringPattern, velocityDescription, toObjectString );
+        }
 
         descriptionString = balloonReleasedString + ' ' + movementDescriptionString;
       }
@@ -543,7 +554,6 @@ define( function( require ) {
      */
     getChargeDescription: function() {
       // no more, a few more, several more, several more
-      console.log( this.model.charge );
       if ( this.model.charge < 0 ) {
         return StringUtils.format( balloonChargeStringPattern, netNegativeString );
       }

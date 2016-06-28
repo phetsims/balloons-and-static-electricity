@@ -31,6 +31,7 @@ define( function( require ) {
     this.atCenter = 507;
     this.atNearSweater = 393;
     this.atNearWall = 577;
+    this.atSweater = 264;
 
     // width values for each collumn accross the play area
     var leftEdgeWidth = 2.1 * width / WIDTH;
@@ -44,7 +45,7 @@ define( function( require ) {
     var topHeight = 3.6 * height / HEIGHT;
     var upperHeight = 4.4 * height / HEIGHT;
     var lowerHeight = 4.4 * height / HEIGHT;
-    var bottomHeight = 3.6 * height / HEIGHT; 
+    var bottomHeight = 3.6 * height / HEIGHT;
 
     // create the rows that run horizontally down the play area'
     var x = ORIGIN.x;
@@ -109,7 +110,7 @@ define( function( require ) {
   return inherit( Bounds2, PlayArea, {
 
     /**
-     * Determine which section of the play area the location vector is. 
+     * Determine which section of the play area the location vector is.
      * @param  {Vector2} position
      * @return {string}
      */
@@ -197,7 +198,7 @@ define( function( require ) {
       }
       else if ( this.upperRow.containsPoint( position ) && this.playAreaRightColumn.containsPoint( position ) ) {
         return BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA;
-      } 
+      }
       else if ( this.upperRow.containsPoint( position ) && this.rightColumn.containsPoint( position ) ) {
         return BalloonLocationEnum.UPPER_RIGHT;
       }
