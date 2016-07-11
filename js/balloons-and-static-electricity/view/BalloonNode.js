@@ -370,8 +370,6 @@ define( function( require ) {
           } );
 
           // when the location or charge changes, update the description of the draggable widge
-          debugger;
-          var self = this;
           model.multilink( [ 'location', 'charge' ], function() {
             var newDescription = self.getBalloonDescriptionString();
 
