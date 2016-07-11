@@ -412,13 +412,8 @@ define( function( require ) {
               descriptionElement.textContent = newDescription;
             }
 
-            // when location is initialized, there is no old location
-            if ( oldLocation === null) {
-              return;
-            }
-
-            // if the link is picking up no change
-            if ( currentLocation.equals( oldLocation ) ) {
+            // only change description when oldLocation is defined and when there is a change in location
+            if ( currentLocation.equals( oldLocation ) || !oldLocation ) {
               return;
             }
 
