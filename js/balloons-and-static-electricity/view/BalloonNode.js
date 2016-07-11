@@ -89,10 +89,19 @@ define( function( require ) {
 
   // now sticking to, balloon charge, sweater charge
   var restingStringPattern = '{0} {1}, {2}.';
-  var nowStickingToStringPattern = 'Now sticking to {0}';
-  var balloonChargeStringPattern = 'Balloon has a {0} charge';
+  var nowStickingToPatternString = 'Now sticking to {0}';
+  var balloonNetChargePatternString = 'Balloon has a {0} charge';
   var netNegativeString = 'net negative';
   var netNeutralString = 'Net neutral';
+
+  // charge description strings
+  var noMoreString = 'no more';
+  var aFewMoreString = 'a few more';
+  var severalMoreString = 'several more';
+  var manyMoreString = 'many more';
+
+  var balloonComparativeChargePatternString = 'Balloon has {0} negative charges than positive ones';
+  var sweaterComparativeChargePatternString = 'Sweater has {0} positives charges than negative ones';
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -360,12 +369,29 @@ define( function( require ) {
 
           } );
 
-          // when the location or charge changes, update the description of the draggable widget
+          // when the location or charge changes, update the description of the draggable widge
+          debugger;
+          var self = this;
           model.multilink( [ 'location', 'charge' ], function() {
             var newDescription = self.getBalloonDescriptionString();
+
+            var balloonChargeDescription = self.getChargeDescriptionString( self.model.charge, balloonComparativeChargePatternString );
+            var sweaterChargeDescription = self.getChargeDescriptionString( self.globalModel.sweater.charge, sweaterComparativeChargePatternString );
+
             if ( descriptionElement.textContent !== newDescription ) {
               descriptionElement.textContent = newDescription;
             }
+
+            // build an alert to describe the charge of the balloon and sweater when the user drags the balloon
+            // along the sweater and picks up charges.
+            var politeDescriptionString = '{0}. {1}';
+            var newDescription = StringUtils.format( politeDescriptionString, balloonChargeDescription, sweaterChargeDescription );
+
+            // set the text content of the assertive alert element so that the screen reader will anounce the
+            // new charge distribution immediately
+            var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+            assertiveAlertElement.textContent = newDescription;
+
           } );
 
           domElement.addEventListener( 'blur', function( event ) {
@@ -383,10 +409,10 @@ define( function( require ) {
             // once the charged balloon has reached a destination, describe its position and charge
             if ( isStopped && self.model.charge < 0 ) {
               var releasePositionDescription = self.getLocationDescriptionString();
-              var positionString = StringUtils.format( nowStickingToStringPattern, releasePositionDescription );
+              var positionString = StringUtils.format( nowStickingToPatternString, releasePositionDescription );
 
               var sweaterChargeDescription = self.globalModel.sweater.getChargeDescription();
-              var balloonChargeDescription = self.getChargeDescriptionString();
+              var balloonChargeDescription = self.getChargeNeutralityDescriptionString();
 
               // build the description string
               var alertString = StringUtils.format( restingStringPattern, positionString, sweaterChargeDescription, balloonChargeDescription );
@@ -400,9 +426,9 @@ define( function( require ) {
             if ( isDragged ) {
               model.isStoppedProperty.set( false );
 
-              // assemble the descripion of the balloon once it is picked up, perspective 2 from
+              // assemble the descripion of the balloon once it is picked up, perspective 1 from
               // https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=1538722405
-              // var grabbedDescription = self.getGrabbedDescription();
+              var grabbedDescription = self.getGrabbedDescription();
             }
             else {
               var releaseDescription = self.getReleaseDescription();
@@ -483,6 +509,22 @@ define( function( require ) {
       else {
         assert && assert( 'case not supported in getDraggingDirection' );
       }
+    },
+
+    /**
+     * Get a description of the balloon once it has been grabbed for dragging
+     * The order of the description should be location, charge information, description of closest object
+     *
+     * @return {type}  description
+     */
+    getGrabbedDescription: function() {
+      var locationDescription = this.getLocationDescriptionString();
+
+      // var balloonChargeDescription = this.getChargeDescriptionString( this.model.charge, balloonComparativeChargePatternString );
+      //
+      // var sweaterChargeDescription = this.getChargeDescriptionString( this.globalModel.sweater.charge, sweaterComparativeChargePatternString );
+      // console.log( balloonChargeDescription );
+      // console.log( sweaterChargeDescription );
     },
 
     /**
@@ -572,18 +614,51 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the charge on the balloon
-     * For now, this is just relative based on neutrality
+     * Get a description of the relative neutrality of the balloon's charge
      * @return {string}
      */
-    getChargeDescriptionString: function() {
-      // no more, a few more, several more, several more
+    getChargeNeutralityDescriptionString: function() {
       if ( this.model.charge < 0 ) {
-        return StringUtils.format( balloonChargeStringPattern, netNegativeString );
+        return StringUtils.format( balloonNetChargePatternString, netNegativeString );
       }
       else {
-        return StringUtils.format( balloonChargeStringPattern, netNeutralString );
+        return StringUtils.format( balloonNetChargePatternString, netNeutralString );
       }
+    },
+
+    /**
+     * Get a description of the object charge.
+     *
+     * @return {type}  description
+     */
+    getChargeDescriptionString: function( charge, stringPattern ) {
+      var chargeDescriptionString = '';
+      // no more, a few more, several more, many more
+      // there are a total of 57 charges, so the three charge levels should split this up evenly
+      // the map is split by 19.
+
+      // switch case by abs value of charge for clarity
+      var absCharge = Math.abs( charge );
+
+      // max charges the balloon can hold - split by four so that each of the four
+      // categories of qualitative descriptions are provided.
+      var maxCharge = 57;
+      if ( absCharge === 0 ) {
+        chargeDescriptionString = noMoreString;
+      }
+      else if ( absCharge <= 19 ) {
+        chargeDescriptionString = aFewMoreString;
+      }
+      else if ( absCharge <= 38 ) {
+        chargeDescriptionString = severalMoreString;
+      }
+      else if ( absCharge <= 57 ) {
+        chargeDescriptionString = manyMoreString
+      }
+      else {
+        assert && assert( false, 'Trying to create description for unsuported number of charges' );
+      }
+      return StringUtils.format( stringPattern, chargeDescriptionString );
     },
 
     /**
@@ -594,7 +669,7 @@ define( function( require ) {
      */
     getBalloonDescriptionString: function() {
       var locationDescription = this.getLocationDescriptionString();
-      var chargeDescription = this.getChargeDescriptionString();
+      var chargeDescription = this.getChargeNeutralityDescriptionString();
       var buttonCueString  = 'Use the Grab Balloon Button to pick up balloon for dragging';
 
       var balloonDescriptionPatternString = 'Balloon is at {0} {1}. {2}.';

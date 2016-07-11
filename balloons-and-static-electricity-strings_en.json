@@ -47,7 +47,7 @@
   },
   "balloonToggleButton.description": {
     "value": "Play with two balloons, or just one.",
-    "visible": false  
+    "visible": false
   },
   "yellowBalloon.label": {
     "value": "Yellow Balloon",
@@ -59,7 +59,7 @@
   },
   "grabPattern": {
     "value": "Grab {0}",
-    "visible": false 
+    "visible": false
   },
   "greenBalloonRemoved": {
     "value": "Green balloon removed from Play Area",
