@@ -370,7 +370,7 @@ define( function( require ) {
           } );
 
           // when the location or charge changes, update the description of the draggable widge
-          model.multilink( [ 'location', 'charge' ], function() {
+          model.chargeProperty.link( function() {
             var newDescription = self.getBalloonDescriptionString();
 
             var balloonChargeDescription = self.getChargeDescriptionString( self.model.charge, balloonComparativeChargePatternString );
@@ -390,6 +390,14 @@ define( function( require ) {
             var assertiveAlertElement = document.getElementById( 'assertive-alert' );
             assertiveAlertElement.textContent = alertString;
 
+          } );
+
+          model.locationProperty.link( function() {
+            var newDescription = self.getBalloonDescriptionString();
+
+            if ( descriptionElement.textContent !== newDescription ) {
+              descriptionElement.textContent = newDescription;
+            }
           } );
 
           domElement.addEventListener( 'blur', function( event ) {
