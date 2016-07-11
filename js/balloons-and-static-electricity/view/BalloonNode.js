@@ -67,6 +67,12 @@ define( function( require ) {
   var lowerWallString = 'lower wall.';
   var bottomRightCornerWallString = 'bottom right corner of wall.';
 
+  var rightOfPlayAreaString = 'right of play area';
+  var topOfPlayAreaString = 'top of play area';
+  var bottomOfPlayAreaString = 'bottom of play area';
+  var sweaterString = 'sweater';
+  var wallString = 'wall';
+
   var topRightArmString = 'top right arm.';
   var upperRightArmString = 'upper right arm. ';
   var lowerRightArmString = 'lower right arm.';
@@ -102,6 +108,13 @@ define( function( require ) {
 
   var balloonComparativeChargePatternString = 'Balloon has {0} negative charges than positive ones';
   var sweaterComparativeChargePatternString = 'Sweater has {0} positives charges than negative ones';
+
+  var leftString = 'left';
+  var rightString = 'right';
+  var upString = 'up';
+  var downString = 'down';
+
+  var balloonDirectionPatternString = '{0}, {1} towards {2}.';
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -392,12 +405,57 @@ define( function( require ) {
 
           } );
 
-          model.locationProperty.link( function() {
+          model.locationProperty.link( function( currentLocation, oldLocation ) {
             var newDescription = self.getBalloonDescriptionString();
 
             if ( descriptionElement.textContent !== newDescription ) {
               descriptionElement.textContent = newDescription;
             }
+
+            // when location is initialized, there is no old location
+            if ( oldLocation === null) {
+              return;
+            }
+
+            // if the link is picking up no change
+            if ( currentLocation.equals( oldLocation ) ) {
+              return;
+            }
+
+            var xDirection = currentLocation.x - oldLocation.x;
+            var yDirection = currentLocation.y - oldLocation.y;
+
+            var direction;
+            var place;
+
+            if ( xDirection < 0 ) {
+              // going left
+              direction = leftString;
+              place = sweaterString;
+            }
+            else if ( xDirection > 0 ) {
+              // going right
+              direction = rightString;
+              place = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
+
+            }
+            else if ( yDirection < 0 ) {
+              // going up
+              direction = upString;
+              place = topOfPlayAreaString;
+            }
+            else if ( yDirection > 0 ) {
+              // going down
+              direction = downString;
+              place = bottomOfPlayAreaString;
+            }
+
+            var alertString = StringUtils.format( balloonDirectionPatternString, options.accessibleLabel, direction, place );
+
+            // set the text content of the assertive alert element so that the screen reader will anounce the
+            // new direction immediately
+            var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+            assertiveAlertElement.textContent = alertString;
           } );
 
           domElement.addEventListener( 'blur', function( event ) {
