@@ -383,12 +383,12 @@ define( function( require ) {
             // build an alert to describe the charge of the balloon and sweater when the user drags the balloon
             // along the sweater and picks up charges.
             var politeDescriptionString = '{0}. {1}';
-            var newDescription = StringUtils.format( politeDescriptionString, balloonChargeDescription, sweaterChargeDescription );
+            var alertString = StringUtils.format( politeDescriptionString, balloonChargeDescription, sweaterChargeDescription );
 
             // set the text content of the assertive alert element so that the screen reader will anounce the
             // new charge distribution immediately
             var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-            assertiveAlertElement.textContent = newDescription;
+            assertiveAlertElement.textContent = alertString;
 
           } );
 
