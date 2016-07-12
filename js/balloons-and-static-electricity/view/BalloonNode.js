@@ -113,8 +113,22 @@ define( function( require ) {
   var rightString = 'right';
   var upString = 'up';
   var downString = 'down';
-
   var balloonDirectionPatternString = '{0}, {1} towards {2}.';
+
+  // approaching strings
+  var closerString = 'Closer.';
+  var atEdgeOfSweaterString = 'At edge of sweater.';
+  var centerOfPlayAreaString = 'Center of play area';
+  var nearWallString = 'Near wall.'
+
+  // location alerts
+  var onSweaterString = 'on sweater.';
+  var atWallString = 'at wall';
+  var atFarLeftString = 'at far left of Play Area';
+  var atFarRightString = 'at far right of play area';
+  var atTopOfPlayArea = 'at top of play area';
+  var atBottomOfPlayArea = 'at bottom of play area';
+
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -422,49 +436,16 @@ define( function( require ) {
             var placeString; // string describing object balloon is traveling toward
             var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
             if ( self.direction !== newDirection ) {
+
+              // this is the first movement of this drag interaction, which gets a unique description
               self.direction = newDirection;
-              if ( self.direction === LEFT ) {
-                // going left
-                directionString = leftString;
-                placeString = sweaterString;
-              }
-              else if ( self.direction === RIGHT ) {
-                // going right
-                directionString = rightString;
-                placeString = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
-
-              }
-              else if ( self.direction === UP ) {
-                // going up
-                directionString = upString;
-                placeString = topOfPlayAreaString;
-              }
-              else if ( self.direction === DOWN ) {
-                // going down
-                directionString = downString;
-                placeString = bottomOfPlayAreaString;
-              }
-
-              // if this is the initial drag, predicate is the accessible label - otherwise 'now'
-              var predicate;
-              if ( self.initialGrab ) {
-                predicate = options.accessibleLabel;
-                self.initialGrab = false;
-              }
-              else {
-                predicate = 'Now';
-              }
-              var alertString = StringUtils.format( balloonDirectionPatternString, predicate, directionString, placeString );
-              console.log( alertString );
+              var initialGrabDescription = this.getFirstDragDescription();
 
               // set the text content of the assertive alert element so that the screen reader will anounce the
               // new direction immediately
               var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-              assertiveAlertElement.textContent = alertString;
+              assertiveAlertElement.textContent = initialGrabDescription;
             }
-
-
-
           } );
 
           domElement.addEventListener( 'blur', function( event ) {
@@ -685,6 +666,49 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    /**
+     * Get a description of the balloon after the first movement once it has been picked up.
+     * This description should include the balloon label, the direction of movement, and the object the
+     * balloon is moving toward.  Subsequent descriptions in this direction will only include the direction
+     * of movement.
+     *
+     * @return {string}
+     */
+    getFirstDragDescription: function() {
+      if ( self.direction === LEFT ) {
+        // going left
+        directionString = leftString;
+        placeString = sweaterString;
+      }
+      else if ( self.direction === RIGHT ) {
+        // going right
+        directionString = rightString;
+        placeString = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
+
+      }
+      else if ( self.direction === UP ) {
+        // going up
+        directionString = upString;
+        placeString = topOfPlayAreaString;
+      }
+      else if ( self.direction === DOWN ) {
+        // going down
+        directionString = downString;
+        placeString = bottomOfPlayAreaString;
+      }
+
+      // if this is the initial drag, predicate is the accessible label - otherwise 'now'
+      var predicate;
+      if ( self.initialGrab ) {
+        predicate = options.accessibleLabel;
+        self.initialGrab = false;
+      }
+      else {
+        predicate = 'Now';
+      }
+      return StringUtils.format( balloonDirectionPatternString, predicate, directionString, placeString );
     },
 
     /**
