@@ -141,6 +141,7 @@ define( function( require ) {
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
     this.initialGrab = true;
+    this.direction = ''; // the direction of movement of the balloon
 
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
@@ -413,44 +414,57 @@ define( function( require ) {
             }
 
             // only change description when oldLocation is defined and when there is a change in location
-            if ( currentLocation.equals( oldLocation ) || !oldLocation ) {
+            if ( !oldLocation || currentLocation.equals( oldLocation ) ) {
               return;
             }
 
-            var xDirection = currentLocation.x - oldLocation.x;
-            var yDirection = currentLocation.y - oldLocation.y;
+            var directionString; // string desccribing
+            var placeString; // string describing object balloon is traveling toward
+            var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
+            if ( self.direction !== newDirection ) {
+              self.direction = newDirection;
+              if ( self.direction === LEFT ) {
+                // going left
+                directionString = leftString;
+                placeString = sweaterString;
+              }
+              else if ( self.direction === RIGHT ) {
+                // going right
+                directionString = rightString;
+                placeString = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
 
-            var direction;
-            var place;
+              }
+              else if ( self.direction === UP ) {
+                // going up
+                directionString = upString;
+                placeString = topOfPlayAreaString;
+              }
+              else if ( self.direction === DOWN ) {
+                // going down
+                directionString = downString;
+                placeString = bottomOfPlayAreaString;
+              }
 
-            if ( xDirection < 0 ) {
-              // going left
-              direction = leftString;
-              place = sweaterString;
+              // if this is the initial drag, predicate is the accessible label - otherwise 'now'
+              var predicate;
+              if ( self.initialGrab ) {
+                predicate = options.accessibleLabel;
+                self.initialGrab = false;
+              }
+              else {
+                predicate = 'Now';
+              }
+              var alertString = StringUtils.format( balloonDirectionPatternString, predicate, directionString, placeString );
+              console.log( alertString );
+
+              // set the text content of the assertive alert element so that the screen reader will anounce the
+              // new direction immediately
+              var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+              assertiveAlertElement.textContent = alertString;
             }
-            else if ( xDirection > 0 ) {
-              // going right
-              direction = rightString;
-              place = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
 
-            }
-            else if ( yDirection < 0 ) {
-              // going up
-              direction = upString;
-              place = topOfPlayAreaString;
-            }
-            else if ( yDirection > 0 ) {
-              // going down
-              direction = downString;
-              place = bottomOfPlayAreaString;
-            }
 
-            var alertString = StringUtils.format( balloonDirectionPatternString, options.accessibleLabel, direction, place );
 
-            // set the text content of the assertive alert element so that the screen reader will anounce the
-            // new direction immediately
-            var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-            assertiveAlertElement.textContent = alertString;
           } );
 
           domElement.addEventListener( 'blur', function( event ) {
@@ -494,6 +508,7 @@ define( function( require ) {
 
               // set the 'aria-grabbed' attribute back to false
               self.domElement.setAttribute( 'aria-grabbed', false );
+              self.initialGrab = true;
 
               var politeElement = document.getElementById( 'polite-alert' );
               politeElement.textContent = releaseDescription;
@@ -566,7 +581,7 @@ define( function( require ) {
         return DOWN;
       }
       else {
-        assert && assert( 'case not supported in getDraggingDirection' );
+          assert && assert( 'case not supported in getDraggingDirection' );
       }
     },
 
@@ -705,14 +720,14 @@ define( function( require ) {
       if ( absCharge === 0 ) {
         chargeDescriptionString = noMoreString;
       }
-      else if ( absCharge <= 19 ) {
+      else if ( absCharge <= maxCharge / 3 ) {
         chargeDescriptionString = aFewMoreString;
       }
-      else if ( absCharge <= 38 ) {
+      else if ( absCharge <= 2 * maxCharge / 3 ) {
         chargeDescriptionString = severalMoreString;
       }
-      else if ( absCharge <= 57 ) {
-        chargeDescriptionString = manyMoreString
+      else if ( absCharge <= maxCharge ) {
+        chargeDescriptionString = manyMoreString;
       }
       else {
         assert && assert( false, 'Trying to create description for unsuported number of charges' );
