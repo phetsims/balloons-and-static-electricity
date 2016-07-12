@@ -128,6 +128,9 @@ define( function( require ) {
   var atFarRightString = 'at far right of play area';
   var atTopOfPlayArea = 'at top of play area';
   var atBottomOfPlayArea = 'at bottom of play area';
+  var closerString = 'closer';
+  var gettingThereString = 'getting there';
+  var almostThereString = 'almost there';
 
 
   // constants
@@ -154,8 +157,11 @@ define( function( require ) {
     this.globalModel = globalModel;
 
     this.accessibleId = this.id; // @private, for identifying the representation of this node in the accessibility tree.
+
+    // TODO: these should be maintained by the model
     this.initialGrab = true;
     this.direction = ''; // the direction of movement of the balloon
+    this.playAreaRegion = this.globalModel.playArea.getPointBounds( this.model.getCenter() );
 
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
@@ -277,7 +283,7 @@ define( function( require ) {
           self.buttonElement = domElement;
 
           // the inner text of the button is the label
-          var grabBalloonString = StringUtils.format( grabPatternString, options.accessibleLabel );
+          var grabBalloonString = StringUtils.format( grabPatternString, self.accessibleLabel );
           domElement.textContent = grabBalloonString;
 
           // pick up the balloon for dragging when the button is clicked
@@ -331,7 +337,7 @@ define( function( require ) {
           domElement.setAttribute( 'data-polite', true );
 
           // add the label
-          domElement.setAttribute( 'aria-label', options.accessibleLabel );
+          domElement.setAttribute( 'aria-label', self.accessibleLabel );
 
           // @private - for easy access accross dom elements
           self.dragElement = domElement;
@@ -342,7 +348,7 @@ define( function( require ) {
           // create the accessible label for the draggable balloon
           var labelElement = document.createElement( 'h3' );
           labelElement.id = 'balloon-label-' + uniqueID;
-          labelElement.textContent = options.accessibleLabel;
+          labelElement.textContent = self.accessibleLabel;
           domElement.setAttribute( 'aria-labelledby', labelElement.id );
           domElement.appendChild( labelElement );
 
@@ -432,19 +438,30 @@ define( function( require ) {
               return;
             }
 
-            var directionString; // string desccribing
-            var placeString; // string describing object balloon is traveling toward
             var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
             if ( self.direction !== newDirection ) {
 
               // this is the first movement of this drag interaction, which gets a unique description
               self.direction = newDirection;
-              var initialGrabDescription = this.getFirstDragDescription();
+              var initialGrabDescription = self.getFirstDragDescription();
+              console.log( initialGrabDescription );
 
               // set the text content of the assertive alert element so that the screen reader will anounce the
               // new direction immediately
               var assertiveAlertElement = document.getElementById( 'assertive-alert' );
               assertiveAlertElement.textContent = initialGrabDescription;
+            }
+            else {
+
+              // for continued movement in the same direction, announce a more succinct description of direction
+              // of movement and location
+              var continuedMovementDescription = self.getContinuedDragDescription();
+              console.log( continuedMovementDescription );
+
+              // set the text content of the polite alert element so that the screen reader will anounce the
+              // the update when the assertive alert is complete
+              var politeElement = document.getElementById( 'polite-alert' );
+              politeElement.textContent = continuedMovementDescription;
             }
           } );
 
@@ -677,23 +694,25 @@ define( function( require ) {
      * @return {string}
      */
     getFirstDragDescription: function() {
-      if ( self.direction === LEFT ) {
+      var directionString;
+      var placeString; // string describing object balloon is traveling toward
+      if ( this.direction === LEFT ) {
         // going left
         directionString = leftString;
         placeString = sweaterString;
       }
-      else if ( self.direction === RIGHT ) {
+      else if ( this.direction === RIGHT ) {
         // going right
         directionString = rightString;
-        placeString = self.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
+        placeString = this.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
 
       }
-      else if ( self.direction === UP ) {
+      else if ( this.direction === UP ) {
         // going up
         directionString = upString;
         placeString = topOfPlayAreaString;
       }
-      else if ( self.direction === DOWN ) {
+      else if ( this.direction === DOWN ) {
         // going down
         directionString = downString;
         placeString = bottomOfPlayAreaString;
@@ -701,14 +720,67 @@ define( function( require ) {
 
       // if this is the initial drag, predicate is the accessible label - otherwise 'now'
       var predicate;
-      if ( self.initialGrab ) {
-        predicate = options.accessibleLabel;
-        self.initialGrab = false;
+      if ( this.initialGrab ) {
+        predicate = this.accessibleLabel;
+        this.initialGrab = false;
       }
       else {
         predicate = 'Now';
       }
       return StringUtils.format( balloonDirectionPatternString, predicate, directionString, placeString );
+    },
+
+    /**
+     * Get a succinct description about the direction of movement of the balloon.  This should only be used if
+     * the balloon is moving in the same direction
+     *
+     * @return {string}
+     */
+    getContinuedDragDescription: function() {
+      var newRegion = this.globalModel.playArea.getPointBounds( this.model.getCenter() );
+
+      var description = '';
+      if ( newRegion !== this.playAreaRegion ) {
+        // in a new region, anounce when we are close, getting there, or almost there
+
+        var atLeftMovingRight = this.model.getCenter().x < this.globalModel.playArea.atCenter && this.direction === RIGHT;
+        var atRightMovingLeft = this.model.getCenter().x > this.globalModel.playArea.atCenter && this.direction === LEFT;
+        var atBottomMovingLeft = this.globalModel.playArea.bottomRow.containsPoint( this.model.getCenter() ) && this.direction === UP;
+        var atTopMovingDown = this.globalModel.playArea.topRow.containsPoint( this.model.getCenter() ) && this.direction === DOWN;
+
+        var rightColumn = this.globalModel.playArea.playAreaRightColumn;
+        var leftColumn = this.globalModel.playArea.playAreaLeftColumn;
+        var lowerRow = this.globalModel.playArea.lowerRow;
+        var upperRow = this.globalModel.playArea.upperRow;
+        var centerColumn = this.globalModel.playArea.playAreaCenterColumn;
+        var crossingLeft = this.direction === LEFT && centerColumn.containsPoint( this.model.getCenter() );
+        var crossingRight = this.direction === RIGHT && centerColumn.containsPoint( this.model.getCenter() );
+        var crossingUp = this.direction === UP && upperRow.containsPoint( this.model.getCenter() );
+        var crossingDown = this.direction === DOWN && lowerRow.containsPoint( this.model.getCenter() );
+
+        var almostToWall = this.direction === RIGHT && rightColumn.containsPoint( this.model.getCenter() );
+        var almostToSweater = this.direction === LEFT && leftColumn.containsPoint( this.model.getCenter() );
+
+        if ( atLeftMovingRight || atRightMovingLeft || atBottomMovingLeft || atTopMovingDown ) {
+
+          // if on the right/left/bottom/top) side of the screen and moving to the left/right/top/bottom, notify
+          // that the balloon is getting 'closer'
+          description = closerString;
+        }
+        else if ( crossingLeft || crossingRight || crossingUp || crossingDown ) {
+
+          // if crossing through the center of the play area in any direction, announce that the balloo
+          // is 'getting there'
+          description = gettingThereString;
+        }
+        else if ( almostToWall || almostToSweater ) {
+
+          // if moving into the left or right play area columns, announce that the balloon is 'almost there'
+          description = almostThereString;
+        }
+      }
+      this.playAreaRegion = newRegion;
+      return description;
     },
 
     /**
