@@ -512,7 +512,6 @@ define( function( require ) {
             }
             else {
               var releaseDescription = self.getReleaseDescription();
-              console.log( releaseDescription );
               // set the 'aria-grabbed' attribute back to false
               self.domElement.setAttribute( 'aria-grabbed', false );
 
