@@ -14,6 +14,8 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
+  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
 
   // constants
   var KEY_S = 83; // keycode for 's'
@@ -125,6 +127,7 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
+    this.direction = ''; // the direction of movement of the balloon
 
     //neutral pair of charges
     this.positionsOfStartCharges.forEach( function( entry ) {
@@ -318,6 +321,39 @@ define( function( require ) {
         retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.charge );
       }
       return retValue;
+    },
+
+    /**
+     * Get the object that the balloon is touching.  If the balloon is in free space, return null.
+     *
+     * @return {type}  description
+     */
+    getBoundaryObject: function() {
+      var playArea = this.balloonsAndStaticElectricityModel.playArea;
+      var balloonCenter = this.getCenter();
+      var centerX = balloonCenter.x;
+      if ( !this.balloonsAndStaticElectricityModel.wall.isVisible && centerX === playArea.atRightEdgeOfPlayArea ) {
+        return BalloonLocationEnum.RIGHT_EDGE;
+      }
+      else if ( playArea.leftColumn.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.LEFT_EDGE;
+      }
+      else if ( playArea.topRow.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.TOP_EDGE;
+      }
+      else if ( playArea.bottomRow.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.BOTTOM_EDGE;
+      }
+      else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.direction === BalloonDirectionEnum.LEFT ) {
+        // only announce that we are on the sweater if we are moving left
+        return BalloonLocationEnum.ON_SWEATER
+      }
+      else if ( playArea.atWall === centerX ) {
+        return BalloonLocationEnum.AT_WALL;
+      }
+      else {
+        return null;
+      }
     }
   } );
 

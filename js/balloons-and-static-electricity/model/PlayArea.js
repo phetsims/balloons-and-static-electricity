@@ -25,13 +25,20 @@ define( function( require ) {
     // total bounds of the play area
     Bounds2.call( this, ORIGIN.x, ORIGIN.y, width, height );
 
-    // collection of critical points in the play area
+    // collection of critical x points in the play area
     // @public (read-only) - at the wall
     this.atWall = 621;
     this.atCenter = 507;
     this.atNearSweater = 393;
     this.atNearWall = 577;
-    this.atSweater = 264;
+    this.atSweater = 393;
+    this.atRightEdgeOfPlayArea = 701;
+    this.atLeftEdgeOfPlayArea = 67;
+
+    // collection of critical y points in the play area
+    this.atTopOfPlayArea = 118;
+    this.atBottomOfPlayArea = 393;
+
 
     // width values for each collumn accross the play area
     var leftEdgeWidth = 2.1 * width / WIDTH;

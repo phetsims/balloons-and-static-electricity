@@ -1,7 +1,9 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Possible locations of the balloon in Balloons and Static Electricity, mapped.
+ * Possible locations of the balloon in Balloons and Static Electricity.  In addition, there are more values that
+ * signify when the balloon is along a certain object or edge of the play area.
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -43,7 +45,14 @@ define( function( require ) {
     BOTTOM_LEFT: 'BOTTOM_LEFT',
     LOWER_LEFT: 'LOWER_LEFT',
     UPPER_LEFT: 'UPPER_LEFT',
-    TOP_LEFT:'TOP_LEFT'
+    TOP_LEFT: 'TOP_LEFT',
+
+    LEFT_EDGE: 'LEFT_EDGE',
+    RIGHT_EDGE: 'RIGHT_EDGE',
+    TOP_EDGE: 'TOP_EDGE',
+    BOTTOM_EDGE: 'BOTTOM_EDGE',
+    AT_WALL: 'AT_WALL',
+    ON_SWEATER: 'ON_SWEATER'
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

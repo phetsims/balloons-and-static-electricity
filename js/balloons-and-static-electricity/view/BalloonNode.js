@@ -25,12 +25,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
-
-  // constants - to monitor the direction of dragging
-  var UP = 'UP';
-  var DOWN = 'DOWN';
-  var LEFT = 'LEFT';
-  var RIGHT = 'RIGHT';
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
 
   // strings
   // var neutralString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/neutral' );
@@ -107,7 +102,7 @@ define( function( require ) {
   var manyMoreString = 'many more';
 
   var balloonComparativeChargePatternString = 'Balloon has {0} negative charges than positive ones';
-  var sweaterComparativeChargePatternString = 'Sweater has {0} positives charges than negative ones';
+  var sweaterComparativeChargePatternString = 'Sweater has {0} positive charges than negative ones';
 
   var leftString = 'left';
   var rightString = 'right';
@@ -118,20 +113,16 @@ define( function( require ) {
   // approaching strings
   var closerString = 'Closer.';
   var atEdgeOfSweaterString = 'At edge of sweater.';
-  var centerOfPlayAreaString = 'Center of play area';
-  var nearWallString = 'Near wall.'
+  var nearWallString = 'Near wall.';
 
   // location alerts
   var onSweaterString = 'on sweater.';
   var atWallString = 'at wall';
-  var atFarLeftString = 'at far left of Play Area';
-  var atFarRightString = 'at far right of play area';
-  var atTopOfPlayArea = 'at top of play area';
-  var atBottomOfPlayArea = 'at bottom of play area';
-  var closerString = 'closer';
+  var atLeftEdgeOfPlayAreaString = 'at far left of Play Area';
+  var atRightEdgeOfPlayAreaString = 'at far right of play area';
+  var atTopOfPlayAreaString = 'at top of play area';
+  var atBottomOfPlayAreaString = 'at bottom of play area';
   var gettingThereString = 'getting there';
-  var almostThereString = 'almost there';
-
 
   // constants
   var KEY_J = 74; // keycode for the 'j' key
@@ -160,8 +151,9 @@ define( function( require ) {
 
     // TODO: these should be maintained by the model
     this.initialGrab = true;
-    this.direction = ''; // the direction of movement of the balloon
+    // this.model.direction = ''; // the direction of movement of the balloon
     this.playAreaRegion = this.globalModel.playArea.getPointBounds( this.model.getCenter() );
+    this.boundingObject = null; // object the balloon is touching, including bounding edges of the play area
 
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
@@ -428,6 +420,8 @@ define( function( require ) {
 
           model.locationProperty.link( function( currentLocation, oldLocation ) {
             var newDescription = self.getBalloonDescriptionString();
+            var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+
 
             if ( descriptionElement.textContent !== newDescription ) {
               descriptionElement.textContent = newDescription;
@@ -439,16 +433,28 @@ define( function( require ) {
             }
 
             var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
-            if ( self.direction !== newDirection ) {
+            var newBoundingObject = self.model.getBoundaryObject();
+
+            // if the balloon touches a boundary or a new object, that should be the most assertive update
+            if ( self.boundingObject !== newBoundingObject ) {
+              self.boundingObject = newBoundingObject;
+
+              if ( newBoundingObject ) {
+                var touchingObjectAlert = self.getBoundingLocationDescription();
+
+                assertiveAlertElement.textContent = touchingObjectAlert;
+                return;
+              }
+            }
+
+            if ( self.model.direction !== newDirection ) {
 
               // this is the first movement of this drag interaction, which gets a unique description
-              self.direction = newDirection;
+              self.model.direction = newDirection;
               var initialGrabDescription = self.getFirstDragDescription();
-              console.log( initialGrabDescription );
 
               // set the text content of the assertive alert element so that the screen reader will anounce the
               // new direction immediately
-              var assertiveAlertElement = document.getElementById( 'assertive-alert' );
               assertiveAlertElement.textContent = initialGrabDescription;
             }
             else {
@@ -456,7 +462,6 @@ define( function( require ) {
               // for continued movement in the same direction, announce a more succinct description of direction
               // of movement and location
               var continuedMovementDescription = self.getContinuedDragDescription();
-              console.log( continuedMovementDescription );
 
               // set the text content of the polite alert element so that the screen reader will anounce the
               // the update when the assertive alert is complete
@@ -494,22 +499,24 @@ define( function( require ) {
           } );
 
           model.isDraggedProperty.link( function( isDragged ) {
+            var assertiveElement = document.getElementById( 'assertive-alert' );
+            self.initialGrab = true;
+
             if ( isDragged ) {
               model.isStoppedProperty.set( false );
 
               // assemble the descripion of the balloon once it is picked up, perspective 1 from
               // https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=1538722405
               var grabbedDescription = self.getGrabbedDescription();
+
             }
             else {
               var releaseDescription = self.getReleaseDescription();
-
+              console.log( releaseDescription );
               // set the 'aria-grabbed' attribute back to false
               self.domElement.setAttribute( 'aria-grabbed', false );
-              self.initialGrab = true;
 
-              var politeElement = document.getElementById( 'polite-alert' );
-              politeElement.textContent = releaseDescription;
+              assertiveElement.textContent = releaseDescription;
             }
           } );
 
@@ -567,16 +574,16 @@ define( function( require ) {
       var deltaY = location.y - oldLocation.y;
 
       if ( deltaX > 0 ) {
-        return RIGHT;
+        return BalloonDirectionEnum.RIGHT;
       }
       else if ( deltaX < 0 ) {
-        return LEFT;
+        return BalloonDirectionEnum.LEFT;
       }
       else if ( deltaY < 0 ) {
-        return UP;
+        return BalloonDirectionEnum.UP;
       }
       else if ( deltaY > 0 ) {
-        return DOWN;
+        return BalloonDirectionEnum.DOWN;
       }
       else {
           assert && assert( 'case not supported in getDraggingDirection' );
@@ -696,23 +703,23 @@ define( function( require ) {
     getFirstDragDescription: function() {
       var directionString;
       var placeString; // string describing object balloon is traveling toward
-      if ( this.direction === LEFT ) {
+      if ( this.model.direction === BalloonDirectionEnum.LEFT ) {
         // going left
         directionString = leftString;
         placeString = sweaterString;
       }
-      else if ( this.direction === RIGHT ) {
+      else if ( this.model.direction === BalloonDirectionEnum.RIGHT ) {
         // going right
         directionString = rightString;
         placeString = this.globalModel.wall.isVisible ? wallString : rightOfPlayAreaString;
 
       }
-      else if ( this.direction === UP ) {
+      else if ( this.model.direction === BalloonDirectionEnum.UP ) {
         // going up
         directionString = upString;
         placeString = topOfPlayAreaString;
       }
-      else if ( this.direction === DOWN ) {
+      else if ( this.model.direction === BalloonDirectionEnum.DOWN ) {
         // going down
         directionString = downString;
         placeString = bottomOfPlayAreaString;
@@ -743,23 +750,25 @@ define( function( require ) {
       if ( newRegion !== this.playAreaRegion ) {
         // in a new region, anounce when we are close, getting there, or almost there
 
-        var atLeftMovingRight = this.model.getCenter().x < this.globalModel.playArea.atCenter && this.direction === RIGHT;
-        var atRightMovingLeft = this.model.getCenter().x > this.globalModel.playArea.atCenter && this.direction === LEFT;
-        var atBottomMovingLeft = this.globalModel.playArea.bottomRow.containsPoint( this.model.getCenter() ) && this.direction === UP;
-        var atTopMovingDown = this.globalModel.playArea.topRow.containsPoint( this.model.getCenter() ) && this.direction === DOWN;
+        var atEdgeOfSweater = this.globalModel.playArea.playAreaLeftColumn.containsPoint( this.model.getCenter() );
+        var atLeftMovingRight = this.model.getCenter().x < this.globalModel.playArea.atCenter && this.model.direction === BalloonDirectionEnum.RIGHT;
+        var atRightMovingLeft = this.model.getCenter().x > this.globalModel.playArea.atCenter && this.model.direction === BalloonDirectionEnum.LEFT;
+        var atBottomMovingLeft = this.globalModel.playArea.bottomRow.containsPoint( this.model.getCenter() ) && this.model.direction === BalloonDirectionEnum.UP;
+        var atTopMovingDown = this.globalModel.playArea.topRow.containsPoint( this.model.getCenter() ) && this.model.direction === BalloonDirectionEnum.DOWN;
 
         var rightColumn = this.globalModel.playArea.playAreaRightColumn;
         var leftColumn = this.globalModel.playArea.playAreaLeftColumn;
         var lowerRow = this.globalModel.playArea.lowerRow;
         var upperRow = this.globalModel.playArea.upperRow;
         var centerColumn = this.globalModel.playArea.playAreaCenterColumn;
-        var crossingLeft = this.direction === LEFT && centerColumn.containsPoint( this.model.getCenter() );
-        var crossingRight = this.direction === RIGHT && centerColumn.containsPoint( this.model.getCenter() );
-        var crossingUp = this.direction === UP && upperRow.containsPoint( this.model.getCenter() );
-        var crossingDown = this.direction === DOWN && lowerRow.containsPoint( this.model.getCenter() );
+        var crossingLeft = this.model.direction === BalloonDirectionEnum.LEFT && centerColumn.containsPoint( this.model.getCenter() );
+        var crossingRight = this.model.direction === BalloonDirectionEnum.RIGHT && centerColumn.containsPoint( this.model.getCenter() );
+        var crossingUp = this.model.direction === BalloonDirectionEnum.UP && upperRow.containsPoint( this.model.getCenter() );
+        var crossingDown = this.model.direction === BalloonDirectionEnum.DOWN && lowerRow.containsPoint( this.model.getCenter() );
+        var crossingCenter = centerColumn.containsPoint( this.model.getCenter() );
 
-        var almostToWall = this.direction === RIGHT && rightColumn.containsPoint( this.model.getCenter() );
-        var almostToSweater = this.direction === LEFT && leftColumn.containsPoint( this.model.getCenter() );
+        var almostToWall = this.model.direction === BalloonDirectionEnum.RIGHT && rightColumn.containsPoint( this.model.getCenter() );
+        var almostToSweater = this.model.direction === BalloonDirectionEnum.LEFT && leftColumn.containsPoint( this.model.getCenter() );
 
         if ( atLeftMovingRight || atRightMovingLeft || atBottomMovingLeft || atTopMovingDown ) {
 
@@ -767,20 +776,60 @@ define( function( require ) {
           // that the balloon is getting 'closer'
           description = closerString;
         }
-        else if ( crossingLeft || crossingRight || crossingUp || crossingDown ) {
+        else if ( crossingCenter || crossingUp || crossingDown ) {
 
           // if crossing through the center of the play area in any direction, announce that the balloo
           // is 'getting there'
           description = gettingThereString;
         }
-        else if ( almostToWall || almostToSweater ) {
+        else if ( almostToSweater ) {
+          description = atEdgeOfSweaterString;
+        }
+        else if ( almostToWall ) {
 
           // if moving into the left or right play area columns, announce that the balloon is 'almost there'
-          description = almostThereString;
+          description = nearWallString;
         }
       }
       this.playAreaRegion = newRegion;
       return description;
+    },
+
+
+    /**
+     * Get a description for when the balloon hits a bounding object, including the sweater, wall, and
+     * bounding edges of the play area
+     *
+     * @return {string}
+     */
+    getBoundingLocationDescription: function() {
+      var alertDescriptionString;
+      if ( this.boundingObject === BalloonLocationEnum.LEFT_EDGE ) {
+        alertDescriptionString = atLeftEdgeOfPlayAreaString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.RIGHT_EDGE ) {
+        alertDescriptionString = atRightEdgeOfPlayAreaString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.TOP_EDGE ) {
+        alertDescriptionString = atTopOfPlayAreaString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.BOTTOM_EDGE ) {
+        alertDescriptionString = atBottomOfPlayAreaString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.AT_WALL) {
+        alertDescriptionString = atWallString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.AT_SWEATER_EDGE ) {
+        alertDescriptionString = atSweaterEdgeString;
+      }
+      else if ( this.boundingObject === BalloonLocationEnum.ON_SWEATER ) {
+        alertDescriptionString = onSweaterString;
+      }
+      else {
+        assert && assert( false, 'Unrecognized bounding object in getBoundingLocationDescription.' );
+      }
+
+      return alertDescriptionString;
     },
 
     /**
