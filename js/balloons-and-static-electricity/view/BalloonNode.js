@@ -754,10 +754,9 @@ define( function( require ) {
       var newRegion = this.globalModel.playArea.getPointBounds( this.model.getCenter() );
 
       var description = '';
-      if ( newRegion !== this.playAreaRegion ) {
+      // if ( newRegion !== this.playAreaRegion ) {
         // in a new region, anounce when we are close, getting there, or almost there
 
-        var atEdgeOfSweater = this.globalModel.playArea.playAreaLeftColumn.containsPoint( this.model.getCenter() );
         var atLeftMovingRight = this.model.getCenter().x < this.globalModel.playArea.atCenter && this.model.direction === BalloonDirectionEnum.RIGHT;
         var atRightMovingLeft = this.model.getCenter().x > this.globalModel.playArea.atCenter && this.model.direction === BalloonDirectionEnum.LEFT;
         var atBottomMovingLeft = this.globalModel.playArea.bottomRow.containsPoint( this.model.getCenter() ) && this.model.direction === BalloonDirectionEnum.UP;
@@ -777,6 +776,11 @@ define( function( require ) {
         var almostToWall = this.model.direction === BalloonDirectionEnum.RIGHT && rightColumn.containsPoint( this.model.getCenter() );
         var almostToSweater = this.model.direction === BalloonDirectionEnum.LEFT && leftColumn.containsPoint( this.model.getCenter() );
 
+        // if the left of the balloon is within 10 from the right of sweater, it is at the edge
+        var edgeOfSweaterRange = new Range( 0, 10 );
+        var atEdgeOfSweater = edgeOfSweaterRange.contains( Math.abs( this.globalModel.sweater.x + this.globalModel.sweater.width - this.model.location.x ) );
+        console.log( atEdgeOfSweater );
+
         if ( atLeftMovingRight || atRightMovingLeft || atBottomMovingLeft || atTopMovingDown ) {
 
           // if on the right/left/bottom/top) side of the screen and moving to the left/right/top/bottom, notify
@@ -789,7 +793,7 @@ define( function( require ) {
           // is 'getting there'
           description = gettingThereString;
         }
-        else if ( almostToSweater ) {
+        else if ( atEdgeOfSweater ) {
           description = atEdgeOfSweaterString;
         }
         else if ( almostToWall ) {
@@ -797,7 +801,7 @@ define( function( require ) {
           // if moving into the left or right play area columns, announce that the balloon is 'almost there'
           description = nearWallString;
         }
-      }
+      // }
       this.playAreaRegion = newRegion;
       return description;
     },
