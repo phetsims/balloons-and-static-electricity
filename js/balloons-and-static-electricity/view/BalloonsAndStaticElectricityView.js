@@ -317,7 +317,7 @@ define( function( require ) {
     // visualise regions of the play area
     if( BalloonsAndStaticElectricityQueryParameters.DEV ) {
 
-      this.addChild( new PlayAreaNode() );
+      this.addChild( new PlayAreaNode( model ) );
 
 
     }
