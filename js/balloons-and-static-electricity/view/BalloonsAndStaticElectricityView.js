@@ -262,12 +262,15 @@ define( function( require ) {
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
+    var controlPanel = new ControlPanel( model, this.layoutBounds );
+    var wallButton = controlPanel.wallButton;
+
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, {
+    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, wallButton, {
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, {
+    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, wallButton, {
       accessibleLabel: yellowBalloonLabelString,
       accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
     } );
@@ -280,7 +283,7 @@ define( function( require ) {
       thisScreenView.greenBalloon.visible = isVisible;
     } );
 
-    this.addChild( new ControlPanel( model, this.layoutBounds ) );
+    this.addChild( controlPanel );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
     this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {

@@ -128,7 +128,7 @@ define( function( require ) {
   var KEY_J = 74; // keycode for the 'j' key
   var KEY_H = 72; // keypress keycode for '?'
 
-  function BalloonNode( x, y, model, imgsrc, globalModel, keyboardHelpDialog, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, keyboardHelpDialog, nextNavigable, options ) {
     var self = this;
 
     options = _.extend( {
@@ -356,6 +356,30 @@ define( function( require ) {
             // update the keyState object for keyboard interaction
             model.keyState[ event.keyCode || event.which ] = true;
 
+            // if the user presses 'tab', we want the focus to go to the next element in the navigation order,
+            // then we want the reader to announce somethingg else
+            if ( model.keyState[ 9 ] ) {
+              event.preventDefault();
+
+              if ( event.shiftKey ) {
+                // if shift key was down, place focus back on the button
+                self.buttonElement.focus();
+              }
+              else {
+                // focus the next element in the navigation order - in this case, it happens to be the
+                // 'wall' button in the control panel
+                nextNavigable.accessibleInstances[ 0 ].peer.domElement.focus();
+                console.log( 'focus' );
+              }
+
+              // now announce the release description for the balloon
+              var releaseDescription = self.getReleaseDescription();
+              var politeElement = document.getElementById( 'polite-alert' );
+              console.log( releaseDescription );
+              politeElement.textContent = releaseDescription;
+
+            }
+
             // If the user presses j, enter jumping mode and pick the balloon up
             if ( model.keyState[ KEY_J ] ) {
               model.isJumping = true;
@@ -527,11 +551,11 @@ define( function( require ) {
 
             }
             else {
-              var releaseDescription = self.getReleaseDescription();
+              // var releaseDescription = self.getReleaseDescription();
               // set the 'aria-grabbed' attribute back to false
               self.domElement.setAttribute( 'aria-grabbed', false );
 
-              assertiveElement.textContent = releaseDescription;
+              // assertiveElement.textContent = releaseDescription;
             }
           } );
 

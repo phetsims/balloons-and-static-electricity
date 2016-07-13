@@ -2,10 +2,10 @@
 
 /**
  * All buttons and control elements for Balloons and Static Electricity.
- * 
+ *
  * Note: All code related to the charge radio buttons is commented out until descriptions are designed
  * for the state of the radio button group.  Strings are removed from strings json file as well.
- * See https://github.com/phetsims/balloons-and-static-electricity/issues/120. 
+ * See https://github.com/phetsims/balloons-and-static-electricity/issues/120.
  *
  * buttons and model control elements
  * Author: Vasily Shakhov (Mlearner)
@@ -27,18 +27,18 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );    
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
-  var Dimension2 = require( 'DOT/Dimension2' );  
+  var Dimension2 = require( 'DOT/Dimension2' );
 
-  // images 
+  // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
-  
+
   // strings
   var balloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon' );
   var balloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons' );
@@ -58,7 +58,7 @@ define( function( require ) {
   var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
   var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
   var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
-  
+
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
@@ -74,7 +74,9 @@ define( function( require ) {
     var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty );
     var wallButtonListener = function() { model.wall.isVisible = !model.wall.isVisible; };
-    var wallButton = new RectangularPushButton( {
+
+    // @private
+    this.wallButton = new RectangularPushButton( {
         content: wallToggleNode,
         baseColor: 'rgb( 255, 200, 0 )',
         listener: wallButtonListener
@@ -83,7 +85,7 @@ define( function( require ) {
 
     // create a container div element to parent the wall button so that it can have a more explicit description
     var wallButtonContainerNode = new AccessibleDivNode();
-    wallButtonContainerNode.addChild( wallButton );
+    wallButtonContainerNode.addChild( this.wallButton );
 
     // create the accesssible description for the wall button
     var wallButtonDescriptionNode = new AccessibleDescriptionNode( {
@@ -92,13 +94,13 @@ define( function( require ) {
     wallButtonContainerNode.addChild( wallButtonDescriptionNode );
 
     // accessible content for the wallButton
-    wallButton.accessibleContent = {
+    this.wallButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
 
         // generate the 'supertype peer' for the push button in the parallel DOM.
-        // NOTE: For now, we are removing the description string for the wallButton, see 
+        // NOTE: For now, we are removing the description string for the wallButton, see
         // https://github.com/phetsims/balloons-and-static-electricity/issues/120
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( 
+        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer(
           accessibleInstance, removeWallLabelString, wallButtonListener );
 
         // when the button is pressed, the button value needs to toggle to match the text on screen
@@ -118,7 +120,7 @@ define( function( require ) {
         return wallAddedString;
       }
       else{
-        return wallRemovedString;  
+        return wallRemovedString;
       }
     };
 
@@ -280,7 +282,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    // the control panel itself has accessible content.  Even though there is no 'control panel' in the view, 
+    // the control panel itself has accessible content.  Even though there is no 'control panel' in the view,
     // containing the elements inside of a section makes sense as a thematic structure for accessibility.
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
