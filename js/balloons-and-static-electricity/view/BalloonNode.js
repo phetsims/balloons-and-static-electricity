@@ -330,9 +330,6 @@ define( function( require ) {
           // of the newly focussed element with a polite message
           domElement.setAttribute( 'data-polite', true );
 
-          // add the label
-          domElement.setAttribute( 'aria-label', self.accessibleLabel );
-
           // @private - for easy access accross dom elements
           self.dragElement = domElement;
 
@@ -386,6 +383,13 @@ define( function( require ) {
               // set focus to the button before setting isDragged so order of aria-live messages is correct
               self.buttonElement.focus();
 
+              // once the button has been focused, anounce its state
+              // this cannot be done on focus change because the screen reader will anounce the newly focused
+              // item with top priority
+              var releaseDescription = self.getReleaseDescription();
+              var politeElement = document.getElementById( 'polite-alert' );
+              politeElement.textContent = releaseDescription;
+
               model.isDragged = false;
               domElement.setAttribute( 'aria-grabbed', 'false' );
 
@@ -422,53 +426,57 @@ define( function( require ) {
 
           model.locationProperty.link( function( currentLocation, oldLocation ) {
             var newDescription = self.getBalloonDescriptionString();
-            var assertiveAlertElement = document.getElementById( 'assertive-alert' );
 
+            // the following alerts are only applicable if the balloon is being actively dragged
+            if ( self.model.isDragged ) {
 
-            if ( descriptionElement.textContent !== newDescription ) {
-              descriptionElement.textContent = newDescription;
-            }
+              var politeElement = document.getElementById( 'polite-alert' );
+              var assertiveElement = document.getElementById( 'assertive-alert' );
 
-            // only change description when oldLocation is defined and when there is a change in location
-            if ( !oldLocation || currentLocation.equals( oldLocation ) ) {
-              return;
-            }
+              if ( descriptionElement.textContent !== newDescription ) {
+                descriptionElement.textContent = newDescription;
+              }
 
-            var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
-            var newBoundingObject = self.model.getBoundaryObject();
-
-            // if the balloon touches a boundary or a new object, that should be the most assertive update
-            if ( self.boundingObject !== newBoundingObject ) {
-              self.boundingObject = newBoundingObject;
-
-              if ( newBoundingObject ) {
-                var touchingObjectAlert = self.getBoundingLocationDescription();
-
-                assertiveAlertElement.textContent = touchingObjectAlert;
+              // only change description when oldLocation is defined and when there is a change in location
+              if ( !oldLocation || currentLocation.equals( oldLocation ) ) {
                 return;
               }
-            }
 
-            if ( self.model.direction !== newDirection ) {
+              var newDirection = self.getDraggingDirection( currentLocation, oldLocation );
+              var newBoundingObject = self.model.getBoundaryObject();
 
-              // this is the first movement of this drag interaction, which gets a unique description
-              self.model.direction = newDirection;
-              var initialGrabDescription = self.getFirstDragDescription();
+              // if the balloon touches a boundary or a new object, that should be the most assertive update
+              if ( self.boundingObject !== newBoundingObject ) {
+                self.boundingObject = newBoundingObject;
 
-              // set the text content of the assertive alert element so that the screen reader will anounce the
-              // new direction immediately
-              assertiveAlertElement.textContent = initialGrabDescription;
-            }
-            else {
+                if ( newBoundingObject ) {
+                  var touchingObjectAlert = self.getBoundingLocationDescription();
 
-              // for continued movement in the same direction, announce a more succinct description of direction
-              // of movement and location
-              var continuedMovementDescription = self.getContinuedDragDescription();
+                  politeElement.textContent = touchingObjectAlert;
+                  return;
+                }
+              }
 
-              // set the text content of the polite alert element so that the screen reader will anounce the
-              // the update when the assertive alert is complete
-              var politeElement = document.getElementById( 'polite-alert' );
-              politeElement.textContent = continuedMovementDescription;
+              if ( self.model.direction !== newDirection ) {
+
+                // this is the first movement of this drag interaction, which gets a unique description
+                self.model.direction = newDirection;
+                var initialGrabDescription = self.getFirstDragDescription();
+
+                // set the text content of the assertive alert element so that the screen reader will anounce the
+                // new direction immediately
+                assertiveElement.textContent = initialGrabDescription;
+              }
+              else {
+
+                // for continued movement in the same direction, announce a more succinct description of direction
+                // of movement and location
+                var continuedMovementDescription = self.getContinuedDragDescription();
+
+                // set the text content of the polite alert element so that the screen reader will anounce the
+                // the update when the assertive alert is complete
+                politeElement.textContent = continuedMovementDescription;
+              }
             }
           } );
 
@@ -779,7 +787,6 @@ define( function( require ) {
         // if the left of the balloon is within 10 from the right of sweater, it is at the edge
         var edgeOfSweaterRange = new Range( 0, 10 );
         var atEdgeOfSweater = edgeOfSweaterRange.contains( Math.abs( this.globalModel.sweater.x + this.globalModel.sweater.width - this.model.location.x ) );
-        console.log( atEdgeOfSweater );
 
         if ( atLeftMovingRight || atRightMovingLeft || atBottomMovingLeft || atTopMovingDown ) {
 
