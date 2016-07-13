@@ -23,7 +23,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Range = require( 'DOT/Range' );
-  var Line = require( 'SCENERY/nodes/Line' );
+  var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
 
   // strings
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -53,7 +53,7 @@ define( function( require ) {
 
     var thisScreenView = this;
 
-    ScreenView.call( this, { 
+    ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
       screenDescription: screenDescriptionString,
       screenLabel: screenLabelString
@@ -103,7 +103,7 @@ define( function( require ) {
           descriptionList.appendChild( controlPanelDescriptionItem );
 
           var navigationDescriptionItem = document.createElement( 'li' );
-          navigationDescriptionItem.textContent = navigationDescriptionString; 
+          navigationDescriptionItem.textContent = navigationDescriptionString;
           descriptionList.appendChild( navigationDescriptionItem );
 
           sectionElement.appendChild( headerElement );
@@ -126,7 +126,7 @@ define( function( require ) {
             var balloonsString = twoBalloonsVisible ? 'Balloons' : 'Balloon';
             var navitationCue = StringUtils.format( navigationDescriptionString, balloonsString );
             navigationDescriptionItem.textContent = navitationCue;
-            
+
           };
 
           var updateBalloonLocationDescription = function( balloon ) {
@@ -166,7 +166,7 @@ define( function( require ) {
             if ( !atWall && !inSweater && model.wall.isVisible ) {
               relativePositionString = middleXRange.contains( xPosition ) ? 'evenly between sweater and wall. ' :
                                           closerToSweaterRange.contains( xPosition ) ? 'closer to sweater than wall. ' :
-                                          nearSweaterRange.contains( xPosition ) ? 'near sweater. ' : 
+                                          nearSweaterRange.contains( xPosition ) ? 'near sweater. ' :
                                           closerToWallRange.contains( xPosition ) ? 'closer to wall than sweater. ' :
                                           nearWallRange.contains( xPosition ) ? 'near wall' :
                                           'against wall. ';
@@ -184,7 +184,7 @@ define( function( require ) {
 
           };
 
-          // update the screen description for charges, depending on 
+          // update the screen description for charges, depending on
           // TODO: I am unclear if this is the correct behavior from the design documents - it is not sufficient
           // to group elements in this way.
           var updateChargeDescription = function() {
@@ -244,7 +244,7 @@ define( function( require ) {
     } );
 
     // add the heading to the container element, and make sure it comes first
-      
+
     this.addChild( playAreaContainerNode );
 
     playAreaContainerNode.addChild( accessibleHeadingNode );
@@ -263,7 +263,7 @@ define( function( require ) {
     this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, { 
+    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, {
       accessibleLabel: greenBalloonLabelString,
       accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
     } );
@@ -305,7 +305,7 @@ define( function( require ) {
         // generate the 'supertype peer' for the ScreenView in the parallel DOM.
         var accessiblePeer = ScreenView.ScreenViewAccessiblePeer( accessibleInstance, '', screenLabelString );
         // accessiblePeer.domElement.setAttribute( 'role', 'application' );
-        
+
         // give this screenView element and the node a unique ID for convenient DOM lookup
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
         thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
@@ -316,59 +316,13 @@ define( function( require ) {
 
     // visualise regions of the play area
     if( BalloonsAndStaticElectricityQueryParameters.DEV ) {
-      var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
-      var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
 
-      // left edge
-      this.addChild( new Rectangle( model.playArea.leftColumn, greyOptions ) );
-
-      // left arm
-      this.addChild( new Rectangle( model.playArea.leftArmColumn, blueOptions ) );
-
-      // right sweater body
-      this.addChild( new Rectangle( model.playArea.leftBodyColumn, greyOptions ) );
-
-      // left sweater body
-      this.addChild( new Rectangle( model.playArea.rightBodyColumn, blueOptions ) );
-
-      // right arm
-      this.addChild( new Rectangle( model.playArea.rightArmColumn, greyOptions ) );
-
-      // left side of play area
-      this.addChild( new Rectangle( model.playArea.playAreaLeftColumn, blueOptions) );
-
-      // center of play area
-      this.addChild( new Rectangle( model.playArea.playAreaCenterColumn, greyOptions ) );
-
-      // right side of play Area
-      this.addChild( new Rectangle( model.playArea.playAreaRightColumn, blueOptions ) );
-
-      // right edge of play area
-      this.addChild( new Rectangle( model.playArea.rightColumn, greyOptions ) );
-
-      // top edge of play area
-      this.addChild( new Rectangle( model.playArea.topRow, greyOptions ) );
-
-      // upper part of play area
-      this.addChild( new Rectangle( model.playArea.upperRow, blueOptions ) );
-
-      // lower part of play area
-      this.addChild( new Rectangle( model.playArea.lowerRow, greyOptions ) );
-
-      // bottom part of play area
-      this.addChild( new Rectangle( model.playArea.bottomRow, blueOptions ) );
-
-      // draw some lines to represent positions of critical balloon points
-      var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 5 };
-      this.addChild( new Line( model.playArea.atWall, model.playArea.minY, model.playArea.atWall, model.playArea.maxY, lineOptions ) );
-      this.addChild( new Line( model.playArea.atNearWall, model.playArea.minY, model.playArea.atNearWall, model.playArea.maxY, lineOptions ) );
-      this.addChild( new Line( model.playArea.atCenter, model.playArea.minY, model.playArea.atCenter, model.playArea.maxY, lineOptions ) );
-      this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
+      this.addChild( new PlayAreaNode() );
 
 
     }
 
-    // enable the prototype screen reader 
+    // enable the prototype screen reader
     if( BalloonsAndStaticElectricityQueryParameters.READER ) {
       var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
@@ -377,7 +331,7 @@ define( function( require ) {
       var reader = new Reader( cursor );
 
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
-      this.addChild( display );      
+      this.addChild( display );
     }
 
 

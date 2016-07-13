@@ -109,7 +109,7 @@ define( function( require ) {
         //    <h3 id="sweater-label">Sweater</h3>
         //    <!-- Sweater charge information changes and will need to be associated with the balloon. -->
         //    <p id="sweater-description">The sweater has a neutral charge, no more positive charges than negative ones.</p>
-        //  </div>  
+        //  </div>
 
         // create the div element and assign it a unique id.
         var domElement = document.createElement( 'div' );
