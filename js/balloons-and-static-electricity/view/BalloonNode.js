@@ -281,12 +281,14 @@ define( function( require ) {
           // pick up the balloon for dragging when the button is clicked
           domElement.addEventListener( 'click', function() {
 
-            // focus the draggable node
-            self.dragElement.focus();
-
             // balloon is now draggable and grabbed
+            // this must happen before focusing the draggable element so that all descriptions
+            // are up to date by the time the virtual cursor hits the aria descriptions
             model.isDragged = true;
             self.dragElement.setAttribute( 'aria-grabbed', 'true' );
+
+            // focus the draggable node
+            self.dragElement.focus();
 
             // reset the velocity when picked up
             model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -501,6 +503,12 @@ define( function( require ) {
           model.isDraggedProperty.link( function( isDragged ) {
             var assertiveElement = document.getElementById( 'assertive-alert' );
             self.initialGrab = true;
+
+            // update the description of the aria-describedby element
+            var newDescription = self.getBalloonDescriptionString();
+            if ( descriptionElement.textContent !== newDescription ) {
+              descriptionElement.textContent = newDescription;
+            }
 
             if ( isDragged ) {
               model.isStoppedProperty.set( false );
@@ -888,9 +896,14 @@ define( function( require ) {
     getBalloonDescriptionString: function() {
       var locationDescription = this.getLocationDescriptionString();
       var chargeDescription = this.getChargeNeutralityDescriptionString();
-      var buttonCueString  = 'Use the Grab Balloon Button to pick up balloon for dragging';
 
-      var balloonDescriptionPatternString = 'Balloon is at {0} {1}. {2}.';
+      // this cue should only be visible if the balloon is not grabbed
+      var buttonCueString = '';
+      if ( !this.model.isDragged ) {
+        buttonCueString  = 'Use the Grab Balloon Button to pick up balloon for dragging.';
+      }
+
+      var balloonDescriptionPatternString = 'Balloon is at {0} {1}. {2}';
 
       return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, buttonCueString );
     },
