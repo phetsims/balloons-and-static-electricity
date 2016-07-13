@@ -42,10 +42,12 @@ define( function( require ) {
   var noChangeInPositionString = 'No change in position.';
   var noChangeInChargeString = 'No change in charge.';
 
-  var topRightNearWallString = 'top right side of play area, near wall.';
-  var upperRightNearWallString = 'upper right side of play area, near wall.';
-  var lowerRightNearWallString = 'lower right side of play area, near wall.';
-  var bottomRightNearWallString = 'bottom right side of play area, near wall.';
+  var topRightNearWallString = 'top right side of play area';
+  var upperRightNearWallString = 'upper right side of play area';
+  var lowerRightNearWallString = 'lower right side of play area';
+  var bottomRightNearWallString = 'bottom right side of play area';
+  var nearWallReleaseString = 'near wall.';
+  var releasePatternString = '{0} {1}';
 
   var topAtHalfwayString = 'top of play area at halfway mark.';
   var upperAtHalfwayString = 'upper part of play area at halfway mark.';
@@ -61,6 +63,11 @@ define( function( require ) {
   var upperWallString = 'upper wall.';
   var lowerWallString = 'lower wall.';
   var bottomRightCornerWallString = 'bottom right corner of wall.';
+
+  var topRightCornerString = 'top right corner of Play Area.';
+  var upperRightEdgeString = 'upper right edge of Play Area.';
+  var lowerRightEdgeString = 'lower right edge of play Area.';
+  var bottomRightEdgeString = 'bottom right corner of play Area.';
 
   var rightOfPlayAreaString = 'right of play area';
   var topOfPlayAreaString = 'top of play area';
@@ -87,6 +94,11 @@ define( function( require ) {
   var upperLeftArmString = 'upper left arm.';
   var lowerLeftArmString = 'lower left arm.';
   var bottomLeftArmString = 'bottom left arm.';
+
+  var topLeftString = 'top left of play area.';
+  var upperLeftString = 'upper left of play area.';
+  var lowerLeftString = 'lower left of play area.'
+  var bottomLeftString = 'bottom left of play area.';
 
   // now sticking to, balloon charge, sweater charge
   var restingStringPattern = '{0} {1}, {2}.';
@@ -716,7 +728,9 @@ define( function( require ) {
         if ( this.model.getCenter().x === this.globalModel.playArea.atWall ) {
           movementDescriptionString = noChangeInPositionString;
         }
-        else if ( this.model.getCenter().x < this.globalModel.playArea.atSweater ) {
+        else if ( this.model.getCenter().x < this.globalModel.playArea.rightArmColumn.minX ) {
+          // if the balloon is already within the right arm of the sweater, it will not move any farther due
+          // electrostatic forces
           movementDescriptionString = noChangeInPositionString;
         }
         else {
@@ -963,17 +977,19 @@ define( function( require ) {
       else {
         // the balloon is elswhere in the play area
         // near wall strings
+        var wallVisible = this.globalModel.wall.isVisible;
+        var nearWall = wallVisible ? nearWallReleaseString : '';
         if ( bounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA ) {
-          return topRightNearWallString;
+          return StringUtils.format( releasePatternString, topRightNearWallString, nearWall );
         }
         else if ( bounds === BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
-          return upperRightNearWallString;
+          return StringUtils.format( releasePatternString, upperRightNearWallString, nearWall );
         }
         else if ( bounds === BalloonLocationEnum.LOWER_RIGHT_PLAY_AREA ) {
-          return lowerRightNearWallString;
+          return StringUtils.format( releasePatternString, lowerRightNearWallString, nearWall );
         }
         else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT_PLAY_AREA ) {
-          return bottomRightNearWallString;
+          return StringUtils.format( releasePatternString, bottomRightNearWallString, nearWall );
         }
         // center of play area strings
         else if ( bounds === BalloonLocationEnum.TOP_CENTER_PLAY_AREA ) {
@@ -995,10 +1011,10 @@ define( function( require ) {
         else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
           return upperLeftOfSweaterString;
         }
-        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
+        else if ( bounds === BalloonLocationEnum.LOWER_LEFT_PLAY_AREA ) {
           return lowerLeftOfSweaterString;
         }
-        else if ( bounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
+        else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT_PLAY_AREA ) {
           return bottomLeftOfSweaterString;
         }
         // right arm strings
@@ -1053,7 +1069,34 @@ define( function( require ) {
         else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT_ARM ) {
           return bottomLeftArmString;
         }
+        // left edge of play area strings
+        else if ( bounds === BalloonLocationEnum.TOP_LEFT ) {
+          return topLeftString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_LEFT ) {
+          return upperLeftString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_LEFT ) {
+          return lowerLeftString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_LEFT ) {
+          return bottomLeftString;
+        }
+        // right edge of play area strings
+        else if ( bounds === BalloonLocationEnum.TOP_RIGHT ) {
+          return topRightCornerString;
+        }
+        else if ( bounds === BalloonLocationEnum.UPPER_RIGHT ) {
+          return upperRightEdgeString;
+        }
+        else if ( bounds === BalloonLocationEnum.LOWER_RIGHT ) {
+          return lowerRightEdgeString;
+        }
+        else if ( bounds === BalloonLocationEnum.BOTTOM_RIGHT ) {
+          return bottomRightEdgeString;
+        }
 
+        debugger;
         return 'No description for this location!';
       }
     }
