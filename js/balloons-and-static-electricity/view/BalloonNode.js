@@ -369,13 +369,11 @@ define( function( require ) {
                 // focus the next element in the navigation order - in this case, it happens to be the
                 // 'wall' button in the control panel
                 nextNavigable.accessibleInstances[ 0 ].peer.domElement.focus();
-                console.log( 'focus' );
               }
 
               // now announce the release description for the balloon
               var releaseDescription = self.getReleaseDescription();
               var politeElement = document.getElementById( 'polite-alert' );
-              console.log( releaseDescription );
               politeElement.textContent = releaseDescription;
 
             }
