@@ -515,7 +515,6 @@ define( function( require ) {
                 // set the text content of the polite alert element so that the screen reader will anounce the
                 // the update when the assertive alert is complete
                 if ( politeElement.textContent !== continuedMovementDescription ) {
-                  console.log( continuedMovementDescription );
                   politeElement.textContent = continuedMovementDescription;
                 }
               }
