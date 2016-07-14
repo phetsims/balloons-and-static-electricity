@@ -459,6 +459,7 @@ define( function( require ) {
           } );
 
           model.locationProperty.link( function( currentLocation, oldLocation ) {
+
             var newDescription = self.getBalloonDescriptionString();
 
             if ( descriptionElement.textContent !== newDescription ) {
@@ -513,7 +514,10 @@ define( function( require ) {
 
                 // set the text content of the polite alert element so that the screen reader will anounce the
                 // the update when the assertive alert is complete
-                politeElement.textContent = continuedMovementDescription;
+                if ( politeElement.textContent !== continuedMovementDescription ) {
+                  console.log( continuedMovementDescription );
+                  politeElement.textContent = continuedMovementDescription;
+                }
               }
             }
           } );
