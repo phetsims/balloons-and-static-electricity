@@ -461,6 +461,10 @@ define( function( require ) {
           model.locationProperty.link( function( currentLocation, oldLocation ) {
             var newDescription = self.getBalloonDescriptionString();
 
+            if ( descriptionElement.textContent !== newDescription ) {
+              descriptionElement.textContent = newDescription;
+            }
+
             // the following alerts are only applicable if the balloon is being actively dragged
             if ( self.model.isDragged ) {
 
