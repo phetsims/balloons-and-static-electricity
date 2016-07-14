@@ -97,7 +97,7 @@ define( function( require ) {
 
   var topLeftString = 'top left of play area.';
   var upperLeftString = 'upper left of play area.';
-  var lowerLeftString = 'lower left of play area.'
+  var lowerLeftString = 'lower left of play area.';
   var bottomLeftString = 'bottom left of play area.';
 
   // now sticking to, balloon charge, sweater charge
@@ -543,7 +543,6 @@ define( function( require ) {
           } );
 
           model.isDraggedProperty.link( function( isDragged ) {
-            var assertiveElement = document.getElementById( 'assertive-alert' );
             self.initialGrab = true;
 
             // update the description of the aria-describedby element
@@ -554,11 +553,6 @@ define( function( require ) {
 
             if ( isDragged ) {
               model.isStoppedProperty.set( false );
-
-              // assemble the descripion of the balloon once it is picked up, perspective 1 from
-              // https://docs.google.com/spreadsheets/d/1BiXFN2dRWfsjqV2WvKAXnZFhsk0jCxbnT0gkZr_T5T0/edit?ts=568067c0#gid=1538722405
-              var grabbedDescription = self.getGrabbedDescription();
-
             }
             else {
               // var releaseDescription = self.getReleaseDescription();
@@ -646,7 +640,7 @@ define( function( require ) {
      * @return {type}  description
      */
     getGrabbedDescription: function() {
-      var locationDescription = this.getLocationDescriptionString();
+      // var locationDescription = this.getLocationDescriptionString();
 
       // var balloonChargeDescription = this.getChargeDescriptionString( this.model.charge, balloonComparativeChargePatternString );
       //
@@ -807,18 +801,14 @@ define( function( require ) {
         var atTopMovingDown = this.globalModel.playArea.topRow.containsPoint( this.model.getCenter() ) && this.model.direction === BalloonDirectionEnum.DOWN;
 
         var rightColumn = this.globalModel.playArea.playAreaRightColumn;
-        var leftColumn = this.globalModel.playArea.playAreaLeftColumn;
         var lowerRow = this.globalModel.playArea.lowerRow;
         var upperRow = this.globalModel.playArea.upperRow;
         var centerColumn = this.globalModel.playArea.playAreaCenterColumn;
-        var crossingLeft = this.model.direction === BalloonDirectionEnum.LEFT && centerColumn.containsPoint( this.model.getCenter() );
-        var crossingRight = this.model.direction === BalloonDirectionEnum.RIGHT && centerColumn.containsPoint( this.model.getCenter() );
         var crossingUp = this.model.direction === BalloonDirectionEnum.UP && upperRow.containsPoint( this.model.getCenter() );
         var crossingDown = this.model.direction === BalloonDirectionEnum.DOWN && lowerRow.containsPoint( this.model.getCenter() );
         var crossingCenter = centerColumn.containsPoint( this.model.getCenter() );
 
         var almostToWall = this.model.direction === BalloonDirectionEnum.RIGHT && rightColumn.containsPoint( this.model.getCenter() );
-        var almostToSweater = this.model.direction === BalloonDirectionEnum.LEFT && leftColumn.containsPoint( this.model.getCenter() );
 
         // if the left of the balloon is within 10 from the right of sweater, it is at the edge
         var edgeOfSweaterRange = new Range( 0, 10 );
@@ -872,9 +862,6 @@ define( function( require ) {
       }
       else if ( this.boundingObject === BalloonLocationEnum.AT_WALL) {
         alertDescriptionString = atWallString;
-      }
-      else if ( this.boundingObject === BalloonLocationEnum.AT_SWEATER_EDGE ) {
-        alertDescriptionString = atSweaterEdgeString;
       }
       else if ( this.boundingObject === BalloonLocationEnum.ON_SWEATER ) {
         alertDescriptionString = onSweaterString;
@@ -1096,7 +1083,6 @@ define( function( require ) {
           return bottomRightEdgeString;
         }
 
-        debugger;
         return 'No description for this location!';
       }
     }

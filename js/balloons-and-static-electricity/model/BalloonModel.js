@@ -346,7 +346,7 @@ define( function( require ) {
       }
       else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.direction === BalloonDirectionEnum.LEFT ) {
         // only announce that we are on the sweater if we are moving left
-        return BalloonLocationEnum.ON_SWEATER
+        return BalloonLocationEnum.ON_SWEATER;
       }
       else if ( playArea.atWall === centerX ) {
         return BalloonLocationEnum.AT_WALL;
