@@ -85,14 +85,6 @@
     "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.",
     "visible": false
   },
-  "balloon.navigationCues": {
-    "value": "Press W, A, S, or D key to drag balloon. Spacebar to release it. H key for more balloon hot keys.",
-    "visible": false
-  },
-  "releaseLocationPattern": {
-    "value": "Balloon released from {0} of play area",
-    "visible": false
-  },
   "playArea.label": {
     "value": "Play Area",
     "visible": false
@@ -150,10 +142,6 @@
   },
   "netPositive": {
     "value": "net positive",
-    "visible": false
-  },
-  "netNegative": {
-    "value": "net negative",
     "visible": false
   },
   "no": {
