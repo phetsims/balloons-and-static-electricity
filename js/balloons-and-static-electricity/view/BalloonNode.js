@@ -422,7 +422,8 @@ define( function( require ) {
           } );
 
           // when the location or charge changes, update the description of the draggable widge
-          model.chargeProperty.link( function() {
+          // lazy link so the alert is anounced on first change
+          model.chargeProperty.lazyLink( function() {
             var newDescription = self.getBalloonDescriptionString();
 
             var balloonChargeDescription = self.getChargeDescriptionString( self.model.charge, balloonComparativeChargePatternString );
