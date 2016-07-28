@@ -84,7 +84,7 @@ define( function( require ) {
         //    <p id="wall-description">The wall has a neutral charge, no more positive charges than negative ones.</p>
         //
         //     TODO: Shouldn't these be part of the control panel?? Not implementing for now.
-        //     <!-- If the button text is an image, use aria-label="Remove Wall" and aria-label="Add Wall". -->                     
+        //     <!-- If the button text is an image, use aria-label="Remove Wall" and aria-label="Add Wall". -->
         //     <button aria-pressed="true" aria-describedby="wall-button-description">Remove Wall</button>
         //     <!-- <button aria-pressed="true" aria-describedby="wall-button-description">Add Wall</button> -->
         //     <p id="wall-button-description">Toggle to conduct experiments with or without the wall.</p>
@@ -109,7 +109,7 @@ define( function( require ) {
         repelDescriptionElement.id = 'repel-description-' + uniqueId;
         repelDescriptionElement.setAttribute( 'aria-live', 'polite' );
 
-        // update the description element text content when balloon position changes, accounting 
+        // update the description element text content when balloon position changes, accounting
         // for the charge of the balloon.
         model.balloons.forEach( function( balloon ) {
           balloon.locationProperty.lazyLink( function( location, oldLocation ) {
@@ -145,7 +145,10 @@ define( function( require ) {
               }
 
               if ( wallModel.isVisible ) {
-                repelDescriptionElement.textContent = repelDescriptionString;
+                if ( repelDescriptionElement.textContent !== repelDescriptionString ) {
+                  // only update if changing content
+                  repelDescriptionElement.textContent = repelDescriptionString;
+                }
               }
             }
           } );
