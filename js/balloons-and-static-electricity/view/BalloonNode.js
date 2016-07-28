@@ -412,24 +412,10 @@ define( function( require ) {
             // when the user presses 'spacebar' or 'enter', release the balloon
             // handled in keyup so spacebar isnt pressed immediately by the newly focused
             // button
-            if ( event.keyCode === 32 || event.keyCode === 13 ) {
+            if ( event.keyCode === 32 ) {
 
-              // set focus to the button before setting isDragged so order of aria-live messages is correct
-              self.buttonElement.focus();
-
-              // once the button has been focused, anounce its state
-              // this cannot be done on focus change because the screen reader will anounce the newly focused
-              // item with top priority
-              var releaseDescription = self.getReleaseDescription();
-              var politeElement = document.getElementById( 'polite-alert' );
-              politeElement.textContent = releaseDescription;
-
-              model.isDragged = false;
-              domElement.setAttribute( 'aria-grabbed', 'false' );
-
-              // reset the keystate and nothing else
-              model.keyState = {};
-
+              // focus the button element and announce release description
+              self.focusButtonElement( domElement );
               return;
             }
 
@@ -610,6 +596,30 @@ define( function( require ) {
   }
 
   return inherit( Node, BalloonNode, {
+
+    /**
+     * Set document focus to the 'button' representation of the balloon, and create a new description
+     * for the release alert.
+     *
+     * @param  {DOMElement} domElement
+     */
+    focusButtonElement: function( domElement ) {
+      // set focus to the button before setting isDragged so order of aria-live messages is correct
+      this.buttonElement.focus();
+
+      // once the button has been focused, anounce its state
+      // this cannot be done on focus change because the screen reader will anounce the newly focused
+      // item with top priority
+      var releaseDescription = this.getReleaseDescription();
+      var politeElement = document.getElementById( 'polite-alert' );
+      politeElement.textContent = releaseDescription;
+
+      this.model.isDraggedProperty.set( false );
+      domElement.setAttribute( 'aria-grabbed', 'false' );
+
+      // reset the keystate and nothing else
+      this.model.keyState = {};
+    },
 
     /**
      * Get the direction of dragging.  TODO: Do we need to handle diagonal dragging?
