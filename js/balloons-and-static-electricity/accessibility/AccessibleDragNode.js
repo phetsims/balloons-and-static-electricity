@@ -142,7 +142,7 @@ define( function( require ) {
       // (like drop the element or focus something other than
       // what is in the default navigation order )
       if ( this.keyState[ KEY_TAB ] ) {
-        this.onTab();
+        this._onTab();
       }
 
       var deltaX = 0;
