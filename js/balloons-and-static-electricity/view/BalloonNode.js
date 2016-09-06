@@ -153,11 +153,11 @@ define( function( require ) {
       focusHighlight: this.buttonHightlightNode,
       label:'',
       description: balloonGrabCueString,
-      onclick: function() {
+      onClick: function() {
         model.isDragged = true;
 
         // grab and focus the element draggable element
-        // draggableNode.focus(); // implement this!
+        self.draggableNode.focus(); // implement this!
 
         // reset the velocity when picked up
         model.velocityProperty.set( new Vector2( 0, 0 ) );

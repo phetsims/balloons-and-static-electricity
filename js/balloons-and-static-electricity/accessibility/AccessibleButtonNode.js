@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var Node = require( 'SCENERY/nodes/Node' );
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
@@ -25,20 +26,14 @@ define( function( require ) {
       label: '',
       description: '', //
       focusHighlight: null, // node | shape | bounds
-      onclick: function() {} // fired when the button is clicked
+      onClick: function() {} // fired when the button is clicked
     }, options );
 
-    // button contained in a div so that it can contain descriptions or other children
-    Node.call( this, {
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
+    // @private
+    this.onClick = options.onClick;
 
-          // container element
-          var domElement = document.createElement( 'div' );
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
-    } );
+    // button contained in a div so that it can contain descriptions or other children
+    AccessibleNode.call( this );
 
     // create the button
     var buttonNode = new Node( {
@@ -54,36 +49,28 @@ define( function( require ) {
 
           // add the click event listener
           // TODO: Perhaps this should not be optional
-          domElement.addEventListener( 'click', options.onclick );
+          domElement.addEventListener( 'click', options.onClick );
 
           return new AccessiblePeer( accessibleInstance, domElement );
 
         }
       }
     } );
-    this.addChild( buttonNode );
 
-    // if there is an accessible description, create as a paragraph and add
-    // as a child of the container node
-    if ( options.description ) {
-      var descriptionNode = new Node( {
-        accessibleContent: {
-          createPeer: function( accessibleInstance ) {
-            var domElement = document.createElement( 'p' );
-            domElement.textContent = options.description;
-
-            return new AccessiblePeer( accessibleInstance, domElement );
-          }
-        }
-      } );
-      this.addChild( descriptionNode );
-    }
+    this.addChild( buttonNode ); // this will probably be the last child, but it should come first
   }
 
-  return inherit( Node, AccessibleButtonNode, {
-    setLabel: function() {},
-    setDescription: function() {},
-    setOnClick: function() {}
+  return inherit( AccessibleNode, AccessibleButtonNode, {
+
+    /**
+     * Set the function that will be called when the button is clicked
+     *
+     * @param  {function} clickFunction
+     */
+    setOnClick: function( clickFunction ) {
+      this.onClick = clickFunction;
+    }
+
   } );
 
 } );

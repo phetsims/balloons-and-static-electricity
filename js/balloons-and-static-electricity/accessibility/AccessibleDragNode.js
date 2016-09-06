@@ -16,6 +16,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
 
   // constants
   var KEY_TAB = 9;
@@ -32,8 +33,6 @@ define( function( require ) {
 
     options = _.extend( {
       label: '',
-      description: '',
-      focusHighlight: null, // node | shape | bounds
       focusable: true, // can this element be focused?
       onTab: function() {}, // optional function to call when user 'tabs' away
       hotkeys: {}, // object with keys of type keycode and values of type function - add to the common type!
@@ -60,16 +59,7 @@ define( function( require ) {
     // button contained in a div so that it can contain descriptions or other children
     // TODO: accessible nodes should extend this some how
     var self = this;
-    Node.call( this, {
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-
-          // container element
-          var domElement = document.createElement( 'div' );
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
-    } );
+    AccessibleNode.call( this, options );
 
     // create the button
     var draggableNode = new Node( {
@@ -77,39 +67,38 @@ define( function( require ) {
         focusHighlight: options.focusHighlight,
         createPeer: function( accessibleInstance ) {
 
-          // represented as a 'button' in the PDOM
-          var domElement = document.createElement( 'div' );
+          self._draggableElement = document.createElement( 'div' );
 
           // provide the 'application' role so that we can use the keyboard
           // when a screen reader is enabled
-          domElement.setAttribute( 'role', 'application' );
+          self._draggableElement.setAttribute( 'role', 'application' );
 
           // a draggable element is generally focusable
-          domElement.tabIndex = 0;
+          self._draggableElement.tabIndex = 0;
 
           // some screen readers will anounce this to notify
           // that thte element can be dragged
-          domElement.setAttribute( 'draggable', 'true' );
+          self._draggableElement.setAttribute( 'draggable', 'true' );
 
           // set the label
-          domElement.textContent = options.label;
+          self._draggableElement.textContent = options.label;
 
           // implement accessible drag and drop behavior
-          domElement.addEventListener( 'keydown', function( event ) {
+          self._draggableElement.addEventListener( 'keydown', function( event ) {
             // update the key state on down
             self.keyState[ event.keyCode || event.which ] = true;
 
             options.onKeyDown( event );
           } );
 
-          domElement.addEventListener( 'keyup', function( event ) {
+          self._draggableElement.addEventListener( 'keyup', function( event ) {
             // update the keystate object on up
             self.keyState[ event.keyCode || event.which ] = false;
 
             options.onKeyUp( event );
           } );
 
-          return new AccessiblePeer( accessibleInstance, domElement );
+          return new AccessiblePeer( accessibleInstance, self._draggableElement );
 
         }
       }
@@ -137,6 +126,18 @@ define( function( require ) {
     setLabel: function() {}, // set the accessible label
     setDescription: function() {}, // set the accessible description
     setFocusable: function() {}, // add/remove from navigable order
+
+
+    /**
+     * Focus the draggable element, overriding the parent function
+     *
+     * @return {type}  description
+     * @override
+     */
+    focus: function() {
+      this._draggableElement.focus();
+    },
+    
     step: function() {
       // if tab is down, we may want to do something specfic
       // (like drop the element or focus something other than
