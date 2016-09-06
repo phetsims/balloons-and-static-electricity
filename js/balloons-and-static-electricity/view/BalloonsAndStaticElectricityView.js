@@ -337,6 +337,11 @@ define( function( require ) {
 
   }
 
-  inherit( ScreenView, BalloonsAndStaticElectricityView );
+  inherit( ScreenView, BalloonsAndStaticElectricityView, {
+    step: function( dt ) {
+      this.greenBalloon.step( dt );
+      this.yellowBalloon.step( dt );
+    }
+  } );
   return BalloonsAndStaticElectricityView;
 } );
