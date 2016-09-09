@@ -33,7 +33,7 @@ define( function( require ) {
 
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [
-      new Screen( balloonsAndStaticElectricityTitleString, null /* no icon, single-screen sim */,
+      new Screen(
         function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
         function( model ) {return new BalloonsAndStaticElectricityView( model );},
         { backgroundColor: '#9ddcf8' }
