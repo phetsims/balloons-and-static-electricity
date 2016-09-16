@@ -16,7 +16,7 @@ define( function( require ) {
    * Constructor for a button Node.
    * @constructor
    **/
-  function AccessibleNode( locationProperty, options ) {
+  function AccessibleNode( options ) {
 
     options = _.extend( {
       description: '',
@@ -31,6 +31,12 @@ define( function( require ) {
 
           // @private - container element
           self.domElement = document.createElement( 'div' );
+
+          // mutate with initial options - must be don in createPeer
+          // since the domElement will otherwise be undefined on load
+          console.log( options.hidden );
+          self.setHidden( options.hidden );
+
           return new AccessiblePeer( accessibleInstance, self.domElement );
         }
       }
@@ -64,6 +70,15 @@ define( function( require ) {
     setDescription: function( textContent ) {
       assert && assert( self.descriptionElement, 'desription element must exist in prallel DOM' );
       self.descriptionElement.textContent = textContent;
+    },
+
+    /**
+     * Hide completely from a screen reader by setting the aria-hidden attribute.
+     *
+     * @param  {boolean} hidden
+     */
+    setHidden: function( hidden ) {
+      this.domElement.hidden = hidden ;
     },
 
     /**

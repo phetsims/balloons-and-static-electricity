@@ -21,11 +21,26 @@ define( function( require ) {
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
+  var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
+  var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
+  var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
 
-  function BalloonNode( x, y, model, imgsrc, globalModel ) {
+  /**
+   * Constructor for the balloon
+   *
+   * @param  {number} x
+   * @param  {number} y
+   * @param  {BalloonModel} model
+   * @param  {Image} imgsrc - image source from the Image plugin
+   * @param  {BalloonsAndStaticElectricityModel} globalModel
+   * @param  {string} balloonColor - 'yellow'|'green'
+   * @constructor
+   */
+  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor ) {
     var self = this;
 
     // super constructor
@@ -145,13 +160,21 @@ define( function( require ) {
     this.draggableNode = new AccessibleDragNode( model.locationProperty, {
       focusHighlight: this.applicationHighlightNode,
       label: '',
-      description: ''
+      description: '',
+      hidden: !model.isVisible
     } );
 
     // this node will contain the 'Grab Balloon' button
+    var balloonLabel;
+    if ( balloonColor === 'green' ) {
+      balloonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
+    }
+    else {
+      balloonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
+    }
     var accessibleButtonNode = new AccessibleButtonNode( {
       focusHighlight: this.buttonHightlightNode,
-      label:'',
+      label: balloonLabel,
       description: balloonGrabCueString,
       onClick: function() {
         model.isDragged = true;
@@ -161,13 +184,29 @@ define( function( require ) {
 
         // reset the velocity when picked up
         model.velocityProperty.set( new Vector2( 0, 0 ) );
-      }
+      },
+      hidden: !model.isVisible
     } );
     this.addChild( accessibleButtonNode );
     this.addChild( this.draggableNode );
+
+    // the balloon is hidden from AT when invisible
+    model.isVisibleProperty.lazyLink( function( isVisible ) {
+      self.draggableNode.setHidden( !isVisible );
+      accessibleButtonNode.setHidden( !isVisible );
+    } );
   }
 
   return inherit( Node, BalloonNode, {
+
+
+    /**
+     * Step the draggable node for drag functionality
+     * TODO: Use emitters instead of steap in AccessibleDragNode
+     *
+     * @param  {type} dt description
+     * @return {type}    description
+     */
     step: function( dt ) {
       this.draggableNode.step( dt );
     }

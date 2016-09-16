@@ -33,7 +33,7 @@ define( function( require ) {
     this.onClick = options.onClick;
 
     // button contained in a div so that it can contain descriptions or other children
-    AccessibleNode.call( this );
+    AccessibleNode.call( this, options );
 
     // create the button
     var buttonNode = new Node( {

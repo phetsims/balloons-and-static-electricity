@@ -26,10 +26,6 @@ define( function( require ) {
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
 
   // strings
-  var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
-  var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
-  var yellowBalloonDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.descriptionPattern' );
-  var greenBalloonDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.descriptionPattern' );
   var screenDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.description' );
   var screenLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/screen.label' );
   var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
@@ -266,14 +262,8 @@ define( function( require ) {
     var wallButton = controlPanel.wallButton;
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, wallButton, {
-      accessibleLabel: greenBalloonLabelString,
-      accessibleDescriptionPatternString: greenBalloonDescriptionPatternString
-    } );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, wallButton, {
-      accessibleLabel: yellowBalloonLabelString,
-      accessibleDescriptionPatternString: yellowBalloonDescriptionPatternString
-    } );
+    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, keyboardHelpDialog, wallButton, 'green' );
+    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, keyboardHelpDialog, wallButton, 'yellow' );
 
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );

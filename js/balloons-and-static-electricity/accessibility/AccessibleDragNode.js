@@ -55,7 +55,6 @@ define( function( require ) {
     this._modelViewTransform = options.modelViewTransform;
     this._onTab = options.onTab;
 
-
     // button contained in a div so that it can contain descriptions or other children
     // TODO: accessible nodes should extend this some how
     var self = this;
@@ -122,7 +121,7 @@ define( function( require ) {
     }
   }
 
-  return inherit( Node, AccessibleDragNode, {
+  return inherit( AccessibleNode, AccessibleDragNode, {
     setLabel: function() {}, // set the accessible label
     setDescription: function() {}, // set the accessible description
     setFocusable: function() {}, // add/remove from navigable order
@@ -137,7 +136,14 @@ define( function( require ) {
     focus: function() {
       this._draggableElement.focus();
     },
-    
+
+    /**
+     * Update the keystate in miliseconds
+     * TODO: Use emitters instead of step in AcccesssibleDragNode
+     * This will remove the need to track the keystate in miliseconds
+     *
+     * @return {type}  description
+     */
     step: function() {
       // if tab is down, we may want to do something specfic
       // (like drop the element or focus something other than
