@@ -9,10 +9,10 @@
  * <div id="toggle-container14-35-417-492-484-473-468">
  *   <input type="button" id="abswitch-14-35-417-492-484-473-468-472" aria-label="Single Balloon Experiment" value="‪Single Balloon Experiment‬" aria-pressed="true">
  * </div>
- * 
- * NOTE: This type of structure is experimental. If this structure is successful and can be applied to additional 
+ *
+ * NOTE: This type of structure is experimental. If this structure is successful and can be applied to additional
  * simulation elements, Scenery should eventually be able to handle this kind of thing.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -26,7 +26,7 @@ define( function( require ) {
 
   /**
    * Constructor.
-   * 
+   *
    * @param {number} x
    * @param {number} y
    * @param {BalloonModel} model
@@ -39,7 +39,7 @@ define( function( require ) {
 
   /**
    * See ABSwitch for full list of options
-   * 
+   *
    * accessibleDescription: translatable description, read by the screen reader upon focus of this element
    * accessibleLabelA: translatable label for valueA read when the ABSwitch receives focus or changes value
    * accessibleLabelB: translatable label for valueB, read when the toggle changes value
@@ -57,7 +57,7 @@ define( function( require ) {
     }, options );
 
     ABSwitch.call( this, property, valueA, labelA, valueB, labelB, options );
-    var thisNode = this;
+    var self = this;
 
     // generate a unique id for the switch
     var switchID = 'switch-' + this.id;
@@ -108,7 +108,7 @@ define( function( require ) {
 
     // create a scenery node that contains all of the accessibility information for the toggle button
     // the scenery rectangle cleanly instantiates bounds for the focus highlight
-    var accessibilityNode = new Rectangle( thisNode.bounds.dilated( 5 ), {
+    var accessibilityNode = new Rectangle( self.bounds.dilated( 5 ), {
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           // The element should look like the following in the Parallel DOM.

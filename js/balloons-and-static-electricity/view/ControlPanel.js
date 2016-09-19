@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -268,6 +269,42 @@ define( function( require ) {
       align: 'bottom',
       children: [ resetAllButton, wallButtonContainerNode ]
     } );
+
+    // TODO: Verify with designers - is this how it should behave?
+    resetAllButton.accessibleContent = {
+      focusHighlight: new Shape().circle( 0, 0, 28 ),
+      createPeer: function( accessibleInstance ) {
+
+        // will look like <input value="Reset All" type="button">
+        var domElement = document.createElement( 'input' );
+        domElement.setAttribute( 'aria-label', 'Reset All' );
+        domElement.type = 'button';
+
+        domElement.addEventListener( 'click', function() {
+
+          // hide the aria-live elements so that alerts are not anounced until
+          // after the simulation is reset
+          var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+          var politeElement = document.getElementById( 'polite-alert' );
+
+          assertiveAlertElement.hidden = true;
+          politeElement.hidden = true;
+
+          // reset the model
+          model.reset();
+
+          // unhide the aria-live elements
+          assertiveAlertElement.hidden = false;
+          politeElement.hidden = false;
+
+          // resetAllButton.alert( 'Simulation reset' );
+          assertiveAlertElement.textContent = 'Sim reset, starting from scratch';
+
+        } );
+
+        return new AccessiblePeer( accessibleInstance, domElement );
+      }
+    };
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 4;

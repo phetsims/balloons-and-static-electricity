@@ -2,14 +2,14 @@
 
 /**
  * A Scenery node used to contain a dialog for keyboard interaction help in the Parallel DOM.
- * 
+ *
  * The content of this node is mostly invisible for the time being.  It will act as a modal dialog, but only contain
  * invisible content to give the user a list of keyboard interactions for Forces and Motion: Basics.  Once the look and
  * feel are defined, that will be inplemented in an object like this.
 
  * TODO: Accessible dialog's are tricky!  They Don't work very well for many screen readers.  For now, everything will be
  * contained inside of a section, but it will still be hidden and accessed much like a modal dialog.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -33,7 +33,7 @@ define( function( require ) {
   // strings
   var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
- 
+
   var keysForDraggingAndRubbingString = 'Keys for Dragging and Rubbing';
   var draggindDescriptionString = 'Press the following letter keys to drag the Balloon in any direction with small steps.';
   var pressWString = 'Press W to drag up.';
@@ -65,27 +65,27 @@ define( function( require ) {
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
-   * 
+   *
    * @param {ScreenView} screenView
    * @constructor
    **/
   function KeyboardHelpDialog( screenView ) {
 
-    var thisDialog = this;
+    var self = this;
 
     // generate a uniqueID for the accessible label
-    thisDialog.labelID = 'label-id-' + screenView.id;
+    self.labelID = 'label-id-' + screenView.id;
 
     this.activeElement = null;
 
     // create the content for this dialog, temporarily just a text label
-    var dialogLabelText = new Text( keyboardHelpDialogString, { 
+    var dialogLabelText = new Text( keyboardHelpDialogString, {
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
       fill: 'rgba( 0, 0, 0, 0.5 )',
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           var domElement = document.createElement( 'h1' );
-          domElement.id = thisDialog.labelID;
+          domElement.id = self.labelID;
           domElement.textContent = keyboardHelpDialogString;
 
           return new AccessiblePeer( accessibleInstance, domElement );
@@ -159,13 +159,13 @@ define( function( require ) {
     // Add a custom close button to this dialdog.
     var closeText = new Text( keyboardHelpCloseString, { font: new PhetFont( 18 ) } );
     var closeFunction = function() {
-      thisDialog.shownProperty.set( false );
+      self.shownProperty.set( false );
 
 
       // set focus to the previously active screen view element
-      thisDialog.activeElement.focus();
+      self.activeElement.focus();
     };
-    var closeButton = new RectangularPushButton( { 
+    var closeButton = new RectangularPushButton( {
       content: closeText,
       listener: closeFunction
      } );
@@ -197,7 +197,7 @@ define( function( require ) {
           var domElement = document.createElement( 'div' );
           domElement.tabIndex = 0;
 
-          domElement.setAttribute( 'aria-labelledby', thisDialog.labelID );
+          domElement.setAttribute( 'aria-labelledby', self.labelID );
 
           domElement.addEventListener( 'keydown', function( event ) {
             if ( event.keyCode === Input.KEY_TAB ) {
@@ -213,7 +213,7 @@ define( function( require ) {
       }
     } );
 
-    // dialog should close if 
+    // dialog should close if
     var dialogVBox = new VBox( {
       children: [ contentVBox, closeButton ],
       spacing: 20,
@@ -241,10 +241,10 @@ define( function( require ) {
 
     var manageDialog = function( shown ) {
       if ( shown ) {
-        Dialog.prototype.show.call( thisDialog );
+        Dialog.prototype.show.call( self );
       }
       else {
-        Dialog.prototype.hide.call( thisDialog );
+        Dialog.prototype.hide.call( self );
       }
     };
 
@@ -260,14 +260,14 @@ define( function( require ) {
         // if simBounds are null, return without setting center.
         if ( simBounds !== null ) {
           // Update the location of the dialog (size is set in Sim.js)
-          thisDialog.center = simBounds.center.times( 1.0 / scale );
+          self.center = simBounds.center.times( 1.0 / scale );
         }
       }
     } );
 
     // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
     // in the screen view.
-    thisDialog.shownProperty.lazyLink( function( isShown ) {
+    self.shownProperty.lazyLink( function( isShown ) {
 
       // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
       if ( isShown ) {
@@ -280,7 +280,7 @@ define( function( require ) {
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
-      fire: thisDialog.hide.bind( thisDialog )
+      fire: self.hide.bind( self )
     } ) );
 
   }

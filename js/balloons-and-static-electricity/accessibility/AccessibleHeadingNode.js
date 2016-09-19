@@ -1,11 +1,11 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A Scenery node used to contain a heading element in the Parallel DOM.  By giving the element its own node, we can 
+ * A Scenery node used to contain a heading element in the Parallel DOM.  By giving the element its own node, we can
  * contain it and have full control of its location in the parallel DOM relative to other child elements.
- * 
+ *
  * This node is entirely invisible, other than its representation in the accessibility tree.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -18,14 +18,14 @@ define( function( require ) {
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
-   * 
+   *
    * @param {string} headingLevel
    * @param {string} textContent
    * @constructor
    **/
   function AccessibleHeadingNode( headingLevel, textContent ) {
 
-    var thisNode = this;
+    var self = this;
 
     Node.call( this, {
       accessibleContent: {
@@ -37,7 +37,7 @@ define( function( require ) {
           var headingElement = document.createElement( headingLevel );
           headingElement.textContent = textContent;
           headingElement.id = 'heading-node-' + this.node.id;
-          thisNode.accessibleId = headingElement.id;
+          self.accessibleId = headingElement.id;
 
           return new AccessiblePeer( accessibleInstance, headingElement );
         }

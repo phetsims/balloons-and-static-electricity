@@ -1,11 +1,11 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A Scenery node used to contain a div element in the Parallel DOM.  By giving the element its own node, we can 
+ * A Scenery node used to contain a div element in the Parallel DOM.  By giving the element its own node, we can
  * contain it and have full control of its location in the parallel DOM relative to other child elements.
- * 
+ *
  * This node is entirely invisible, other than its representation in the accessibility tree.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -18,12 +18,12 @@ define( function( require ) {
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
-   * 
+   *
    * @constructor
    **/
   function AccessibleDivNode() {
 
-    var thisNode = this;
+    var self = this;
 
     Node.call( this, {
       accessibleContent: {
@@ -34,7 +34,7 @@ define( function( require ) {
           // heading element
           var domElement = document.createElement( 'div' );
           domElement.id = 'element-container-' + this.node.id;
-          thisNode.accessibleId = domElement.id;
+          self.accessibleId = domElement.id;
 
           return new AccessiblePeer( accessibleInstance, domElement );
         }

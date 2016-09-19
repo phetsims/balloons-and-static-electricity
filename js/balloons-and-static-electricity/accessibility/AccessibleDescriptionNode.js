@@ -1,11 +1,11 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A Scenery node used to contain a description element in the Parallel DOM.  By giving the element its own node, we can 
+ * A Scenery node used to contain a description element in the Parallel DOM.  By giving the element its own node, we can
  * contain it and have full control of its location in the parallel DOM relative to other child elements.
- * 
+ *
  * This node is entirely invisible, other than its representation in Scenery's accessibility tree.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
-   * 
+   *
    * @param {Obejct} options
    * @constructor
    **/
@@ -34,7 +34,7 @@ define( function( require ) {
       hidden: false
     }, options );
 
-    var thisNode = this;
+    var self = this;
 
     Node.call( this, {
       accessibleContent: {
@@ -44,7 +44,7 @@ define( function( require ) {
 
           var domElement = document.createElement( 'p' );
           domElement.textContent = options.accessibleDescription;
-          domElement.id = thisNode.id;
+          domElement.id = self.id;
 
           if( options.isLive ) {
             domElement.setAttribute( 'aria-live', 'assertive' );

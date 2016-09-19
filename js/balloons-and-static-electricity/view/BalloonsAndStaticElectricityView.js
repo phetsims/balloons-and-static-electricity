@@ -47,7 +47,7 @@ define( function( require ) {
 
   function BalloonsAndStaticElectricityView( model ) {
 
-    var thisScreenView = this;
+    var self = this;
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
@@ -236,7 +236,7 @@ define( function( require ) {
 
     // create the keyboard help dialog for accessibility
     var keyboardHelpDialog = new KeyboardHelpDialog( this, {
-      maxWidth: thisScreenView.layoutBounds.width
+      maxWidth: self.layoutBounds.width
     } );
 
     // add the heading to the container element, and make sure it comes first
@@ -270,7 +270,7 @@ define( function( require ) {
 
     //Only show the selected balloon(s)
     model.balloons[ 1 ].isVisibleProperty.link( function( isVisible ) {
-      thisScreenView.greenBalloon.visible = isVisible;
+      self.greenBalloon.visible = isVisible;
     } );
 
     this.addChild( controlPanel );
@@ -301,7 +301,7 @@ define( function( require ) {
 
         // give this screenView element and the node a unique ID for convenient DOM lookup
         accessiblePeer.domElement.id = 'screen-view-' + uniqueId;
-        thisScreenView.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
+        self.accessibleId = accessiblePeer.domElement.id; // @public (a11y)
 
         return accessiblePeer;
       }

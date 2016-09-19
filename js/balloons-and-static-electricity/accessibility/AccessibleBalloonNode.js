@@ -6,18 +6,18 @@
  *
  * The HTML should look like:
  * <div id="balloon-widget" aria-labelledby="balloon-label" aria-describedby="balloon-description">
- *    <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346" aria-live="polite" 
- *      id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label" 
+ *    <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346" aria-live="polite"
+ *      id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label"
  *      aria-describedby="balloon-description">
  *    <h3 id="balloon-label">Balloon One</h3>
  *    <p id="balloon-description">
  *        ...
  *    </p>
  * </div
- * 
- * NOTE: This type of structure is experimental. If this structure is successful and can be applied to additional 
+ *
+ * NOTE: This type of structure is experimental. If this structure is successful and can be applied to additional
  * simulation elements, Scenery should eventually be able to handle this kind of thing.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -40,7 +40,7 @@ define( function( require ) {
 
   /**
    * Constructor.
-   * 
+   *
    * @param {number} x
    * @param {number} y
    * @param {BalloonModel} model
@@ -52,9 +52,9 @@ define( function( require ) {
   function AccessibleBalloonNode( x, y, model, imgsrc, globalModel, options ) {
 
     Node.call( this );
-    var thisNode = this;
+    var self = this;
 
-    // The accessible balloon node needs to track the id's of accessible labels so that they can be passed to the 
+    // The accessible balloon node needs to track the id's of accessible labels so that they can be passed to the
     // BalloonNode
     this.accessibleLabelId = 'balloon-label-' + this.id; // @private (a11y)
     this.accessibleDescriptionId = 'balloon-description-' + this.id; // @private (a11y)
@@ -68,8 +68,8 @@ define( function( require ) {
         // The element should look like the following in the Parallel DOM.
         // Note that the input element is defined in BalloonNode.js
         //  <div id="balloon-widget" aria-labelledby="balloon-label" aria-describedby="balloon-description" aria-live='polite'>
-        //     <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346" 
-        //       id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label" 
+        //     <input role="application" type="image" src="" alt="‪" name="balloon-14-35-37-270-343-346"
+        //       id="balloon-14-35-37-270-343-346" draggable="true" class="Balloon" aria-labelledby="balloon-label"
         //       aria-describedby="balloon-description">
         //     <h3 id="balloon-label">Balloon One</h3>
         //     <p id="balloon-description">
@@ -86,13 +86,13 @@ define( function( require ) {
 
         // create the accessible label
         var labelElement = document.createElement( 'h3' );
-        labelElement.id = thisNode.accessibleLabelId;
+        labelElement.id = self.accessibleLabelId;
         labelElement.textContent = options.accessibleLabel;
         domElement.setAttribute( 'aria-labelledby', labelElement.id );
 
         // create the accessible description
         var descriptionElement = document.createElement( 'p' );
-        descriptionElement.id = thisNode.accessibleDescriptionId;
+        descriptionElement.id = self.accessibleDescriptionId;
         descriptionElement.textContent = options.accessibleDescription;
         domElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
@@ -141,8 +141,8 @@ define( function( require ) {
     };
 
     var balloonNodeOptions  =_.extend( {
-      accessibleLabelId: thisNode.accessibleLabelId,
-      accessibleDescriptionId: thisNode.accessibleDescriptionId
+      accessibleLabelId: self.accessibleLabelId,
+      accessibleDescriptionId: self.accessibleDescriptionId
     } );
     var balloonNode = new BalloonNode( x, y, model, imgsrc, globalModel, balloonNodeOptions );
     this.addChild( balloonNode );
