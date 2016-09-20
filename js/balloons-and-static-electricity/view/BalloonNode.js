@@ -159,7 +159,8 @@ define( function( require ) {
     var draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       parentContainerType: 'div',
       focusHighlight: focusHighlightNode,
-      focusable: false // this is only focusable by pressing the button, should not be in navigation order
+      focusable: false, // this is only focusable by pressing the button, should not be in navigation order
+      hidden: !model.isVisible
     } );
 
     // this node will contain the 'Grab Balloon' button
@@ -202,7 +203,6 @@ define( function( require ) {
 
     // the focus highlight changes color when grabbed
     model.isDraggedProperty.link( function( isDragged ) {
-      console.log( isDragged );
       focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
     } );
   }

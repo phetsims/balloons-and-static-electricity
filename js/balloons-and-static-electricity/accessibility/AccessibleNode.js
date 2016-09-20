@@ -38,7 +38,8 @@ define( function( require ) {
     // TODO
     // strip out focusable for now, it is still in scenery/Node mutator keys with
     // incorrect behavior - once fixed in scenery remove this line
-    this._focusable = options.focusable;
+    // temorarily named 'isFocusable' due to collision with scenery/Node
+    this._isFocusable = options.focusable;
     options = _.omit( options, 'focusable');
 
     Node.call( this, options );
@@ -51,7 +52,7 @@ define( function( require ) {
     self.domElement.textContent = 'this is a button';
 
     // set tab index for keyboard focus
-    if ( this._focusable ) { self.domElement.tabIndex = 1; }
+    if ( this._isFocusable ) { self.domElement.tabIndex = 0; }
 
     // set initial hidden state
     // TODO: Does this need to be done by the peer to hide the parent container? If jsut for structure, then NO.
@@ -150,9 +151,15 @@ define( function( require ) {
      * @param {boolean} isFocusable
      */
     setFocusable: function( isFocusable ) {
+      this._isFocusable = isFocusable;
       this.domElement.tabIndex = isFocusable ? 0 : -1;
     },
     set focusable( value ) { this.setFocusable( value ); },
+
+    getFocusable: function() {
+      return this._isFocusable;
+    },
+    get isFocusable() { this.getFocusable(); },
 
     /**
      * Focus this dom element
@@ -160,6 +167,8 @@ define( function( require ) {
      * @return {type}  description
      */
     focus: function() {
+      // make sure that the elememnt is in the navigation order
+      this.setFocusable( true );
       this.domElement.focus();
     }
   } );

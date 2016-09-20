@@ -49,7 +49,7 @@ define( function( require ) {
     var updateKeyState = function( event, keyDown ) {
 
       // update the key state on down
-      self.keyState[ event.keyCode || event.which ] = true;
+      self.keyState[ event.keyCode || event.which ] = keydown;
 
       // optional behavior when a key is pressed
       // TODO: Just check WASD keys?
@@ -66,18 +66,19 @@ define( function( require ) {
         updateKeyState( event, true );
       },
       keyup: function( event ) {
+        console.log( 'keyup' )
         updateKeyState( event, false );
       }
     };
     options = _.extend( {
-      tabIndex: 0, // most draggable elements will be in the navigation order
       events: _.extend( dragKeyEvents, options.events ), // this is REALLY bad
       onTab: function() {}, // optional function to call when user 'tabs' away
       onKeyDown: function() {}, // called on key down
       onKeyUp: function() {}, // called whenever a key is released
       positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
       dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
-      modelViewTransform: ModelViewTransform2.createIdentity() // {ModelViewTransform2} defaults to identity
+      modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
+      focusable: true
     }, options );
 
     // validate options - the draggable node must be represented with <div role='application'> for
