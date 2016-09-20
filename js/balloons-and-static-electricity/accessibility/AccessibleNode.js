@@ -30,18 +30,41 @@ define( function( require ) {
       ariaDescribedby: false, // if true, the description will be read on focus
       events: {}, // object with keys of type event name, values of type function
       hotkeys: {}, // object with keys of type keycode and values of type function
-      hidden: false
+      hidden: false,
+      ariaRole: null, // aria role for the element, can define extra semantics for the reader
+      focusable: false // explicitly set whether the element can receive keyboard focus
     }, options );
+
+    // TODO
+    // strip out focusable for now, it is still in scenery/Node mutator keys with
+    // incorrect behavior - once fixed in scenery remove this line
+    this._focusable = options.focusable;
+    options = _.omit( options, 'focusable');
 
     Node.call( this, options );
     var self = this;
 
-    // TODO: better way to do this - should be unecessary if BalloonNode extends this directly
     this.localBounds = bounds;
 
     // the main dom element representing this node in the accessibility tree
     self.domElement = document.createElement( options.type );
     self.domElement.textContent = 'this is a button';
+
+    // set tab index for keyboard focus
+    if ( this._focusable ) { self.domElement.tabIndex = 1; }
+
+    // set initial hidden state
+    // TODO: Does this need to be done by the peer to hide the parent container? If jsut for structure, then NO.
+    if ( options.hidden ) { self.domElement.hidden = true; }
+
+    // add aria roles and attributes
+    // TODO: This will be burden the GC for nodes that need to be created
+    // and destroyed frequently
+    for ( var role in options.ariaRoles ) {
+      if ( options.ariaRoles.hasOwnProperty( role ) ) {
+        self.domElement.setAttribute( role, options.ariaRoles[ role ] );
+      }
+    }
 
     // create the labels and descriptions
     // TODO: OK to have blank paragaphs?
@@ -129,6 +152,7 @@ define( function( require ) {
     setFocusable: function( isFocusable ) {
       this.domElement.tabIndex = isFocusable ? 0 : -1;
     },
+    set focusable( value ) { this.setFocusable( value ); },
 
     /**
      * Focus this dom element

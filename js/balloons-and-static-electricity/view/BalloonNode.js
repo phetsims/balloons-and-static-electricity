@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
+  var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   // var Path = require( 'SCENERY/nodes/Path' );
   // var Shape = require( 'KITE/Shape' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -163,6 +164,11 @@ define( function( require ) {
     //   hidden: !model.isVisible
     // } );
 
+    var draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
+      parentContainerType: 'div',
+      focusable: false // this is only focusable by pressing the button, should not be in navigation order
+    } );
+
     // this node will contain the 'Grab Balloon' button
     var balloonLabel;
     if ( balloonColor === 'green' ) {
@@ -183,7 +189,7 @@ define( function( require ) {
           model.isDragged = true;
 
           // grab and focus the draggable element
-          // self.draggableNode.focus(); // implement this
+          draggableNode.focus(); // implement this
 
           // reset the velocity when picked up
           model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -193,11 +199,11 @@ define( function( require ) {
     } );
 
     this.addChild( accessibleButtonNode );
-    // this.addChild( this.draggableNode );
+    this.addChild( draggableNode );
 
     // the balloon is hidden from AT when invisible
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      // self.draggableNode.setHidden( !isVisible );
+      draggableNode.setHidden( !isVisible );
       accessibleButtonNode.setHidden( !isVisible );
     } );
   }
