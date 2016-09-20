@@ -12,13 +12,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   // var Path = require( 'SCENERY/nodes/Path' );
   // var Shape = require( 'KITE/Shape' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
-  var AccessibleButtonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleButtonNode' );
-  var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -156,13 +155,13 @@ define( function( require ) {
         stroke: 'black'
     } );
 
-    // @private
-    this.draggableNode = new AccessibleDragNode( model.locationProperty, {
-      focusHighlight: this.applicationHighlightNode,
-      label: '',
-      description: '',
-      hidden: !model.isVisible
-    } );
+    // // @private
+    // this.draggableNode = new AccessibleDragNode( model.locationProperty, {
+    //   focusHighlight: this.applicationHighlightNode,
+    //   label: '',
+    //   description: '',
+    //   hidden: !model.isVisible
+    // } );
 
     // this node will contain the 'Grab Balloon' button
     var balloonLabel;
@@ -172,27 +171,33 @@ define( function( require ) {
     else {
       balloonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
     }
-    var accessibleButtonNode = new AccessibleButtonNode( {
-      focusHighlight: this.buttonHightlightNode,
+
+    var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
+      type: 'button', // representative type
+      parentContainerType: 'div', // contains representative element, label, and description
+      focusHighlight: self.buttonHightlightNode,
       label: balloonLabel,
       description: balloonGrabCueString,
-      onClick: function() {
-        model.isDragged = true;
+      events: {
+        click: function() {
+          model.isDragged = true;
 
-        // grab and focus the element draggable element
-        self.draggableNode.focus(); // implement this!
+          // grab and focus the draggable element
+          // self.draggableNode.focus(); // implement this
 
-        // reset the velocity when picked up
-        model.velocityProperty.set( new Vector2( 0, 0 ) );
+          // reset the velocity when picked up
+          model.velocityProperty.set( new Vector2( 0, 0 ) );
+        }
       },
       hidden: !model.isVisible
     } );
+
     this.addChild( accessibleButtonNode );
-    this.addChild( this.draggableNode );
+    // this.addChild( this.draggableNode );
 
     // the balloon is hidden from AT when invisible
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      self.draggableNode.setHidden( !isVisible );
+      // self.draggableNode.setHidden( !isVisible );
       accessibleButtonNode.setHidden( !isVisible );
     } );
   }
@@ -208,7 +213,7 @@ define( function( require ) {
      * @return {type}    description
      */
     step: function( dt ) {
-      this.draggableNode.step( dt );
+      // this.draggableNode.step( dt );
     }
   } );
 } );
