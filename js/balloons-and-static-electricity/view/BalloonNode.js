@@ -23,6 +23,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
+  // constants
+  var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
+  var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
+
   // strings
   var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
   var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
@@ -146,26 +150,15 @@ define( function( require ) {
     // a11y
     // focus highlight nodes for each accessible representation of the balloon
     var lineWidth = 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude();
-    this.buttonHightlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
-        lineWidth: lineWidth,
-        stroke: 'rgba( 250, 40, 135, 0.9 )'
-    } );
 
-    this.applicationHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
-        lineWidth: lineWidth,
-        stroke: 'black'
+    var focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+      lineWidth: lineWidth,
+      stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR
     } );
-
-    // // @private
-    // this.draggableNode = new AccessibleDragNode( model.locationProperty, {
-    //   focusHighlight: this.applicationHighlightNode,
-    //   label: '',
-    //   description: '',
-    //   hidden: !model.isVisible
-    // } );
 
     var draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       parentContainerType: 'div',
+      focusHighlight: focusHighlightNode,
       focusable: false // this is only focusable by pressing the button, should not be in navigation order
     } );
 
@@ -181,7 +174,7 @@ define( function( require ) {
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       type: 'button', // representative type
       parentContainerType: 'div', // contains representative element, label, and description
-      focusHighlight: self.buttonHightlightNode,
+      focusHighlight: focusHighlightNode,
       label: balloonLabel,
       description: balloonGrabCueString,
       events: {
@@ -205,6 +198,12 @@ define( function( require ) {
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       draggableNode.setHidden( !isVisible );
       accessibleButtonNode.setHidden( !isVisible );
+    } );
+
+    // the focus highlight changes color when grabbed
+    model.isDraggedProperty.link( function( isDragged ) {
+      console.log( isDragged );
+      focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
     } );
   }
 

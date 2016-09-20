@@ -90,7 +90,7 @@ define( function( require ) {
 
     // now set the accessible content by creating an accessible peer
     this.accessibleContent = {
-      focusHighlight: self.bounds,
+      focusHighlight: options.focusHighlight,
       createPeer: function( accessibleInstance ) {
 
         // register listeners to the events
