@@ -49,7 +49,6 @@ define( function( require ) {
 
     // the main dom element representing this node in the accessibility tree
     self.domElement = document.createElement( options.type );
-    self.domElement.textContent = 'this is a button';
 
     // set tab index for keyboard focus
     if ( this._isFocusable ) { self.domElement.tabIndex = 0; }
