@@ -35,6 +35,9 @@ define( function( require ) {
       focusable: false // explicitly set whether the element can receive keyboard focus
     }, options );
 
+    // @private
+    this.type = options.type;
+
     // TODO
     // strip out focusable for now, it is still in scenery/Node mutator keys with
     // incorrect behavior - once fixed in scenery remove this line
@@ -75,13 +78,20 @@ define( function( require ) {
     self.descriptionElement.textContent = options.description;
     self.labelElement.textContent = options.label;
 
+    // if the type supports inner text, the label should be added as inner text
+    if ( this.typeSupportsInnerText() && options.label ) {
+      self.domElement.innerText = options.label;
+    }
+
     // containers to hold DOM children if necessary
     // TODO: is the parent type ALWAYS necessary? Perhaps always for descriptions?
     if ( options.parentContainerType ) {
       self.parentContainerElement = document.createElement( options.parentContainerType );
 
       // with a parent container, the children are added here
-      self.parentContainerElement.appendChild( self.labelElement );
+      if ( !this.typeSupportsInnerText() ) {
+        self.parentContainerElement.appendChild( self.labelElement );
+      }
       self.parentContainerElement.appendChild( self.descriptionElement );
     }
     if ( options.childContainerType ) {
@@ -120,6 +130,26 @@ define( function( require ) {
   }
 
   return inherit( Node, AccessibleNode, {
+
+    /**
+     * Some types support inner text, and these types should have a label
+     * defined this way, rather than a second paragraph contained in a parent element.
+     *
+     * TODO: populate with more element types
+     * @return {boolean}
+     * @private
+     */
+    typeSupportsInnerText: function() {
+      var supportsInnerText = false;
+
+      var typesWithInnerText = [ 'button' ];
+      for ( var i = 0; i < typesWithInnerText.length; i++ ) {
+        if ( this.type === typesWithInnerText[ i ] ) {
+          supportsInnerText = true;
+        }
+      }
+      return supportsInnerText;
+    },
 
     dispose: function() {
       this.disposeAccessibleNode();
