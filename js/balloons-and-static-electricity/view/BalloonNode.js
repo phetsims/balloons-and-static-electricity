@@ -22,6 +22,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Range = require( 'DOT/Range' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
@@ -32,6 +34,12 @@ define( function( require ) {
   var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
   var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
+
+  var wallString = 'wall';
+  var sweaterString = 'sweater';
+  var balloonReleasedPatternString = 'Balloon released. Moved {0} to {1}.';
+  var balloonReleasedNoChangePatternString = 'Balloon Released. {0}';
+  var noChangeInPositionOrChargeString = 'No change in position.  No change in charge.';
 
   /**
    * Constructor for the balloon
@@ -52,6 +60,10 @@ define( function( require ) {
 
     this.x = x;
     this.y = y;
+
+    // @private
+    this.model = model;
+    this.globalModel = globalModel;
 
     var startChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
@@ -161,6 +173,19 @@ define( function( require ) {
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       hidden: !model.isVisible,
+      events: [
+        {
+          eventName: 'keyup',
+          eventFunction: function( event ) {
+            if ( event.keyCode === 32 ) {
+              accessibleButtonNode.focus();
+
+              // release the balloon
+              self.releaseBalloon();
+            }
+          }
+        }
+      ],
       onTab: function( event ) {
 
         // if the user presses 'tab' we want the focus to go to the next element in the
@@ -174,8 +199,13 @@ define( function( require ) {
           self.draggableNode.getNextFocusable().focus();
         }
 
-        // anounce the release description
+        self.releaseBalloon();
+        // // release the balloon
+        // model.isDraggedProperty.set( false );
+        //
+        // // anounce the release description
         // var releaseDescription = self.getReleaseDescription();
+        // console.log( releaseDescription );
         // self.draggableNode.politeAlert( releaseDescription ); // TODO: implement this
       }
     } );
@@ -195,18 +225,21 @@ define( function( require ) {
       focusHighlight: focusHighlightNode,
       label: balloonLabel,
       description: balloonGrabCueString,
-      events: {
-        click: function() {
-          model.isDragged = true;
-          self.draggableNode.setGrabbedState( true );
+      events: [
+        {
+          eventName: 'click',
+          eventFunction: function() {
+            model.isDragged = true;
+            self.draggableNode.setGrabbedState( true );
 
-          // grab and focus the draggable element
-          self.draggableNode.focus();
+            // grab and focus the draggable element
+            self.draggableNode.focus();
 
-          // reset the velocity when picked up
-          model.velocityProperty.set( new Vector2( 0, 0 ) );
+            // reset the velocity when picked up
+            model.velocityProperty.set( new Vector2( 0, 0 ) );
+          }
         }
-      },
+      ],
       hidden: !model.isVisible
     } );
 
@@ -222,30 +255,111 @@ define( function( require ) {
     // the focus highlight changes color when grabbed
     model.isDraggedProperty.link( function( isDragged ) {
       focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
+
+      // when the balloon is no longer being dragged, it should be removed from the focus order
+      self.draggableNode.setFocusable( isDragged );
     } );
   }
 
   return inherit( Node, BalloonNode, {
 
-
     /**
      * Step the draggable node for drag functionality
-     * TODO: Use emitters instead of steap in AccessibleDragNode
      *
-     * @param  {type} dt description
-     * @return {type}    description
+     * @param  {number} dt
      */
     step: function( dt ) {
       this.draggableNode.step( dt );
     },
 
     /**
-     * Get a description about the balloon once it has been released
+     * Get a description of the balloon after it has been released.
+     * This description id dependent on the position.
+     * @return {string}
+     */
+    getReleaseDescription: function() {
+
+      var descriptionString = '';
+      if ( this.model.charge === 0 ) {
+        // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
+        // no change in charges, button label
+
+        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, noChangeInPositionOrChargeString );
+      }
+      else {
+        // otherwise, we want to hear direction and speed of balloon movement.
+        var velocityDescription = this.getVelocityDescription();
+
+        // determine which object the balloon is moving toward
+        var attractedObject = this.getAttractedObject();
+
+        // put it together
+        descriptionString = StringUtils.format( balloonReleasedPatternString, velocityDescription, attractedObject );
+      }
+
+      return descriptionString;
+    },
+
+    /**
+     * Get a description of how quickly the balloon moves to another object in the play area
+     * as a function of the charge.
+     * @param  {number} charge
+     * @return {string}
+     */
+    getVelocityDescription: function() {
+      var velocityDescription = '';
+
+      // map the charges to ranges
+      var verySlowRange = new Range( 1, 14 );
+      var slowRange = new Range( 15, 29 );
+      var quickRange = new Range( 30, 44 );
+      var veryQuickRange = new Range( 45, 57 );
+      var absCharge = Math.abs( this.model.charge );
+
+      if ( verySlowRange.contains( absCharge ) ) {
+        velocityDescription = 'very slowly';
+      }
+      else if ( slowRange.contains( absCharge ) ) {
+        velocityDescription = 'slowly';
+      }
+      else if ( quickRange.contains( absCharge ) ) {
+        velocityDescription = 'quickly';
+      }
+      else if ( veryQuickRange.contains( absCharge ) ) {
+        velocityDescription = 'very quickly';
+      }
+      return velocityDescription;
+    },
+
+    /**
+     * Get the name of the object that the balloon is curently attracted to.
+     *
+     * @return {string}
+     */
+    getAttractedObject: function() {
+      var force = BalloonModel.getTotalForce( this.globalModel, this.model );
+      if ( force.x > 0 ) {
+        return wallString;
+      }
+      else {
+        return sweaterString;
+      }
+    },
+
+    /**
+     * Release the balloon from a dragging state with the keyboard.  Calling this function
+     * will set the model dragging property and anounce alert description.s
      *
      * @return {type}  description
      */
-    getReleaseDescription: function() {
-      console.log( 'please implement' );
+    releaseBalloon: function() {
+      // release the balloon
+      this.model.isDraggedProperty.set( false );
+
+      // anounce the release description
+      var releaseDescription = this.getReleaseDescription();
+      console.log( releaseDescription );
+      // self.draggableNode.politeAlert( releaseDescription ); // TODO: implement this
     }
   } );
 } );

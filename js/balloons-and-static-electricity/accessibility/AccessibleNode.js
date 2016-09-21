@@ -32,7 +32,7 @@ define( function( require ) {
       label: '', // string
       description: '', // string
       ariaDescribedby: false, // if true, the description will be read on focus
-      events: {}, // object with keys of type event name, values of type function
+      events: [], // array of objects with keys of type event name, values of type function
       hotkeys: {}, // object with keys of type keycode and values of type function
       hidden: false,
       ariaRole: null, // aria role for the element, can define extra semantics for the reader
@@ -108,12 +108,9 @@ define( function( require ) {
       createPeer: function( accessibleInstance ) {
 
         // register listeners to the events
-        // TODO: This will be burden the GC for nodes that need to be created
-        // and destroyed frequently
-        for ( var event in options.events ) {
-          if ( options.events.hasOwnProperty( event ) ) {
-            self.domElement.addEventListener( event, options.events[ event ] );
-          }
+        for ( var i = 0; i < options.events.length; i++ ) {
+          var eventEntry = options.events[ i ];
+          self.domElement.addEventListener( eventEntry.eventName, eventEntry.eventFunction );
         }
 
         return new AccessiblePeer( accessibleInstance, self.domElement, {
@@ -124,11 +121,10 @@ define( function( require ) {
     };
 
     this.disposeAccessibleNode = function() {
-      // TODO: This will be burden the GC for nodes that need to be create and destroyed frequently
-      for ( var event in options.events ) {
-        if ( options.events.hasOwnProperty( event ) ) {
-          self.domElement.removeEventListener( event, options.events[ event ] );
-        }
+
+      for ( var i = 0; i < options.events.length; i++ ) {
+        var eventEntry = options.events[ i ];
+        self.domElement.removeEventListener( eventEntry.eventName, eventEntry.eventFunction );
       }
     };
   }

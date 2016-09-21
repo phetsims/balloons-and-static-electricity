@@ -40,48 +40,46 @@ define( function( require ) {
     // @private - emit when the keystate changes
     this.keyStateChangedEmitter = new Emitter();
 
-    /**
-     * Update the keystate object when a keypress occurs.
-     *
-     * @param  {DOMEvent} event
-     * @param  {boolean} keyDown - was the key pressed down?
-     */
-    var updateKeyState = function( event, keyDown ) {
-
-      // update the key state on down
-      self.keyState[ event.keyCode || event.which ] = {
-        isKeyDown: keyDown,
-        keyEvent: event
-      };
-
-      // optional behavior when a key is pressed
-      // TODO: Just check WASD keys?
-      options.onKeyDown( event );
-
-      // notify that key state changed
-      self.keyStateChangedEmitter.emit();
-    };
-
-    // the key drag events for dragging with the WASD keys
-    // TODO: this is really bad - we need to addEventListeners not have one for each event type
-    var dragKeyEvents = {
-      keydown: function( event ) {
-        updateKeyState( event, true );
-      },
-      keyup: function( event ) {
-        updateKeyState( event, false );
-      }
-    };
     options = _.extend( {
-      events: _.extend( dragKeyEvents, options.events ), // this is REALLY bad
       onTab: function() {}, // optional function to call when user 'tabs' away
-      onKeyDown: function() {}, // called on key down
-      onKeyUp: function() {}, // called whenever a key is released
       positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
       dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       focusable: true
     }, options );
+
+    // the key drag events for dragging with the WASD keys
+    var dragKeyEvents = [
+      {
+        eventName: 'keydown',
+        eventFunction: function( event ) {
+
+          // update the key state on down
+          self.keyState[ event.keyCode || event.which ] = {
+            isKeyDown: true,
+            keyEvent: event
+          };
+
+          // notify that key state changed
+          self.keyStateChangedEmitter.emit();
+        }
+      },
+      {
+        eventName: 'keyup',
+        eventFunction: function( event ) {
+
+          // update the key state on down
+          self.keyState[ event.keyCode || event.which ] = {
+            isKeyDown: false,
+            keyEvent: event
+          };
+
+          // notify that key state changed
+          self.keyStateChangedEmitter.emit();
+        }
+      }
+    ];
+    options.events = dragKeyEvents.concat( options.events || [] );
 
     // validate options - the draggable node must be represented with <div role='application'> for
     // screen reader support
