@@ -181,9 +181,10 @@ define( function( require ) {
       events: {
         click: function() {
           model.isDragged = true;
+          self.draggableNode.setGrabbedState( true );
 
           // grab and focus the draggable element
-          self.draggableNode.focus(); // implement this
+          self.draggableNode.focus();
 
           // reset the velocity when picked up
           model.velocityProperty.set( new Vector2( 0, 0 ) );
