@@ -297,8 +297,9 @@ define( function( require ) {
           assertiveAlertElement.hidden = false;
           politeElement.hidden = false;
 
+          // TODO: api should be something like this, provided by AccessibleNode (eventually node?)
           // resetAllButton.alert( 'Simulation reset' );
-          assertiveAlertElement.textContent = 'Sim reset, starting from scratch';
+          assertiveAlertElement.textContent = 'Sim screen restarted, everything reset';
 
         } );
 

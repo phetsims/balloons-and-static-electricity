@@ -66,7 +66,6 @@ define( function( require ) {
         updateKeyState( event, true );
       },
       keyup: function( event ) {
-        console.log( 'keyup' )
         updateKeyState( event, false );
       }
     };
