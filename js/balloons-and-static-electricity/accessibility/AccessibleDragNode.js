@@ -49,7 +49,7 @@ define( function( require ) {
     var updateKeyState = function( event, keyDown ) {
 
       // update the key state on down
-      self.keyState[ event.keyCode || event.which ] = keydown;
+      self.keyState[ event.keyCode || event.which ] = keyDown;
 
       // optional behavior when a key is pressed
       // TODO: Just check WASD keys?
