@@ -160,7 +160,24 @@ define( function( require ) {
       parentContainerType: 'div',
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
-      hidden: !model.isVisible
+      hidden: !model.isVisible,
+      onTab: function( event ) {
+
+        // if the user presses 'tab' we want the focus to go to the next element in the
+        // navigation order, and then we want the screen reader to anounce something specific
+        if ( event.shiftKey ) {
+          // if shift key is down, focus the previous element in the navigation order
+          self.draggableNode.getPreviousFocusable().focus();
+        }
+        else {
+          // focus the nest element in the navigation order
+          self.draggableNode.getNextFocusable().focus();
+        }
+
+        // anounce the release description
+        // var releaseDescription = self.getReleaseDescription();
+        // self.draggableNode.politeAlert( releaseDescription ); // TODO: implement this
+      }
     } );
 
     // this node will contain the 'Grab Balloon' button
@@ -220,6 +237,15 @@ define( function( require ) {
      */
     step: function( dt ) {
       this.draggableNode.step( dt );
+    },
+
+    /**
+     * Get a description about the balloon once it has been released
+     *
+     * @return {type}  description
+     */
+    getReleaseDescription: function() {
+      console.log( 'please implement' );
     }
   } );
 } );

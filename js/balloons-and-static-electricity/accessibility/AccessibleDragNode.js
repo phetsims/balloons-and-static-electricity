@@ -49,7 +49,10 @@ define( function( require ) {
     var updateKeyState = function( event, keyDown ) {
 
       // update the key state on down
-      self.keyState[ event.keyCode || event.which ] = keyDown;
+      self.keyState[ event.keyCode || event.which ] = {
+        isKeyDown: keyDown,
+        keyEvent: event
+      };
 
       // optional behavior when a key is pressed
       // TODO: Just check WASD keys?
@@ -163,22 +166,24 @@ define( function( require ) {
       var self = this;
       // if tab is down, we may want to do something specific (like drop the element or
       // focus something other than what is in the default navigation order )
-      if ( self.keyState[ KEY_TAB ] ) {
-        self._onTab();
+      if ( self.keyState[ KEY_TAB ] && self.keyState[ KEY_TAB ].isKeyDown ) {
+        self._onTab( self.keyState[ KEY_TAB].keyEvent );
+        // keyup is fired immediately for tab, so now update the keystate
+        self.keyState[ KEY_TAB ].isKeyDown = false;
       }
 
       var deltaX = 0;
       var deltaY = 0;
-      if ( self.keyState[ KEY_A ] ) {
+      if ( self.keyState[ KEY_A ] && self.keyState[ KEY_A ].isKeyDown ) {
         deltaX = -self._positionDelta;
       }
-      if ( self.keyState[ KEY_D ] ) {
+      if ( self.keyState[ KEY_D ] && self.keyState[ KEY_D ].isKeyDown ) {
         deltaX = self._positionDelta;
       }
-      if ( self.keyState[ KEY_W ] ) {
+      if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
         deltaY = -self._positionDelta;
       }
-      if ( self.keyState[ KEY_S ] ) {
+      if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
         deltaY = self._positionDelta;
       }
 

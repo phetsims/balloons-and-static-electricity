@@ -14,6 +14,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
+  // constants
+  var NEXT = 'NEXT';
+  var PREVIOUS = 'PREVIOUS';
+
   /**
    * Constructor for a button Node.
    * @constructor
@@ -199,7 +203,115 @@ define( function( require ) {
       // make sure that the elememnt is in the navigation order
       this.setFocusable( true );
       this.domElement.focus();
+    },
+
+    /**
+     * Get all 'element' nodes off the parent element, placing them in an array
+     * for easy traversal.  Note that this includes all elements, even those
+     * that are 'hidden' or purely for structure.
+     *
+     * TODO: This should be somewhere deeper in scenery
+     * @param  {DOMElement} domElement - the parent element to linearize
+     * @return {Array.<DOMElement>}
+     * @private
+     */
+    getLinearDOMElements: function( domElement ) {
+      // gets ALL descendent children for the element
+      var children = domElement.getElementsByTagName( '*' );
+
+      var linearDOM = [];
+      for ( var i = 0; i < children.length; i++ ) {
+
+        // searching for the HTML type Node.ELEMENT_NODE, which is equal to 1
+        if ( children[i].nodeType === 1 ) {
+          linearDOM[i] = ( children[ i ] );
+        }
+      }
+      return linearDOM;
+    },
+
+    /**
+     * Get the
+     *
+     * @return {type}  description
+     */
+    getNextFocusable: function() {
+      return this.getNextPreviousFocusable( NEXT );
+    },
+
+    getPreviousFocusable: function() {
+      return this.getNextPreviousFocusable( PREVIOUS );
+    },
+
+    /**
+     * Get the next focusable element in the parallel DOM.
+     *
+     * @return {Node}
+     */
+    getNextPreviousFocusable: function( direction ) {
+
+      var nextFocusable;
+      var linearDOM = this.getLinearDOMElements( document.getElementsByClassName( 'accessibility' )[ 0 ] );
+
+      // list of attributes or element types that make an element focusable
+      var focusableTypes = [ 'BUTTON', 'INPUT' ];
+
+      // get the active element
+      var activeElement = this.domElement;
+
+      // get the index of the active element in the linear DOM
+      var activeIndex;
+      for ( var i = 0; i < linearDOM.length; i++ ) {
+
+        // find the active element in the DOM
+        if ( activeElement === linearDOM[ i ] ) {
+          activeIndex = i;
+
+          // direction to move through the DOM
+          var delta = direction === NEXT ? +1 : -1;
+
+          // find the next focusable element in the DOM
+          var nextIndex = activeIndex + delta;
+          while ( !nextFocusable && nextIndex < linearDOM.length - 1 ) {
+            for ( var j = 0; j < focusableTypes.length; j++ ) {
+              var nextElement = linearDOM[ nextIndex ];
+
+              // continue to while if the next element is meant to be hidden
+              if ( nextElement.hidden ) {
+                break;
+              }
+
+              // if the next element is focusable, return it
+              if ( nextElement.tabIndex > -1 ) {
+                nextFocusable = nextElement;
+                break;
+              }
+              else if ( nextElement.tagName === focusableTypes[ j ] ) {
+                nextFocusable = nextElement;
+                break;
+              }
+            }
+            nextIndex += delta;
+          }
+          // break out of the while loop
+          if ( nextFocusable ) {
+            break;
+          }
+        }
+      }
+
+      // if no next focusable is found, return this DOMElement
+      return nextFocusable || this.domElement;
+    },
+
+    alertAssertive: function() {
+      console.log( 'please implement' );
+    },
+
+    alertPolite: function() {
+      console.log( 'please implement' );
     }
+
   } );
 
 } );
