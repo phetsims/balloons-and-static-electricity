@@ -92,9 +92,9 @@ define( function( require ) {
     // @private
     this.locationProperty = locationProperty;
     this._positionDelta = options.positionDelta;
-    this.dragBounds = options.dragBounds;
-    this.modelViewTransform = options.modelViewTransform;
-    this.onTab = options.onTab;
+    this._dragBounds = options.dragBounds;
+    this._modelViewTransform = options.modelViewTransform;
+    this._onTab = options.onTab;
 
     // button contained in a div so that it can contain descriptions or other children
     AccessibleNode.call( this, nodeBounds, options );
@@ -102,37 +102,37 @@ define( function( require ) {
     // the dom element is explicitly draggable
     this.domElement.draggable = true;
 
-    // listen for changes to the keystate and update the model vavlue
-    this.keyStateChangedEmitter.addListener( function() {
-      // if tab is down, we may want to do something specific (like drop the element or
-      // focus something other than what is in the default navigation order )
-      if ( self.keyState[ KEY_TAB ] ) {
-        options.onTab();
-      }
-
-      var deltaX = 0;
-      var deltaY = 0;
-      if ( self.keyState[ KEY_A ] ) {
-        deltaX = -self._positionDelta;
-      }
-      if ( self.keyState[ KEY_D ] ) {
-        deltaX = self._positionDelta;
-      }
-      if ( self.keyState[ KEY_W ] ) {
-        deltaY = -self._positionDelta;
-      }
-      if ( self.keyState[ KEY_S ] ) {
-        deltaY = self._positionDelta;
-      }
-
-      var locationDelta = options.modelViewTransform.modelToViewDelta( new Vector2( deltaX, deltaY ) );
-      var newLocation = self.dragBounds.closestPointTo( self.locationProperty.value.plus( locationDelta ) );
-
-      // update the location if it is different
-      if ( !newLocation.equals( self.locationProperty.value ) ) {
-        self.locationProperty.set( newLocation );
-      }
-    } );
+    // // listen for changes to the keystate and update the model vavlue
+    // this.keyStateChangedEmitter.addListener( function() {
+    //   // if tab is down, we may want to do something specific (like drop the element or
+    //   // focus something other than what is in the default navigation order )
+    //   if ( self.keyState[ KEY_TAB ] ) {
+    //     options.onTab();
+    //   }
+    //
+    //   var deltaX = 0;
+    //   var deltaY = 0;
+    //   if ( self.keyState[ KEY_A ] ) {
+    //     deltaX = -self._positionDelta;
+    //   }
+    //   if ( self.keyState[ KEY_D ] ) {
+    //     deltaX = self._positionDelta;
+    //   }
+    //   if ( self.keyState[ KEY_W ] ) {
+    //     deltaY = -self._positionDelta;
+    //   }
+    //   if ( self.keyState[ KEY_S ] ) {
+    //     deltaY = self._positionDelta;
+    //   }
+    //
+    //   var locationDelta = options.modelViewTransform.modelToViewDelta( new Vector2( deltaX, deltaY ) );
+    //   var newLocation = self.dragBounds.closestPointTo( self.locationProperty.value.plus( locationDelta ) );
+    //
+    //   // update the location if it is different
+    //   if ( !newLocation.equals( self.locationProperty.value ) ) {
+    //     self.locationProperty.set( newLocation );
+    //   }
+    // } );
   }
 
   return inherit( AccessibleNode, AccessibleDragNode, {
@@ -155,6 +155,39 @@ define( function( require ) {
      */
     setPositionDelta: function( newDelta ) {
       this._positionDelta = newDelta;
+    },
+
+    step: function() {
+
+      var self = this;
+      // if tab is down, we may want to do something specific (like drop the element or
+      // focus something other than what is in the default navigation order )
+      if ( self.keyState[ KEY_TAB ] ) {
+        self._onTab();
+      }
+
+      var deltaX = 0;
+      var deltaY = 0;
+      if ( self.keyState[ KEY_A ] ) {
+        deltaX = -self._positionDelta;
+      }
+      if ( self.keyState[ KEY_D ] ) {
+        deltaX = self._positionDelta;
+      }
+      if ( self.keyState[ KEY_W ] ) {
+        deltaY = -self._positionDelta;
+      }
+      if ( self.keyState[ KEY_S ] ) {
+        deltaY = self._positionDelta;
+      }
+
+      var locationDelta = self._modelViewTransform.modelToViewDelta( new Vector2( deltaX, deltaY ) );
+      var newLocation = self._dragBounds.closestPointTo( self.locationProperty.value.plus( locationDelta ) );
+
+      // update the location if it is different
+      if ( !newLocation.equals( self.locationProperty.value ) ) {
+        self.locationProperty.set( newLocation );
+      }
     }
   } );
 

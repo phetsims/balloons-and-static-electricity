@@ -156,7 +156,7 @@ define( function( require ) {
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR
     } );
 
-    var draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
+    self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       parentContainerType: 'div',
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
@@ -183,7 +183,7 @@ define( function( require ) {
           model.isDragged = true;
 
           // grab and focus the draggable element
-          draggableNode.focus(); // implement this
+          self.draggableNode.focus(); // implement this
 
           // reset the velocity when picked up
           model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -193,11 +193,11 @@ define( function( require ) {
     } );
 
     this.addChild( accessibleButtonNode );
-    this.addChild( draggableNode );
+    this.addChild( self.draggableNode );
 
     // the balloon is hidden from AT when invisible
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      draggableNode.setHidden( !isVisible );
+      self.draggableNode.setHidden( !isVisible );
       accessibleButtonNode.setHidden( !isVisible );
     } );
 
@@ -218,7 +218,7 @@ define( function( require ) {
      * @return {type}    description
      */
     step: function( dt ) {
-      // this.draggableNode.step( dt );
+      this.draggableNode.step( dt );
     }
   } );
 } );
