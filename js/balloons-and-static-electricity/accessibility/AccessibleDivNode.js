@@ -6,6 +6,8 @@
  *
  * This node is entirely invisible, other than its representation in the accessibility tree.
  *
+ * TODO: This should be replaced by AccessibleNode options
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -44,7 +46,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDivNode', AccessibleDivNode );
-  
+
   return inherit( Node, AccessibleDivNode );
 
 } );

@@ -6,6 +6,8 @@
  *
  * This node is entirely invisible, other than its representation in Scenery's accessibility tree.
  *
+ * TODO: This should be replaced by AccessibleNode options
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -68,7 +70,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDescriptionNode', AccessibleDescriptionNode );
-  
+
   return inherit( Node, AccessibleDescriptionNode );
 
 } );

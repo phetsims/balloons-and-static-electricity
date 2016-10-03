@@ -6,6 +6,8 @@
  *
  * This node is entirely invisible, other than its representation in the accessibility tree.
  *
+ * TODO: This should be delted, replaced by AccessibleNode
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {

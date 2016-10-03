@@ -1,13 +1,13 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A Scenery node used to contain a legend element in the Parallel DOM.  By giving the element its own node, we can 
+ * A Scenery node used to contain a legend element in the Parallel DOM.  By giving the element its own node, we can
  * contain it and have full control of its location in the parallel DOM relative to other child elements.  This node
  * is only necessary because this element must exist and is not directly associated with a visual Scenery node on the
  * ScreenView.
- * 
+ *
  * This node is entirely invisible, other than its representation in the accessibility tree.
- * 
+ *
  * @author: Jesse Greenberg
  */
 define( function( require ) {
@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * Create a node that contains a legend for radio button groups.
-   * 
+   *
    * @param {string} accessibleLabel
    * @constructor
    **/
