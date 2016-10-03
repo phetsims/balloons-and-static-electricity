@@ -10,6 +10,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
 
   // constants
@@ -114,6 +115,8 @@ define( function( require ) {
 
   }
 
+  balloonsAndStaticElectricity.register( 'PlayArea', PlayArea );
+  
   return inherit( Bounds2, PlayArea, {
 
     /**

@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   /**
@@ -66,6 +67,8 @@ define( function( require ) {
     } );
   }
 
+  balloonsAndStaticElectricity.register( 'AccessibleDescriptionNode', AccessibleDescriptionNode );
+  
   return inherit( Node, AccessibleDescriptionNode );
 
 } );

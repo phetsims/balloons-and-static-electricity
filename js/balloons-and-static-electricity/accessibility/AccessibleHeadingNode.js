@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
@@ -44,6 +45,8 @@ define( function( require ) {
       }
     } );
   }
+
+  balloonsAndStaticElectricity.register( 'AccessibleHeadingNode', AccessibleHeadingNode );
 
   return inherit( Node, AccessibleHeadingNode );
 

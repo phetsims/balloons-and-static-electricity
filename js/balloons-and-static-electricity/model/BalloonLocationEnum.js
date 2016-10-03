@@ -9,6 +9,9 @@
 define( function( require ) {
   'use strict';
 
+  // modules
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
   var BalloonLocationEnum = {
     TOP_RIGHT: 'TOP_RIGHT',
     UPPER_RIGHT: 'UPPER_RIGHT',
@@ -57,6 +60,8 @@ define( function( require ) {
 
   // verify that enum is immutable, without the runtime penalty in production code
   if ( assert ) { Object.freeze( BalloonLocationEnum ); }
+
+  balloonsAndStaticElectricity.register( 'BalloonLocationEnum', BalloonLocationEnum );
 
   return BalloonLocationEnum;
 } );

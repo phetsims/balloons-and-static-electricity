@@ -21,9 +21,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
-  // var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-
-  // constants
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   /**
    *
@@ -44,7 +42,7 @@ define( function( require ) {
     assert && assert( this.politeStatusElement, 'No polite status element found in document' );
   }
 
-  // balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
+  balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
 
   return inherit( Object, AriaHerald, {
 

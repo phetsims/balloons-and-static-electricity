@@ -8,6 +8,9 @@
 define( function( require ) {
   'use strict';
 
+  // modules
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
   var getQueryParameter = phet.chipper.getQueryParameter;
 
   var BalloonsAndStaticElectricityQueryParameters = {
@@ -28,6 +31,8 @@ define( function( require ) {
     SHOW_LIVE_OUTPUT: getQueryParameter( 'showLiveOutput' ) || false
 
   };
+
+  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityQueryParameters', BalloonsAndStaticElectricityQueryParameters );
 
   return BalloonsAndStaticElectricityQueryParameters;
 } );

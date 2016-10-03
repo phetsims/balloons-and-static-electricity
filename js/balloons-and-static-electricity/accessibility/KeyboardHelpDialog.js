@@ -29,6 +29,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
   var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
@@ -284,6 +285,8 @@ define( function( require ) {
     } ) );
 
   }
+
+  balloonsAndStaticElectricity.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
 
   return inherit( Dialog, KeyboardHelpDialog, {
     hide: function() {

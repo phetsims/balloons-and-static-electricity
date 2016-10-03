@@ -327,15 +327,21 @@ define( function( require ) {
 
   }
 
+  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
+
   inherit( ScreenView, BalloonsAndStaticElectricityView, {
+
+    /**
+     * Step the view - for accessibility we step the drag handlers because
+     * the keyboard dragging animates the position of the balloons
+     *
+     * @param  number} dt description
+     */
     step: function( dt ) {
       this.greenBalloon.step( dt );
       this.yellowBalloon.step( dt );
     }
   } );
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
 
-  inherit( ScreenView, BalloonsAndStaticElectricityView );
-  
   return BalloonsAndStaticElectricityView;
 } );

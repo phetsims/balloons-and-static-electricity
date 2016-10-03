@@ -23,6 +23,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var ABSwitch = require( 'SUN/ABSwitch' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   /**
    * Constructor.
@@ -146,6 +147,8 @@ define( function( require ) {
     this.accessibleOrder = [ accessibilityNode ];
 
   }
+
+  balloonsAndStaticElectricity.register( 'AccessibleABSwitchNode', AccessibleABSwitchNode );
 
   return inherit( ABSwitch, AccessibleABSwitchNode );
 

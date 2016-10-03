@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
   var NEXT = 'NEXT';
@@ -129,11 +130,15 @@ define( function( require ) {
     };
   }
 
+  balloonsAndStaticElectricity.register( 'AccessibleNode', AccessibleNode );
+
   return inherit( Node, AccessibleNode, {
 
     /**
      * Some types support inner text, and these types should have a label
      * defined this way, rather than a second paragraph contained in a parent element.
+     *
+     * TODO: Move to a utils file
      *
      * TODO: populate with more element types
      * @return {boolean}

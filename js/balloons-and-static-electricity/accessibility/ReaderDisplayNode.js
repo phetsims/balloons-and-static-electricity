@@ -12,6 +12,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
 
@@ -50,9 +51,11 @@ define( function( require ) {
         // text goes in the center of the rectangle
         text.setText( outputUtterance.text );
         text.center = rectBounds.center;
-      } ); 
+      } );
     }
   }
+
+  balloonsAndStaticElectricity.register( 'ReaderDisplayNode', ReaderDisplayNode );
 
   return inherit( Rectangle, ReaderDisplayNode, {} );
 

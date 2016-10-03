@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Line = require( 'SCENERY/nodes/Line' );
 
   function PlayAreaNode( model ) {
@@ -71,6 +72,8 @@ define( function( require ) {
     this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
 
   }
+
+  balloonsAndStaticElectricity.register( 'PlayAreaNode', PlayAreaNode );
 
   return inherit( Node, PlayAreaNode );
 } );
