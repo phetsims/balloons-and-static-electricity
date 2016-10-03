@@ -47,7 +47,7 @@ define( function( require ) {
   var balloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons' );
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+  // var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
@@ -55,8 +55,8 @@ define( function( require ) {
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
-  var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
-  var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
+  // var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
+  // var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
   var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
 
   function ControlPanel( model, layoutBounds ) {
@@ -82,7 +82,7 @@ define( function( require ) {
         listener: wallButtonListener
       }
     );
-    this.addChild( this.wallButton );
+    // this.addChild( this.wallButton );
 
     // accessible content for the wallButton
     this.wallButton.accessibleContent = {
@@ -104,25 +104,26 @@ define( function( require ) {
       }
     };
 
-    // add a live region that updates when the wall is added and removed from the screen, contained by the wall button
-    // container div
-    var liveDescriptionFunction = function( isVisibleProperty ) {
-      if( isVisibleProperty.value ) {
-        return wallAddedString;
-      }
-      else{
-        return wallRemovedString;
-      }
-    };
+    // // add a live region that updates when the wall is added and removed from the screen, contained by the wall button
+    // // container div
+    // var liveDescriptionFunction = function( isVisibleProperty ) {
+    //   if( isVisibleProperty.value ) {
+    //     return wallAddedString;
+    //   }
+    //   else{
+    //     return wallRemovedString;
+    //   }
+    // };
 
-    var liveDescriptionNode = new AccessibleDescriptionNode( {
-      isLive: true,
-      hidden: true,
-      property: model.wall.isVisibleProperty,
-      accessibleDescription: wallAddedString,
-      liveDescriptionFunction: liveDescriptionFunction
-    });
-    wallButtonContainerNode.addChild( liveDescriptionNode );
+    // var liveDescriptionNode = new AccessibleDescriptionNode( {
+    //   isLive: true,
+    //   hidden: true,
+    //   property: model.wall.isVisibleProperty,
+    //   accessibleDescription: wallAddedString,
+    //   liveDescriptionFunction: liveDescriptionFunction
+    // });
+    //
+    // wallButtonContainerNode.addChild( liveDescriptionNode );
 
     // Radio buttons related to charges
     // NOTE: We are removing the radios for charge visibility for now, see
@@ -254,7 +255,7 @@ define( function( require ) {
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ resetAllButton, wallButtonContainerNode ]
+      children: [ resetAllButton, this.wallButton ]
     } );
 
     // TODO: Verify with designers - is this how it should behave?
@@ -341,7 +342,7 @@ define( function( require ) {
 
     // define the navigation order for accessible content in the control panel.
     // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
-    this.accessibleOrder = [ accessibleHeadingNode, wallButtonContainerNode, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, this.wallButton, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
 
 
   }

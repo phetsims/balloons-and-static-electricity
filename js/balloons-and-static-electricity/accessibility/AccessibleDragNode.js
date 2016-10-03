@@ -84,8 +84,8 @@ define( function( require ) {
 
     // validate options - the draggable node must be represented with <div role='application'> for
     // screen reader support
-    assert && assert( !options.type || options.type === 'div', 'a draggable element must be represented by a div' );
-    options.type = 'div';
+    assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
+    options.tagName = 'div';
 
     // the element must have the application role for dragging behavior
     assert && assert( !options.ariaRole || options.role === 'application', 'draggable peer must be of role "application"' );
@@ -143,20 +143,9 @@ define( function( require ) {
   return inherit( AccessibleNode, AccessibleDragNode, {
 
     /**
-     * Focus the draggable element, overriding the super type function
-     *
-     * @return {type}  description
-     * @override
-     */
-    // focus: function() {
-      // this._draggableElement.focus();
-    // },
-
-    /**
      * Set the position delta for the draggable element when a key is pressed
      *
      * @param  {number} newDelta - delta for position in model coordinates
-     * @return {type}          description
      */
     setPositionDelta: function( newDelta ) {
       this._positionDelta = newDelta;
@@ -202,7 +191,6 @@ define( function( require ) {
      * ara-grabbed specifies the grabbed state for a screen reader.
      *
      * @param {boolean} grabbed
-     * @return {type}  description
      */
     setGrabbedState: function( grabbed ) {
       this.domElement.setAttribute( 'aria-grabbed', grabbed );

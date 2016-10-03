@@ -33,8 +33,8 @@ define( function( require ) {
     options = _.extend( {
       tagName: 'button', // TODO: should this really be optional? Is button a proper default?
       inputType: null,
-      parentContainerType: null, // container for this dom element and peer elements
-      childContainerType: null, // container for children added to this element
+      parentContainerTagName: null, // container for this dom element and peer elements
+      childContainerTagName: null, // container for children added to this element
       focusHighlight: null, // Node|Shape|Bounds2
       useLabelElement: false, // should the label use a 'label' element or a paragraph elements?
       label: '', // string
@@ -50,7 +50,7 @@ define( function( require ) {
     }, options );
 
     // @private
-    this.type = options.type;
+    this.tagName = options.tagName;
 
     // TODO
     // strip out focusable for now, it is still in scenery/Node mutator keys with
@@ -65,7 +65,7 @@ define( function( require ) {
     this.localBounds = bounds;
 
     // the main dom element representing this node in the accessibility tree
-    self.domElement = document.createElement( options.type );
+    self.domElement = document.createElement( options.tagName );
 
     // the dom element is labeled by the id of the node in the scene graph
     this.domElement.id = this.id;
@@ -81,7 +81,7 @@ define( function( require ) {
     if ( options.ariaRole ) { this.domElement.setAttribute( 'role', options.ariaRole ); }
 
     // add type if supported and defined
-    if ( options.type === DOM_INPUT && options.inputType ) {
+    if ( options.tagName === DOM_INPUT && options.inputType ) {
       this.domElement.type = options.inputType;
     }
 
@@ -108,23 +108,23 @@ define( function( require ) {
     self.labelElement.textContent = options.label;
 
     // if the type supports inner text, the label should be added as inner text
-    if ( this.typeSupportsInnerText() && options.label ) {
+    if ( this.elementSupportsInnerText() && options.label ) {
       self.domElement.innerText = options.label;
     }
 
     // containers to hold DOM children if necessary
     // TODO: is the parent type ALWAYS necessary? Perhaps always for descriptions?
-    if ( options.parentContainerType ) {
-      self.parentContainerElement = document.createElement( options.parentContainerType );
+    if ( options.parentContainerTagName ) {
+      self.parentContainerElement = document.createElement( options.parentContainerTagName );
 
       // with a parent container, the children are added here
-      if ( !this.typeSupportsInnerText() ) {
+      if ( !this.elementSupportsInnerText() ) {
         self.parentContainerElement.appendChild( self.labelElement );
       }
       self.parentContainerElement.appendChild( self.descriptionElement );
     }
-    if ( options.childContainerType ) {
-      self.childContainerType = document.createElement( options.childContainerType );
+    if ( options.childContainerTagName ) {
+      self.childContainerTagName = document.createElement( options.childContainerTagName );
     }
 
     // now set the accessible content by creating an accessible peer
@@ -168,12 +168,12 @@ define( function( require ) {
      * @return {boolean}
      * @private
      */
-    typeSupportsInnerText: function() {
+    elementSupportsInnerText: function() {
       var supportsInnerText = false;
 
-      var typesWithInnerText = [ 'button' ];
-      for ( var i = 0; i < typesWithInnerText.length; i++ ) {
-        if ( this.type === typesWithInnerText[ i ] ) {
+      var elementsWithInnerText = [ 'button' ];
+      for ( var i = 0; i < elementsWithInnerText.length; i++ ) {
+        if ( this.tagName === elementsWithInnerText[ i ] ) {
           supportsInnerText = true;
         }
       }
@@ -186,8 +186,6 @@ define( function( require ) {
 
     /**
      * Set the description of this widget element
-     *
-     * @param  {type} textContent description
      */
     setDescription: function( textContent ) {
       assert && assert( self.descriptionElement, 'desription element must exist in prallel DOM' );
@@ -242,8 +240,6 @@ define( function( require ) {
 
     /**
      * Focus this dom element
-     *
-     * @return {type}  description
      */
     focus: function() {
       // make sure that the elememnt is in the navigation order
@@ -277,20 +273,27 @@ define( function( require ) {
     },
 
     /**
-     * Get the
+     * Get the next focusable element in the parallel DOM.
+     * TODO: Move to a scenery utils?
      *
-     * @return {type}  description
+     * @return {DOMElement}
      */
     getNextFocusable: function() {
       return this.getNextPreviousFocusable( NEXT );
     },
 
+    /**
+     * Get the previous focusable elements in the parallel DOM
+     *
+     * @return {DOMElement}
+     */
     getPreviousFocusable: function() {
       return this.getNextPreviousFocusable( PREVIOUS );
     },
 
     /**
-     * Get the next focusable element in the parallel DOM.
+     * Get the next or previous focusable element in the parallel DOM, depending on
+     * parameter.
      *
      * @return {Node}
      */
