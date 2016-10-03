@@ -33,10 +33,8 @@ define( function( require ) {
     options = _.extend( {
       type: 'input',
       inputType: 'checkbox',
-      parentContainerType: 'div', // container for this dom element and peer elements
-      label: '', // TODO: contain in a literal <label> element,
       useLabelElement: true,
-      description: '', // ???
+      parentContainerType: 'div',
       events: [
         {
           eventName: 'click',
@@ -61,10 +59,8 @@ define( function( require ) {
     }, options );
 
     var switchNode = new ABSwitch( property, valueA, labelA, valueB, labelB, options );
-
     var peerBounds = switchNode.bounds;
 
-    // create the accesssible content
     AccessibleNode.call( this, peerBounds, options );
 
     // add the view element as a child
