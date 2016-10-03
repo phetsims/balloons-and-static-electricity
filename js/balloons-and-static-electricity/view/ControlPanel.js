@@ -34,9 +34,11 @@ define( function( require ) {
   var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
   // var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -47,7 +49,7 @@ define( function( require ) {
   var balloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons' );
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-  // var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
@@ -55,8 +57,8 @@ define( function( require ) {
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
-  // var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
-  // var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
+  var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
+  var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
   var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
 
   function ControlPanel( model, layoutBounds ) {
@@ -79,30 +81,63 @@ define( function( require ) {
     this.wallButton = new RectangularPushButton( {
         content: wallToggleNode,
         baseColor: 'rgb( 255, 200, 0 )',
-        listener: wallButtonListener
+        listener: wallButtonListener,
+        accessibleContent: null // for now, accessble content implemented below
       }
     );
-    // this.addChild( this.wallButton );
 
-    // accessible content for the wallButton
-    this.wallButton.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
+    // create a herald to announce when the interface changges as a result of interaction
+    var ariaHerald = new AriaHerald();
 
-        // generate the 'supertype peer' for the push button in the parallel DOM.
-        // NOTE: For now, we are removing the description string for the wallButton, see
-        // https://github.com/phetsims/balloons-and-static-electricity/issues/120
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer(
-          accessibleInstance, removeWallLabelString, wallButtonListener );
+    // acccessible node containing the wall button
+    // TODO: Once accessibility common components are integrated into scenery, this container will not
+    // be necessary, and RectangularPushButton can do this directly
+    this.accessibleWallButton = new AccessibleNode( this.wallButton.bounds, {
+      parentContainerTagName: 'div',
+      tagName: 'button',
+      label: removeWallLabelString,
+      description: wallDescriptionString,
+      events: [
+        {
+          eventName: 'click',
+          eventFunction: function( event ) {
+            model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
+          }
+        }
+      ]
+    } );
+    this.accessibleWallButton.addChild( this.wallButton );
 
-        // when the button is pressed, the button value needs to toggle to match the text on screen
-        model.wall.isVisibleProperty.link( function( wallVisible ) {
-          var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
-          accessiblePeer.domElement.textContent = updatedLabel;
-        } );
+    // when the wall toggles visibility, make an alert that this has happened and
+    // update the button text content
+    var self = this;
+    model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
+      var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
+      self.accessibleWallButton.setLabel( updatedLabel );
 
-        return accessiblePeer;
-      }
-    };
+      var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
+      ariaHerald.announceAssertive( alertDescription );
+    } );
+
+    // // accessible content for the wallButton
+    // this.wallButton.accessibleContent = {
+    //   createPeer: function( accessibleInstance ) {
+    //
+    //     // generate the 'supertype peer' for the push button in the parallel DOM.
+    //     // NOTE: For now, we are removing the description string for the wallButton, see
+    //     // https://github.com/phetsims/balloons-and-static-electricity/issues/120
+    //     var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer(
+    //       accessibleInstance, removeWallLabelString, wallButtonListener );
+    //
+    //     // when the button is pressed, the button value needs to toggle to match the text on screen
+    //     model.wall.isVisibleProperty.link( function( wallVisible ) {
+    //       var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
+    //       accessiblePeer.domElement.textContent = updatedLabel;
+    //     } );
+    //
+    //     return accessiblePeer;
+    //   }
+    // };
 
     // // add a live region that updates when the wall is added and removed from the screen, contained by the wall button
     // // container div
@@ -255,7 +290,7 @@ define( function( require ) {
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ resetAllButton, this.wallButton ]
+      children: [ resetAllButton, this.accessibleWallButton ]
     } );
 
     // TODO: Verify with designers - is this how it should behave?
@@ -342,7 +377,7 @@ define( function( require ) {
 
     // define the navigation order for accessible content in the control panel.
     // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
-    this.accessibleOrder = [ accessibleHeadingNode, this.wallButton, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
+    this.accessibleOrder = [ accessibleHeadingNode, this.accessibleWallButton, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
 
 
   }

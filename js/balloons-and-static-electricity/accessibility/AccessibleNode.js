@@ -185,6 +185,21 @@ define( function( require ) {
     },
 
     /**
+     * Set the text content for the label element of this node.  The label element
+     * is usually either a paragraph, a label, or innerText for a certain inputs.
+     *
+     * @param  {string} textContent
+     */
+    setLabel: function( textContent ) {
+      if ( !this.elementSupportsInnerText() ) {
+        self.labelElement.textContent = textContent;
+      }
+      else {
+        this.textContent = textContent;
+      }
+    },
+
+    /**
      * Set the description of this widget element
      */
     setDescription: function( textContent ) {
@@ -351,14 +366,6 @@ define( function( require ) {
 
       // if no next focusable is found, return this DOMElement
       return nextFocusable || this.domElement;
-    },
-
-    alertAssertive: function() {
-      console.log( 'please implement' );
-    },
-
-    alertPolite: function() {
-      console.log( 'please implement' );
     }
 
   } );
