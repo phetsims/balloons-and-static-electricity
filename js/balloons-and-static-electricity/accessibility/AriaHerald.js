@@ -20,7 +20,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  // var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
 
@@ -28,13 +29,13 @@ define( function( require ) {
    *
    * @constructor
    */
-  function AriaHerald( model ) {
+  function AriaHerald() {
 
     // @private - collect the DOM elements which will receive the updated content
     this.assertiveElement = document.getElementById( 'assertive' );
     this.politeElement = document.getElementById( 'polite' );
     this.assertiveAlertElement = document.getElementById( 'assertive-alert' );
-    this.politeStatusElement = document.getElementnById( 'polite-status' );
+    this.politeStatusElement = document.getElementById( 'polite-status' );
 
     // verify that all elements are present
     assert && assert( this.assertiveElement, 'No assertive element found in document' );
@@ -43,7 +44,7 @@ define( function( require ) {
     assert && assert( this.politeStatusElement, 'No polite status element found in document' );
   }
 
-  balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
+  // balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
 
   return inherit( Object, AriaHerald, {
 
@@ -54,7 +55,10 @@ define( function( require ) {
      * @param  {string} textContent - the alert to announce
      */
     announceAssertive: function( textContent ) {
-      this.assertiveElement.textContent =
+      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+        console.log( textContent );
+      }
+      this.assertiveElement.textContent = textContent;
     },
 
     /**
@@ -64,6 +68,9 @@ define( function( require ) {
      * @param  {string} textContent - the polite content to announce
      */
     announcePolite: function( textContent ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+        console.log( textContent );
+      }
       this.politeElement.textContent = textContent;
     },
 
@@ -75,6 +82,9 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announceAssertiveWithAlert: function( textContent ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+        console.log( textContent );
+      }
       this.assertiveAlertElement.textContent = textContent;
     },
 
@@ -86,6 +96,9 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announcePoliteWithStatus: function( textContent ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+        console.log( textContent );
+      }
       this.politeStatusElement.textContent = textContent;
     }
   } );

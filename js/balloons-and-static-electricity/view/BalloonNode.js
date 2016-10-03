@@ -23,6 +23,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Range = require( 'DOT/Range' );
+  var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
 
   // constants
@@ -160,13 +161,15 @@ define( function( require ) {
     model.view = this;
 
     // a11y
-    // focus highlight nodes for each accessible representation of the balloon
+    // focus highlight - turns black when balloon is picked up for dragging
     var lineWidth = 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude();
-
     var focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: lineWidth,
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR
     } );
+
+    // the herald that will anounce alerts via screen reader
+    this.ariaHerald = new AriaHerald();
 
     self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       parentContainerType: 'div',
@@ -190,6 +193,7 @@ define( function( require ) {
 
         // if the user presses 'tab' we want the focus to go to the next element in the
         // navigation order, and then we want the screen reader to anounce something specific
+        // the balloon should also be released from dragging
         if ( event.shiftKey ) {
           // if shift key is down, focus the previous element in the navigation order
           self.draggableNode.getPreviousFocusable().focus();
@@ -200,13 +204,6 @@ define( function( require ) {
         }
 
         self.releaseBalloon();
-        // // release the balloon
-        // model.isDraggedProperty.set( false );
-        //
-        // // anounce the release description
-        // var releaseDescription = self.getReleaseDescription();
-        // console.log( releaseDescription );
-        // self.draggableNode.politeAlert( releaseDescription ); // TODO: implement this
       }
     } );
 
@@ -358,8 +355,7 @@ define( function( require ) {
 
       // anounce the release description
       var releaseDescription = this.getReleaseDescription();
-      console.log( releaseDescription );
-      // self.draggableNode.politeAlert( releaseDescription ); // TODO: implement this
+      this.ariaHerald.announcePolite( releaseDescription );
     }
   } );
 } );

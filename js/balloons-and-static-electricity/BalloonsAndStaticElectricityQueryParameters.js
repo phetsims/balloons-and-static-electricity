@@ -15,13 +15,18 @@ define( function( require ) {
     // enables prototype screen reader
     READER: getQueryParameter( 'reader' ) || false,
 
-    // keyData - must be used with reader, shows key information instead of 
+    // keyData - must be used with reader, shows key information instead of
     // reader output, useful for debugging
     KEY_DATA: getQueryParameter( 'keyData' ) || false,
 
     // dev - eneables developer only features
-    DEV: getQueryParameter( 'dev' ) || false
-    
+    DEV: getQueryParameter( 'dev' ) || false,
+
+    // showLiveOutput - shows expected output from a screen reader from aria-live
+    // content.  Usefull for development and debugging without having to turn on a
+    // screen reader
+    SHOW_LIVE_OUTPUT: getQueryParameter( 'showLiveOutput' ) || false
+
   };
 
   return BalloonsAndStaticElectricityQueryParameters;
