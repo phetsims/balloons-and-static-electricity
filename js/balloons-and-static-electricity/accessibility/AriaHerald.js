@@ -41,17 +41,53 @@ define( function( require ) {
     assert && assert( this.politeElement, 'No polite element found in document' );
     assert && assert( this.assertiveAlertElement, 'No assertive alert element found in document' );
     assert && assert( this.politeStatusElement, 'No polite status element found in document' );
-
-
   }
 
   balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
 
   return inherit( Object, AriaHerald, {
-    announceAssertive: function() {},
-    announcePolite: function() {},
-    announceAssertiveWithAlert: function() {},
-    announcePoliteWithStatus: function() {}
+
+    /**
+     * Announce an assertive alert.  This alert should be annouced by the AT immediately,
+     * regardless of current user interaction status.
+     *
+     * @param  {string} textContent - the alert to announce
+     */
+    announceAssertive: function( textContent ) {
+      this.assertiveElement.textContent =
+    },
+
+    /**
+     * Announce a polite alert.  This alert should be annouced when the user has finished
+     * their current interaction or after other utterenances in the queue are finished
+     *
+     * @param  {string} textContent - the polite content to announce
+     */
+    announcePolite: function( textContent ) {
+      this.politeElement.textContent = textContent;
+    },
+
+    /**
+     * Announce an assertive alert, with ARIA alert behavior.  This behaves similarly to
+     * announceAssertive but AT will add extra functionality with the alert role, such as
+     * literally saying 'Alert' or providing extra navigation strategies to find this content.
+     *
+     * @param  {string} textContent - the content ot announce
+     */
+    announceAssertiveWithAlert: function( textContent ) {
+      this.assertiveAlertElement.textContent = textContent;
+    },
+
+    /**
+     * Announce polite with ARIA status behavior.  This behaves similarly to
+     * announcePolite but AT will add extra functionality with the status role, such as
+     * literally saying 'Status' or providing extra navigation strategies to find this content.
+     *
+     * @param  {string} textContent - the content ot announce
+     */
+    announcePoliteWithStatus: function( textContent ) {
+      this.politeStatusElement.textContent = textContent;
+    }
   } );
 
 } );
