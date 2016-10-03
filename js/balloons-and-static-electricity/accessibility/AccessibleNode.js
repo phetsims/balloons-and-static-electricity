@@ -195,7 +195,7 @@ define( function( require ) {
         self.labelElement.textContent = textContent;
       }
       else {
-        this.textContent = textContent;
+        this.domElement.textContent = textContent;
       }
     },
 
@@ -203,8 +203,8 @@ define( function( require ) {
      * Set the description of this widget element
      */
     setDescription: function( textContent ) {
-      assert && assert( self.descriptionElement, 'desription element must exist in prallel DOM' );
-      self.descriptionElement.textContent = textContent;
+      assert && assert( this.descriptionElement, 'desription element must exist in prallel DOM' );
+      this.descriptionElement.textContent = textContent;
     },
 
     /**

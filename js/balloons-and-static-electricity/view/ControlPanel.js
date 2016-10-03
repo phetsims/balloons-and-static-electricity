@@ -30,8 +30,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
-  var AccessibleDivNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDivNode' );
+  // var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
@@ -234,56 +233,31 @@ define( function( require ) {
       content: resetBalloonToggleNode,
       buttonValue: resetBalloonString,
       baseColor: 'rgb( 255, 200, 0 )',
-      listener: resetBalloonButtonListener
+      listener: resetBalloonButtonListener,
+      accessibleContent: null // temporary - disable content here, implemented below
     } );
 
-    // create a parent div container for the reset balloon button so that it can have a detailed description
-    var resetBalloonButtonContainerNode = new AccessibleDivNode();
-    resetBalloonButtonContainerNode.addChild( resetBalloonButton );
-
     // create the accessible description for the reset balloon button
-    var generateDescriptionString = function( balloonVisibleProperty ) {
-      var resetString = balloonVisibleProperty.value ? balloonsString : balloonString;
+    var generateDescriptionString = function( balloonVisible ) {
+      var resetString = balloonVisible ? balloonsString : balloonString;
       return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
     };
 
-    var resetBalloonButtonDescriptionNode = new AccessibleDescriptionNode( {
-      accessibleDescription: StringUtils.format( resetBalloonsDescriptionPatternString, resetBalloonString ),
-      liveDescriptionFunction: generateDescriptionString,
-      property: model.balloons[1].isVisibleProperty
+    var accessibleResetBalloonButton = new AccessibleNode( resetBalloonButton.bounds, {
+      parentContainerTagName: 'div',
+      tagName: 'button',
+      label: resetBalloonString,
+      description: generateDescriptionString( model.balloons[ 1 ].isVisibleProperty )
     } );
-    resetBalloonButtonContainerNode.addChild( resetBalloonButtonDescriptionNode );
+    accessibleResetBalloonButton.addChild( resetBalloonButton );
 
+    model.balloons[ 1 ].isVisibleProperty.link( function( balloonVisible ) {
+      var newLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
+      accessibleResetBalloonButton.setLabel( newLabel );
+      accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
+    } );
 
-    // accessible content for the resetBalloonButton
-    resetBalloonButton.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-
-        // var balloonVisibleProperty = model.balloons[1].isVisibleProperty;
-
-        // generate the correct description string for the button
-        // var generateDescriptionString = function( balloonVisible ) {
-        //   var resetString = balloonVisible ? resetBalloonsString : resetBalloonString;
-        //   return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
-        // };
-
-        // generate the 'supertype peer' for the push button in the parallel DOM.
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance,
-          resetBalloonString, resetBalloonButtonListener );
-
-        // when the button is pressed, the button value needs to toggle to match the text on screen
-        model.balloons[1].isVisibleProperty.link( function( balloonVisible ) {
-          var updatedLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
-          accessiblePeer.domElement.textContent = updatedLabel;
-          // accessiblePeer.updateDescription( generateDescriptionString( balloonVisible ) )
-
-        } );
-
-        return accessiblePeer;
-      }
-    };
-
-    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, resetBalloonButtonContainerNode ] } );
+    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, accessibleResetBalloonButton ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
@@ -377,8 +351,7 @@ define( function( require ) {
 
     // define the navigation order for accessible content in the control panel.
     // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
-    this.accessibleOrder = [ accessibleHeadingNode, this.accessibleWallButton, showBalloonsChoice, resetBalloonButtonContainerNode, resetAllButton ];
-
+    this.accessibleOrder = [ accessibleHeadingNode, this.accessibleWallButton, showBalloonsChoice, accessibleResetBalloonButton, resetAllButton ];
 
   }
 
