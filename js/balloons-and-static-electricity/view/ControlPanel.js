@@ -82,16 +82,7 @@ define( function( require ) {
         listener: wallButtonListener
       }
     );
-
-    // create a container div element to parent the wall button so that it can have a more explicit description
-    var wallButtonContainerNode = new AccessibleDivNode();
-    wallButtonContainerNode.addChild( this.wallButton );
-
-    // create the accesssible description for the wall button
-    var wallButtonDescriptionNode = new AccessibleDescriptionNode( {
-      accessibleDescription: wallDescriptionString
-    } );
-    wallButtonContainerNode.addChild( wallButtonDescriptionNode );
+    this.addChild( this.wallButton );
 
     // accessible content for the wallButton
     this.wallButton.accessibleContent = {

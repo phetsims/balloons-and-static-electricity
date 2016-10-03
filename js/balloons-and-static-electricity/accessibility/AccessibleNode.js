@@ -19,7 +19,7 @@ define( function( require ) {
   var NEXT = 'NEXT';
   var PREVIOUS = 'PREVIOUS';
 
-  // specific DOM tagnames
+  // specific DOM tagnames, used for handling how attributes and label are added
   var DOM_PARAGRAPH = 'p';
   var DOM_INPUT = 'input';
   var DOM_LABEL = 'label';
@@ -31,7 +31,7 @@ define( function( require ) {
   function AccessibleNode( bounds, options ) {
 
     options = _.extend( {
-      type: 'button', // TODO: should this really be optional? Is button a proper default?
+      tagName: 'button', // TODO: should this really be optional? Is button a proper default?
       inputType: null,
       parentContainerType: null, // container for this dom element and peer elements
       childContainerType: null, // container for children added to this element

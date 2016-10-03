@@ -220,7 +220,7 @@ define( function( require ) {
     }
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
-      type: 'button', // representative type
+      tagName: 'button', // representative type
       parentContainerType: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
       label: balloonLabel,
