@@ -5,6 +5,7 @@
  * references 'aria-live' elements in the HTML document and updates content.
  * ARIA attributes specify the behavior of timing for the alert.  The following alert elements are
  * in the document, but are subject to change, see https://github.com/phetsims/chipper/issues/472
+ * These elements wer tested and determined to be the most widely supported and most useful.
  *
  *    <p id="assertive" aria-live="assertive" aria-atomic="true"></p>
  *    <p id="polite" aria-live="polite" aria-atomic="true"></p>
@@ -35,12 +36,22 @@ define( function( require ) {
     this.assertiveAlertElement = document.getElementById( 'assertive-alert' );
     this.politeStatusElement = document.getElementnById( 'polite-status' );
 
+    // verify that all elements are present
+    assert && assert( this.assertiveElement, 'No assertive element found in document' );
+    assert && assert( this.politeElement, 'No polite element found in document' );
+    assert && assert( this.assertiveAlertElement, 'No assertive alert element found in document' );
+    assert && assert( this.politeStatusElement, 'No polite status element found in document' );
+
+
   }
 
   balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
 
   return inherit( Object, AriaHerald, {
-
+    announceAssertive: function() {},
+    announcePolite: function() {},
+    announceAssertiveWithAlert: function() {},
+    announcePoliteWithStatus: function() {}
   } );
 
 } );
