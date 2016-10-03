@@ -50,14 +50,11 @@ define( function( require ) {
   var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
-  var singleBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/singleBalloonExperiment.label' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
-  var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
-  var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
   var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
   var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
   var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
@@ -186,15 +183,12 @@ define( function( require ) {
 
     // ABSwitch inside of a panel to control the number of balloons on screen
     var showBalloonsChoice = new Panel(
-      new AccessibleABSwitchNode( model.balloons[1].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon,
-        { switchSize: new Dimension2( 32, 16 ),
-          accessibleLabelA: twoBalloonExperimentLabelString,
-          accessibleLabelB: singleBalloonExperimentLabelString,
-          accessibleDescriptionA: greenBalloonRemovedString,
-          accessibleDescriptionB: greenBalloonAddedString,
-          accessibleDescription: balloonToggleButtonDescriptionString
-        }
-      ), { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
+      new AccessibleABSwitchNode( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
+        switchSize: new Dimension2( 32, 16 ),
+        label: twoBalloonExperimentLabelString,
+        description: balloonToggleButtonDescriptionString
+      } ),
+      { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
 
     // 'Reset Balloons' button

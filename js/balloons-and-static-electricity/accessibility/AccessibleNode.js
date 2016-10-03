@@ -19,6 +19,11 @@ define( function( require ) {
   var NEXT = 'NEXT';
   var PREVIOUS = 'PREVIOUS';
 
+  // specific DOM tagnames
+  var DOM_PARAGRAPH = 'p';
+  var DOM_INPUT = 'input';
+  var DOM_LABEL = 'label';
+
   /**
    * Constructor for a button Node.
    * @constructor
@@ -27,9 +32,11 @@ define( function( require ) {
 
     options = _.extend( {
       type: 'button', // TODO: should this really be optional? Is button a proper default?
+      inputType: null,
       parentContainerType: null, // container for this dom element and peer elements
       childContainerType: null, // container for children added to this element
       focusHighlight: null, // Node|Shape|Bounds2
+      useLabelElement: false, // should the label use a 'label' element or a paragraph elements?
       label: '', // string
       description: '', // string
       ariaDescribedby: false, // if true, the description will be read on focus
@@ -37,7 +44,9 @@ define( function( require ) {
       hotkeys: {}, // object with keys of type keycode and values of type function
       hidden: false,
       ariaRole: null, // aria role for the element, can define extra semantics for the reader
-      focusable: false // explicitly set whether the element can receive keyboard focus
+      focusable: false, // explicitly set whether the element can receive keyboard focus
+      domStyle: null, // extra styling for the parallel DOM, can be needed by Safari to support navigation
+      ariaAttributes: [] // array of objects specifying aria attributes - keys attribute and value
     }, options );
 
     // @private
@@ -58,6 +67,9 @@ define( function( require ) {
     // the main dom element representing this node in the accessibility tree
     self.domElement = document.createElement( options.type );
 
+    // the dom element is labeled by the id of the node in the scene graph
+    this.domElement.id = this.id;
+
     // set tab index for keyboard focus
     if ( this._isFocusable ) { self.domElement.tabIndex = 0; }
 
@@ -65,20 +77,32 @@ define( function( require ) {
     // TODO: Does this need to be done by the peer to hide the parent container? If jsut for structure, then NO.
     if ( options.hidden ) { self.domElement.hidden = true; }
 
-    // add aria roles and attributes
-    // TODO: This will be burden the GC for nodes that need to be created
-    // and destroyed frequently
-    for ( var role in options.ariaRoles ) {
-      if ( options.ariaRoles.hasOwnProperty( role ) ) {
-        self.domElement.setAttribute( role, options.ariaRoles[ role ] );
-      }
+    // add aria role
+    if ( options.ariaRole ) { this.domElement.setAttribute( 'role', options.ariaRole ); }
+
+    // add type if supported and defined
+    if ( options.type === DOM_INPUT && options.inputType ) {
+      this.domElement.type = options.inputType;
+    }
+
+    for ( var i = 0; i < options.ariaAttributes.length; i++ ) {
+      var ariaAttribute = options.ariaAttributes[ i ];
+      this.domElement.setAttribute( ariaAttribute.attribute, ariaAttribute.value );
     }
 
     // create the labels and descriptions
-    // TODO: OK to have blank paragaphs?
-    // TODO: This will have to be added in varying ways depending on the element type
-    self.descriptionElement = document.createElement( 'p' );
-    self.labelElement = document.createElement( 'p' );
+    self.descriptionElement = document.createElement( DOM_PARAGRAPH );
+
+    // the label can be either a paragraph or a 'label'
+    var labelElement;
+    if ( options.useLabelElement ) {
+      labelElement = document.createElement( DOM_LABEL );
+      labelElement.setAttribute( 'for', this.domElement.id );
+    }
+    else {
+      labelElement = document.createElement( DOM_PARAGRAPH );
+    }
+    self.labelElement = labelElement;
 
     self.descriptionElement.textContent = options.description;
     self.labelElement.textContent = options.label;
@@ -177,6 +201,27 @@ define( function( require ) {
      */
     setHidden: function( hidden ) {
       this.domElement.hidden = hidden ;
+    },
+
+    /**
+     * Set a particular attribute for this node's peer element, generally to provide extra
+     * semantic information for a screen reader.
+     *
+     * @param  {string} attribute - string naming the attribute
+     * @param  {string|boolean} value - the value for the attribute
+     */
+    setAttribute: function( attribute, value ) {
+      this.domElement.setAttribute( attribute, value );
+    },
+
+    /**
+     * Remove a particular attribute, removing the associated semantic information from
+     * the DOM element.
+     *
+     * @param  {string} attribute - name of the attribute to remove
+     */
+    removeAttribute: function( attribute ) {
+      this.domElement.removeAttribute( attribute );
     },
 
     /**

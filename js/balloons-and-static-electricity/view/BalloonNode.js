@@ -42,6 +42,8 @@ define( function( require ) {
   var balloonReleasedPatternString = 'Balloon released. Moved {0} to {1}.';
   var balloonReleasedNoChangePatternString = 'Balloon Released. {0}';
   var noChangeInPositionOrChargeString = 'No change in position.  No change in charge.';
+  var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
+  var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
 
   /**
    * Constructor for the balloon
@@ -244,10 +246,13 @@ define( function( require ) {
     this.addChild( accessibleButtonNode );
     this.addChild( self.draggableNode );
 
-    // the balloon is hidden from AT when invisible
+    // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       self.draggableNode.setHidden( !isVisible );
       accessibleButtonNode.setHidden( !isVisible );
+
+      var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
+      self.ariaHerald.announceAssertiveWithAlert( alertDescription );
     } );
 
     // the focus highlight changes color when grabbed
