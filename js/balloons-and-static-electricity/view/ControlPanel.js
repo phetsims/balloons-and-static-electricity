@@ -30,7 +30,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
-  // var AccessibleDescriptionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDescriptionNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
@@ -117,47 +116,6 @@ define( function( require ) {
       var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
       ariaHerald.announceAssertive( alertDescription );
     } );
-
-    // // accessible content for the wallButton
-    // this.wallButton.accessibleContent = {
-    //   createPeer: function( accessibleInstance ) {
-    //
-    //     // generate the 'supertype peer' for the push button in the parallel DOM.
-    //     // NOTE: For now, we are removing the description string for the wallButton, see
-    //     // https://github.com/phetsims/balloons-and-static-electricity/issues/120
-    //     var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer(
-    //       accessibleInstance, removeWallLabelString, wallButtonListener );
-    //
-    //     // when the button is pressed, the button value needs to toggle to match the text on screen
-    //     model.wall.isVisibleProperty.link( function( wallVisible ) {
-    //       var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
-    //       accessiblePeer.domElement.textContent = updatedLabel;
-    //     } );
-    //
-    //     return accessiblePeer;
-    //   }
-    // };
-
-    // // add a live region that updates when the wall is added and removed from the screen, contained by the wall button
-    // // container div
-    // var liveDescriptionFunction = function( isVisibleProperty ) {
-    //   if( isVisibleProperty.value ) {
-    //     return wallAddedString;
-    //   }
-    //   else{
-    //     return wallRemovedString;
-    //   }
-    // };
-
-    // var liveDescriptionNode = new AccessibleDescriptionNode( {
-    //   isLive: true,
-    //   hidden: true,
-    //   property: model.wall.isVisibleProperty,
-    //   accessibleDescription: wallAddedString,
-    //   liveDescriptionFunction: liveDescriptionFunction
-    // });
-    //
-    // wallButtonContainerNode.addChild( liveDescriptionNode );
 
     // Radio buttons related to charges
     // NOTE: We are removing the radios for charge visibility for now, see

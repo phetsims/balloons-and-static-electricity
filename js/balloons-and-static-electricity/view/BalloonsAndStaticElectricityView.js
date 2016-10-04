@@ -16,7 +16,6 @@ define( function( require ) {
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
-  // var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   // var AccessibleBalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleBalloonNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
@@ -214,9 +213,6 @@ define( function( require ) {
     } );
     this.addChild( descriptionSectionNode );
 
-    // create an accessible heading for the entire screen view
-    // var accessibleHeadingNode = new AccessibleHeadingNode( 'h2', playAreaLabelString );
-
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleNode( null, {
       tagName: 'section',
@@ -228,8 +224,6 @@ define( function( require ) {
     var keyboardHelpDialog = new KeyboardHelpDialog( this, {
       maxWidth: self.layoutBounds.width
     } );
-
-    // add the heading to the container element, and make sure it comes first
 
     this.addChild( playAreaContainerNode );
 
