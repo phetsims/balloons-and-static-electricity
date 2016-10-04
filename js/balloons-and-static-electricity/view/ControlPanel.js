@@ -29,7 +29,6 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  // var AccessibleHeadingNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleHeadingNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
@@ -51,7 +50,7 @@ define( function( require ) {
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
-  // var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
+  var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
   var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
@@ -64,13 +63,10 @@ define( function( require ) {
     // super constructor
     AccessibleNode.call( this, layoutBounds, {
       tagName: 'section', // this is a separate section of elements
-      childContainerTagName: 'div' // all children contained in a div under the section
-
+      childContainerTagName: 'div', // all children contained in a div under the section
+      label: controlPanelLabelString,
+      labelTagName: 'h2'
     } );
-
-    // create an accesible heading element for the parallel DOM
-    // var accessibleHeadingNode = new AccessibleHeadingNode( 'h2', controlPanelLabelString );
-    // this.addChild( accessibleHeadingNode );
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
@@ -279,27 +275,6 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    // the control panel itself has accessible content.  Even though there is no 'control panel' in the view,
-    // containing the elements inside of a section makes sense as a thematic structure for accessibility.
-    this.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        var trail = accessibleInstance.trail;
-        var uniqueId = trail.getUniqueId();
-
-        //  the control panel should be represented by the following in the parallel DOM:
-        //  <section id="control-panel">
-        //    <h2 id="cp-label">Control Panel</h2>
-
-        // create the section tag
-        var domElement = document.createElement( 'section' );
-        domElement.id = 'control-panel-' + uniqueId;
-        // domElement.setAttribute( 'aria-labelledby', 'heading-node-' + accessibleHeadingNode.id );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-
-      }
-    };
-
     // NOTE: We are removing the radio button group for charges for now, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/120
 
@@ -312,7 +287,7 @@ define( function( require ) {
     // showChargesRadioButtonGroup.accessibleOrder = [ chargesLegendContainerNode ];
 
     // define the navigation order for accessible content in the control panel.
-    // this.accessibleOrder = [ accessibleHeadingNode, wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
+    // this.accessibleOrder = [ wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
     this.accessibleOrder = [ this.accessibleWallButton, showBalloonsChoice, accessibleResetBalloonButton, resetAllButton ];
 
   }
