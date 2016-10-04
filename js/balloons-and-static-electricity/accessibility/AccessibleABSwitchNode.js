@@ -33,7 +33,7 @@ define( function( require ) {
     options = _.extend( {
       tagName: 'input',
       inputType: 'checkbox',
-      useLabelElement: true,
+      labelTagName: 'label',
       parentContainerType: 'div',
       events: [
         {

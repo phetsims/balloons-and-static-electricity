@@ -217,7 +217,8 @@ define( function( require ) {
     var playAreaContainerNode = new AccessibleNode( null, {
       tagName: 'section',
       label: playAreaLabelString,
-      childContainerTagName: 'div'
+      childContainerTagName: 'div',
+      labelTagName: 'h2'
     } );
 
     // create the keyboard help dialog for accessibility

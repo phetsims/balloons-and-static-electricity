@@ -32,13 +32,13 @@ define( function( require ) {
 
     options = _.extend( {
       tagName: 'button', // TODO: should this really be optional? Is button a proper default?
-      inputType: null,
+      inputType: null, // only relevant if using an input
       parentContainerTagName: null, // container for this dom element and peer elements
       childContainerTagName: null, // container for children added to this element
       focusHighlight: null, // Node|Shape|Bounds2
-      useLabelElement: false, // should the label use a 'label' element or a paragraph elements?
       label: '', // string
       description: '', // string
+      labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
       ariaDescribedby: false, // if true, the description will be read on focus
       events: [], // array of objects with keys of type event name, values of type function
       hotkeys: {}, // object with keys of type keycode and values of type function
@@ -94,15 +94,12 @@ define( function( require ) {
     self.descriptionElement = document.createElement( DOM_PARAGRAPH );
 
     // the label can be either a paragraph or a 'label'
-    var labelElement;
-    if ( options.useLabelElement ) {
-      labelElement = document.createElement( DOM_LABEL );
-      labelElement.setAttribute( 'for', this.domElement.id );
+    self.labelElement = document.createElement( options.labelTagName );
+
+    // if the label is specifically a 'label', it requires the 'for' attribute, referencing the dom element id
+    if ( options.labelTagName === DOM_LABEL ) {
+      self.labelElement.setAttribute( 'for', this.domElement.id );
     }
-    else {
-      labelElement = document.createElement( DOM_PARAGRAPH );
-    }
-    self.labelElement = labelElement;
 
     self.descriptionElement.textContent = options.description;
     self.labelElement.textContent = options.label;
