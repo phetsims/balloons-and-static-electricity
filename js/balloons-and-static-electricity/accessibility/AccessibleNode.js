@@ -123,8 +123,14 @@ define( function( require ) {
       }
       self.parentContainerElement.appendChild( self.descriptionElement );
     }
-    if ( options.childContainerTagName ) {
-      self.childContainerTagName = document.createElement( options.childContainerTagName );
+    else if ( options.childContainerTagName ) {
+
+      // can only support one or the other child structure
+      self.childContainerElement = document.createElement( options.childContainerTagName );
+
+      // if we have child container, hte label and description come first
+      this.domElement.appendChild( this.labelElement );
+      this.domElement.appendChild( this.descriptionElement );
     }
 
     // now set the accessible content by creating an accessible peer
@@ -136,6 +142,10 @@ define( function( require ) {
         for ( var i = 0; i < options.events.length; i++ ) {
           var eventEntry = options.events[ i ];
           self.domElement.addEventListener( eventEntry.eventName, eventEntry.eventFunction );
+        }
+
+        if ( self.childContainerElement ) {
+          self.domElement.appendChild( self.childContainerElement );
         }
 
         return new AccessiblePeer( accessibleInstance, self.domElement, {
