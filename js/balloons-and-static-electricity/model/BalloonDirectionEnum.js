@@ -1,8 +1,8 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Possible locations of the balloon in Balloons and Static Electricity.  In addition, there are more values that
- * signify when the balloon is along a certain object or edge of the play area.
+ * Possible directions for the balloon in Balloons and Static Electricity, balloon can move up, down, left, right,
+ * and along the diagonals of these orientations.
  *
  * @author Jesse Greenberg
  */
@@ -16,8 +16,11 @@ define( function( require ) {
     LEFT: 'LEFT',
     RIGHT: 'RIGHT',
     UP: 'UP',
-    DOWN: 'DOWN'
-
+    DOWN: 'DOWN',
+    UP_LEFT: 'UP_LEFT',
+    UP_RIGHT: 'UP_RIGHT',
+    DOWN_LEFT: 'DOWN_LEFT',
+    DOWN_RIGHT: 'DOWN_RIGHT',
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

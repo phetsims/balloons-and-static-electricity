@@ -124,6 +124,10 @@ define( function( require ) {
 
     var self = this;
 
+    // @public (read-only)- track when a charge is picked up so we can describe when a charge is and is not
+    // picked up.
+    this.chargePickedUpInDrag = false;
+
     this.location = new Vector2( x, y );
     this.initialLocation = this.location.copy();
     this.defaultVisibily = defaultVisibility;
@@ -166,6 +170,79 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
 
   inherit( PropertySet, BalloonModel, {
+
+    /**
+     * findClosestCharge - description
+     *
+     * @return {type}  description
+     */
+    getClosestCharge: function() {
+      // find the closest charge to the balloon that has not yet been picked up
+      var sweater = this.balloonsAndStaticElectricityModel.sweater;
+
+      // loop through the charges to find the next closest one
+      var difference = new Vector2( 0, 0 ); // allocated once to avoid burden to memory
+      var minDistance = Number.POSITIVE_INFINITY;
+      var closestCharge;
+      for ( var i = 0; i < sweater.minusCharges.length; i++ ) {
+
+        var charge = sweater.minusCharges[ i ];
+
+        // if the charge has been moved already, skip it
+        if ( charge.moved ) {
+          continue;
+        }
+
+        var distX = charge.location.x - this.location.x;
+        var distY = charge.location.y - this.location.y;
+        difference.setXY( distX, distY );
+
+        if ( difference.magnitude() < minDistance ) {
+          minDistance = difference.magnitude();
+          closestCharge = charge;
+        }
+      }
+
+      assert && assert( closestCharge, 'Tried to find closest charge when no more charges remain on sweater.' );
+      return closestCharge;
+    },
+
+    /**
+     * Get a direction from the balloon center to the charge.
+     *
+     * @param  {type} chargeModel description
+     * @return {type}             description
+     */
+    getDirectionToCharge: function( chargeModel ) {
+      var difference = chargeModel.location.minus( this.getCenter() );
+
+      var diffX = difference.x;
+      var diffY = difference.y;
+
+      // direction string to be returned
+      var direction;
+      if ( diffX > 0 && diffY > 0 ) {
+        // charge is up and to the right
+        direction = BalloonDirectionEnum.DOWN_RIGHT;
+      }
+      else if ( diffX > 0 && diffY < 0 ) {
+        // charge is down and to the right
+        direction = BalloonDirectionEnum.UP_RIGHT;
+      }
+      else if ( diffX < 0 && diffY > 0 ) {
+        // charge is up and to the left
+        direction = BalloonDirectionEnum.DOWN_LEFT;
+      }
+      else if ( diffX < 0 && diffY < 0 ) {
+        // charge is down and to the lefts
+        direction = BalloonDirectionEnum.UP_LEFT;
+      }
+
+      assert && assert( direction, 'A direction must be defined' );
+      console.log( direction );
+      return direction;
+
+    },
 
     /**
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
@@ -300,7 +377,11 @@ define( function( require ) {
           }
 
           // check to see if we can catch any minus charges
-          this.dragBalloon( model, dt );
+          var chargePickedUp = this.dragBalloon( model, dt );
+
+          if ( chargePickedUp ) {
+            this.chargePickedUpInDrag = true;
+          }
         }
         else {
           BalloonModel.applyForce( model, this, dt );
@@ -308,7 +389,15 @@ define( function( require ) {
       }
       this.oldLocation = this.location.copy();
     },
-    //when balloon dragged check if we can catch minus charges
+
+    /**
+     * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
+     * that indicates whether or not a charge was picked up.
+     *
+     * @param  {BalloonsAndStaticElectricityModel} model
+     * @param  {number} dt
+     * @return {boolean} chargeFound
+     */
     dragBalloon: function( model, dt ) {
 
       // Prevent a fuzzer error that tries to drag the balloon before step is called.
@@ -339,9 +428,12 @@ define( function( require ) {
       this.dragSpeed = speed;
       this.dragVelocityProperty.set( new Vector2( dx, dy ) );
 
+      var chargeFound = false;
       if ( speed >= this.thresholdSpeed ) {
-        model.sweater.findIntersection( this );
+        chargeFound = model.sweater.findIntersection( this );
       }
+
+      return chargeFound;
     },
     //force between sweater and balloon
     getSweaterForce: function( sweaterModel ) {

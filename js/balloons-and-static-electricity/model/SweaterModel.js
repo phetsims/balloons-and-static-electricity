@@ -122,7 +122,16 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
 
   inherit( PropertySet, SweaterModel, {
+
     //is balloon over minus charge on sweater?
+
+    /**
+     * Check if the balloon is over a minus charge on the sweawter.  If it is, move the charge
+     * from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved
+     *
+     * @param  {type} balloon
+     * @return {boolean} chargeMoved - was a charge moved to the balloon?
+     */
     findIntersection: function( balloon ) {
       var self = this;
       //active area of balloon rectangle at the left of image
@@ -131,16 +140,22 @@ define( function( require ) {
       var y1 = balloon.location.y - 10;
       var y2 = balloon.location.y + balloon.height + 10;
 
+      // track wheter or not we found a charge
+      var chargeMoved = false;
+
       this.minusCharges.forEach( function( entry ) {
         if ( !entry.moved ) {
           if ( x1 < entry.location.x && entry.location.x < x2 ) {
             if ( y1 < entry.location.y && entry.location.y < y2 ) {
               //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
               self.moveChargeTo( entry, balloon );
+              chargeMoved = true;
             }
           }
         }
       } );
+
+      return chargeMoved;
     },
     //charge from sweater to balloon
     moveChargeTo: function( charge, balloon ) {

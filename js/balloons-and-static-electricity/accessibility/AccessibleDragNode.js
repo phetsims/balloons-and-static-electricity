@@ -47,7 +47,8 @@ define( function( require ) {
       positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
       dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
-      focusable: true
+      focusable: true,
+      onKeyUp: function() {}
     }, options );
 
     // @private
@@ -78,6 +79,8 @@ define( function( require ) {
             isKeyDown: false,
             keyEvent: event
           };
+
+          options.onKeyUp();
 
           // notify that key state changed
           self.keyStateChangedEmitter.emit();

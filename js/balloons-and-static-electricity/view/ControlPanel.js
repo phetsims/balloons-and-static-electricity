@@ -239,8 +239,8 @@ define( function( require ) {
 
           // hide the aria-live elements so that alerts are not anounced until
           // after the simulation is reset
-          var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-          var politeElement = document.getElementById( 'polite-alert' );
+          // var assertiveAlertElement = document.getElementById( 'assertive-alert' );
+          // var politeElement = document.getElementById( 'polite-alert' );
 
           // TODO: use aria herald
           // assertiveAlertElement.hidden = true;
@@ -250,12 +250,12 @@ define( function( require ) {
           model.reset();
 
           // unhide the aria-live elements
-          assertiveAlertElement.hidden = false;
-          politeElement.hidden = false;
+          // assertiveAlertElement.hidden = false;
+          // politeElement.hidden = false;
 
           // TODO: api should be something like this, provided by AccessibleNode (eventually node?)
           // resetAllButton.alert( 'Simulation reset' );
-          assertiveAlertElement.textContent = 'Sim screen restarted, everything reset';
+          // assertiveAlertElement.textContent = 'Sim screen restarted, everything reset';
 
         } );
 
