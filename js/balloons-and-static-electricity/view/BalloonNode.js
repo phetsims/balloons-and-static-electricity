@@ -91,6 +91,8 @@ define( function( require ) {
       endDrag: function() {
         model.isDragged = false;
         model.velocity = new Vector2( 0, 0 );
+
+        model.dragVelocity.set( new Vector2( 0, 0 ) );
       }
     } );
 

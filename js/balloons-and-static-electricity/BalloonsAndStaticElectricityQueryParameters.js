@@ -28,7 +28,11 @@ define( function( require ) {
     // showLiveOutput - shows expected output from a screen reader from aria-live
     // content.  Usefull for development and debugging without having to turn on a
     // screen reader
-    SHOW_LIVE_OUTPUT: getQueryParameter( 'showLiveOutput' ) || false
+    SHOW_LIVE_OUTPUT: getQueryParameter( 'showLiveOutput' ) || false,
+
+    // template sonification to get a feel for how this might work
+    // uses strategies very similar to john-travoltage
+    SONIFICATION: getQueryParameter( 'sonification' ) || false
 
   };
 

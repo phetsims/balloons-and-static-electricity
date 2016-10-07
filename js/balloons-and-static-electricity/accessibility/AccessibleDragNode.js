@@ -43,11 +43,15 @@ define( function( require ) {
 
     options = _.extend( {
       onTab: function() {}, // optional function to call when user 'tabs' away
+      restrictLocation: function() {}, // fires during the drag
       positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
       dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
       focusable: true
     }, options );
+
+    // @private
+    this.restrictLocation = options.restrictLocation;
 
     // the key drag events for dragging with the WASD keys
     var dragKeyEvents = [

@@ -44,7 +44,7 @@ define( function( require ) {
       maxY: height
     };
 
-    // when the wall changes visibility, the balloons could start moving if they have charge and are 
+    // when the wall changes visibility, the balloons could start moving if they have charge and are
     // near the wall
     var self = this;
     this.wall.isVisibleProperty.link( function( isVisible ) {
@@ -59,7 +59,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
-  
+
   inherit( PropertySet, BalloonsAndStaticElectricityModel, {
     // Called by the animation loop
     step: function() {

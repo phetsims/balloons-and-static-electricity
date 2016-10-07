@@ -59,5 +59,9 @@
   "tandem": {
     "sha": "fdae4d2419575fa8ab3dcb55da3d6e6ab734dace",
     "branch": "master"
+  },
+  "vibe": {
+    "sha": "4ea3722c1f8a7d8638c762aa389c39b1bb08bf5b",
+    "branch": "master"
   }
 }

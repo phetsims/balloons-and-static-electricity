@@ -14,6 +14,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -44,6 +45,7 @@ define( function( require ) {
       height: 222,
       location: new Vector2( 0, 0 ),
       isStopped: false,
+      dragVelocity: new Vector2( 0, 0 ), // velocity when dragging
 
       //Speed the balloon must be dragged at to pick up charges, see https://github.com/phetsims/balloons-and-static-electricity/issues/28
       thresholdSpeed: 0.025,
@@ -153,11 +155,33 @@ define( function( require ) {
     this.keyState = {};
 
     this.reset();
+
+    // model bounds, updated when position changes
+    this.bounds = new Bounds2( this.location.x, this.location.y, this.location.x + this.width, this.location.y + this.height );
+    this.locationProperty.link( function( location ) {
+      self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
 
   inherit( PropertySet, BalloonModel, {
+
+    /**
+     * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
+     * if its left edge is inside the right edge of the sweater bounds.
+     *
+     * @return {type}  description
+     */
+    onSweater: function() {
+      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      if ( sweaterBounds.eroded( 0 ).intersectsBounds( this.bounds ) ) {
+        return true;
+      }
+      else { return false; }
+    },
+
+
 
     //get center of Balloon
     getCenter: function() {
@@ -313,6 +337,8 @@ define( function( require ) {
       var speed = Math.sqrt( averageX * averageX + averageY * averageY );
 
       this.dragSpeed = speed;
+      this.dragVelocityProperty.set( new Vector2( dx, dy ) );
+
       if ( speed >= this.thresholdSpeed ) {
         model.sweater.findIntersection( this );
       }
@@ -351,7 +377,7 @@ define( function( require ) {
         // only announce that we are on the sweater if we are moving left
         return BalloonLocationEnum.ON_SWEATER;
       }
-      else if ( playArea.atWall === centerX ) {
+      else if ( playArea.atWall === centerX && this.balloonsAndStaticElectricityModel.wall.isVisible ) {
         return BalloonLocationEnum.AT_WALL;
       }
       else {

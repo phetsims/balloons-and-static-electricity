@@ -242,8 +242,9 @@ define( function( require ) {
           var assertiveAlertElement = document.getElementById( 'assertive-alert' );
           var politeElement = document.getElementById( 'polite-alert' );
 
-          assertiveAlertElement.hidden = true;
-          politeElement.hidden = true;
+          // TODO: use aria herald
+          // assertiveAlertElement.hidden = true;
+          // politeElement.hidden = true;
 
           // reset the model
           model.reset();

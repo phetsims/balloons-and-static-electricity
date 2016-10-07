@@ -14,6 +14,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
@@ -96,8 +97,12 @@ define( function( require ) {
 
     this.x = x;
     this.y = y;
+
     //location of center of the sweater
     this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
+
+    // bounds containing the sweater
+    this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
 
     //arrays of plus and minus charges on the sweater, created from positions array above
     this.plusCharges = [];

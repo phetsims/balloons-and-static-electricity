@@ -23,6 +23,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var Range = require( 'DOT/Range' );
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
+  var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
@@ -51,6 +52,11 @@ define( function( require ) {
       screenDescription: screenDescriptionString,
       screenLabel: screenLabelString
     } );
+
+    // add sonification if enabled
+    if ( BalloonsAndStaticElectricityQueryParameters.SONIFICATION ) {
+      this.audioView = new BalloonsAndStaticElectricityAudio( model );
+    }
 
     // create an element for the parallel DOM that will act as a a section containing the screen description.
     // NOTE: Eventually this will be handled in scenery, but waiting until testing results to move to common code.
@@ -312,12 +318,17 @@ define( function( require ) {
     /**
      * Step the view - for accessibility we step the drag handlers because
      * the keyboard dragging animates the position of the balloons
+     * Also steps audio view
      *
      * @param  number} dt description
      */
     step: function( dt ) {
       this.greenBalloon.step( dt );
       this.yellowBalloon.step( dt );
+
+      // step the audio
+      this.audioView && this.audioView.step( dt );
+
     }
   } );
 
