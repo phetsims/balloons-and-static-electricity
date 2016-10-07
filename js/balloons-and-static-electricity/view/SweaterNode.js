@@ -15,7 +15,6 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
@@ -47,8 +46,6 @@ define( function( require ) {
 
     // super constructor
     Node.call( this, { pickable: false } );
-
-    this.addChild( new Rectangle( model.sweater.bounds, { fill: 'red' } ) );
 
     this.plusChargesNode = new Node();
     this.minusChargesNode = new Node( { layerSplit: true } );
