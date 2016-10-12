@@ -33,7 +33,7 @@ define( function( require ) {
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
   // strings
-  var balloonGrabCueString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonGrabCue' );
+  var balloonGrabCueString = 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Spacebar.';
   var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
   var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
   var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
@@ -246,7 +246,7 @@ define( function( require ) {
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       tagName: 'button', // representative type
-      parentContainerType: 'div', // contains representative element, label, and description
+      parentContainerTagName: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
       label: balloonLabel,
       description: balloonGrabCueString,
