@@ -20,9 +20,11 @@ define( function( require ) {
   var PREVIOUS = 'PREVIOUS';
 
   // specific DOM tagnames, used for handling how attributes and label are added
-  var DOM_PARAGRAPH = 'p';
-  var DOM_INPUT = 'input';
-  var DOM_LABEL = 'label';
+  var DOM_INPUT = 'INPUT';
+  var DOM_LABEL = 'LABEL';
+  var DOM_UNORDERED_LIST = 'UL';
+
+  var ITEM_NUMBER = 0;
 
   /**
    * Constructor for a button Node.
@@ -38,6 +40,7 @@ define( function( require ) {
       focusHighlight: null, // Node|Shape|Bounds2
       label: '', // string
       description: '', // string
+      descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list
       labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
       ariaDescribedby: false, // if true, the description will be read on focus
       events: [], // array of objects with keys of type event name, values of type function
@@ -91,7 +94,7 @@ define( function( require ) {
     }
 
     // create the labels and descriptions
-    self.descriptionElement = document.createElement( DOM_PARAGRAPH );
+    self.descriptionElement = document.createElement( options.descriptionTagName );
 
     // the label can be either a paragraph or a 'label'
     self.labelElement = document.createElement( options.labelTagName );
@@ -126,6 +129,11 @@ define( function( require ) {
       self.childContainerElement = document.createElement( options.childContainerTagName );
 
       // if we have child container, hte label and description come first
+      this.domElement.appendChild( this.labelElement );
+      this.domElement.appendChild( this.descriptionElement );
+    }
+    else {
+      // otherwise, just add the label and description below
       this.domElement.appendChild( this.labelElement );
       this.domElement.appendChild( this.descriptionElement );
     }
@@ -212,6 +220,63 @@ define( function( require ) {
     setDescription: function( textContent ) {
       assert && assert( this.descriptionElement, 'desription element must exist in prallel DOM' );
       this.descriptionElement.textContent = textContent;
+    },
+
+    /**
+     * If the node is using a list for its description, add a list item to the end of the list with
+     * the text content.  Returns an id so that the element can be referenced if need be.
+     *
+     * @param  {string} textContent description
+     * @return {type}             description
+     */
+    addDescriptionItem: function( textContent ) {
+      assert && assert( this.descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
+
+      var listItem = document.createElement( 'li' );
+      listItem.innerText = textContent;
+      listItem.id = 'list-item-' + ITEM_NUMBER++;
+      this.descriptionElement.appendChild( listItem );
+
+      return listItem.id;
+    },
+
+    /**
+     * Update the text content of the description item.
+     *
+     * @param  {string} itemID - id of the lits item to update
+     * @param  {string} description - new textContent for the string
+     */
+    updateDescriptionItem: function( itemID, description ) {
+      var listItem = document.getElementById( itemID );
+      assert && assert( listItem, 'No list item in description with id ' + itemID );
+
+      listItem.textContent = description;
+    },
+
+    /**
+     * Hide the desired list item from the screen reader
+     *
+     * @param  {type} itemID description
+     * @return {type}        description
+     */
+    hideDescriptionItem: function( itemID ) {
+      var listItem = document.getElementById( itemID );
+      assert && assert( listItem, 'No list item in description with id ' + itemID );
+
+      listItem.hidden = true;
+    },
+
+    /**
+     * Show the desired list item so that it can be found by AT
+     *
+     * @param  {type} itemID description
+     * @return {type}        description
+     */
+    showDescriptionItem: function( itemID ) {
+      var listItem = document.getElementById( itemID );
+      assert && assert( listItem, 'No list item in description with id ' + itemID );
+
+      listItem.hidden = false;
     },
 
     /**

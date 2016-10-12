@@ -48,7 +48,7 @@ define( function( require ) {
 
   // 0 - loction of balloon on sweater
   // 1 - discoverability cue for where additional charges can be found.
-  var noChargesPickedUpStringPattern = 'No change in charges. {0}. {1}';
+  // var noChargesPickedUpStringPattern = 'No change in charges. {0}. {1}';
   var morePairsOfChargesStringPattern = 'More pairs of charges {0}';
 
   /**
@@ -206,19 +206,16 @@ define( function( require ) {
 
         // if no charges were picked up, anounce a description that describes no change, position of balloon, and
         // where additional charges are
-        if ( !self.model.chargePickedUpInDrag ) {
+        if ( !self.model.chargePickedUpInDrag && self.model.onSweater() ) {
           var balloonPositionString = self.getPositionOnSweaterDescription();
           var moreChargesString = self.getChargePositionCue();
 
-          console.log( StringUtils.format( noChargesPickedUpStringPattern, balloonPositionString, moreChargesString ) );
-
+          var combinedDescriptionPattern = '{0}. {1}';
+          self.ariaHerald.announceAssertive( StringUtils.format( combinedDescriptionPattern, balloonPositionString, moreChargesString ) );
         }
 
         // reset flag for tracking successful charge pickup
         self.model.chargePickedUpInDrag = false;
-      },
-      onKeyDown: function() {
-        console.log( 'keydown' );
       },
       onTab: function( event ) {
 
@@ -301,8 +298,6 @@ define( function( require ) {
     },
 
     getChargePositionCue: function() {
-
-      console.log( this.globalModel.sweater.charge );
 
       if ( this.globalModel.sweater.charge < 57 ) {
         // get the closest charge that has not been picked up

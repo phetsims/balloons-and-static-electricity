@@ -33,9 +33,11 @@ define( function( require ) {
    * @param {number} y
    * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
+   debugger
+   * @param {string} labelString - label for the balloon
    * @constructor
    */
-  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility ) {
+  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString ) {
     PropertySet.call( this, {
       charge: 0,
       velocity: 0,
@@ -136,6 +138,9 @@ define( function( require ) {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
     this.direction = ''; // the direction of movement of the balloon
 
+    // a label for the balloon, not the acccessible label but one of BalloonColorsEnum
+    this.balloonLabel = labelString;
+
     //neutral pair of charges
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
@@ -170,6 +175,51 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
 
   inherit( PropertySet, BalloonModel, {
+
+    /**
+     * If the balloon is in the upper half of the play area, return true.
+     *
+     * @return {boolean}
+     */
+    inUpperHalfOfPlayArea: function() {
+      if ( this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+
+    /**
+     * Return true if the balloon is near the sweater without without touching it.
+     *
+     * @return {boolean}
+     */
+    nearSweater: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      return ( this.getCenter().x > model.playArea.atSweater && this.getCenter().x < model.playArea.atSweater + 25 );
+    },
+
+    /**
+     * Return true if the balloon is near the wall without touching it.
+     *
+     * @return {boolean}
+     */
+    nearWall: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall );
+    },
+
+    inUpperRightOfPlayArea: function() {
+      var locationBounds = this.balloonsAndStaticElectricityModel.playArea.getPointBounds( this.getCenter() );
+
+      if ( locationBounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA || BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
 
     /**
      * findClosestCharge - description
@@ -239,7 +289,6 @@ define( function( require ) {
       }
 
       assert && assert( direction, 'A direction must be defined' );
-      console.log( direction );
       return direction;
 
     },

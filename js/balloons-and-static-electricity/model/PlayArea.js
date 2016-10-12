@@ -116,11 +116,12 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'PlayArea', PlayArea );
-  
+
   return inherit( Bounds2, PlayArea, {
 
     /**
      * Determine which section of the play area the location vector is.
+     * NOTE: Is this relative to upper left corner of balloon bounds or its center?
      * @param  {Vector2} position
      * @return {string}
      */
