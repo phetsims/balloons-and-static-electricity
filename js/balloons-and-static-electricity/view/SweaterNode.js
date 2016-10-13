@@ -3,7 +3,7 @@
 /**
  * Scenery display object (scene graph node) for the sweater of the model.
  *
- @author Vasily Shakhov (Mlearner)
+ * @author Vasily Shakhov (Mlearner)
  */
 define( function( require ) {
   'use strict';
@@ -20,7 +20,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants - ranges to describe charges in the sweater
-  var A_FEW_RANGE = new Range( 0, 15 );
+  var A_FEW_RANGE = new Range( 1, 15 );
   var SEVERAL_RANGE = new Range( 15, 40 );
   var MANY_RANGE = new Range( 40, 56 );
   var MAX_CHARGE = 57;
@@ -130,7 +130,7 @@ define( function( require ) {
         chargeString = noString;
         neutralityString = neutralString;
       }
-      if ( A_FEW_RANGE.contains( charge ) ) {
+      else if ( A_FEW_RANGE.contains( charge ) ) {
         chargeString = aFewString;
         neutralityString = positiveString;
       }

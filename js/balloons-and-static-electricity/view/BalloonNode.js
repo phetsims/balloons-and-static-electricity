@@ -26,6 +26,7 @@ define( function( require ) {
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
+  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
@@ -145,16 +146,8 @@ define( function( require ) {
       }
     } );
 
-    // TODO: Balloon 'string' removevd for now, we gitare investigating ways of removing confusion involving buoyant forces
-    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
-    //changes visual position
-    model.locationProperty.link( function updateLocation( location ) {
-      self.translation = location;
-      // customShape = new Shape();
-      // customShape.moveTo( model.width / 2, model.height - 2 );
-      // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      // path.shape = customShape;
-    } );
+    // this assists in describing the location and charge of the balloon - a11y
+    this.balloonDescriber = new BalloonDescriber( globalModel );
 
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {
@@ -182,9 +175,21 @@ define( function( require ) {
     // the herald that will anounce alerts via screen reader
     this.ariaHerald = new AriaHerald();
 
+    var balloonButtonLabel;
+    var balloonDraggableLabel;
+    if ( balloonColor === 'green' ) {
+      balloonButtonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
+      balloonDraggableLabel = greenBalloonLabelString;
+    }
+    else {
+      balloonButtonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
+      balloonDraggableLabel = yellowBalloonLabelString;
+    }
+
     // a flag to track whether or not a charge was picked up for dragging
     self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
-      parentContainerType: 'div',
+      parentContainerTagName: 'div',
+      label: balloonDraggableLabel,
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       hidden: !model.isVisible,
@@ -235,20 +240,11 @@ define( function( require ) {
       }
     } );
 
-    // this node will contain the 'Grab Balloon' button
-    var balloonLabel;
-    if ( balloonColor === 'green' ) {
-      balloonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
-    }
-    else {
-      balloonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
-    }
-
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       tagName: 'button', // representative type
       parentContainerTagName: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
-      label: balloonLabel,
+      label: balloonButtonLabel,
       description: balloonGrabCueString,
       events: [
         {
@@ -286,6 +282,22 @@ define( function( require ) {
 
       // when the balloon is no longer being dragged, it should be removed from the focus order
       self.draggableNode.setFocusable( isDragged );
+    } );
+
+    // TODO: Balloon 'string' removevd for now, we gitare investigating ways of removing confusion involving buoyant forces
+    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
+    //changes visual position
+    model.locationProperty.link( function updateLocation( location ) {
+      self.translation = location;
+      // customShape = new Shape();
+      // customShape.moveTo( model.width / 2, model.height - 2 );
+      // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
+      // path.shape = customShape;
+
+      // a11y - update the description when the location changes (only found with cursor keys)
+      var locationDescription = self.balloonDescriber.getBalloonLocationDescription( model );
+      self.draggableNode.setDescription( locationDescription );
+
     } );
   }
 
