@@ -100,7 +100,7 @@ define( function( require ) {
     self.labelElement = document.createElement( options.labelTagName );
 
     // if the label is specifically a 'label', it requires the 'for' attribute, referencing the dom element id
-    if ( options.labelTagName === DOM_LABEL ) {
+    if ( self.labelElement.tagName === DOM_LABEL ) {
       self.labelElement.setAttribute( 'for', this.domElement.id );
     }
 
