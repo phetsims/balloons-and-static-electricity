@@ -34,12 +34,14 @@ define( function( require ) {
     this.politeElement = document.getElementById( 'polite' );
     this.assertiveAlertElement = document.getElementById( 'assertive-alert' );
     this.politeStatusElement = document.getElementById( 'polite-status' );
+    this.alertContainer = document.getElementById( 'aria-live-elements' );
 
     // verify that all elements are present
     assert && assert( this.assertiveElement, 'No assertive element found in document' );
     assert && assert( this.politeElement, 'No polite element found in document' );
     assert && assert( this.assertiveAlertElement, 'No assertive alert element found in document' );
     assert && assert( this.politeStatusElement, 'No polite status element found in document' );
+    assert && assert( this.alertContainer, 'No alert container element found in document' );
   }
 
   balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
@@ -54,7 +56,7 @@ define( function( require ) {
      */
     announceAssertive: function( textContent ) {
       if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
-        console.log( textContent );
+        this.printAlert( textContent );
       }
       this.assertiveElement.textContent = textContent;
     },
@@ -67,7 +69,7 @@ define( function( require ) {
      */
     announcePolite: function( textContent ) {
       if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
-        console.log( textContent );
+        this.printAlert( textContent );
       }
       this.politeElement.textContent = textContent;
     },
@@ -81,7 +83,7 @@ define( function( require ) {
      */
     announceAssertiveWithAlert: function( textContent ) {
       if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
-        console.log( textContent );
+        this.printAlert( textContent );
       }
       this.assertiveAlertElement.textContent = textContent;
     },
@@ -95,9 +97,31 @@ define( function( require ) {
      */
     announcePoliteWithStatus: function( textContent ) {
       if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
-        console.log( textContent );
+        this.printAlert( textContent );
       }
       this.politeStatusElement.textContent = textContent;
+    },
+
+    /**
+     * Sets whether the gruop of aria-live elements is visible.
+     * 
+     * @param {boolean} hidden
+     */
+    setHidden: function( hidden ) {
+      this.alertContainer.hidden = hidden;      
+    },
+    set hidden( value ) { this.setHidden( value ); },
+
+    /**
+     * Useful for debugging without a screen reader turned on. Checks if the live
+     * element is hidden before printing.
+     * 
+     * @param  {string} textContent
+     */
+    printAlert: function( textContent ) {
+      if ( !this.alertContainer.hidden ) {
+        console.log( textContent );
+      }
     }
   } );
 

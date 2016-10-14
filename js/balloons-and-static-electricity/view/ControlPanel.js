@@ -28,7 +28,6 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
@@ -59,6 +58,15 @@ define( function( require ) {
   var resetBalloonsDescriptionPatternString = 'Reset {0} to start {1} and an uncharged state.';
   var positionString = 'position';
   var positionsString = 'positions';
+
+  var resetAllString = 'Reset All';
+  var resetAlertString = 'Sim screen restarted.  Everything reset.';
+
+  /**
+   * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Bounds2} layoutBounds
+   */
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
@@ -220,49 +228,43 @@ define( function( require ) {
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
+    resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to commmon code
+    var accessibleResetAllButton = new AccessibleNode( null, {
+      children: [ resetAllButton ],
+
+      // a11y options
+      focusHighlight: new Shape().circle( 0, 0, 28 ),
+      tagName: 'button',
+      parentContainerTagName: 'div',
+      label: resetAllString,
+      events: [
+        {
+          eventName: 'click',
+          eventFunction: function( event ) {
+
+            // hide the aria live elements so that alerts are not anounced until after simulation
+            // is fully reset
+            // TODO: This should be in the main model reset function
+            ariaHerald.hidden = true;
+
+            // reset the model
+            model.reset();
+
+            // unhide the herald now that properties are reset
+            ariaHerald.hidden = false;
+
+            // announce that the sim has been reset
+            ariaHerald.announceAssertive( resetAlertString );
+          }
+        }
+      ]
+    } );
+
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ resetAllButton, this.accessibleWallButton ]
+      children: [ accessibleResetAllButton, this.accessibleWallButton ]
     } );
-
-    // TODO: Verify with designers - is this how it should behave?
-    resetAllButton.accessibleContent = {
-      focusHighlight: new Shape().circle( 0, 0, 28 ),
-      createPeer: function( accessibleInstance ) {
-
-        // will look like <input value="Reset All" type="button">
-        var domElement = document.createElement( 'input' );
-        domElement.setAttribute( 'aria-label', 'Reset All' );
-        domElement.type = 'button';
-
-        domElement.addEventListener( 'click', function() {
-
-          // hide the aria-live elements so that alerts are not anounced until
-          // after the simulation is reset
-          // var assertiveAlertElement = document.getElementById( 'assertive-alert' );
-          // var politeElement = document.getElementById( 'polite-alert' );
-
-          // TODO: use aria herald
-          // assertiveAlertElement.hidden = true;
-          // politeElement.hidden = true;
-
-          // reset the model
-          model.reset();
-
-          // unhide the aria-live elements
-          // assertiveAlertElement.hidden = false;
-          // politeElement.hidden = false;
-
-          // TODO: api should be something like this, provided by AccessibleNode (eventually node?)
-          // resetAllButton.alert( 'Simulation reset' );
-          // assertiveAlertElement.textContent = 'Sim screen restarted, everything reset';
-
-        } );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
 
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 4;
