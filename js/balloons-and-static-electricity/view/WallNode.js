@@ -110,7 +110,6 @@ define( function( require ) {
     model.balloons.forEach( function( balloon ) {
       balloon.locationProperty.link( function( location ) {
         var newDescription = self.getChargeDescription();
-        console.log( newDescription );
         self.setDescription( newDescription );
       } );
     } );
