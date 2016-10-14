@@ -51,13 +51,14 @@ define( function( require ) {
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
   var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
-  var resetBalloonsDescriptionPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons.descriptionPattern' );
   var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
   var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
   var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
   var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
-  var balloonToggleButtonDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloonToggleButton.description' );
 
+  var resetBalloonsDescriptionPatternString = 'Reset {0} to start {1} and an uncharged state.';
+  var positionString = 'position';
+  var positionsString = 'positions';
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
@@ -169,8 +170,7 @@ define( function( require ) {
     var showBalloonsChoice = new Panel(
       new AccessibleABSwitchNode( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
         switchSize: new Dimension2( 32, 16 ),
-        label: twoBalloonExperimentLabelString,
-        description: balloonToggleButtonDescriptionString
+        label: twoBalloonExperimentLabelString
       } ),
       { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
@@ -197,8 +197,9 @@ define( function( require ) {
 
     // create the accessible description for the reset balloon button
     var generateDescriptionString = function( balloonVisible ) {
-      var resetString = balloonVisible ? balloonsString : balloonString;
-      return StringUtils.format( resetBalloonsDescriptionPatternString, resetString );
+      var balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
+      var positionDescriptionString = balloonVisible ? positionsString : positionString;
+      return StringUtils.format( resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
     var accessibleResetBalloonButton = new AccessibleNode( resetBalloonButton.bounds, {
