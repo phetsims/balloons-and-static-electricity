@@ -108,7 +108,6 @@ define( function( require ) {
       // a11y - update description of sweater when charge changes
       var chargeDescription = self.getChargeDescription( charge );
       self.setDescription( chargeDescription );
-      console.log( chargeDescription );
     } );
   }
 

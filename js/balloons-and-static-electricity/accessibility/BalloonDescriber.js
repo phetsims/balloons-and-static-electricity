@@ -158,8 +158,9 @@ define( function( require ) {
         balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
       }
       else {
-        var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter().x );
+        var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
         var locationDescription = this.locationDescriptionMap[ locationBounds ];
+
         balloonLocationDescription = StringUtils.format( balloonLocationStringPattern, locationDescription );
       }
 

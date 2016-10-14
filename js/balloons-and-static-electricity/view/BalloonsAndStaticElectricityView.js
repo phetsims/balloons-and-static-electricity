@@ -41,16 +41,22 @@ define( function( require ) {
       accessibleContent: null
     } );
 
+    // for now, we are testing whether accessible content can be contained in an article
+    var articleContainerNode = new AccessibleNode( null, {
+      tagName: 'article'
+    } );
+    this.addChild( articleContainerNode );
+
     var accessibleHeaderNode = new AccessibleNode( null, {
       tagName: 'header',
       labelTagName: 'h1',
       label: balloonsAndStaticElectricityTitleString,
       descriptionTagName: 'p'
     } );
-    this.addChild( accessibleHeaderNode );
+    articleContainerNode.addChild( accessibleHeaderNode );
 
     var sceneSummaryNode = new SceneSummaryNode( model );
-    this.addChild( sceneSummaryNode );
+    articleContainerNode.addChild( sceneSummaryNode );
 
     // add sonification if enabled
     if ( BalloonsAndStaticElectricityQueryParameters.SONIFICATION ) {
@@ -70,7 +76,7 @@ define( function( require ) {
       maxWidth: self.layoutBounds.width
     } );
 
-    this.addChild( playAreaContainerNode );
+    articleContainerNode.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model );
     playAreaContainerNode.addChild( sweaterNode );
@@ -79,11 +85,11 @@ define( function( require ) {
     playAreaContainerNode.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.addChild( new Rectangle( model.wall.x + wall.wallNode.width, 0, 1000, 1000, { fill: 'black' } ) );
+    articleContainerNode.addChild( new Rectangle( model.wall.x + wall.wallNode.width, 0, 1000, 1000, { fill: 'black' } ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
-    this.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
+    articleContainerNode.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
     var controlPanel = new ControlPanel( model, this.layoutBounds );
 
@@ -99,10 +105,10 @@ define( function( require ) {
       self.greenBalloon.visible = isVisible;
     } );
 
-    this.addChild( controlPanel );
+    articleContainerNode.addChild( controlPanel );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
+    articleContainerNode.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
       fill: 'black',
       x: -1000,
       y: this.layoutBounds.height,
@@ -117,7 +123,7 @@ define( function( require ) {
 
     // visualise regions of the play area
     if( BalloonsAndStaticElectricityQueryParameters.DEV ) {
-      this.addChild( new PlayAreaNode( model ) );
+      articleContainerNode.addChild( new PlayAreaNode( model ) );
     }
 
     // enable the prototype screen reader
@@ -129,7 +135,7 @@ define( function( require ) {
       var reader = new Reader( cursor );
 
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
-      this.addChild( display );
+      articleContainerNode.addChild( display );
     }
 
   }
