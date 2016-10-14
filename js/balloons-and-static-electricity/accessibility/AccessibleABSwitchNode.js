@@ -34,7 +34,7 @@ define( function( require ) {
       tagName: 'input',
       inputType: 'checkbox',
       labelTagName: 'label',
-      parentContainerType: 'div',
+      parentContainerTagName: 'div',
       events: [
         {
           eventName: 'click',

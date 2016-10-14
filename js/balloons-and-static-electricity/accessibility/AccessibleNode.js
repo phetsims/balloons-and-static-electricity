@@ -84,7 +84,7 @@ define( function( require ) {
     if ( options.ariaRole ) { this.domElement.setAttribute( 'role', options.ariaRole ); }
 
     // add type if supported and defined
-    if ( options.tagName === DOM_INPUT && options.inputType ) {
+    if ( this.domElement.tagName === DOM_INPUT && options.inputType ) {
       this.domElement.type = options.inputType;
     }
 
