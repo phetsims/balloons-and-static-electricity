@@ -15,23 +15,57 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Range = require( 'DOT/Range' );
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode');
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
+  // constants
+  // these charge ranges determine description of induced charge
+  var A_LITTLE_BIT_RANGE = new Range( 1, 20 );
+  var A_LOT_RANGE = new Range( 20, 40 );
+  var QUITE_A_LOT_RANGE = new Range( 40, 60 );
 
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
-  var wallChargeNeutralityDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.chargeNeutralityDescription' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var wallNeutralChargeDescriptionString = 'Wall has a neutral charge, many pairs of negative and positive charges.';
+
+  // Wall has a net neutral charge, many pairs of negative and positive charges.
+  // At yellow balloon touch point, no change in charges.
+  // At green balloon touch point, negative charges in wall move away from balloon a little bit.
+  var twoBalloonsTouchingWallPatternString = '{0}. {1}. {2}.';
+  var oneBalloonTouchingWallPatternString = '{0} {1}';
+  var balloonTouchPointDescriptionPatternString = 'At {0} touch point, {1}';
+  var chargeDescriptionPatternString = 'negative charges in wall move away from balloon {0}';
+
+  var noChangeInChargesString = 'no change in charges';
+  var aLittleBitString = 'a little bit';
+  var aLotString = 'a lot';
+  var quiteALotString = 'quite a lot';
+
+  var yellowBalloonString = 'yellow balloon';
+  var greenBalloonString = 'green balloon';
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
   function WallNode( model ) {
     var self = this;
+
+    // @private
+    this.model = model;
+
     var wallModel = model.wall;
 
     // super constructor
-    Node.call( this, { pickable: false } );
+    AccessibleNode.call( this, null, { 
+      pickable: false,
+
+      // accessibility options
+      tagName: 'div',
+      labelTagName: 'h3',
+      label: wallLabelString
+    } );
 
     this.translate( wallModel.x, 0 );
 
@@ -72,105 +106,109 @@ define( function( require ) {
       minusChargesNode.visible = (value === 'all');
     } );
 
-    // outfit with accessible content
-    this.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        var trail = accessibleInstance.trail;
-        var uniqueId = trail.getUniqueId();
-
-        // representation should look like the following in the parallel DOM
-        //  <div id="wall-widget">
-        //    <h3 id="wall-label">Wall</h3>
-        //    <!-- Wall charge information changes and will need to be associated with the balloon. -->
-        //    <p id="wall-description">The wall has a neutral charge, no more positive charges than negative ones.</p>
-        //
-        //     TODO: Shouldn't these be part of the control panel?? Not implementing for now.
-        //     <!-- If the button text is an image, use aria-label="Remove Wall" and aria-label="Add Wall". -->
-        //     <button aria-pressed="true" aria-describedby="wall-button-description">Remove Wall</button>
-        //     <!-- <button aria-pressed="true" aria-describedby="wall-button-description">Add Wall</button> -->
-        //     <p id="wall-button-description">Toggle to conduct experiments with or without the wall.</p>
-        //  </div>
-
-        // create the element representing the wall
-        var domElement = document.createElement( 'div' );
-        domElement.id = 'wall-' + uniqueId;
-
-        // create the label element for the wall
-        var labelElement = document.createElement( 'h3' );
-        labelElement.id = 'wall-label-' + uniqueId;
-        labelElement.textContent = wallLabelString;
-        domElement.setAttribute( 'aria-labelledby', labelElement.id );
-
-        // create the description element for the wall
-        var neutralDescriptionElement = document.createElement( 'p' );
-        neutralDescriptionElement.id = 'wall-description-' + uniqueId;
-        neutralDescriptionElement.textContent = wallChargeNeutralityDescriptionString;
-
-        var repelDescriptionElement = document.createElement( 'p' );
-        repelDescriptionElement.id = 'repel-description-' + uniqueId;
-        repelDescriptionElement.setAttribute( 'aria-live', 'polite' );
-
-        // update the description element text content when balloon position changes, accounting
-        // for the charge of the balloon.
-        model.balloons.forEach( function( balloon ) {
-          balloon.locationProperty.lazyLink( function( location, oldLocation ) {
-
-            if ( !location.equals( oldLocation ) ) {
-
-              var distFromWall = model.wall.x - location.x;
-
-              var atTouchPointString = 'At touch point, {0} {1}';
-              var unchangedString = 'charges in neutral wall remain unchanged';
-              var negativeChargesString = 'negative charges in the wall repel away from balloon';
-              var aLittleBitString = 'a little bit';
-              var aLotString = 'a lot';
-              var quiteALotString = 'quite a lot';
-
-              var repelDescriptionString = '';
-              if( distFromWall < 135 ) {
-
-                // build the charge displacement description.
-                if( balloon.charge === 0 ) {
-                  repelDescriptionString = StringUtils.format( atTouchPointString, unchangedString, '' );
-                }
-                else if( balloon.charge > -15 && balloon.charge < 0 ) {
-                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLittleBitString );
-                }
-                else if( balloon.charge > -35 && balloon.charge < -16) {
-                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, aLotString );
-                }
-                else if( balloon.charge > -60 && balloon.charge < -36 ) {
-                  repelDescriptionString = StringUtils.format( atTouchPointString, negativeChargesString, quiteALotString );
-                }
-                assert && assert( repelDescriptionString, 'description string not defined' );
-              }
-
-              if ( wallModel.isVisible ) {
-                if ( repelDescriptionElement.textContent !== repelDescriptionString ) {
-                  // only update if changing content
-                  repelDescriptionElement.textContent = repelDescriptionString;
-                }
-              }
-            }
-          } );
-        } );
-
-        // link accessible visibility to the model
-        wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
-          domElement.hidden = !isVisible;
-        } );
-
-        // structure the wall element with its descriptions
-        domElement.appendChild( labelElement );
-        domElement.appendChild( neutralDescriptionElement );
-        domElement.appendChild( repelDescriptionElement );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
+    // a11y - when the balloons change position, we need to update the wall description
+    model.balloons.forEach( function( balloon ) {
+      balloon.locationProperty.link( function( location ) {
+        var newDescription = self.getChargeDescription();
+        console.log( newDescription );
+        self.setDescription( newDescription );
+      } );
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );
 
-  return inherit( Node, WallNode );
+  return inherit( AccessibleNode, WallNode, {
+
+    /**
+     * Get a description of the wall charges, based on balloon positions and charges.
+     * 
+     * @return {string}
+     */
+    getChargeDescription: function() {
+      var chargeDescription;
+
+      var yellowBalloon = this.model.balloons[ 0 ];
+      var greenBalloon = this.model.balloons[ 1 ];
+
+      var yellowBalloonTouchingWall = yellowBalloon.touchingWall();
+      var greenBalloonTouchingWall = greenBalloon.touchingWall();
+
+      if ( !yellowBalloonTouchingWall && !greenBalloonTouchingWall ) {
+        chargeDescription = wallNeutralChargeDescriptionString;
+      }
+      else {
+        var yellowBalloonInducedChargeDescription;
+        var greenBalloonInducedChargeDescription;
+
+        if ( yellowBalloonTouchingWall ) {
+          yellowBalloonInducedChargeDescription = StringUtils.format(
+            balloonTouchPointDescriptionPatternString,
+            yellowBalloonString,
+            this.getInducedChargeDescription( yellowBalloon )
+          );
+        }
+
+        if ( greenBalloon.isVisibleProperty.get() && greenBalloonTouchingWall ) {
+          greenBalloonInducedChargeDescription = StringUtils.format(
+            balloonTouchPointDescriptionPatternString,
+            greenBalloonString,
+            this.getInducedChargeDescription( greenBalloon )
+          );
+        }
+
+        // if both balloons are touching the wall, both induced charge descriptions need to be included
+        if ( yellowBalloonInducedChargeDescription && greenBalloonInducedChargeDescription ) {
+          chargeDescription = StringUtils.format( 
+            twoBalloonsTouchingWallPatternString, wallNeutralChargeDescriptionString,
+            yellowBalloonInducedChargeDescription, greenBalloonInducedChargeDescription
+          );
+        }
+        else {
+          // if only one is touching the wall, describe that one
+          var inducedChargeDescription = yellowBalloonInducedChargeDescription || greenBalloonInducedChargeDescription;
+
+          chargeDescription = StringUtils.format(
+            oneBalloonTouchingWallPatternString,
+            wallNeutralChargeDescriptionString,
+            inducedChargeDescription
+          );
+        }
+      }
+
+      assert && assert( chargeDescription, 'No description found for wall' );
+      return chargeDescription;
+    },
+
+    /**
+     * Get an induced charge description for a balloon, based on charge of the balloon
+     * @param  {Balloon} balloon
+     * @return {string}
+     */
+    getInducedChargeDescription: function( balloon ) {
+      // the balloon must be touching the wall for the wall to have this description
+      // note that even though charge can be induced without physically touching the wall,
+      // this description can only be found with the virtual cursor
+      assert && assert( balloon.touchingWall(), 'induced charge description should only be added when balloon is touching wall' );
+
+      var changeInChargesString;
+      var balloonCharge = Math.abs( balloon.chargeProperty.get() );
+      if ( balloonCharge === 0 ) {
+        // if the charge is zero, there is no induced charge
+        changeInChargesString = noChangeInChargesString;
+      }
+      else if ( A_LITTLE_BIT_RANGE.contains( balloonCharge ) ) {
+        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, aLittleBitString );
+      }
+      else if ( A_LOT_RANGE.contains( balloonCharge ) ) {
+        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, aLotString );
+      }
+      else if ( QUITE_A_LOT_RANGE.contains( balloonCharge ) ) {
+        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, quiteALotString );
+      }
+
+      assert && assert( changeInChargesString, 'No for description for balloon touching wall' );
+      return changeInChargesString;
+    }
+  } );
 } );

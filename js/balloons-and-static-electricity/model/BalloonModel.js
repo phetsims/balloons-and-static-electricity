@@ -307,7 +307,14 @@ define( function( require ) {
       else { return false; }
     },
 
-
+    /**
+     * Returns true if the balloon is touching the wall
+     * 
+     * @return {boolean}
+     */
+    touchingWall: function() {
+      return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
+    },
 
     //get center of Balloon
     getCenter: function() {
