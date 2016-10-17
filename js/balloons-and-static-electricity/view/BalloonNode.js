@@ -160,15 +160,18 @@ define( function( require ) {
     this.addChild( startChargesNode );
     this.addChild( addedChargesNode );
 
+    // this assists in describing the location and charge of the balloon - a11y
+    this.balloonDescriber = new BalloonDescriber( globalModel );
+
     //if change charge, show more minus charges
-    model.chargeProperty.link( function updateLocation( chargeVal ) {
+    model.chargeProperty.link( function updateCharge( chargeVal ) {
       if ( chargeVal ) {
         model.minusCharges[ model.plusCharges.length - 1 - chargeVal ].view.visible = true;
       }
-    } );
 
-    // this assists in describing the location and charge of the balloon - a11y
-    this.balloonDescriber = new BalloonDescriber( globalModel );
+      // update the charge description
+      self.balloonDescriber.getDescription( model );
+    } );
 
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {
@@ -307,7 +310,7 @@ define( function( require ) {
       // path.shape = customShape;
 
       // a11y - update the description when the location changes (only found with cursor keys)
-      var locationDescription = self.balloonDescriber.getBalloonLocationDescription( model );
+      var locationDescription = self.balloonDescriber.getDescription( model );
       self.setDescription( locationDescription );
 
     } );

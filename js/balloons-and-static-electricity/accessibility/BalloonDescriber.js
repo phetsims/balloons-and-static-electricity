@@ -16,11 +16,18 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Range = require( 'DOT/Range' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
+  var A_FEW_RANGE = new Range( 1, 15 );
+  var SEVERAL_RANGE = new Range( 15, 40 );
+  var MANY_RANGE = new Range( 40, 56 );
 
   // strings
+  var balloonDescriptionPatternString = '{0} {1} {2}';
+  var grabButtonNavigationCueString = 'Look for grab button to play';
+  // var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'At {0}.';
@@ -71,9 +78,21 @@ define( function( require ) {
   var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
 
   // location strings while touching another object
-  var touchingWallStringPattern = 'touching {0} wall.';
+  var touchingWallStringPattern = 'Touching {0} wall.';
+  var stickintToWallStringPattern = 'Sticking to {0} wall.';
   var lowerWallString = 'lower';
   var upperWallString = 'upper';
+
+  // charge descriptions
+  var balloonChargeStringPattern = 'Has net {0} charge, {1} more negative charges than positive charges.';
+
+  var neutralString = 'neutral';
+  var negativeString = 'negative';
+
+  var noString = 'no';
+  var aFewString = 'a few';
+  var severalString = 'several';
+  var manyString = 'many';
 
   /**
    *
@@ -147,7 +166,7 @@ define( function( require ) {
       var balloonLocationDescription;
 
       // if touching the wall (balloon has no charge)
-      if ( balloon.chargeProperty.get() === 0 && ( this.model.playArea.atWall === balloon.getCenter().x ) )  {
+      if ( this.model.playArea.atWall === balloon.getCenter().x ) {
         var upperLowerString;
         if ( balloon.inUpperHalfOfPlayArea() ) {
           upperLowerString = upperWallString;
@@ -155,7 +174,13 @@ define( function( require ) {
         else {
           upperLowerString = lowerWallString;
         }
-        balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
+
+        if ( balloon.chargeProperty.get() === 0 ) {
+          balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
+        }
+        else {
+          balloonLocationDescription = StringUtils.format( stickintToWallStringPattern, upperLowerString );
+        }
       }
       else {
         var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
@@ -166,6 +191,55 @@ define( function( require ) {
 
       assert && assert( balloonLocationDescription, 'no description found for balloon location' );
       return balloonLocationDescription;
+    },
+
+    /**
+     * Get a description of the balloon's charge.
+     * TODO: This kind of method of getting descriptions based on numerical values in a range
+     * could be generalized some how.
+     * 
+     * @param  {Baloon} balloon
+     * @return {string}
+     */
+    getBalloonChargeDescription: function( balloon ) {
+      var balloonChargeDescription;
+
+      var chargeString;
+      var neutralityString;
+
+
+      var charge = Math.abs( balloon.chargeProperty.value );
+      if ( charge === 0 ) {
+        chargeString = noString;
+        neutralityString = neutralString;
+      }
+      else if ( A_FEW_RANGE.contains( charge ) ) {
+        chargeString = aFewString;
+        neutralityString = negativeString;
+      }
+      else if ( SEVERAL_RANGE.contains( charge ) ) {
+        chargeString = severalString;
+        neutralityString = negativeString;
+      }
+      else if ( MANY_RANGE.contains( charge ) ) {
+        chargeString = manyString;
+        neutralityString = negativeString;
+      }
+
+      assert && assert( balloonChargeDescription, 'no description found for balloon with charge: ' + balloon.charge );
+      return StringUtils.format( balloonChargeStringPattern, neutralityString, chargeString );
+
+    },
+    /**
+     * Get a description for the balloon, including charge and location.
+     * 
+     * @param  {Balloon} balloon
+     * @return {string}
+     */
+    getDescription: function( balloon ) {
+      var locationDescription = this.getBalloonLocationDescription( balloon );
+      var chargeDescription = this.getBalloonChargeDescription( balloon );
+      return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, grabButtonNavigationCueString );
     }
   } );
 
