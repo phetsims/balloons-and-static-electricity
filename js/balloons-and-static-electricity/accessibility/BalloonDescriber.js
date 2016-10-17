@@ -30,7 +30,7 @@ define( function( require ) {
   // var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
 
   // location strings (organized by collumns in the play area)
-  var balloonLocationStringPattern = 'At {0}.';
+  var balloonLocationStringPattern = 'In {0}.';
 
   var topLeftEdgeOfSweaterString = 'top left edge of sweater';
   var upperLeftEdgeOfSweaterString = 'upper left edge of sweater';
