@@ -95,6 +95,7 @@ define( function( require ) {
 
     // create the labels and descriptions
     self.descriptionElement = document.createElement( options.descriptionTagName );
+    self.descriptionElement.id = 'description-' + this.id;
 
     // the label can be either a paragraph or a 'label'
     self.labelElement = document.createElement( options.labelTagName );
@@ -220,6 +221,29 @@ define( function( require ) {
     setDescription: function( textContent ) {
       assert && assert( this.descriptionElement, 'desription element must exist in prallel DOM' );
       this.descriptionElement.textContent = textContent;
+    },
+
+    /**
+     * Get an id referencing the description element of this node.  Useful when you want to 
+     * set aria-describedby on a DOM element that is far from this one in the scene graph.
+     * 
+     * @return {string}
+     */
+    getDescriptionElementID: function() {
+      assert && assert( this.descriptionElement, 'description element must exist in the parallel DOM' );
+      return this.descriptionElement.id;
+    },
+
+    /**
+     * Add the 'aria-describedby' attribute to this node's dom element.  If no description 
+     * id is passed in, the dom element will automatically be described by this element's
+     * description.
+     * 
+     * @param {string} [descriptionID] - optional id referencing the description element
+     */
+    setAriaDescribedBy: function( descriptionID ) {
+      assert && assert( document.getElementById( descriptionID ), 'no element in DOM with id ' + descriptionID );
+      this.domElement.setAttribute( 'aria-describedby', descriptionID );
     },
 
     /**

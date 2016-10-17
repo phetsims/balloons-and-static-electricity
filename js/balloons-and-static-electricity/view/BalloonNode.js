@@ -66,8 +66,29 @@ define( function( require ) {
   function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor ) {
     var self = this;
 
+    var balloonButtonLabel;
+    var balloonDraggableLabel;
+    if ( balloonColor === 'green' ) {
+      balloonButtonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
+      balloonDraggableLabel = greenBalloonLabelString;
+    }
+    else {
+      balloonButtonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
+      balloonDraggableLabel = yellowBalloonLabelString;
+    }
+
     // super constructor
-    Node.call( this, { cursor: 'pointer' } );
+    AccessibleNode.call( this, null, { 
+      cursor: 'pointer',
+
+      // a11y
+      tagName: 'div',
+      labelTagName: 'h3',
+      label: balloonDraggableLabel,
+      childContainerTagName: 'div',
+      hidden: !model.isVisibleProperty.value
+
+    } );
 
     this.x = x;
     this.y = y;
@@ -175,24 +196,12 @@ define( function( require ) {
     // the herald that will anounce alerts via screen reader
     this.ariaHerald = new AriaHerald();
 
-    var balloonButtonLabel;
-    var balloonDraggableLabel;
-    if ( balloonColor === 'green' ) {
-      balloonButtonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
-      balloonDraggableLabel = greenBalloonLabelString;
-    }
-    else {
-      balloonButtonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
-      balloonDraggableLabel = yellowBalloonLabelString;
-    }
-
     // a flag to track whether or not a charge was picked up for dragging
     self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       parentContainerTagName: 'div',
       label: balloonDraggableLabel,
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
-      hidden: !model.isVisible,
       events: [
         {
           eventName: 'keyup',
@@ -240,6 +249,9 @@ define( function( require ) {
       }
     } );
 
+    // the draggable element is described by this dom element's description
+    this.draggableNode.setAriaDescribedBy( this.getDescriptionElementID() );
+
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       tagName: 'button', // representative type
       parentContainerTagName: 'div', // contains representative element, label, and description
@@ -260,8 +272,7 @@ define( function( require ) {
             model.velocityProperty.set( new Vector2( 0, 0 ) );
           }
         }
-      ],
-      hidden: !model.isVisible
+      ]
     } );
 
     this.addChild( accessibleButtonNode );
@@ -269,8 +280,9 @@ define( function( require ) {
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      self.draggableNode.setHidden( !isVisible );
-      accessibleButtonNode.setHidden( !isVisible );
+      self.setHidden( !isVisible );
+      // self.draggableNode.setHidden( !isVisible );
+      // accessibleButtonNode.setHidden( !isVisible );
 
       var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
       self.ariaHerald.announceAssertiveWithAlert( alertDescription );
@@ -296,14 +308,14 @@ define( function( require ) {
 
       // a11y - update the description when the location changes (only found with cursor keys)
       var locationDescription = self.balloonDescriber.getBalloonLocationDescription( model );
-      self.draggableNode.setDescription( locationDescription );
+      self.setDescription( locationDescription );
 
     } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
-  return inherit( Node, BalloonNode, {
+  return inherit( AccessibleNode, BalloonNode, {
 
     getPositionOnSweaterDescription: function() {
       return 'On body of sweater';
