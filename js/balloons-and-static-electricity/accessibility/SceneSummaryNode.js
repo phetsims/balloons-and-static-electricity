@@ -327,7 +327,6 @@ define( function( require ) {
       else if ( balloon.getCenter().x < this.model.playArea.rightArmColumn.maxX && balloon.chargeProperty.get() < 0 ) {
         upperOrLowerString = balloon.inUpperHalfOfPlayArea() ? upperWallString : lowerWallString;
         balloonLocationDescription= this.getBalloonTouchingSweaterDescription( balloonLabel, currentBounds );
-        console.log( balloonLocationDescription );
       }
       else if ( currentBounds === BalloonLocationEnum.TOP_CENTER_PLAY_AREA || currentBounds === BalloonLocationEnum.UPPER_CENTER_PLAY_AREA ) {
         var upperCenterString = StringUtils.format( inCenterPlayAreaStringPattern, upperPlayAreaString );

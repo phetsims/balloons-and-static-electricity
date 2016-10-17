@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<!-- Copyright 2002-2015, University of Colorado Boulder -->
+
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="phet-sim-level" content="production">
+  <title>&#8234;Balloons and Static Electricity&#8236; 1.2.0-reader.6 iframe test</title>
+</head>
+<body bgcolor="#FFFACD">
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif
+  }
+</style>
+<h1>Accessibility visualization for &#8234;Balloons and Static Electricity&#8236;</h1>
+
+<p>The simulation is embedded below</p>
+
+<iframe id="iframe" width="600" height="400" allowfullscreen scrolling="no" style="float: left display: inline"></iframe>
+<script type="application/javascript">
+
+  // Grab all query parameters to pass to the simulation, and add additional ones for receiving messages.
+  var simulationQueryString = window.location.search;
+  if ( simulationQueryString.indexOf( '?' ) >= 0 ) {
+    simulationQueryString += '&';
+  }
+  else {
+    simulationQueryString += '?';
+  }
+  simulationQueryString += 'postMessageOnLoad&postMessageOnError';
+  document.getElementById( 'iframe' ).setAttribute( 'src', 'balloons-and-static-electricity_en.html' + simulationQueryString );
+</script>
+
+<p>The parallel DOM is visualized below</p>
+<script type="application/javascript">
+
+  // handling messages from sims
+  window.addEventListener( 'message', function( evt ) {
+    var data = JSON.parse( evt.data );
+
+    // if load is successful, create a visualization of the parallel DOM
+    if ( data.type === 'load' ) {
+
+      var iframe = document.getElementById( 'iframe' );
+      var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      var pDOM = innerDoc.getElementsByClassName( 'accessibility' )[ 0 ];
+      var pDOMCopy = pDOM.cloneNode( true );
+
+      // strip the styling from the copied parallel DOM
+      pDOMCopy.style = '';
+
+      // add the dom copy to the documnet
+      document.body.appendChild( pDOMCopy );
+
+      // whenever an element in the parallel DOM changes, we need to update its 
+      // copied element as well
+      var observer = new MutationObserver( function( mutations ) {
+        mutations.forEach( function( mutation ) {
+
+          // This is extremely ineficient - every time the document changes, make a new copy, remove
+          // the visual dom, and add a new one
+          // TODO: Work on refining this, and only modifying the elements that change in the PDOM.
+          document.body.removeChild( pDOMCopy );
+          pDOMCopy = pDOM.cloneNode( true );
+          pDOMCopy.style = '';
+          document.body.appendChild( pDOMCopy );
+          
+        } );    
+      } );
+       
+      // configuration of the observer:
+      var config = { attributes: true, childList: true, characterData: true, subtree: true };
+       
+      // pass in the target node, as well as the observer options
+      observer.observe( pDOM, config);
+    }
+  } );
+</script>
+</body>
+</html>
