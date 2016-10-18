@@ -80,7 +80,9 @@ define( function( require ) {
             keyEvent: event
           };
 
-          options.onKeyUp();
+          if ( self.draggableKeyUp( event.keyCode || event.which ) ) {
+            options.onKeyUp();
+          }
 
           // notify that key state changed
           self.keyStateChangedEmitter.emit();
@@ -184,8 +186,9 @@ define( function( require ) {
         deltaY = self._positionDelta;
       }
 
-      var locationDelta = self._modelViewTransform.modelToViewDelta( new Vector2( deltaX, deltaY ) );
-      var newLocation = self._dragBounds.closestPointTo( self.locationProperty.value.plus( locationDelta ) );
+      var locationDelta = new Vector2( deltaX, deltaY );
+      var newLocation = self.locationProperty.get().plus( locationDelta );
+      newLocation = self._dragBounds.closestPointTo( newLocation );
 
       // update the location if it is different
       if ( !newLocation.equals( self.locationProperty.value ) ) {
@@ -201,7 +204,39 @@ define( function( require ) {
      */
     setGrabbedState: function( grabbed ) {
       this.domElement.setAttribute( 'aria-grabbed', grabbed );
-    }
+    },
+
+    /**
+     * Check to see if the key up was one of the keys that drags the element.
+     *
+     * @param {number} keyCode - event key code on the 'keyup' event
+     * @return {boolean}
+     */
+    draggableKeyUp: function( keyCode ) {
+      return ( keyCode === KEY_S || keyCode === KEY_W || keyCode === KEY_A || keyCode === KEY_D );
+    },
+
+    /**
+     * Sets the dragBounds.
+     * In addition, it forces the location to be within the bounds.
+     * @param {Bounds2} dragBounds
+     * @public
+     */
+    setDragBounds: function( dragBounds ) {
+      this._dragBounds = dragBounds.copy();
+      this.locationProperty.set( this._dragBounds.closestPointTo( this.locationProperty.get() ) );
+    },
+    set dragBounds( value ) { this.setDragBounds( value ); },
+
+    /**
+     * Gets the dragBounds. Clients should not mutate the value returned.
+     * @returns {Bounds2}
+     * @public
+     */
+    getDragBounds: function() {
+      return this._dragBounds;
+    },
+    get dragBounds() { return this.getDragBounds(); },
   } );
 
 } );

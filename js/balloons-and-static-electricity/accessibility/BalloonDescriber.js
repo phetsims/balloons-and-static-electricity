@@ -94,14 +94,32 @@ define( function( require ) {
   var severalString = 'several';
   var manyString = 'many';
 
+  // wall charge descriptions
+  var atWallString = 'At wall.';
+  var atWallTouchPointPatternString = 'At touch point, negative charges in wall move away from balloon {0}.';
+
+  var noChangeInChargesString = 'no change in charges';
+  var aLittleBitString = 'a little bit';
+  var aLotString = 'a lot';
+  var quiteALotString = 'quite a lot';
+
+  var positiveChargesDoNotMoveString = 'Positive charges do not move.';
+  var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
+
+  var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
+
+  // release descriptions
+
   /**
-   *
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {WallModel} wall
    * @constructor
    */
-  function BalloonDescriber( model ) {
+  function BalloonDescriber( model, wall ) {
 
     // @private
     this.model = model;
+    this.wall = wall;
 
     // @private
     this.locationDescriptionMap = {
@@ -202,11 +220,8 @@ define( function( require ) {
      * @return {string}
      */
     getBalloonChargeDescription: function( balloon ) {
-      var balloonChargeDescription;
-
       var chargeString;
       var neutralityString;
-
 
       var charge = Math.abs( balloon.chargeProperty.value );
       if ( charge === 0 ) {
@@ -226,10 +241,26 @@ define( function( require ) {
         neutralityString = negativeString;
       }
 
-      assert && assert( balloonChargeDescription, 'no description found for balloon with charge: ' + balloon.charge );
+      assert && assert( chargeString, 'no description found for balloon with charge: ' + balloon.charge );
       return StringUtils.format( balloonChargeStringPattern, neutralityString, chargeString );
 
     },
+
+    /**
+     * Get a description of the balloon as it is dragging.  This should be called when the user completes 
+     * a drag interaction (on key up, typically).
+     *
+     * @param  {Balloon} balloon
+     * @return {string}        
+     */
+    getDraggingDescription: function( balloon ) {
+      var draggingDescription;
+
+      console.log( this.getBalloonLocationDescription( balloon ) );
+
+      assert && assert( draggingDescription, 'No description for the balloon dragging' );
+    },
+
     /**
      * Get a description for the balloon, including charge and location.
      * 

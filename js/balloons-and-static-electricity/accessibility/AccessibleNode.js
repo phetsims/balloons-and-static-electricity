@@ -42,14 +42,14 @@ define( function( require ) {
       description: '', // string
       descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list
       labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
-      ariaDescribedby: false, // if true, the description will be read on focus
       events: [], // array of objects with keys of type event name, values of type function
       hotkeys: {}, // object with keys of type keycode and values of type function
       hidden: false,
       ariaRole: null, // aria role for the element, can define extra semantics for the reader
       focusable: false, // explicitly set whether the element can receive keyboard focus
       domStyle: null, // extra styling for the parallel DOM, can be needed by Safari to support navigation
-      ariaAttributes: [] // array of objects specifying aria attributes - keys attribute and value
+      ariaAttributes: [], // array of objects specifying aria attributes - keys attribute and value
+      ariaDescribedBy: null // an ID of a description element to describe this dom element
     }, options );
 
     // @private
@@ -152,6 +152,11 @@ define( function( require ) {
 
         if ( self.childContainerElement ) {
           self.domElement.appendChild( self.childContainerElement );
+        }
+
+        // add an aria-describedby attribute if it is specified in options
+        if ( options.ariaDescribedBy ) {
+          self.setAriaDescribedBy( options.ariaDescribedBy );
         }
 
         return new AccessiblePeer( accessibleInstance, self.domElement, {

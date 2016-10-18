@@ -13,19 +13,10 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Input = require( 'SCENERY/input/Input' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-
-  // constants
-  var KEY_S = 83; // keycode for 's'
-  var KEY_W = 87; // keyvode for 'w'
-  var KEY_N = 78; // keycode for 'n'
-  var KEY_A = 65; // keycode for 'a'
-  var KEY_D = 68; // keycode for 'd'
-  var KEY_C = 67; // keycode for 'c'
 
   /**
    * Constructor
@@ -161,7 +152,7 @@ define( function( require ) {
 
     // Track key presses in a keyState object for accessibility.
     // TODO: This should eventually be internal.  It seems all keyboard interaction should use such an object.
-    this.keyState = {};
+    // this.keyState = {};
 
     this.reset();
 
@@ -345,92 +336,92 @@ define( function( require ) {
     step: function( model, dt ) {
       if ( dt > 0 ) {
 
-        if ( this.isJumping ) {
-          var halfWidth = this.width / 2;
-          var balloonYValue = this.locationProperty.value.y;
-          var jumpingKey;
+        // if ( this.isJumping ) {
+        //   var halfWidth = this.width / 2;
+        //   var balloonYValue = this.locationProperty.value.y;
+        //   var jumpingKey;
 
-          // determine where the user wants the balloon to go based on the next key press
-          // If location is defined by the press, exit jumping mode
-          if( this.keyState[ KEY_W ] ) {
-            // Move the balloon over to the wall
-            this.locationProperty.set( new Vector2( model.playArea.atWall - halfWidth, balloonYValue ) );
-            jumpingKey = KEY_W;
-          }
-          if( this.keyState[ KEY_S ] ) {
-            // move the balloon over to the edge of the sweater
-            this.locationProperty.set( new Vector2( model.playArea.atNearSweater - halfWidth, balloonYValue ) );
-            jumpingKey = KEY_S;
-          }
-          if( this.keyState[ KEY_C ] ) {
-            // move the balloon back to its initial x location
-            this.locationProperty.set( new Vector2( model.playArea.atCenter - halfWidth, balloonYValue ) );
-            jumpingKey = KEY_C;
-          }
-          if( this.keyState[ KEY_N ] ) {
-            // move the balloon close to the wall, but not touching it
-            this.locationProperty.set( new Vector2( model.playArea.atNearWall - halfWidth, balloonYValue ) );
-            jumpingKey = KEY_N;
-          }
+        //   // determine where the user wants the balloon to go based on the next key press
+        //   // If location is defined by the press, exit jumping mode
+        //   if( this.keyState[ KEY_W ] ) {
+        //     // Move the balloon over to the wall
+        //     this.locationProperty.set( new Vector2( model.playArea.atWall - halfWidth, balloonYValue ) );
+        //     jumpingKey = KEY_W;
+        //   }
+        //   if( this.keyState[ KEY_S ] ) {
+        //     // move the balloon over to the edge of the sweater
+        //     this.locationProperty.set( new Vector2( model.playArea.atNearSweater - halfWidth, balloonYValue ) );
+        //     jumpingKey = KEY_S;
+        //   }
+        //   if( this.keyState[ KEY_C ] ) {
+        //     // move the balloon back to its initial x location
+        //     this.locationProperty.set( new Vector2( model.playArea.atCenter - halfWidth, balloonYValue ) );
+        //     jumpingKey = KEY_C;
+        //   }
+        //   if( this.keyState[ KEY_N ] ) {
+        //     // move the balloon close to the wall, but not touching it
+        //     this.locationProperty.set( new Vector2( model.playArea.atNearWall - halfWidth, balloonYValue ) );
+        //     jumpingKey = KEY_N;
+        //   }
 
-          // as soon as the jumping key is up, stop jumping
-          if ( !this.keyState[ jumpingKey ] ) {
-            this.isJumping = false;
-          }
-        }
+        //   // as soon as the jumping key is up, stop jumping
+        //   if ( !this.keyState[ jumpingKey ] ) {
+        //     this.isJumping = false;
+        //   }
+        // }
 
-        else if ( this.isDragged ) {
+        if ( this.isDragged ) {
 
-          // determine if the user wants to move the balloon quickly or slowly by pressing 'shift'
-          var positionDelta = 7;
-          if ( this.keyState[ Input.KEY_SHIFT ] ) {
-            positionDelta = 15;
-          }
+        //   // determine if the user wants to move the balloon quickly or slowly by pressing 'shift'
+        //   var positionDelta = 7;
+        //   if ( this.keyState[ Input.KEY_SHIFT ] ) {
+        //     positionDelta = 15;
+        //   }
 
-          var deltaX = 0;
-          var deltaY = 0;
+        //   var deltaX = 0;
+        //   var deltaY = 0;
 
-          // Temporarily replace arrow keys for WASD keys, see
-          // https://github.com/phetsims/balloons-and-static-electricity/issues/108
+        //   // Temporarily replace arrow keys for WASD keys, see
+        //   // https://github.com/phetsims/balloons-and-static-electricity/issues/108
 
-          // handle balloon position changes due to keyboard navigation
-          // if the user presses any arrow key, pick it up immediately
-          // if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
-          //   deltaX = -positionDelta;
-          // }
-          // if ( this.keyState[ Input.KEY_RIGHT_ARROW ] ) {
-          //   deltaX = +positionDelta;
-          // }
-          // if ( this.keyState[ Input.KEY_UP_ARROW ] ) {
-          //   deltaY = -positionDelta;
-          // }
-          // if ( this.keyState[ Input.KEY_DOWN_ARROW ] ) {
-          //   deltaY = +positionDelta;
-          // }
-          if ( this.keyState[ KEY_A ] ) {
-            deltaX = -positionDelta;
-          }
-          if ( this.keyState[ KEY_D ] ) {
-            deltaX = +positionDelta;
-          }
-          if ( this.keyState[ KEY_W ] ) {
-            deltaY = -positionDelta;
-          }
-          if ( this.keyState[ KEY_S ] ) {
-            deltaY = +positionDelta;
-          }
+        //   // handle balloon position changes due to keyboard navigation
+        //   // if the user presses any arrow key, pick it up immediately
+        //   // if ( this.keyState[ Input.KEY_LEFT_ARROW ] ) {
+        //   //   deltaX = -positionDelta;
+        //   // }
+        //   // if ( this.keyState[ Input.KEY_RIGHT_ARROW ] ) {
+        //   //   deltaX = +positionDelta;
+        //   // }
+        //   // if ( this.keyState[ Input.KEY_UP_ARROW ] ) {
+        //   //   deltaY = -positionDelta;
+        //   // }
+        //   // if ( this.keyState[ Input.KEY_DOWN_ARROW ] ) {
+        //   //   deltaY = +positionDelta;
+        //   // }
+        //   if ( this.keyState[ KEY_A ] ) {
+        //     deltaX = -positionDelta;
+        //   }
+        //   if ( this.keyState[ KEY_D ] ) {
+        //     deltaX = +positionDelta;
+        //   }
+        //   if ( this.keyState[ KEY_W ] ) {
+        //     deltaY = -positionDelta;
+        //   }
+        //   if ( this.keyState[ KEY_S ] ) {
+        //     deltaY = +positionDelta;
+        //   }
 
-          // set the new location from keyboard deltas, checking to make sure that the balloon is in a valid position
-          var newLocation = this.locationProperty.value.plusXY( deltaX, deltaY );
-          if ( newLocation !== this.locationProperty.value ) {
-            newLocation = this.balloonsAndStaticElectricityModel.checkBalloonRestrictions( newLocation, this.width, this.height );
-            this.locationProperty.set( newLocation );
-          }
+        //   // set the new location from keyboard deltas, checking to make sure that the balloon is in a valid position
+        //   var newLocation = this.locationProperty.value.plusXY( deltaX, deltaY );
+        //   if ( newLocation !== this.locationProperty.value ) {
+        //     newLocation = this.balloonsAndStaticElectricityModel.checkBalloonRestrictions( newLocation, this.width, this.height );
+        //     this.locationProperty.set( newLocation );
+        //   }
 
-          // if the user presses shift + enter, release the balloon to observe the force of charges
-          if ( this.keyState[ Input.KEY_SPACE ] ) {
-            this.isDragged = false;
-          }
+        //   // if the user presses shift + enter, release the balloon to observe the force of charges
+        //   if ( this.keyState[ Input.KEY_SPACE ] ) {
+        //     this.isDragged = false;
+        //   }
 
           // check to see if we can catch any minus charges
           var chargePickedUp = this.dragBalloon( model, dt );

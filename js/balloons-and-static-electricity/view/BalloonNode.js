@@ -16,6 +16,7 @@ define( function( require ) {
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   // var Path = require( 'SCENERY/nodes/Path' );
   // var Shape = require( 'KITE/Shape' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -51,6 +52,7 @@ define( function( require ) {
   // 1 - discoverability cue for where additional charges can be found.
   // var noChargesPickedUpStringPattern = 'No change in charges. {0}. {1}';
   var morePairsOfChargesStringPattern = 'More pairs of charges {0}';
+  var noMoreChargesRemainingString = 'No more charges remaining on sweater.';
 
   /**
    * Constructor for the balloon
@@ -199,8 +201,12 @@ define( function( require ) {
     // the herald that will anounce alerts via screen reader
     this.ariaHerald = new AriaHerald();
 
+    // the balloon is dragged in model coordinates, adjusted for dimensions of the balloon body
+    var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
+
     // a flag to track whether or not a charge was picked up for dragging
     self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
+      dragBounds: balloonDragBounds,
       parentContainerTagName: 'div',
       label: balloonDraggableLabel,
       focusHighlight: focusHighlightNode,
@@ -220,15 +226,18 @@ define( function( require ) {
       ],
       onKeyUp: function() {
         // on key up, we want the user to receive information about the drag interaction
-
-        // if no charges were picked up, anounce a description that describes no change, position of balloon, and
-        // where additional charges are
         if ( !self.model.chargePickedUpInDrag && self.model.onSweater() ) {
+          // if no charges were picked up and balloon is on sweater, anounce a description
+          // that describes no change, position of balloon, and where additional charges are
           var balloonPositionString = self.getPositionOnSweaterDescription();
           var moreChargesString = self.getChargePositionCue();
 
           var combinedDescriptionPattern = '{0}. {1}';
           self.ariaHerald.announceAssertive( StringUtils.format( combinedDescriptionPattern, balloonPositionString, moreChargesString ) );
+        }
+        else {
+          var releaseDescription = self.balloonDescriber.getDraggingDescription( self.model );
+          // console.log( releaseDescription );
         }
 
         // reset flag for tracking successful charge pickup
@@ -249,11 +258,9 @@ define( function( require ) {
         }
 
         self.releaseBalloon();
-      }
+      },
+      ariaDescribedBy: this.getDescriptionElementID()
     } );
-
-    // the draggable element is described by this dom element's description
-    this.draggableNode.setAriaDescribedBy( this.getDescriptionElementID() );
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       tagName: 'button', // representative type
@@ -314,6 +321,16 @@ define( function( require ) {
       self.setDescription( locationDescription );
 
     } );
+
+    globalModel.wall.isVisibleProperty.link( function( isVisible ) {
+      // an adjustment to the draggable width depending on whether or not the wall is visible
+      var boundsAdjustment = isVisible ? globalModel.wallWidth : 0;
+      var boundsWidth = globalModel.playArea.maxX - self.model.width - boundsAdjustment;
+      var boundsHeight = globalModel.playArea.maxY - self.model.height;
+
+      var balloonDragBounds = new Bounds2( 0, 0, boundsWidth, boundsHeight );
+      self.draggableNode.setDragBounds( balloonDragBounds );
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
@@ -337,7 +354,7 @@ define( function( require ) {
         return StringUtils.format( morePairsOfChargesStringPattern, directionCueString );
       }
       else {
-        return 'No more charges remaining on sweater.';
+        return noMoreChargesRemainingString;
       }
 
     },

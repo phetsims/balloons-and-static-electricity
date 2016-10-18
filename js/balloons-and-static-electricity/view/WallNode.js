@@ -28,7 +28,7 @@ define( function( require ) {
 
   // strings
   var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
-  var wallNeutralChargeDescriptionString = 'Wall has a neutral charge, many pairs of negative and positive charges.';
+  var wallNeutralChargeDescriptionString = 'Wall has a net neutral charge, many pairs of negative and positive charges.';
 
   // Wall has a net neutral charge, many pairs of negative and positive charges.
   // At yellow balloon touch point, no change in charges.
@@ -36,7 +36,7 @@ define( function( require ) {
   var twoBalloonsTouchingWallPatternString = '{0}. {1}. {2}.';
   var oneBalloonTouchingWallPatternString = '{0} {1}';
   var balloonTouchPointDescriptionPatternString = 'At {0} touch point, {1}';
-  var chargeDescriptionPatternString = 'negative charges in wall move away from balloon {0}';
+  var chargeDescriptionPatternString = 'negative charges in wall move away from balloon {0}.  Positive charges do not move.';
 
   var noChangeInChargesString = 'no change in charges';
   var aLittleBitString = 'a little bit';

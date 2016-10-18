@@ -199,7 +199,7 @@ define( function( require ) {
      *
      * @param {Balloon} balloon
      */
-    var balloonLocationListener = function() {
+    var balloonLocationListener = function( location, oldLocation ) {
       var yellowBalloonDescription = self.getBalloonLocationDescription( model.balloons[ 0 ] );
 
       // if both balloons are visible, we need a description for both
