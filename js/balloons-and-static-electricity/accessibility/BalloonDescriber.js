@@ -31,6 +31,7 @@ define( function( require ) {
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
+  var draggingLocationStringPattern = 'At {0}';
 
   var topLeftEdgeOfSweaterString = 'top left edge of sweater';
   var upperLeftEdgeOfSweaterString = 'upper left edge of sweater';
@@ -78,6 +79,7 @@ define( function( require ) {
   var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
 
   // location strings while touching another object
+  var atWallPatternString = 'At {0} wall.';
   var touchingWallStringPattern = 'Touching {0} wall.';
   var stickintToWallStringPattern = 'Sticking to {0} wall.';
   var lowerWallString = 'lower';

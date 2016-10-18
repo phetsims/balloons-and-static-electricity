@@ -38,7 +38,7 @@ define( function( require ) {
     // and track how long they are down in ms via step()
     this.keyState = {};
 
-    // @private - emit when the keystate changes
+    // @public - emit when the keystate changes
     this.keyStateChangedEmitter = new Emitter();
 
     options = _.extend( {
@@ -67,7 +67,7 @@ define( function( require ) {
           };
 
           // notify that key state changed
-          self.keyStateChangedEmitter.emit();
+          self.keyStateChangedEmitter.emit1( event );
         }
       },
       {
@@ -85,7 +85,7 @@ define( function( require ) {
           }
 
           // notify that key state changed
-          self.keyStateChangedEmitter.emit();
+          self.keyStateChangedEmitter.emit1( event );
         }
       }
     ];
@@ -114,37 +114,6 @@ define( function( require ) {
     this.domElement.draggable = true;
     this.setGrabbedState( false );
 
-    // // listen for changes to the keystate and update the model vavlue
-    // this.keyStateChangedEmitter.addListener( function() {
-    //   // if tab is down, we may want to do something specific (like drop the element or
-    //   // focus something other than what is in the default navigation order )
-    //   if ( self.keyState[ KEY_TAB ] ) {
-    //     options.onTab();
-    //   }
-    //
-    //   var deltaX = 0;
-    //   var deltaY = 0;
-    //   if ( self.keyState[ KEY_A ] ) {
-    //     deltaX = -self._positionDelta;
-    //   }
-    //   if ( self.keyState[ KEY_D ] ) {
-    //     deltaX = self._positionDelta;
-    //   }
-    //   if ( self.keyState[ KEY_W ] ) {
-    //     deltaY = -self._positionDelta;
-    //   }
-    //   if ( self.keyState[ KEY_S ] ) {
-    //     deltaY = self._positionDelta;
-    //   }
-    //
-    //   var locationDelta = options.modelViewTransform.modelToViewDelta( new Vector2( deltaX, deltaY ) );
-    //   var newLocation = self.dragBounds.closestPointTo( self.locationProperty.value.plus( locationDelta ) );
-    //
-    //   // update the location if it is different
-    //   if ( !newLocation.equals( self.locationProperty.value ) ) {
-    //     self.locationProperty.set( newLocation );
-    //   }
-    // } );
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDragNode', AccessibleDragNode );

@@ -262,6 +262,11 @@ define( function( require ) {
       ariaDescribedBy: this.getDescriptionElementID()
     } );
 
+    this.draggableNode.keyStateChangedEmitter.addListener( function( event ) {
+      // TODO: This is where logic for counting directions could go
+      console.log( event.keyCode );
+    } );
+
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
       tagName: 'button', // representative type
       parentContainerTagName: 'div', // contains representative element, label, and description
