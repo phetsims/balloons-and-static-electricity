@@ -89,7 +89,7 @@ define( function( require ) {
   // location strings while touching another object
   var atWallPatternString = 'At {0} wall.';
   var touchingWallStringPattern = 'Touching {0} wall.';
-  var stickintToWallStringPattern = 'Sticking to {0} wall.';
+  var stickingToWallStringPattern = 'Sticking to {0} wall.';
   var lowerWallString = 'lower';
   var upperWallString = 'upper';
 
@@ -145,6 +145,8 @@ define( function( require ) {
   // boundary strings
   var atTopOfPlayAreaString = 'At top of play area.';
   var atBottomOfPlayAreaString = 'At bottom of play area';
+  var leftEdgeString = 'At left edge of play area';
+  var rightEdgeString = 'At right edge of play area';
 
   var nearSweaterString = 'Near sweater';
   var onSweaterPatternStringString = 'On sweater. {0}';
@@ -223,6 +225,12 @@ define( function( require ) {
       LOWER_RIGHT: lowerRightEdgeOfPlayAreaString,
       BOTTOM_RIGHT: bottomRightEdgeOfPlayAreaString,
 
+      TOP_EDGE: atTopOfPlayAreaString,
+      BOTTOM_EDGE: atBottomOfPlayAreaString,
+      LEFT_EDGE: leftEdgeString,
+      RIGHT_EDGE: rightEdgeString,
+      AT_WALL: atWallString
+
     };
 
     // @private - track the number of times each of the W, A, S and D keys have been pressed in a single interaction
@@ -270,7 +278,7 @@ define( function( require ) {
           balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
         }
         else {
-          balloonLocationDescription = StringUtils.format( stickintToWallStringPattern, upperLowerString );
+          balloonLocationDescription = StringUtils.format( stickingToWallStringPattern, upperLowerString );
         }
       }
       else {
@@ -472,7 +480,7 @@ define( function( require ) {
       }
 
       var newBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
-      if ( newBounds !== this.balloonBounds ) {
+      if ( newBounds !== this.balloonBounds || balloon.getBoundaryObject() ) {
         this.balloonBounds = newBounds;
         var locationString = this.getBalloonLocationDescription( balloon, true );
       }
@@ -482,7 +490,7 @@ define( function( require ) {
       var string2 = '';
       var string3 = '';
       var string4 = '';
-      if ( directionString ) {
+      if ( directionString && !balloon.getBoundaryObject() ) {
         string1 = directionString;
       }
       if ( onSweaterDescription ) {
