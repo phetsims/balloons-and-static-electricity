@@ -255,6 +255,7 @@ define( function( require ) {
     this.balloonCharge = balloon.chargeProperty.get();
     this.balloonChargeRange = A_FEW_RANGE;
     this.balloonInChargeRangeCount = 0; // if stays in one range while picking up many charges, this is incremented
+    this.balloonLocation = balloon.locationProperty.get(); // tracks when the value has changed
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -524,8 +525,9 @@ define( function( require ) {
       var string2 = '';
       var string3 = '';
       var string4 = '';
-      if ( directionString && !balloon.getBoundaryObject() ) {
+      if ( directionString && this.balloonLocation !== balloon.locationProperty.get() ) {
         string1 = directionString;
+        this.balloonLocation = balloon.locationProperty.get();
       }
       if ( onSweaterDescription && balloon.onSweater() ) {
         // if the balloon moves off the sweater, we do not want to hear this
@@ -686,6 +688,7 @@ define( function( require ) {
       this.balloonCharge = this.balloon.chargeProperty.get();
       this.balloonChargeRange = A_FEW_RANGE;
       this.balloonInChargeRangeCount = 0;
+      this.balloonLocation = this.balloon.locationProperty.get();
     },
 
     /**
