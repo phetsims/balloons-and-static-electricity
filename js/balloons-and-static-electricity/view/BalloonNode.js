@@ -27,7 +27,6 @@ define( function( require ) {
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
-  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
@@ -163,7 +162,7 @@ define( function( require ) {
     this.addChild( addedChargesNode );
 
     // this assists in describing the location and charge of the balloon - a11y
-    this.balloonDescriber = new BalloonDescriber( globalModel );
+    // this.balloonDescriber = new BalloonDescriber( globalModel, globalModel.wall, model );
 
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateCharge( chargeVal ) {
@@ -172,7 +171,7 @@ define( function( require ) {
       }
 
       // update the charge description
-      self.balloonDescriber.getDescription( model );
+      model.balloonDescriber.getDescription( model );
     } );
 
     //show charges based on showCharges property
@@ -236,7 +235,7 @@ define( function( require ) {
           self.ariaHerald.announceAssertive( StringUtils.format( combinedDescriptionPattern, balloonPositionString, moreChargesString ) );
         }
         else {
-          var releaseDescription = self.balloonDescriber.getDraggingDescription( self.model );
+          // var releaseDescription = model.balloonDescriber.getDraggingDescription( self.model );
           // console.log( releaseDescription );
         }
 
@@ -262,9 +261,9 @@ define( function( require ) {
       ariaDescribedBy: this.getDescriptionElementID()
     } );
 
-    this.draggableNode.keyStateChangedEmitter.addListener( function( event ) {
+    this.draggableNode.keyUpEmitter.addListener( function( event ) {
       // TODO: This is where logic for counting directions could go
-      console.log( event.keyCode );
+      model.balloonDescriber.getDraggingDescription( self.model, event.keyCode );
     } );
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
@@ -322,7 +321,7 @@ define( function( require ) {
       // path.shape = customShape;
 
       // a11y - update the description when the location changes (only found with cursor keys)
-      var locationDescription = self.balloonDescriber.getDescription( model );
+      var locationDescription = model.balloonDescriber.getDescription( model );
       self.setDescription( locationDescription );
 
     } );

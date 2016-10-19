@@ -28,13 +28,6 @@ define( function( require ) {
 
     this.playArea = new PlayArea( width, height );
 
-    this.balloons = [
-      new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW ),
-      new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN )
-    ];
-    this.balloons[ 0 ].other = this.balloons[ 1 ];
-    this.balloons[ 1 ].other = this.balloons[ 0 ];
-
     this.wall = new WallModel( width - this.wallWidth, 600, height );
     this.sweater = new SweaterModel( 0, -50 );
 
@@ -44,6 +37,13 @@ define( function( require ) {
       maxX: width - this.wallWidth,
       maxY: height
     };
+
+    this.balloons = [
+      new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW ),
+      new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN )
+    ];
+    this.balloons[ 0 ].other = this.balloons[ 1 ];
+    this.balloons[ 1 ].other = this.balloons[ 0 ];
 
     // when the wall changes visibility, the balloons could start moving if they have charge and are
     // near the wall

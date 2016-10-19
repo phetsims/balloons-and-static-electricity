@@ -132,7 +132,12 @@ define( function( require ) {
     UPPER_LEFT: upperLeftArmString,
 
     BOTTOM_LEFT: lowerLeftArmString,
-    LOWER_LEFT: lowerLeftArmString
+    LOWER_LEFT: lowerLeftArmString,
+
+    UPPER_LEFT_PLAY_AREA: upperRightArmString,
+    TOP_LEFT_PLAY_AREA: upperRightArmString,
+    LOWER_LEFT_PLAY_AREA: lowerRightArmString,
+    BOTTOM_LEFT_PLAY_AREA: lowerRightArmString
   };
 
   // ranges to describe induced charge
@@ -324,7 +329,7 @@ define( function( require ) {
         balloonLocationDescription = this.getBalloonTouchingWallDescription( balloon.chargeProperty.value, upperOrLowerString, balloonLabel );
 
       }
-      else if ( balloon.getCenter().x < this.model.playArea.rightArmColumn.maxX && balloon.chargeProperty.get() < 0 ) {
+      else if ( balloon.onSweater() && balloon.chargeProperty.get() < 0 ) {
         upperOrLowerString = balloon.inUpperHalfOfPlayArea() ? upperWallString : lowerWallString;
         balloonLocationDescription= this.getBalloonTouchingSweaterDescription( balloonLabel, currentBounds );
       }

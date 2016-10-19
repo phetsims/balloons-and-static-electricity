@@ -40,6 +40,8 @@ define( function( require ) {
 
     // @public - emit when the keystate changes
     this.keyStateChangedEmitter = new Emitter();
+    this.keyUpEmitter = new Emitter();
+    this.keyDownEmitter = new Emitter();
 
     options = _.extend( {
       onTab: function() {}, // optional function to call when user 'tabs' away
@@ -68,6 +70,7 @@ define( function( require ) {
 
           // notify that key state changed
           self.keyStateChangedEmitter.emit1( event );
+          self.keyDownEmitter.emit1( event );
         }
       },
       {
@@ -86,6 +89,7 @@ define( function( require ) {
 
           // notify that key state changed
           self.keyStateChangedEmitter.emit1( event );
+          self.keyUpEmitter.emit1( event );
         }
       }
     ];

@@ -30,7 +30,7 @@ define( function( require ) {
     // @public (read-only) - at the wall
     this.atWall = 621;
     this.atCenter = 507;
-    this.atNearSweater = 393;
+    this.atNearSweater = 375;
     this.atNearWall = 577;
     this.atSweater = 393;
     this.atRightEdgeOfPlayArea = 701;

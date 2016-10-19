@@ -16,7 +16,10 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
+  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
+  var NEAR_SWEATER_DISTANCE = 25;
 
   /**
    * Constructor
@@ -154,13 +157,17 @@ define( function( require ) {
     // TODO: This should eventually be internal.  It seems all keyboard interaction should use such an object.
     // this.keyState = {};
 
-    this.reset();
-
     // model bounds, updated when position changes
     this.bounds = new Bounds2( this.location.x, this.location.y, this.location.x + this.width, this.location.y + this.height );
     this.locationProperty.link( function( location ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
     } );
+
+    // a11y - describes the balloon based on its model properties
+    this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this );
+
+    this.reset();
+    
   }
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
@@ -179,16 +186,6 @@ define( function( require ) {
       else {
         return false;
       }
-    },
-
-    /**
-     * Return true if the balloon is near the sweater without without touching it.
-     *
-     * @return {boolean}
-     */
-    nearSweater: function() {
-      var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > model.playArea.atSweater && this.getCenter().x < model.playArea.atSweater + 25 );
     },
 
     /**
@@ -299,6 +296,18 @@ define( function( require ) {
     },
 
     /**
+     * If the balloon is near the sweater, return true.  Considered near the sweater when 
+     * within NEAR_SWEATER_DISTANCE from touching the sweater.
+     * @return {boolean}
+     */
+    nearSweater: function() {
+      var minX = this.balloonsAndStaticElectricityModel.playArea.atNearSweater;
+      var maxX = minX + NEAR_SWEATER_DISTANCE;
+
+      return ( minX < this.getCenter().x && this.getCenter().x < maxX );
+    },
+
+    /**
      * Returns true if the balloon is touching the wall
      * 
      * @return {boolean}
@@ -332,6 +341,9 @@ define( function( require ) {
         this.isVisible = this.defaultVisibily;
       }
       this.isDragged = false;
+
+      // reset the accessible describer
+      this.balloonDescriber.reset();
     },
     step: function( model, dt ) {
       if ( dt > 0 ) {
