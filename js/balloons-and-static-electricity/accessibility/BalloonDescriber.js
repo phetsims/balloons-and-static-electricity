@@ -35,8 +35,8 @@ define( function( require ) {
   // strings
   var balloonDescriptionPatternString = '{0} {1} {2}';
   var balloonDragDescriptionPatternString = '{0} {1} {2} {3}'; // direction, proximity, charge, 
-  var grabButtonNavigationCueString = 'Look for grab button to play';
-  // var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
+  var grabButtonNavigationCueString = 'Look for grab button to play.';
+  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
@@ -630,12 +630,16 @@ define( function( require ) {
      * Get a description for the balloon, including charge and location.
      * 
      * @param  {Balloon} balloon
+     * @param {boolean} isDragged - if dragged, the navigation cue changes
      * @return {string}
      */
-    getDescription: function( balloon ) {
+    getDescription: function( balloon, isDragged ) {
       var locationDescription = this.getBalloonLocationDescription( balloon, false );
       var chargeDescription = this.getBalloonChargeDescription( balloon, false );
-      return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, grabButtonNavigationCueString );
+
+      // if picked up for dragging, the navigation cue changes to describe the interaction
+      var navigationCue = isDragged ? dragNavigationCueString : grabButtonNavigationCueString;
+      return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, navigationCue );
     },
 
     /**

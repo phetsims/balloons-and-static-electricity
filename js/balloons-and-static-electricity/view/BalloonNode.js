@@ -279,8 +279,12 @@ define( function( require ) {
       // when the balloon is no longer being dragged, it should be removed from the focus order
       self.draggableNode.setFocusable( isDragged );
 
+      // a11y - update the navigation cue when the balloon is picked up
+      var locationDescription = model.balloonDescriber.getDescription( model, isDragged );
+      self.setDescription( locationDescription );
+
       // reset the describer flags
-    model.balloonDescriber.reset();
+      model.balloonDescriber.reset();
     } );
 
     // TODO: Balloon 'string' removevd for now, we gitare investigating ways of removing confusion involving buoyant forces
@@ -294,7 +298,7 @@ define( function( require ) {
       // path.shape = customShape;
 
       // a11y - update the description when the location changes (only found with cursor keys)
-      var locationDescription = model.balloonDescriber.getDescription( model );
+      var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
       self.setDescription( locationDescription );
 
     } );
