@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
   var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -123,6 +124,12 @@ define( function( require ) {
   var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
 
   // release descriptions
+  var balloonReleasedPatternString = 'Balloon released. Moved {0} to {1}.';
+  var balloonReleasedNoChangePatternString = 'Balloon Released. {0}';
+  var noChangeInPositionOrChargeString = 'No change in position.  No change in charge.';
+
+  var wallString = 'wall';
+  var sweaterString = 'sweater';
 
   // interaction descriptions
   var upTowardsTopString = 'Up. Towards top.';
@@ -140,7 +147,7 @@ define( function( require ) {
   var downString = 'Down.';
   var rightString = 'Right.';
 
-  var morePairsOfChargesStringPattern = 'More pairs of charges {0}';
+  var morePairsOfChargesStringPattern = 'More pairs of charges {0}.';
 
   // boundary strings
   var atTopOfPlayAreaString = 'At top of play area.';
@@ -152,7 +159,7 @@ define( function( require ) {
   var onSweaterPatternStringString = 'On sweater. {0}';
   var picksUpNegativeChargesString = 'Picks up negative charges from sweater.';
   var nearWallString = 'Near wall.';
-  var offSweaterString = 'Off sweater';
+  var offSweaterString = 'Off sweater.';
 
   var balloonPicksUpMoreChargesString = 'Balloon picks up more negative charges';
   var againMoreChargesString = 'Again, more negative ones.';
@@ -267,19 +274,7 @@ define( function( require ) {
       // if touching the wall (balloon has no charge)
       if ( this.model.playArea.atWall === balloon.getCenter().x ) {
         var upperLowerString;
-        if ( balloon.inUpperHalfOfPlayArea() ) {
-          upperLowerString = upperWallString;
-        }
-        else {
-          upperLowerString = lowerWallString;
-        }
-
-        if ( balloon.chargeProperty.get() === 0 ) {
-          balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
-        }
-        else {
-          balloonLocationDescription = StringUtils.format( stickingToWallStringPattern, upperLowerString );
-        }
+        balloonLocationDescription = this.getTouchingWallDescription( balloon, dragging );
       }
       else {
         var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
@@ -289,6 +284,27 @@ define( function( require ) {
       }
 
       assert && assert( balloonLocationDescription, 'no description found for balloon location' );
+      return balloonLocationDescription;
+    },
+
+    getTouchingWallDescription: function( balloon, dragging ) {
+
+      var upperLowerString;
+      var balloonLocationDescription;
+      if ( balloon.inUpperHalfOfPlayArea() ) {
+        upperLowerString = upperWallString;
+      }
+      else {
+        upperLowerString = lowerWallString;
+      }
+
+      if ( balloon.chargeProperty.get() === 0 || dragging) {
+        balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
+      }
+      else {
+        balloonLocationDescription = StringUtils.format( stickingToWallStringPattern, upperLowerString );
+      }
+
       return balloonLocationDescription;
     },
 
@@ -493,7 +509,8 @@ define( function( require ) {
       if ( directionString && !balloon.getBoundaryObject() ) {
         string1 = directionString;
       }
-      if ( onSweaterDescription ) {
+      if ( onSweaterDescription && balloon.onSweater() ) {
+        // if the balloon moves off the sweater, we do not want to hear this
         string2 = onSweaterDescription;
       }
       if ( proximityString ) {
@@ -649,6 +666,47 @@ define( function( require ) {
     },
 
     /**
+     * Get a description of the balloon after it has been released.
+     * This description id dependent on the position.
+     * @return {string}
+     */
+    getReleaseDescription: function() {
+
+      var descriptionString = '';
+      if ( this.balloon.charge === 0 ) {
+        // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
+        // no change in charges, button label
+
+        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, noChangeInPositionOrChargeString );
+      }
+      else if ( this.balloon.touchingWall() ) {
+        var touchingWallDescription = this.getTouchingWallDescription( this.balloon );
+        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, touchingWallDescription )
+      }
+      else {
+
+        // otherwise, we want to hear direction and speed of balloon movement.
+        var velocityDescription = this.getVelocityDescription();
+
+        // determine which object the balloon is moving toward
+        var attractedDirection = this.balloon.getAttractedDirection();
+
+        var attractedObject;
+        if ( attractedDirection === BalloonDirectionEnum.RIGHT ) {
+          attractedObject = wallString;
+        }
+        else {
+          attractedObject = sweaterString;
+        }
+
+        // put it together
+        descriptionString = StringUtils.format( balloonReleasedPatternString, velocityDescription, attractedObject );
+      }
+
+      return descriptionString;
+    },
+
+    /**
      * Return true when it is time to reset the dragging descriptions.
      * @return {boolean}
      */
@@ -660,7 +718,38 @@ define( function( require ) {
         this.wKeyPressedCount > 5;
 
       return countsTooHigh || this.transitionedToNewArea;
-    }
+    },
+
+    /**
+     * Get a description of how quickly the balloon moves to another object in the play area
+     * as a function of the charge.
+     * @param  {number} charge
+     * @return {string}
+     */
+    getVelocityDescription: function() {
+      var velocityDescription = '';
+
+      // map the charges to ranges
+      var verySlowRange = new Range( 1, 14 );
+      var slowRange = new Range( 15, 29 );
+      var quickRange = new Range( 30, 44 );
+      var veryQuickRange = new Range( 45, 57 );
+      var absCharge = Math.abs( this.balloon.chargeProperty.get() );
+
+      if ( verySlowRange.contains( absCharge ) ) {
+        velocityDescription = 'very slowly';
+      }
+      else if ( slowRange.contains( absCharge ) ) {
+        velocityDescription = 'slowly';
+      }
+      else if ( quickRange.contains( absCharge ) ) {
+        velocityDescription = 'quickly';
+      }
+      else if ( veryQuickRange.contains( absCharge ) ) {
+        velocityDescription = 'very quickly';
+      }
+      return velocityDescription;
+    },
   } );
 
 } );

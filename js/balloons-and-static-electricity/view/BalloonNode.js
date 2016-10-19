@@ -328,80 +328,6 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the balloon after it has been released.
-     * This description id dependent on the position.
-     * @return {string}
-     */
-    getReleaseDescription: function() {
-
-      var descriptionString = '';
-      if ( this.model.charge === 0 ) {
-        // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
-        // no change in charges, button label
-
-        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, noChangeInPositionOrChargeString );
-      }
-      else {
-        // otherwise, we want to hear direction and speed of balloon movement.
-        var velocityDescription = this.getVelocityDescription();
-
-        // determine which object the balloon is moving toward
-        var attractedObject = this.getAttractedObject();
-
-        // put it together
-        descriptionString = StringUtils.format( balloonReleasedPatternString, velocityDescription, attractedObject );
-      }
-
-      return descriptionString;
-    },
-
-    /**
-     * Get a description of how quickly the balloon moves to another object in the play area
-     * as a function of the charge.
-     * @param  {number} charge
-     * @return {string}
-     */
-    getVelocityDescription: function() {
-      var velocityDescription = '';
-
-      // map the charges to ranges
-      var verySlowRange = new Range( 1, 14 );
-      var slowRange = new Range( 15, 29 );
-      var quickRange = new Range( 30, 44 );
-      var veryQuickRange = new Range( 45, 57 );
-      var absCharge = Math.abs( this.model.charge );
-
-      if ( verySlowRange.contains( absCharge ) ) {
-        velocityDescription = 'very slowly';
-      }
-      else if ( slowRange.contains( absCharge ) ) {
-        velocityDescription = 'slowly';
-      }
-      else if ( quickRange.contains( absCharge ) ) {
-        velocityDescription = 'quickly';
-      }
-      else if ( veryQuickRange.contains( absCharge ) ) {
-        velocityDescription = 'very quickly';
-      }
-      return velocityDescription;
-    },
-
-    /**
-     * Get the name of the object that the balloon is curently attracted to.
-     *
-     * @return {string}
-     */
-    getAttractedObject: function() {
-      var force = BalloonModel.getTotalForce( this.globalModel, this.model );
-      if ( force.x > 0 ) {
-        return wallString;
-      }
-      else {
-        return sweaterString;
-      }
-    },
-
-    /**
      * Release the balloon from a dragging state with the keyboard.  Calling this function
      * will set the model dragging property and anounce alert description.s
      *
@@ -412,7 +338,7 @@ define( function( require ) {
       this.model.isDraggedProperty.set( false );
 
       // anounce the release description
-      var releaseDescription = this.getReleaseDescription();
+      var releaseDescription = this.model.balloonDescriber.getReleaseDescription();
       this.ariaHerald.announcePolite( releaseDescription );
     }
   } );

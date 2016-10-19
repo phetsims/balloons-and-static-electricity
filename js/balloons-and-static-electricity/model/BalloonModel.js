@@ -284,7 +284,7 @@ define( function( require ) {
 
       var diffX = difference.x;
       var diffY = difference.y;
-      
+
       // direction string to be returned
       var direction;
       if ( diffX > 0 && diffY > 0 ) {
@@ -530,6 +530,21 @@ define( function( require ) {
         retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.charge );
       }
       return retValue;
+    },
+
+    /**
+     * Get the name of the object that the balloon is curently attracted to.
+     *
+     * @return {string}
+     */
+    getAttractedDirection: function() {
+      var force = BalloonModel.getTotalForce( this.balloonsAndStaticElectricityModel, this );
+      if ( force.x > 0 ) {
+        return BalloonDirectionEnum.RIGHT;
+      }
+      else {
+        return BalloonDirectionEnum.LEFT;
+      }
     },
 
     /**
