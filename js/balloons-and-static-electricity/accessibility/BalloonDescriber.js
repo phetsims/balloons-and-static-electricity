@@ -24,7 +24,7 @@ define( function( require ) {
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
   var SEVERAL_RANGE = new Range( 15, 40 );
-  var MANY_RANGE = new Range( 40, 56 );
+  var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
   var KEY_S = 83; // keycode for 's'
@@ -537,7 +537,7 @@ define( function( require ) {
       var sweaterChargeString;
       var balloonPicksUpChargesString;
 
-      if ( currentBalloonCharge === MAX_BALLOON_CHARGE ) {
+      if ( this.balloonCharge === MAX_BALLOON_CHARGE ) {
         return noMoreChargesRemainingOnSweaterString;
       }
       else if ( currentBalloonCharge !== this.balloonCharge ) {  
@@ -545,7 +545,8 @@ define( function( require ) {
         this.balloonCharge = balloon.chargeProperty.get();
 
         if ( this.balloonChargeRange !== currentBalloonChargeRange ) {
-          // the balloon has picked up enough charges to remind the user that there is a difference in charges
+          // the balloon has picked up enough charges to remind the user of the
+          // charge difference between sweater and balloon
           this.balloonInChargeRangeCount = 0;
           this.balloonChargeRange = currentBalloonChargeRange;
         }
