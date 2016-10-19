@@ -62,6 +62,8 @@ define( function( require ) {
   var resetAllString = 'Reset All';
   var resetAlertString = 'Sim screen restarted.  Everything reset.';
 
+  var abSwitchDescriptionString = 'Play with two balloons or just one.';
+
   /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
@@ -178,7 +180,8 @@ define( function( require ) {
     var showBalloonsChoice = new Panel(
       new AccessibleABSwitchNode( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
         switchSize: new Dimension2( 32, 16 ),
-        label: twoBalloonExperimentLabelString
+        label: twoBalloonExperimentLabelString,
+        description: abSwitchDescriptionString
       } ),
       { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );

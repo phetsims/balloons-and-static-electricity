@@ -33,7 +33,7 @@ define( function( require ) {
     options = _.extend( {
       tagName: 'input',
       inputType: 'checkbox',
-      labelTagName: 'label',
+      useAriaLabel: true,
       parentContainerTagName: 'div',
       events: [
         {

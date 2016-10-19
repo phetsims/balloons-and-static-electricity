@@ -39,6 +39,7 @@ define( function( require ) {
       childContainerTagName: null, // container for children added to this element
       focusHighlight: null, // Node|Shape|Bounds2
       label: '', // string
+      useAriaLabel: false, // if true, a lebel element will not be created and the label will be inline with aria-label
       description: '', // string
       descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list
       labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
@@ -49,7 +50,8 @@ define( function( require ) {
       focusable: false, // explicitly set whether the element can receive keyboard focus
       domStyle: null, // extra styling for the parallel DOM, can be needed by Safari to support navigation
       ariaAttributes: [], // array of objects specifying aria attributes - keys attribute and value
-      ariaDescribedBy: null // an ID of a description element to describe this dom element
+      ariaDescribedBy: null, // an ID of a description element to describe this dom element
+      ariaLabelledBy: null // an ID of a label element to describe this dom element
     }, options );
 
     // @private
@@ -99,18 +101,26 @@ define( function( require ) {
 
     // the label can be either a paragraph or a 'label'
     self.labelElement = document.createElement( options.labelTagName );
-
-    // if the label is specifically a 'label', it requires the 'for' attribute, referencing the dom element id
-    if ( self.labelElement.tagName === DOM_LABEL ) {
-      self.labelElement.setAttribute( 'for', this.domElement.id );
-    }
-
+    self.labelElement.id = 'label-' + this.id;
     self.descriptionElement.textContent = options.description;
-    self.labelElement.textContent = options.label;
 
-    // if the type supports inner text, the label should be added as inner text
-    if ( this.elementSupportsInnerText() && options.label ) {
-      self.domElement.innerText = options.label;
+    if ( options.useAriaLabel ) {
+      // add the label inline with aria-label
+      this.domElement.setAttribute( 'aria-label', options.label )
+    }
+    else {
+
+      // if the label is specifically a 'label', it requires the 'for' attribute, referencing the dom element id
+      if ( self.labelElement.tagName === DOM_LABEL ) {
+        self.labelElement.setAttribute( 'for', this.domElement.id );
+      }
+
+      self.labelElement.textContent = options.label;
+
+      // if the type supports inner text, the label should be added as inner text
+      if ( this.elementSupportsInnerText() && options.label ) {
+        self.domElement.innerText = options.label;
+      }
     }
 
     // containers to hold DOM children if necessary
@@ -157,6 +167,11 @@ define( function( require ) {
         // add an aria-describedby attribute if it is specified in options
         if ( options.ariaDescribedBy ) {
           self.setAriaDescribedBy( options.ariaDescribedBy );
+        }
+
+        // add an aria-labelledby attribute if it is specified in options
+        if ( options.ariaLabelledBy ) {
+          self.setAriaLabelledBy( options.ariaLabelledBy );
         }
 
         return new AccessiblePeer( accessibleInstance, self.domElement, {
@@ -240,6 +255,17 @@ define( function( require ) {
     },
 
     /**
+     * Get an id referencing the label element of this node.  Useful when you want to 
+     * set aria-labelledby on a DOM element that is far from this one in the scene graph.
+     * 
+     * @return {string}
+     */
+    getLabelElementID: function() {
+      assert && assert( this.labelElement, 'description element must exist in the parallel DOM' );
+      return this.labelElement.id;
+    },
+
+    /**
      * Add the 'aria-describedby' attribute to this node's dom element.  If no description 
      * id is passed in, the dom element will automatically be described by this element's
      * description.
@@ -249,6 +275,19 @@ define( function( require ) {
     setAriaDescribedBy: function( descriptionID ) {
       assert && assert( document.getElementById( descriptionID ), 'no element in DOM with id ' + descriptionID );
       this.domElement.setAttribute( 'aria-describedby', descriptionID );
+    },
+
+
+    /**
+     * Add the 'aria-labelledby' attribute to this node's dom element.  If no description 
+     * id is passed in, the dom element will automatically be described by this element's
+     * label elemnet.
+     * 
+     * @param {string} [labelID] - optional id referencing the description element
+     */
+    setAriaLabelledBy: function( labelID ) {
+      assert && assert( document.getElementById( labelID ), 'no element in DOM with id ' + descriptionID );
+      this.domElement.setAttribute( 'aria-labelledby', labelID );
     },
 
     /**
