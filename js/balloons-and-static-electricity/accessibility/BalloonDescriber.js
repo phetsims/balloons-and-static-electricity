@@ -110,12 +110,14 @@ define( function( require ) {
 
   // wall charge descriptions
   var atWallString = 'At wall.';
-  var atWallTouchPointPatternString = 'At touch point, negative charges in wall move away from balloon {0}.';
+  var atWallTouchPointPatternString = 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has net neutral charge, many pairs of negative and positive charges.';
 
   var noChangeInChargesString = 'No change in charges.';
-  var aLittleBitString = 'a little bit';
-  var aLotString = 'a lot';
-  var quiteALotString = 'quite a lot';
+  var aLittleBitString = 'move away from balloon a little bit';
+  var aLotString = 'move away from balloon a lot';
+  var quiteALotString = 'move away from balloon quite a lot';
+  var doNotMoveString = 'do not move';
+
   var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.';
 
   var positiveChargesDoNotMoveString = 'Positive charges do not move.';
@@ -353,36 +355,52 @@ define( function( require ) {
      * @return {string}
      */
     getBalloonChargeDescription: function( balloon, dragging ) {
-      var chargeString;
-      var neutralityString;
+      var chargeString; // qualitative description of balloon charge
+      var neutralityString; // description of whether balloon has no or negative charge
+      var inducedChargeString; // qualitative description for induced charge
 
+      // assemble a description for the balloon's charge
+      var balloonChargeDescription;
       var balloonLabel = this.balloonLabelMap[ balloon.balloonLabel ];
 
       var charge = Math.abs( balloon.chargeProperty.value );
       if ( charge === 0 ) {
         chargeString = noString;
         neutralityString = neutralString;
+        inducedChargeString = doNotMoveString;
       }
       else if ( A_FEW_RANGE.contains( charge ) ) {
         chargeString = aFewString;
         neutralityString = negativeString;
+        inducedChargeString = aLittleBitString;
       }
       else if ( SEVERAL_RANGE.contains( charge ) ) {
         chargeString = severalString;
         neutralityString = negativeString;
+        inducedChargeString = aLotString;
       }
       else if ( MANY_RANGE.contains( charge ) ) {
         chargeString = manyString;
         neutralityString = negativeString;
+        inducedChargeString = quiteALotString;
       }
-
       assert && assert( chargeString, 'no description found for balloon with charge: ' + balloon.charge );
 
       if ( dragging ) {
-        return StringUtils.format( namedBalloonChargeDescriptionPatternString, balloonLabel, neutralityString, chargeString );
+        balloonChargeDescription = StringUtils.format( namedBalloonChargeDescriptionPatternString, balloonLabel, neutralityString, chargeString );
       }
       else {
-        return StringUtils.format( balloonChargeStringPattern, neutralityString, chargeString );
+        balloonChargeDescription = StringUtils.format( balloonChargeStringPattern, neutralityString, chargeString );
+      }
+
+      var wallChargeDescription = StringUtils.format( atWallTouchPointPatternString, inducedChargeString );
+
+      // assemble a description for the wall charge if the balloon is touching the wall
+      if ( balloon.touchingWall() ) {
+        return StringUtils.format( '{0} {1}', balloonChargeDescription, wallChargeDescription );
+      }
+      else {
+        return balloonChargeDescription;
       }
 
     },
