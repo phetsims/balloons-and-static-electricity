@@ -25,7 +25,6 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Range = require( 'DOT/Range' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
-  var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
@@ -46,12 +45,6 @@ define( function( require ) {
   var noChangeInPositionOrChargeString = 'No change in position.  No change in charge.';
   var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
   var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
-
-  // 0 - loction of balloon on sweater
-  // 1 - discoverability cue for where additional charges can be found.
-  // var noChargesPickedUpStringPattern = 'No change in charges. {0}. {1}';
-  var morePairsOfChargesStringPattern = 'More pairs of charges {0}';
-  var noMoreChargesRemainingString = 'No more charges remaining on sweater.';
 
   /**
    * Constructor for the balloon
@@ -161,9 +154,6 @@ define( function( require ) {
     this.addChild( startChargesNode );
     this.addChild( addedChargesNode );
 
-    // this assists in describing the location and charge of the balloon - a11y
-    // this.balloonDescriber = new BalloonDescriber( globalModel, globalModel.wall, model );
-
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateCharge( chargeVal ) {
       if ( chargeVal ) {
@@ -223,25 +213,6 @@ define( function( require ) {
           }
         }
       ],
-      onKeyUp: function() {
-        // on key up, we want the user to receive information about the drag interaction
-        if ( !self.model.chargePickedUpInDrag && self.model.onSweater() ) {
-          // if no charges were picked up and balloon is on sweater, anounce a description
-          // that describes no change, position of balloon, and where additional charges are
-          var balloonPositionString = self.getPositionOnSweaterDescription();
-          var moreChargesString = self.getChargePositionCue();
-
-          var combinedDescriptionPattern = '{0}. {1}';
-          self.ariaHerald.announceAssertive( StringUtils.format( combinedDescriptionPattern, balloonPositionString, moreChargesString ) );
-        }
-        else {
-          // var releaseDescription = model.balloonDescriber.getDraggingDescription( self.model );
-          // console.log( releaseDescription );
-        }
-
-        // reset flag for tracking successful charge pickup
-        self.model.chargePickedUpInDrag = false;
-      },
       onTab: function( event ) {
 
         // if the user presses 'tab' we want the focus to go to the next element in the
@@ -262,8 +233,7 @@ define( function( require ) {
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
-      // TODO: This is where logic for counting directions could go
-      model.balloonDescriber.getDraggingDescription( self.model, event.keyCode );
+      self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( self.model, event.keyCode ) );
     } );
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
@@ -308,6 +278,9 @@ define( function( require ) {
 
       // when the balloon is no longer being dragged, it should be removed from the focus order
       self.draggableNode.setFocusable( isDragged );
+
+      // reset the describer flags
+    model.balloonDescriber.reset();
     } );
 
     // TODO: Balloon 'string' removevd for now, we gitare investigating ways of removing confusion involving buoyant forces
@@ -343,24 +316,6 @@ define( function( require ) {
 
     getPositionOnSweaterDescription: function() {
       return 'On body of sweater';
-    },
-
-    getChargePositionCue: function() {
-
-      if ( this.globalModel.sweater.charge < 57 ) {
-        // get the closest charge that has not been picked up
-        var closestCharge = this.model.getClosestCharge();
-        var directionToCharge = this.model.getDirectionToCharge( closestCharge );
-
-        var directionCueString = StringMaps.DIRECTION_MAP[ directionToCharge ];
-        assert && assert( directionCueString, 'no direction found for nearest charge' );
-
-        return StringUtils.format( morePairsOfChargesStringPattern, directionCueString );
-      }
-      else {
-        return noMoreChargesRemainingString;
-      }
-
     },
 
     /**

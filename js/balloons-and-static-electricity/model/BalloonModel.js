@@ -27,7 +27,6 @@ define( function( require ) {
    * @param {number} y
    * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
-   debugger
    * @param {string} labelString - label for the balloon
    * @constructor
    */
@@ -167,7 +166,7 @@ define( function( require ) {
     this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this );
 
     this.reset();
-    
+
   }
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
@@ -218,6 +217,16 @@ define( function( require ) {
       // find the closest charge to the balloon that has not yet been picked up
       var sweater = this.balloonsAndStaticElectricityModel.sweater;
 
+      // the closest charge is described relative to the center of this rectangle
+      // which is what is used to pick up charges
+      var balloonLocation = this.locationProperty.get();
+      var x1 = balloonLocation.x - 5;
+      var x2 = balloonLocation.x + 50;
+      var y1 = balloonLocation.y - 10;
+      var y2 = balloonLocation.y + this.height + 10;
+      var centerX = ( x1 + x2 ) / 2;
+      var centerY = ( y1 + y2 ) / 2;
+
       // loop through the charges to find the next closest one
       var difference = new Vector2( 0, 0 ); // allocated once to avoid burden to memory
       var minDistance = Number.POSITIVE_INFINITY;
@@ -231,8 +240,8 @@ define( function( require ) {
           continue;
         }
 
-        var distX = charge.location.x - this.location.x;
-        var distY = charge.location.y - this.location.y;
+        var distX = charge.location.x - centerX;
+        var distY = charge.location.y - centerY;
         difference.setXY( distX, distY );
 
         if ( difference.magnitude() < minDistance ) {
@@ -246,17 +255,36 @@ define( function( require ) {
     },
 
     /**
+     * Center of a rectangular area that defines the bounds of the balloon
+     * that must drag acrosss the sweater to pick up a charge.
+     * 
+     * @return {Vector2}
+     */
+    getDraggingCenter: function() {
+      var balloonLocation = this.locationProperty.get();
+      var x1 = balloonLocation.x - 5;
+      var x2 = balloonLocation.x + 50;
+      var y1 = balloonLocation.y - 10;
+      var y2 = balloonLocation.y + this.height + 10;
+
+      var centerX = balloonLocation.x + ( ( x2 - x1 ) / 2 );
+      var centerY = balloonLocation.y + ( ( y2 - y1 ) / 2 );
+
+      return new Vector2( centerX, centerY );
+    },
+
+    /**
      * Get a direction from the balloon center to the charge.
      *
      * @param  {type} chargeModel description
      * @return {type}             description
      */
     getDirectionToCharge: function( chargeModel ) {
-      var difference = chargeModel.location.minus( this.getCenter() );
+      var difference = chargeModel.location.minus( this.getDraggingCenter() );
 
       var diffX = difference.x;
       var diffY = difference.y;
-
+      
       // direction string to be returned
       var direction;
       if ( diffX > 0 && diffY > 0 ) {
@@ -275,6 +303,7 @@ define( function( require ) {
         // charge is down and to the lefts
         direction = BalloonDirectionEnum.UP_LEFT;
       }
+
 
       assert && assert( direction, 'A direction must be defined' );
       return direction;

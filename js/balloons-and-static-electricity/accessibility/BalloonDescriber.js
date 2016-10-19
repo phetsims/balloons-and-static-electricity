@@ -17,6 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Range = require( 'DOT/Range' );
+  var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
@@ -32,6 +33,7 @@ define( function( require ) {
 
   // strings
   var balloonDescriptionPatternString = '{0} {1} {2}';
+  var balloonDragDescriptionPatternString = '{0} {1} {2} {3}'; // direction, proximity, charge, 
   var grabButtonNavigationCueString = 'Look for grab button to play';
   // var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
 
@@ -113,7 +115,7 @@ define( function( require ) {
   var aLittleBitString = 'a little bit';
   var aLotString = 'a lot';
   var quiteALotString = 'quite a lot';
-  var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.'
+  var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.';
 
   var positiveChargesDoNotMoveString = 'Positive charges do not move.';
   var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
@@ -138,12 +140,15 @@ define( function( require ) {
   var downString = 'Down.';
   var rightString = 'Right.';
 
+  var morePairsOfChargesStringPattern = 'More pairs of charges {0}';
+
   // boundary strings
   var atTopOfPlayAreaString = 'At top of play area.';
   var atBottomOfPlayAreaString = 'At bottom of play area';
 
   var nearSweaterString = 'Near sweater';
-  var onSweaterString = 'On sweater. Picks up negative charges from sweater.';
+  var onSweaterPatternStringString = 'On sweater. {0}';
+  var picksUpNegativeChargesString = 'Picks up negative charges from sweater.';
   var nearWallString = 'Near wall.';
   var offSweaterString = 'Off sweater';
 
@@ -169,7 +174,7 @@ define( function( require ) {
     this.balloonLabelMap = {
       GREEN: greenBalloonString,
       YELLOW: yellowBalloonString
-    }
+    };
 
     // @private
     this.locationDescriptionMap = {
@@ -293,7 +298,14 @@ define( function( require ) {
       else if ( balloonOnSweater !== this.balloonOnSweater ) {
         if ( balloonOnSweater ) {
           // only anounce on sweater the first time it hits the sweater
-          proximityDescription = onSweaterString;
+          // if the balloon picks up a charge as it touches the sweater, anounce this
+          if ( balloon.chargeProperty.get() !== this.balloonCharge ) {
+            proximityDescription = StringUtils.format( onSweaterPatternStringString, picksUpNegativeChargesString );
+            this.balloonCharge = balloon.chargeProperty.get();
+          }
+          else {
+            proximityDescription = StringUtils.format( onSweaterPatternStringString, '' );
+          }
         }
         else {
           proximityDescription = offSweaterString;
@@ -389,7 +401,10 @@ define( function( require ) {
 
       var directionString;
       if ( keyCode === KEY_W ) {
-        if ( this.wKeyPressedCount === 0 ) {
+        if ( balloon.onSweater() ) {
+          directionString = upString;
+        }
+        else if ( this.wKeyPressedCount === 0 ) {
           directionString = upTowardsTopString;
         }
         else if ( this.wKeyPressedCount < 2 ) {
@@ -401,7 +416,10 @@ define( function( require ) {
         this.wKeyPressedCount++;
       }
       else if ( keyCode === KEY_S ) {
-        if ( this.sKeyPressedCount === 0 ) {
+        if ( balloon.onSweater() ) {
+          directionString = downString;
+        }
+        else if ( this.sKeyPressedCount === 0 ) {
           directionString = downTowardsBottomString;
         }
         else if ( this.sKeyPressedCount < 2 ) {
@@ -410,10 +428,13 @@ define( function( require ) {
         else {
           directionString = downString;
         }
-        this.sKeyPressedCount++
+        this.sKeyPressedCount++;
       }
       else if ( keyCode === KEY_A ) {
-        if ( this.aKeyPressedCount === 0  ) {
+        if ( balloon.onSweater() ) {
+          directionString = leftString;
+        }
+        else if ( this.aKeyPressedCount === 0  ) {
           directionString = leftTowardsSweaterString;
         }
         else if ( this.aKeyPressedCount < 2 ) {
@@ -422,10 +443,13 @@ define( function( require ) {
         else {
           directionString = leftString;
         }
-        this.aKeyPressedCount++
+        this.aKeyPressedCount++;
       }
       else if ( keyCode === KEY_D ) {
-        if ( this.dKeyPressedCount === 0 ) {
+        if ( balloon.onSweater() ) {
+          directionString = rightString;
+        }
+        else if ( this.dKeyPressedCount === 0 ) {
           directionString = rightTowardsWallString;
         }
         else if ( this.dKeyPressedCount < 2 ) {
@@ -434,7 +458,7 @@ define( function( require ) {
         else {
           directionString = rightString;
         }
-        this.dKeyPressedCount++
+        this.dKeyPressedCount++;
       }
 
       // TODO: When do key counds need to be reset?
@@ -444,7 +468,7 @@ define( function( require ) {
 
       if ( this.balloonOnSweater ) {
         // this will be true on the first rub, after user hits sweater the first time
-        this.getSweaterRubDescription( balloon );
+        var onSweaterDescription = this.getSweaterRubDescription( balloon );
       }
 
       var newBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
@@ -454,11 +478,25 @@ define( function( require ) {
       }
       var proximityString = this.getBalloonProximityDescription( balloon );
 
-      // if ( directionString ) ( console.log( directionString ) );
-      // if ( proximityString ) ( console.log( proximityString ) );
-      // if ( locationString && !balloon.onSweater() ) ( console.log( locationString ) ); // if on sweater, we do not want to hear thiis?
+      var string1 = '';
+      var string2 = '';
+      var string3 = '';
+      var string4 = '';
+      if ( directionString ) {
+        string1 = directionString;
+      }
+      if ( onSweaterDescription ) {
+        string2 = onSweaterDescription;
+      }
+      if ( proximityString ) {
+        string3 = proximityString;
+      }
+      if ( locationString && !balloon.onSweater() ) {
+        string4 = locationString;
+      }
 
-      assert && assert( draggingDescription, 'No description for the balloon dragging' );
+      draggingDescription = StringUtils.format( balloonDragDescriptionPatternString, string1, string2, string3, string4 );
+      return draggingDescription;
     },
 
     /**
@@ -472,9 +510,10 @@ define( function( require ) {
 
       var balloonChargeString;
       var sweaterChargeString;
+      var balloonPicksUpChargesString;
 
       if ( currentBalloonCharge === MAX_BALLOON_CHARGE ) {
-        sweaterChargeString = noMoreChargesRemainingOnSweaterString;
+        return noMoreChargesRemainingOnSweaterString;
       }
       else if ( currentBalloonCharge !== this.balloonCharge ) {  
         // the balloon has picked at least one charge
@@ -489,24 +528,54 @@ define( function( require ) {
         if ( this.balloonInChargeRangeCount === 0 ) {
           // this is the first time picking up a charge in this range
           balloonChargeString = this.getBalloonChargeDescription( balloon, true /*dragging*/ );
-          var sweaterChargeString = this.getSweaterChargeDescription( balloon );
+          sweaterChargeString = this.getSweaterChargeDescription( balloon );
 
         }
         else if ( this.balloonInChargeRangeCount === 1 ) {
-          balloonChargeString = balloonPicksUpMoreChargesString;
+          balloonPicksUpChargesString = balloonPicksUpMoreChargesString;
         }
         else {
-          balloonChargeString = againMoreChargesString;
+          balloonPicksUpChargesString = againMoreChargesString;
         }
 
         this.balloonInChargeRangeCount++;
       }
       else {
         // no charge was picked up, so tell the user where they can find more
+        var moreChargesString = this.getChargePositionCue();
+
+        // Once we give this cue, the user needs more context when they pick up additional charges
+        this.balloonInChargeRangeCount = 1;
+        
+        return moreChargesString;
       }
 
-      console.log( balloonChargeString );
-      console.log( sweaterChargeString );
+      if ( balloonPicksUpChargesString ) {
+        return balloonPicksUpChargesString;
+      }
+      else {
+        var stringPattern = '{0} {1}';
+        return StringUtils.format( stringPattern, balloonChargeString, sweaterChargeString );
+      }
+
+    },
+
+    /**
+     * Get a description that tells the user where they can find more charges.
+     * 
+     * @return {string}
+     */
+    getChargePositionCue: function() {
+      assert && assert( this.model.sweater.chargeProperty.get() < -MAX_BALLOON_CHARGE, 'trying to find more charges when none remain' );
+
+        // get the closest charge that has not been picked up
+      var closestCharge = this.balloon.getClosestCharge();
+      var directionToCharge = this.balloon.getDirectionToCharge( closestCharge );
+
+      var directionCueString = StringMaps.DIRECTION_MAP[ directionToCharge ];
+      assert && assert( directionCueString, 'no direction found for nearest charge' );
+
+      return StringUtils.format( morePairsOfChargesStringPattern, directionCueString );
     },
 
     /**
