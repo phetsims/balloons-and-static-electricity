@@ -345,6 +345,10 @@ define( function( require ) {
       return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
     },
 
+    getDistanceToWall: function() {
+      return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
+    },
+
     //get center of Balloon
     getCenter: function() {
       return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );

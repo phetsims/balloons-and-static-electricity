@@ -34,7 +34,7 @@ define( function( require ) {
 
   // strings
   var balloonDescriptionPatternString = '{0} {1} {2}';
-  var balloonDragDescriptionPatternString = '{0} {1} {2} {3}'; // direction, proximity, charge, 
+  var balloonDragDescriptionPatternString = '{0} {1} {2} {3} {4} {5}'; // direction, proximity, charge, 
   var grabButtonNavigationCueString = 'Look for grab button to play.';
   var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
 
@@ -111,6 +111,11 @@ define( function( require ) {
   // wall charge descriptions
   var atWallString = 'At wall.';
   var atWallTouchPointPatternString = 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has net neutral charge, many pairs of negative and positive charges.';
+  var wallRubStringPattern = 'No transfer of charge.  At touch point, negative charges in wall {0}.  Positive charges do not move.';
+  var wallChargesReturnString = 'Negative charges in wall return {0}.';
+
+  var slightlyString = 'slightly';
+  var allTheWayString = 'all the way';
 
   var noChangeInChargesString = 'No change in charges.';
   var aLittleBitString = 'move away from balloon a little bit';
@@ -256,6 +261,7 @@ define( function( require ) {
     this.balloonChargeRange = A_FEW_RANGE;
     this.balloonInChargeRangeCount = 0; // if stays in one range while picking up many charges, this is incremented
     this.balloonLocation = balloon.locationProperty.get(); // tracks when the value has changed
+    this.balloonTouchingWall = balloon.touchingWall();
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -321,6 +327,9 @@ define( function( require ) {
       var balloonOnSweater = balloon.onSweater();
       if ( balloon.nearSweater() ) {
         proximityDescription = nearSweaterString;
+      }
+      else if ( balloon.nearWall() ) {
+        proximityDescription = nearWallString;
       }
       else if ( balloonOnSweater !== this.balloonOnSweater ) {
         if ( balloonOnSweater ) {
@@ -505,13 +514,23 @@ define( function( require ) {
       }
 
       // TODO: When do key counds need to be reset?
-      if ( this.keyCoundsNeedToBeReset() ) {
+      if ( this.keyCountsNeedToBeReset() ) {
         this.resetKeyCounts();
       }
 
       if ( this.balloonOnSweater ) {
         // this will be true on the first rub, after user hits sweater the first time
         var onSweaterDescription = this.getSweaterRubDescription( balloon );
+      }
+      if ( balloon.touchingWall() ) {
+        var atWallDescription = this.getWallRubDescription( balloon );
+      }
+      if ( balloon.touchingWall() !== this.balloonTouchingWall ) {
+        if ( !balloon.touchingWall() && this.balloon.chargeProperty.get() < 0 ) {
+          // the balloon is leaving the wall, so describe the change in induced charge
+          var leavingWallDescription = this.getLeavingWallDescription( balloon );
+        } 
+        this.balloonTouchingWall = balloon.touchingWall();
       }
 
       var newBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
@@ -525,9 +544,10 @@ define( function( require ) {
       var string2 = '';
       var string3 = '';
       var string4 = '';
+      var string5 = '';
+      var string6 = '';
       if ( directionString && this.balloonLocation !== balloon.locationProperty.get() ) {
         string1 = directionString;
-        this.balloonLocation = balloon.locationProperty.get();
       }
       if ( onSweaterDescription && balloon.onSweater() ) {
         // if the balloon moves off the sweater, we do not want to hear this
@@ -539,9 +559,53 @@ define( function( require ) {
       if ( locationString && !balloon.onSweater() ) {
         string4 = locationString;
       }
+      if ( atWallDescription && this.balloonLocation !== balloon.locationProperty.get() ) {
+        string5 = atWallDescription;
+      }
+      if ( leavingWallDescription ) {
+        string6 = leavingWallDescription;
+      }
 
-      draggingDescription = StringUtils.format( balloonDragDescriptionPatternString, string1, string2, string3, string4 );
+      this.balloonLocation = balloon.locationProperty.get();
+      draggingDescription = StringUtils.format( balloonDragDescriptionPatternString, string1, string2, string3, string4, string5, string6 );
       return draggingDescription;
+    },
+
+    /**
+     * Get a description of the balloon leaving the wall as a function of distance from the wall.
+     * 
+     * @param  {BalloonModel} balloon
+     * @return {string}
+     */
+    getLeavingWallDescription: function( balloon ) {
+      var distanceToWall = Math.abs( balloon.getDistanceToWall() );
+
+      if ( distanceToWall < 40 ) {
+        return StringUtils.format( wallChargesReturnString, slightlyString );
+      }
+      else {
+        return StringUtils.format( wallChargesReturnString, allTheWayString );
+      }
+    },
+
+    getWallRubDescription: function( balloon ) {
+      var charge = Math.abs( balloon.chargeProperty.get() );
+      var inducedChargeDescription;
+
+      if ( charge === 0 ) {
+        inducedChargeDescription = doNotMoveString;
+      }
+      else if ( A_FEW_RANGE.contains( charge ) ) {
+        inducedChargeDescription = aLittleBitString;
+      }
+      else if ( SEVERAL_RANGE.contains( charge ) ) {
+        inducedChargeDescription = aLotString;
+      }
+      else if ( MANY_RANGE.contains( charge ) ) {
+        inducedChargeDescription = quiteALotString;
+      }
+
+      return StringUtils.format( wallRubStringPattern, inducedChargeDescription );
     },
 
     /**
@@ -689,6 +753,7 @@ define( function( require ) {
       this.balloonChargeRange = A_FEW_RANGE;
       this.balloonInChargeRangeCount = 0;
       this.balloonLocation = this.balloon.locationProperty.get();
+      this.balloonTouchingWall = this.balloon.touchingWall();
     },
 
     /**
@@ -736,7 +801,7 @@ define( function( require ) {
      * Return true when it is time to reset the dragging descriptions.
      * @return {boolean}
      */
-    keyCoundsNeedToBeReset: function() {
+    keyCountsNeedToBeReset: function() {
       var countsTooHigh =
         this.dKeyPressedCount > 5 || 
         this.sKeyPressedCount > 5 || 
