@@ -125,8 +125,10 @@ define( function( require ) {
       var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
       self.accessibleWallButton.setLabel( updatedLabel );
 
-      var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-      ariaHerald.announceAssertive( alertDescription );
+      if ( !model.anyChargedBalloonTouchingWall() ) {
+        var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
+        ariaHerald.announceAssertive( alertDescription );
+      }
 
     } );
 

@@ -161,6 +161,9 @@ define( function( require ) {
 
   var morePairsOfChargesStringPattern = 'More pairs of charges {0}.';
 
+  var wallRemovedString = 'Wall removed from play area.';
+  var wallAddedString = 'Wall added to play area.';
+
   // boundary strings
   var atTopOfPlayAreaString = 'At top of play area.';
   var atBottomOfPlayAreaString = 'At bottom of play area';
@@ -831,8 +834,8 @@ define( function( require ) {
      * 
      * @return {}
      */
-    getWallRemovedDescription: function() {
-
+    getWallRemovedDescription: function( wallRemoved ) {
+      var wallRemovedFromPlayAreaAlert = wallRemoved ? wallRemovedString : wallAddedString;
       var balloonLabel = this.balloonLabelMap[ this.balloon.balloonLabel ];
 
       var velocityString = this.getVelocityDescription();
@@ -842,8 +845,8 @@ define( function( require ) {
       var balloonChargeDescription = this.getBalloonChargeDescription( this.balloon );
       var sweaterChargeDescription = this.getSweaterChargeDescription( this.balloon );
 
-      var stringPattern = '{0} {1} {2} {3} {4}';
-      return StringUtils.format( stringPattern, balloonLabel, velocityDescription, stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
+      var stringPattern = '{0} {1} {2} {3} {4} {5}';
+      return StringUtils.format( stringPattern, wallRemovedFromPlayAreaAlert, balloonLabel, velocityDescription, stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
     },
 
     /**

@@ -316,7 +316,7 @@ define( function( require ) {
       // should only be announced if the balloon had a charge, was touching the wall, and the wall is 
       // made invisible
       if ( model.chargeProperty.get() < 0 && !isVisible && model.touchingWall() ) {
-        var balloonDescription = model.balloonDescriber.getWallRemovedDescription();
+        var balloonDescription = model.balloonDescriber.getWallRemovedDescription( !isVisible );
         self.ariaHerald.announceAssertive( balloonDescription );
       }
     } );

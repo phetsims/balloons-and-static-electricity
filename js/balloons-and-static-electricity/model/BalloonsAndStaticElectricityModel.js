@@ -79,6 +79,13 @@ define( function( require ) {
       this.oldTime = curTime;
     },
 
+    anyChargedBalloonTouchingWall: function() {
+      var chargedYellowTouchingWall = this.balloons[ 0 ].touchingWall() && this.balloons[ 0 ].chargeProperty.get() < 0;
+      var chargedGreenTouchingWall = this.balloons[ 1 ].touchingWall() && this.balloons[ 1 ].chargeProperty.get() < 0;
+
+      return chargedYellowTouchingWall || chargedGreenTouchingWall;
+    },
+
     // Reset the entire model
     reset: function() {
 
