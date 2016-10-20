@@ -27,6 +27,7 @@ define( function( require ) {
   var KEY_J = 74; // keycode for 'j'
   var KEY_C = 67; // keycode for 'j'
   var KEY_N = 78; // keycode for 'j'
+  var KEY_SHIFT = 16; // shift key down  
 
   /**
    * Constructor for a button Node.
@@ -194,6 +195,10 @@ define( function( require ) {
         }
         if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
           deltaY = self._positionDelta;
+        }
+        if ( self.keyState[ KEY_SHIFT ] && self.keyState[ KEY_SHIFT ].isKeyDown ) {
+          deltaX *= 2;
+          deltaY *= 2;
         }
       }
 
