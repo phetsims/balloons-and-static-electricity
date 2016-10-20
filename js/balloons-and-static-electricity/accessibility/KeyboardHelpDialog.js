@@ -160,7 +160,6 @@ define( function( require ) {
     // Add a custom close button to this dialdog.
     var closeText = new Text( keyboardHelpCloseString, { font: new PhetFont( 18 ) } );
     var closeFunction = function() {
-      debugger;
       self.shownProperty.set( false );
 
 
