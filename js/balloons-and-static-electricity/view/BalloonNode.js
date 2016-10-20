@@ -57,7 +57,7 @@ define( function( require ) {
    * @param  {string} balloonColor - 'yellow'|'green'
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, keyboardHelpDialog ) {
     var self = this;
 
     var balloonButtonLabel;
@@ -209,6 +209,15 @@ define( function( require ) {
 
               // release the balloon
               self.releaseBalloon();
+            }
+          }
+        },
+        {
+          eventName: 'keydown',
+          eventFunction: function( event ) {
+            if ( event.keyCode === 72 /* key h */ ) {
+              keyboardHelpDialog.activeElement = self.draggableNode.domElement;
+              keyboardHelpDialog.show();
             }
           }
         }

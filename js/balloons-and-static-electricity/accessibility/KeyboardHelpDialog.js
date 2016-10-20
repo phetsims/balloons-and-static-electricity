@@ -160,6 +160,7 @@ define( function( require ) {
     // Add a custom close button to this dialdog.
     var closeText = new Text( keyboardHelpCloseString, { font: new PhetFont( 18 ) } );
     var closeFunction = function() {
+      debugger;
       self.shownProperty.set( false );
 
 
@@ -276,7 +277,9 @@ define( function( require ) {
         contentVBox.accessibleInstances[0].peer.domElement.focus();
       }
 
-      screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
+    //   screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
+      var screenViewElement = document.getElementById( 63 );
+      screenViewElement.hidden = isShown;
     } );
 
     // close it on a click

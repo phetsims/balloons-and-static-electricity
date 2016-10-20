@@ -46,6 +46,12 @@ define( function( require ) {
     this.keyUpEmitter = new Emitter();
     this.keyDownEmitter = new Emitter();
 
+    // TODO Temporary hack to get working balloon
+    this.keyState[ KEY_J ] = {
+      isKeyDown: false,
+      keyEvent: null
+    };
+
     // TODO: Temporary for now...
     this.balloonJumpingEmitter = new Emitter();
 
