@@ -5,7 +5,7 @@
  * references 'aria-live' elements in the HTML document and updates content.
  * ARIA attributes specify the behavior of timing for the alert.  The following alert elements are
  * in the document, but are subject to change, see https://github.com/phetsims/chipper/issues/472
- * These elements wer tested and determined to be the most widely supported and most useful.
+ * These elements were tested and determined to be the most widely supported and most useful.
  *
  *    <p id="assertive" aria-live="assertive" aria-atomic="true"></p>
  *    <p id="polite" aria-live="polite" aria-atomic="true"></p>
