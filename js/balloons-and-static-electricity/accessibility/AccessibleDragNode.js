@@ -24,6 +24,9 @@ define( function( require ) {
   var KEY_W = 87; // keyvode for 'w'
   var KEY_A = 65; // keycode for 'a'
   var KEY_D = 68; // keycode for 'd'
+  var KEY_J = 74; // keycode for 'j'
+  var KEY_C = 67; // keycode for 'j'
+  var KEY_N = 78; // keycode for 'j'
 
   /**
    * Constructor for a button Node.
@@ -42,6 +45,9 @@ define( function( require ) {
     this.keyStateChangedEmitter = new Emitter();
     this.keyUpEmitter = new Emitter();
     this.keyDownEmitter = new Emitter();
+
+    // TODO: Temporary for now...
+    this.balloonJumpingEmitter = new Emitter();
 
     options = _.extend( {
       onTab: function() {}, // optional function to call when user 'tabs' away
@@ -88,8 +94,15 @@ define( function( require ) {
           }
 
           // notify that key state changed
-          self.keyStateChangedEmitter.emit1( event );
-          self.keyUpEmitter.emit1( event );
+          if ( self.keyState[ KEY_J ] ) {
+            if ( !self.keyState[ KEY_J ].isKeyDown ) {
+              self.keyStateChangedEmitter.emit1( event );
+              self.keyUpEmitter.emit1( event ); 
+            }
+            else {
+              self.balloonJumpingEmitter.emit1( event );
+            }
+          }
         }
       }
     ];
@@ -146,17 +159,36 @@ define( function( require ) {
 
       var deltaX = 0;
       var deltaY = 0;
-      if ( self.keyState[ KEY_A ] && self.keyState[ KEY_A ].isKeyDown ) {
-        deltaX = -self._positionDelta;
+
+      // TODO: This is specific to BASE... hotkeys need to be generalized
+      if ( self.keyState[ KEY_J ] && self.keyState[ KEY_J ].isKeyDown ) {
+        // we have begun a jump interaction, here are the additional key presses
+        if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
+          self.locationProperty.set( new Vector2( 375 - 67, self.locationProperty.get().y ) );
+        }
+        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W].isKeyDown ) {
+          self.locationProperty.set( new Vector2( 621 - 67, self.locationProperty.get().y ) );
+        }
+        if ( self.keyState[ KEY_C ] && self.keyState[ KEY_C ].isKeyDown ) {
+          self.locationProperty.set( new Vector2( 507 - 67, self.locationProperty.get().y ) );
+        }
+        if ( self.keyState[ KEY_N ] && self.keyState[ KEY_N ].isKeyDown ) {
+          self.locationProperty.set( new Vector2( 577 - 67, self.locationProperty.get().y ) );
+        }
       }
-      if ( self.keyState[ KEY_D ] && self.keyState[ KEY_D ].isKeyDown ) {
-        deltaX = self._positionDelta;
-      }
-      if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
-        deltaY = -self._positionDelta;
-      }
-      if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
-        deltaY = self._positionDelta;
+      else {
+        if ( self.keyState[ KEY_A ] && self.keyState[ KEY_A ].isKeyDown ) {
+          deltaX = -self._positionDelta;
+        }
+        if ( self.keyState[ KEY_D ] && self.keyState[ KEY_D ].isKeyDown ) {
+          deltaX = self._positionDelta;
+        }
+        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
+          deltaY = -self._positionDelta;
+        }
+        if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
+          deltaY = self._positionDelta;
+        }
       }
 
       var locationDelta = new Vector2( deltaX, deltaY );

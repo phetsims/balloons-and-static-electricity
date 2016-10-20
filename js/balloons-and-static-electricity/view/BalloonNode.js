@@ -233,7 +233,13 @@ define( function( require ) {
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
-      self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( self.model, event.keyCode ) );
+      if ( self.draggableNode.draggableKeyUp( event.keyCode ) ) {
+        self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( self.model, event.keyCode ) );
+      }
+    } );
+
+    this.draggableNode.balloonJumpingEmitter.addListener( function( event ) {
+      self.ariaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
     } );
 
     var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {

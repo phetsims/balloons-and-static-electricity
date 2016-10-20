@@ -176,6 +176,9 @@ define( function( require ) {
   var nearWallString = 'Near wall.';
   var offSweaterString = 'Off sweater.';
 
+  var atCenterOfPlayAreaString = 'At center of play area.';
+  var onRightSideOfPlayAreaString = 'On right side of play area.'
+
   var balloonPicksUpMoreChargesString = 'Balloon picks up more negative charges';
   var againMoreChargesString = 'Again, more negative ones.';
 
@@ -431,6 +434,32 @@ define( function( require ) {
         return balloonChargeDescription;
       }
 
+    },
+
+    getJumpingDescription: function( balloon ) {
+      var balloonCenterX = balloon.getCenter().x;
+
+      var jumpDescription;
+      if ( balloonCenterX === this.model.playArea.atNearSweater ) {
+        jumpDescription = nearSweaterString;
+      }
+      else if ( balloonCenterX === this.model.playArea.atNearWall ) {
+        if ( this.model.wall.isVisibleProperty.get() ) {
+          jumpDescription = nearWallString;
+        }
+        else {
+          jumpDescription = onRightSideOfPlayAreaString;
+        }
+      }
+      else if ( balloonCenterX === this.model.playArea.atCenter ) {
+        jumpDescription = atCenterOfPlayAreaString;
+      }
+      else if ( balloonCenterX === this.model.playArea.atWall ) {
+        var chargeDescription = this.getBalloonChargeDescription( balloon, true );
+        jumpDescription = StringUtils.format( '{0} {1}', atWallString, chargeDescription );
+      }
+
+      return jumpDescription;
     },
 
     getSweaterChargeDescription: function( balloon ) {
