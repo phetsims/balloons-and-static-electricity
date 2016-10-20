@@ -41,6 +41,7 @@ define( function( require ) {
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
   var draggingLocationStringPattern = 'At {0}';
+  var stickingToLocationPatternString = 'Sticking to {0}';
 
   var topLeftEdgeOfSweaterString = 'top left edge of sweater';
   var upperLeftEdgeOfSweaterString = 'upper left edge of sweater';
@@ -281,8 +282,18 @@ define( function( require ) {
     getBalloonLocationDescription: function( balloon, dragging ) {
       var balloonLocationDescription;
 
-      // if dragging, we want to have a more active description, using 'at' instead of 'in'
-      var locationStringPattern = dragging ? draggingLocationStringPattern : balloonLocationStringPattern;
+      var locationStringPattern;
+      if ( dragging ) {
+        locationStringPattern = draggingLocationStringPattern;
+      }
+      else {
+        if ( balloon.chargeProperty.get() < 0 && balloon.onSweater() ) {
+          locationStringPattern = stickingToLocationPatternString;
+        }
+        else {
+          locationStringPattern = balloonLocationStringPattern;
+        }
+      }
 
       // if touching the wall (balloon has no charge)
       if ( this.model.playArea.atWall === balloon.getCenter().x ) {
@@ -293,10 +304,11 @@ define( function( require ) {
         var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
         var locationDescription = this.locationDescriptionMap[ locationBounds ];
 
-        balloonLocationDescription = StringUtils.format( balloonLocationStringPattern, locationDescription );
+        balloonLocationDescription = StringUtils.format( locationStringPattern, locationDescription );
       }
 
       assert && assert( balloonLocationDescription, 'no description found for balloon location' );
+      console.log( balloonLocationDescription );
       return balloonLocationDescription;
     },
 
