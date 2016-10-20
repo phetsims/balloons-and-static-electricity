@@ -40,8 +40,8 @@ define( function( require ) {
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
-  var draggingLocationStringPattern = 'At {0}';
-  var stickingToLocationPatternString = 'Sticking to {0}';
+  var draggingLocationStringPattern = 'At {0}.';
+  var stickingToLocationPatternString = 'Sticking to {0}.';
 
   var topLeftEdgeOfSweaterString = 'top left edge of sweater';
   var upperLeftEdgeOfSweaterString = 'upper left edge of sweater';
@@ -145,8 +145,8 @@ define( function( require ) {
 
   // interaction descriptions
   var upTowardsTopString = 'Up. Towards top.';
-  var leftTowardsSweaterString = 'Left. Towards sweater';
-  var downTowardsBottomString = 'Down. Towards bottom';
+  var leftTowardsSweaterString = 'Left. Towards sweater.';
+  var downTowardsBottomString = 'Down. Towards bottom.';
   var rightTowardsWallString = 'Right. Towards wall.';
 
   var closerToTopString = 'Up. Closer to top.';
@@ -308,7 +308,6 @@ define( function( require ) {
       }
 
       assert && assert( balloonLocationDescription, 'no description found for balloon location' );
-      console.log( balloonLocationDescription );
       return balloonLocationDescription;
     },
 
@@ -673,7 +672,15 @@ define( function( require ) {
         // Once we give this cue, the user needs more context when they pick up additional charges
         this.balloonInChargeRangeCount = 1;
         
-        return moreChargesString;
+        var locationHelpStringPattern = '{0} {1} {2}';
+        var balloonLocation = '';
+        if ( balloon.centerInSweater() ) {
+          var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
+          var locationDescription = this.locationDescriptionMap[ locationBounds ];
+
+          balloonLocation = StringUtils.format( draggingLocationStringPattern, locationDescription );
+        }
+        return StringUtils.format( locationHelpStringPattern, noChangeInChargesString, balloonLocation, moreChargesString );
       }
 
       if ( balloonPicksUpChargesString ) {

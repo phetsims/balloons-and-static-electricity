@@ -324,6 +324,11 @@ define( function( require ) {
       else { return false; }
     },
 
+    centerInSweater: function() {
+      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      return this.getCenter().x < sweaterBounds.maxX; 
+    },
+
     /**
      * If the balloon is near the sweater, return true.  Considered near the sweater when 
      * within NEAR_SWEATER_DISTANCE from touching the sweater.
