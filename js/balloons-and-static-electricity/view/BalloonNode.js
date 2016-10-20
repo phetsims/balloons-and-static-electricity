@@ -311,6 +311,14 @@ define( function( require ) {
 
       var balloonDragBounds = new Bounds2( 0, 0, boundsWidth, boundsHeight );
       self.draggableNode.setDragBounds( balloonDragBounds );
+
+      // get a description for the changing balloon in case it moves when the wall is made invisible
+      // should only be announced if the balloon had a charge, was touching the wall, and the wall is 
+      // made invisible
+      if ( model.chargeProperty.get() < 0 && !isVisible && model.touchingWall() ) {
+        var balloonDescription = model.balloonDescriber.getWallRemovedDescription();
+        self.ariaHerald.announceAssertive( balloonDescription );
+      }
     } );
   }
 

@@ -94,6 +94,8 @@ define( function( require ) {
   var lowerWallString = 'lower';
   var upperWallString = 'upper';
 
+  var stickingToSweaterString = 'Now sticking to upper right side of sweater.';
+
   // charge descriptions
   var namedBalloonChargeDescriptionPatternString = '{0} has net {1} charge, {2} more negative charges than positive charges.';
   var balloonChargeStringPattern = 'Has net {0} charge, {1} more negative charges than positive charges.';
@@ -137,6 +139,8 @@ define( function( require ) {
 
   var wallString = 'wall';
   var sweaterString = 'sweater';
+
+  var movesToObjectPatternString = 'Moves {0} towards {1}.';
 
   // interaction descriptions
   var upTowardsTopString = 'Up. Towards top.';
@@ -406,7 +410,7 @@ define( function( require ) {
       var wallChargeDescription = StringUtils.format( atWallTouchPointPatternString, inducedChargeString );
 
       // assemble a description for the wall charge if the balloon is touching the wall
-      if ( balloon.touchingWall() ) {
+      if ( balloon.touchingWall() && this.model.wall.isVisibleProperty.get() ) {
         return StringUtils.format( '{0} {1}', balloonChargeDescription, wallChargeDescription );
       }
       else {
@@ -779,22 +783,48 @@ define( function( require ) {
         // otherwise, we want to hear direction and speed of balloon movement.
         var velocityDescription = this.getVelocityDescription();
 
-        // determine which object the balloon is moving toward
-        var attractedDirection = this.balloon.getAttractedDirection();
-
-        var attractedObject;
-        if ( attractedDirection === BalloonDirectionEnum.RIGHT ) {
-          attractedObject = wallString;
-        }
-        else {
-          attractedObject = sweaterString;
-        }
+        var attractedObject = this.getAttractedObject();
 
         // put it together
         descriptionString = StringUtils.format( balloonReleasedPatternString, velocityDescription, attractedObject );
       }
 
       return descriptionString;
+    },
+
+    getAttractedObject: function() {
+      // determine which object the balloon is moving toward
+      var attractedDirection = this.balloon.getAttractedDirection();
+
+      var attractedObject;
+      if ( attractedDirection === BalloonDirectionEnum.RIGHT ) {
+        attractedObject = wallString;
+      }
+      else {
+        attractedObject = sweaterString;
+      } 
+
+      return attractedObject;
+    },
+
+    /**
+     * Get a description of how the balloon changes when the wall is removed.
+     * 
+     * @return {}
+     */
+    getWallRemovedDescription: function() {
+
+      var balloonLabel = this.balloonLabelMap[ this.balloon.balloonLabel ];
+
+      var velocityString = this.getVelocityDescription();
+      var attractedObject = this.getAttractedObject();
+      var velocityDescription = StringUtils.format( movesToObjectPatternString, velocityString, attractedObject );
+
+      var balloonChargeDescription = this.getBalloonChargeDescription( this.balloon );
+      var sweaterChargeDescription = this.getSweaterChargeDescription( this.balloon );
+
+      var stringPattern = '{0} {1} {2} {3} {4}';
+      return StringUtils.format( stringPattern, balloonLabel, velocityDescription, stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
     },
 
     /**

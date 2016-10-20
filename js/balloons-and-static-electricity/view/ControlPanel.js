@@ -126,6 +126,7 @@ define( function( require ) {
 
       var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
       ariaHerald.announceAssertive( alertDescription );
+
     } );
 
     // Radio buttons related to charges
