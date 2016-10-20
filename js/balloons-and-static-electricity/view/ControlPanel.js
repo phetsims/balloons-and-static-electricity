@@ -62,6 +62,7 @@ define( function( require ) {
   var resetAllString = 'Reset All';
   var resetAlertString = 'Sim screen restarted.  Everything reset.';
 
+  var resetBalloonAlertDescriptionPatternString = 'Sweater and {0} reset to net neutral charge. {1} in center of play area.';
   var abSwitchDescriptionString = 'Play with two balloons or just one.';
 
   /**
@@ -218,7 +219,28 @@ define( function( require ) {
       parentContainerTagName: 'div',
       tagName: 'button',
       label: resetBalloonString,
-      description: generateDescriptionString( model.balloons[ 1 ].isVisibleProperty )
+      description: generateDescriptionString( model.balloons[ 1 ].isVisibleProperty ),
+      events: [
+        {
+          eventName: 'click',
+          eventFunction: function( event ) {
+            resetBalloonButtonListener();
+
+            var balloonString;
+            var bothBalloonString; 
+            if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
+              balloonString = 'balloons';
+              bothBalloonString = 'Both balloons';
+            }
+            else {
+              balloonString = 'balloon';
+              bothBalloonString = 'Balloon';
+            }
+            var resetDescription = StringUtils.format( resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
+            ariaHerald.announceAssertive( resetDescription );
+          }
+        }
+      ]
     } );
     accessibleResetBalloonButton.addChild( resetBalloonButton );
 
