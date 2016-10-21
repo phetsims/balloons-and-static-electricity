@@ -63,6 +63,9 @@ define( function( require ) {
 
     AccessibleNode.call( this, peerBounds, options );
 
+    // the abswitch must have 1px width for VO to recognize
+    this.domElement.style.width = '1px';
+
     // add the view element as a child
     this.addChild( switchNode );
 
