@@ -148,11 +148,13 @@ define( function( require ) {
   var leftTowardsSweaterString = 'Left. Towards sweater.';
   var downTowardsBottomString = 'Down. Towards bottom.';
   var rightTowardsWallString = 'Right. Towards wall.';
+  var rightTowardsRightSideOfPlayAreaString = 'Right. Towards right side of play area.';
 
   var closerToTopString = 'Up. Closer to top.';
   var closerToSweaterString = 'Left. Closer to sweater.';
   var closerToBottomString = 'Down. Closer to bottom.';
   var closerToWallString = 'Right. Closer to wall.';
+  var closerToRightSideString = 'Right. Closer to right side of play area.';
 
   var upString = 'Up.';
   var leftString = 'Left.';
@@ -348,7 +350,7 @@ define( function( require ) {
       if ( balloon.nearSweater() ) {
         proximityDescription = nearSweaterString;
       }
-      else if ( balloon.nearWall() ) {
+      else if ( balloon.nearWall() && this.model.wall.isVisibleProperty.get() ) {
         proximityDescription = nearWallString;
       }
       else if ( balloonOnSweater !== this.balloonOnSweater ) {
@@ -548,10 +550,20 @@ define( function( require ) {
           directionString = rightString;
         }
         else if ( this.dKeyPressedCount === 0 ) {
-          directionString = rightTowardsWallString;
+          if ( this.model.wall.isVisibleProperty.get() ) {
+            directionString = rightTowardsWallString;
+          }
+          else {
+            directionString = rightTowardsRightSideOfPlayAreaString;
+          }
         }
         else if ( this.dKeyPressedCount < 2 ) {
-          directionString = closerToWallString;
+          if ( this.model.wall.isVisibleProperty.get() ) {
+            directionString = closerToWallString;
+          }
+          else {
+            directionString = closerToRightSideString;
+          }
         }
         else {
           directionString = rightString;
