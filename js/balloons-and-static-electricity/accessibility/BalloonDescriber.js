@@ -36,7 +36,7 @@ define( function( require ) {
   var balloonDescriptionPatternString = '{0} {1} {2}';
   var balloonDragDescriptionPatternString = '{0} {1} {2} {3} {4} {5}'; // direction, proximity, charge, 
   var grabButtonNavigationCueString = 'Look for grab button to play.';
-  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.'
+  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.';
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
@@ -89,7 +89,7 @@ define( function( require ) {
   var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
 
   // location strings while touching another object
-  var atWallPatternString = 'At {0} wall.';
+  // var atWallPatternString = 'At {0} wall.';
   var touchingWallStringPattern = 'Touching {0} wall.';
   var stickingToWallStringPattern = 'Sticking to {0} wall.';
   var lowerWallString = 'lower';
@@ -128,10 +128,10 @@ define( function( require ) {
 
   var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.';
 
-  var positiveChargesDoNotMoveString = 'Positive charges do not move.';
-  var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
+  // var positiveChargesDoNotMoveString = 'Positive charges do not move.';
+  // var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
 
-  var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
+  // var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
 
   // release descriptions
   var balloonReleasedPatternString = 'Balloon released. Moved {0} to {1}.';
@@ -177,7 +177,7 @@ define( function( require ) {
   var offSweaterString = 'Off sweater.';
 
   var atCenterOfPlayAreaString = 'At center of play area.';
-  var onRightSideOfPlayAreaString = 'On right side of play area.'
+  var onRightSideOfPlayAreaString = 'On right side of play area.';
 
   var balloonPicksUpMoreChargesString = 'Balloon picks up more negative charges';
   var againMoreChargesString = 'Again, more negative ones.';
@@ -303,7 +303,6 @@ define( function( require ) {
 
       // if touching the wall (balloon has no charge)
       if ( this.model.playArea.atWall === balloon.getCenter().x ) {
-        var upperLowerString;
         balloonLocationDescription = this.getTouchingWallDescription( balloon, dragging );
       }
       else {
@@ -827,7 +826,7 @@ define( function( require ) {
       }
       else if ( this.balloon.touchingWall() ) {
         var touchingWallDescription = this.getTouchingWallDescription( this.balloon );
-        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, touchingWallDescription )
+        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, touchingWallDescription );
       }
       else {
 

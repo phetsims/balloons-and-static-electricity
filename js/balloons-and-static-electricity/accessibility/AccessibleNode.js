@@ -106,7 +106,7 @@ define( function( require ) {
 
     if ( options.useAriaLabel ) {
       // add the label inline with aria-label
-      this.domElement.setAttribute( 'aria-label', options.label )
+      this.domElement.setAttribute( 'aria-label', options.label );
     }
     else {
 
@@ -291,7 +291,7 @@ define( function( require ) {
      * @param {string} [labelID] - optional id referencing the description element
      */
     setAriaLabelledBy: function( labelID ) {
-      assert && assert( document.getElementById( labelID ), 'no element in DOM with id ' + descriptionID );
+      assert && assert( document.getElementById( labelID ), 'no element in DOM with id ' + labelID );
       this.domElement.setAttribute( 'aria-labelledby', labelID );
     },
 

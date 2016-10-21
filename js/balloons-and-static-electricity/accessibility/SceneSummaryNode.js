@@ -91,7 +91,7 @@ define( function( require ) {
 
   //--------------------------
   // Charge descriptions
-  var tempChargeDescriptionString = 'No charge descriptions in the summary for now, to be implemented soon.';
+  // var tempChargeDescriptionString = 'No charge descriptions in the summary for now, to be implemented soon.';
 
   //--------------------------
   // navigation hints
@@ -232,7 +232,7 @@ define( function( require ) {
       self.updateDescriptionItem( chargeItemID, string );
 
       return string;
-    }
+    };
     model.balloons[ 0 ].chargeProperty.lazyLink( balloonChargeListener );
 
   }
