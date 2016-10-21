@@ -98,6 +98,8 @@ define( function( require ) {
 
     wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
       self.visible = isVisible;
+
+      self.setHidden( !isVisible );
     } );
 
     //show charges based on draw  property
