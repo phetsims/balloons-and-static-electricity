@@ -277,7 +277,7 @@ define( function( require ) {
       // accessibleButtonNode.setHidden( !isVisible );
 
       var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
-      self.ariaHerald.announceAssertiveWithAlert( alertDescription );
+      self.ariaHerald.announceAssertive( alertDescription );
     } );
 
     // the focus highlight changes color when grabbed
