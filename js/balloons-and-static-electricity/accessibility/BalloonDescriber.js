@@ -840,6 +840,10 @@ define( function( require ) {
         var touchingWallDescription = this.getTouchingWallDescription( this.balloon );
         descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, touchingWallDescription );
       }
+      else if ( this.balloon.centerInSweater() ) {
+        var stickingString = StringUtils.format( stickingToLocationPatternString, sweaterString );
+        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, stickingString );
+      }
       else {
 
         // otherwise, we want to hear direction and speed of balloon movement.
