@@ -130,9 +130,11 @@ define( function( require ) {
 
       // with a parent container, the children are added here
       if ( !this.elementSupportsInnerText() ) {
-        self.parentContainerElement.appendChild( self.labelElement );
+        this.appendElementWithContent( self.parentContainerElement, self.labelElement );
+        // self.parentContainerElement.appendChild( self.labelElement );
       }
-      self.parentContainerElement.appendChild( self.descriptionElement );
+      this.appendElementWithContent( self.parentContainerElement, self.descriptionElement );
+      // self.parentContainerElement.appendChild( self.descriptionElement );
     }
     else if ( options.childContainerTagName ) {
 
@@ -140,11 +142,14 @@ define( function( require ) {
       self.childContainerElement = document.createElement( options.childContainerTagName );
 
       // if we have child container, hte label and description come first
-      this.domElement.appendChild( this.labelElement );
-      this.domElement.appendChild( this.descriptionElement );
+      this.appendElementWithContent( this.domElement, self.labelElement );
+      this.appendElementWithContent( this.domElement, self.descriptionElement );
+      // this.domElement.appendChild( this.labelElement );
+      // this.domElement.appendChild( this.descriptionElement );
     }
     else {
       // otherwise, just add the label and description below
+
       this.domElement.appendChild( this.labelElement );
       this.domElement.appendChild( this.descriptionElement );
     }
@@ -506,6 +511,18 @@ define( function( require ) {
 
       // if no next focusable is found, return this DOMElement
       return nextFocusable || this.domElement;
+    },
+
+    /**
+     * Append a child elelement, but only if it has content.
+     * 
+     * @param {DOMElement} domElement - the dom element to append the child
+     * @param {DOMElement} childElement - the child element to append
+     */
+    appendElementWithContent: function( domElement, childElement ) {
+      if ( childElement.textContent ) {
+        domElement.appendChild( childElement );
+      }
     }
 
   } );
