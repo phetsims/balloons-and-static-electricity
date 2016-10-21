@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-reader.7 Thu Oct 20 2016 21:15:04 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-reader.7 Fri Oct 21 2016 17:49:14 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "845be6b591cb746b0b05b7023208aef2e49a8855",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "f6a2261ba743cf9548637919adebb52e1bf1813f",
+    "sha": "69cca1b806771c33a42d8a24a465dc86603a11c5",
     "branch": "accessible-instance"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "810b2ae355d407bf8bd3babdd29dc7c02e5c61f8",
+    "sha": "ba318de26c64f5b17b1cf229b4d66938ea8a3d9a",
     "branch": "master"
   },
   "dot": {
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "7fe5358d6a21bd3fb4afec9cd4ec9ebc74ab1393",
+    "sha": "7aa025e85da8ea204d593084b60a79fcfebff4cf",
     "branch": "master"
   },
   "sherpa": {
@@ -57,7 +57,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "6a05f49ade1683ebbd5b4d341deefeaa92da0c89",
+    "sha": "ad23b8e2b85b446cbdcba3b53b457d0632096736",
     "branch": "master"
   },
   "tandem": {
