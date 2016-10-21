@@ -227,13 +227,28 @@ define( function( require ) {
       var sweaterChargeDescription = balloonDescriber.getSweaterChargeDescription( model.balloons[ 0 ] );
       var wallDescription = 'Wall has a net neutral charge.';
 
-      var stringPattern = '{0} {1} {2}';
-      var string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription, wallDescription );
-      self.updateDescriptionItem( chargeItemID, string );
+      var stringPattern;
+      var string;
+      if ( self.model.wall.isVisibleProperty.get() ) {
+        stringPattern = '{0} {1} {2}';
+        string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription, wallDescription );
+        self.updateDescriptionItem( chargeItemID, string );
+      }
+      else {
+        stringPattern = '{0} {1}';
+        string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription );
+        self.updateDescriptionItem( chargeItemID, string );
+      }
+
 
       return string;
     };
     model.balloons[ 0 ].chargeProperty.lazyLink( balloonChargeListener );
+
+    // update charge descriptions when wall visibility toggles.
+    model.wall.isVisibleProperty.lazyLink( function() {
+      balloonChargeListener( model.balloons[ 0 ].chargeProperty.get() );
+    } );
 
   }
 
@@ -255,7 +270,7 @@ define( function( require ) {
       var locationString;
 
       // if near the wall, that needs to be described
-      if ( nearWall ) {
+      if ( nearWall && this.model.wall.isVisibleProperty.get() ) {
         locationString = StringUtils.format( inPlayAreaNearItemStringPattern, upperOrLowerString, nearWallString );
       }
       else {
