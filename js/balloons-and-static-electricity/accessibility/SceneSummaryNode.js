@@ -167,7 +167,7 @@ define( function( require ) {
     this.addDescriptionItem( openingSummaryString ); // ID not needed for static content
     var roomItemsItemID = this.addDescriptionItem( StringUtils.format( roomItemsStringPattern, balloonSweaterAndRemovableWallString ) );
     var locationItemID = this.addDescriptionItem( '' ); // text content set by listener
-    this.addDescriptionItem( tempChargeDescriptionString ); // id not needed for static content
+    var chargeItemID = this.addDescriptionItem( 'Balloon, sweater, and wall all have net neutral charge.' ); // id not needed for static content
     this.addDescriptionItem( grabBalloonHintString ); // id not needed for static content
 
     // update the description of room items depending on visibility
@@ -220,6 +220,20 @@ define( function( require ) {
     };
     model.balloons[ 0 ].locationProperty.lazyLink( balloonLocationListener );
     model.balloons[ 1 ].locationProperty.lazyLink( balloonLocationListener );
+
+    var balloonChargeListener = function( charge ) {
+      var balloonDescriber = model.balloons[ 0 ].balloonDescriber;
+      var balloonChargeDescription = balloonDescriber.getBalloonChargeDescription( model.balloons[ 0 ], true );
+      var sweaterChargeDescription = balloonDescriber.getSweaterChargeDescription( model.balloons[ 0 ] );
+      var wallDescription = 'Wall has a net neutral charge.';
+
+      var stringPattern = '{0} {1} {2}';
+      var string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription, wallDescription );
+      self.updateDescriptionItem( chargeItemID, string );
+
+      return string;
+    }
+    model.balloons[ 0 ].chargeProperty.lazyLink( balloonChargeListener );
 
   }
 
