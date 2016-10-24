@@ -8,12 +8,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="phet-sim-level" content="development">
 
-  <!-- Localized title with version will be filled in by JavaScript. -->
-  <title>Loading balloons-and-static-electricity</title>
+  <title>balloons-and-static-electricity</title>
 </head>
 <body bgcolor="black">
 
-<div id='aria-live-elements' style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; clip: rect(0px 0px 0px 0px); pointer-events: none;">
+<!-- a11y - hidden until needed to prevent premature announcement -->
+<div id='aria-live-elements' hidden style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; clip: rect(0px 0px 0px 0px); pointer-events: none;">
   <p id="assertive" aria-live="assertive" aria-atomic="true"></p>
   <p id="polite" aria-live="polite" aria-atomic="true"></p>
   <p id="assertive-alert" aria-live="assertive" role="alert" aria-atomic="true"></p>
@@ -27,27 +27,36 @@
     // Identify the brand (assume generated brand if not provided with query parameters)
     var brandMatch = location.search.match( /brand=([^&]+)/ );
     var brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'phet';
+
     // Load the desired splash screen image
     document.getElementById( 'splash' ).src = '../brand/' + brand + '/images/splash.svg';
+
     // Preloads, with more included for phet-io brand
     var preloads = ( brand === 'phet-io' ) ? [
-      '../sherpa/lib/jquery-2.1.0.js',
-      '../sherpa/lib/lodash-2.4.1.js',
-      '../sherpa/lib/FileSaver-b8054a2.js',
-      '../assert/js/assert.js',
-      '../chipper/js/initialize-globals.js',
-      '../sherpa/lib/seedrandom-2.4.2.js',
-      '../sherpa/lib/game-up-camera-1.0.0.js',
+      '../sherpa/lib/jquery-2.1.0.js', 
+      '../sherpa/lib/lodash-2.4.1.js', 
+      '../sherpa/lib/FileSaver-b8054a2.js', 
+      '../assert/js/assert.js', 
+      '../query-string-machine/js/QueryStringMachine.js', 
+      '../chipper/js/initialize-globals.js', 
+      '../sherpa/lib/seedrandom-2.4.2.js', 
+      '../sherpa/lib/game-up-camera-1.0.0.js', 
+      '../sherpa/lib/base64-js-1.2.0.js', 
+      '../sherpa/lib/TextEncoderLite-3c9f6f0.js', 
       '../sherpa/lib/jsondiffpatch-0.1.31.js'
     ] : [
-      '../sherpa/lib/jquery-2.1.0.js',
-      '../sherpa/lib/lodash-2.4.1.js',
-      '../sherpa/lib/FileSaver-b8054a2.js',
-      '../assert/js/assert.js',
-      '../chipper/js/initialize-globals.js',
-      '../sherpa/lib/seedrandom-2.4.2.js',
-      '../sherpa/lib/game-up-camera-1.0.0.js'
+      '../sherpa/lib/jquery-2.1.0.js', 
+      '../sherpa/lib/lodash-2.4.1.js', 
+      '../sherpa/lib/FileSaver-b8054a2.js', 
+      '../assert/js/assert.js', 
+      '../query-string-machine/js/QueryStringMachine.js', 
+      '../chipper/js/initialize-globals.js', 
+      '../sherpa/lib/seedrandom-2.4.2.js', 
+      '../sherpa/lib/game-up-camera-1.0.0.js', 
+      '../sherpa/lib/base64-js-1.2.0.js', 
+      '../sherpa/lib/TextEncoderLite-3c9f6f0.js'
     ];
+
     // Loads a synchronously-executed asynchronously-downloaded script tag, with optional data-main parameter.
     // See http://www.html5rocks.com/en/tutorials/speed/script-loading/ for more about script loading. It helps to
     // load all of the scripts with this method, so they are treated the same (and placed in the correct execution
@@ -62,8 +71,10 @@
       script.async = false;
       document.head.appendChild( script );
     }
+
     // Queue all of the preloads to be loaded.
     preloads.forEach( loadURL );
+
     loadURL( '../sherpa/lib/require-2.1.11.js', 'js/balloons-and-static-electricity-config.js' );
   })();
 </script>
