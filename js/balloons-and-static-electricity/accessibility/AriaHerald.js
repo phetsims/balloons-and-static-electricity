@@ -42,6 +42,9 @@ define( function( require ) {
     assert && assert( this.assertiveAlertElement, 'No assertive alert element found in document' );
     assert && assert( this.politeStatusElement, 'No polite status element found in document' );
     assert && assert( this.alertContainer, 'No alert container element found in document' );
+
+    // once assembled, make sure that the aria live elements are not hidden
+    this.setHidden( false );
   }
 
   balloonsAndStaticElectricity.register( 'AriaHerald', AriaHerald );
