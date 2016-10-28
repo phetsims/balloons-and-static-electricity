@@ -46,7 +46,7 @@ define( function( require ) {
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, { font: addRemoveFont } );
-    var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
+    var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
       maxWidth: 120
     } );
