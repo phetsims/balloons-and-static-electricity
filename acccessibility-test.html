@@ -87,6 +87,16 @@
       // add the dom copy to the documnet
       copyContainer.appendChild( pDOMCopy );
 
+      // remove all elements in the PDOM copy from the navigation order
+      var removeTabIndex = function() {
+        var allElements = pDOMCopy.getElementsByTagName( "*" );
+        for ( var i = 0; i < allElements.length; i++ ) {
+          // Do something with the element here
+          allElements[ i ].tabIndex = '-1';
+        }
+      };
+      removeTabIndex();
+
       // whenever an element in the parallel DOM changes, we need to update its 
       // copied element as well
       var observer = new MutationObserver( function( mutations ) {
@@ -99,7 +109,9 @@
           pDOMCopy = pDOM.cloneNode( true );
           pDOMCopy.style = '';
           copyContainer.appendChild( pDOMCopy );
-          
+
+          removeTabIndex();
+
         } );    
       } );
        
