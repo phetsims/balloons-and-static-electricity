@@ -28,6 +28,10 @@
     width: 500px;
     height: 500px;
   }
+  div.alert_copy_container {
+    width: 500px;
+    height: 100px;
+  }
   div.clearfix {
     clear: both;
   }
@@ -57,6 +61,8 @@
 <!--The PDOM copy will be placed in this container -->
 <div class="pdom_copy">
   <h2>Parallel DOM is copied below</h2>
+  <h3>Interaction alerts</h3>
+  <div id=alert-copy-container class=alert_copy_container></div>
   <div id=dom-copy-container class="pdom_copy_container"></div>
 </div>
 
@@ -75,17 +81,23 @@
       var iframe = document.getElementById( 'iframe' );
       var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 
+      // copy of the parallel DOM and alert content
       var pDOM = innerDoc.getElementsByClassName( 'accessibility' )[ 0 ];
+      var alertContent = innerDoc.getElementById( 'aria-live-elements' );
       var pDOMCopy = pDOM.cloneNode( true );
+      var alertContentCopy = alertContent.cloneNode( true );
 
-      // strip the styling from the copied parallel DOM
+      // strip the styling from the copied DOM elements
       pDOMCopy.style = '';
+      alertContentCopy.style = '';
 
-      // get the parent container for the parallel DOM copy
+      // get the parent container for the parallel DOM copy and the alert content
       var copyContainer = document.getElementById( 'dom-copy-container' );
+      var alertContainer = document.getElementById( 'alert-copy-container' );
 
-      // add the dom copy to the documnet
+      // add the copies to the outer document
       copyContainer.appendChild( pDOMCopy );
+      alertContainer.appendChild( alertContentCopy );
 
       // remove all elements in the PDOM copy from the navigation order
       var removeTabIndex = function() {
@@ -99,7 +111,7 @@
 
       // whenever an element in the parallel DOM changes, we need to update its 
       // copied element as well
-      var observer = new MutationObserver( function( mutations ) {
+      var domObserver = new MutationObserver( function( mutations ) {
         mutations.forEach( function( mutation ) {
 
           // This is extremely ineficient - every time the document changes, make a new copy, remove
@@ -115,11 +127,24 @@
         } );    
       } );
        
-      // configuration of the observer:
+      // configuration of the dom observer:
       var config = { attributes: true, childList: true, characterData: true, subtree: true };
        
       // pass in the target node, as well as the observer options
-      observer.observe( pDOM, config);
+      domObserver.observe( pDOM, config);
+
+      // whenever an element in the alert content changes, we need to update the copied element
+      // as wells
+      var alertObserver = new MutationObserver( function( mutations ) {
+        mutations.forEach( function( mutation ) {
+
+          alertContainer.removeChild( alertContentCopy );
+          alertContentCopy = alertContent.cloneNode( true );
+          alertContentCopy.style = '';
+          alertContainer.appendChild( alertContentCopy );
+        } )
+      } );
+      alertObserver.observe( alertContent, config );
 
       // set focus to the loaded ifram
       document.getElementById( 'iframe' ).focus();
