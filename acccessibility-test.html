@@ -15,12 +15,31 @@
   body {
     font-family: Arial, Helvetica, sans-serif
   }
+  div.simulation_frame {
+    float: left;
+    margin: 50px;
+  }
+  div.pdom_copy {
+    float: left;
+    margin: 50px;
+  }
+  div.pdom_copy_container {
+    overflow: auto;
+    width: 500px;
+    height: 500px;
+  }
+  div.clearfix {
+    clear: both;
+  }
 </style>
+
 <h1>Accessibility visualization for &#8234;Balloons and Static Electricity&#8236;</h1>
 
-<p>The simulation is embedded below</p>
+<div class="simulation_frame">
+  <h2>Simulation embedded below</h2>
+  <iframe id="iframe" width="600" height="400" allowfullscreen scrolling="no" style="float: left display: inline"></iframe>
+</div>
 
-<iframe id="iframe" width="600" height="400" allowfullscreen scrolling="no" style="float: left display: inline"></iframe>
 <script type="application/javascript">
 
   // Grab all query parameters to pass to the simulation, and add additional ones for receiving messages.
@@ -35,7 +54,15 @@
   document.getElementById( 'iframe' ).setAttribute( 'src', 'balloons-and-static-electricity_en.html' + simulationQueryString );
 </script>
 
-<p>The parallel DOM is visualized below</p>
+<!--The PDOM copy will be placed in this container -->
+<div class="pdom_copy">
+  <h2>Parallel DOM is copied below</h2>
+  <div id=dom-copy-container class="pdom_copy_container"></div>
+</div>
+
+<!--clear the blocks after the float effect-->
+<div class="clearfix"></div>
+
 <script type="application/javascript">
 
   // handling messages from sims
@@ -54,8 +81,11 @@
       // strip the styling from the copied parallel DOM
       pDOMCopy.style = '';
 
+      // get the parent container for the parallel DOM copy
+      var copyContainer = document.getElementById( 'dom-copy-container' );
+
       // add the dom copy to the documnet
-      document.body.appendChild( pDOMCopy );
+      copyContainer.appendChild( pDOMCopy );
 
       // whenever an element in the parallel DOM changes, we need to update its 
       // copied element as well
@@ -65,10 +95,10 @@
           // This is extremely ineficient - every time the document changes, make a new copy, remove
           // the visual dom, and add a new one
           // TODO: Work on refining this, and only modifying the elements that change in the PDOM.
-          document.body.removeChild( pDOMCopy );
+          copyContainer.removeChild( pDOMCopy );
           pDOMCopy = pDOM.cloneNode( true );
           pDOMCopy.style = '';
-          document.body.appendChild( pDOMCopy );
+          copyContainer.appendChild( pDOMCopy );
           
         } );    
       } );
