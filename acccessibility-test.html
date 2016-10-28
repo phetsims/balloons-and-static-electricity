@@ -21,7 +21,7 @@
   }
   div.pdom_copy {
     float: left;
-    margin: 50px;
+    margin-top: 50px;
   }
   div.pdom_copy_container {
     overflow: auto;
@@ -30,10 +30,14 @@
   }
   div.alert_copy_container {
     width: 500px;
-    height: 100px;
+    height: 250px;
+    overflow: auto;
   }
   div.clearfix {
     clear: both;
+  }
+  p.alert {
+    opacity: 0.6;
   }
 </style>
 
@@ -62,7 +66,24 @@
 <div class="pdom_copy">
   <h2>Parallel DOM is copied below</h2>
   <h3>Interaction alerts</h3>
-  <div id=alert-copy-container class=alert_copy_container></div>
+  <div id=alert-copy-container class=alert_copy_container>
+    <div id='assertive-element-container'>
+      <p class='alert'>&#10092;assertive update&#10093;</p>
+      <p id="assertive-element-copy"></p>
+    </div>
+    <div id='polite-element-container'>
+      <p class='alert'>&#10092;polite update&#10093;</p>
+      <p id="polite-element-copy"></p>
+    </div>
+    <div id='assertive-alert-element-container'>
+      <p class='alert'>&#10092;assertive alert update&#10093;</p>
+      <p id="assertive-alert-element-copy"></p>
+    </div>
+    <div id='polite-alert-element-container'>
+      <p class='alert'>&#10092;polite status update&#10093;</p>
+      <p id="polite-status-element-copy"></p>
+    </div>
+  </div>
   <div id=dom-copy-container class="pdom_copy_container"></div>
 </div>
 
@@ -81,23 +102,37 @@
       var iframe = document.getElementById( 'iframe' );
       var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-      // copy of the parallel DOM and alert content
+      // copy of the parallel DOM
       var pDOM = innerDoc.getElementsByClassName( 'accessibility' )[ 0 ];
-      var alertContent = innerDoc.getElementById( 'aria-live-elements' );
       var pDOMCopy = pDOM.cloneNode( true );
-      var alertContentCopy = alertContent.cloneNode( true );
+
+      // copy the alert content      
+      var assertiveElement = innerDoc.getElementById( 'assertive' );
+      var politeElement = innerDoc.getElementById( 'polite' );
+      var assertiveAlertElement = innerDoc.getElementById( 'assertive-alert' );
+      var politeStatusElement = innerDoc.getElementById( 'polite-status' );
+
+      var assertiveElementCopy = document.getElementById( 'assertive-element-copy' );
+      var politeElementCopy = document.getElementById( 'polite-element-copy');
+      var assertiveAlertElementCopy = document.getElementById( 'assertive-alert-element-copy');
+      var politeStatusElementCopy = document.getElementById( 'polite-status-element-copy');
 
       // strip the styling from the copied DOM elements
       pDOMCopy.style = '';
-      alertContentCopy.style = '';
+      assertiveElement.style = '';
+      politeElement.style = '';
+      assertiveAlertElement.style = '';
+      politeStatusElement.style = '';
 
       // get the parent container for the parallel DOM copy and the alert content
       var copyContainer = document.getElementById( 'dom-copy-container' );
-      var alertContainer = document.getElementById( 'alert-copy-container' );
+      var assertiveElementContainer = document.getElementById( 'assertive-element-container' );
+      var politeElementContainer = document.getElementById( 'polite-element-container' );
+      var assertiveAlertElementContainer = document.getElementById( 'assertive-alert-element-container' );
+      var politeStatusElementContainer = document.getElementById( 'polite-status-element-container' );
 
       // add the copies to the outer document
       copyContainer.appendChild( pDOMCopy );
-      alertContainer.appendChild( alertContentCopy );
 
       // remove all elements in the PDOM copy from the navigation order
       var removeTabIndex = function() {
@@ -133,18 +168,24 @@
       // pass in the target node, as well as the observer options
       domObserver.observe( pDOM, config);
 
-      // whenever an element in the alert content changes, we need to update the copied element
-      // as wells
-      var alertObserver = new MutationObserver( function( mutations ) {
-        mutations.forEach( function( mutation ) {
+      // add mutation observers to each of the aria-live elements
+      var addLiveObserver = function( container, originalElement, copiedElement ) {
+        var liveObserver = new MutationObserver( function( mutations ) {
+          mutations.forEach( function( mutation ) {
+            container.removeChild( copiedElement );
+            copiedElement = originalElement.cloneNode( true );
+            copiedElement.style = '';
+            container.appendChild( copiedElement );
+          } );
+        } );
 
-          alertContainer.removeChild( alertContentCopy );
-          alertContentCopy = alertContent.cloneNode( true );
-          alertContentCopy.style = '';
-          alertContainer.appendChild( alertContentCopy );
-        } )
-      } );
-      alertObserver.observe( alertContent, config );
+        liveObserver.observe( originalElement, config )
+      };
+
+      addLiveObserver( assertiveElementContainer, assertiveElement, assertiveElementCopy );
+      addLiveObserver( politeElementContainer, politeElement, politeElementCopy );
+      addLiveObserver( assertiveAlertElementCopy, assertiveAlertElement, assertiveAlertElementCopy );
+      addLiveObserver( politeStatusElementContainer, politeStatusElement, politeStatusElementCopy );
 
       // set focus to the loaded ifram
       document.getElementById( 'iframe' ).focus();
