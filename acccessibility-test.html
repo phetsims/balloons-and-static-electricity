@@ -183,11 +183,17 @@
       var addLiveObserver = function( container, originalElement, copiedElement ) {
         var liveObserver = new MutationObserver( function( mutations ) {
           mutations.forEach( function( mutation ) {
-            container.removeChild( copiedElement );
-            copiedElement = originalElement.cloneNode( true );
-            copiedElement.removeAttribute( 'style' );
-            container.appendChild( copiedElement );
 
+            // remove all other aria-live content
+            assertiveElementCopy.textContent = '';
+            politeElementCopy.textContent = '';
+            assertiveAlertElementCopy.textContent = '';
+            politeStatusElementCopy.textContent = '';
+            
+
+            // update the text content of the copied element to match the element in
+            // the iframe document
+            copiedElement.textContent = mutation.target.textContent;
           } );
         } );
 
