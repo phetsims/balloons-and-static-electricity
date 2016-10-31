@@ -195,8 +195,8 @@ define( function( require ) {
       self.updateDescriptionItem( roomItemsItemID, StringUtils.format( roomItemsStringPattern, visibleItemsDescription ) );
 
     };
-    model.wall.isVisibleProperty.lazyLink( roomItemsDescriptionListener );
-    model.balloons[ 1 ].isVisibleProperty.lazyLink( roomItemsDescriptionListener );
+    model.wall.isVisibleProperty.link( roomItemsDescriptionListener );
+    model.balloons[ 1 ].isVisibleProperty.link( roomItemsDescriptionListener );
 
     /**
      * Updates the description of where the balloon is in the play area with information about the proximity
@@ -218,8 +218,8 @@ define( function( require ) {
         self.updateDescriptionItem( locationItemID, yellowBalloonDescription );
       }
     };
-    model.balloons[ 0 ].locationProperty.lazyLink( balloonLocationListener );
-    model.balloons[ 1 ].locationProperty.lazyLink( balloonLocationListener );
+    model.balloons[ 0 ].locationProperty.link( balloonLocationListener );
+    model.balloons[ 1 ].locationProperty.link( balloonLocationListener );
 
     var balloonChargeListener = function( charge ) {
       var balloonDescriber = model.balloons[ 0 ].balloonDescriber;
@@ -243,10 +243,10 @@ define( function( require ) {
 
       return string;
     };
-    model.balloons[ 0 ].chargeProperty.lazyLink( balloonChargeListener );
+    model.balloons[ 0 ].chargeProperty.link( balloonChargeListener );
 
     // update charge descriptions when wall visibility toggles.
-    model.wall.isVisibleProperty.lazyLink( function() {
+    model.wall.isVisibleProperty.link( function() {
       balloonChargeListener( model.balloons[ 0 ].chargeProperty.get() );
     } );
 

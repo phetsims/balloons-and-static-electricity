@@ -119,7 +119,7 @@ define( function( require ) {
 
       // if the type supports inner text, the label should be added as inner text
       if ( this.elementSupportsInnerText() && options.label ) {
-        self.domElement.innerText = options.label;
+        self.domElement.textContent = options.label;
       }
     }
 
@@ -306,7 +306,7 @@ define( function( require ) {
       assert && assert( this.descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
 
       var listItem = document.createElement( 'li' );
-      listItem.innerText = textContent;
+      listItem.textContent = textContent;
       listItem.id = 'list-item-' + ITEM_NUMBER++;
       this.descriptionElement.appendChild( listItem );
 
@@ -314,15 +314,15 @@ define( function( require ) {
     },
 
     /**
-     * Update the text content of the description item.
+     * Update the text content of the description item.  The item may not yet be in the DOM, so
+     * document.getElementById cannot be used, and the element needs to be found
+     * under the description element.
      *
      * @param  {string} itemID - id of the lits item to update
      * @param  {string} description - new textContent for the string
      */
     updateDescriptionItem: function( itemID, description ) {
-      var listItem = document.getElementById( itemID );
-      assert && assert( listItem, 'No list item in description with id ' + itemID );
-
+      var listItem = this.getChildElementWithId( this.descriptionElement, itemID );
       listItem.textContent = description;
     },
 
@@ -511,6 +511,34 @@ define( function( require ) {
 
       // if no next focusable is found, return this DOMElement
       return nextFocusable || this.domElement;
+    },
+
+
+    /**
+     * Get a child element with an id.  This should only be used if the element is not in the document.
+     * If the element is in the document, document.getElementById is a faster (and more conventional)
+     * option.  If the element is not yet in the document this function might be helpful.
+     * 
+     * @param  {DOMElement} parentElement
+     * @param  {string} childId
+     * @return {DOMElement}
+     */
+    getChildElementWithId: function( parentElement, childId ) {
+      var childElement;
+      var children = parentElement.children;
+
+      for ( var i = 0; i < children.length; i++ ) {
+        if ( children[ i ].id === childId ) {
+          childElement = children[ i ];
+          break;
+        }
+      }
+
+      if ( !childElement ) {
+        throw new Error( 'No child element under ' + parentElement + ' with id ' + childId );
+      }
+
+      return childElement;
     },
 
     /**
