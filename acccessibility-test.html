@@ -12,25 +12,31 @@
 </head>
 <body bgcolor="#F0F8FF">
 <style>
-  body {
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif
   }
+  body {
+    background: #ccc;
+  }
   div.simulation_frame {
-    float: left;
-    margin: 50px;
+    position: absolute;
+    top: 0;
+    left: 2%;
+    bottom: 0;
+    width: 50%;
+    background: #ccc;
   }
   div.pdom_copy {
-    float: left;
-    margin-top: 50px;
-  }
-  div.pdom_copy_container {
-    overflow: auto;
-    width: 500px;
-    height: 500px;
-  }
-  div.alert_copy_container {
-    width: 500px;
-    height: 250px;
+    background: #ccc;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    bottom: 0;
+    width: 50%;
     overflow: auto;
   }
   div.clearfix {
@@ -39,56 +45,60 @@
   p.alert {
     opacity: 0.6;
   }
+  div.wrapper {
+    height: auto;
+    width: 100%;
+  }
 </style>
 
-<h1>Accessibility visualization for &#8234;Balloons and Static Electricity&#8236;</h1>
-
-<div class="simulation_frame">
-  <h2>Simulation embedded below</h2>
-  <iframe id="iframe" width="600" height="400" allowfullscreen scrolling="no" style="float: left display: inline"></iframe>
-</div>
-
-<script type="application/javascript">
-
-  // Grab all query parameters to pass to the simulation, and add additional ones for receiving messages.
-  var simulationQueryString = window.location.search;
-  if ( simulationQueryString.indexOf( '?' ) >= 0 ) {
-    simulationQueryString += '&';
-  }
-  else {
-    simulationQueryString += '?';
-  }
-  simulationQueryString += 'postMessageOnLoad&postMessageOnError';
-  document.getElementById( 'iframe' ).setAttribute( 'src', 'balloons-and-static-electricity_en.html' + simulationQueryString );
-</script>
-
-<!--The PDOM copy will be placed in this container -->
-<div class="pdom_copy">
-  <h2>Parallel DOM is copied below</h2>
-  <h3>Interaction alerts</h3>
-  <div id=alert-copy-container class=alert_copy_container>
-    <div id='assertive-element-container'>
-      <p class='alert'>&#10092;assertive update&#10093;</p>
-      <p id="assertive-element-copy"></p>
-    </div>
-    <div id='polite-element-container'>
-      <p class='alert'>&#10092;polite update&#10093;</p>
-      <p id="polite-element-copy"></p>
-    </div>
-    <div id='assertive-alert-element-container'>
-      <p class='alert'>&#10092;assertive alert update&#10093;</p>
-      <p id="assertive-alert-element-copy"></p>
-    </div>
-    <div id='polite-alert-element-container'>
-      <p class='alert'>&#10092;polite status update&#10093;</p>
-      <p id="polite-status-element-copy"></p>
-    </div>
+<div class="wrapper">
+  <div class="simulation_frame" id="simulation-frame">
+    <h2>Simulation embedded below</h2>
+    <iframe id="iframe" width=80% height=60% allowfullscreen scrolling="no"></iframe>
   </div>
-  <div id=dom-copy-container class="pdom_copy_container"></div>
-</div>
 
-<!--clear the blocks after the float effect-->
-<div class="clearfix"></div>
+  <script type="application/javascript">
+
+    // Grab all query parameters to pass to the simulation, and add additional ones for receiving messages.
+    var simulationQueryString = window.location.search;
+    if ( simulationQueryString.indexOf( '?' ) >= 0 ) {
+      simulationQueryString += '&';
+    }
+    else {
+      simulationQueryString += '?';
+    }
+    simulationQueryString += 'postMessageOnLoad&postMessageOnError';
+    document.getElementById( 'iframe' ).setAttribute( 'src', 'balloons-and-static-electricity_en.html' + simulationQueryString );
+  </script>
+
+  <!--The PDOM copy will be placed in this container -->
+  <div class="pdom_copy" id="pdom-copy">
+    <h2>Parallel DOM is copied below</h2>
+    <h3>Interaction alerts</h3>
+    <div id=alert-copy-container class=alert_copy_container>
+      <div id='assertive-element-container'>
+        <p class='alert'>&#10092;assertive update&#10093;</p>
+        <p id="assertive-element-copy"></p>
+      </div>
+      <div id='polite-element-container'>
+        <p class='alert'>&#10092;polite update&#10093;</p>
+        <p id="polite-element-copy"></p>
+      </div>
+      <div id='assertive-alert-element-container'>
+        <p class='alert'>&#10092;assertive alert update&#10093;</p>
+        <p id="assertive-alert-element-copy"></p>
+      </div>
+      <div id='polite-alert-element-container'>
+        <p class='alert'>&#10092;polite status update&#10093;</p>
+        <p id="polite-status-element-copy"></p>
+      </div>
+    </div>
+    <div id=dom-copy-container class="dom_copy_container"></div>
+  </div>
+
+  <!--clear the blocks after the float effect-->
+  <div class="clearfix"></div>
+</div>
 
 <script type="application/javascript">
 
@@ -157,6 +167,7 @@
           pDOMCopy.style = '';
           copyContainer.appendChild( pDOMCopy );
 
+          // make sure that the coppied html is completely out of navigation
           removeTabIndex();
 
         } );    
