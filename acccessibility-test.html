@@ -128,11 +128,12 @@
       var politeStatusElementCopy = document.getElementById( 'polite-status-element-copy');
 
       // strip the styling from the copied DOM elements
-      pDOMCopy.style = '';
-      assertiveElement.style = '';
-      politeElement.style = '';
-      assertiveAlertElement.style = '';
-      politeStatusElement.style = '';
+      pDOMCopy.removeAttribute( 'style' );
+
+      assertiveElement.removeAttribute( 'style' );
+      politeElement.removeAttribute( 'style' );
+      assertiveAlertElement.removeAttribute( 'style' );
+      politeStatusElement.removeAttribute( 'style' );
 
       // get the parent container for the parallel DOM copy and the alert content
       var copyContainer = document.getElementById( 'dom-copy-container' );
@@ -164,7 +165,7 @@
           // TODO: Work on refining this, and only modifying the elements that change in the PDOM.
           copyContainer.removeChild( pDOMCopy );
           pDOMCopy = pDOM.cloneNode( true );
-          pDOMCopy.style = '';
+          pDOMCopy.removeAttribute( 'style' );
           copyContainer.appendChild( pDOMCopy );
 
           // make sure that the coppied html is completely out of navigation
@@ -185,8 +186,9 @@
           mutations.forEach( function( mutation ) {
             container.removeChild( copiedElement );
             copiedElement = originalElement.cloneNode( true );
-            copiedElement.style = '';
+            copiedElement.removeAttribute( 'style' );
             container.appendChild( copiedElement );
+
           } );
         } );
 
