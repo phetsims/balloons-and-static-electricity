@@ -37,7 +37,7 @@ define( function( require ) {
   var balloonGrabbedDescriptionPatternString = '{0} {1} {2} {3}'; // grabbed, location, charge, interaction cue 
   var balloonDragDescriptionPatternString = '{0} {1} {2} {3} {4} {5}'; // direction, proximity, charge, 
   var grabButtonNavigationCueString = 'Look for grab button to play.';
-  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Spacebar to let go. H key for hotkeys and help.';
+  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Space bar to let go. H key for hotkeys and help.';
 
   // location strings (organized by collumns in the play area)
   var balloonLocationStringPattern = 'In {0}.';
