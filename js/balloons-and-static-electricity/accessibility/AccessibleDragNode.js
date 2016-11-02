@@ -134,10 +134,6 @@ define( function( require ) {
     // button contained in a div so that it can contain descriptions or other children
     AccessibleNode.call( this, nodeBounds, options );
 
-    // the dom element is explicitly draggable, but not picked up
-    this.domElement.draggable = true;
-    this.setGrabbedState( false );
-
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDragNode', AccessibleDragNode );
@@ -210,16 +206,6 @@ define( function( require ) {
       if ( !newLocation.equals( self.locationProperty.value ) ) {
         self.locationProperty.set( newLocation );
       }
-    },
-
-    /**
-     * For accessibility, the element can be 'grabbed' while the focus is somewhere else.
-     * ara-grabbed specifies the grabbed state for a screen reader.
-     *
-     * @param {boolean} grabbed
-     */
-    setGrabbedState: function( grabbed ) {
-      this.domElement.setAttribute( 'aria-grabbed', grabbed );
     },
 
     /**

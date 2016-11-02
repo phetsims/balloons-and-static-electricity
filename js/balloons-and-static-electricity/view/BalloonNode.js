@@ -255,7 +255,6 @@ define( function( require ) {
           eventName: 'click',
           eventFunction: function() {
             model.isDragged = true;
-            self.draggableNode.setGrabbedState( true );
 
             // grab and focus the draggable element
             self.draggableNode.focus();
