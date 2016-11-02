@@ -190,7 +190,6 @@ define( function( require ) {
     self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
       dragBounds: balloonDragBounds,
       parentContainerTagName: 'div',
-      label: balloonDraggableLabel,
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       events: [
@@ -231,7 +230,8 @@ define( function( require ) {
 
         self.releaseBalloon();
       },
-      ariaDescribedBy: this.getDescriptionElementID()
+      ariaDescribedBy: this.getDescriptionElementID(),
+      ariaLabelledBy: this.getLabelElementID()
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
