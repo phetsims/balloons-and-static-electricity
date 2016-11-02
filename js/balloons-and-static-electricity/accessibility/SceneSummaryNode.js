@@ -43,6 +43,8 @@ define( function( require ) {
   // Location Descriptions
   var twoBalloonDescriptionPattern = '{0} {1}'; // used when both balloons are visible
   var balloonLocationDescriptionStringPattern = '{0}, {1}';
+  var balloonInCenterPatternString = '{0} {1}';
+
 
   // possible items in the room
   var balloonSweaterAndRemovableWallString = 'a balloon, a sweater, and a removable wall.';
@@ -67,6 +69,8 @@ define( function( require ) {
   var inPlayAreaNearItemStringPattern = 'in {0} of play area, {1}.';
   var nearWallString = 'near wall';
   var nearSweaterString = 'near sweater';
+
+  var evenlyBetweenString = 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.';
 
   var stickingToWallStringPattern = 'sticking to {0} wall. {1}';
   var negativeChargesMoveStringPattern = 'Negative charges in wall move away from balloon {0}.';
@@ -215,6 +219,11 @@ define( function( require ) {
         self.updateDescriptionItem( locationItemID, combinedDescription );
       }
       else {
+        // if the single balloon is in the center of the play area, there also needs to be a description
+        // for the relative locations of the other items in the play area
+        if ( model.balloons[ 0 ].getCenter().x === model.playArea.atCenter && model.wall.isVisibleProperty.get() ) {
+          yellowBalloonDescription = StringUtils.format( balloonInCenterPatternString, yellowBalloonDescription, evenlyBetweenString );
+        }
         self.updateDescriptionItem( locationItemID, yellowBalloonDescription );
       }
     };
