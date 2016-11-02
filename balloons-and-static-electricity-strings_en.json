@@ -78,11 +78,11 @@
     "visible": false
   },
   "yellowBalloon.descriptionPattern": {
-    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive ones.",
+    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive charges.",
     "visible": false
   },
   "greenBalloon.descriptionPattern": {
-    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive ones.",
+    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive charges.",
     "visible": false
   },
   "playArea.label": {

@@ -100,7 +100,7 @@ define( function( require ) {
   // charge descriptions
   var namedBalloonChargeDescriptionPatternString = '{0} has net {1} charge, {2} more negative charges than positive charges.';
   var balloonChargeStringPattern = 'Has net {0} charge, {1} more negative charges than positive charges.';
-  var sweaterChargePatternString = 'Sweater has net {0} charge, {1} more positive charges than negative ones.';
+  var sweaterChargePatternString = 'Sweater has net {0} charge, {1} more positive charges than negative charges.';
 
   var neutralString = 'neutral';
   var negativeString = 'negative';
@@ -182,7 +182,7 @@ define( function( require ) {
   var onRightSideOfPlayAreaString = 'On right side of play area.';
 
   var balloonPicksUpMoreChargesString = 'Balloon picks up more negative charges';
-  var againMoreChargesString = 'Again, more negative ones.';
+  var againMoreChargesString = 'Again, more negative charges.';
 
   // labels
   var greenBalloonString = 'Green balloon';
