@@ -200,6 +200,7 @@ define( function( require ) {
     self.draggableNode = new AccessibleDragNode( model.locationProperty, {
       dragBounds: balloonDragBounds,
       parentContainerTagName: 'div',
+      label: balloonDraggableLabel,
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       onKeyUp: function( event ) {
@@ -234,8 +235,8 @@ define( function( require ) {
 
         self.releaseBalloon();
       },
-      ariaDescribedBy: this.getDescriptionElementID(),
-      ariaLabelledBy: this.getLabelElementID()
+
+      ariaDescribedBy: this.getDescriptionElementID()
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
@@ -273,8 +274,7 @@ define( function( require ) {
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       self.setHidden( !isVisible );
-      // self.draggableNode.setHidden( !isVisible );
-      // accessibleButtonNode.setHidden( !isVisible );
+
 
       var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
       self.ariaHerald.announceAssertive( alertDescription );
@@ -290,6 +290,10 @@ define( function( require ) {
       // a11y - update the navigation cue when the balloon is picked up
       var locationDescription = model.balloonDescriber.getDescription( model, isDragged );
       self.setDescription( locationDescription );
+
+      accessibleButtonNode.setHidden( !isVisible );
+
+      self.draggableNode.setHidden( !isVisible );
 
       // reset the describer flags
       model.balloonDescriber.reset();
