@@ -13,16 +13,34 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
+  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  function BalloonModel( x, y, defaultVisibility ) {
+  var NEAR_SWEATER_DISTANCE = 25;
+
+  /**
+   * Constructor
+   * @param {number} x
+   * @param {number} y
+   * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
+   * @param {boolean} defaultVisibility - is the balloon visible by default?
+   * @param {string} labelString - label for the balloon
+   * @constructor
+   */
+  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString ) {
     PropertySet.call( this, {
       charge: 0,
       velocity: 0,
       isVisible: true,
+      isDragged: false,
       width: 134,
       height: 222,
       location: new Vector2( 0, 0 ),
+      isStopped: false,
+      dragVelocity: new Vector2( 0, 0 ), // velocity when dragging
 
       //Speed the balloon must be dragged at to pick up charges, see https://github.com/phetsims/balloons-and-static-electricity/issues/28
       thresholdSpeed: 0.025,
@@ -101,11 +119,20 @@ define( function( require ) {
 
     var self = this;
 
+    // @public (read-only)- track when a charge is picked up so we can describe when a charge is and is not
+    // picked up.
+    this.chargePickedUpInDrag = false;
+
     this.location = new Vector2( x, y );
     this.initialLocation = this.location.copy();
     this.defaultVisibily = defaultVisibility;
     this.plusCharges = [];
     this.minusCharges = [];
+    this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
+    this.direction = ''; // the direction of movement of the balloon
+
+    // a label for the balloon, not the acccessible label but one of BalloonColorsEnum
+    this.balloonLabel = labelString;
 
     //neutral pair of charges
     this.positionsOfStartCharges.forEach( function( entry ) {
@@ -125,12 +152,207 @@ define( function( require ) {
       self.minusCharges.push( minusCharge );
     } );
 
+    // Track key presses in a keyState object for accessibility.
+    // TODO: This should eventually be internal.  It seems all keyboard interaction should use such an object.
+    // this.keyState = {};
+
+    // model bounds, updated when position changes
+    this.bounds = new Bounds2( this.location.x, this.location.y, this.location.x + this.width, this.location.y + this.height );
+    this.locationProperty.link( function( location ) {
+      self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+    } );
+
+    // a11y - describes the balloon based on its model properties
+    this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this );
+
     this.reset();
+
   }
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
-  
+
   inherit( PropertySet, BalloonModel, {
+
+    /**
+     * If the balloon is in the upper half of the play area, return true.
+     *
+     * @return {boolean}
+     */
+    inUpperHalfOfPlayArea: function() {
+      if ( this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+
+    /**
+     * Return true if the balloon is near the wall without touching it.
+     *
+     * @return {boolean}
+     */
+    nearWall: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall );
+    },
+
+    inUpperRightOfPlayArea: function() {
+      var locationBounds = this.balloonsAndStaticElectricityModel.playArea.getPointBounds( this.getCenter() );
+
+      if ( locationBounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA || BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+
+    /**
+     * findClosestCharge - description
+     *
+     * @return {type}  description
+     */
+    getClosestCharge: function() {
+      // find the closest charge to the balloon that has not yet been picked up
+      var sweater = this.balloonsAndStaticElectricityModel.sweater;
+
+      // the closest charge is described relative to the center of this rectangle
+      // which is what is used to pick up charges
+      var balloonLocation = this.locationProperty.get();
+      var x1 = balloonLocation.x - 5;
+      var x2 = balloonLocation.x + 50;
+      var y1 = balloonLocation.y - 10;
+      var y2 = balloonLocation.y + this.height + 10;
+      var centerX = ( x1 + x2 ) / 2;
+      var centerY = ( y1 + y2 ) / 2;
+
+      // loop through the charges to find the next closest one
+      var difference = new Vector2( 0, 0 ); // allocated once to avoid burden to memory
+      var minDistance = Number.POSITIVE_INFINITY;
+      var closestCharge;
+      for ( var i = 0; i < sweater.minusCharges.length; i++ ) {
+
+        var charge = sweater.minusCharges[ i ];
+
+        // if the charge has been moved already, skip it
+        if ( charge.moved ) {
+          continue;
+        }
+
+        var distX = charge.location.x - centerX;
+        var distY = charge.location.y - centerY;
+        difference.setXY( distX, distY );
+
+        if ( difference.magnitude() < minDistance ) {
+          minDistance = difference.magnitude();
+          closestCharge = charge;
+        }
+      }
+
+      assert && assert( closestCharge, 'Tried to find closest charge when no more charges remain on sweater.' );
+      return closestCharge;
+    },
+
+    /**
+     * Center of a rectangular area that defines the bounds of the balloon
+     * that must drag acrosss the sweater to pick up a charge.
+     * 
+     * @return {Vector2}
+     */
+    getDraggingCenter: function() {
+      var balloonLocation = this.locationProperty.get();
+      var x1 = balloonLocation.x - 5;
+      var x2 = balloonLocation.x + 50;
+      var y1 = balloonLocation.y - 10;
+      var y2 = balloonLocation.y + this.height + 10;
+
+      var centerX = balloonLocation.x + ( ( x2 - x1 ) / 2 );
+      var centerY = balloonLocation.y + ( ( y2 - y1 ) / 2 );
+
+      return new Vector2( centerX, centerY );
+    },
+
+    /**
+     * Get a direction from the balloon center to the charge.
+     *
+     * @param  {type} chargeModel description
+     * @return {type}             description
+     */
+    getDirectionToCharge: function( chargeModel ) {
+      var difference = chargeModel.location.minus( this.getDraggingCenter() );
+
+      var diffX = difference.x;
+      var diffY = difference.y;
+
+      // direction string to be returned
+      var direction;
+      if ( diffX > 0 && diffY > 0 ) {
+        // charge is up and to the right
+        direction = BalloonDirectionEnum.DOWN_RIGHT;
+      }
+      else if ( diffX > 0 && diffY < 0 ) {
+        // charge is down and to the right
+        direction = BalloonDirectionEnum.UP_RIGHT;
+      }
+      else if ( diffX < 0 && diffY > 0 ) {
+        // charge is up and to the left
+        direction = BalloonDirectionEnum.DOWN_LEFT;
+      }
+      else if ( diffX < 0 && diffY < 0 ) {
+        // charge is down and to the lefts
+        direction = BalloonDirectionEnum.UP_LEFT;
+      }
+
+
+      assert && assert( direction, 'A direction must be defined' );
+      return direction;
+
+    },
+
+    /**
+     * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
+     * if its left edge is inside the right edge of the sweater bounds.
+     *
+     * @return {type}  description
+     */
+    onSweater: function() {
+      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      if ( sweaterBounds.eroded( 0 ).intersectsBounds( this.bounds ) ) {
+        return true;
+      }
+      else { return false; }
+    },
+
+    centerInSweater: function() {
+      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      return this.getCenter().x < sweaterBounds.maxX; 
+    },
+
+    /**
+     * If the balloon is near the sweater, return true.  Considered near the sweater when 
+     * within NEAR_SWEATER_DISTANCE from touching the sweater.
+     * @return {boolean}
+     */
+    nearSweater: function() {
+      var minX = this.balloonsAndStaticElectricityModel.playArea.atNearSweater;
+      var maxX = minX + NEAR_SWEATER_DISTANCE;
+
+      return ( minX < this.getCenter().x && this.getCenter().x < maxX );
+    },
+
+    /**
+     * Returns true if the balloon is touching the wall
+     * 
+     * @return {boolean}
+     */
+    touchingWall: function() {
+      return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
+    },
+
+    getDistanceToWall: function() {
+      return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
+    },
 
     //get center of Balloon
     getCenter: function() {
@@ -157,11 +379,21 @@ define( function( require ) {
         this.isVisible = this.defaultVisibily;
       }
       this.isDragged = false;
+
+      // reset the accessible describer
+      this.balloonDescriber.reset();
     },
     step: function( model, dt ) {
       if ( dt > 0 ) {
+
         if ( this.isDragged ) {
-          this.dragBalloon( model, dt );
+
+          // check to see if we can catch any minus charges
+          var chargePickedUp = this.dragBalloon( model, dt );
+
+          if ( chargePickedUp ) {
+            this.chargePickedUpInDrag = true;
+          }
         }
         else {
           BalloonModel.applyForce( model, this, dt );
@@ -169,7 +401,15 @@ define( function( require ) {
       }
       this.oldLocation = this.location.copy();
     },
-    //when balloon dragged check if we can catch minus charges
+
+    /**
+     * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
+     * that indicates whether or not a charge was picked up.
+     *
+     * @param  {BalloonsAndStaticElectricityModel} model
+     * @param  {number} dt
+     * @return {boolean} chargeFound
+     */
     dragBalloon: function( model, dt ) {
 
       // Prevent a fuzzer error that tries to drag the balloon before step is called.
@@ -196,9 +436,16 @@ define( function( require ) {
 
       //if average speed larger than thresholdSpeed - we try to move minus charges from sweater to balloon
       var speed = Math.sqrt( averageX * averageX + averageY * averageY );
+
+      this.dragSpeed = speed;
+      this.dragVelocityProperty.set( new Vector2( dx, dy ) );
+
+      var chargeFound = false;
       if ( speed >= this.thresholdSpeed ) {
-        model.sweater.findIntersection( this );
+        chargeFound = model.sweater.findIntersection( this );
       }
+
+      return chargeFound;
     },
     //force between sweater and balloon
     getSweaterForce: function( sweaterModel ) {
@@ -207,6 +454,54 @@ define( function( require ) {
         retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.charge );
       }
       return retValue;
+    },
+
+    /**
+     * Get the name of the object that the balloon is curently attracted to.
+     *
+     * @return {string}
+     */
+    getAttractedDirection: function() {
+      var force = BalloonModel.getTotalForce( this.balloonsAndStaticElectricityModel, this );
+      if ( force.x > 0 ) {
+        return BalloonDirectionEnum.RIGHT;
+      }
+      else {
+        return BalloonDirectionEnum.LEFT;
+      }
+    },
+
+    /**
+     * Get the object that the balloon is touching.  If the balloon is in free space, return null.
+     *
+     * @return {type}  description
+     */
+    getBoundaryObject: function() {
+      var playArea = this.balloonsAndStaticElectricityModel.playArea;
+      var balloonCenter = this.getCenter();
+      var centerX = balloonCenter.x;
+      if ( !this.balloonsAndStaticElectricityModel.wall.isVisible && centerX === playArea.atRightEdgeOfPlayArea ) {
+        return BalloonLocationEnum.RIGHT_EDGE;
+      }
+      else if ( playArea.leftColumn.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.LEFT_EDGE;
+      }
+      else if ( playArea.topRow.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.TOP_EDGE;
+      }
+      else if ( playArea.bottomRow.containsPoint( balloonCenter ) ) {
+        return BalloonLocationEnum.BOTTOM_EDGE;
+      }
+      else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.direction === BalloonDirectionEnum.LEFT ) {
+        // only announce that we are on the sweater if we are moving left
+        return BalloonLocationEnum.ON_SWEATER;
+      }
+      else if ( playArea.atWall === centerX && this.balloonsAndStaticElectricityModel.wall.isVisible ) {
+        return BalloonLocationEnum.AT_WALL;
+      }
+      else {
+        return null;
+      }
     }
   } );
 
@@ -291,6 +586,12 @@ define( function( require ) {
       if ( newLocation.y < model.bounds.minY ) {
         isStopped = true;
         newLocation.y = model.bounds.minY;
+      }
+
+      // once the balloon stops moving, notify observers that it has reached a resting
+      // destination
+      if ( !balloonModel.isStopped && ( balloonModel.location.equals( newLocation ) ) ) {
+        balloonModel.isStoppedProperty.set( true );
       }
 
       balloonModel.velocity = newVelocity;

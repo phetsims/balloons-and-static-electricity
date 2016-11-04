@@ -35,6 +35,7 @@ require.config( {
     SCENERY_PHET: '../../scenery-phet/js',
     SUN: '../../sun/js',
     TANDEM: '../../tandem/js',
+    VIBE: '../../vibe/js',
 
     // sim code
     BALLOONS_AND_STATIC_ELECTRICITY: '.'

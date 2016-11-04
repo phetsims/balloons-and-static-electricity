@@ -11,16 +11,90 @@
   "BalloonApplet.ShowNoCharges": {
     "value": "Show no charges"
   },
+  "removeWall.label": {
+    "value": "Remove Wall",
+    "visible": false
+  },
+  "addWall.label": {
+    "value": "Add Wall",
+    "visible": false
+  },
   "removeWall": {
     "value": "Remove\nWall"
   },
   "addWall": {
     "value": "Add\nWall"
   },
+  "wall.description": {
+    "value": "Run experiments with or without the wall."
+  },
   "resetBalloon": {
     "value": "Reset Balloon"
   },
   "resetBalloons": {
     "value": "Reset Balloons"
+  },
+  "balloon": {
+    "value": "Balloon",
+    "visible": false
+  },
+  "balloons": {
+    "value": "Balloons",
+    "visible": false
+  },
+  "twoBalloonExperiment.label": {
+    "value": "Two-Balloon Experiment",
+    "visible": false
+  },
+  "yellowBalloon.label": {
+    "value": "Yellow Balloon",
+    "visible": false
+  },
+  "greenBalloon.label": {
+    "value": "Green Balloon",
+    "visible": false
+  },
+  "grabPattern": {
+    "value": "Grab {0}",
+    "visible": false
+  },
+  "greenBalloonRemoved": {
+    "value": "Green balloon removed from Play Area",
+    "visible": false
+  },
+  "greenBalloonAdded": {
+    "value": "Green balloon added to Play Area",
+    "visible": false
+  },
+  "wallRemoved": {
+    "value": "Wall removed from Play Area",
+    "visible": false
+  },
+  "wallAdded": {
+    "value": "Wall added to Play Area",
+    "visible": false
+  },
+  "playArea.label": {
+    "value": "Play Area",
+    "visible": false
+  },
+  "sweater.label": {
+    "value": "Sweater",
+    "visible": false
+  },
+  "wall.label": {
+    "value": "Wall",
+    "visible": false
+  },
+  "controlPanel.label": {
+    "value": "Control Panel",
+    "visible" : false
+  },
+  "keyboardHelp.dialog": {
+    "value": "Balloon Hotkeys and Key Commands"
+  },
+  "keyboardHelp.close": {
+    "value": "Close Dialog",
+    "visible": false
   }
 }

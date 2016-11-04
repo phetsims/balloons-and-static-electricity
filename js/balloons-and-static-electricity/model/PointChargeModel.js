@@ -1,7 +1,6 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * Model of a balloon.
  * Point charge model. Each charge have location.
  * @author Vasily Shakhov (Mlearner)
  */
@@ -18,6 +17,9 @@ define( function( require ) {
     PropertySet.call( this, { location: new Vector2( 0, 0 ) } );
     this.defaultLocation = new Vector2( x, y );
     this.reset();
+
+    // @public - whether or not the charge has been moved from sweater to balloon
+    this.moved = false;
   }
 
   PointChargeModel.radius = 8;
@@ -30,6 +32,7 @@ define( function( require ) {
   inherit( PropertySet, PointChargeModel, {
     reset: function() {
       this.location = this.defaultLocation.copy();
+      this.moved = false;
     },
     getCenter: function() {
       return new Vector2( this.location.x + this.radius, this.location.y + this.radius );

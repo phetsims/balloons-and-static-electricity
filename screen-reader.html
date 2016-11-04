@@ -1,0 +1,41 @@
+<head>
+
+</head>
+<body>
+<script type="text/javascript">
+
+  //Pre-populate the query parameters map so that multiple subsequent look-ups are fast
+  var queryParamsMap = {};
+
+  if ( typeof window !== 'undefined' && window.location.search ) {
+    var params = window.location.search.slice( 1 ).split( '&' );
+    for ( var i = 0; i < params.length; i++ ) {
+      var nameValuePair = params[ i ].split( '=' );
+      queryParamsMap[ nameValuePair[ 0 ] ] = decodeURIComponent( nameValuePair[ 1 ] );
+    }
+  }
+  var getQueryParameter = function( key ) {
+    return queryParamsMap[ key ];
+  };
+
+  window.phetSpeechSynthesisEnabled = getQueryParameter( 'speech' );
+</script>
+<script type="text/javascript">
+  window.simLaunched = function() {
+    document.getElementById( 'sim' ).focus();
+  };
+  window.updateAccessibilityReadoutText = function( text ) {
+
+    document.getElementById( 'accessibilityTextReadout' ).innerText = text;
+
+    if ( window.phetSpeechSynthesisEnabled && window.speechSynthesis && SpeechSynthesisUtterance && window.speechSynthesis.speak ) {
+      var utterThis = new SpeechSynthesisUtterance( text );
+      window.speechSynthesis.speak( utterThis );
+    }
+  };
+</script>
+<iframe id="sim" src="balloons-and-static-electricity_en.html?accessibility&virtualCursor" width="570"
+        height="400"></iframe>
+<div id="accessibilityTextReadout">Use the left/right arrow keys to navigate through the accessible items in the sim.
+</div>
+</body>

@@ -12,7 +12,9 @@ define( function( require ) {
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
+  var PlayArea = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
@@ -24,12 +26,7 @@ define( function( require ) {
     this.width = width;
     this.height = height;
 
-    this.balloons = [
-      new BalloonModel( 440, 100, true ),
-      new BalloonModel( 380, 130, false )
-    ];
-    this.balloons[ 0 ].other = this.balloons[ 1 ];
-    this.balloons[ 1 ].other = this.balloons[ 0 ];
+    this.playArea = new PlayArea( width, height );
 
     this.wall = new WallModel( width - this.wallWidth, 600, height );
     this.sweater = new SweaterModel( 0, -50 );
@@ -40,6 +37,24 @@ define( function( require ) {
       maxX: width - this.wallWidth,
       maxY: height
     };
+
+    this.balloons = [
+      new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW ),
+      new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN )
+    ];
+    this.balloons[ 0 ].other = this.balloons[ 1 ];
+    this.balloons[ 1 ].other = this.balloons[ 0 ];
+
+    // when the wall changes visibility, the balloons could start moving if they have charge and are
+    // near the wall
+    var self = this;
+    this.wall.isVisibleProperty.link( function( isVisible ) {
+      self.balloons.forEach( function( balloon ) {
+        if ( balloon.getCenter().x === self.playArea.atWall && balloon.charge !== 0 ) {
+          balloon.isStoppedProperty.set( false );
+        }
+      } );
+    } );
 
     this.reset();
   }
@@ -62,6 +77,13 @@ define( function( require ) {
       } );
 
       this.oldTime = curTime;
+    },
+
+    anyChargedBalloonTouchingWall: function() {
+      var chargedYellowTouchingWall = this.balloons[ 0 ].touchingWall() && this.balloons[ 0 ].chargeProperty.get() < 0;
+      var chargedGreenTouchingWall = this.balloons[ 1 ].touchingWall() && this.balloons[ 1 ].chargeProperty.get() < 0;
+
+      return chargedYellowTouchingWall || chargedGreenTouchingWall;
     },
 
     // Reset the entire model
