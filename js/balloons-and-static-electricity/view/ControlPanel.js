@@ -32,7 +32,7 @@ define( function( require ) {
   var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  // var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
 
@@ -46,9 +46,9 @@ define( function( require ) {
   var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
 
-  // var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
-  // var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
-  // var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
+  var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
+  var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
+  var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
 
   var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
@@ -140,32 +140,30 @@ define( function( require ) {
     } );
 
     // Radio buttons related to charges
-    // TODO: hidden for accessibility, reintroduce and hide behind a query param
-    // see https://github.com/phetsims/balloons-and-static-electricity/issues/194
-    // var radioButtonFont = new PhetFont( 15 );
-    // var RADIO_BUTTON_TEXT_OPTIONS = {
-    //   font: radioButtonFont,
-    //   maxWidth: 200
-    // };
-    // var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-    //   {
-    //     node: new Text( balloonAppletShowAllChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
-    //     property: model.showChargesProperty,
-    //     value: 'all'
-    //   },
-    //   {
-    //     node: new Text( balloonAppletShowNoChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
-    //     property: model.showChargesProperty,
-    //     value: 'none'
-    //   },
-    //   {
-    //     node: new Text( balloonAppletShowChargeDifferencesString, RADIO_BUTTON_TEXT_OPTIONS ),
-    //     property: model.showChargesProperty,
-    //     value: 'diff'
-    //   }
-    // ], {
-    //   touchAreaXDilation: 5
-    // } );
+    var radioButtonFont = new PhetFont( 15 );
+    var RADIO_BUTTON_TEXT_OPTIONS = {
+      font: radioButtonFont,
+      maxWidth: 200
+    };
+    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
+      {
+        node: new Text( balloonAppletShowAllChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        property: model.showChargesProperty,
+        value: 'all'
+      },
+      {
+        node: new Text( balloonAppletShowNoChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        property: model.showChargesProperty,
+        value: 'none'
+      },
+      {
+        node: new Text( balloonAppletShowChargeDifferencesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        property: model.showChargesProperty,
+        value: 'diff'
+      }
+    ], {
+      touchAreaXDilation: 5
+    } );
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
@@ -308,10 +306,9 @@ define( function( require ) {
 
     this.addChild( new HBox( {
       spacing: 35,
-      children: [ balloonsPanel ],
-      // children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
+      children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
       align: 'bottom',
-      left: 768 / 2 - balloonsPanel.width / 2, // layoutBounds.x / 2 - panelWidth / 2
+      left: 70,
       bottom: layoutBounds.maxY - 4
     } ) );
     this.addChild( controls );
