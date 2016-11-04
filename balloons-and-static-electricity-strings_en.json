@@ -33,20 +33,8 @@
     "value": "Balloons",
     "visible": false
   },
-  "balloonGrabCue": {
-    "value": "Get ready to drag balloon. Once grabbed, press W, A, S, or D key to drag up, left, down, or right. To let go, press space bar.",
-    "visible": false
-  },
-  "singleBalloonExperiment.label": {
-    "value": "Single Balloon Experiment",
-    "visible": false
-  },
   "twoBalloonExperiment.label": {
     "value": "Two-Balloon Experiment",
-    "visible": false
-  },
-  "balloonToggleButton.description": {
-    "value": "Play with two balloons, or just one.",
     "visible": false
   },
   "yellowBalloon.label": {
@@ -77,87 +65,27 @@
     "value": "Wall added to Play Area",
     "visible": false
   },
-  "yellowBalloon.descriptionPattern": {
-    "value": "Yellow Balloon has a {0} charge, {1} more negative charges than positive charges.",
-    "visible": false
-  },
-  "greenBalloon.descriptionPattern": {
-    "value": "Green Balloon has a {0} charge, {1} more negative charges than positive charges.",
-    "visible": false
-  },
   "playArea.label": {
     "value": "Play Area",
-    "visible": false
-  },
-  "screen.description": {
-    "value": "This simulation contains a Play Area and a Control Panel. The Play Area is a room. It has a balloon, a sweater and a wall. The Control Panel allows you to add a balloon, remove wall and reset entire experiment. Currently, sweater and wall have many pairs of negative and positive charges, the balloon, just a few. Balloon is in middle of Play Area, evenly between sweater and wall. Tab to navigate to next object.",
-    "visible": false
-  },
-  "screen.label": {
-    "value": "Balloons and Static Electricity",
-    "visible": false
-  },
-  "sceneSummary.label": {
-    "value": "Scene Summary",
     "visible": false
   },
   "sweater.label": {
     "value": "Sweater",
     "visible": false
   },
-  "sweater.descriptionPattern": {
-    "value": "The sweater has a {0} charge, with {1} more positive charges than negative ones.",
-    "visible": false
-  },
-  "sweater.noMoreCharges": {
-    "value": "No more charges remaining on sweater",
-    "visible": false
-  },
   "wall.label": {
     "value": "Wall",
-    "visible": false
-  },
-  "wall.chargeNeutralityDescription": {
-    "value": "The wall has a neutral charge, no more positive charges than negative ones.",
     "visible": false
   },
   "controlPanel.label": {
     "value": "Control Panel",
     "visible" : false
   },
-  "resetBalloons.descriptionPattern": {
-    "value": "Return {0} to start position and an uncharged state.",
-    "visible": false
-  },
   "keyboardHelp.dialog": {
     "value": "Balloon Hotkeys and Key Commands"
   },
   "keyboardHelp.close": {
     "value": "Close Dialog",
-    "visible": false
-  },
-  "neutral": {
-    "value": "neutral",
-    "visible": false
-  },
-  "netPositive": {
-    "value": "net positive",
-    "visible": false
-  },
-  "no": {
-    "value": "no",
-    "visible": false
-  },
-  "aFew": {
-    "value": "a few",
-    "visible": false
-  },
-  "several": {
-    "value": "several",
-    "visible": false
-  },
-  "many": {
-    "value": "many",
     "visible": false
   }
 }
