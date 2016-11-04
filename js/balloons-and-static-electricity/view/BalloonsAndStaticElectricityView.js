@@ -42,12 +42,12 @@ define( function( require ) {
     } );
 
     // for now, we are testing whether accessible content can be contained in an article
-    var articleContainerNode = new AccessibleNode( null, {
+    var articleContainerNode = new AccessibleNode( {
       tagName: 'article'
     } );
     this.addChild( articleContainerNode );
 
-    var accessibleHeaderNode = new AccessibleNode( null, {
+    var accessibleHeaderNode = new AccessibleNode( {
       tagName: 'header',
       labelTagName: 'h1',
       label: balloonsAndStaticElectricityTitleString,
@@ -64,7 +64,7 @@ define( function( require ) {
     }
 
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
-    var playAreaContainerNode = new AccessibleNode( null, {
+    var playAreaContainerNode = new AccessibleNode( {
       tagName: 'section',
       label: playAreaLabelString,
       childContainerTagName: 'div',

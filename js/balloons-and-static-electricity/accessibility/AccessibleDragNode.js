@@ -33,7 +33,65 @@ define( function( require ) {
    * Constructor for a button Node.
    * @constructor
    **/
-  function AccessibleDragNode( nodeBounds, locationProperty, options ) {
+  function AccessibleDragNode( locationProperty, options ) {
+
+    // validate options - the draggable node must be represented with <div role='application'> for
+    // screen reader support
+    assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
+    assert && assert( !options.ariaRole || options.role === 'application', 'draggable peer must be of role "application"' );
+    if ( options.events ) {
+      assert && assert( !options.events.keydown && !options.events.keyup, 'please use options.onKeyUp or options.onKeyDown for keyboard dragging' );
+    }
+
+    options = _.extend( {
+      tagName: 'div',
+      ariaRole: 'application',
+      events: {
+        keydown: function( event ) {
+          // update the key state on down
+          self.keyState[ event.keyCode || event.which ] = {
+            isKeyDown: true,
+            keyEvent: event
+          };
+
+          options.onKeyDown( event );
+
+          // notify that key state changed
+          self.keyStateChangedEmitter.emit1( event );
+          self.keyDownEmitter.emit1( event );
+        },
+        keyup: function( event ) {
+
+          // update the key state on down
+          self.keyState[ event.keyCode || event.which ] = {
+            isKeyDown: false,
+            keyEvent: event
+          };
+
+          options.onKeyUp( event );
+
+          // notify that key state changed
+          if ( self.keyState[ KEY_J ] ) {
+            if ( !self.keyState[ KEY_J ].isKeyDown ) {
+              self.keyStateChangedEmitter.emit1( event );
+              self.keyUpEmitter.emit1( event ); 
+            }
+            else {
+              self.balloonJumpingEmitter.emit1( event );
+            }
+          }
+        }
+      },
+      onTab: function() {}, // optional function to call when user 'tabs' away
+      restrictLocation: function() {}, // fires during the drag
+      positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
+      dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
+      modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
+      focusable: true,
+      onKeyUp: function() {},
+      onKeyDown: function() {}
+    }, options );
+
 
     var self = this;
 
@@ -56,73 +114,8 @@ define( function( require ) {
     // TODO: Temporary for now...
     this.balloonJumpingEmitter = new Emitter();
 
-    options = _.extend( {
-      onTab: function() {}, // optional function to call when user 'tabs' away
-      restrictLocation: function() {}, // fires during the drag
-      positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
-      dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
-      modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
-      focusable: true,
-      onKeyUp: function() {}
-    }, options );
-
     // @private
     this.restrictLocation = options.restrictLocation;
-
-    // the key drag events for dragging with the WASD keys
-    var dragKeyEvents = [
-      {
-        eventName: 'keydown',
-        eventFunction: function( event ) {
-
-          // update the key state on down
-          self.keyState[ event.keyCode || event.which ] = {
-            isKeyDown: true,
-            keyEvent: event
-          };
-
-          // notify that key state changed
-          self.keyStateChangedEmitter.emit1( event );
-          self.keyDownEmitter.emit1( event );
-        }
-      },
-      {
-        eventName: 'keyup',
-        eventFunction: function( event ) {
-
-          // update the key state on down
-          self.keyState[ event.keyCode || event.which ] = {
-            isKeyDown: false,
-            keyEvent: event
-          };
-
-          if ( self.draggableKeyUp( event.keyCode || event.which ) ) {
-            options.onKeyUp();
-          }
-
-          // notify that key state changed
-          if ( self.keyState[ KEY_J ] ) {
-            if ( !self.keyState[ KEY_J ].isKeyDown ) {
-              self.keyStateChangedEmitter.emit1( event );
-              self.keyUpEmitter.emit1( event ); 
-            }
-            else {
-              self.balloonJumpingEmitter.emit1( event );
-            }
-          }
-        }
-      }
-    ];
-    options.events = dragKeyEvents.concat( options.events || [] );
-
-    // validate options - the draggable node must be represented with <div role='application'> for
-    // screen reader support
-    assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
-    options.tagName = 'div';
-
-    // the element must have the application role for dragging behavior
-    assert && assert( !options.ariaRole || options.role === 'application', 'draggable peer must be of role "application"' );
-    options.ariaRole = 'application';
 
     // @private
     this.locationProperty = locationProperty;
@@ -132,7 +125,7 @@ define( function( require ) {
     this._onTab = options.onTab;
 
     // button contained in a div so that it can contain descriptions or other children
-    AccessibleNode.call( this, nodeBounds, options );
+    AccessibleNode.call( this, options );
 
   }
 

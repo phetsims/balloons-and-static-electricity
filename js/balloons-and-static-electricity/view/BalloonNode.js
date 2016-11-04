@@ -65,7 +65,7 @@ define( function( require ) {
     }
 
     // super constructor
-    AccessibleNode.call( this, null, { 
+    AccessibleNode.call( this, { 
       cursor: 'pointer',
 
       // a11y
@@ -197,33 +197,27 @@ define( function( require ) {
     var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
 
     // a flag to track whether or not a charge was picked up for dragging
-    self.draggableNode = new AccessibleDragNode( balloonImageNode.bounds, model.locationProperty, {
+    self.draggableNode = new AccessibleDragNode( model.locationProperty, {
       dragBounds: balloonDragBounds,
       parentContainerTagName: 'div',
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
-      events: [
-        {
-          eventName: 'keyup',
-          eventFunction: function( event ) {
-            if ( event.keyCode === 32 ) {
-              accessibleButtonNode.focus();
+      onKeyUp: function( event ) {
+        if ( event.keyCode === 32 ) {
+          accessibleButtonNode.focus();
 
-              // release the balloon
-              self.releaseBalloon();
-            }
-          }
-        },
-        {
-          eventName: 'keydown',
-          eventFunction: function( event ) {
-            if ( event.keyCode === 72 /* key h */ ) {
-              keyboardHelpDialog.activeElement = self.draggableNode.domElement;
-              keyboardHelpDialog.show();
-            }
-          }
+          // release the balloon
+          self.releaseBalloon();
         }
-      ],
+      },
+      onKeyDown: function( event ) {
+        if ( event.keyCode === 32 ) {
+          accessibleButtonNode.focus();
+
+          // release the balloon
+          self.releaseBalloon();
+        } 
+      },
       onTab: function( event ) {
 
         // if the user presses 'tab' we want the focus to go to the next element in the
@@ -254,26 +248,23 @@ define( function( require ) {
       self.ariaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
     } );
 
-    var accessibleButtonNode = new AccessibleNode( balloonImageNode.bounds, {
+    var accessibleButtonNode = new AccessibleNode( {
       tagName: 'button', // representative type
       parentContainerTagName: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
       label: balloonButtonLabel,
       description: balloonGrabCueString,
-      events: [
-        {
-          eventName: 'click',
-          eventFunction: function() {
-            model.isDragged = true;
+      events: {
+        click: function( event ) {
+          model.isDragged = true;
 
-            // grab and focus the draggable element
-            self.draggableNode.focus();
+          // grab and focus the draggable element
+          self.draggableNode.focus();
 
-            // reset the velocity when picked up
-            model.velocityProperty.set( new Vector2( 0, 0 ) );
-          }
+          // reset the velocity when picked up
+          model.velocityProperty.set( new Vector2( 0, 0 ) );
         }
-      ]
+      }
     } );
 
     this.addChild( accessibleButtonNode );

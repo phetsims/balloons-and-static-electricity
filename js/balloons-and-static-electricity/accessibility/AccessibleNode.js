@@ -1,8 +1,8 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Accessibility content for a Scenery Node. Perhaps this could at some point be
- * merged into scenery/Node rather than extending it.
+ * Accessibility content for a Scenery Node. This could eventually be moved to and scenery/Node
+ * with accessible content could extend this.
  *
  * @author: Jesse Greenberg
  */
@@ -24,28 +24,30 @@ define( function( require ) {
   var DOM_LABEL = 'LABEL';
   var DOM_UNORDERED_LIST = 'UL';
 
+  // identifier to generate id's for list items for this Node's description
   var ITEM_NUMBER = 0;
 
   /**
-   * Constructor for a button Node.
+   * Constructor for an accessible Node.
+   *
+   * @param {Object} options
    * @constructor
    **/
-  function AccessibleNode( bounds, options ) {
+  function AccessibleNode( options ) {
 
     options = _.extend( {
       tagName: 'button', // TODO: should this really be optional? Is button a proper default?
-      inputType: null, // only relevant if using an input
+      inputType: null, // only relevant if tagName is 'intput'
       parentContainerTagName: null, // container for this dom element and peer elements
       childContainerTagName: null, // container for children added to this element
-      focusHighlight: null, // Node|Shape|Bounds2
+      focusHighlight: null, // Node|Shape|Bounds2 - default is a pink rectangle around the node's local bounds
       label: '', // string
       useAriaLabel: false, // if true, a lebel element will not be created and the label will be inline with aria-label
       description: '', // string
-      descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list
+      descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list item
       labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
-      events: [], // array of objects with keys of type event name, values of type function
-      hotkeys: {}, // object with keys of type keycode and values of type function
-      hidden: false,
+      events: {}, // array of objects with keys of type event name, values of type function
+      hidden: false, // hides the element in the paralllel DOM
       ariaRole: null, // aria role for the element, can define extra semantics for the reader
       focusable: false, // explicitly set whether the element can receive keyboard focus
       domStyle: null, // extra styling for the parallel DOM, can be needed by Safari to support navigation
@@ -66,8 +68,6 @@ define( function( require ) {
 
     Node.call( this, options );
     var self = this;
-
-    this.localBounds = bounds;
 
     // the main dom element representing this node in the accessibility tree
     self.domElement = document.createElement( options.tagName );
@@ -160,9 +160,11 @@ define( function( require ) {
       createPeer: function( accessibleInstance ) {
 
         // register listeners to the events
-        for ( var i = 0; i < options.events.length; i++ ) {
-          var eventEntry = options.events[ i ];
-          self.domElement.addEventListener( eventEntry.eventName, eventEntry.eventFunction );
+        for ( var event in options.events ) {
+          if ( options.events.hasOwnProperty( event ) ) {
+            // debugger;
+            self.domElement.addEventListener( event, options.events[ event ] );
+          }
         }
 
         if ( self.childContainerElement ) {
@@ -187,7 +189,6 @@ define( function( require ) {
     };
 
     this.disposeAccessibleNode = function() {
-
       for ( var i = 0; i < options.events.length; i++ ) {
         var eventEntry = options.events[ i ];
         self.domElement.removeEventListener( eventEntry.eventName, eventEntry.eventFunction );

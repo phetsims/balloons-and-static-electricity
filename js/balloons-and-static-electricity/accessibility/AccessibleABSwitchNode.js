@@ -35,19 +35,16 @@ define( function( require ) {
       inputType: 'checkbox',
       useAriaLabel: true,
       parentContainerTagName: 'div',
-      events: [
-        {
-          eventName: 'click',
-          eventFunction: function( event ) {
-            // toggle the value on click event
-            var pressed = property.value === valueA ? valueB : valueA;
-            property.set( pressed );
+      events: {
+        click: function( event ) {
+          // toggle the value on click event
+          var pressed = property.value === valueA ? valueB : valueA;
+          property.set( pressed );
 
-            // toggle the aria-checked value, checked when valueB selected
-            self.setAttribute( 'aria-checked', pressed === valueB );
-          }
+          // toggle the aria-checked value, checked when valueB selected
+          self.setAttribute( 'aria-checked', pressed === valueB );
         }
-      ],
+      },
       ariaRole: 'switch',
       ariaAttributes: [
         {
@@ -61,7 +58,7 @@ define( function( require ) {
     var switchNode = new ABSwitch( property, valueA, labelA, valueB, labelB, options );
     var peerBounds = switchNode.bounds;
 
-    AccessibleNode.call( this, peerBounds, options );
+    AccessibleNode.call( this, options );
 
     // the abswitch must have 1px width for VO to recognize
     this.domElement.style.width = '1px';

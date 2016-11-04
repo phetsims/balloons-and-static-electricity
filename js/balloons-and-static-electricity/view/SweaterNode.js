@@ -45,7 +45,7 @@ define( function( require ) {
     var self = this;
 
     // super constructor
-    AccessibleNode.call( this, null, {
+    AccessibleNode.call( this, {
       pickable: false,
 
       // accesssibility options

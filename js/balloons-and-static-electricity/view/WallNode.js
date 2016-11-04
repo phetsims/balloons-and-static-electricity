@@ -58,7 +58,7 @@ define( function( require ) {
     var wallModel = model.wall;
 
     // super constructor
-    AccessibleNode.call( this, null, { 
+    AccessibleNode.call( this, { 
       pickable: false,
 
       // accessibility options

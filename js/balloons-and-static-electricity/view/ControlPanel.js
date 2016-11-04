@@ -79,7 +79,7 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds ) {
 
     // super constructor
-    AccessibleNode.call( this, layoutBounds, {
+    AccessibleNode.call( this, {
       tagName: 'section', // this is a separate section of elements
       childContainerTagName: 'div', // all children contained in a div under the section
       label: controlPanelLabelString,
@@ -110,19 +110,16 @@ define( function( require ) {
     // acccessible node containing the wall button
     // TODO: Once accessibility common components are integrated into scenery, this container will not
     // be necessary, and RectangularPushButton can do this directly
-    this.accessibleWallButton = new AccessibleNode( this.wallButton.bounds, {
+    this.accessibleWallButton = new AccessibleNode( {
       parentContainerTagName: 'div',
       tagName: 'button',
       label: removeWallLabelString,
       description: wallDescriptionString,
-      events: [
-        {
-          eventName: 'click',
-          eventFunction: function( event ) {
-            model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-          }
+      events: {
+        click: function( event ) {
+          model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
         }
-      ]
+      }
     } );
     this.accessibleWallButton.addChild( this.wallButton );
 
@@ -235,32 +232,29 @@ define( function( require ) {
       return StringUtils.format( resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
-    var accessibleResetBalloonButton = new AccessibleNode( resetBalloonButton.bounds, {
+    var accessibleResetBalloonButton = new AccessibleNode( {
       parentContainerTagName: 'div',
       tagName: 'button',
       label: resetBalloonString,
       description: generateDescriptionString( model.balloons[ 1 ].isVisibleProperty ),
-      events: [
-        {
-          eventName: 'click',
-          eventFunction: function( event ) {
-            resetBalloonButtonListener();
+      events: {
+        click: function( event ) {
+          resetBalloonButtonListener();
 
-            var balloonString;
-            var bothBalloonString; 
-            if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
-              balloonString = 'balloons';
-              bothBalloonString = 'Both balloons';
-            }
-            else {
-              balloonString = 'balloon';
-              bothBalloonString = 'Balloon';
-            }
-            var resetDescription = StringUtils.format( resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
-            ariaHerald.announceAssertive( resetDescription );
+          var balloonString;
+          var bothBalloonString; 
+          if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
+            balloonString = 'balloons';
+            bothBalloonString = 'Both balloons';
           }
+          else {
+            balloonString = 'balloon';
+            bothBalloonString = 'Balloon';
+          }
+          var resetDescription = StringUtils.format( resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
+          ariaHerald.announceAssertive( resetDescription );   
         }
-      ]
+      }
     } );
     accessibleResetBalloonButton.addChild( resetBalloonButton );
 
@@ -275,7 +269,7 @@ define( function( require ) {
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
     resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to commmon code
-    var accessibleResetAllButton = new AccessibleNode( null, {
+    var accessibleResetAllButton = new AccessibleNode( {
       children: [ resetAllButton ],
 
       // a11y options
@@ -283,27 +277,23 @@ define( function( require ) {
       tagName: 'button',
       parentContainerTagName: 'div',
       label: resetAllString,
-      events: [
-        {
-          eventName: 'click',
-          eventFunction: function( event ) {
+      events: {
+        click: function( event ) {
+          // hide the aria live elements so that alerts are not anounced until after simulation
+          // is fully reset
+          // TODO: This should be in the main model reset function
+          ariaHerald.hidden = true;
 
-            // hide the aria live elements so that alerts are not anounced until after simulation
-            // is fully reset
-            // TODO: This should be in the main model reset function
-            ariaHerald.hidden = true;
+          // reset the model
+          model.reset();
 
-            // reset the model
-            model.reset();
+          // unhide the alert elements now that properties are reset
+          ariaHerald.hidden = false;
 
-            // unhide the herald now that properties are reset
-            ariaHerald.hidden = false;
-
-            // announce that the sim has been reset
-            ariaHerald.announceAssertive( resetAlertString );
-          }
+          // announce that the sim has been reset
+          ariaHerald.announceAssertive( resetAlertString );
         }
-      ]
+      }
     } );
 
     var controls = new HBox( {

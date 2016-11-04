@@ -157,7 +157,7 @@ define( function( require ) {
 
     var self = this;
 
-    AccessibleNode.call( this, null, {
+    AccessibleNode.call( this, {
       tagName: 'section',
       labelTagName: 'h2',
       label: sceneSummaryLabelString,
