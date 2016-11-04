@@ -35,6 +35,7 @@ define( function( require ) {
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -162,7 +163,17 @@ define( function( require ) {
         value: 'diff'
       }
     ], {
-      touchAreaXDilation: 5
+      touchAreaXDilation: 5,
+      radioButtonOptions: {
+        accessibleContent: null
+      }
+    } );
+
+    // the charge radio buttons should not be accessible for now, see 
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/194
+    showChargesRadioButtonGroup.accessibleContent = null;
+    showChargesRadioButtonGroup.children.forEach( function( child ) {
+      child.accessibleContent = null;
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -304,30 +315,26 @@ define( function( require ) {
     controls.right = layoutBounds.maxX - 2;
     controls.bottom = layoutBounds.maxY - 4;
 
+    var visibilityControls;
+    var controlsLeft;
+    if ( BalloonsAndStaticElectricityQueryParameters.HIDE_CHARGE_CONTROLS ) {
+      visibilityControls = [ balloonsPanel ];
+      controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;
+    }
+    else {
+      visibilityControls = [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ];
+      controlsLeft = 70;
+    }
+
     this.addChild( new HBox( {
       spacing: 35,
-      children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
+      children: visibilityControls,
       align: 'bottom',
-      left: 70,
+      left: controlsLeft,
       bottom: layoutBounds.maxY - 4
     } ) );
     this.addChild( controls );
 
-    // NOTE: We are removing the radio button group for charges for now, see
-    // https://github.com/phetsims/balloons-and-static-electricity/issues/120
-    // TODO: Add back in once https://github.com/phetsims/balloons-and-static-electricity/issues/194
-    // is complete
-
-    // create a scenery node to contain and structure the legend as as the first child of the showChargesRadioButtonGroup
-    // var chargesLegendContainerNode = new AccessibleLegendNode( chargeSettingsLabelString );
-    // showChargesRadioButtonGroup.addChild( chargesLegendContainerNode );
-
-    // create accessible content for the charges radio button group, and make sure that the legend comes first.
-    // showChargesRadioButtonGroup.accessibleContent = AccessibleRadioButtonGroupContent.createAccessibleContent( chargeSettingsDescriptionString );
-    // showChargesRadioButtonGroup.accessibleOrder = [ chargesLegendContainerNode ];
-
-    // define the navigation order for accessible content in the control panel.
-    // this.accessibleOrder = [ wallButton, showBalloonsChoice, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
     this.accessibleOrder = [ this.accessibleWallButton, showBalloonsChoice, accessibleResetBalloonButton, resetAllButton ];
 
   }

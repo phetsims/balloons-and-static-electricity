@@ -32,7 +32,9 @@ define( function( require ) {
 
     // template sonification to get a feel for how this might work
     // uses strategies very similar to john-travoltage
-    SONIFICATION: getQueryParameter( 'sonification' ) || false
+    SONIFICATION: getQueryParameter( 'sonification' ) || false,
+
+    HIDE_CHARGE_CONTROLS: getQueryParameter( 'hideChargeControls' ) || false
 
   };
 
