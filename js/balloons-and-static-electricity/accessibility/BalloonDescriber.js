@@ -332,7 +332,7 @@ define( function( require ) {
         upperLowerString = lowerWallString;
       }
 
-      if ( balloon.chargeProperty.get() === 0 || dragging) {
+      if ( balloon.chargeProperty.get() === 0 || dragging ) {
         balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
       }
       else {

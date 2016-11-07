@@ -32,28 +32,26 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
-  var keyboardHelpDialogString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.dialog' );
+  var keyboardHelpDialogString = 'Balloon Hot Keys and Key Commands';
   var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
 
   var keysForDraggingAndRubbingString = 'Keys for Dragging and Rubbing';
-  var draggindDescriptionString = 'Press the following letter keys to drag the Balloon in any direction with small steps.';
-  var pressWString = 'Press W to drag up.';
-  var pressAString = 'Press A to drag left.';
-  var pressSString = 'Press S to drag down.';
-  var pressDString = 'Press D to drag right.';
-  var addShiftString = 'Add the Shift key to a letter key to drag with big steps.';
-  var shiftWString = 'Shift plus W makes a big step up.';
-  var shiftAString = 'Shift plus A makes a big step left, and so on.';
+  var draggindDescriptionString = 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right with small steps.';
+  var pressWString = 'Press W to drag up, or Shift key plus W to drag up a lot.';
+  var pressAString = 'Press A to drag left, or Shift key plus A to drag left a lot. ';
+  var pressSString = 'Press S to drag down, or Shift key plus S to drag left a lot.';
+  var pressDString = 'Press D to drag right, or Shift key plus D to drag right a lot.';
+  var addShiftString = 'Add the Shift key to a letter key to drag or rub with bigger steps.';
   var hotkeysJumpingString = 'Hotkeys for Jumping';
-  var pressToJumpString = 'Press the following hotkey combinations to jump the Balloon to a location in the Play Area.';
+  var pressToJumpString = 'Move the balloon quickly to a location with these hot key combinations:';
   var JSString = 'JS jumps close to Sweater.';
   var JWString = 'JW jumps to Wall.';
   var JNString = 'JN jumps to near Wall.';
   var JCString = 'JC jumps to center of Play Area.';
   var releaseBalloonString = 'Release Balloon';
-  var spacebarString = 'Press Spacebar to release.';
-  var tabString = 'Pressing the Tab key also releases the Balloon as you go to the next item.';
-  var grabDescriptionString = 'Press Spacebar or Enter on the Grab Balloon button to pick up or grab the Balloon, then start dragging by pressing any of the following keys W, A, S, or D.';
+  var spacebarString = 'Press Space bar to release the balloon.';
+  var tabString = 'Pressing the Tab key also releases the Balloon as you go to the next item in the simulation.';
+  var grabDescriptionString = 'Press Space bar or Enter key on the Grab Balloon button to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.';
   var grabBalloonString = 'Grab balloon';
 
   // constants
@@ -146,9 +144,8 @@ define( function( require ) {
       createListContent( [ grabDescriptionString ] ),
       createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ pressWString, pressAString, pressSString, pressDString ] ),
       createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ shiftWString, shiftAString ] )
+      createListContent( [ pressWString, pressAString, pressSString, pressDString ] )
     ];
 
     // all visual text in a layout box

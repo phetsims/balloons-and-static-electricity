@@ -178,7 +178,7 @@ define( function( require ) {
     var roomItemsDescriptionListener = function() {
       var visibleItemsDescription;
 
-      if ( model.wall.isVisible ) {
+      if ( model.wall.isVisibleProperty.get() ) {
         if ( model.balloons[ 1 ].isVisible ) {
           visibleItemsDescription = twoBalloonsSweaterAndRemovableWallString;
         }
