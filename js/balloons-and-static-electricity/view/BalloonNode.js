@@ -30,6 +30,9 @@ define( function( require ) {
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
+  var KEY_H = 72; // keycode for 'h'
+  var KEY_SPACE = 32 // keycode for 'spacebar'
+
   // strings
   var balloonGrabCueString = 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space bar.';
   var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
@@ -203,7 +206,7 @@ define( function( require ) {
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       onKeyUp: function( event ) {
-        if ( event.keyCode === 32 ) {
+        if ( event.keyCode === KEY_SPACE ) {
           accessibleButtonNode.focus();
 
           // release the balloon
@@ -211,12 +214,17 @@ define( function( require ) {
         }
       },
       onKeyDown: function( event ) {
-        if ( event.keyCode === 32 ) {
+        if ( event.keyCode === KEY_SPACE ) {
           accessibleButtonNode.focus();
 
           // release the balloon
           self.releaseBalloon();
-        } 
+        }
+
+        if ( event.keyCode === KEY_H ) {
+          keyboardHelpDialog.activeElement = self.draggableNode.domElement;
+          keyboardHelpDialog.show();
+        }
       },
       onTab: function( event ) {
 

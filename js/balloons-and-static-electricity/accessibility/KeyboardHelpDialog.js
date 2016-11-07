@@ -53,7 +53,8 @@ define( function( require ) {
   var releaseBalloonString = 'Release Balloon';
   var spacebarString = 'Press Spacebar to release.';
   var tabString = 'Pressing the Tab key also releases the Balloon as you go to the next item.';
-  var grabDescriptionString = 'Press Spacebar or Enter on the Grab Balloon button to pick up or grab the Balloon, then start dragging by pressing any of the following keys W, A, S, or D.';
+  var grabDescriptionString = 'Press Spacebar or Enter on the Grab balloonsAndStaticElectricity button to pick up or grab the Balloon, then start dragging by pressing any of the following keys W, A, S, or D.';
+  var grabBalloonString = 'Grab balloon';
 
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
@@ -146,7 +147,7 @@ define( function( require ) {
       createListContent( [ JSString, JWString, JNString, JCString ] ),
       createTextContent( releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createListContent( [ spacebarString, tabString ] ),
-      createTextContent( hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createListContent( [ grabDescriptionString ] )
     ];
 
