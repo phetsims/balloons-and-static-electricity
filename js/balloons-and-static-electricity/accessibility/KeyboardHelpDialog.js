@@ -137,18 +137,18 @@ define( function( require ) {
     };
 
     var textChildren = [
-      createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ pressWString, pressAString, pressSString, pressDString ] ),
-      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ shiftWString, shiftAString ] ),
       createTextContent( hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createTextContent( pressToJumpString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createListContent( [ JSString, JWString, JNString, JCString ] ),
       createTextContent( releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createListContent( [ spacebarString, tabString ] ),
       createTextContent( grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ grabDescriptionString ] )
+      createListContent( [ grabDescriptionString ] ),
+      createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ pressWString, pressAString, pressSString, pressDString ] ),
+      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ shiftWString, shiftAString ] )
     ];
 
     // all visual text in a layout box
