@@ -67,11 +67,11 @@ define( function( require ) {
 
     //draw plus and minus charges
     this.sweaterModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.location );
+      entry.view = new PlusChargeNode( entry.locationProperty );
       self.plusChargesNode.addChild( entry.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.location );
+      entry.view = new MinusChargeNode( entry.locationProperty );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location );
       } );

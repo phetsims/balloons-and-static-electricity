@@ -146,8 +146,8 @@ define( function( require ) {
 
       this.minusCharges.forEach( function( entry ) {
         if ( !entry.moved ) {
-          if ( x1 < entry.location.x && entry.location.x < x2 ) {
-            if ( y1 < entry.location.y && entry.location.y < y2 ) {
+          if ( x1 < entry.locationProperty.get().x && entry.locationProperty.get().x < x2 ) {
+            if ( y1 < entry.locationProperty.get().y && entry.locationProperty.get().y < y2 ) {
               //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
               self.moveChargeTo( entry, balloon );
               chargeMoved = true;

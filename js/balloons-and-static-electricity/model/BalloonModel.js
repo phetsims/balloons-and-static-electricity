@@ -253,8 +253,8 @@ define( function( require ) {
           continue;
         }
 
-        var distX = charge.location.x - centerX;
-        var distY = charge.location.y - centerY;
+        var distX = charge.locationProperty.get().x - centerX;
+        var distY = charge.locationProperty.get().y - centerY;
         difference.setXY( distX, distY );
 
         if ( difference.magnitude() < minDistance ) {
@@ -293,7 +293,7 @@ define( function( require ) {
      * @return {type}             description
      */
     getDirectionToCharge: function( chargeModel ) {
-      var difference = chargeModel.location.minus( this.getDraggingCenter() );
+      var difference = chargeModel.locationProperty.get().minus( this.getDraggingCenter() );
 
       var diffX = difference.x;
       var diffY = difference.y;

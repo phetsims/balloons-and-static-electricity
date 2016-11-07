@@ -133,16 +133,16 @@ define( function( require ) {
 
     // static charges
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].location );
+      model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].locationProperty );
       startChargesNode.addChild( model.plusCharges[ i ].view );
 
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].location );
+      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty );
       startChargesNode.addChild( model.minusCharges[ i ].view );
     }
 
     //possible charges
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].location );
+      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty );
       model.minusCharges[ i ].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[ i ].view );
     }

@@ -80,13 +80,13 @@ define( function( require ) {
 
     //draw plusCharges on the wall
     wallModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.location );
+      entry.view = new PlusChargeNode( entry.locationProperty );
       plusChargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
     wallModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.location );
+      entry.view = new MinusChargeNode( entry.locationProperty );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
       } );

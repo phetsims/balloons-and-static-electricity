@@ -62,13 +62,13 @@ define( function( require ) {
         var ch = entry;
         var dv1 = new Vector2( 0, 0 );
         var dv2 = new Vector2( 0, 0 );
-        if ( model.balloons[ 0 ].isVisible ) {
-          dv1 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 0 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 0 ].charge, 2.35 );
+        if ( model.balloons[ 0 ].isVisibleProperty.get() ) {
+          dv1 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 0 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 0 ].chargeProperty.get(), 2.35 );
         }
-        if ( model.balloons[ 1 ].isVisible ) {
-          dv2 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 1 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 1 ].charge, 2.35 );
+        if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
+          dv2 = BalloonModel.getForce( ch.defaultLocation, model.balloons[ 1 ].getCenter(), k * PointChargeModel.charge * model.balloons[ 1 ].chargeProperty.get(), 2.35 );
         }
-        entry.location = new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y );
+        entry.locationProperty.set( new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y ) );
       } );
       // Make model changes here.
     },

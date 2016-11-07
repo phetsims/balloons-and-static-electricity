@@ -52,12 +52,16 @@ define( function( require ) {
     node.children = [ new Image( im, { scale: 1.0 / scale } ) ];
   } );
 
-  function PlusChargeNode( location ) {
+  /**
+   * @constructor
+   * @param {Property.<Vector2>} locationProperty
+   */
+  function PlusChargeNode( locationProperty ) {
     // super constructor
     // Use svg for the shape and text
     Node.call( this, { pickable: false } );
 
-    this.translate( location.x - radius, location.y - radius );
+    this.translate( locationProperty.get().x - radius, locationProperty.get().y - radius );
 
     this.addChild( node );
   }
