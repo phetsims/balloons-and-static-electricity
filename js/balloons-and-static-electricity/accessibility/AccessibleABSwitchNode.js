@@ -56,7 +56,6 @@ define( function( require ) {
     }, options );
 
     var switchNode = new ABSwitch( property, valueA, labelA, valueB, labelB, options );
-    var peerBounds = switchNode.bounds;
 
     AccessibleNode.call( this, options );
 

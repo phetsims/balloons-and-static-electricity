@@ -60,7 +60,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
-  
+
   inherit( PropertySet, BalloonsAndStaticElectricityModel, {
     // Called by the animation loop
     step: function() {
@@ -71,7 +71,7 @@ define( function( require ) {
 
       this.wall.step( self );
       this.balloons.forEach( function( entry ) {
-        if ( entry.isVisible ) {
+        if ( entry.isVisibleProperty.get() ) {
           entry.step( self, dt );
         }
       } );

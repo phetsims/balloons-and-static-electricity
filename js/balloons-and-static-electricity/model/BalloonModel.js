@@ -9,7 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var PropertySet = require( 'AXON/PropertySet' );
+  // var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -23,99 +24,117 @@ define( function( require ) {
 
   /**
    * Constructor
-   * @param {number} x
-   * @param {number} y
+   * @param {number} x - initial x position
+   * @param {number} y - initial y position
    * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
    * @param {string} labelString - label for the balloon
    * @constructor
    */
   function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString ) {
-    PropertySet.call( this, {
-      charge: 0,
-      velocity: 0,
-      isVisible: true,
-      isDragged: false,
-      width: 134,
-      height: 222,
-      location: new Vector2( 0, 0 ),
-      isStopped: false,
-      dragVelocity: new Vector2( 0, 0 ), // velocity when dragging
 
-      //Speed the balloon must be dragged at to pick up charges, see https://github.com/phetsims/balloons-and-static-electricity/issues/28
-      thresholdSpeed: 0.025,
+    //------------------------------------------------
+    // Properties
 
-      //positions of caught minus charges on balloon
-      // each new minus charge appears at positions[charge-1] coords
-      //should be at left side of balloon and look like java model
-      positions: [
-        [ 14, 70 ],
-        [ 18, 60 ],
-        [ 14, 90 ],
-        [ 24, 130 ],
-        [ 22, 120 ],
-        [ 14, 79 ],
-        [ 22, 120 ],
-        [ 18, 108 ],
-        [ 19, 50 ],
-        [ 44, 150 ],
-        [ 16, 100 ],
-        [ 20, 80 ],
-        [ 50, 160 ],
-        [ 34, 140 ],
-        [ 50, 20 ],
-        [ 30, 30 ],
-        [ 22, 72 ],
-        [ 24, 105 ],
-        [ 20, 110 ],
-        [ 40, 150 ],
-        [ 26, 110 ],
-        [ 30, 115 ],
-        [ 24, 87 ],
-        [ 24, 60 ],
-        [ 24, 40 ],
-        [ 38, 24 ],
-        [ 30, 80 ],
-        [ 30, 50 ],
-        [ 34, 82 ],
-        [ 32, 130 ],
-        [ 30, 108 ],
-        [ 30, 50 ],
-        [ 40, 94 ],
-        [ 30, 100 ],
-        [ 35, 90 ],
-        [ 24, 95 ],
-        [ 34, 100 ],
-        [ 35, 40 ],
-        [ 30, 60 ],
-        [ 32, 72 ],
-        [ 30, 105 ],
-        [ 34, 140 ],
-        [ 30, 120 ],
-        [ 30, 130 ],
-        [ 30, 85 ],
-        [ 34, 77 ],
-        [ 35, 90 ],
-        [ 40, 85 ],
-        [ 34, 90 ],
-        [ 35, 50 ],
-        [ 46, 34 ],
-        [ 32, 72 ],
-        [ 30, 105 ],
-        [ 34, 140 ],
-        [ 34, 120 ],
-        [ 30, 60 ],
-        [ 30, 85 ],
-        [ 34, 77 ]
-      ],
-      //positions of neutral atoms on balloon, don't change during simulation
-      positionsOfStartCharges: [
-        [ 44, 50 ],
-        [ 88, 50 ],
-        [ 44, 140 ],
-        [ 88, 140 ]
-      ]
-    } );
+    // @public {number}
+    this.chargeProperty = new Property( 0 );
+
+    // @public {Vector2}
+    this.velocityProperty = new Property( new Vector2( 0, 0 ) );
+
+    // @public {number}
+    this.isVisibleProperty = new Property( defaultVisibility );
+
+    // @public {boolean}
+    this.isDraggedProperty = new Property( false );
+
+    // @public {Vector2}
+    this.locationProperty = new Property( new Vector2( x, y ) );
+
+    // @public {boolean} - Property that tracks when the balloon has stopped moving
+    this.isStoppedProperty = new Property( false );
+
+    // @public {Vector2} - velocity of the balloon while dragging
+    this.dragVelocityProperty = new Property( new Vector2( 0, 0 ) );
+
+    //------------------------------------------------
+
+    // @public (read-only) dimensions of the balloon
+    this.width = 134;
+    this.height = 222;
+
+    // @private - minimum speed needed to pick up charges on the sweater
+    this.thresholdSpeed = 0.025;
+
+    // @private - locations of charges that will be added to the balloon
+    this.positions = [
+      [ 14, 70 ],
+      [ 18, 60 ],
+      [ 14, 90 ],
+      [ 24, 130 ],
+      [ 22, 120 ],
+      [ 14, 79 ],
+      [ 22, 120 ],
+      [ 18, 108 ],
+      [ 19, 50 ],
+      [ 44, 150 ],
+      [ 16, 100 ],
+      [ 20, 80 ],
+      [ 50, 160 ],
+      [ 34, 140 ],
+      [ 50, 20 ],
+      [ 30, 30 ],
+      [ 22, 72 ],
+      [ 24, 105 ],
+      [ 20, 110 ],
+      [ 40, 150 ],
+      [ 26, 110 ],
+      [ 30, 115 ],
+      [ 24, 87 ],
+      [ 24, 60 ],
+      [ 24, 40 ],
+      [ 38, 24 ],
+      [ 30, 80 ],
+      [ 30, 50 ],
+      [ 34, 82 ],
+      [ 32, 130 ],
+      [ 30, 108 ],
+      [ 30, 50 ],
+      [ 40, 94 ],
+      [ 30, 100 ],
+      [ 35, 90 ],
+      [ 24, 95 ],
+      [ 34, 100 ],
+      [ 35, 40 ],
+      [ 30, 60 ],
+      [ 32, 72 ],
+      [ 30, 105 ],
+      [ 34, 140 ],
+      [ 30, 120 ],
+      [ 30, 130 ],
+      [ 30, 85 ],
+      [ 34, 77 ],
+      [ 35, 90 ],
+      [ 40, 85 ],
+      [ 34, 90 ],
+      [ 35, 50 ],
+      [ 46, 34 ],
+      [ 32, 72 ],
+      [ 30, 105 ],
+      [ 34, 140 ],
+      [ 34, 120 ],
+      [ 30, 60 ],
+      [ 30, 85 ],
+      [ 34, 77 ]
+    ];
+
+    // @private - positions of neutral atoms on balloon, don't change during simulation
+    this.positionsOfStartCharges = [
+      [ 44, 50 ],
+      [ 88, 50 ],
+      [ 44, 140 ],
+      [ 88, 140 ]
+    ];
 
     var self = this;
 
@@ -123,8 +142,7 @@ define( function( require ) {
     // picked up.
     this.chargePickedUpInDrag = false;
 
-    this.location = new Vector2( x, y );
-    this.initialLocation = this.location.copy();
+    this.initialLocation = this.locationProperty.initialValue;
     this.defaultVisibily = defaultVisibility;
     this.plusCharges = [];
     this.minusCharges = [];
@@ -152,12 +170,8 @@ define( function( require ) {
       self.minusCharges.push( minusCharge );
     } );
 
-    // Track key presses in a keyState object for accessibility.
-    // TODO: This should eventually be internal.  It seems all keyboard interaction should use such an object.
-    // this.keyState = {};
-
     // model bounds, updated when position changes
-    this.bounds = new Bounds2( this.location.x, this.location.y, this.location.x + this.width, this.location.y + this.height );
+    this.bounds = new Bounds2( this.locationProperty.get().x, this.locationProperty.get().y, this.locationProperty.get().x + this.width, this.locationProperty.get().y + this.height );
     this.locationProperty.link( function( location ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
     } );
@@ -171,7 +185,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
 
-  inherit( PropertySet, BalloonModel, {
+  inherit( Object, BalloonModel, {
 
     /**
      * If the balloon is in the upper half of the play area, return true.
@@ -304,7 +318,6 @@ define( function( require ) {
         direction = BalloonDirectionEnum.UP_LEFT;
       }
 
-
       assert && assert( direction, 'A direction must be defined' );
       return direction;
 
@@ -356,7 +369,7 @@ define( function( require ) {
 
     //get center of Balloon
     getCenter: function() {
-      return new Vector2( this.location.x + this.width / 2, this.location.y + this.height / 2 );
+      return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
     },
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
@@ -366,9 +379,9 @@ define( function( require ) {
       this.xVelocityArray.counter = 0;
       this.yVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.yVelocityArray.counter = 0;
-      this.charge = 0;
-      this.velocity = new Vector2( 0, 0 );
-      this.location = this.initialLocation.copy();
+      this.chargeProperty.set( 0 );
+      this.velocityProperty.set( new Vector2( 0, 0 ) );
+      this.locationProperty.set( this.initialLocation.copy() );
 
       for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
         if ( this.minusCharges[ i ].view ) {
@@ -376,9 +389,9 @@ define( function( require ) {
         }
       }
       if ( !notResetVisibility ) {
-        this.isVisible = this.defaultVisibily;
+        this.isVisibleProperty.set( this.defaultVisibily );
       }
-      this.isDragged = false;
+      this.isDraggedProperty.set( false );
 
       // reset the accessible describer
       this.balloonDescriber.reset();
@@ -386,7 +399,7 @@ define( function( require ) {
     step: function( model, dt ) {
       if ( dt > 0 ) {
 
-        if ( this.isDragged ) {
+        if ( this.isDraggedProperty.get() ) {
 
           // check to see if we can catch any minus charges
           var chargePickedUp = this.dragBalloon( model, dt );
@@ -399,7 +412,7 @@ define( function( require ) {
           BalloonModel.applyForce( model, this, dt );
         }
       }
-      this.oldLocation = this.location.copy();
+      this.oldLocation = this.locationProperty.get().copy();
     },
 
     /**
@@ -416,8 +429,8 @@ define( function( require ) {
       if ( !this.oldLocation ) {
         return;
       }
-      var dx = (this.location.x - this.oldLocation.x) / dt;
-      var dy = (this.location.y - this.oldLocation.y) / dt;
+      var dx = ( this.locationProperty.get().x - this.oldLocation.x) / dt;
+      var dy = ( this.locationProperty.get().y - this.oldLocation.y) / dt;
 
       //calculate average velocity
       this.xVelocityArray[ this.xVelocityArray.counter++ ] = dx * dx;
@@ -450,8 +463,8 @@ define( function( require ) {
     //force between sweater and balloon
     getSweaterForce: function( sweaterModel ) {
       var retValue = new Vector2();
-      if ( this.location.x > sweaterModel.center.x ) {
-        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.charge );
+      if ( this.locationProperty.get().x > sweaterModel.center.x ) {
+        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.chargeProperty.get() );
       }
       return retValue;
     },
@@ -480,7 +493,7 @@ define( function( require ) {
       var playArea = this.balloonsAndStaticElectricityModel.playArea;
       var balloonCenter = this.getCenter();
       var centerX = balloonCenter.x;
-      if ( !this.balloonsAndStaticElectricityModel.wall.isVisible && centerX === playArea.atRightEdgeOfPlayArea ) {
+      if ( !this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() && centerX === playArea.atRightEdgeOfPlayArea ) {
         return BalloonLocationEnum.RIGHT_EDGE;
       }
       else if ( playArea.leftColumn.containsPoint( balloonCenter ) ) {
@@ -520,22 +533,22 @@ define( function( require ) {
 
     //force between two balloons
     BalloonModel.getOtherForce = function( balloonModel ) {
-      if ( balloonModel.isDragged || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
+      if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
         return new Vector2( 0, 0 );
       }
-      var kqq = BalloonModel.coeff * balloonModel.charge * balloonModel.other.charge;
+      var kqq = BalloonModel.coeff * balloonModel.chargeProperty.get() * balloonModel.other.chargeProperty.get();
       return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
     };
     //sum of all forces applying to balloons
     BalloonModel.getTotalForce = function( model, balloonModel ) {
       if ( model.wall.isVisible ) {
-        var distFromWall = model.wall.x - balloonModel.location.x;
+        var distFromWall = model.wall.x - balloonModel.locationProperty.get().x;
         //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
-        if ( balloonModel.charge < -5 ) {
+        if ( balloonModel.chargeProperty.get() < -5 ) {
           var relDist = distFromWall - balloonModel.width;
           var fright = 0.003;
-          if ( relDist <= 40 + balloonModel.charge / 8 ) {
-            return new Vector2( -fright * balloonModel.charge / 20.0, 0 );
+          if ( relDist <= 40 + balloonModel.chargeProperty.get() / 8 ) {
+            return new Vector2( -fright * balloonModel.chargeProperty.get() / 20.0, 0 );
           }
         }
       }
@@ -560,13 +573,13 @@ define( function( require ) {
       var isStopped = false;
 
       var force = BalloonModel.getTotalForce( model, balloonModel );
-      var newVelocity = balloonModel.velocity.add( force.timesScalar( dt ) );
-      var newLocation = balloonModel.location.plus( balloonModel.velocity.timesScalar( dt ) );
+      var newVelocity = balloonModel.velocityProperty.get().add( force.timesScalar( dt ) );
+      var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
 
       //if new position inside sweater, don't move it
       if ( newLocation.x + balloonModel.width < model.sweater.x + model.sweater.width ) {
         newVelocity = new Vector2();
-        newLocation = balloonModel.location;
+        newLocation = balloonModel.locationProperty.get();
       }
 
 
@@ -590,12 +603,12 @@ define( function( require ) {
 
       // once the balloon stops moving, notify observers that it has reached a resting
       // destination
-      if ( !balloonModel.isStopped && ( balloonModel.location.equals( newLocation ) ) ) {
+      if ( !balloonModel.isStopped && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
         balloonModel.isStoppedProperty.set( true );
       }
 
-      balloonModel.velocity = newVelocity;
-      balloonModel.location = newLocation;
+      balloonModel.velocityProperty.set( newVelocity );
+      balloonModel.locationProperty.set( newLocation );
 
       if ( isStopped ) {
         balloonModel.velocity = new Vector2( 0, 0 );

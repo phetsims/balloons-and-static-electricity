@@ -93,7 +93,7 @@ define( function( require ) {
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
       maxWidth: 120
     } );
-    var wallButtonListener = function() { model.wall.isVisible = !model.wall.isVisible; };
+    var wallButtonListener = function() { model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() ); };
 
     // @private
     this.wallButton = new RectangularPushButton( {

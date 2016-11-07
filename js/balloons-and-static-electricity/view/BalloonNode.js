@@ -31,7 +31,7 @@ define( function( require ) {
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
   var KEY_H = 72; // keycode for 'h'
-  var KEY_SPACE = 32 // keycode for 'spacebar'
+  var KEY_SPACE = 32; // keycode for 'spacebar'
 
   // strings
   var balloonGrabCueString = 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space bar.';
@@ -93,10 +93,10 @@ define( function( require ) {
     var property = {
 
       //Set only to the legal positions in the frame
-      set: function( location ) { model.location = globalModel.checkBalloonRestrictions( location, model.width, model.height ); },
+      set: function( location ) { model.locationProperty.set( globalModel.checkBalloonRestrictions( location, model.width, model.height ) ); },
 
       //Get the location of the model
-      get: function() { return model.location; }
+      get: function() { return model.locationProperty.get(); }
     };
 
     //When dragging, move the balloon
@@ -104,12 +104,12 @@ define( function( require ) {
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: function() {
-        model.isDragged = true;
+        model.isDraggedProperty.set( true );
       },
       endDrag: function() {
-        model.isDragged = false;
-        model.velocity = new Vector2( 0, 0 );
-        model.dragVelocity.set( new Vector2( 0, 0 ) );
+        model.isDraggedProperty.set( false );
+        model.velocityProperty.set( new Vector2( 0, 0 ) );
+        model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
       }
     } );
 
@@ -264,7 +264,7 @@ define( function( require ) {
       description: balloonGrabCueString,
       events: {
         click: function( event ) {
-          model.isDragged = true;
+          model.isDraggedProperty.set( true );
 
           // grab and focus the draggable element
           self.draggableNode.focus();

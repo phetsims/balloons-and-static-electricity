@@ -120,7 +120,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
-  
+
   inherit( PropertySet, SweaterModel, {
 
     //is balloon over minus charge on sweater?
@@ -135,10 +135,11 @@ define( function( require ) {
     findIntersection: function( balloon ) {
       var self = this;
       //active area of balloon rectangle at the left of image
-      var x1 = balloon.location.x - 5;
-      var x2 = balloon.location.x + 50;
-      var y1 = balloon.location.y - 10;
-      var y2 = balloon.location.y + balloon.height + 10;
+      var balloonLocation = balloon.locationProperty.get();
+      var x1 = balloonLocation.x - 5;
+      var x2 = balloonLocation.x + 50;
+      var y1 = balloonLocation.y - 10;
+      var y2 = balloonLocation.y + balloon.height + 10;
 
       // track wheter or not we found a charge
       var chargeMoved = false;
@@ -161,8 +162,9 @@ define( function( require ) {
     moveChargeTo: function( charge, balloon ) {
       charge.moved = true;
       charge.view.visible = false;
-      balloon.charge--;
-      this.charge++;
+
+      balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
+      this.chargeProperty.set( this.chargeProperty.get() + 1 );      
     },
 
     /**
