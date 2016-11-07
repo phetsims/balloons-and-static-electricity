@@ -9,7 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var PropertySet = require( 'AXON/PropertySet' );
+  // var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
@@ -18,13 +19,23 @@ define( function( require ) {
 
   function WallModel( x, width, height ) {
 
+    //------------------------------------------------
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    PropertySet.call( this, {
-      numX: 3, //number of columns with charges
-      numY: 18, //number of rows with charges
-      isVisible: true,
-      x: x
-    } );
+    this.isVisibleProperty = new Property( true );
+
+    //------------------------------------------------
+    
+    // @public (read-only)
+    this.x = x;
+    this.numX = 3; // number of columns with charges
+    this.numY = 18; // number of rows with charges
+
+    // PropertySet.call( this, {
+    //   numX: 3, //number of columns with charges
+    //   numY: 18, //number of rows with charges
+    //   isVisible: true,
+    //   x: x
+    // } );
 
     this.dx = Math.round( 80 / this.numX + 2 );
     this.dy = height / this.numY;
@@ -52,7 +63,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'WallModel', WallModel );
   
-  inherit( PropertySet, WallModel, {
+  inherit( Object, WallModel, {
 
     step: function( model ) {
 
@@ -77,7 +88,7 @@ define( function( require ) {
     reset: function() {
 
       //Reset the properties in this model
-      PropertySet.prototype.reset.call( this );
+      this.isVisibleProperty.reset();
       this.minusCharges.forEach( function( entry ) {
         entry.reset();
       } );
