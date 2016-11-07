@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );

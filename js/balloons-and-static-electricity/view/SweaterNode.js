@@ -103,7 +103,7 @@ define( function( require ) {
     } );
 
     this.sweaterModel.chargeProperty.link( function( charge ) {
-      updateChargesVisibilityOnSweater( model.showCharges );
+      updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
 
       // a11y - update description of sweater when charge changes
       var chargeDescription = self.getChargeDescription( charge );

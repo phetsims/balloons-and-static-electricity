@@ -13,18 +13,23 @@ define( function( require ) {
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   var PlayArea = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   function BalloonsAndStaticElectricityModel( width, height ) {
 
-    //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    PropertySet.call( this, { wallWidth: 80, showCharges: 'all' } );
+    // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+    // @public {string} - charge visibility setting
+    this.showChargesProperty = new Property( 'all' );
 
+    // @public (read-only)
     this.width = width;
     this.height = height;
+
+    // @public {read-only}
+    this.wallWidth = 80;
 
     this.playArea = new PlayArea( width, height );
 
@@ -61,7 +66,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
 
-  inherit( PropertySet, BalloonsAndStaticElectricityModel, {
+  inherit( Object, BalloonsAndStaticElectricityModel, {
     // Called by the animation loop
     step: function() {
       var self = this;
@@ -90,7 +95,7 @@ define( function( require ) {
     reset: function() {
 
       //Reset the properties in this model
-      PropertySet.prototype.reset.call( this );
+      this.showChargesProperty.reset();
 
       //Reset balloons, resetChildren don't get them
       this.balloons.forEach( function( entry ) {
