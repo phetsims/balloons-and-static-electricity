@@ -55,7 +55,7 @@ define( function( require ) {
     var self = this;
     this.wall.isVisibleProperty.link( function( isVisible ) {
       self.balloons.forEach( function( balloon ) {
-        if ( balloon.getCenter().x === self.playArea.atWall && balloon.charge !== 0 ) {
+        if ( balloon.getCenter().x === self.playArea.atWall && balloon.chargeProperty.get() !== 0 ) {
           balloon.isStoppedProperty.set( false );
         }
       } );
@@ -112,7 +112,7 @@ define( function( require ) {
       //flag to check if we outside borders
       var isOutBounds = false;
       //if wall exist - right border smaller on wallWidth
-      if ( this.wall.isVisible ) {
+      if ( this.wall.isVisibleProperty.get() ) {
         rightBound -= this.wallWidth;
       }
 

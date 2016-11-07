@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -24,14 +24,17 @@ define( function( require ) {
 
   function SweaterModel( x, y ) {
 
+    //------------------------------------------------
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    PropertySet.call( this, {
-      //width and height of rectangle with sweater
-      width: 330,
-      height: 420,
-      //sweater charge difference
-      charge: 0
-    } );
+    
+    // @public {number} - charge on the sweater
+    this.chargeProperty = new Property( 0 );
+
+    //------------------------------------------------
+    
+    // public (read-only) - dimensions of the sweater
+    this.width = 330;
+    this.height = 420;
 
     this.positions = [
       [ 104, 114 ],
@@ -121,7 +124,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
 
-  inherit( PropertySet, SweaterModel, {
+  inherit( Object, SweaterModel, {
 
     //is balloon over minus charge on sweater?
 
@@ -174,7 +177,7 @@ define( function( require ) {
      * @return {string}
      */
     getChargeDescription: function() {
-      if ( this.charge > 0 ) {
+      if ( this.chargeProperty.get() > 0 ) {
         return StringUtils.format( sweaterNetChargePatternString, netPositiveString );
       }
       else {
@@ -189,7 +192,7 @@ define( function( require ) {
           entry.moved = false;
         }
       } );
-      this.charge = 0;
+      this.chargeProperty.set( 0 );
     }
   } );
   return SweaterModel;

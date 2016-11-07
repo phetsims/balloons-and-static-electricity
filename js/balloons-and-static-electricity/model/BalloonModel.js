@@ -463,7 +463,7 @@ define( function( require ) {
     getSweaterForce: function( sweaterModel ) {
       var retValue = new Vector2();
       if ( this.locationProperty.get().x > sweaterModel.center.x ) {
-        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.charge * this.chargeProperty.get() );
+        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.chargeProperty.get() * this.chargeProperty.get() );
       }
       return retValue;
     },

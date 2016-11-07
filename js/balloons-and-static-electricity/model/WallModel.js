@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -29,13 +28,6 @@ define( function( require ) {
     this.x = x;
     this.numX = 3; // number of columns with charges
     this.numY = 18; // number of rows with charges
-
-    // PropertySet.call( this, {
-    //   numX: 3, //number of columns with charges
-    //   numY: 18, //number of rows with charges
-    //   isVisible: true,
-    //   x: x
-    // } );
 
     this.dx = Math.round( 80 / this.numX + 2 );
     this.dy = height / this.numY;

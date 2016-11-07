@@ -419,7 +419,7 @@ define( function( require ) {
         neutralityString = negativeString;
         inducedChargeString = quiteALotString;
       }
-      assert && assert( chargeString, 'no description found for balloon with charge: ' + balloon.charge );
+      assert && assert( chargeString, 'no description found for balloon with charge: ' + balloon.chargeProperty.get() );
 
       if ( dragging ) {
         balloonChargeDescription = StringUtils.format( namedBalloonChargeDescriptionPatternString, balloonLabel, neutralityString, chargeString );
@@ -488,7 +488,7 @@ define( function( require ) {
         neutralityString = positiveString;
       }
 
-      assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.charge );
+      assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.chargeProperty.get() );
       return StringUtils.format( sweaterChargePatternString, neutralityString, chargeString );
     },
 
@@ -837,7 +837,7 @@ define( function( require ) {
     getReleaseDescription: function() {
 
       var descriptionString = '';
-      if ( this.balloon.charge === 0 ) {
+      if ( this.balloon.chargeProperty.get() === 0 ) {
         // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
         // no change in charges, button label
 
