@@ -215,7 +215,7 @@ define( function( require ) {
       }
     } );
 
-    // dialog should close if
+    // dialog should close if escape is pressed
     var dialogVBox = new VBox( {
       children: [ contentVBox, closeButton ],
       spacing: 20,
