@@ -39,7 +39,7 @@ define( function( require ) {
   var draggindDescriptionString = 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right with small steps.';
   var pressWString = 'Press W to drag up, or Shift key plus W to drag up a lot.';
   var pressAString = 'Press A to drag left, or Shift key plus A to drag left a lot. ';
-  var pressSString = 'Press S to drag down, or Shift key plus S to drag left a lot.';
+  var pressSString = 'Press S to drag down, or Shift key plus S to drag down a lot.';
   var pressDString = 'Press D to drag right, or Shift key plus D to drag right a lot.';
   var addShiftString = 'Add the Shift key to a letter key to drag or rub with bigger steps.';
   var hotkeysJumpingString = 'Hotkeys for Jumping';
