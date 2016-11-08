@@ -42,7 +42,8 @@ define( function( require ) {
       childContainerTagName: null, // container for children added to this element
       focusHighlight: null, // Node|Shape|Bounds2 - default is a pink rectangle around the node's local bounds
       label: '', // string
-      useAriaLabel: false, // if true, a lebel element will not be created and the label will be inline with aria-label
+      useAriaLabel: false, // if true, a label element will not be created and the label will be inline with aria-label
+      useInnerLabel: false, // if true, the label will be added to the element as innerText 
       description: '', // string
       descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list item
       labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
@@ -118,7 +119,7 @@ define( function( require ) {
       self.labelElement.textContent = options.label;
 
       // if the type supports inner text, the label should be added as inner text
-      if ( this.elementSupportsInnerText() && options.label ) {
+      if ( ( this.elementSupportsInnerText() || options.useInnerLabel ) && options.label ) {
         self.domElement.textContent = options.label;
       }
     }
@@ -129,7 +130,7 @@ define( function( require ) {
       self.parentContainerElement = document.createElement( options.parentContainerTagName );
 
       // with a parent container, the children are added here
-      if ( !this.elementSupportsInnerText() ) {
+      if ( !this.elementSupportsInnerText() && !options.useInnerLabel ) {
         // this.appendElementWithContent( self.parentContainerElement, self.labelElement );
         self.parentContainerElement.appendChild( self.labelElement );
       }
@@ -144,13 +145,17 @@ define( function( require ) {
       // if we have child container, hte label and description come first
       // this.appendElementWithContent( this.domElement, self.labelElement );
       // this.appendElementWithContent( this.domElement, self.descriptionElement );
-      this.domElement.appendChild( this.labelElement );
+      if ( !options.useInnerLabel ) {
+        this.domElement.appendChild( this.labelElement );
+      }
       this.domElement.appendChild( this.descriptionElement );
     }
     else {
       // otherwise, just add the label and description below
 
-      this.domElement.appendChild( this.labelElement );
+      if ( !options.useInnerLabel ) {
+        this.domElement.appendChild( this.labelElement );
+      }
       this.domElement.appendChild( this.descriptionElement );
     }
 
@@ -359,7 +364,12 @@ define( function( require ) {
      * @param  {boolean} hidden
      */
     setHidden: function( hidden ) {
-      this.domElement.hidden = hidden ;
+      if ( this.parentContainerElement ) {
+        this.parentContainerElement.hidden = hidden;
+      }
+      else {
+        this.domElement.hidden = hidden;
+      }
     },
 
     /**

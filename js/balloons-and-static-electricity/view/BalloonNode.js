@@ -202,23 +202,26 @@ define( function( require ) {
     // a flag to track whether or not a charge was picked up for dragging
     self.draggableNode = new AccessibleDragNode( model.locationProperty, {
       dragBounds: balloonDragBounds,
+      label: balloonDraggableLabel,
       parentContainerTagName: 'div',
+      useInnerLabel: true, // the label should be innerText of the div
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       onKeyUp: function( event ) {
         if ( event.keyCode === KEY_SPACE ) {
+
+          // release the balloon and set focus to button
+          self.releaseBalloon();
           accessibleButtonNode.focus();
 
-          // release the balloon
-          self.releaseBalloon();
         }
       },
       onKeyDown: function( event ) {
         if ( event.keyCode === KEY_SPACE ) {
-          accessibleButtonNode.focus();
 
           // release the balloon
           self.releaseBalloon();
+          accessibleButtonNode.focus();
         }
 
         if ( event.keyCode === KEY_H ) {
@@ -242,8 +245,7 @@ define( function( require ) {
 
         self.releaseBalloon();
       },
-      ariaDescribedBy: this.getDescriptionElementID(),
-      ariaLabelledBy: this.getLabelElementID()
+      ariaDescribedBy: this.getDescriptionElementID()
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
@@ -281,8 +283,6 @@ define( function( require ) {
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       self.setHidden( !isVisible );
-      // self.draggableNode.setHidden( !isVisible );
-      // accessibleButtonNode.setHidden( !isVisible );
 
       var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
       self.ariaHerald.announceAssertive( alertDescription );
@@ -294,6 +294,10 @@ define( function( require ) {
 
       // when the balloon is no longer being dragged, it should be removed from the focus order
       self.draggableNode.setFocusable( isDragged );
+
+      // the button node must be hidden first
+      accessibleButtonNode.setHidden( isDragged );
+      self.draggableNode.setHidden( !isDragged );
 
       // a11y - update the navigation cue when the balloon is picked up
       var locationDescription = model.balloonDescriber.getDescription( model, isDragged );

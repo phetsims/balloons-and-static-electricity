@@ -540,7 +540,7 @@ define( function( require ) {
     };
     //sum of all forces applying to balloons
     BalloonModel.getTotalForce = function( model, balloonModel ) {
-      if ( model.wall.isVisible ) {
+      if ( model.wall.isVisibleProperty.get() ) {
         var distFromWall = model.wall.x - balloonModel.locationProperty.get().x;
         //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
         if ( balloonModel.chargeProperty.get() < -5 ) {
