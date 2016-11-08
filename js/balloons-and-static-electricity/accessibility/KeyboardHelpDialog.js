@@ -42,7 +42,7 @@ define( function( require ) {
   var pressSString = 'Press S to drag down, or Shift key plus S to drag down a lot.';
   var pressDString = 'Press D to drag right, or Shift key plus D to drag right a lot.';
   var addShiftString = 'Add the Shift key to a letter key to drag or rub with bigger steps.';
-  var hotkeysJumpingString = 'Hotkeys for Jumping';
+  var hotkeysJumpingString = 'Hot Keys for Jumping';
   var pressToJumpString = 'Move the balloon quickly to a location with these hot key combinations:';
   var JSString = 'JS jumps close to Sweater.';
   var JWString = 'JW jumps to Wall.';
