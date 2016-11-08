@@ -217,12 +217,6 @@ define( function( require ) {
         }
       },
       onKeyDown: function( event ) {
-        if ( event.keyCode === KEY_SPACE ) {
-
-          // release the balloon
-          self.releaseBalloon();
-          accessibleButtonNode.focus();
-        }
 
         if ( event.keyCode === KEY_H ) {
           keyboardHelpDialog.activeElement = self.draggableNode.domElement;
@@ -245,7 +239,8 @@ define( function( require ) {
 
         self.releaseBalloon();
       },
-      ariaDescribedBy: this.getDescriptionElementID()
+      ariaDescribedBy: this.getDescriptionElementID(),
+      ariaLabelledBy: this.getLabelElementID()
     } );
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
