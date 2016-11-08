@@ -59,7 +59,7 @@ define( function( require ) {
     articleContainerNode.addChild( sceneSummaryNode );
 
     // add sonification if enabled
-    if ( BalloonsAndStaticElectricityQueryParameters.SONIFICATION ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.sonification ) {
       this.audioView = new BalloonsAndStaticElectricityAudio( model );
     }
 
@@ -122,12 +122,12 @@ define( function( require ) {
     keyboardHelpDialog.centerBottom = this.center;
 
     // visualise regions of the play area
-    if( BalloonsAndStaticElectricityQueryParameters.DEV ) {
+    if( BalloonsAndStaticElectricityQueryParameters.dev ) {
       articleContainerNode.addChild( new PlayAreaNode( model ) );
     }
 
     // enable the prototype screen reader
-    if( BalloonsAndStaticElectricityQueryParameters.READER ) {
+    if( BalloonsAndStaticElectricityQueryParameters.reader ) {
       var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 

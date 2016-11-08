@@ -307,7 +307,7 @@ define( function( require ) {
 
     var visibilityControls;
     var controlsLeft;
-    if ( BalloonsAndStaticElectricityQueryParameters.HIDE_CHARGE_CONTROLS ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.hideChargeControls ) {
       visibilityControls = [ balloonsPanel ];
       controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;
     }

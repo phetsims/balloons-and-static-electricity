@@ -11,32 +11,32 @@ define( function( require ) {
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  var getQueryParameter = phet.chipper.getQueryParameter;
-
-  var BalloonsAndStaticElectricityQueryParameters = {
+  var BalloonsAndStaticElectricityQueryParameters = QueryStringMachine.getAll( {
 
     // enables prototype screen reader
-    READER: getQueryParameter( 'reader' ) || false,
+    reader: { type: 'flag' },
 
     // keyData - must be used with reader, shows key information instead of
     // reader output, useful for debugging
-    KEY_DATA: getQueryParameter( 'keyData' ) || false,
+    keyData: { type: 'flag' },
 
     // dev - eneables developer only features
-    DEV: getQueryParameter( 'dev' ) || false,
+    dev: { type: 'flag' },
 
     // showLiveOutput - shows expected output from a screen reader from aria-live
     // content.  Usefull for development and debugging without having to turn on a
     // screen reader
-    SHOW_LIVE_OUTPUT: getQueryParameter( 'showLiveOutput' ) || false,
+    showLiveOutput: { type: 'flag' },
 
     // template sonification to get a feel for how this might work
     // uses strategies very similar to john-travoltage
-    SONIFICATION: getQueryParameter( 'sonification' ) || false,
+    sonification: { type: 'flag' },
 
-    HIDE_CHARGE_CONTROLS: getQueryParameter( 'hideChargeControls' ) || false
+    // hide the radio button group responsible for toggling visibility of
+    // charges in the view
+    hideChargeControls: { type: 'flag' }
 
-  };
+  } );
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityQueryParameters', BalloonsAndStaticElectricityQueryParameters );
 

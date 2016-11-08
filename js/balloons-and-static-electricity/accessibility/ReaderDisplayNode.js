@@ -30,7 +30,7 @@ define( function( require ) {
     this.addChild( text );
 
     // this should override the output to show information about keyup events
-    if ( BalloonsAndStaticElectricityQueryParameters.KEY_DATA ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.keyData ) {
       document.addEventListener( 'keyup', function( event ) {
         var outputText;
         var keyCode = event.keyCode ? event.keyCode : event.which;

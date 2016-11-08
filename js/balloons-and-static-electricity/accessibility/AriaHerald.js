@@ -58,7 +58,7 @@ define( function( require ) {
      * @param  {string} textContent - the alert to announce
      */
     announceAssertive: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         this.printAlert( textContent );
       }
       this.assertiveElement.textContent = textContent;
@@ -71,7 +71,7 @@ define( function( require ) {
      * @param  {string} textContent - the polite content to announce
      */
     announcePolite: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         this.printAlert( textContent );
       }
       this.politeElement.textContent = textContent;
@@ -85,7 +85,7 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announceAssertiveWithAlert: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         this.printAlert( textContent );
       }
       this.assertiveAlertElement.textContent = textContent;
@@ -99,7 +99,7 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announcePoliteWithStatus: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.SHOW_LIVE_OUTPUT ) {
+      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         this.printAlert( textContent );
       }
       this.politeStatusElement.textContent = textContent;
