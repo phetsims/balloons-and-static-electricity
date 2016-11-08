@@ -30,7 +30,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
 
@@ -52,19 +51,9 @@ define( function( require ) {
   var balloonAndSweaterString = 'a balloon and a sweater';
   var twoBalloonsAndASweater = 'two balloons and a sweater';
 
-  var inCenterPlayAreaStringPattern = 'in {0} play area, at center.';
-  var lowerPlayAreaString = 'lower';
-  var upperPlayAreaString = 'upper';
-
   var touchingWallStringPattern = 'touching {0} wall.';
-  var lowerWallString = 'lower';
-  var upperWallString = 'upper';
 
   var inPlayAreaStringPattern = 'in {0} of play area.';
-  var upperLeftSideString = 'upper left side';
-  var lowerLeftSideString = 'lower left side';
-  var upperRightSideString = 'upper right side';
-  var lowerRightSideString = 'lower right side';
 
   var inPlayAreaNearItemStringPattern = 'in {0} of play area, {1}.';
   var nearWallString = 'near wall';
@@ -92,6 +81,11 @@ define( function( require ) {
 
   var greenBalloonLabelString = 'Green Balloon';
   var yellowBalloonLabelString = 'Yellow Balloon';
+
+  var topRightEdgeOfPlayAreaString = 'top right edge of play area';
+  var upperRightEdgeOfPlayAreaString = 'upper right edge of play area';
+  var lowerRightEdgeOfPlayAreaString = 'lower right edge of play area';
+  var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
 
   //--------------------------
   // Charge descriptions
@@ -141,7 +135,13 @@ define( function( require ) {
     UPPER_LEFT_PLAY_AREA: upperRightArmString,
     TOP_LEFT_PLAY_AREA: upperRightArmString,
     LOWER_LEFT_PLAY_AREA: lowerRightArmString,
-    BOTTOM_LEFT_PLAY_AREA: lowerRightArmString
+    BOTTOM_LEFT_PLAY_AREA: lowerRightArmString,
+
+    TOP_RIGHT: topRightEdgeOfPlayAreaString,
+    UPPER_RIGHT: upperRightEdgeOfPlayAreaString,
+    LOWER_RIGHT: lowerRightEdgeOfPlayAreaString,
+    BOTTOM_RIGHT: bottomRightEdgeOfPlayAreaString
+
   };
 
   // ranges to describe induced charge
@@ -166,6 +166,10 @@ define( function( require ) {
 
     // @private
     this.model = model;
+
+    // @private - describers for each of the balloons
+    this.yellowBalloonDescriber = model.balloons[ 0 ].balloonDescriber;
+    this.greenBalloonDescriber = model.balloons[ 1 ].balloonDescriber;
 
     // the description node is a list composed of these items:
     this.addDescriptionItem( openingSummaryString ); // ID not needed for static content
@@ -231,7 +235,7 @@ define( function( require ) {
     model.balloons[ 1 ].locationProperty.link( balloonLocationListener );
 
     var balloonChargeListener = function( charge ) {
-      var balloonDescriber = model.balloons[ 0 ].balloonDescriber;
+      var balloonDescriber = self.yellowBalloonDescriber;
       var balloonChargeDescription = balloonDescriber.getBalloonChargeDescription( model.balloons[ 0 ], true );
       var sweaterChargeDescription = balloonDescriber.getSweaterChargeDescription( model.balloons[ 0 ] );
       var wallDescription = 'Wall has a net neutral charge.';
@@ -352,46 +356,12 @@ define( function( require ) {
     },
 
     getBalloonLocationDescription: function( balloon ) {
-      var balloonLocationDescription;
-      var upperOrLowerString;
+
       var balloonLabel = BALLOON_LABELS[ balloon.balloonLabel ];
+      var locationDescription = balloon.balloonDescriber.getBalloonLocationDescription( balloon );
 
-      // get a one of the possible locations values to map balloon location to a description
-      var currentBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
-
-      if ( this.model.playArea.atWall === balloon.getCenter().x ) {
-
-        // if touching the wall, describe whether it is touching the upper or lower parts, and include
-        // a description of induced charge if the balloon is charged
-        upperOrLowerString = balloon.inUpperHalfOfPlayArea() ? upperWallString : lowerWallString;
-        balloonLocationDescription = this.getBalloonTouchingWallDescription( balloon.chargeProperty.value, upperOrLowerString, balloonLabel );
-
-      }
-      else if ( balloon.onSweater() && balloon.chargeProperty.get() < 0 ) {
-        upperOrLowerString = balloon.inUpperHalfOfPlayArea() ? upperWallString : lowerWallString;
-        balloonLocationDescription= this.getBalloonTouchingSweaterDescription( balloonLabel, currentBounds );
-      }
-      else if ( currentBounds === BalloonLocationEnum.TOP_CENTER_PLAY_AREA || currentBounds === BalloonLocationEnum.UPPER_CENTER_PLAY_AREA ) {
-        var upperCenterString = StringUtils.format( inCenterPlayAreaStringPattern, upperPlayAreaString );
-        balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, upperCenterString );
-      }
-      else if ( currentBounds === BalloonLocationEnum.BOTTOM_CENTER_PLAY_AREA || currentBounds === BalloonLocationEnum.LOWER_CENTER_PLAY_AREA ) {
-        var lowerCenterString = StringUtils.format( inCenterPlayAreaStringPattern, lowerPlayAreaString );
-        balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, lowerCenterString );
-      }
-      else if ( currentBounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA || currentBounds === BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
-        balloonLocationDescription = this.getRightSideOfPlayAreaDescription( balloon.nearWall(), upperRightSideString, balloonLabel );
-      }
-      else if ( currentBounds === BalloonLocationEnum.BOTTOM_RIGHT_PLAY_AREA || currentBounds === BalloonLocationEnum.LOWER_RIGHT_PLAY_AREA ) {
-        balloonLocationDescription = this.getRightSideOfPlayAreaDescription( balloon.nearWall(), lowerRightSideString, balloonLabel );
-      }
-      else if ( currentBounds === BalloonLocationEnum.TOP_LEFT_PLAY_AREA || currentBounds === BalloonLocationEnum.UPPER_LEFT_PLAY_AREA ) {
-        balloonLocationDescription = this.getLeftSideOfPlayAreaDescription( balloon.nearSweater(), upperLeftSideString, balloonLabel );
-      }
-      else if ( currentBounds === BalloonLocationEnum.BOTTOM_LEFT_PLAY_AREA || currentBounds === BalloonLocationEnum.LOWER_LEFT_PLAY_AREA ) {
-        balloonLocationDescription = this.getLeftSideOfPlayAreaDescription( balloon.nearSweater(), lowerLeftSideString, balloonLabel );
-      }
-
+      // piece them together
+      var balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, locationDescription );
       return balloonLocationDescription;
     }
 
