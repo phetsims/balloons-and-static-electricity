@@ -532,7 +532,7 @@ define( function( require ) {
 
     //force between two balloons
     BalloonModel.getOtherForce = function( balloonModel ) {
-      if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisible || !balloonModel.other.isVisible ) {
+      if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisibleProperty.get() || !balloonModel.other.isVisibleProperty.get() ) {
         return new Vector2( 0, 0 );
       }
       var kqq = BalloonModel.coeff * balloonModel.chargeProperty.get() * balloonModel.other.chargeProperty.get();
@@ -567,7 +567,8 @@ define( function( require ) {
     };
     //applying force and move balloon to new coords each step
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
-      var rightBound = model.wall.isVisible ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
+      debugger;
+      var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
 
       var isStopped = false;
 
@@ -602,7 +603,7 @@ define( function( require ) {
 
       // once the balloon stops moving, notify observers that it has reached a resting
       // destination
-      if ( !balloonModel.isStopped && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
+      if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
         balloonModel.isStoppedProperty.set( true );
       }
 
@@ -610,7 +611,7 @@ define( function( require ) {
       balloonModel.locationProperty.set( newLocation );
 
       if ( isStopped ) {
-        balloonModel.velocity = new Vector2( 0, 0 );
+        balloonModel.velocityProperty.set( new Vector2( 0, 0 ) );
       }
     };
     BalloonModel.coeff = 0.1;
