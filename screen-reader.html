@@ -1,24 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
 </head>
+
 <body>
+<script type="text/javascript" src="../query-string-machine/js/QueryStringMachine.js"></script>
 <script type="text/javascript">
-
-  //Pre-populate the query parameters map so that multiple subsequent look-ups are fast
-  var queryParamsMap = {};
-
-  if ( typeof window !== 'undefined' && window.location.search ) {
-    var params = window.location.search.slice( 1 ).split( '&' );
-    for ( var i = 0; i < params.length; i++ ) {
-      var nameValuePair = params[ i ].split( '=' );
-      queryParamsMap[ nameValuePair[ 0 ] ] = decodeURIComponent( nameValuePair[ 1 ] );
-    }
-  }
-  var getQueryParameter = function( key ) {
-    return queryParamsMap[ key ];
-  };
-
-  window.phetSpeechSynthesisEnabled = getQueryParameter( 'speech' );
+  var queryParameters = QueryStringMachine.getAll( {
+    speech: { type: 'flag' }
+  } );
+  window.phetSpeechSynthesisEnabled = queryParameters.speech;
 </script>
 <script type="text/javascript">
   window.simLaunched = function() {
