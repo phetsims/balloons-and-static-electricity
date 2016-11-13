@@ -63,7 +63,7 @@ define( function( require ) {
     // @public, step the audio view
     step: function( dt ) {
 
-      var balloon = this.model.balloons[ 0 ];
+      var balloon = this.model.yellowBalloon;
 
       var soundToPlay;
 

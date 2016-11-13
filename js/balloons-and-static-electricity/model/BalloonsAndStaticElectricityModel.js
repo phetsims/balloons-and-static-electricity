@@ -44,12 +44,10 @@ define( function( require ) {
       maxY: height
     };
 
-    this.balloons = [
-      new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW ),
-      new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN )
-    ];
-    this.balloons[ 0 ].other = this.balloons[ 1 ];
-    this.balloons[ 1 ].other = this.balloons[ 0 ];
+    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW );
+    this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN );
+    this.yellowBalloon.other = this.greenBalloon;
+    this.greenBalloon.other = this.yellowBalloon;
 
     // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
     var self = this;
@@ -68,6 +66,14 @@ define( function( require ) {
 
   inherit( Object, BalloonsAndStaticElectricityModel, {
 
+    /**
+     * Get all of the ballons in an array, for ease of iterating over them.
+     * @returns {BalloonModel[]}
+     */
+    get balloons() {
+      return [ this.yellowBalloon, this.greenBalloon ];
+    },
+
     // Called by the animation loop
     step: function() {
       var self = this;
@@ -77,9 +83,9 @@ define( function( require ) {
       var dt = curTime - this.oldTime;
 
       this.wall.step( self );
-      this.balloons.forEach( function( entry ) {
-        if ( entry.isVisibleProperty.get() ) {
-          entry.step( self, dt );
+      this.balloons.forEach( function( balloon ) {
+        if ( balloon.isVisibleProperty.get() ) {
+          balloon.step( self, dt );
         }
       } );
 
@@ -87,8 +93,8 @@ define( function( require ) {
     },
 
     anyChargedBalloonTouchingWall: function() {
-      var chargedYellowTouchingWall = this.balloons[ 0 ].touchingWall() && this.balloons[ 0 ].chargeProperty.get() < 0;
-      var chargedGreenTouchingWall = this.balloons[ 1 ].touchingWall() && this.balloons[ 1 ].chargeProperty.get() < 0;
+      var chargedYellowTouchingWall = this.yellowBalloon.touchingWall() && this.yellowBalloon.chargeProperty.get() < 0;
+      var chargedGreenTouchingWall = this.greenBalloon.touchingWall() && this.greenBalloon.chargeProperty.get() < 0;
 
       return chargedYellowTouchingWall || chargedGreenTouchingWall;
     },
@@ -100,8 +106,8 @@ define( function( require ) {
       this.showChargesProperty.reset();
 
       //Reset balloons, resetChildren don't get them
-      this.balloons.forEach( function( entry ) {
-        entry.reset();
+      this.balloons.forEach( function( balloon ) {
+        balloon.reset();
       } );
 
       this.sweater.reset();

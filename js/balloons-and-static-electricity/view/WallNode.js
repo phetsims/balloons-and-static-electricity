@@ -128,8 +128,8 @@ define( function( require ) {
     getChargeDescription: function() {
       var chargeDescription;
 
-      var yellowBalloon = this.model.balloons[ 0 ];
-      var greenBalloon = this.model.balloons[ 1 ];
+      var yellowBalloon = this.model.yellowBalloon;
+      var greenBalloon = this.model.greenBalloon;
 
       var yellowBalloonTouchingWall = yellowBalloon.touchingWall();
       var greenBalloonTouchingWall = greenBalloon.touchingWall();

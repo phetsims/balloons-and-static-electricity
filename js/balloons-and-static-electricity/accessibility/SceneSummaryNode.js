@@ -162,8 +162,8 @@ define( function( require ) {
     this.model = model;
 
     // @private - describers for each of the balloons
-    this.yellowBalloonDescriber = model.balloons[ 0 ].balloonDescriber;
-    this.greenBalloonDescriber = model.balloons[ 1 ].balloonDescriber;
+    this.yellowBalloonDescriber = model.yellowBalloon.balloonDescriber;
+    this.greenBalloonDescriber = model.greenBalloon.balloonDescriber;
 
     // the description node is a list composed of these items:
     this.addDescriptionItem( openingSummaryString ); // ID not needed for static content
@@ -177,7 +177,7 @@ define( function( require ) {
       var visibleItemsDescription;
 
       if ( model.wall.isVisibleProperty.get() ) {
-        if ( model.balloons[ 1 ].isVisible ) {
+        if ( model.greenBalloon.isVisible ) {
           visibleItemsDescription = twoBalloonsSweaterAndRemovableWallString;
         }
         else {
@@ -185,7 +185,7 @@ define( function( require ) {
         }
       }
       else {
-        if ( model.balloons[ 1 ].isVisible ) {
+        if ( model.greenBalloon.isVisible ) {
           visibleItemsDescription = twoBalloonsAndASweater;
         }
         else {
@@ -198,7 +198,7 @@ define( function( require ) {
 
     };
     model.wall.isVisibleProperty.link( roomItemsDescriptionListener );
-    model.balloons[ 1 ].isVisibleProperty.link( roomItemsDescriptionListener );
+    model.greenBalloon.isVisibleProperty.link( roomItemsDescriptionListener );
 
     /**
      * Updates the description of where the balloon is in the play area with information about the proximity
@@ -207,11 +207,11 @@ define( function( require ) {
      * @param {Balloon} balloon
      */
     var balloonLocationListener = function( location, oldLocation ) {
-      var yellowBalloonDescription = self.getBalloonLocationDescription( model.balloons[ 0 ] );
+      var yellowBalloonDescription = self.getBalloonLocationDescription( model.yellowBalloon );
 
       // if both balloons are visible, we need a description for both
-      if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
-        var greenBalloonDescription = self.getBalloonLocationDescription( model.balloons[ 1 ] );
+      if ( model.greenBalloon.isVisibleProperty.get() ) {
+        var greenBalloonDescription = self.getBalloonLocationDescription( model.greenBalloon );
 
         var combinedDescription = StringUtils.format( twoBalloonDescriptionPattern, yellowBalloonDescription, greenBalloonDescription );
         self.updateDescriptionItem( locationItemID, combinedDescription );
@@ -220,19 +220,19 @@ define( function( require ) {
 
         // if the single balloon is in the center of the play area, there also needs to be a description
         // for the relative locations of the other items in the play area
-        if ( model.balloons[ 0 ].getCenter().x === model.playArea.atCenter && model.wall.isVisibleProperty.get() ) {
+        if ( model.yellowBalloon.getCenter().x === model.playArea.atCenter && model.wall.isVisibleProperty.get() ) {
           yellowBalloonDescription = StringUtils.format( balloonInCenterPatternString, yellowBalloonDescription, evenlyBetweenString );
         }
         self.updateDescriptionItem( locationItemID, yellowBalloonDescription );
       }
     };
-    model.balloons[ 0 ].locationProperty.link( balloonLocationListener );
-    model.balloons[ 1 ].locationProperty.link( balloonLocationListener );
+    model.yellowBalloon.locationProperty.link( balloonLocationListener );
+    model.greenBalloon.locationProperty.link( balloonLocationListener );
 
     var balloonChargeListener = function( charge ) {
       var balloonDescriber = self.yellowBalloonDescriber;
-      var balloonChargeDescription = balloonDescriber.getBalloonChargeDescription( model.balloons[ 0 ], true );
-      var sweaterChargeDescription = balloonDescriber.getSweaterChargeDescription( model.balloons[ 0 ] );
+      var balloonChargeDescription = balloonDescriber.getBalloonChargeDescription( model.yellowBalloon, true );
+      var sweaterChargeDescription = balloonDescriber.getSweaterChargeDescription( model.yellowBalloon );
       var wallDescription = 'Wall has a net neutral charge.';
 
       var stringPattern;
@@ -251,11 +251,11 @@ define( function( require ) {
 
       return string;
     };
-    model.balloons[ 0 ].chargeProperty.link( balloonChargeListener );
+    model.yellowBalloon.chargeProperty.link( balloonChargeListener );
 
     // update charge descriptions when wall visibility toggles.
     model.wall.isVisibleProperty.link( function() {
-      balloonChargeListener( model.balloons[ 0 ].chargeProperty.get() );
+      balloonChargeListener( model.yellowBalloon.chargeProperty.get() );
     } );
   }
 

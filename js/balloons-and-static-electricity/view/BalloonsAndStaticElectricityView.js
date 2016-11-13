@@ -94,14 +94,14 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.balloons[ 1 ], balloonGreen, model, 'green', keyboardHelpDialog );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.balloons[ 0 ], balloonYellow, model, 'yellow', keyboardHelpDialog );
+    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog );
+    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog );
 
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
 
     //Only show the selected balloon(s)
-    model.balloons[ 1 ].isVisibleProperty.link( function( isVisible ) {
+    model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       self.greenBalloon.visible = isVisible;
     } );
 

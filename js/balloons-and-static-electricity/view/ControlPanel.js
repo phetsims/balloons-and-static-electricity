@@ -194,7 +194,7 @@ define( function( require ) {
 
     // ABSwitch inside of a panel to control the number of balloons on screen
     var showBalloonsChoice = new Panel(
-      new AccessibleABSwitchNode( model.balloons[ 1 ].isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
+      new AccessibleABSwitchNode( model.greenBalloon.isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
         switchSize: new Dimension2( 32, 16 ),
         label: twoBalloonExperimentLabelString,
         description: abSwitchDescriptionString
@@ -206,14 +206,14 @@ define( function( require ) {
     var resetBalloonToggleNode = new ToggleNode(
       new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
       new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
-      model.balloons[ 1 ].isVisibleProperty, {
+      model.greenBalloon.isVisibleProperty, {
         maxWidth: 140
       }
     );
     var resetBalloonButtonListener = function() {
       model.sweater.reset();
-      model.balloons.forEach( function( entry ) {
-        entry.reset( true );
+      model.balloons.forEach( function( balloon ) {
+        balloon.reset( true );
       } );
     };
     var resetBalloonButton = new RectangularPushButton( {
@@ -235,14 +235,14 @@ define( function( require ) {
       parentContainerTagName: 'div',
       tagName: 'button',
       label: resetBalloonString,
-      description: generateDescriptionString( model.balloons[ 1 ].isVisibleProperty ),
+      description: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
       events: {
         click: function( event ) {
           resetBalloonButtonListener();
 
           var balloonString;
           var bothBalloonString;
-          if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
+          if ( model.greenBalloon.isVisibleProperty.get() ) {
             balloonString = 'balloons';
             bothBalloonString = 'Both balloons';
           }
@@ -257,7 +257,7 @@ define( function( require ) {
     } );
     accessibleResetBalloonButton.addChild( resetBalloonButton );
 
-    model.balloons[ 1 ].isVisibleProperty.link( function( balloonVisible ) {
+    model.greenBalloon.isVisibleProperty.link( function( balloonVisible ) {
       var newLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
       accessibleResetBalloonButton.setLabel( newLabel );
       accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
