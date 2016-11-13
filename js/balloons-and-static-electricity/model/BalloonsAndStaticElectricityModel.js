@@ -22,7 +22,6 @@ define( function( require ) {
 
   function BalloonsAndStaticElectricityModel( width, height ) {
 
-    // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     // @public {string} - charge visibility setting
     this.showChargesProperty = new Property( 'all' );
 
@@ -109,6 +108,7 @@ define( function( require ) {
       this.wall.reset();
       this.oldTime = Date.now();
     },
+
     //check if balloon outside world borders and return it to border if outside
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
       var rightBound = this.width;
