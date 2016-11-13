@@ -118,8 +118,10 @@ define( function( require ) {
     //check if balloon outside world borders and return it to border if outside
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
       var rightBound = this.width;
+
       //flag to check if we outside borders
       var isOutBounds = false;
+
       //if wall exist - right border smaller on wallWidth
       if ( this.wall.isVisibleProperty.get() ) {
         rightBound -= this.wallWidth;
@@ -135,8 +137,10 @@ define( function( require ) {
       if ( position.y < 0 ) {
         position.y = 0;
         isOutBounds = true;
-      }//if larger then bottom border set y to maxTop position
+      }
       else if ( position.y + objHeight > this.height ) {
+
+        //if larger then bottom border set y to maxTop position
         position.y = this.height - objHeight;
         isOutBounds = true;
       }
