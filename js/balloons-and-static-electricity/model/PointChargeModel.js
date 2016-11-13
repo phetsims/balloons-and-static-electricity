@@ -23,10 +23,11 @@ define( function( require ) {
 
     // @public (read-only)
     this.defaultLocation = new Vector2( x, y );
-    this.reset();
 
     // @public - whether or not the charge has been moved from sweater to balloon
     this.moved = false;
+
+    this.reset();
   }
 
   PointChargeModel.radius = 8;
