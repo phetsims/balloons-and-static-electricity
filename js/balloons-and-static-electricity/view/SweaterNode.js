@@ -44,11 +44,10 @@ define( function( require ) {
   function SweaterNode( model ) {
     var self = this;
 
-    // super constructor
     AccessibleNode.call( this, {
       pickable: false,
 
-      // accesssibility options
+      // accessibility options
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
       label: sweaterLabelString

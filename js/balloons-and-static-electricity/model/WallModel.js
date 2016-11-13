@@ -22,8 +22,6 @@ define( function( require ) {
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     this.isVisibleProperty = new Property( true );
 
-    //------------------------------------------------
-    
     // @public (read-only)
     this.x = x;
     this.numX = 3; // number of columns with charges

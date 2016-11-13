@@ -20,7 +20,6 @@ define( function( require ) {
 
   function PlayAreaNode( model ) {
 
-    // super constructor
     Node.call( this, { pickable: false } );
     var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
     var greyOptions = { fill: 'rgba(200,200,200,0.3)' };

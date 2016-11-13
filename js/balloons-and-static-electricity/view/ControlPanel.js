@@ -123,8 +123,7 @@ define( function( require ) {
     } );
     this.accessibleWallButton.addChild( this.wallButton );
 
-    // when the wall toggles visibility, make an alert that this has happened and
-    // update the button text content
+    // when the wall toggles visibility, make an alert that this has happened and update the button text content
     var self = this;
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
       var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
@@ -166,7 +165,7 @@ define( function( require ) {
       }
     } );
 
-    // the charge radio buttons should not be accessible for now, see 
+    // the charge radio buttons should not be accessible for now, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/194
     showChargesRadioButtonGroup.accessibleContent = null;
     showChargesRadioButtonGroup.children.forEach( function( child ) {
@@ -268,7 +267,7 @@ define( function( require ) {
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
-    resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to commmon code
+    resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to common code
     var accessibleResetAllButton = new AccessibleNode( {
       children: [ resetAllButton ],
 
@@ -279,6 +278,7 @@ define( function( require ) {
       label: resetAllString,
       events: {
         click: function( event ) {
+
           // hide the aria live elements so that alerts are not anounced until after simulation
           // is fully reset
           // TODO: This should be in the main model reset function

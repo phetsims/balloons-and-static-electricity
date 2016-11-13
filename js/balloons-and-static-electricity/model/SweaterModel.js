@@ -24,14 +24,9 @@ define( function( require ) {
 
   function SweaterModel( x, y ) {
 
-    //------------------------------------------------
-    //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    
     // @public {number} - charge on the sweater
     this.chargeProperty = new Property( 0 );
 
-    //------------------------------------------------
-    
     // public (read-only) - dimensions of the sweater
     this.width = 330;
     this.height = 420;
@@ -144,7 +139,7 @@ define( function( require ) {
       var y1 = balloonLocation.y - 10;
       var y2 = balloonLocation.y + balloon.height + 10;
 
-      // track wheter or not we found a charge
+      // track whether or not we found a charge
       var chargeMoved = false;
 
       this.minusCharges.forEach( function( entry ) {

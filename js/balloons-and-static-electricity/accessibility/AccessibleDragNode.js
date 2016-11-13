@@ -35,8 +35,7 @@ define( function( require ) {
    **/
   function AccessibleDragNode( locationProperty, options ) {
 
-    // validate options - the draggable node must be represented with <div role='application'> for
-    // screen reader support
+    // validate options - the draggable node must be represented with <div role='application'> for screen reader support
     assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
     assert && assert( !options.ariaRole || options.role === 'application', 'draggable peer must be of role "application"' );
     if ( options.events ) {
@@ -48,6 +47,7 @@ define( function( require ) {
       ariaRole: 'application',
       events: {
         keydown: function( event ) {
+
           // update the key state on down
           self.keyState[ event.keyCode || event.which ] = {
             isKeyDown: true,
@@ -74,7 +74,7 @@ define( function( require ) {
           if ( self.keyState[ KEY_J ] ) {
             if ( !self.keyState[ KEY_J ].isKeyDown ) {
               self.keyStateChangedEmitter.emit1( event );
-              self.keyUpEmitter.emit1( event ); 
+              self.keyUpEmitter.emit1( event );
             }
             else {
               self.balloonJumpingEmitter.emit1( event );
@@ -95,9 +95,8 @@ define( function( require ) {
 
     var self = this;
 
-    // @private - track the state of pressed keys - JavaScript doesn't handle
-    // multiple key presses, so we track which keys are pressed
-    // and track how long they are down in ms via step()
+    // @private - track the state of pressed keys - JavaScript doesn't handle multiple key presses, so we track which
+    // keys are pressed and track how long they are down in ms via step()
     this.keyState = {};
 
     // @public - emit when the keystate changes
@@ -126,7 +125,6 @@ define( function( require ) {
 
     // button contained in a div so that it can contain descriptions or other children
     AccessibleNode.call( this, options );
-
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDragNode', AccessibleDragNode );
@@ -145,10 +143,12 @@ define( function( require ) {
     step: function() {
 
       var self = this;
-      // if tab is down, we may want to do something specific (like drop the element or
-      // focus something other than what is in the default navigation order )
+
+      // if tab is down, we may want to do something specific (like drop the element or focus something other than what
+      // is in the default navigation order )
       if ( self.keyState[ KEY_TAB ] && self.keyState[ KEY_TAB ].isKeyDown ) {
-        self._onTab( self.keyState[ KEY_TAB].keyEvent );
+        self._onTab( self.keyState[ KEY_TAB ].keyEvent );
+
         // keyup is fired immediately for tab, so now update the keystate
         self.keyState[ KEY_TAB ].isKeyDown = false;
       }
@@ -158,11 +158,12 @@ define( function( require ) {
 
       // TODO: This is specific to BASE... hotkeys need to be generalized
       if ( self.keyState[ KEY_J ] && self.keyState[ KEY_J ].isKeyDown ) {
+
         // we have begun a jump interaction, here are the additional key presses
         if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
           self.locationProperty.set( new Vector2( 375 - 67, self.locationProperty.get().y ) );
         }
-        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W].isKeyDown ) {
+        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
           self.locationProperty.set( new Vector2( 621 - 67, self.locationProperty.get().y ) );
         }
         if ( self.keyState[ KEY_C ] && self.keyState[ KEY_C ].isKeyDown ) {

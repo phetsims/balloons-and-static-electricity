@@ -40,7 +40,6 @@ define( function( require ) {
     this.atTopOfPlayArea = 118;
     this.atBottomOfPlayArea = 393;
 
-
     // width values for each collumn accross the play area
     var leftEdgeWidth = 2.1 * width / WIDTH;
     var sweaterSectionWidth = 2 * width / WIDTH;

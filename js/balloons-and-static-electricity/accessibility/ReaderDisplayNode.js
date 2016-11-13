@@ -14,8 +14,6 @@ define( function( require ) {
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  // constants
-
   /**
    * @constructor
    */
@@ -46,8 +44,10 @@ define( function( require ) {
     }
 
     else {
+
       // when the reader begins to speak a new utterance, update the text in the display node
       reader.speakingStartedEmitter.addListener( function speakingStartedListener( outputUtterance ) {
+
         // text goes in the center of the rectangle
         text.setText( outputUtterance.text );
         text.center = rectBounds.center;

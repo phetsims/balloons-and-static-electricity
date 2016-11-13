@@ -131,9 +131,9 @@ define( function( require ) {
 
   var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.';
 
+  // TODO: Why are these commented out?
   // var positiveChargesDoNotMoveString = 'Positive charges do not move.';
   // var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
-
   // var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
 
   // release descriptions
@@ -194,6 +194,7 @@ define( function( require ) {
   /**
    * @param {BalloonsAndStaticElectricityModel} model
    * @param {WallModel} wall
+   * @param {BalloonModel} balloon
    * @constructor
    */
   function BalloonDescriber( model, wall, balloon ) {
@@ -358,6 +359,7 @@ define( function( require ) {
       }
       else if ( balloonOnSweater !== this.balloonOnSweater ) {
         if ( balloonOnSweater ) {
+
           // only anounce on sweater the first time it hits the sweater
           // if the balloon picks up a charge as it touches the sweater, anounce this
           if ( balloon.chargeProperty.get() !== this.balloonCharge ) {
@@ -385,7 +387,7 @@ define( function( require ) {
      * Get a description of the balloon's charge.
      * TODO: This kind of method of getting descriptions based on numerical values in a range
      * could be generalized some how.
-     * 
+     *
      * @param  {Baloon} balloon
      * @return {string}
      */
@@ -493,11 +495,11 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the balloon as it is dragging.  This should be called when the user completes 
+     * Get a description of the balloon as it is dragging.  This should be called when the user completes
      * a drag interaction (on key up, typically).
      *
      * @param  {Balloon} balloon
-     * @return {string}        
+     * @return {string}
      */
     getDraggingDescription: function( balloon, keyCode ) {
       var draggingDescription;
@@ -537,7 +539,7 @@ define( function( require ) {
         if ( balloon.onSweater() ) {
           directionString = leftString;
         }
-        else if ( this.aKeyPressedCount === 0  ) {
+        else if ( this.aKeyPressedCount === 0 ) {
           directionString = leftTowardsSweaterString;
         }
         else if ( this.aKeyPressedCount < 2 ) {
@@ -580,6 +582,7 @@ define( function( require ) {
       }
 
       if ( this.balloonOnSweater ) {
+
         // this will be true on the first rub, after user hits sweater the first time
         var onSweaterDescription = this.getSweaterRubDescription( balloon );
       }
@@ -588,9 +591,10 @@ define( function( require ) {
       }
       if ( balloon.touchingWall() !== this.balloonTouchingWall ) {
         if ( !balloon.touchingWall() && this.balloon.chargeProperty.get() < 0 ) {
+
           // the balloon is leaving the wall, so describe the change in induced charge
           var leavingWallDescription = this.getLeavingWallDescription( balloon );
-        } 
+        }
         this.balloonTouchingWall = balloon.touchingWall();
       }
 
@@ -611,6 +615,7 @@ define( function( require ) {
         string1 = directionString;
       }
       if ( onSweaterDescription && balloon.onSweater() ) {
+
         // if the balloon moves off the sweater, we do not want to hear this
         string2 = onSweaterDescription;
       }
@@ -634,7 +639,7 @@ define( function( require ) {
 
     /**
      * Get a description of the balloon leaving the wall as a function of distance from the wall.
-     * 
+     *
      * @param  {BalloonModel} balloon
      * @return {string}
      */
@@ -685,11 +690,13 @@ define( function( require ) {
       if ( this.balloonCharge === MAX_BALLOON_CHARGE ) {
         return noMoreChargesRemainingOnSweaterString;
       }
-      else if ( currentBalloonCharge !== this.balloonCharge ) {  
+      else if ( currentBalloonCharge !== this.balloonCharge ) {
+
         // the balloon has picked at least one charge
         this.balloonCharge = balloon.chargeProperty.get();
 
         if ( this.balloonChargeRange !== currentBalloonChargeRange ) {
+
           // the balloon has picked up enough charges to remind the user of the
           // charge difference between sweater and balloon
           this.balloonInChargeRangeCount = 0;
@@ -697,6 +704,7 @@ define( function( require ) {
         }
 
         if ( this.balloonInChargeRangeCount === 0 ) {
+
           // this is the first time picking up a charge in this range
           balloonChargeString = this.getBalloonChargeDescription( balloon, true /*dragging*/ );
           sweaterChargeString = this.getSweaterChargeDescription( balloon );
@@ -712,12 +720,13 @@ define( function( require ) {
         this.balloonInChargeRangeCount++;
       }
       else {
+
         // no charge was picked up, so tell the user where they can find more
         var moreChargesString = this.getChargePositionCue();
 
         // Once we give this cue, the user needs more context when they pick up additional charges
         this.balloonInChargeRangeCount = 1;
-        
+
         var locationHelpStringPattern = '{0} {1} {2}';
         var balloonLocation = '';
         if ( balloon.centerInSweater() ) {
@@ -741,13 +750,13 @@ define( function( require ) {
 
     /**
      * Get a description that tells the user where they can find more charges.
-     * 
+     *
      * @return {string}
      */
     getChargePositionCue: function() {
       assert && assert( this.model.sweater.chargeProperty.get() < -MAX_BALLOON_CHARGE, 'trying to find more charges when none remain' );
 
-        // get the closest charge that has not been picked up
+      // get the closest charge that has not been picked up
       var closestCharge = this.balloon.getClosestCharge();
       var directionToCharge = this.balloon.getDirectionToCharge( closestCharge );
 
@@ -776,12 +785,12 @@ define( function( require ) {
       else if ( MANY_RANGE.contains( charge ) ) {
         return MANY_RANGE;
       }
-  
+
     },
 
     /**
      * Get a description for the balloon, including charge and location.
-     * 
+     *
      * @param  {Balloon} balloon
      * @param {boolean} isDragged - if dragged, the navigation cue changes
      * @return {string}
@@ -838,9 +847,9 @@ define( function( require ) {
 
       var descriptionString = '';
       if ( this.balloon.chargeProperty.get() === 0 ) {
+
         // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
         // no change in charges, button label
-
         descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, noChangeInPositionOrChargeString );
       }
       else if ( this.balloon.touchingWall() ) {
@@ -866,6 +875,7 @@ define( function( require ) {
     },
 
     getAttractedObject: function() {
+
       // determine which object the balloon is moving toward
       var attractedDirection = this.balloon.getAttractedDirection();
 
@@ -875,14 +885,14 @@ define( function( require ) {
       }
       else {
         attractedObject = sweaterString;
-      } 
+      }
 
       return attractedObject;
     },
 
     /**
      * Get a description of how the balloon changes when the wall is removed.
-     * 
+     *
      * @return {}
      */
     getWallRemovedDescription: function( wallRemoved ) {
@@ -906,9 +916,9 @@ define( function( require ) {
      */
     keyCountsNeedToBeReset: function() {
       var countsTooHigh =
-        this.dKeyPressedCount > 5 || 
-        this.sKeyPressedCount > 5 || 
-        this.aKeyPressedCount > 5 || 
+        this.dKeyPressedCount > 5 ||
+        this.sKeyPressedCount > 5 ||
+        this.aKeyPressedCount > 5 ||
         this.wKeyPressedCount > 5;
 
       return countsTooHigh || this.transitionedToNewArea;

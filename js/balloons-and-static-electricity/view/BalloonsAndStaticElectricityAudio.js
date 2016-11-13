@@ -45,6 +45,7 @@ define( function( require ) {
 
     var self = this;
     this.model.balloons.forEach( function( balloon ) {
+
       // whenever the balloon picks up a charge, play the charge beep with a bit of a delay
       // so that it is clear what is happening when multiple charges are picked up at once
       balloon.chargeProperty.lazyLink( function( charge ) {
@@ -68,11 +69,13 @@ define( function( require ) {
 
       // update the sound for the balloon dragging
       if ( !balloon.onSweater() ) {
+
         // the balloon is not on the sweater, no sound should be playing
         soundToPlay = null;
       }
       else {
         if ( balloon.dragVelocity.equals( Vector2.ZERO ) ) {
+
           // implement hysterisis for turning the sound on and off, otherwise it can start and stop too often
           this.balloonStillTime += dt;
           if ( this.balloonStillTime > 0.1 ) {
@@ -94,7 +97,6 @@ define( function( require ) {
 
       // play a sound when a balloon hits a boundary object
       if ( balloon.getBoundaryObject() ) {
-        // debugger;
         soundToPlay = this.boundsBeepSound;
       }
 

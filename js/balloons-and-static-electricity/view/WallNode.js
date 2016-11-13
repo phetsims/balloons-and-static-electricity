@@ -17,7 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
-  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode');
+  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
@@ -57,8 +57,7 @@ define( function( require ) {
 
     var wallModel = model.wall;
 
-    // super constructor
-    AccessibleNode.call( this, { 
+    AccessibleNode.call( this, {
       pickable: false,
 
       // accessibility options
@@ -123,7 +122,7 @@ define( function( require ) {
 
     /**
      * Get a description of the wall charges, based on balloon positions and charges.
-     * 
+     *
      * @return {string}
      */
     getChargeDescription: function() {
@@ -160,12 +159,13 @@ define( function( require ) {
 
         // if both balloons are touching the wall, both induced charge descriptions need to be included
         if ( yellowBalloonInducedChargeDescription && greenBalloonInducedChargeDescription ) {
-          chargeDescription = StringUtils.format( 
+          chargeDescription = StringUtils.format(
             twoBalloonsTouchingWallPatternString, wallNeutralChargeDescriptionString,
             yellowBalloonInducedChargeDescription, greenBalloonInducedChargeDescription
           );
         }
         else {
+
           // if only one is touching the wall, describe that one
           var inducedChargeDescription = yellowBalloonInducedChargeDescription || greenBalloonInducedChargeDescription;
 
@@ -187,14 +187,16 @@ define( function( require ) {
      * @return {string}
      */
     getInducedChargeDescription: function( balloon ) {
+
       // the balloon must be touching the wall for the wall to have this description
-      // note that even though charge can be induced without physically touching the wall,
-      // this description can only be found with the virtual cursor
+      // Note that even though charge can be induced without physically touching the wall, this description can only be
+      // found with the virtual cursor
       assert && assert( balloon.touchingWall(), 'induced charge description should only be added when balloon is touching wall' );
 
       var changeInChargesString;
       var balloonCharge = Math.abs( balloon.chargeProperty.get() );
       if ( balloonCharge === 0 ) {
+
         // if the charge is zero, there is no induced charge
         changeInChargesString = noChangeInChargesString;
       }

@@ -57,8 +57,6 @@ define( function( require ) {
    * @param {Property.<Vector2>} locationProperty
    */
   function PlusChargeNode( locationProperty ) {
-    // super constructor
-    // Use svg for the shape and text
     Node.call( this, { pickable: false } );
 
     this.translate( locationProperty.get().x - radius, locationProperty.get().y - radius );

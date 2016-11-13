@@ -63,7 +63,7 @@ define( function( require ) {
     // TODO
     // strip out focusable for now, it is still in scenery/Node mutator keys with
     // incorrect behavior - once fixed in scenery remove this line
-    // temorarily named 'isFocusable' due to collision with scenery/Node
+    // temporarily named 'isFocusable' due to collision with scenery/Node
     this._isFocusable = options.focusable;
     options = _.omit( options, 'focusable');
 
@@ -106,6 +106,7 @@ define( function( require ) {
     self.descriptionElement.textContent = options.description;
 
     if ( options.useAriaLabel ) {
+
       // add the label inline with aria-label
       this.domElement.setAttribute( 'aria-label', options.label );
     }
@@ -131,9 +132,11 @@ define( function( require ) {
 
       // with a parent container, the children are added here
       if ( !this.elementSupportsInnerText() && !options.useInnerLabel ) {
+
         // this.appendElementWithContent( self.parentContainerElement, self.labelElement );
         self.parentContainerElement.appendChild( self.labelElement );
       }
+
       // this.appendElementWithContent( self.parentContainerElement, self.descriptionElement );
       self.parentContainerElement.appendChild( self.descriptionElement );
     }
@@ -151,8 +154,8 @@ define( function( require ) {
       this.domElement.appendChild( this.descriptionElement );
     }
     else {
-      // otherwise, just add the label and description below
 
+      // otherwise, just add the label and description below
       if ( !options.useInnerLabel ) {
         this.domElement.appendChild( this.labelElement );
       }
@@ -167,7 +170,6 @@ define( function( require ) {
         // register listeners to the events
         for ( var event in options.events ) {
           if ( options.events.hasOwnProperty( event ) ) {
-            // debugger;
             self.domElement.addEventListener( event, options.events[ event ] );
           }
         }
@@ -413,6 +415,7 @@ define( function( require ) {
      * Focus this dom element
      */
     focus: function() {
+
       // make sure that the elememnt is in the navigation order
       this.setFocusable( true );
       this.domElement.focus();
@@ -429,6 +432,7 @@ define( function( require ) {
      * @private
      */
     getLinearDOMElements: function( domElement ) {
+
       // gets ALL descendent children for the element
       var children = domElement.getElementsByTagName( '*' );
 
@@ -513,6 +517,7 @@ define( function( require ) {
             }
             nextIndex += delta;
           }
+
           // break out of the while loop
           if ( nextFocusable ) {
             break;

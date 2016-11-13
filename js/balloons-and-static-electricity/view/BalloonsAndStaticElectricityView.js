@@ -156,7 +156,6 @@ define( function( require ) {
 
       // step the audio
       this.audioView && this.audioView.step( dt );
-
     }
   } );
 

@@ -52,8 +52,7 @@ define( function( require ) {
     this.balloons[ 0 ].other = this.balloons[ 1 ];
     this.balloons[ 1 ].other = this.balloons[ 0 ];
 
-    // when the wall changes visibility, the balloons could start moving if they have charge and are
-    // near the wall
+    // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
     var self = this;
     this.wall.isVisibleProperty.link( function( isVisible ) {
       self.balloons.forEach( function( balloon ) {
@@ -69,9 +68,11 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
 
   inherit( Object, BalloonsAndStaticElectricityModel, {
+
     // Called by the animation loop
     step: function() {
       var self = this;
+
       // Make model changes here.
       var curTime = Date.now();
       var dt = curTime - this.oldTime;

@@ -37,6 +37,7 @@ define( function( require ) {
       parentContainerTagName: 'div',
       events: {
         click: function( event ) {
+
           // toggle the value on click event
           var pressed = property.value === valueA ? valueB : valueA;
           property.set( pressed );

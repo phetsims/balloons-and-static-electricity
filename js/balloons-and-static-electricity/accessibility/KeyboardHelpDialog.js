@@ -169,14 +169,15 @@ define( function( require ) {
       listener: closeFunction
      } );
 
-    // define the accessible content for the close button - close button neds to have a unique event listener
-    // that sets focus to the dialog content if 'tab' is pressed
+    // define the accessible content for the close button - close button neds to have a unique event listener that sets
+    // focus to the dialog content if 'tab' is pressed
     closeButton.accessibleContent = {
       createPeer: function( accessibleInstance ) {
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, keyboardHelpCloseString, closeFunction );
 
         accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
           if( event.keyCode === Input.KEY_TAB ) {
+
             // TODO: Scenery should eventually be able to provide a reference to the node's domElement?
             contentVBox.accessibleInstances[0].peer.domElement.focus();
             event.preventDefault();
@@ -218,11 +219,13 @@ define( function( require ) {
       spacing: 20,
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
+
           // just for structure
           var domElement = document.createElement( 'div' );
 
           // should bubble down to both text content and close button children
           domElement.addEventListener( 'keydown', function( event ) {
+
             // close on escape key
             if ( event.keyCode === 27 ) {
               closeFunction();
@@ -256,8 +259,10 @@ define( function( require ) {
       focusable: true,
       hasCloseButton: false,
       layoutStrategy: function( window, simBounds, screenBounds, scale ) {
+
         // if simBounds are null, return without setting center.
         if ( simBounds !== null ) {
+
           // Update the location of the dialog (size is set in Sim.js)
           self.center = simBounds.center.times( 1.0 / scale );
         }
@@ -270,11 +275,13 @@ define( function( require ) {
 
       // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
       if ( isShown ) {
+
         // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
         contentVBox.accessibleInstances[0].peer.domElement.focus();
       }
 
-    //   screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
+      // TODO: Why is this commented out?
+      //   screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
       var screenViewElement = document.getElementById( 63 );
       screenViewElement.hidden = isShown;
     } );
@@ -283,7 +290,6 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( {
       fire: self.hide.bind( self )
     } ) );
-
   }
 
   balloonsAndStaticElectricity.register( 'KeyboardHelpDialog', KeyboardHelpDialog );

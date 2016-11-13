@@ -14,8 +14,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
-  // var Path = require( 'SCENERY/nodes/Path' );
-  // var Shape = require( 'KITE/Shape' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
@@ -213,7 +211,6 @@ define( function( require ) {
           // release the balloon and set focus to button
           self.releaseBalloon();
           accessibleButtonNode.focus();
-
         }
       },
       onKeyDown: function( event ) {
@@ -229,10 +226,12 @@ define( function( require ) {
         // navigation order, and then we want the screen reader to anounce something specific
         // the balloon should also be released from dragging
         if ( event.shiftKey ) {
+
           // if shift key is down, focus the previous element in the navigation order
           self.draggableNode.getPreviousFocusable().focus();
         }
         else {
+
           // focus the nest element in the navigation order
           self.draggableNode.getNextFocusable().focus();
         }
@@ -319,6 +318,7 @@ define( function( require ) {
     } );
 
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
+
       // an adjustment to the draggable width depending on whether or not the wall is visible
       var boundsAdjustment = isVisible ? globalModel.wallWidth : 0;
       var boundsWidth = globalModel.playArea.maxX - self.model.width - boundsAdjustment;
@@ -361,6 +361,7 @@ define( function( require ) {
      * @return {type}  description
      */
     releaseBalloon: function() {
+
       // release the balloon
       this.model.isDraggedProperty.set( false );
 
