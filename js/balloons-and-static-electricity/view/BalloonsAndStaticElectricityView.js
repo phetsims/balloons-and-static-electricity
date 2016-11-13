@@ -118,7 +118,7 @@ define( function( require ) {
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ accessibleHeaderNode, sweaterNode, balloonsNode, wall ];
 
-    // keybaord help dialog must be centered since it is instantiated within the screen view constructor
+    // keyboard help dialog must be centered since it is instantiated within the screen view constructor
     keyboardHelpDialog.centerBottom = this.center;
 
     // visualise regions of the play area
