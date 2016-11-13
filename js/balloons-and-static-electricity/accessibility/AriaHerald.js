@@ -107,18 +107,18 @@ define( function( require ) {
 
     /**
      * Sets whether the gruop of aria-live elements is visible.
-     * 
+     *
      * @param {boolean} hidden
      */
     setHidden: function( hidden ) {
-      this.alertContainer.hidden = hidden;      
+      this.alertContainer.hidden = hidden;
     },
     set hidden( value ) { this.setHidden( value ); },
 
     /**
      * Useful for debugging without a screen reader turned on. Checks if the live
      * element is hidden before printing.
-     * 
+     *
      * @param  {string} textContent
      */
     printAlert: function( textContent ) {

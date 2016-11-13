@@ -119,7 +119,7 @@ define( function( require ) {
   } );
 
 
-/**
+  /**
    * A timed queue that can be used to queue playing sounds.
    *
    * @param {number} defaultDelay - default delay for items in the queue
@@ -189,7 +189,7 @@ define( function( require ) {
       var self = this;
       var i = this.index++;
 
-      var active = this.queue[i];
+      var active = this.queue[ i ];
       var next = this.queue[ this.index ];
 
       // return and set running flag to false if there are no items in the queue
@@ -198,7 +198,7 @@ define( function( require ) {
         self.clear();
       };
 
-      if( !active ) {
+      if ( !active ) {
         endRun();
         return;
       }
@@ -206,7 +206,7 @@ define( function( require ) {
       // fire the callback function
       active.callBack();
 
-      if( next ) {
+      if ( next ) {
         setTimeout( function() {
           self.next();
         }, active.delay || self.defaultDelay );

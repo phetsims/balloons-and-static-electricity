@@ -52,7 +52,7 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'WallModel', WallModel );
-  
+
   inherit( Object, WallModel, {
 
     step: function( model ) {

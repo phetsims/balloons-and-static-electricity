@@ -62,6 +62,6 @@ define( function( require ) {
   }
 
   balloonsAndStaticElectricity.register( 'MinusChargeNode', MinusChargeNode );
-  
+
   return inherit( Node, MinusChargeNode );
 } );

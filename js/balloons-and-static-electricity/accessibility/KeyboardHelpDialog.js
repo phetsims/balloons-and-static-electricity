@@ -59,9 +59,9 @@ define( function( require ) {
   var CONTENT_FONT = new PhetFont( 10 );
 
   var SEPARATOR_OPTIONS = { fill: 'white', lineWidth: 0 };
-  var SECTION_TAB = new HSeparator( 30 , SEPARATOR_OPTIONS );
-  var SUB_SECTION_TAB = new HSeparator( 50 , SEPARATOR_OPTIONS );
-  var CONTENT_TAB = new HSeparator( 70 , SEPARATOR_OPTIONS );
+  var SECTION_TAB = new HSeparator( 30, SEPARATOR_OPTIONS );
+  var SUB_SECTION_TAB = new HSeparator( 50, SEPARATOR_OPTIONS );
+  var CONTENT_TAB = new HSeparator( 70, SEPARATOR_OPTIONS );
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
@@ -97,7 +97,7 @@ define( function( require ) {
     var createTextContent = function( string, font, spacing, domRepresentation, listItem ) {
       var textContent = new Text( string, font );
 
-      var children = listItem ? [ spacing, new Circle( 2, {fill: 'black' } ), textContent ] : [ spacing, textContent ];
+      var children = listItem ? [ spacing, new Circle( 2, { fill: 'black' } ), textContent ] : [ spacing, textContent ];
 
       var spacedContent = new HBox( {
         children: children,
@@ -167,7 +167,7 @@ define( function( require ) {
     var closeButton = new RectangularPushButton( {
       content: closeText,
       listener: closeFunction
-     } );
+    } );
 
     // define the accessible content for the close button - close button neds to have a unique event listener that sets
     // focus to the dialog content if 'tab' is pressed
@@ -176,10 +176,10 @@ define( function( require ) {
         var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, keyboardHelpCloseString, closeFunction );
 
         accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
-          if( event.keyCode === Input.KEY_TAB ) {
+          if ( event.keyCode === Input.KEY_TAB ) {
 
             // TODO: Scenery should eventually be able to provide a reference to the node's domElement?
-            contentVBox.accessibleInstances[0].peer.domElement.focus();
+            contentVBox.accessibleInstances[ 0 ].peer.domElement.focus();
             event.preventDefault();
           }
         } );
@@ -202,7 +202,7 @@ define( function( require ) {
           domElement.addEventListener( 'keydown', function( event ) {
             if ( event.keyCode === Input.KEY_TAB ) {
               if ( event.shiftKey ) {
-                closeButton.accessibleInstances[0].peer.domElement.focus();
+                closeButton.accessibleInstances[ 0 ].peer.domElement.focus();
                 event.preventDefault();
               }
             }
@@ -277,7 +277,7 @@ define( function( require ) {
       if ( isShown ) {
 
         // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
-        contentVBox.accessibleInstances[0].peer.domElement.focus();
+        contentVBox.accessibleInstances[ 0 ].peer.domElement.focus();
       }
 
       // TODO: Why is this commented out?

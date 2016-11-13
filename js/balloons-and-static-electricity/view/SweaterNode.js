@@ -140,7 +140,7 @@ define( function( require ) {
         chargeString = manyString;
         neutralityString = positiveString;
       }
-      else if ( charge === MAX_CHARGE ){
+      else if ( charge === MAX_CHARGE ) {
 
         // if no more negative charges remain on sweater, return this immediately
         return sweaterChargeDepletedString;

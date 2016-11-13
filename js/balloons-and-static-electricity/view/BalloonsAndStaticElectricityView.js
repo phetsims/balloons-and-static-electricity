@@ -122,12 +122,12 @@ define( function( require ) {
     keyboardHelpDialog.centerBottom = this.center;
 
     // visualise regions of the play area
-    if( BalloonsAndStaticElectricityQueryParameters.dev ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.dev ) {
       articleContainerNode.addChild( new PlayAreaNode( model ) );
     }
 
     // enable the prototype screen reader
-    if( BalloonsAndStaticElectricityQueryParameters.reader ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.reader ) {
       var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 

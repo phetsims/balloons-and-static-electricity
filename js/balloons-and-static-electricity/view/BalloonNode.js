@@ -66,7 +66,7 @@ define( function( require ) {
     }
 
     // super constructor
-    AccessibleNode.call( this, { 
+    AccessibleNode.call( this, {
       cursor: 'pointer',
 
       // a11y
@@ -163,7 +163,7 @@ define( function( require ) {
       // customShape.moveTo( model.width / 2, model.height - 2 );
       // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
       // path.shape = customShape;
-      
+
       // update the charge description
       model.balloonDescriber.getDescription( model );
     } );

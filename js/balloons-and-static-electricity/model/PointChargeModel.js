@@ -16,7 +16,7 @@ define( function( require ) {
   function PointChargeModel( x, y ) {
 
     // @public {Vector2} - location of the point charge
-    this.locationProperty = new Property ( new Vector2( 0, 0 ) );
+    this.locationProperty = new Property( new Vector2( 0, 0 ) );
 
     // @public (read-only)
     this.defaultLocation = new Vector2( x, y );

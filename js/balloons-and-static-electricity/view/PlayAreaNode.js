@@ -40,7 +40,7 @@ define( function( require ) {
     this.addChild( new Rectangle( model.playArea.rightArmColumn, greyOptions ) );
 
     // left side of play area
-    this.addChild( new Rectangle( model.playArea.playAreaLeftColumn, blueOptions) );
+    this.addChild( new Rectangle( model.playArea.playAreaLeftColumn, blueOptions ) );
 
     // center of play area
     this.addChild( new Rectangle( model.playArea.playAreaCenterColumn, greyOptions ) );

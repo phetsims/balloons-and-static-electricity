@@ -241,7 +241,7 @@ define( function( require ) {
           resetBalloonButtonListener();
 
           var balloonString;
-          var bothBalloonString; 
+          var bothBalloonString;
           if ( model.balloons[ 1 ].isVisibleProperty.get() ) {
             balloonString = 'balloons';
             bothBalloonString = 'Both balloons';
@@ -251,7 +251,7 @@ define( function( require ) {
             bothBalloonString = 'Balloon';
           }
           var resetDescription = StringUtils.format( resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
-          ariaHerald.announceAssertive( resetDescription );   
+          ariaHerald.announceAssertive( resetDescription );
         }
       }
     } );

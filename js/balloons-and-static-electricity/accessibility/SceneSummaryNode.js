@@ -322,7 +322,7 @@ define( function( require ) {
         else if ( A_LOT_RANGE.contains( absCharge ) ) {
           chargeString = aLotString;
         }
-        else if( QUITE_A_LOT_RANGE.contains( absCharge ) ) {
+        else if ( QUITE_A_LOT_RANGE.contains( absCharge ) ) {
           chargeString = quiteALotString;
         }
         assert && assert( chargeString, 'could not describe induced charge for balloon with charge: ' + charge );

@@ -162,7 +162,7 @@ define( function( require ) {
       charge.view.visible = false;
 
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
-      this.chargeProperty.set( this.chargeProperty.get() + 1 );      
+      this.chargeProperty.set( this.chargeProperty.get() + 1 );
     },
 
     /**

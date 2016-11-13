@@ -1,4 +1,4 @@
-  // Copyright 2016, University of Colorado Boulder
+// Copyright 2016, University of Colorado Boulder
 
 /**
  * @author Jesse Greenberg
@@ -180,9 +180,9 @@ define( function( require ) {
       else if ( this.lowerRow.containsPoint( position ) && this.playAreaRightColumn.containsPoint( position ) ) {
         return BalloonLocationEnum.LOWER_RIGHT_PLAY_AREA;
       }
-        else if ( this.lowerRow.containsPoint( position ) && this.rightColumn.containsPoint( position ) ) {
-          return BalloonLocationEnum.LOWER_RIGHT;
-        }
+      else if ( this.lowerRow.containsPoint( position ) && this.rightColumn.containsPoint( position ) ) {
+        return BalloonLocationEnum.LOWER_RIGHT;
+      }
 
       // bounds along the upper row
       else if ( this.upperRow.containsPoint( position ) && this.leftColumn.containsPoint( position ) ) {
