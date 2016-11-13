@@ -58,5 +58,4 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'ReaderDisplayNode', ReaderDisplayNode );
 
   return inherit( Rectangle, ReaderDisplayNode, {} );
-
 } );

@@ -65,11 +65,9 @@ define( function( require ) {
 
     // add the view element as a child
     this.addChild( switchNode );
-
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleABSwitchNode', AccessibleABSwitchNode );
 
   return inherit( AccessibleNode, AccessibleABSwitchNode );
-
 } );

@@ -955,5 +955,4 @@ define( function( require ) {
       return velocityDescription;
     },
   } );
-
 } );

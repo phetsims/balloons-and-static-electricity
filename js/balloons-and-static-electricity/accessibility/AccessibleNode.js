@@ -65,7 +65,7 @@ define( function( require ) {
     // incorrect behavior - once fixed in scenery remove this line
     // temporarily named 'isFocusable' due to collision with scenery/Node
     this._isFocusable = options.focusable;
-    options = _.omit( options, 'focusable');
+    options = _.omit( options, 'focusable' );
 
     Node.call( this, options );
     var self = this;
@@ -257,9 +257,9 @@ define( function( require ) {
     },
 
     /**
-     * Get an id referencing the description element of this node.  Useful when you want to 
+     * Get an id referencing the description element of this node.  Useful when you want to
      * set aria-describedby on a DOM element that is far from this one in the scene graph.
-     * 
+     *
      * @return {string}
      */
     getDescriptionElementID: function() {
@@ -268,9 +268,9 @@ define( function( require ) {
     },
 
     /**
-     * Get an id referencing the label element of this node.  Useful when you want to 
+     * Get an id referencing the label element of this node.  Useful when you want to
      * set aria-labelledby on a DOM element that is far from this one in the scene graph.
-     * 
+     *
      * @return {string}
      */
     getLabelElementID: function() {
@@ -279,10 +279,10 @@ define( function( require ) {
     },
 
     /**
-     * Add the 'aria-describedby' attribute to this node's dom element.  If no description 
+     * Add the 'aria-describedby' attribute to this node's dom element.  If no description
      * id is passed in, the dom element will automatically be described by this element's
      * description.
-     * 
+     *
      * @param {string} [descriptionID] - optional id referencing the description element
      */
     setAriaDescribedBy: function( descriptionID ) {
@@ -292,10 +292,10 @@ define( function( require ) {
 
 
     /**
-     * Add the 'aria-labelledby' attribute to this node's dom element.  If no description 
+     * Add the 'aria-labelledby' attribute to this node's dom element.  If no description
      * id is passed in, the dom element will automatically be described by this element's
      * label elemnet.
-     * 
+     *
      * @param {string} [labelID] - optional id referencing the description element
      */
     setAriaLabelledBy: function( labelID ) {
@@ -440,8 +440,8 @@ define( function( require ) {
       for ( var i = 0; i < children.length; i++ ) {
 
         // searching for the HTML type Node.ELEMENT_NODE, which is equal to 1
-        if ( children[i].nodeType === 1 ) {
-          linearDOM[i] = ( children[ i ] );
+        if ( children[ i ].nodeType === 1 ) {
+          linearDOM[ i ] = ( children[ i ] );
         }
       }
       return linearDOM;
@@ -529,12 +529,11 @@ define( function( require ) {
       return nextFocusable || this.domElement;
     },
 
-
     /**
      * Get a child element with an id.  This should only be used if the element is not in the document.
      * If the element is in the document, document.getElementById is a faster (and more conventional)
      * option.  If the element is not yet in the document this function might be helpful.
-     * 
+     *
      * @param  {DOMElement} parentElement
      * @param  {string} childId
      * @return {DOMElement}
@@ -559,7 +558,7 @@ define( function( require ) {
 
     /**
      * Append a child elelement, but only if it has content.
-     * 
+     *
      * @param {DOMElement} domElement - the dom element to append the child
      * @param {DOMElement} childElement - the child element to append
      */
@@ -568,7 +567,5 @@ define( function( require ) {
         domElement.appendChild( childElement );
       }
     }
-
   } );
-
 } );

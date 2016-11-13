@@ -127,5 +127,4 @@ define( function( require ) {
       }
     }
   } );
-
 } );
