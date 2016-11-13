@@ -1,9 +1,11 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * Model of a balloon.
- * Balloon can have charge, position and velocity.
+ * Model of a balloon, which can have charge, position and velocity.
+ *
  * @author Vasily Shakhov (Mlearner)
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg(PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -270,7 +272,7 @@ define( function( require ) {
     /**
      * Center of a rectangular area that defines the bounds of the balloon
      * that must drag acrosss the sweater to pick up a charge.
-     * 
+     *
      * @return {Vector2}
      */
     getDraggingCenter: function() {
@@ -338,11 +340,11 @@ define( function( require ) {
 
     centerInSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
-      return this.getCenter().x < sweaterBounds.maxX; 
+      return this.getCenter().x < sweaterBounds.maxX;
     },
 
     /**
-     * If the balloon is near the sweater, return true.  Considered near the sweater when 
+     * If the balloon is near the sweater, return true.  Considered near the sweater when
      * within NEAR_SWEATER_DISTANCE from touching the sweater.
      * @return {boolean}
      */
@@ -355,7 +357,7 @@ define( function( require ) {
 
     /**
      * Returns true if the balloon is touching the wall
-     * 
+     *
      * @return {boolean}
      */
     touchingWall: function() {

@@ -1,9 +1,11 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * main Model container.
- * Model contains wall, balloons, sweater
+ * Main model container, which has wall, balloons & sweater.
+ *
  * @author Vasily Shakhov (Mlearner.com)
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg(PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

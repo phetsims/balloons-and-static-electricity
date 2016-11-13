@@ -20,7 +20,7 @@ define( function( require ) {
     UP_LEFT: 'UP_LEFT',
     UP_RIGHT: 'UP_RIGHT',
     DOWN_LEFT: 'DOWN_LEFT',
-    DOWN_RIGHT: 'DOWN_RIGHT',
+    DOWN_RIGHT: 'DOWN_RIGHT'
   };
 
   // verify that enum is immutable, without the runtime penalty in production code
