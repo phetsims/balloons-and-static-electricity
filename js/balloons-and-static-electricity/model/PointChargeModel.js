@@ -1,8 +1,11 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * Point charge model. Each charge have location.
+ * A single point change, which has a location.
+ *
  * @author Vasily Shakhov (Mlearner)
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jesse Greenberg(PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
