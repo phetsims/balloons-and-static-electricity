@@ -20,9 +20,6 @@ define( function( require ) {
     // reader output, useful for debugging
     keyData: { type: 'flag' },
 
-    // dev - eneables developer only features
-    dev: { type: 'flag' },
-
     // showLiveOutput - shows expected output from a screen reader from aria-live
     // content.  Usefull for development and debugging without having to turn on a
     // screen reader

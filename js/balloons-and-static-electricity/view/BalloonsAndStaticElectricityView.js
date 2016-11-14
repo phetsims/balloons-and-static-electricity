@@ -122,7 +122,7 @@ define( function( require ) {
     keyboardHelpDialog.centerBottom = this.center;
 
     // visualise regions of the play area
-    if ( BalloonsAndStaticElectricityQueryParameters.dev ) {
+    if ( phet.chipper.queryParameters.dev ) {
       articleContainerNode.addChild( new PlayAreaNode( model ) );
     }
 
