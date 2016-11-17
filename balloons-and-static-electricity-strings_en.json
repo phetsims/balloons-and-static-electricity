@@ -90,9 +90,6 @@
     "value": "Control Panel",
     "visible" : false
   },
-  "keyboardHelp.dialog": {
-    "value": "Balloon Hotkeys and Key Commands"
-  },
   "keyboardHelp.close": {
     "value": "Close Dialog",
     "visible": false
