@@ -49,7 +49,12 @@ define( function( require ) {
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
-  function WallNode( model ) {
+  /**
+   * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
+   */
+  function WallNode( model, tandem ) {
     var self = this;
 
     // @private
@@ -78,14 +83,16 @@ define( function( require ) {
     minusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
+    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
     wallModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.locationProperty );
+      entry.view = new PlusChargeNode( entry.locationProperty, plusChargeTandemGroup.createTandem() );
       plusChargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
+    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     wallModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.locationProperty );
+      entry.view = new MinusChargeNode( entry.locationProperty, minusChargeTandemGroup.createTandem() );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
       } );

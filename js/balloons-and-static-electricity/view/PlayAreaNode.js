@@ -18,7 +18,12 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Line = require( 'SCENERY/nodes/Line' );
 
-  function PlayAreaNode( model ) {
+  /**
+   * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
+   */
+  function PlayAreaNode( model, tandem ) {
 
     Node.call( this, { pickable: false } );
     var blueOptions = { fill: 'rgba(0,0,255,0.3)' };

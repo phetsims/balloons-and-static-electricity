@@ -55,8 +55,9 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Property.<Vector2>} locationProperty
+   * @pararm {Tandem} tandem
    */
-  function PlusChargeNode( locationProperty ) {
+  function PlusChargeNode( locationProperty, tandem ) {
     Node.call( this, { pickable: false } );
 
     this.translate( locationProperty.get().x - radius, locationProperty.get().y - radius );

@@ -75,8 +75,9 @@ define( function( require ) {
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
    * @param {Bounds2} layoutBounds
+   * @param {Tandem} tandem
    */
-  function ControlPanel( model, layoutBounds ) {
+  function ControlPanel( model, layoutBounds, tandem ) {
 
     // super constructor
     AccessibleNode.call( this, {

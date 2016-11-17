@@ -144,10 +144,11 @@ define( function( require ) {
   var QUITE_A_LOT_RANGE = new Range( 40, 60 );
 
   /**
-   *
    * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
    */
-  function SceneSummaryNode( model ) {
+  function SceneSummaryNode( model, tandem ) {
 
     var self = this;
 

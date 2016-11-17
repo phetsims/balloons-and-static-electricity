@@ -16,7 +16,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  function PointChargeModel( x, y ) {
+  /**
+   * @constructor
+   * @param {number} x      
+   * @param {number} y      
+   * @param {Tandem} tandem
+   */
+  function PointChargeModel( x, y, tandem ) {
 
     // @public {Vector2} - location of the point charge
     this.locationProperty = new Property( new Vector2( 0, 0 ) );

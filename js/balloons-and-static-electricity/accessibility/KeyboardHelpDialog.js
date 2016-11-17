@@ -67,9 +67,11 @@ define( function( require ) {
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    *
    * @param {ScreenView} screenView
+   * @param {BalloonsAndStaticElectricityView} screenView
+   * @param {Tandem} tandem
    * @constructor
    **/
-  function KeyboardHelpDialog( screenView ) {
+  function KeyboardHelpDialog( screenView, tandem ) {
 
     var self = this;
 

@@ -23,9 +23,10 @@ define( function( require ) {
 
   /**
    * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BalloonsAndStaticElectricityAudio( model ) {
+  function BalloonsAndStaticElectricityAudio( model, tandem ) {
 
     // @private
     this.model = model;
@@ -121,6 +122,7 @@ define( function( require ) {
 
   /**
    * A timed queue that can be used to queue playing sounds.
+   * TODO: move to phetcommon, tandem will be optional
    *
    * @param {number} defaultDelay - default delay for items in the queue
    */

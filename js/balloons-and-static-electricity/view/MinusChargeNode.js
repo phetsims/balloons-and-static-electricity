@@ -51,8 +51,9 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Property.<Vector2>} locationProperty
+   * @param {Tandem} tandem
    */
-  function MinusChargeNode( locationProperty ) {
+  function MinusChargeNode( locationProperty, tandem ) {
 
     Node.call( this, { pickable: false } );
 

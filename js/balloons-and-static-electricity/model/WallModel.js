@@ -42,16 +42,19 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
 
+    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
+    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+
     for ( var i = 0; i < this.numX; i++ ) {
       for ( var k = 0; k < this.numY; k++ ) {
         //plus
         var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ] );
+        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargeTandemGroup.createTandem() );
 
         this.plusCharges.push( plusCharge );
 
         //minus
-        var minusCharge = new PointChargeModel( x + position[ 0 ] - PointChargeModel.radius, position[ 1 ] - PointChargeModel.radius );
+        var minusCharge = new PointChargeModel( x + position[ 0 ] - PointChargeModel.radius, position[ 1 ] - PointChargeModel.radius, minusChargeTandemGroup.createTandem() );
         this.minusCharges.push( minusCharge );
       }
     }

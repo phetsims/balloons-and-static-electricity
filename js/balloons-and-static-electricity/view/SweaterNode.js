@@ -41,7 +41,12 @@ define( function( require ) {
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
 
-  function SweaterNode( model ) {
+  /**
+   * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
+   */
+  function SweaterNode( model, tandem ) {
     var self = this;
 
     AccessibleNode.call( this, {
@@ -65,16 +70,18 @@ define( function( require ) {
     } ) );
 
     //draw plus and minus charges
-    this.sweaterModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.locationProperty );
-      self.plusChargesNode.addChild( entry.view );
+    var plusChargeTandemGroup = tandem.createTandem( 'plusCharge' );
+    var minusChargeTandemGroup = tandem.createTandem( 'minusCharge' );
+    this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
+      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeTandemGroup.createTandem() );
+      self.plusChargesNode.addChild( plusCharge.view );
     } );
-    this.sweaterModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.locationProperty );
-      entry.locationProperty.link( function updateLocation( location ) {
-        entry.view.setTranslation( location );
+    this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
+      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeTandemGroup.createTandem() );
+      minusCharge.locationProperty.link( function updateLocation( location ) {
+        minusCharge.view.setTranslation( location );
       } );
-      self.minusChargesNode.addChild( entry.view );
+      self.minusChargesNode.addChild( minusCharge.view );
     } );
 
     this.addChild( this.plusChargesNode );

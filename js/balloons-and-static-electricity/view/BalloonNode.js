@@ -49,9 +49,10 @@ define( function( require ) {
    * @param  {Image} imgsrc - image source from the Image plugin
    * @param  {BalloonsAndStaticElectricityModel} globalModel
    * @param  {string} balloonColor - 'yellow'|'green'
+   * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, keyboardHelpDialog ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, keyboardHelpDialog, tandem ) {
     var self = this;
 
     var balloonButtonLabel;
@@ -130,11 +131,13 @@ define( function( require ) {
     // this.addChild( path );
 
     // static charges
+    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
+    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].locationProperty );
+      model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].locationProperty, plusChargeTandemGroup.createTandem() );
       startChargesNode.addChild( model.plusCharges[ i ].view );
 
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty );
+      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty, minusChargeTandemGroup.createTandem() );
       startChargesNode.addChild( model.minusCharges[ i ].view );
     }
 

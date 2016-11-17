@@ -60,12 +60,12 @@ define( function( require ) {
     } );
     articleContainerNode.addChild( accessibleHeaderNode );
 
-    var sceneSummaryNode = new SceneSummaryNode( model );
+    var sceneSummaryNode = new SceneSummaryNode( model, tandem.createTandem( 'sceneSummaryNode' ) );
     articleContainerNode.addChild( sceneSummaryNode );
 
     // add sonification if enabled
     if ( BalloonsAndStaticElectricityQueryParameters.sonification ) {
-      this.audioView = new BalloonsAndStaticElectricityAudio( model );
+      this.audioView = new BalloonsAndStaticElectricityAudio( model, tandem.createTandem( 'audioView' ) );
     }
 
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
@@ -77,16 +77,16 @@ define( function( require ) {
     } );
 
     // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
+    var keyboardHelpDialog = new KeyboardHelpDialog( this, tandem.createTandem( 'keyboardHelpDialog' ), {
       maxWidth: self.layoutBounds.width
     } );
 
     articleContainerNode.addChild( playAreaContainerNode );
 
-    var sweaterNode = new SweaterNode( model );
+    var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     playAreaContainerNode.addChild( sweaterNode );
 
-    var wall = new WallNode( model );
+    var wall = new WallNode( model, tandem.createTandem( 'wall' ) );
     playAreaContainerNode.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
@@ -96,11 +96,11 @@ define( function( require ) {
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
     articleContainerNode.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
 
-    var controlPanel = new ControlPanel( model, this.layoutBounds );
+    var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog );
+    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog, tandem.createTanden( 'greenBalloonNode') );
+    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog, tandem.createTanden( 'yellowBalloonNode') );
 
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
@@ -128,7 +128,7 @@ define( function( require ) {
 
     // visualise regions of the play area
     if ( phet.chipper.queryParameters.dev ) {
-      articleContainerNode.addChild( new PlayAreaNode( model ) );
+      articleContainerNode.addChild( new PlayAreaNode( model, tandem.createTandem( 'playAreaNode' ) ) );
     }
 
     // enable the prototype screen reader
@@ -136,9 +136,7 @@ define( function( require ) {
       var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 
-      // eslint complains about the unused var reader
       var reader = new Reader( cursor );
-
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
       articleContainerNode.addChild( display );
     }
