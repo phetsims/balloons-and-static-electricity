@@ -28,6 +28,10 @@ define( function( require ) {
   var KEY_C = 67; // keycode for 'j'
   var KEY_N = 78; // keycode for 'j'
   var KEY_SHIFT = 16; // shift key down  
+  var KEY_LEFT = 37; // left arrow key
+  var KEY_RIGHT = 39; // right arrow key
+  var KEY_UP = 38; // up arrow key
+  var KEY_DOWN = 40; // down arrow key
 
   /**
    * Constructor for a button Node.
@@ -157,36 +161,36 @@ define( function( require ) {
       var deltaY = 0;
 
       // TODO: This is specific to BASE... hotkeys need to be generalized
-      if ( self.keyState[ KEY_J ] && self.keyState[ KEY_J ].isKeyDown ) {
+      if ( self.isKeyDown( KEY_J ) ) {
 
         // we have begun a jump interaction, here are the additional key presses
-        if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_S ) ) {
           self.locationProperty.set( new Vector2( 375 - 67, self.locationProperty.get().y ) );
         }
-        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_W ) ) {
           self.locationProperty.set( new Vector2( 621 - 67, self.locationProperty.get().y ) );
         }
-        if ( self.keyState[ KEY_C ] && self.keyState[ KEY_C ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_C ) ) {
           self.locationProperty.set( new Vector2( 507 - 67, self.locationProperty.get().y ) );
         }
-        if ( self.keyState[ KEY_N ] && self.keyState[ KEY_N ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_N ) ) {
           self.locationProperty.set( new Vector2( 577 - 67, self.locationProperty.get().y ) );
         }
       }
       else {
-        if ( self.keyState[ KEY_A ] && self.keyState[ KEY_A ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_A ) || self.isKeyDown( KEY_LEFT ) ) {
           deltaX = -self._positionDelta;
         }
-        if ( self.keyState[ KEY_D ] && self.keyState[ KEY_D ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_D ) || self.isKeyDown( KEY_RIGHT ) ) {
           deltaX = self._positionDelta;
         }
-        if ( self.keyState[ KEY_W ] && self.keyState[ KEY_W ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_W ) || self.isKeyDown( KEY_UP ) ) {
           deltaY = -self._positionDelta;
         }
-        if ( self.keyState[ KEY_S ] && self.keyState[ KEY_S ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_S ) || self.isKeyDown( KEY_DOWN ) ) {
           deltaY = self._positionDelta;
         }
-        if ( self.keyState[ KEY_SHIFT ] && self.keyState[ KEY_SHIFT ].isKeyDown ) {
+        if ( self.isKeyDown( KEY_SHIFT ) ) {
           deltaX *= 2;
           deltaY *= 2;
         }
@@ -210,6 +214,17 @@ define( function( require ) {
      */
     draggableKeyUp: function( keyCode ) {
       return ( keyCode === KEY_S || keyCode === KEY_W || keyCode === KEY_A || keyCode === KEY_D );
+    },
+
+    /**
+     * Check to see if a key is currently down
+     *
+     * @private
+     * @param  {number} keyCode
+     * @return {Boolean}
+     */
+    isKeyDown: function( keyCode ) {
+      return this.keyState[ keyCode ] && this.keyState[ keyCode ].isKeyDown;
     },
 
     /**
