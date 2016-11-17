@@ -213,7 +213,8 @@ define( function( require ) {
      * @return {boolean}
      */
     draggableKeyUp: function( keyCode ) {
-      return ( keyCode === KEY_S || keyCode === KEY_W || keyCode === KEY_A || keyCode === KEY_D );
+      return ( keyCode === KEY_S || keyCode === KEY_W || keyCode === KEY_A || keyCode === KEY_D || 
+                keyCode == KEY_LEFT || keyCode === KEY_RIGHT || keyCode === KEY_UP || keyCode === KEY_DOWN );
     },
 
     /**

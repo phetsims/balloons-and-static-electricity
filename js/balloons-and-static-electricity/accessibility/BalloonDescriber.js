@@ -31,6 +31,10 @@ define( function( require ) {
   var KEY_W = 87; // keyvode for 'w'
   var KEY_A = 65; // keycode for 'a'
   var KEY_D = 68; // keycode for 'd'
+  var KEY_LEFT = 37; // left arrow key
+  var KEY_RIGHT = 39; // right arrow key
+  var KEY_UP = 38; // up arrow key
+  var KEY_DOWN = 40; // down arrow key
 
   // strings
   var balloonDescriptionPatternString = '{0} {1} {2}'; // location, charge, interaction cue
@@ -505,7 +509,7 @@ define( function( require ) {
       var draggingDescription;
 
       var directionString;
-      if ( keyCode === KEY_W ) {
+      if ( keyCode === KEY_W || keyCode === KEY_UP) {
         if ( balloon.onSweater() ) {
           directionString = upString;
         }
@@ -520,7 +524,7 @@ define( function( require ) {
         }
         this.wKeyPressedCount++;
       }
-      else if ( keyCode === KEY_S ) {
+      else if ( keyCode === KEY_S || keyCode === KEY_DOWN ) {
         if ( balloon.onSweater() ) {
           directionString = downString;
         }
@@ -535,7 +539,7 @@ define( function( require ) {
         }
         this.sKeyPressedCount++;
       }
-      else if ( keyCode === KEY_A ) {
+      else if ( keyCode === KEY_A || keyCode === KEY_LEFT ) {
         if ( balloon.onSweater() ) {
           directionString = leftString;
         }
@@ -550,7 +554,7 @@ define( function( require ) {
         }
         this.aKeyPressedCount++;
       }
-      else if ( keyCode === KEY_D ) {
+      else if ( keyCode === KEY_D || keyCode === KEY_RIGHT ) {
         if ( balloon.onSweater() ) {
           directionString = rightString;
         }
