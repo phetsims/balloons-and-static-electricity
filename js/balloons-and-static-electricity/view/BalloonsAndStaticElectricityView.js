@@ -99,8 +99,8 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog, tandem.createTanden( 'greenBalloonNode') );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog, tandem.createTanden( 'yellowBalloonNode') );
+    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog, tandem.createTandem( 'greenBalloonNode') );
+    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog, tandem.createTandem( 'yellowBalloonNode') );
 
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
