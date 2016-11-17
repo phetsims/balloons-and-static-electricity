@@ -16,7 +16,14 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  function WallModel( x, width, height ) {
+  /**
+   * @constructor
+   * @param {number} x     
+   * @param {number} width  
+   * @param {number} height 
+   * @param {Tandem} tandem
+   */
+  function WallModel( x, width, height, tandem ) {
 
     //------------------------------------------------
     //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model

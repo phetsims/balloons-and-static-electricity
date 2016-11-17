@@ -32,7 +32,12 @@ define( function( require ) {
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
-  function BalloonsAndStaticElectricityView( model ) {
+  /**
+   * @constructor
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Tandem} tandem
+   */
+  function BalloonsAndStaticElectricityView( model, tandem ) {
 
     var self = this;
 

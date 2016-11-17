@@ -22,7 +22,13 @@ define( function( require ) {
   var netNeutralString = 'net neutral';
   var netPositiveString = 'net positive';
 
-  function SweaterModel( x, y ) {
+  /**
+   * @constructor
+   * @param {number} x      
+   * @param {number} y      
+   * @param {Tandem} tandem
+   */
+  function SweaterModel( x, y, tandem ) {
 
     // @public {number} - charge on the sweater
     this.chargeProperty = new Property( 0 );
@@ -106,12 +112,14 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
 
+    var plusChargeGroupTandem = tandem.createGroupTandem( 'plusCharge' );
+    var minusChargeGroupTandem = tandem.createGroupTandem( 'minusCharge' );
     this.positions.forEach( function( entry ) {
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, plusChargeGroupTandem.createNextTandem() );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, minusChargeGroupTandem.createNextTandem() );
       self.minusCharges.push( minusCharge );
     } );
     this.reset();

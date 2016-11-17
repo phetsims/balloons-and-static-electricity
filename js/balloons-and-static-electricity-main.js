@@ -14,6 +14,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
@@ -31,12 +32,17 @@ define( function( require ) {
       accessibility: true
     };
 
+    var tandem = Tandem.createRootTandem();
+    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
+
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [
       new Screen(
-        function() {return new BalloonsAndStaticElectricityModel( 768, 504 );},
-        function( model ) {return new BalloonsAndStaticElectricityView( model );},
-        { backgroundColor: '#9ddcf8' }
+        function() {return new BalloonsAndStaticElectricityModel( 768, 504, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ); },
+        function( model ) {return new BalloonsAndStaticElectricityView( model, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' ) ); },
+        {
+          backgroundColor: '#9ddcf8', 
+          tandem: balloonsAndStaticElectricityScreenTandem }
       )
     ], simOptions ).start();
   } );

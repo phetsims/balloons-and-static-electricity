@@ -20,8 +20,11 @@ define( function( require ) {
 
   /**
    * @constructor
+   * @param {number} width
+   * @param {number} height
+   * @param {Tandem} tandem
    */
-  function PlayArea( width, height ) {
+  function PlayArea( width, height, tandem ) {
 
     // total bounds of the play area
     Bounds2.call( this, ORIGIN.x, ORIGIN.y, width, height );

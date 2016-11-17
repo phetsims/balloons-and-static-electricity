@@ -30,9 +30,10 @@ define( function( require ) {
    * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
    * @param {string} labelString - label for the balloon
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString ) {
+  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString, tandem ) {
 
     //------------------------------------------------
     // Properties
@@ -154,20 +155,22 @@ define( function( require ) {
     this.balloonLabel = labelString;
 
     //neutral pair of charges
+    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
+    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargeTandemGroup.createTandem() );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.radius, entry[ 1 ] + PointChargeModel.radius );
+      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.radius, entry[ 1 ] + PointChargeModel.radius, minusChargeTandemGroup.createTandem() );
       self.minusCharges.push( minusCharge );
     } );
 
     //charges that we can get from sweater
     this.positions.forEach( function( entry ) {
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargeTandemGroup.createTandem() );
       self.minusCharges.push( minusCharge );
     } );
 
@@ -178,7 +181,7 @@ define( function( require ) {
     } );
 
     // a11y - describes the balloon based on its model properties
-    this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this );
+    this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this, tandem.createTandem( 'balloonDescriber' ) );
 
     this.reset();
 

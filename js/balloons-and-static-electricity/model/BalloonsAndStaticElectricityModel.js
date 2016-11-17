@@ -20,7 +20,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  function BalloonsAndStaticElectricityModel( width, height ) {
+  /**
+   * [BalloonsAndStaticElectricityModel description]
+   * @param {number} width
+   * @param {number} height
+   * @param {Tandem} tandem
+   */
+  function BalloonsAndStaticElectricityModel( width, height, tandem ) {
 
     // @public {string} - charge visibility setting
     this.showChargesProperty = new Property( 'all' );
@@ -32,10 +38,10 @@ define( function( require ) {
     // @public {read-only}
     this.wallWidth = 80;
 
-    this.playArea = new PlayArea( width, height );
+    this.playArea = new PlayArea( width, height, tandem.createTandem( 'playArea' ) );
 
-    this.wall = new WallModel( width - this.wallWidth, 600, height );
-    this.sweater = new SweaterModel( 0, -50 );
+    this.wall = new WallModel( width - this.wallWidth, 600, height, tandem.createTandem( 'wall' ) );
+    this.sweater = new SweaterModel( 0, -50, tandem.createTandem( 'sweater' ) );
 
     this.bounds = {
       minX: 0,
@@ -44,8 +50,8 @@ define( function( require ) {
       maxY: height
     };
 
-    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW );
-    this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN );
+    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW, tandem.createTandem( 'yellowBalloon') );
+    this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
 
