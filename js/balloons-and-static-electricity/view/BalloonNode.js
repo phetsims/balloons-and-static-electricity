@@ -86,7 +86,7 @@ define( function( require ) {
     this.model = model;
     this.globalModel = globalModel;
 
-    var startChargesNode = new Node( { pickable: false } );
+    var originalChargesNode = new Node( { pickable: false } );
     var addedChargesNode = new Node( { pickable: false } );
 
     var property = {
@@ -135,19 +135,20 @@ define( function( require ) {
     var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
       model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].locationProperty, plusChargeTandemGroup.createTandem() );
-      startChargesNode.addChild( model.plusCharges[ i ].view );
+      originalChargesNode.addChild( model.plusCharges[ i ].view );
 
       model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty, minusChargeTandemGroup.createTandem() );
-      startChargesNode.addChild( model.minusCharges[ i ].view );
+      originalChargesNode.addChild( model.minusCharges[ i ].view );
     }
 
     //possible charges
+    var addedChargeTandemGroup = tandem.createGroupTandem( 'addedCharge' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty );
+      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty, addedChargeTandemGroup.createTandem() );
       model.minusCharges[ i ].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[ i ].view );
     }
-    this.addChild( startChargesNode );
+    this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
     //if change charge, show more minus charges
@@ -174,12 +175,12 @@ define( function( require ) {
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {
       if ( value === 'diff' ) {
-        startChargesNode.visible = false;
+        originalChargesNode.visible = false;
         addedChargesNode.visible = true;
       }
       else {
         var visiblity = (value === 'all');
-        startChargesNode.visible = visiblity;
+        originalChargesNode.visible = visiblity;
         addedChargesNode.visible = visiblity;
       }
     } );

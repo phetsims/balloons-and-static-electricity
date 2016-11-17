@@ -16,12 +16,81 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  // var Range = require( 'DOT/Range' ); // TODO: Will be used for tandem soon
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
+  // phet-io modules
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
+
   var NEAR_SWEATER_DISTANCE = 25;
+
+  // collection of charge positions on the balloon
+  // charges will appear in these positions as the balloon collects electrons
+  var POSITIONS = [
+    [ 14, 70 ],
+    [ 18, 60 ],
+    [ 14, 90 ],
+    [ 24, 130 ],
+    [ 22, 120 ],
+    [ 14, 79 ],
+    [ 22, 120 ],
+    [ 18, 108 ],
+    [ 19, 50 ],
+    [ 44, 150 ],
+    [ 16, 100 ],
+    [ 20, 80 ],
+    [ 50, 160 ],
+    [ 34, 140 ],
+    [ 50, 20 ],
+    [ 30, 30 ],
+    [ 22, 72 ],
+    [ 24, 105 ],
+    [ 20, 110 ],
+    [ 40, 150 ],
+    [ 26, 110 ],
+    [ 30, 115 ],
+    [ 24, 87 ],
+    [ 24, 60 ],
+    [ 24, 40 ],
+    [ 38, 24 ],
+    [ 30, 80 ],
+    [ 30, 50 ],
+    [ 34, 82 ],
+    [ 32, 130 ],
+    [ 30, 108 ],
+    [ 30, 50 ],
+    [ 40, 94 ],
+    [ 30, 100 ],
+    [ 35, 90 ],
+    [ 24, 95 ],
+    [ 34, 100 ],
+    [ 35, 40 ],
+    [ 30, 60 ],
+    [ 32, 72 ],
+    [ 30, 105 ],
+    [ 34, 140 ],
+    [ 30, 120 ],
+    [ 30, 130 ],
+    [ 30, 85 ],
+    [ 34, 77 ],
+    [ 35, 90 ],
+    [ 40, 85 ],
+    [ 34, 90 ],
+    [ 35, 50 ],
+    [ 46, 34 ],
+    [ 32, 72 ],
+    [ 30, 105 ],
+    [ 34, 140 ],
+    [ 34, 120 ],
+    [ 30, 60 ],
+    [ 30, 85 ],
+    [ 34, 77 ]
+  ];
 
   /**
    * Constructor
@@ -39,25 +108,48 @@ define( function( require ) {
     // Properties
 
     // @public {number}
-    this.chargeProperty = new Property( 0 );
+    // TODO: figure out the correct range for the phetioValuetype
+    // latest attempt: range: new Range( -POSITIONS.length + 1, 0 )
+    this.chargeProperty = new Property( 0, {
+      tandem: tandem.createTandem( 'chargeProperty' ),
+      phetioValueType: TNumber( { type: 'Integer' } )
+    } );
 
     // @public {Vector2}
-    this.velocityProperty = new Property( new Vector2( 0, 0 ) );
+    this.velocityProperty = new Property( new Vector2( 0, 0 ), {
+      tandem: tandem.createTandem( 'velocityProperty' ),
+      phetioValueType: TVector2
+    } );
 
     // @public {number}
-    this.isVisibleProperty = new Property( defaultVisibility );
+    this.isVisibleProperty = new Property( defaultVisibility, {
+      tandem: tandem.createTandem( 'isVisibleProperty' ),
+      phetioValueType: TBoolean
+    } );
 
     // @public {boolean}
-    this.isDraggedProperty = new Property( false );
+    this.isDraggedProperty = new Property( false, {
+      tandem: tandem.createTandem( 'isDraggedProperty' ),
+      phetioValueType: TBoolean
+    }  );
 
     // @public {Vector2}
-    this.locationProperty = new Property( new Vector2( x, y ) );
+    this.locationProperty = new Property( new Vector2( x, y ), {
+      tandem: tandem.createTandem( 'locationProperty' ),
+      phetioValueType: TVector2
+    }  );
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
-    this.isStoppedProperty = new Property( false );
+    this.isStoppedProperty = new Property( false, {
+      tandem: tandem.createTandem( 'isStoppedProperty' ),
+      phetioValueType: TBoolean
+    }  );
 
     // @public {Vector2} - velocity of the balloon while dragging
-    this.dragVelocityProperty = new Property( new Vector2( 0, 0 ) );
+    this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
+      tandem: tandem.createTandem( 'dragVelocityProperty' ),
+      phetioValueType: TVector2
+    }  );
 
     //------------------------------------------------
 
@@ -67,68 +159,6 @@ define( function( require ) {
 
     // @private - minimum speed needed to pick up charges on the sweater
     this.thresholdSpeed = 0.025;
-
-    // @private - locations of charges that will be added to the balloon
-    this.positions = [
-      [ 14, 70 ],
-      [ 18, 60 ],
-      [ 14, 90 ],
-      [ 24, 130 ],
-      [ 22, 120 ],
-      [ 14, 79 ],
-      [ 22, 120 ],
-      [ 18, 108 ],
-      [ 19, 50 ],
-      [ 44, 150 ],
-      [ 16, 100 ],
-      [ 20, 80 ],
-      [ 50, 160 ],
-      [ 34, 140 ],
-      [ 50, 20 ],
-      [ 30, 30 ],
-      [ 22, 72 ],
-      [ 24, 105 ],
-      [ 20, 110 ],
-      [ 40, 150 ],
-      [ 26, 110 ],
-      [ 30, 115 ],
-      [ 24, 87 ],
-      [ 24, 60 ],
-      [ 24, 40 ],
-      [ 38, 24 ],
-      [ 30, 80 ],
-      [ 30, 50 ],
-      [ 34, 82 ],
-      [ 32, 130 ],
-      [ 30, 108 ],
-      [ 30, 50 ],
-      [ 40, 94 ],
-      [ 30, 100 ],
-      [ 35, 90 ],
-      [ 24, 95 ],
-      [ 34, 100 ],
-      [ 35, 40 ],
-      [ 30, 60 ],
-      [ 32, 72 ],
-      [ 30, 105 ],
-      [ 34, 140 ],
-      [ 30, 120 ],
-      [ 30, 130 ],
-      [ 30, 85 ],
-      [ 34, 77 ],
-      [ 35, 90 ],
-      [ 40, 85 ],
-      [ 34, 90 ],
-      [ 35, 50 ],
-      [ 46, 34 ],
-      [ 32, 72 ],
-      [ 30, 105 ],
-      [ 34, 140 ],
-      [ 34, 120 ],
-      [ 30, 60 ],
-      [ 30, 85 ],
-      [ 34, 77 ]
-    ];
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
@@ -168,7 +198,7 @@ define( function( require ) {
     } );
 
     //charges that we can get from sweater
-    this.positions.forEach( function( entry ) {
+    POSITIONS.forEach( function( entry ) {
       //minus
       var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargeTandemGroup.createTandem() );
       self.minusCharges.push( minusCharge );
