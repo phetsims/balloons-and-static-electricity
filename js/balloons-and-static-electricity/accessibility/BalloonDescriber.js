@@ -658,6 +658,13 @@ define( function( require ) {
       }
     },
 
+    /**
+     * Get a description of the balloon rubbing the wall.  This should only be called
+     * if the balloon is touching the wall.  This description includes the induced charge
+     * in the wall.
+     * @param  {BalloonModel} balloon
+     * @return {string}
+     */
     getWallRubDescription: function( balloon ) {
       var charge = Math.abs( balloon.chargeProperty.get() );
       var inducedChargeDescription;
