@@ -258,7 +258,6 @@ define( function( require ) {
 
     Dialog.call( this, dialogVBox, {
       modal: true,
-      focusable: true,
       hasCloseButton: false,
       layoutStrategy: function( window, simBounds, screenBounds, scale ) {
 
