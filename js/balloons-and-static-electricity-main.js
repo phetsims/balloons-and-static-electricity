@@ -15,6 +15,8 @@ define( function( require ) {
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Property = require( 'AXON/Property' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
@@ -41,7 +43,7 @@ define( function( require ) {
         function() {return new BalloonsAndStaticElectricityModel( 768, 504, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ); },
         function( model ) {return new BalloonsAndStaticElectricityView( model, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' ) ); },
         {
-          backgroundColor: '#9ddcf8', 
+          backgroundColorProperty: new Property( Color.toColor( '#9ddcf8' ) ),
           tandem: balloonsAndStaticElectricityScreenTandem }
       )
     ], simOptions ).start();
