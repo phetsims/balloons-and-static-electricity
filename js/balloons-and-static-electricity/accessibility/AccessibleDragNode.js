@@ -52,6 +52,12 @@ define( function( require ) {
       events: {
         keydown: function( event ) {
 
+          // if key down is for dragging, prevent default
+          if ( self.draggableKeyUp( event.keyCode ) ) {
+            // required for VoiceOver with Safari
+            event.preventDefault();
+          }
+
           // update the key state on down
           self.keyState[ event.keyCode || event.which ] = {
             isKeyDown: true,
