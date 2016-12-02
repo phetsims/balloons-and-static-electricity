@@ -1,71 +1,71 @@
 {
-  "comment": "# balloons-and-static-electricity 1.1.5-dev.2 Thu Nov 17 2016 16:33:12 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.1.5-dev.3 Fri Dec 02 2016 11:09:36 GMT-0700 (Mountain Standard Time)",
   "assert": {
-    "sha": "845be6b591cb746b0b05b7023208aef2e49a8855",
+    "sha": "1ea1df653504bc6eeb454051cedc7fb970a10cac",
     "branch": "master"
   },
   "axon": {
-    "sha": "77064d4b20ec252aa0524ddaf82dc2357b71a56d",
+    "sha": "0d2c27e1839921557449c94b6c88ebf3bf4905c2",
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "45821abe6434a20e48ab5d4ce6df86f991930b84",
+    "sha": "32c48974a7acbddc9e0aa26ad17a60a96608397d",
     "branch": "master"
   },
   "brand": {
-    "sha": "6d85e08a11e5e7482e62cd0c1d177337aabc34b2",
+    "sha": "52947b3f3a2afb7bb0bca943005aa929bb4d53c4",
     "branch": "master"
   },
   "chipper": {
-    "sha": "74859f518178e4dbe95480404e99fb6335525439",
+    "sha": "d3f3c17ee58487f2add3b7a306005c7eb83c7048",
     "branch": "master"
   },
   "dot": {
-    "sha": "2765eb4d9e836db1e467c9766c9f767f53659a95",
+    "sha": "56d026b65ec9142f7299d8f3999177c17ca8ca3a",
     "branch": "master"
   },
   "joist": {
-    "sha": "9b63704ed87b5a6edb12acc84f35d90f0b840989",
+    "sha": "67cf2f364a023fe1bbcd5c16e9092c5285bdd6cc",
     "branch": "master"
   },
   "kite": {
-    "sha": "48cb255e5fba37c5b3f2f127a13656ea8b760d34",
+    "sha": "e5affc4c2cdfa007e7d93ce977f3249d7b449270",
     "branch": "master"
   },
   "phet-core": {
-    "sha": "5c236a98229aa665c9f361092796bebda7bd5ebf",
+    "sha": "87b5cab337ae4dd283a23b6c813c3b8781e34283",
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "90e0ebbe5014cf5d9930de66b9009858eba366a3",
+    "sha": "1238594252b94003f9794d9f3c72a35df6411d0d",
     "branch": "master"
   },
   "query-string-machine": {
-    "sha": "2c0a898b19ed038705aa2043f7342592c912d8e1",
+    "sha": "5b8a2418e8e331c3102c380f7f8b14ee91e61321",
     "branch": "master"
   },
   "scenery": {
-    "sha": "63d2699c1114c65cf2ae28573f7a9802a42dbc95",
+    "sha": "c7ffe7f6ec7ace42984236478f266dc61b1184c5",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "49d8467dfef0167968efd9f719949ddbeb956a05",
+    "sha": "3cdafa7e0b23866d7b815fa1dda8388e8f26b0b8",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "bc19483f9cae25372295f860bf9d44dc850ea73b",
+    "sha": "c2e033b0cba79aa26f9b76b00f3c9130090668f3",
     "branch": "master"
   },
   "sun": {
-    "sha": "c8c2db97e83b69b3263cef0bebae83b17ea35560",
+    "sha": "1e3146cab6913ab46f01362b19b7cc7e443fc66e",
     "branch": "master"
   },
   "tandem": {
-    "sha": "2148ad6e7203e134bc935a0f36246396400ec954",
+    "sha": "0f1bb8eb3a974bbb4df6ed6657ca124840c62357",
     "branch": "master"
   },
   "vibe": {
-    "sha": "877f0c5d23d29944d0f2f2fc6eb0a8d3275ee439",
+    "sha": "fbed16a70a22b65a3aa9380c69e0b82f11b6a774",
     "branch": "master"
   }
 }
