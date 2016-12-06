@@ -294,7 +294,7 @@ define( function( require ) {
         locationStringPattern = draggingLocationStringPattern;
       }
       else {
-        if ( balloon.chargeProperty.get() < 0 && balloon.onSweater() ) {
+        if ( balloon.chargeProperty.get() < 0 && balloon.onSweater() && !balloon.isDraggedProperty.get() ) {
           locationStringPattern = stickingToLocationPatternString;
         }
         else {
