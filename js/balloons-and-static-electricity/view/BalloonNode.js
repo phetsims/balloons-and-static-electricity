@@ -151,10 +151,14 @@ define( function( require ) {
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
-    //if change charge, show more minus charges
+    //if change charge, show more minus charges and update the description
     model.chargeProperty.link( function updateCharge( chargeVal ) {
       if ( chargeVal ) {
         model.minusCharges[ model.plusCharges.length - 1 - chargeVal ].view.visible = true;
+
+        // a11y
+        var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
+        self.setDescription( locationDescription );
       }
     } );
 
@@ -254,7 +258,7 @@ define( function( require ) {
       }
     } );
 
-    // when an interaction has ended, update the user with an alert to let them know the state of the balloon  
+    // when an interaction has ended, update the user with the results through an assertive alert  
     model.interactionEndEmitter.addListener( function( ) {
       self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
