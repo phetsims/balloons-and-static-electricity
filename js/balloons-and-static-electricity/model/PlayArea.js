@@ -97,12 +97,12 @@ define( function( require ) {
     x += sweaterSectionWidth;
 
     // @public (read-only) - right arm down sweater
-    this.rightArmColumn = new Bounds2( x, y, x + sweaterSectionWidth, height );
-    x += sweaterSectionWidth;
+    this.rightArmColumn = new Bounds2( x, y, x + sweaterSectionWidth * 1.5, height );
+    x += sweaterSectionWidth * 1.5;
 
     // @public (read-only) - left side of play area (but to the right of sweater)
-    this.playAreaLeftColumn = new Bounds2( x, y, x + leftSideWidth, height );
-    x += leftSideWidth;
+    this.playAreaLeftColumn = new Bounds2( x, y, x + leftSideWidth - sweaterSectionWidth / 1.5, height );
+    x += leftSideWidth - sweaterSectionWidth / 1.5;
 
     // @public (read-only) - center of the play area
     this.playAreaCenterColumn = new Bounds2( x, y, x + centerWidth, height );
