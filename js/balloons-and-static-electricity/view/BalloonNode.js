@@ -248,8 +248,15 @@ define( function( require ) {
 
     this.draggableNode.keyUpEmitter.addListener( function( event ) {
       if ( self.draggableNode.draggableKeyUp( event.keyCode ) ) {
-        self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( self.model, event.keyCode ) );
+        // on the next animation frame (after balloon has moved and picked up all charges)
+        // announce the interaction in an alert
+        model.announceInteraction = true;
       }
+    } );
+
+    // when an interaction has ended, update the user with an alert to let them know the state of the balloon  
+    model.interactionEndEmitter.addListener( function( ) {
+      self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 
     this.draggableNode.balloonJumpingEmitter.addListener( function( event ) {

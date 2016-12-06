@@ -16,6 +16,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Emitter = require( 'AXON/Emitter' );
   // var Range = require( 'DOT/Range' ); // TODO: Will be used for tandem soon
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
@@ -167,6 +168,12 @@ define( function( require ) {
       [ 44, 140 ],
       [ 88, 140 ]
     ];
+
+    // @public - will emit when the user has completed an interaction with the balloon
+    this.interactionEndEmitter = new Emitter();
+
+    // @private - flag that is set to true once the user has completed an interaction
+    this.announceInteraction = false;
 
     var self = this;
 
@@ -445,7 +452,19 @@ define( function( require ) {
         else {
           BalloonModel.applyForce( model, this, dt );
         }
+
+        if ( this.announceInteraction ) {
+          // once an interaction is finished, notify that the descriptions should be updated
+          // this must happen after dragBalloon is called so that the charges are correctly
+          // described
+          this.interactionEndEmitter.emit();
+
+          // do not describe again until next interaction
+          this.announceInteraction = false;
+        }
       }
+
+
       this.oldLocation = this.locationProperty.get().copy();
     },
 

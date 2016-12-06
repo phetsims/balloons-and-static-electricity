@@ -27,15 +27,6 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
-  var KEY_S = 83; // keycode for 's'
-  var KEY_W = 87; // keyvode for 'w'
-  var KEY_A = 65; // keycode for 'a'
-  var KEY_D = 68; // keycode for 'd'
-  var KEY_LEFT = 37; // left arrow key
-  var KEY_RIGHT = 39; // right arrow key
-  var KEY_UP = 38; // up arrow key
-  var KEY_DOWN = 40; // down arrow key
-
   // strings
   var balloonDescriptionPatternString = '{0} {1} {2}'; // location, charge, interaction cue
   var balloonGrabbedDescriptionPatternString = '{0} {1} {2} {3}'; // grabbed, location, charge, interaction cue 
@@ -505,12 +496,14 @@ define( function( require ) {
      * @param  {Balloon} balloon
      * @return {string}
      */
-    getDraggingDescription: function( balloon, keyCode ) {
+    getDraggingDescription: function( location, oldLocation ) {
       var draggingDescription;
 
+      var direction = this.getMovementDirection( location, oldLocation );
+
       var directionString;
-      if ( keyCode === KEY_W || keyCode === KEY_UP) {
-        if ( balloon.onSweater() ) {
+      if ( direction === BalloonDirectionEnum.UP ) {
+        if ( this.balloon.onSweater() ) {
           directionString = upString;
         }
         else if ( this.wKeyPressedCount === 0 ) {
@@ -524,8 +517,8 @@ define( function( require ) {
         }
         this.wKeyPressedCount++;
       }
-      else if ( keyCode === KEY_S || keyCode === KEY_DOWN ) {
-        if ( balloon.onSweater() ) {
+      else if ( direction === BalloonDirectionEnum.DOWN ) {
+        if ( this.balloon.onSweater() ) {
           directionString = downString;
         }
         else if ( this.sKeyPressedCount === 0 ) {
@@ -539,8 +532,8 @@ define( function( require ) {
         }
         this.sKeyPressedCount++;
       }
-      else if ( keyCode === KEY_A || keyCode === KEY_LEFT ) {
-        if ( balloon.onSweater() ) {
+      else if ( direction === BalloonDirectionEnum.LEFT ) {
+        if ( this.balloon.onSweater() ) {
           directionString = leftString;
         }
         else if ( this.aKeyPressedCount === 0 ) {
@@ -554,8 +547,8 @@ define( function( require ) {
         }
         this.aKeyPressedCount++;
       }
-      else if ( keyCode === KEY_D || keyCode === KEY_RIGHT ) {
-        if ( balloon.onSweater() ) {
+      else if ( direction === BalloonDirectionEnum.RIGHT ) {
+        if ( this.balloon.onSweater() ) {
           directionString = rightString;
         }
         else if ( this.dKeyPressedCount === 0 ) {
@@ -588,26 +581,26 @@ define( function( require ) {
       if ( this.balloonOnSweater ) {
 
         // this will be true on the first rub, after user hits sweater the first time
-        var onSweaterDescription = this.getSweaterRubDescription( balloon );
+        var onSweaterDescription = this.getSweaterRubDescription( this.balloon );
       }
-      if ( balloon.touchingWall() ) {
-        var atWallDescription = this.getWallRubDescription( balloon );
+      if ( this.balloon.touchingWall() ) {
+        var atWallDescription = this.getWallRubDescription( this.balloon );
       }
-      if ( balloon.touchingWall() !== this.balloonTouchingWall ) {
-        if ( !balloon.touchingWall() && this.balloon.chargeProperty.get() < 0 ) {
+      if ( this.balloon.touchingWall() !== this.balloonTouchingWall ) {
+        if ( !this.balloon.touchingWall() && this.balloon.chargeProperty.get() < 0 ) {
 
           // the balloon is leaving the wall, so describe the change in induced charge
-          var leavingWallDescription = this.getLeavingWallDescription( balloon );
+          var leavingWallDescription = this.getLeavingWallDescription( this.balloon );
         }
-        this.balloonTouchingWall = balloon.touchingWall();
+        this.balloonTouchingWall = this.balloon.touchingWall();
       }
 
-      var newBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
-      if ( newBounds !== this.balloonBounds || balloon.getBoundaryObject() ) {
+      var newBounds = this.model.playArea.getPointBounds( this.balloon.getCenter() );
+      if ( newBounds !== this.balloonBounds || this.balloon.getBoundaryObject() ) {
         this.balloonBounds = newBounds;
-        var locationString = this.getBalloonLocationDescription( balloon, true );
+        var locationString = this.getBalloonLocationDescription( this.balloon, true );
       }
-      var proximityString = this.getBalloonProximityDescription( balloon );
+      var proximityString = this.getBalloonProximityDescription( this.balloon );
 
       var string1 = '';
       var string2 = '';
@@ -615,10 +608,10 @@ define( function( require ) {
       var string4 = '';
       var string5 = '';
       var string6 = '';
-      if ( directionString && this.balloonLocation !== balloon.locationProperty.get() ) {
+      if ( directionString && this.balloonLocation !== this.balloon.locationProperty.get() ) {
         string1 = directionString;
       }
-      if ( onSweaterDescription && balloon.onSweater() ) {
+      if ( onSweaterDescription && this.balloon.onSweater() ) {
 
         // if the balloon moves off the sweater, we do not want to hear this
         string2 = onSweaterDescription;
@@ -626,19 +619,45 @@ define( function( require ) {
       if ( proximityString ) {
         string3 = proximityString;
       }
-      if ( locationString && !balloon.onSweater() ) {
+      if ( locationString && !this.balloon.onSweater() ) {
         string4 = locationString;
       }
-      if ( atWallDescription && this.balloonLocation !== balloon.locationProperty.get() ) {
+      if ( atWallDescription && this.balloonLocation !== this.balloon.locationProperty.get() ) {
         string5 = atWallDescription;
       }
       if ( leavingWallDescription ) {
         string6 = leavingWallDescription;
       }
 
-      this.balloonLocation = balloon.locationProperty.get();
+      this.balloonLocation = this.balloon.locationProperty.get();
       draggingDescription = StringUtils.format( balloonDragDescriptionPatternString, string1, string2, string3, string4, string5, string6 );
       return draggingDescription;
+    },
+
+    /**
+     * Get the movement direction for the balloon.  Will be one of BalloonDirectionEnum entires.
+     * @param  {Vector2} location    
+     * @param  {Vector2} oldLocation 
+     * @return {string}s
+     */
+    getMovementDirection: function( location, oldLocation ) {
+      var delta = location.minus( oldLocation );
+      var direction; // string
+
+      if ( delta.x > 0 ) {
+        direction = BalloonDirectionEnum.RIGHT;
+      }
+      else if ( delta.x < 0 ) {
+        direction = BalloonDirectionEnum.LEFT;
+      }
+      else if ( delta.y > 0 ) {
+        direction = BalloonDirectionEnum.DOWN;
+      }
+      else if ( delta.y < 0 ) {
+        direction = BalloonDirectionEnum.UP;
+      }
+
+      return direction;
     },
 
     /**
