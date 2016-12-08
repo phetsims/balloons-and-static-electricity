@@ -7,7 +7,7 @@
  * invisible content to give the user a list of keyboard interactions for Forces and Motion: Basics.  Once the look and
  * feel are defined, that will be inplemented in an object like this.
 
- * TODO: Accessible dialog's are tricky!  They Don't work very well for many screen readers.  For now, everything will be
+ * TODO: Accessible dialogs are tricky!  They Don't work very well for many screen readers.  For now, everything will be
  * contained inside of a section, but it will still be hidden and accessed much like a modal dialog.
  *
  * @author: Jesse Greenberg
@@ -21,6 +21,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -67,11 +68,16 @@ define( function( require ) {
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    *
    * @param {ScreenView} screenView
-   * @param {BalloonsAndStaticElectricityView} screenView
    * @param {Tandem} tandem
    * @constructor
    **/
-  function KeyboardHelpDialog( screenView, tandem ) {
+  function KeyboardHelpDialog( screenView, options ) {
+
+    options = _.extend( {
+      tandem: Tandem.createDefaultTandem( 'keyboardHelpDialog' )
+    }, options );
+
+    Tandem.validateOptions( options );
 
     var self = this;
 
@@ -168,7 +174,8 @@ define( function( require ) {
     };
     var closeButton = new RectangularPushButton( {
       content: closeText,
-      listener: closeFunction
+      listener: closeFunction,
+      tandem: options.tandem.createTandem( 'closeButton' )
     } );
 
     // define the accessible content for the close button - close button neds to have a unique event listener that sets

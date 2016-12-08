@@ -99,7 +99,7 @@ define( function( require ) {
     };
 
     //When dragging, move the balloon
-    var balloonDragHandler = new MovableDragHandler( property, {
+    var dragHandler = new MovableDragHandler( property, {
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: function() {
@@ -109,10 +109,11 @@ define( function( require ) {
         model.isDraggedProperty.set( false );
         model.velocityProperty.set( new Vector2( 0, 0 ) );
         model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
-      }
+      },
+      tandem: tandem.createTandem( 'dragHandler' )
     } );
 
-    this.addInputListener( balloonDragHandler );
+    this.addInputListener( dragHandler );
 
     // add the Balloon image
     var balloonImageNode = new Image( imgsrc );
@@ -259,7 +260,7 @@ define( function( require ) {
     } );
 
     // when an interaction has ended, update the user with the results through an assertive alert  
-    model.interactionEndEmitter.addListener( function( ) {
+    model.interactionEndEmitter.addListener( function() {
       self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 

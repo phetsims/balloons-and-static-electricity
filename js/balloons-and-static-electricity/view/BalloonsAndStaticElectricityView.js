@@ -77,8 +77,9 @@ define( function( require ) {
     } );
 
     // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this, tandem.createTandem( 'keyboardHelpDialog' ), {
-      maxWidth: self.layoutBounds.width
+    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
+      maxWidth: self.layoutBounds.width,
+      tandem: tandem.createTandem( 'keyboardHelpDialog' )
     } );
 
     articleContainerNode.addChild( playAreaContainerNode );

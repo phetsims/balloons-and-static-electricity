@@ -14,18 +14,18 @@ define( function( require ) {
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var ABSwitch = require( 'SUN/ABSwitch' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * Constructor.
    *
-   * @param {number} x
-   * @param {number} y
-   * @param {BalloonModel} model
-   * @param {Image} imgsrc
-   * @param {BalloonsAndStaticElectricityModel} globalModel
-   * @param {object} options
+   * @param property
+   * @param valueA
+   * @param labelA
+   * @param valueB
+   * @param labelB
+   * @param options
    * @constructor
-   **/
+   */
   function AccessibleABSwitchNode( property, valueA, labelA, valueB, labelB, options ) {
 
     var self = this;
@@ -52,7 +52,8 @@ define( function( require ) {
           attribute: 'aria-checked',
           value: false
         }
-      ]
+      ],
+      tandem: Tandem.createDefaultTandem( 'accessibleABSwitchNode' )
 
     }, options );
 

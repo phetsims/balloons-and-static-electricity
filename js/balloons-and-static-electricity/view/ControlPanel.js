@@ -101,7 +101,8 @@ define( function( require ) {
         content: wallToggleNode,
         baseColor: 'rgb( 255, 200, 0 )',
         listener: wallButtonListener,
-        accessibleContent: null // for now, accessble content implemented below
+      accessibleContent: null, // for now, accessble content implemented below
+      tandem: tandem.createTandem( 'wallButton' )
       }
     );
 
@@ -164,7 +165,8 @@ define( function( require ) {
       touchAreaXDilation: 5,
       radioButtonOptions: {
         accessibleContent: null
-      }
+      },
+      tandem: tandem.createTandem( 'showChargesRadioButtonGroup' )
     } );
 
     // the charge radio buttons should not be accessible for now, see
@@ -199,7 +201,8 @@ define( function( require ) {
       new AccessibleABSwitchNode( model.greenBalloon.isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
         switchSize: new Dimension2( 32, 16 ),
         label: twoBalloonExperimentLabelString,
-        description: abSwitchDescriptionString
+        description: abSwitchDescriptionString,
+        tandem: tandem.createTandem( 'showBalloonsSwitchNode' )
       } ),
       { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
     );
@@ -223,7 +226,8 @@ define( function( require ) {
       buttonValue: resetBalloonString,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
-      accessibleContent: null // temporary - disable content here, implemented below
+      accessibleContent: null, // temporary - disable content here, implemented below
+      tandem: tandem.createTandem( 'resetBalloonButton' )
     } );
 
     // create the accessible description for the reset balloon button
@@ -268,7 +272,11 @@ define( function( require ) {
     var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, accessibleResetBalloonButton ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
-    var resetAllButton = new ResetAllButton( { listener: model.reset.bind( model ), scale: 0.96 } );
+    var resetAllButton = new ResetAllButton( {
+      listener: model.reset.bind( model ),
+      scale: 0.96,
+      tandem: tandem.createTandem( 'resetAllButton' )
+    } );
     resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to common code
     var accessibleResetAllButton = new AccessibleNode( {
       children: [ resetAllButton ],

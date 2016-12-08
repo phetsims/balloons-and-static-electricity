@@ -20,6 +20,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
+  // phet-io modules
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+
   /**
    * [BalloonsAndStaticElectricityModel description]
    * @param {number} width
@@ -29,7 +32,10 @@ define( function( require ) {
   function BalloonsAndStaticElectricityModel( width, height, tandem ) {
 
     // @public {string} - charge visibility setting
-    this.showChargesProperty = new Property( 'all' );
+    this.showChargesProperty = new Property( 'all', {
+      tandem: tandem.createTandem( 'showChargesProperty' ),
+      phetioValueType: TString
+    } );
 
     // @public (read-only)
     this.width = width;
@@ -50,7 +56,7 @@ define( function( require ) {
       maxY: height
     };
 
-    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW, tandem.createTandem( 'yellowBalloon') );
+    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW, tandem.createTandem( 'yellowBalloon' ) );
     this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
