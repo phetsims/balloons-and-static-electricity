@@ -160,6 +160,7 @@ define( function( require ) {
         value: 'diff'
       }
     ], {
+      radius: 7,
       touchAreaXDilation: 5,
       radioButtonOptions: {
         accessibleContent: null
