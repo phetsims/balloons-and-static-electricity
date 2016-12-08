@@ -19,6 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -29,9 +30,7 @@ define( function( require ) {
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var AccessibleABSwitchNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleABSwitchNode' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
@@ -183,7 +182,9 @@ define( function( require ) {
       children: [
         new Image( balloonGreen, { x: 160 } ),
         yellowBalloonImage
-      ], scale: scale
+      ],
+      scale: scale,
+      tandem: tandem.createTandem( 'twoBalloonIcon' )
     } );
 
     var oneBalloonIcon = new Node( {
@@ -193,19 +194,67 @@ define( function( require ) {
           fill: 'black',
           visible: false
         } )
-      ], scale: scale
+      ],
+      scale: scale,
+      tandem: tandem.createTandem( 'oneBalloonIcon' )
     } );
 
     // ABSwitch inside of a panel to control the number of balloons on screen
-    var showBalloonsChoice = new Panel(
-      new AccessibleABSwitchNode( model.greenBalloon.isVisibleProperty, false, oneBalloonIcon, true, twoBalloonIcon, {
-        switchSize: new Dimension2( 32, 16 ),
-        label: twoBalloonExperimentLabelString,
-        description: abSwitchDescriptionString,
-        tandem: tandem.createTandem( 'showBalloonsSwitchNode' )
-      } ),
-      { fill: 'rgb( 240, 240, 240 )', cornerRadius: 5 }
+    var showBalloonsChoice = new RadioButtonGroup( model.greenBalloon.isVisibleProperty,
+      [
+        { value: false,
+          node: oneBalloonIcon,
+          tandemName: 'oneBalloonRadioButton'
+        },
+        { value: true,
+          node: twoBalloonIcon,
+          tandemName: 'twoBalloonRadioButton'
+        }
+      ],
+      {
+        orientation: 'horizontal',
+        baseColor: 'white',
+        spacing: 5,
+        tandem: tandem.createTandem( 'RadioButtonGroup' )
+      }
     );
+
+    // the balloon radio buttons need unique representation in the DOM for now, see
+    showBalloonsChoice.accessibleContent = null;
+    showBalloonsChoice.children.forEach( function( child ) {
+      child.accessibleContent = null;
+    } );
+    showBalloonsChoice.accessibleContent = null;
+
+    var accessibleShowBalloonsChoice = new AccessibleNode( {
+      tagName: 'input',
+      inputType: 'checkbox',
+      useAriaLabel: true,
+      parentContainerTagName: 'div',
+      ariaRole: 'switch',
+      ariaAttributes: [
+        { attribute: 'aria-checked', value: false }
+      ],
+      label: twoBalloonExperimentLabelString,
+      description: abSwitchDescriptionString,
+      events: {
+        click: function( event ) {
+
+          var newState = !model.greenBalloon.isVisibleProperty.get();
+
+          // toggle the value on click event
+          model.greenBalloon.isVisibleProperty.set( !model.greenBalloon.isVisibleProperty.get() );
+
+          // toggle the aria-checked value, checked when valueB selected
+          this.setAttribute( 'aria-checked', newState );
+        }
+      }
+    } );
+
+    // the input element must have at least this width for Safari to recognize
+    accessibleShowBalloonsChoice.domElement.style.width = '1px';
+
+    accessibleShowBalloonsChoice.addChild( showBalloonsChoice );
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
@@ -269,7 +318,7 @@ define( function( require ) {
       accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
     } );
 
-    var balloonsPanel = new VBox( { spacing: 2, children: [ showBalloonsChoice, accessibleResetBalloonButton ] } );
+    var balloonsPanel = new VBox( { spacing: 2, children: [ accessibleShowBalloonsChoice, accessibleResetBalloonButton ] } );
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( {
@@ -335,7 +384,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.accessibleWallButton, showBalloonsChoice, accessibleResetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ this.accessibleWallButton, accessibleShowBalloonsChoice, accessibleResetBalloonButton, resetAllButton ];
 
   }
 
