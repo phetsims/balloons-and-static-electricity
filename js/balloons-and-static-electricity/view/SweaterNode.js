@@ -70,14 +70,14 @@ define( function( require ) {
     } ) );
 
     //draw plus and minus charges
-    var plusChargeTandemGroup = tandem.createTandem( 'plusCharge' );
-    var minusChargeTandemGroup = tandem.createTandem( 'minusCharge' );
+    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
+    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeTandemGroup.createTandem() );
+      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusCharge.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeTandemGroup.createTandem() );
+      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeTandemGroup.createNextTandem() );
       minusCharge.locationProperty.link( function updateLocation( location ) {
         minusCharge.view.setTranslation( location );
       } );

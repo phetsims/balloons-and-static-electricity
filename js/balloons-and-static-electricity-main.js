@@ -40,8 +40,17 @@ define( function( require ) {
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [
       new Screen(
-        function() {return new BalloonsAndStaticElectricityModel( 768, 504, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ); },
-        function( model ) {return new BalloonsAndStaticElectricityView( model, balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' ) ); },
+        function() {return new BalloonsAndStaticElectricityModel(
+          768,
+          504,
+          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );
+        },
+        function( model ) {
+          return new BalloonsAndStaticElectricityView(
+            model,
+            balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
+          );
+        },
         {
           backgroundColorProperty: new Property( Color.toColor( '#9ddcf8' ) ),
           tandem: balloonsAndStaticElectricityScreenTandem }

@@ -16,6 +16,10 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Range = require( 'DOT/Range' );
+
+  // phet-io modules
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // strings
   var sweaterNetChargePatternString = 'Sweater has a {0} charge';
@@ -29,9 +33,6 @@ define( function( require ) {
    * @param {Tandem} tandem
    */
   function SweaterModel( x, y, tandem ) {
-
-    // @public {number} - charge on the sweater
-    this.chargeProperty = new Property( 0 );
 
     // public (read-only) - dimensions of the sweater
     this.width = 330;
@@ -96,6 +97,13 @@ define( function( require ) {
       [ 295, 358 ],
       [ 290, 387 ]
     ];
+
+    // @public {number} - charge on the sweater
+    this.chargeProperty = new Property( 0, {
+      tandem: tandem.createTandem( 'chargeProperty' ),
+      phetioValueType: TNumber( { type: 'Integer', range: new Range( -this.positions.length, 0 ) } ),
+      phetioInstanceDocumentation: 'this value is set internally by the simulation and should not be overridden'
+    } );
 
     var self = this;
 

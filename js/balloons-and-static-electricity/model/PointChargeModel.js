@@ -16,6 +16,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
+  // phet-io modules
+  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
+
   /**
    * @constructor
    * @param {number} x      
@@ -25,7 +28,10 @@ define( function( require ) {
   function PointChargeModel( x, y, tandem ) {
 
     // @public {Vector2} - location of the point charge
-    this.locationProperty = new Property( new Vector2( 0, 0 ) );
+    this.locationProperty = new Property( new Vector2( 0, 0 ), {
+      tandem: tandem.createTandem( 'locationProperty' ),
+      phetioValueType: TVector2
+    } );
 
     // @public (read-only)
     this.defaultLocation = new Vector2( x, y );

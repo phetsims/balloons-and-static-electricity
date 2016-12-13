@@ -16,6 +16,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
   /**
    * @constructor
    * @param {number} x     
@@ -26,8 +29,11 @@ define( function( require ) {
   function WallModel( x, width, height, tandem ) {
 
     //------------------------------------------------
-    //Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
-    this.isVisibleProperty = new Property( true );
+    // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+    this.isVisibleProperty = new Property( true, {
+      tandem: tandem.createTandem( 'isVisibleProperty' ),
+      phetioValueType: TBoolean
+    } );
 
     // @public (read-only)
     this.x = x;
@@ -49,12 +55,16 @@ define( function( require ) {
       for ( var k = 0; k < this.numY; k++ ) {
         //plus
         var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargeTandemGroup.createTandem() );
+        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargeTandemGroup.createNextTandem() );
 
         this.plusCharges.push( plusCharge );
 
         //minus
-        var minusCharge = new PointChargeModel( x + position[ 0 ] - PointChargeModel.radius, position[ 1 ] - PointChargeModel.radius, minusChargeTandemGroup.createTandem() );
+        var minusCharge = new PointChargeModel(
+          x + position[ 0 ] - PointChargeModel.radius,
+          position[ 1 ] - PointChargeModel.radius,
+          minusChargeTandemGroup.createNextTandem()
+        );
         this.minusCharges.push( minusCharge );
       }
     }
@@ -79,7 +89,9 @@ define( function( require ) {
         if ( model.greenBalloon.isVisibleProperty.get() ) {
           dv2 = BalloonModel.getForce( ch.defaultLocation, model.greenBalloon.getCenter(), k * PointChargeModel.charge * model.greenBalloon.chargeProperty.get(), 2.35 );
         }
-        entry.locationProperty.set( new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y ) );
+        entry.locationProperty.set(
+          new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y )
+        );
       } );
       // Make model changes here.
     },

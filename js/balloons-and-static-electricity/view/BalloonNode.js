@@ -100,6 +100,7 @@ define( function( require ) {
 
     //When dragging, move the balloon
     var dragHandler = new MovableDragHandler( property, {
+
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: function() {
@@ -135,17 +136,26 @@ define( function( require ) {
     var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
     var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      model.plusCharges[ i ].view = new PlusChargeNode( model.plusCharges[ i ].locationProperty, plusChargeTandemGroup.createTandem() );
+      model.plusCharges[ i ].view = new PlusChargeNode(
+        model.plusCharges[ i ].locationProperty,
+        plusChargeTandemGroup.createNextTandem()
+      );
       originalChargesNode.addChild( model.plusCharges[ i ].view );
 
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty, minusChargeTandemGroup.createTandem() );
+      model.minusCharges[ i ].view = new MinusChargeNode(
+        model.minusCharges[ i ].locationProperty,
+        minusChargeTandemGroup.createNextTandem()
+      );
       originalChargesNode.addChild( model.minusCharges[ i ].view );
     }
 
     //possible charges
     var addedChargeTandemGroup = tandem.createGroupTandem( 'addedCharge' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      model.minusCharges[ i ].view = new MinusChargeNode( model.minusCharges[ i ].locationProperty, addedChargeTandemGroup.createTandem() );
+      model.minusCharges[ i ].view = new MinusChargeNode(
+        model.minusCharges[ i ].locationProperty,
+        addedChargeTandemGroup.createNextTandem()
+      );
       model.minusCharges[ i ].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[ i ].view );
     }
@@ -200,7 +210,7 @@ define( function( require ) {
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR
     } );
 
-    // the herald that will anounce alerts via screen reader
+    // the herald that will announce alerts via screen reader
     this.ariaHerald = new AriaHerald();
 
     // the balloon is dragged in model coordinates, adjusted for dimensions of the balloon body

@@ -88,27 +88,34 @@ define( function( require ) {
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
-    var addWallText = new MultiLineText( addWallString, { font: addRemoveFont } );
-    var removeWallText = new MultiLineText( removeWallString, { font: addRemoveFont, center: addWallText.center } );
+    var addWallText = new MultiLineText( addWallString, {
+      font: addRemoveFont,
+      tandem: tandem.createTandem( 'addWallText' )
+    } );
+    var removeWallText = new MultiLineText( removeWallString, {
+      font: addRemoveFont,
+      center: addWallText.center,
+      tandem: tandem.createTandem( 'removeWallText' )
+    } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
-      maxWidth: 120
+      maxWidth: 120,
+      tandem: tandem.createTandem( 'wallToggleNode' )
     } );
     var wallButtonListener = function() { model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() ); };
 
     // @private
     this.wallButton = new RectangularPushButton( {
-        content: wallToggleNode,
-        baseColor: 'rgb( 255, 200, 0 )',
-        listener: wallButtonListener,
-      accessibleContent: null, // for now, accessble content implemented below
+      content: wallToggleNode,
+      baseColor: 'rgb( 255, 200, 0 )',
+      listener: wallButtonListener,
+      accessibleContent: null, // for now, accessible content implemented below
       tandem: tandem.createTandem( 'wallButton' )
-      }
-    );
+    } );
 
     // create a herald to announce when the interface changges as a result of interaction
     var ariaHerald = new AriaHerald();
 
-    // acccessible node containing the wall button
+    // accessible node containing the wall button
     // TODO: Once accessibility common components are integrated into scenery, this container will not
     // be necessary, and RectangularPushButton can do this directly
     this.accessibleWallButton = new AccessibleNode( {
@@ -202,11 +209,13 @@ define( function( require ) {
     // ABSwitch inside of a panel to control the number of balloons on screen
     var showBalloonsChoice = new RadioButtonGroup( model.greenBalloon.isVisibleProperty,
       [
-        { value: false,
+        {
+          value: false,
           node: oneBalloonIcon,
           tandemName: 'oneBalloonRadioButton'
         },
-        { value: true,
+        {
+          value: true,
           node: twoBalloonIcon,
           tandemName: 'twoBalloonRadioButton'
         }
@@ -260,9 +269,8 @@ define( function( require ) {
     var resetBalloonToggleNode = new ToggleNode(
       new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
       new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
-      model.greenBalloon.isVisibleProperty, {
-        maxWidth: 140
-      }
+      model.greenBalloon.isVisibleProperty,
+      { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
     );
     var resetBalloonButtonListener = function() {
       model.sweater.reset();
@@ -318,7 +326,10 @@ define( function( require ) {
       accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
     } );
 
-    var balloonsPanel = new VBox( { spacing: 2, children: [ accessibleShowBalloonsChoice, accessibleResetBalloonButton ] } );
+    var balloonsPanel = new VBox( {
+      spacing: 2,
+      children: [ accessibleShowBalloonsChoice, accessibleResetBalloonButton ]
+    } );
 
     //Add the controls at the right, with the reset all button and the wall button
     var resetAllButton = new ResetAllButton( {

@@ -17,7 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
-  // var Range = require( 'DOT/Range' ); // TODO: Will be used for tandem soon
+  var Range = require( 'DOT/Range' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
@@ -109,11 +109,10 @@ define( function( require ) {
     // Properties
 
     // @public {number}
-    // TODO: figure out the correct range for the phetioValuetype
-    // latest attempt: range: new Range( -POSITIONS.length + 1, 0 )
     this.chargeProperty = new Property( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
+      phetioValueType: TNumber( { type: 'Integer', range: new Range( -POSITIONS.length, 0 ) } ),
+      phetioInstanceDocumentation: 'this value is set internally by the simulation and should not be overridden'
     } );
 
     // @public {Vector2}
@@ -132,25 +131,25 @@ define( function( require ) {
     this.isDraggedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isDraggedProperty' ),
       phetioValueType: TBoolean
-    }  );
+    } );
 
     // @public {Vector2}
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2
-    }  );
+    } );
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isStoppedProperty' ),
       phetioValueType: TBoolean
-    }  );
+    } );
 
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
       phetioValueType: TVector2
-    }  );
+    } );
 
     //------------------------------------------------
 
@@ -196,29 +195,43 @@ define( function( require ) {
     var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargeTandemGroup.createTandem() );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargeTandemGroup.createNextTandem() );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.radius, entry[ 1 ] + PointChargeModel.radius, minusChargeTandemGroup.createTandem() );
+      var minusCharge = new PointChargeModel(
+        entry[ 0 ] + PointChargeModel.radius,
+        entry[ 1 ] + PointChargeModel.radius,
+        minusChargeTandemGroup.createNextTandem()
+      );
       self.minusCharges.push( minusCharge );
     } );
 
     //charges that we can get from sweater
     POSITIONS.forEach( function( entry ) {
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargeTandemGroup.createTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargeTandemGroup.createNextTandem() );
       self.minusCharges.push( minusCharge );
     } );
 
     // model bounds, updated when position changes
-    this.bounds = new Bounds2( this.locationProperty.get().x, this.locationProperty.get().y, this.locationProperty.get().x + this.width, this.locationProperty.get().y + this.height );
+    this.bounds = new Bounds2(
+      this.locationProperty.get().x,
+      this.locationProperty.get().y,
+      this.locationProperty.get().x + this.width,
+      this.locationProperty.get().y + this.height
+    );
     this.locationProperty.link( function( location ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
     } );
 
     // a11y - describes the balloon based on its model properties
-    this.balloonDescriber = new BalloonDescriber( balloonsAndStaticElectricityModel, balloonsAndStaticElectricityModel.wall, this, tandem.createTandem( 'balloonDescriber' ) );
+    this.balloonDescriber = new BalloonDescriber(
+      balloonsAndStaticElectricityModel,
+      balloonsAndStaticElectricityModel.wall,
+      this,
+      tandem.createTandem( 'balloonDescriber' )
+    );
 
     this.reset();
 
