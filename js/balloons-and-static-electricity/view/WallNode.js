@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -77,8 +77,11 @@ define( function( require ) {
     this.wallNode = new TandemImage( wallImage, { tandem: tandem.createTandem( 'wallNode' ) } );
     this.addChild( this.wallNode );
 
-    var plusChargesNode = new Node();
-    var minusChargesNode = new Node( { layerSplit: true } );
+    var plusChargesNode = new TandemNode( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
+    var minusChargesNode = new TandemNode( {
+      layerSplit: true,
+      tandem: tandem.createTandem( 'minusChargesNode' )
+    } );
     plusChargesNode.translate( -wallModel.x, 0 );
     minusChargesNode.translate( -wallModel.x, 0 );
 

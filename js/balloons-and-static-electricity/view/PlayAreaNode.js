@@ -13,7 +13,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Line = require( 'SCENERY/nodes/Line' );
@@ -25,7 +25,7 @@ define( function( require ) {
    */
   function PlayAreaNode( model, tandem ) {
 
-    Node.call( this, { pickable: false } );
+    TandemNode.call( this, { pickable: false, tandem: tandem } );
     var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
     var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
 
@@ -74,10 +74,9 @@ define( function( require ) {
     this.addChild( new Line( model.playArea.atNearWall, model.playArea.minY, model.playArea.atNearWall, model.playArea.maxY, lineOptions ) );
     this.addChild( new Line( model.playArea.atCenter, model.playArea.minY, model.playArea.atCenter, model.playArea.maxY, lineOptions ) );
     this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
-
   }
 
   balloonsAndStaticElectricity.register( 'PlayAreaNode', PlayAreaNode );
 
-  return inherit( Node, PlayAreaNode );
+  return inherit( TandemNode, PlayAreaNode );
 } );

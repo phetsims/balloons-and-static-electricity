@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
@@ -86,8 +86,11 @@ define( function( require ) {
     this.model = model;
     this.globalModel = globalModel;
 
-    var originalChargesNode = new Node( { pickable: false } );
-    var addedChargesNode = new Node( { pickable: false } );
+    var originalChargesNode = new TandemNode( {
+      pickable: false,
+      tandem: tandem.createTandem( 'originalChargesNode' )
+    } );
+    var addedChargesNode = new TandemNode( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
 
     var property = {
 

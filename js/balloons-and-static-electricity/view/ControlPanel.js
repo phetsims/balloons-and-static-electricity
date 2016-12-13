@@ -14,7 +14,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -186,7 +186,7 @@ define( function( require ) {
     var scale = 0.14;
     var yellowBalloonImage = new TandemImage( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
     var twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
-    var twoBalloonIcon = new Node( {
+    var twoBalloonIcon = new TandemNode( {
       children: [
         new TandemImage( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
@@ -196,7 +196,7 @@ define( function( require ) {
     } );
 
     var oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
-    var oneBalloonIcon = new Node( {
+    var oneBalloonIcon = new TandemNode( {
       children: [
         new TandemImage( balloonYellow, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,

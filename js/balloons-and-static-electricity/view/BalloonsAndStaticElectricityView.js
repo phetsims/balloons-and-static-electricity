@@ -11,7 +11,7 @@ define( function( require ) {
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
@@ -99,9 +99,27 @@ define( function( require ) {
 
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
-    var balloonsNode = new Node(); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', keyboardHelpDialog, tandem.createTandem( 'greenBalloonNode') );
-    this.yellowBalloon = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', keyboardHelpDialog, tandem.createTandem( 'yellowBalloonNode') );
+    var balloonsNode = new TandemNode( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
+    this.greenBalloon = new BalloonNode(
+      500,
+      200,
+      model.greenBalloon,
+      balloonGreen,
+      model,
+      'green',
+      keyboardHelpDialog,
+      tandem.createTandem( 'greenBalloonNode' )
+    );
+    this.yellowBalloon = new BalloonNode(
+      400,
+      200,
+      model.yellowBalloon,
+      balloonYellow,
+      model,
+      'yellow',
+      keyboardHelpDialog,
+      tandem.createTandem( 'yellowBalloonNode' )
+    );
 
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
