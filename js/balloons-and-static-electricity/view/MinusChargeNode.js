@@ -17,6 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Image = require( 'SCENERY/nodes/Image' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
   var radius = PointChargeModel.radius;
 
@@ -55,7 +56,7 @@ define( function( require ) {
    */
   function MinusChargeNode( locationProperty, tandem ) {
 
-    Node.call( this, { pickable: false } );
+    TandemNode.call( this, { pickable: false, tandem: tandem } );
 
     this.translate( locationProperty.get().x - radius, locationProperty.get().y - radius );
 
@@ -64,5 +65,5 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'MinusChargeNode', MinusChargeNode );
 
-  return inherit( Node, MinusChargeNode );
+  return inherit( TandemNode, MinusChargeNode );
 } );

@@ -120,14 +120,14 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
 
-    var plusChargeGroupTandem = tandem.createGroupTandem( 'plusCharge' );
-    var minusChargeGroupTandem = tandem.createGroupTandem( 'minusCharge' );
+    var plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
+    var minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
     this.positions.forEach( function( entry ) {
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, plusChargeGroupTandem.createNextTandem() );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, plusChargesGroupTandem.createNextTandem() );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, minusChargeGroupTandem.createNextTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, minusChargesGroupTandem.createNextTandem() );
       self.minusCharges.push( minusCharge );
     } );
     this.reset();

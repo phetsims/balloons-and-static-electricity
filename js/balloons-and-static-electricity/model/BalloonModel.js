@@ -191,18 +191,18 @@ define( function( require ) {
     this.balloonLabel = labelString;
 
     //neutral pair of charges
-    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
-    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+    var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
+    var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargeTandemGroup.createNextTandem() );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem() );
       self.plusCharges.push( plusCharge );
 
       //minus
       var minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.radius,
         entry[ 1 ] + PointChargeModel.radius,
-        minusChargeTandemGroup.createNextTandem()
+        minusChargesTandemGroup.createNextTandem()
       );
       self.minusCharges.push( minusCharge );
     } );
@@ -210,7 +210,7 @@ define( function( require ) {
     //charges that we can get from sweater
     POSITIONS.forEach( function( entry ) {
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargeTandemGroup.createNextTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem() );
       self.minusCharges.push( minusCharge );
     } );
 

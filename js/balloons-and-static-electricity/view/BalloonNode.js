@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Image = require( 'SCENERY/nodes/Image' );
+  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -46,7 +46,7 @@ define( function( require ) {
    * @param  {number} x
    * @param  {number} y
    * @param  {BalloonModel} model
-   * @param  {Image} imgsrc - image source from the Image plugin
+   * @param  {Image} imgsrc - image source from the image plugin
    * @param  {BalloonsAndStaticElectricityModel} globalModel
    * @param  {string} balloonColor - 'yellow'|'green'
    * @param  {Tandem} tandem
@@ -117,7 +117,7 @@ define( function( require ) {
     this.addInputListener( dragHandler );
 
     // add the Balloon image
-    var balloonImageNode = new Image( imgsrc );
+    var balloonImageNode = new TandemImage( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
     this.addChild( balloonImageNode );
 
     //rope
@@ -133,28 +133,28 @@ define( function( require ) {
     // this.addChild( path );
 
     // static charges
-    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
-    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
+    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
       model.plusCharges[ i ].view = new PlusChargeNode(
         model.plusCharges[ i ].locationProperty,
-        plusChargeTandemGroup.createNextTandem()
+        plusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( model.plusCharges[ i ].view );
 
       model.minusCharges[ i ].view = new MinusChargeNode(
         model.minusCharges[ i ].locationProperty,
-        minusChargeTandemGroup.createNextTandem()
+        minusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( model.minusCharges[ i ].view );
     }
 
     //possible charges
-    var addedChargeTandemGroup = tandem.createGroupTandem( 'addedCharge' );
+    var addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       model.minusCharges[ i ].view = new MinusChargeNode(
         model.minusCharges[ i ].locationProperty,
-        addedChargeTandemGroup.createNextTandem()
+        addedChargeNodesTandemGroup.createNextTandem()
       );
       model.minusCharges[ i ].view.visible = false;
       addedChargesNode.addChild( model.minusCharges[ i ].view );

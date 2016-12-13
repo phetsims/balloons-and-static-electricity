@@ -12,7 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
+  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -63,21 +63,22 @@ define( function( require ) {
     this.sweaterModel = model.sweater;
 
     // add the Sweater image
-    this.addChild( new Image( sweater, {
+    this.addChild( new TandemImage( sweater, {
       x: this.sweaterModel.x + 25,
       y: this.sweaterModel.y + 70,
-      scale: 0.47
+      scale: 0.47,
+      tandem: tandem.createTandem( 'sweater' )
     } ) );
 
     //draw plus and minus charges
-    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
-    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
+    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeTandemGroup.createNextTandem() );
+      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeNodesTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusCharge.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeTandemGroup.createNextTandem() );
+      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
       minusCharge.locationProperty.link( function updateLocation( location ) {
         minusCharge.view.setTranslation( location );
       } );

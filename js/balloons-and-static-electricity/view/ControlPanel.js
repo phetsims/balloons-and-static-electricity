@@ -21,7 +21,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Image = require( 'SCENERY/nodes/Image' );
+  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -184,26 +184,31 @@ define( function( require ) {
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
-    var yellowBalloonImage = new Image( balloonYellow );
+    var yellowBalloonImage = new TandemImage( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    var twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
     var twoBalloonIcon = new Node( {
       children: [
-        new Image( balloonGreen, { x: 160 } ),
+        new TandemImage( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
       ],
       scale: scale,
-      tandem: tandem.createTandem( 'twoBalloonIcon' )
+      tandem: twoBalloonIconTandem
     } );
 
+    var oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     var oneBalloonIcon = new Node( {
       children: [
-        new Image( balloonYellow, { x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2 } ),
+        new TandemImage( balloonYellow, {
+          x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
+          tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
+        } ),
         new Rectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {
           fill: 'black',
           visible: false
         } )
       ],
       scale: scale,
-      tandem: tandem.createTandem( 'oneBalloonIcon' )
+      tandem: oneBalloonIconTandem
     } );
 
     // ABSwitch inside of a panel to control the number of balloons on screen
@@ -382,7 +387,10 @@ define( function( require ) {
       controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;
     }
     else {
-      visibilityControls = [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ];
+      visibilityControls = [
+        new Panel( showChargesRadioButtonGroup, { tandem: tandem.createTandem( 'visibilityPanel' ) } ),
+        balloonsPanel
+      ];
       controlsLeft = 70;
     }
 

@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Image = require( 'SCENERY/nodes/Image' );
+  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
@@ -74,7 +74,7 @@ define( function( require ) {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    this.wallNode = new Image( wallImage );
+    this.wallNode = new TandemImage( wallImage, { tandem: tandem.createTandem( 'wallNode' ) } );
     this.addChild( this.wallNode );
 
     var plusChargesNode = new Node();
@@ -83,16 +83,16 @@ define( function( require ) {
     minusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
-    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
+    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.locationProperty, plusChargeTandemGroup.createNextTandem() );
+      entry.view = new PlusChargeNode( entry.locationProperty, plusChargeNodesTandemGroup.createNextTandem() );
       plusChargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
-    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     wallModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.locationProperty, minusChargeTandemGroup.createNextTandem() );
+      entry.view = new MinusChargeNode( entry.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
       } );

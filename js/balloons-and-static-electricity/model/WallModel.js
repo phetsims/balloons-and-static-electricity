@@ -48,14 +48,14 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
 
-    var plusChargeTandemGroup = tandem.createGroupTandem( 'plusCharge' );
-    var minusChargeTandemGroup = tandem.createGroupTandem( 'minusCharge' );
+    var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
+    var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
 
     for ( var i = 0; i < this.numX; i++ ) {
       for ( var k = 0; k < this.numY; k++ ) {
         //plus
         var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargeTandemGroup.createNextTandem() );
+        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem() );
 
         this.plusCharges.push( plusCharge );
 
@@ -63,7 +63,7 @@ define( function( require ) {
         var minusCharge = new PointChargeModel(
           x + position[ 0 ] - PointChargeModel.radius,
           position[ 1 ] - PointChargeModel.radius,
-          minusChargeTandemGroup.createNextTandem()
+          minusChargesTandemGroup.createNextTandem()
         );
         this.minusCharges.push( minusCharge );
       }
