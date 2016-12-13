@@ -254,6 +254,6 @@ define( function( require ) {
     getDragBounds: function() {
       return this._dragBounds;
     },
-    get dragBounds() { return this.getDragBounds(); },
+    get dragBounds() { return this.getDragBounds(); }
   } );
 } );

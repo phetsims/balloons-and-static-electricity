@@ -983,6 +983,6 @@ define( function( require ) {
         velocityDescription = 'very quickly';
       }
       return velocityDescription;
-    },
+    }
   } );
 } );
