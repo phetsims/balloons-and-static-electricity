@@ -229,7 +229,7 @@ define( function( require ) {
         orientation: 'horizontal',
         baseColor: 'white',
         spacing: 5,
-        tandem: tandem.createTandem( 'RadioButtonGroup' )
+        tandem: tandem.createTandem( 'radioButtonGroup' )
       }
     );
 
