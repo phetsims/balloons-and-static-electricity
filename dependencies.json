@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.1.6-dev.1 Wed Dec 14 2016 11:44:12 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.1.6-dev.2 Thu Dec 15 2016 16:24:14 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "1ea1df653504bc6eeb454051cedc7fb970a10cac",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "60de138f389db717505959384eab088e3806920f",
+    "sha": "65a14282bcd302fea05b7c985c479abf97e86d99",
     "branch": "master"
   },
   "brand": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "a1d335ebd5bf9d5b4454c88ec54861e0372a1ed3",
+    "sha": "329a8fdeb7caa9120afb8643f7c00b2d21606f2b",
     "branch": "master"
   },
   "kite": {
@@ -45,27 +45,27 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "1b7f6f2fe50054d003751ce6061c832313f0ffa4",
+    "sha": "c3bdae4a025937b5a330a0994ede53dc87323bd1",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "b7ea9c38ac449fb4137c5e4b4e976bbff13c22fb",
+    "sha": "0e37ec79a8afafe0bde0710f877d776391abd778",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "727a313677f4c4ac7427e2d9babc0d21f053c1fb",
+    "sha": "8ad125cb7343b0f63d1b7046b5752b0c4076b345",
     "branch": "master"
   },
   "sun": {
-    "sha": "339fb42285c61888ec6eaddb118e6f458450b042",
+    "sha": "fd47792dd7391524f4da8d0f901bf4a341b4db9d",
     "branch": "master"
   },
   "tandem": {
-    "sha": "97b2bf8f50e35df96e45df3f05a246d7c9d3e612",
+    "sha": "8d1d042ac583fea816dc9712481f8c078646a499",
     "branch": "master"
   },
   "vibe": {
-    "sha": "d82b4b5697288dd9e197acd2bf8ad50b97376483",
+    "sha": "d8c60678f36aa359bd5f34c13a4737bdd6c81cda",
     "branch": "master"
   }
 }
