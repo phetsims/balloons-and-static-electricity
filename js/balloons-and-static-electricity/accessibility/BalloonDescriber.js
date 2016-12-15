@@ -717,7 +717,8 @@ define( function( require ) {
       var sweaterChargeString;
       var balloonPicksUpChargesString;
 
-      if ( this.balloonCharge === MAX_BALLOON_CHARGE ) {
+      var sweater = this.model.sweater.chargeProperty.get();
+      if ( sweater.chargeProperty.get() === -MAX_BALLOON_CHARGE ) {
         return noMoreChargesRemainingOnSweaterString;
       }
       else if ( currentBalloonCharge !== this.balloonCharge ) {
