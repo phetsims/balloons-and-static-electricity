@@ -197,8 +197,8 @@ define( function( require ) {
           deltaY = self._positionDelta;
         }
         if ( self.isKeyDown( KEY_SHIFT ) ) {
-          deltaX *= 2;
-          deltaY *= 2;
+          deltaX /= 4;
+          deltaY /= 4;
         }
       }
 

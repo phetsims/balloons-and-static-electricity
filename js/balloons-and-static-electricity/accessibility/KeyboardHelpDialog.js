@@ -288,10 +288,7 @@ define( function( require ) {
         contentVBox.accessibleInstances[ 0 ].peer.domElement.focus();
       }
 
-      // TODO: Why is this commented out?
-      //   screenView.accessibleInstances[ 0 ].peer.domElement.hidden = isShown;
-      var screenViewElement = document.getElementById( 63 );
-      screenViewElement.hidden = isShown;
+      screenView.articleContainerNode.hidden = isShown;
     } );
 
     // close it on a click

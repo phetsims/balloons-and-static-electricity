@@ -533,6 +533,7 @@ define( function( require ) {
       }
       this._hidden = hidden;
     },
+    set hidden( hidden ) { this.setHidden( hidden ); },
 
     /**
      * Set a particular attribute for this node's dom element, generally to provide extra
