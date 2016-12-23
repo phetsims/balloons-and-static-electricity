@@ -147,9 +147,6 @@ define( function( require ) {
       ariaLabelledBy: null // {string} - an ID of a label element to describe this dom element
     }, options );
 
-    // validate options
-    // assert && assert( )
-
     Node.call( this, options );
 
     // @private - the dom element representing this node in the parallel DOM
@@ -172,7 +169,6 @@ define( function( require ) {
     this._label = options.label;
     this._labelTagName = options.labelTagName;
     this.addLabel();
-    // this.createLabelElement( options.labelTagName, options.label );
 
     // @private - set tab index if explicitly added or removed from navigation order
     this._focusable = options.focusable;
