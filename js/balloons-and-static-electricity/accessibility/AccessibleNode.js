@@ -304,27 +304,6 @@ define( function( require ) {
       }
     },
 
-    createLabelElement: function( tagName, textContent ) {
-
-      // add the label - can be added inline or as a DOM element
-      if ( this._useAriaLabel ) { 
-        this.setAttribute( 'aria-label', textContent );
-      }
-      else if ( tagName === DOM_LABEL) {
-        this._labelElement = this.createDOMElement( tagName );
-        this._labelElement.textContent = 
-        this._labelElement.setAttribute( 'for', this.id );
-      }
-      else if ( this.elementSupportsInnerText() && this._useInnerLabel && textContent ) {
-        this.domElement.innerText = textContent;
-      }
-      else {
-        // create the label element
-        assert && assert( tagName, 'label element tag name must be defined' );
-        this._labelElement = this.createDOMElement( tagName );
-      }
-    },
-
     /**
      * Create the description element for this node's dom element.
      * @param  {string} tagName
