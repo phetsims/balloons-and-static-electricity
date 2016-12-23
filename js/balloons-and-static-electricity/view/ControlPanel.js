@@ -121,8 +121,11 @@ define( function( require ) {
     this.accessibleWallButton = new AccessibleNode( {
       parentContainerTagName: 'div',
       tagName: 'button',
+      focusable: true,
+      useInnerLabel: true,
       label: removeWallLabelString,
       description: wallDescriptionString,
+      descriptionTagName: 'p',
       events: {
         click: function( event ) {
           model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
@@ -244,6 +247,7 @@ define( function( require ) {
       tagName: 'input',
       inputType: 'checkbox',
       useAriaLabel: true,
+      focusable: true,
       parentContainerTagName: 'div',
       ariaRole: 'switch',
       ariaAttributes: [
@@ -251,6 +255,7 @@ define( function( require ) {
       ],
       label: twoBalloonExperimentLabelString,
       description: abSwitchDescriptionString,
+      descriptionTagName: 'p',
       events: {
         click: function( event ) {
 
@@ -300,9 +305,12 @@ define( function( require ) {
     };
 
     var accessibleResetBalloonButton = new AccessibleNode( {
+      focusable: true,
       parentContainerTagName: 'div',
       tagName: 'button',
+      useInnerLabel: true,
       label: resetBalloonString,
+      descriptionTagName: 'p',
       description: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
       events: {
         click: function( event ) {
@@ -345,12 +353,14 @@ define( function( require ) {
     resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to common code
     var accessibleResetAllButton = new AccessibleNode( {
       children: [ resetAllButton ],
+      focusable: true,
 
       // a11y options
       focusHighlight: new Shape().circle( 0, 0, 28 ),
       tagName: 'button',
       parentContainerTagName: 'div',
       label: resetAllString,
+      useInnerLabel: true,
       events: {
         click: function( event ) {
 

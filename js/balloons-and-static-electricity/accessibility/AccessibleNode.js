@@ -1,8 +1,80 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Accessibility content for a Scenery Node. This could eventually be moved to and scenery/Node
- * with accessible content could extend this.
+ * Base type for accessible components, adding accessible HTML content to the parallel DOM.
+ *
+ * The parallel DOM is an HTML structure that provides semantics for assistive technologies. For web 
+ * content to be accessible, assistive technologies require HTML markup, which is something that pure
+ * graphical content does not include.  This type implements the accessible HTML content for a node 
+ * in the scene graph.  The parallel DOM is the full HTML structure rendered by Scenery, containing
+ * the accessible content for each node in the scene graph.
+ * 
+ * Each node can have accessible content.  The structure of the accessible content will match the
+ * structure of the scene graph.
+ *
+ * Say we have the following scene graph:
+ * 
+ *   A
+ *  / \
+ * B   C
+ *    / \
+ *   D   E
+ *        \
+ *         F
+ *
+ * And say that nodes A, B, C, D, and F specify accessible content for the DOM.  Scenery will render the
+ * accessible content like so:
+ *
+ * <div id="node-A">
+ *   <div id="node-B"></div>
+ *   <div id="node-C">
+ *     <div id="node-D"></div>
+ *     <div id="node-F"></div>
+ *   </div>
+ * </div>
+ *
+ * In this example, each element is represented by a div, but any HTML element could be used. Note that in this
+ * example, node E did not specify accessible content, so node F was added as a child under node C.  If node E
+ * had specified accessible content, content for node F would have been added as a child under the content for node E.
+ *
+ * It is possible to add additional structure to the accessible content if necessary.  For instance, consider the
+ * following accessible content for a button node:
+ *
+ * <div>
+ *   <button>Button label</button>
+ *   <p>This is a description for the button</p>
+ * </div>
+ *
+ * The node is represented by the <button> DOM element, but the accessible content needs to include the parent
+ * div, and a peer description paragraph.  To allow this, it is possible to specify an optional
+ * 'parentContainerElement'.  In this example, the parentContainerElement is the div, while the description is
+ * added as a child under the button node's domElement.
+ *
+ * There is also a `childContainerElement`, which is a container element for accessible content for children
+ * under this node.  For instance, consider the following scene graph:
+ *
+ *   A
+ *  / \
+ * B   C
+ *
+ * And suppose you want add a specific label and description to node A without altering the structure of the scene
+ * graph with HTML content like this:
+ *
+ * <div id="node-A">
+ *   <p>Label for node A</p>
+ *   <p>Label for node B</p>
+ *
+ *   <div id='childContainerElement'>
+ *     <div id="node-B"></div>
+ *     <div id="node-C"></div>
+ *   </div>
+ * </div>
+ *
+ * The above is easily handled by passing in an optional 'childContainerTagName', which will create a child container
+ * element with the desired tag name.
+ *
+ * For additional accessibility options, please see the options at the top of the AccessibleNode constructor.
+ * For more documentation on Scenery, Nodes, and the scene graph, please see http://phetsims.github.io/scenery/
  *
  * @author: Jesse Greenberg
  */
@@ -16,15 +88,16 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
+  // for specifying direction of DOM traversal
   var NEXT = 'NEXT';
   var PREVIOUS = 'PREVIOUS';
 
-  // specific DOM tagnames, used for handling how attributes and label are added
+  // specific DOM tag names, used frequently and for validation
   var DOM_INPUT = 'INPUT';
   var DOM_LABEL = 'LABEL';
   var DOM_UNORDERED_LIST = 'UL';
 
-  // identifier to generate id's for list items for this Node's description
+  // global incremented to provide unique id's
   var ITEM_NUMBER = 0;
 
   /**
@@ -36,133 +109,110 @@ define( function( require ) {
   function AccessibleNode( options ) {
 
     options = _.extend( {
-      tagName: 'button', // TODO: should this really be optional? Is button a proper default?
-      inputType: null, // only relevant if tagName is 'intput'
-      parentContainerTagName: null, // container for this dom element and peer elements
-      childContainerTagName: null, // container for children added to this element
-      focusHighlight: null, // Node|Shape|Bounds2 - default is a pink rectangle around the node's local bounds
-      label: '', // string
-      useAriaLabel: false, // if true, a label element will not be created and the label will be inline with aria-label
-      useInnerLabel: false, // if true, the label will be added to the element as innerText 
-      description: '', // string
-      descriptionTagName: 'p', // tagname for the element containing the description, usually a paragraph or a list item
-      labelTagName: 'p', // tagname for the elemnet containing the label, usually a paragraph, label, or heading
-      events: {}, // array of objects with keys of type event name, values of type function
-      hidden: false, // hides the element in the paralllel DOM
-      ariaRole: null, // aria role for the element, can define extra semantics for the reader
-      focusable: false, // explicitly set whether the element can receive keyboard focus
-      domStyle: null, // extra styling for the parallel DOM, can be needed by Safari to support navigation
-      ariaAttributes: [], // array of objects specifying aria attributes - keys attribute and value
-      ariaDescribedBy: null, // an ID of a description element to describe this dom element
-      ariaLabelledBy: null // an ID of a label element to describe this dom element
+
+      // html tag names
+      tagName: 'button', // {string} - tag name for the element representing this node in the parallel DOM
+      inputType: null, // {string} - specify the input type attribute - only relevant if tagName is 'intput'
+      parentContainerTagName: null, // {string} - creates a parent container DOM element for this node's DOM element and its peers
+      childContainerTagName: null, // {string} - creates a container element for the children under this node's DOM element
+      labelTagName: null, // {string} - tag name for the element containing the label, usually a paragraph, label, or heading
+      descriptionTagName: null, // - tag name for the element containing the description, usually a paragraph or a list item
+
+      // focus highlight
+      focusHighlight: null, // {Node|Shape|Bounds2} - default is a pink rectangle around the node's local bounds
+
+      // acccessible labels
+      label: null, // {string} - accessible label applied to this node, usually read by the screen reader on focus
+      useAriaLabel: false, // {boolean} - if true, a label element will not be created and the label will be inline with aria-label
+      useInnerLabel: false, // {boolean} if true, the label will be added to the element as innerText
+
+      // accessible descriptions
+      description: '', // {string} - description for this node in the PDOM, only read on focus if ariaDescribedBy defined
+
+      // DOM events
+      events: {}, // {object} - array of objects with keys of type event name, values of type function
+
+      // attributes
+      hidden: false, // {boolean} - hides the element in the paralllel DOM from assistive technologies
+      focusable: false, // {boolean} = explicitly set whether the element can receive keyboard focus
+
+      // aria
+      attributes: [], // {array.<string>} - objects specifying element attributes - keys attribute and value
+      ariaRole: null, // {string} - aria role for the element, can define extra semantics for the reader, see https://www.w3.org/TR/wai-aria/roles for list of roles
+      ariaDescribedBy: null, // {string} - an ID of a description element to describe this dom element
+      ariaLabelledBy: null // {string} - an ID of a label element to describe this dom element
     }, options );
 
-    // @private
-    this.tagName = options.tagName;
-
-    // TODO
-    // strip out focusable for now, it is still in scenery/Node mutator keys with
-    // incorrect behavior - once fixed in scenery remove this line
-    // temporarily named 'isFocusable' due to collision with scenery/Node
-    this._isFocusable = options.focusable;
-    options = _.omit( options, 'focusable' );
+    // validate options
+    // assert && assert( )
 
     Node.call( this, options );
-    var self = this;
 
-    // the main dom element representing this node in the accessibility tree
-    self.domElement = document.createElement( options.tagName );
+    // @private - the dom element representing this node in the parallel DOM
+    this._domElement = this.createDOMElement( options.tagName );
 
-    // the dom element is labeled by the id of the node in the scene graph
-    this.domElement.id = this.id;
+    // @private - whether or not to add the label as inner text on the dom element
+    this._useInnerLabel = options.useInnerLabel;
 
-    // set tab index for keyboard focus
-    if ( this._isFocusable ) { self.domElement.tabIndex = 0; }
+    // @private - whether or not to use the aria-label attribute
+    this._useAriaLabel = options.useAriaLabel;
 
-    // set initial hidden state
-    // TODO: Does this need to be done by the peer to hide the parent container? If jsut for structure, then NO.
-    if ( options.hidden ) { self.domElement.hidden = true; }
+    // @private - the description for this dom element
+    this._descriptionElement = null;
+    this._description = options.description;
+    if ( options.descriptionTagName ) { this.createDescriptionElement( options.descriptionTagName, 'description' ); }
+
+    // @private - the label for this dom element
+    // the label might be an element, or it could be inline text on the dom element
+    this._labelElement = null;
+    this.createLabelElement( options.labelTagName, options.label );
+
+    // @private - set tab index if explicitly added or removed from navigation order
+    this._focusable = options.focusable;
+    this.setFocusable( this._focusable );
+
+    // @private
+    this._hidden = options.hidden;
+    if ( this._hidden ) { this.setHidden( this._hidden ); }
+
+    // @private
+    this._ariaRole = options.ariaRole;
 
     // add aria role
-    if ( options.ariaRole ) { this.domElement.setAttribute( 'role', options.ariaRole ); }
+    if ( options.ariaRole ) { this.setAttribute( 'role', options.ariaRole ); }
 
-    // add type if supported and defined
-    if ( this.domElement.tagName === DOM_INPUT && options.inputType ) {
-      this.domElement.type = options.inputType;
-    }
+    // add input type if supported and defined
+    if ( options.inputType ) { this.setInputType( options.inputType ); }
 
-    for ( var i = 0; i < options.ariaAttributes.length; i++ ) {
-      var ariaAttribute = options.ariaAttributes[ i ];
-      this.domElement.setAttribute( ariaAttribute.attribute, ariaAttribute.value );
-    }
+    // @private - parent container for this node's dom element and its peers
+    this._parentContainerElement = null;
 
-    // create the labels and descriptions
-    self.descriptionElement = document.createElement( options.descriptionTagName );
-    self.descriptionElement.id = 'description-' + this.id;
+    // @private - container element for children under this node's dom element
+    this._childContainerElement = null;
 
-    // the label can be either a paragraph or a 'label'
-    self.labelElement = document.createElement( options.labelTagName );
-    self.labelElement.id = 'label-' + this.id;
-    self.descriptionElement.textContent = options.description;
-
-    if ( options.useAriaLabel ) {
-
-      // add the label inline with aria-label
-      this.domElement.setAttribute( 'aria-label', options.label );
-    }
-    else {
-
-      // if the label is specifically a 'label', it requires the 'for' attribute, referencing the dom element id
-      if ( self.labelElement.tagName === DOM_LABEL ) {
-        self.labelElement.setAttribute( 'for', this.domElement.id );
-      }
-
-      self.labelElement.textContent = options.label;
-
-      // if the type supports inner text, the label should be added as inner text
-      if ( ( this.elementSupportsInnerText() || options.useInnerLabel ) && options.label ) {
-        self.domElement.textContent = options.label;
-      }
-    }
-
-    // containers to hold DOM children if necessary
-    // TODO: is the parent type ALWAYS necessary? Perhaps always for descriptions?
     if ( options.parentContainerTagName ) {
-      self.parentContainerElement = document.createElement( options.parentContainerTagName );
+      this._parentContainerElement = this.createDOMElement( options.parentContainerTagName );
 
-      // with a parent container, the children are added here
-      if ( !this.elementSupportsInnerText() && !options.useInnerLabel ) {
-
-        // this.appendElementWithContent( self.parentContainerElement, self.labelElement );
-        self.parentContainerElement.appendChild( self.labelElement );
-      }
-
-      // this.appendElementWithContent( self.parentContainerElement, self.descriptionElement );
-      self.parentContainerElement.appendChild( self.descriptionElement );
+      // if using a parent container, it should contain the description and label as peers of this dom element
+      if ( this._labelElement ) { this._parentContainerElement.appendChild( this._labelElement ); }
+      if ( this._descriptionElement ) { this._parentContainerElement.appendChild( this._descriptionElement ); }
     }
     else if ( options.childContainerTagName ) {
 
-      // can only support one or the other child structure
-      self.childContainerElement = document.createElement( options.childContainerTagName );
+      // if using a child container element, label and description come first
+      if ( this._labelElement ) { this._domElement.appendChild( this._labelElement ); }
+      if ( this._descriptionElement ) { this._domElement.appendChild( this._descriptionElement ); }
 
-      // if we have child container, hte label and description come first
-      // this.appendElementWithContent( this.domElement, self.labelElement );
-      // this.appendElementWithContent( this.domElement, self.descriptionElement );
-      if ( !options.useInnerLabel ) {
-        this.domElement.appendChild( this.labelElement );
-      }
-      this.domElement.appendChild( this.descriptionElement );
+      this._childContainerElement = this.createDOMElement( options.childContainerTagName );
+      this._domElement.appendChild( this._childContainerElement );
     }
     else {
-
-      // otherwise, just add the label and description below
-      if ( !options.useInnerLabel ) {
-        this.domElement.appendChild( this.labelElement );
-      }
-      this.domElement.appendChild( this.descriptionElement );
+      if ( this._labelElement ) { this._domElement.appendChild( this._labelElement ); }
+      if ( this._descriptionElement ) { this._domElement.appendChild( this._descriptionElement ); }
     }
 
     // now set the accessible content by creating an accessible peer
+    var self = this;
     this.accessibleContent = {
       focusHighlight: options.focusHighlight,
       createPeer: function( accessibleInstance ) {
@@ -170,12 +220,12 @@ define( function( require ) {
         // register listeners to the events
         for ( var event in options.events ) {
           if ( options.events.hasOwnProperty( event ) ) {
-            self.domElement.addEventListener( event, options.events[ event ] );
+            self._domElement.addEventListener( event, options.events[ event ] );
           }
         }
 
         if ( self.childContainerElement ) {
-          self.domElement.appendChild( self.childContainerElement );
+          self._domElement.appendChild( self.childContainerElement );
         }
 
         // add an aria-describedby attribute if it is specified in options
@@ -188,17 +238,18 @@ define( function( require ) {
           self.setAriaLabelledBy( options.ariaLabelledBy );
         }
 
-        return new AccessiblePeer( accessibleInstance, self.domElement, {
-          parentContainerElement: self.parentContainerElement,
-          childContainerElement: self.childContainerElement
+        return new AccessiblePeer( accessibleInstance, self._domElement, {
+          parentContainerElement: self._parentContainerElement,
+          childContainerElement: self._childContainerElement
         } );
       }
     };
 
+    // make eligible for garbage collection
     this.disposeAccessibleNode = function() {
       for ( var i = 0; i < options.events.length; i++ ) {
         var eventEntry = options.events[ i ];
-        self.domElement.removeEventListener( eventEntry.eventName, eventEntry.eventFunction );
+        self._domElement.removeEventListener( eventEntry.eventName, eventEntry.eventFunction );
       }
     };
   }
@@ -206,6 +257,71 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'AccessibleNode', AccessibleNode );
 
   return inherit( Node, AccessibleNode, {
+
+    /**
+     * Create an element to represent this node in the parallel DOM.
+     * 
+     * @private
+     * @param  {string} tagName
+     * @param {string} [idModifier] - modifier added to the id, making it easier to track in the DOM
+     */
+    createDOMElement: function( tagName ) {
+      var domElement = document.createElement( tagName );
+      domElement.id = this.id;
+      return domElement;
+    },
+
+    /**
+     * Create the label for this element.  The label can be added in one of four ways.
+     *  - As inline text with the `aria-label' attribute.
+     *  - As a 'label' element with the 'for' attribute pointing to this node's dom element
+     *  - As inner text on the node's dom element itself
+     *  - As a separate dom element positioned as a peer or child of this nod'es dom element
+     *
+     * @param {string} tagName
+     * @param {string} textContent
+     * @private
+     */
+    createLabelElement: function( tagName, textContent ) {
+
+      // add the label - can be added inline or as a DOM element
+      if ( this._useAriaLabel ) { 
+        this.setAttribute( 'aria-label', textContent );
+      }
+      else if ( tagName === DOM_LABEL) {
+        this._labelElement = this.createDOMElement( tagName );
+        this._labelElement.textContent = 
+        this._labelElement.setAttribute( 'for', this.id );
+      }
+      else if ( this.elementSupportsInnerText() && this._useInnerLabel && textContent ) {
+        this.domElement.innerText = textContent;
+      }
+      else {
+        // create the label element
+        assert && assert( tagName, 'label element tag name must be defined' );
+        this._labelElement = this.createDOMElement( tagName );
+        this._labelElement.textContent = textContent;
+      }
+    },
+
+    /**
+     * Create the description element for this node's dom element.
+     * @param  {string} tagName
+     */
+    createDescriptionElement: function( tagName ) {
+      this._descriptionElement = this.createDOMElement( tagName );
+      if ( this._description ) { this.setDescription( this._description ); }
+    },
+
+    /**
+     * Set the input type.  Assert that the tagname is input.
+     * @param {string} type
+     * @private
+     */
+    setInputType: function( type ) {
+      assert && assert( this._domElement.tagName === DOM_INPUT, 'input type can only be set on element with tagname INPUT' );
+      this.setAttribute( 'type', type );
+    },
 
     /**
      * Some types support inner text, and these types should have a label
@@ -220,18 +336,59 @@ define( function( require ) {
     elementSupportsInnerText: function() {
       var supportsInnerText = false;
 
-      var elementsWithInnerText = [ 'button' ];
+      var elementsWithInnerText = [ 'BUTTON' ];
       for ( var i = 0; i < elementsWithInnerText.length; i++ ) {
-        if ( this.tagName === elementsWithInnerText[ i ] ) {
+        if ( this._domElement.tagName === elementsWithInnerText[ i ] ) {
           supportsInnerText = true;
         }
       }
       return supportsInnerText;
     },
 
-    dispose: function() {
-      this.disposeAccessibleNode();
+    /**
+     * Get the dom element representing this node.
+     * @public
+     * @return {DOMElement}
+     */
+    getDomElement: function() {
+      return this._domElement;
     },
+    get domElement() { return this.getDomElement(); },
+
+    /**
+     * Get the ARIA role representing this node.
+     * @public
+     * @return {string}
+     */
+    getAriaRole: function() {
+      return this._ariaRole;
+    },
+    get ariaRole() { return this.getAriaRole(); },
+
+    /**
+     * Add the attributes included in attributes to the dom element representing this node.
+     *
+     * @public
+     * @param {array.<string>} attributes
+     */
+    setDOMAttributes: function( attributes ) {
+      this._dOMAttributes = attributes;
+      for ( var i = 0; i < attributes.length; i++ ) {
+        var domAttribute = attributes[ i ];
+        this.setAttribute( domAttribute.attribute, domAttribute.value );
+      }
+    },
+    set dOMAttributes( attributes ) { this.setDOMAttributes( attributes ); },
+
+    /**
+     * Get an array of all ARIA attributes on this node's domElement.
+     * @public
+     * @return {array.<strinng>}
+     */
+    getAriaAttributes: function() {
+      return this._ariaAttributes;
+    },
+    get ariaAttributes0() { return this.getAriaAttributes(); },
 
     /**
      * Set the text content for the label element of this node.  The label element
@@ -241,10 +398,10 @@ define( function( require ) {
      */
     setLabel: function( textContent ) {
       if ( !this.elementSupportsInnerText() ) {
-        self.labelElement.textContent = textContent;
+        this._labelElement.textContent = textContent;
       }
       else {
-        this.domElement.textContent = textContent;
+        this._domElement.textContent = textContent;
       }
     },
 
@@ -252,8 +409,9 @@ define( function( require ) {
      * Set the description of this widget element
      */
     setDescription: function( textContent ) {
-      assert && assert( this.descriptionElement, 'desription element must exist in prallel DOM' );
-      this.descriptionElement.textContent = textContent;
+      assert && assert( this._descriptionElement, 'desription element must exist in prallel DOM' );
+      assert && assert( this._descriptionElement.tagName !== DOM_UNORDERED_LIST, 'cannot set set text content for list description' );
+      this._descriptionElement.textContent = textContent;
     },
 
     /**
@@ -263,8 +421,8 @@ define( function( require ) {
      * @return {string}
      */
     getDescriptionElementID: function() {
-      assert && assert( this.descriptionElement, 'description element must exist in the parallel DOM' );
-      return this.descriptionElement.id;
+      assert && assert( this._descriptionElement, 'description element must exist in the parallel DOM' );
+      return this._descriptionElement.id;
     },
 
     /**
@@ -274,33 +432,27 @@ define( function( require ) {
      * @return {string}
      */
     getLabelElementID: function() {
-      assert && assert( this.labelElement, 'description element must exist in the parallel DOM' );
-      return this.labelElement.id;
+      assert && assert( this._labelElement, 'description element must exist in the parallel DOM' );
+      return this._labelElement.id;
     },
 
     /**
-     * Add the 'aria-describedby' attribute to this node's dom element.  If no description
-     * id is passed in, the dom element will automatically be described by this element's
-     * description.
+     * Add the 'aria-describedby' attribute to this node's dom element.
      *
      * @param {string} [descriptionID] - optional id referencing the description element
      */
     setAriaDescribedBy: function( descriptionID ) {
-      assert && assert( document.getElementById( descriptionID ), 'no element in DOM with id ' + descriptionID );
-      this.domElement.setAttribute( 'aria-describedby', descriptionID );
+      this._domElement.setAttribute( 'aria-describedby', descriptionID );
     },
 
 
     /**
-     * Add the 'aria-labelledby' attribute to this node's dom element.  If no description
-     * id is passed in, the dom element will automatically be described by this element's
-     * label elemnet.
+     * Add the 'aria-labelledby' attribute to this node's dom element.
      *
      * @param {string} [labelID] - optional id referencing the description element
      */
     setAriaLabelledBy: function( labelID ) {
-      assert && assert( document.getElementById( labelID ), 'no element in DOM with id ' + labelID );
-      this.domElement.setAttribute( 'aria-labelledby', labelID );
+      this._domElement.setAttribute( 'aria-labelledby', labelID );
     },
 
     /**
@@ -311,12 +463,12 @@ define( function( require ) {
      * @return {type}             description
      */
     addDescriptionItem: function( textContent ) {
-      assert && assert( this.descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
+      assert && assert( this._descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
 
       var listItem = document.createElement( 'li' );
       listItem.textContent = textContent;
       listItem.id = 'list-item-' + ITEM_NUMBER++;
-      this.descriptionElement.appendChild( listItem );
+      this._descriptionElement.appendChild( listItem );
 
       return listItem.id;
     },
@@ -330,7 +482,7 @@ define( function( require ) {
      * @param  {string} description - new textContent for the string
      */
     updateDescriptionItem: function( itemID, description ) {
-      var listItem = this.getChildElementWithId( this.descriptionElement, itemID );
+      var listItem = this.getChildElementWithId( this._descriptionElement, itemID );
       listItem.textContent = description;
     },
 
@@ -361,17 +513,19 @@ define( function( require ) {
     },
 
     /**
-     * Hide completely from a screen reader by setting the aria-hidden attribute.
+     * Hide completely from a screen reader by setting the aria-hidden attribute. If this domElement
+     * and its peers have a parent container, it should be hidden.
      *
-     * @param  {boolean} hidden
+     * @param {boolean} hidden
      */
     setHidden: function( hidden ) {
-      if ( this.parentContainerElement ) {
-        this.parentContainerElement.hidden = hidden;
+      if ( this._parentContainerElement ) {
+        this._parentContainerElement.hidden = hidden;
       }
       else {
-        this.domElement.hidden = hidden;
+        this._domElement.hidden = hidden;
       }
+      this._hidden = hidden;
     },
 
     /**
@@ -382,7 +536,7 @@ define( function( require ) {
      * @param  {string|boolean} value - the value for the attribute
      */
     setAttribute: function( attribute, value ) {
-      this.domElement.setAttribute( attribute, value );
+      this._domElement.setAttribute( attribute, value );
     },
 
     /**
@@ -392,22 +546,22 @@ define( function( require ) {
      * @param  {string} attribute - name of the attribute to remove
      */
     removeAttribute: function( attribute ) {
-      this.domElement.removeAttribute( attribute );
+      this._domElement.removeAttribute( attribute );
     },
 
     /**
-     * Make the container dom element focusable
+     * Make the container dom element focusable.
      *
      * @param {boolean} isFocusable
      */
     setFocusable: function( isFocusable ) {
-      this._isFocusable = isFocusable;
-      this.domElement.tabIndex = isFocusable ? 0 : -1;
+      this._focusable = isFocusable;
+      this._domElement.tabIndex = isFocusable ? 0 : -1;
     },
     set focusable( value ) { this.setFocusable( value ); },
 
     getFocusable: function() {
-      return this._isFocusable;
+      return this._focusable;
     },
     get isFocusable() { this.getFocusable(); },
 
@@ -418,7 +572,7 @@ define( function( require ) {
 
       // make sure that the elememnt is in the navigation order
       this.setFocusable( true );
-      this.domElement.focus();
+      this._domElement.focus();
     },
 
     /**
@@ -466,6 +620,10 @@ define( function( require ) {
       return this.getNextPreviousFocusable( PREVIOUS );
     },
 
+    dispose: function() {
+      this.disposeAccessibleNode();
+    },
+
     /**
      * Get the next or previous focusable element in the parallel DOM, depending on
      * parameter.
@@ -481,7 +639,7 @@ define( function( require ) {
       var focusableTypes = [ 'BUTTON', 'INPUT' ];
 
       // get the active element
-      var activeElement = this.domElement;
+      var activeElement = this._domElement;
 
       // get the index of the active element in the linear DOM
       var activeIndex;
@@ -510,7 +668,7 @@ define( function( require ) {
                 nextFocusable = nextElement;
                 break;
               }
-              else if ( nextElement.tagName === focusableTypes[ j ] ) {
+              else if ( nextElement._tagName === focusableTypes[ j ] ) {
                 nextFocusable = nextElement;
                 break;
               }
@@ -526,7 +684,7 @@ define( function( require ) {
       }
 
       // if no next focusable is found, return this DOMElement
-      return nextFocusable || this.domElement;
+      return nextFocusable || this._domElement;
     },
 
     /**
@@ -554,6 +712,17 @@ define( function( require ) {
       }
 
       return childElement;
+    },
+
+    /**
+     * Return exclusive or boolean value for two expressions.  JavaScript has no native support
+     * for this.
+     * @param  {boolean} foo
+     * @param  {boolean} bar
+     * @return {boolean}
+     */
+    exclusiveOr: function( foo, bar ) {
+      return ( ( foo && !bar ) || ( !foo && bar ) );
     },
 
     /**

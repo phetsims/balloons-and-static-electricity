@@ -68,7 +68,8 @@ define( function( require ) {
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      label: wallLabelString
+      label: wallLabelString,
+      descriptionTagName: 'p'
     } );
 
     this.translate( wallModel.x, 0 );

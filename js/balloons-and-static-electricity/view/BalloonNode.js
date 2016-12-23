@@ -73,10 +73,10 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
+      descriptionTagName: 'p',
       label: balloonDraggableLabel,
       childContainerTagName: 'div',
       hidden: !model.isVisibleProperty.value
-
     } );
 
     this.x = x;
@@ -223,6 +223,8 @@ define( function( require ) {
     self.draggableNode = new AccessibleDragNode( model.locationProperty, {
       dragBounds: balloonDragBounds,
       label: balloonDraggableLabel,
+      labelTagName: 'p',
+      descriptionTagName: 'p',
       parentContainerTagName: 'div',
       useInnerLabel: true, // the label should be innerText of the div
       focusHighlight: focusHighlightNode,
@@ -286,6 +288,9 @@ define( function( require ) {
       parentContainerTagName: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
       label: balloonButtonLabel,
+      descriptionTagName: 'p',
+      focusable: true,
+      useInnerLabel: true,
       description: balloonGrabCueString,
       events: {
         click: function( event ) {
