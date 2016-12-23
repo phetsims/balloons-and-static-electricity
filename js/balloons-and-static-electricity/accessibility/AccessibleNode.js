@@ -96,6 +96,10 @@ define( function( require ) {
   var DOM_INPUT = 'INPUT';
   var DOM_LABEL = 'LABEL';
   var DOM_UNORDERED_LIST = 'UL';
+  var DOM_BUTTON = 'BUTTON';
+
+  // these elements will have labels that use inner text
+  var ELEMENTS_WITH_INNER_TEXT = [ DOM_BUTTON ];
 
   // global incremented to provide unique id's
   var ITEM_NUMBER = 0;
@@ -305,7 +309,9 @@ define( function( require ) {
     },
 
     /**
-     * Create the description element for this node's dom element.
+     * Create the description element for this node's dom element. If a description
+     * was passed through options, set it immediately.
+     * 
      * @param  {string} tagName
      */
     createDescriptionElement: function( tagName ) {
@@ -327,18 +333,15 @@ define( function( require ) {
      * Some types support inner text, and these types should have a label
      * defined this way, rather than a second paragraph contained in a parent element.
      *
-     * TODO: Move to a utils file
-     *
-     * TODO: populate with more element types
      * @return {boolean}
      * @private
      */
     elementSupportsInnerText: function() {
       var supportsInnerText = false;
 
-      var elementsWithInnerText = [ 'BUTTON' ];
-      for ( var i = 0; i < elementsWithInnerText.length; i++ ) {
-        if ( this._domElement.tagName === elementsWithInnerText[ i ] ) {
+      // more input types will need to be added here
+      for ( var i = 0; i < ELEMENTS_WITH_INNER_TEXT.length; i++ ) {
+        if ( this._domElement.tagName === ELEMENTS_WITH_INNER_TEXT[ i ] ) {
           supportsInnerText = true;
         }
       }
@@ -459,8 +462,8 @@ define( function( require ) {
      * If the node is using a list for its description, add a list item to the end of the list with
      * the text content.  Returns an id so that the element can be referenced if need be.
      *
-     * @param  {string} textContent description
-     * @return {type}             description
+     * @param  {string} textContent
+     * @return {string}             
      */
     addDescriptionItem: function( textContent ) {
       assert && assert( this._descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
@@ -483,33 +486,23 @@ define( function( require ) {
      */
     updateDescriptionItem: function( itemID, description ) {
       var listItem = this.getChildElementWithId( this._descriptionElement, itemID );
+      assert && assert( this._descriptionElement.tagName === DOM_UNORDERED_LIST, 'description must be a list to hide list items' );
+      assert && assert( listItem, 'No list item in description with id ' + itemID );
+
       listItem.textContent = description;
     },
 
     /**
      * Hide the desired list item from the screen reader
      *
-     * @param  {type} itemID description
-     * @return {type}        description
+     * @param  {string} itemID - id of the list item to hide
      */
-    hideDescriptionItem: function( itemID ) {
+    setDescriptionItemHidden: function( itemID, hidden ) {
       var listItem = document.getElementById( itemID );
+      assert && assert( this._descriptionElement.tagName === DOM_UNORDERED_LIST, 'description must be a list to hide list items' );
       assert && assert( listItem, 'No list item in description with id ' + itemID );
 
-      listItem.hidden = true;
-    },
-
-    /**
-     * Show the desired list item so that it can be found by AT
-     *
-     * @param  {type} itemID description
-     * @return {type}        description
-     */
-    showDescriptionItem: function( itemID ) {
-      var listItem = document.getElementById( itemID );
-      assert && assert( listItem, 'No list item in description with id ' + itemID );
-
-      listItem.hidden = false;
+      listItem.hidden = hidden;
     },
 
     /**
@@ -580,7 +573,6 @@ define( function( require ) {
      * for easy traversal.  Note that this includes all elements, even those
      * that are 'hidden' or purely for structure.
      *
-     * TODO: This should be somewhere deeper in scenery
      * @param  {DOMElement} domElement - the parent element to linearize
      * @return {Array.<DOMElement>}
      * @private
@@ -620,13 +612,19 @@ define( function( require ) {
       return this.getNextPreviousFocusable( PREVIOUS );
     },
 
+    /**
+     * Make eligible for garbage collection.
+     *
+     * @public
+     */
     dispose: function() {
       this.disposeAccessibleNode();
     },
 
     /**
      * Get the next or previous focusable element in the parallel DOM, depending on
-     * parameter.
+     * parameter.  Useful if you need to set focusable dynamically or need to prevent
+     * default behavior for the tab key.
      *
      * @return {Node}
      */
@@ -690,7 +688,10 @@ define( function( require ) {
     /**
      * Get a child element with an id.  This should only be used if the element is not in the document.
      * If the element is in the document, document.getElementById is a faster (and more conventional)
-     * option.  If the element is not yet in the document this function might be helpful.
+     * option.
+     *
+     * This function is still useful because elements can exist before being added to the DOM during
+     * instantiation of the Node's peer.
      *
      * @param  {DOMElement} parentElement
      * @param  {string} childId
@@ -712,17 +713,6 @@ define( function( require ) {
       }
 
       return childElement;
-    },
-
-    /**
-     * Return exclusive or boolean value for two expressions.  JavaScript has no native support
-     * for this.
-     * @param  {boolean} foo
-     * @param  {boolean} bar
-     * @return {boolean}
-     */
-    exclusiveOr: function( foo, bar ) {
-      return ( ( foo && !bar ) || ( !foo && bar ) );
     },
 
     /**
