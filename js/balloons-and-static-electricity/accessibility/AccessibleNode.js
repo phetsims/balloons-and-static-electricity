@@ -312,7 +312,8 @@ define( function( require ) {
      * Create the description element for this node's dom element. If a description
      * was passed through options, set it immediately.
      * 
-     * @param  {string} tagName
+     * @param {string} tagName
+     * @private
      */
     createDescriptionElement: function( tagName ) {
       this._descriptionElement = this.createDOMElement( tagName );
@@ -398,10 +399,14 @@ define( function( require ) {
      * is usually either a paragraph, a label, or innerText for a certain inputs.
      *
      * @param  {string} textContent
+     * @public
      */
     setLabel: function( textContent ) {
       if ( !this.elementSupportsInnerText() ) {
         this._labelElement.textContent = textContent;
+      }
+      else if ( this._useAriaLabel ) {
+        this.setAttribute( 'aria-label', textContent );
       }
       else {
         this._domElement.textContent = textContent;
@@ -409,11 +414,15 @@ define( function( require ) {
     },
 
     /**
-     * Set the description of this widget element
+     * Set the description content for this node.  If the node is described by a list, please
+     * update description list items individually with updateDescriptionItem.
+     *
+     * @param {string} textContent
+     * @public
      */
     setDescription: function( textContent ) {
       assert && assert( this._descriptionElement, 'desription element must exist in prallel DOM' );
-      assert && assert( this._descriptionElement.tagName !== DOM_UNORDERED_LIST, 'cannot set set text content for list description' );
+      assert && assert( this._descriptionElement.tagName !== DOM_UNORDERED_LIST, 'list description in use, please use  ' );
       this._descriptionElement.textContent = textContent;
     },
 
@@ -422,6 +431,7 @@ define( function( require ) {
      * set aria-describedby on a DOM element that is far from this one in the scene graph.
      *
      * @return {string}
+     * @public
      */
     getDescriptionElementID: function() {
       assert && assert( this._descriptionElement, 'description element must exist in the parallel DOM' );
@@ -433,6 +443,7 @@ define( function( require ) {
      * set aria-labelledby on a DOM element that is far from this one in the scene graph.
      *
      * @return {string}
+     * @public
      */
     getLabelElementID: function() {
       assert && assert( this._labelElement, 'description element must exist in the parallel DOM' );
@@ -443,6 +454,7 @@ define( function( require ) {
      * Add the 'aria-describedby' attribute to this node's dom element.
      *
      * @param {string} [descriptionID] - optional id referencing the description element
+     * @public
      */
     setAriaDescribedBy: function( descriptionID ) {
       this._domElement.setAttribute( 'aria-describedby', descriptionID );
@@ -453,6 +465,7 @@ define( function( require ) {
      * Add the 'aria-labelledby' attribute to this node's dom element.
      *
      * @param {string} [labelID] - optional id referencing the description element
+     * @public
      */
     setAriaLabelledBy: function( labelID ) {
       this._domElement.setAttribute( 'aria-labelledby', labelID );
@@ -463,7 +476,8 @@ define( function( require ) {
      * the text content.  Returns an id so that the element can be referenced if need be.
      *
      * @param  {string} textContent
-     * @return {string}             
+     * @return {string}
+     * @public
      */
     addDescriptionItem: function( textContent ) {
       assert && assert( this._descriptionElement.tagName === DOM_UNORDERED_LIST, 'description element must be a list to use addDescriptionItem' );
@@ -483,6 +497,7 @@ define( function( require ) {
      *
      * @param  {string} itemID - id of the lits item to update
      * @param  {string} description - new textContent for the string
+     * @public
      */
     updateDescriptionItem: function( itemID, description ) {
       var listItem = this.getChildElementWithId( this._descriptionElement, itemID );
@@ -496,6 +511,7 @@ define( function( require ) {
      * Hide the desired list item from the screen reader
      *
      * @param  {string} itemID - id of the list item to hide
+     * @public
      */
     setDescriptionItemHidden: function( itemID, hidden ) {
       var listItem = document.getElementById( itemID );
@@ -510,6 +526,7 @@ define( function( require ) {
      * and its peers have a parent container, it should be hidden.
      *
      * @param {boolean} hidden
+     * @public
      */
     setHidden: function( hidden ) {
       if ( this._parentContainerElement ) {
@@ -522,11 +539,12 @@ define( function( require ) {
     },
 
     /**
-     * Set a particular attribute for this node's peer element, generally to provide extra
+     * Set a particular attribute for this node's dom element, generally to provide extra
      * semantic information for a screen reader.
      *
      * @param  {string} attribute - string naming the attribute
      * @param  {string|boolean} value - the value for the attribute
+     * @public
      */
     setAttribute: function( attribute, value ) {
       this._domElement.setAttribute( attribute, value );
@@ -537,6 +555,7 @@ define( function( require ) {
      * the DOM element.
      *
      * @param  {string} attribute - name of the attribute to remove
+     * @public
      */
     removeAttribute: function( attribute ) {
       this._domElement.removeAttribute( attribute );
@@ -546,6 +565,7 @@ define( function( require ) {
      * Make the container dom element focusable.
      *
      * @param {boolean} isFocusable
+     * @public
      */
     setFocusable: function( isFocusable ) {
       this._focusable = isFocusable;
@@ -553,15 +573,24 @@ define( function( require ) {
     },
     set focusable( value ) { this.setFocusable( value ); },
 
+    /**
+     * Get if this node is focusable by a keyboard.
+     * 
+     * @return {boolean}
+     * @public
+     */
     getFocusable: function() {
       return this._focusable;
     },
     get isFocusable() { this.getFocusable(); },
 
     /**
-     * Focus this dom element
+     * Focus this node's dom element.
+     *
+     * @public
      */
     focus: function() {
+      assert && assert( this._focusable, 'trying to set focus on a node that is not focusable' );
 
       // make sure that the elememnt is in the navigation order
       this.setFocusable( true );
@@ -595,9 +624,9 @@ define( function( require ) {
 
     /**
      * Get the next focusable element in the parallel DOM.
-     * TODO: Move to a scenery utils?
      *
      * @return {DOMElement}
+     * @public
      */
     getNextFocusable: function() {
       return this.getNextPreviousFocusable( NEXT );
@@ -607,6 +636,7 @@ define( function( require ) {
      * Get the previous focusable elements in the parallel DOM
      *
      * @return {DOMElement}
+     * @public
      */
     getPreviousFocusable: function() {
       return this.getNextPreviousFocusable( PREVIOUS );
@@ -623,10 +653,11 @@ define( function( require ) {
 
     /**
      * Get the next or previous focusable element in the parallel DOM, depending on
-     * parameter.  Useful if you need to set focusable dynamically or need to prevent
+     * parameter.  Useful if you need to set focus dynamically or need to prevent
      * default behavior for the tab key.
      *
      * @return {Node}
+     * @private
      */
     getNextPreviousFocusable: function( direction ) {
 
