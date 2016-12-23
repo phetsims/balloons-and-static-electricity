@@ -226,7 +226,6 @@ define( function( require ) {
       labelTagName: 'p',
       descriptionTagName: 'p',
       parentContainerTagName: 'div',
-      useInnerLabel: true, // the label should be innerText of the div
       focusHighlight: focusHighlightNode,
       focusable: false, // this is only focusable by pressing the button, should not be in navigation order
       onKeyUp: function( event ) {
@@ -290,7 +289,6 @@ define( function( require ) {
       label: balloonButtonLabel,
       descriptionTagName: 'p',
       focusable: true,
-      useInnerLabel: true,
       description: balloonGrabCueString,
       events: {
         click: function( event ) {

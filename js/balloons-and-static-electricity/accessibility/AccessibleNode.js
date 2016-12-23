@@ -165,7 +165,10 @@ define( function( require ) {
     // @private - the label for this dom element
     // the label might be an element, or it could be inline text on the dom element
     this._labelElement = null;
-    this.createLabelElement( options.labelTagName, options.label );
+    this._label = options.label;
+    this._labelTagName = options.labelTagName;
+    this.addLabel();
+    // this.createLabelElement( options.labelTagName, options.label );
 
     // @private - set tab index if explicitly added or removed from navigation order
     this._focusable = options.focusable;
@@ -272,8 +275,8 @@ define( function( require ) {
     },
 
     /**
-     * Create the label for this element.  The label can be added in one of four ways.
-     *  - As inline text with the `aria-label' attribute.
+     * Add the label for this element.  The label can be added in one of four ways.
+     *  - As inline text with the 'aria-label' attribute.
      *  - As a 'label' element with the 'for' attribute pointing to this node's dom element
      *  - As inner text on the node's dom element itself
      *  - As a separate dom element positioned as a peer or child of this nod'es dom element
@@ -282,6 +285,25 @@ define( function( require ) {
      * @param {string} textContent
      * @private
      */
+    addLabel: function() {
+      if ( this._useAriaLabel ) {
+        this.setAttribute( 'aria-label', this._label );
+      }
+      else if ( this.elementSupportsInnerText() ) {
+        this.domElement.innerText = this._label;
+      }
+      else {
+
+        // the remaining methods require a new DOM element
+        this._labelElement = this.createDOMElement( this._labelTagName );
+        this._labelElement.textContent = this._label;
+
+        if ( this._labelTagName === DOM_LABEL ) {
+          this._labelElement.setAttribute( 'for', this.id );
+        }
+      }
+    },
+
     createLabelElement: function( tagName, textContent ) {
 
       // add the label - can be added inline or as a DOM element
@@ -300,7 +322,6 @@ define( function( require ) {
         // create the label element
         assert && assert( tagName, 'label element tag name must be defined' );
         this._labelElement = this.createDOMElement( tagName );
-        this._labelElement.textContent = textContent;
       }
     },
 

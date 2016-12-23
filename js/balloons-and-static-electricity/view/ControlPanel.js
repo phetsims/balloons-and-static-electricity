@@ -122,7 +122,6 @@ define( function( require ) {
       parentContainerTagName: 'div',
       tagName: 'button',
       focusable: true,
-      useInnerLabel: true,
       label: removeWallLabelString,
       description: wallDescriptionString,
       descriptionTagName: 'p',
@@ -308,7 +307,6 @@ define( function( require ) {
       focusable: true,
       parentContainerTagName: 'div',
       tagName: 'button',
-      useInnerLabel: true,
       label: resetBalloonString,
       descriptionTagName: 'p',
       description: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
@@ -360,7 +358,6 @@ define( function( require ) {
       tagName: 'button',
       parentContainerTagName: 'div',
       label: resetAllString,
-      useInnerLabel: true,
       events: {
         click: function( event ) {
 
