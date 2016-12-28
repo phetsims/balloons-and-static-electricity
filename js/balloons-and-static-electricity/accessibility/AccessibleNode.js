@@ -128,7 +128,6 @@ define( function( require ) {
       // acccessible labels
       label: null, // {string} - accessible label applied to this node, usually read by the screen reader on focus
       useAriaLabel: false, // {boolean} - if true, a label element will not be created and the label will be inline with aria-label
-      useInnerLabel: false, // {boolean} if true, the label will be added to the element as innerText
 
       // accessible descriptions
       description: '', // {string} - description for this node in the PDOM, only read on focus if ariaDescribedBy defined
@@ -151,9 +150,6 @@ define( function( require ) {
 
     // @private - the dom element representing this node in the parallel DOM
     this._domElement = this.createDOMElement( options.tagName );
-
-    // @private - whether or not to add the label as inner text on the dom element
-    this._useInnerLabel = options.useInnerLabel;
 
     // @private - whether or not to use the aria-label attribute
     this._useAriaLabel = options.useAriaLabel;
