@@ -136,11 +136,11 @@ define( function( require ) {
       events: {}, // {object} - array of objects with keys of type event name, values of type function
 
       // attributes
-      hidden: false, // {boolean} - hides the element in the paralllel DOM from assistive technologies
-      focusable: false, // {boolean} = explicitly set whether the element can receive keyboard focus
+      hidden: false, // {boolean} - hides the element in the paralllel DOM from the AT
+      focusable: false, // {boolean} = whether or not the element can receive keyboard focus
 
       // aria
-      attributes: [], // {array.<string>} - objects specifying element attributes - keys attribute and value
+      attributes: [], // {array.<object>} - objects specifying element attributes - keys attribute and value of attribute value
       ariaRole: null, // {string} - aria role for the element, can define extra semantics for the reader, see https://www.w3.org/TR/wai-aria/roles for list of roles
       ariaDescribedBy: null, // {string} - an ID of a description element to describe this dom element
       ariaLabelledBy: null // {string} - an ID of a label element to describe this dom element
