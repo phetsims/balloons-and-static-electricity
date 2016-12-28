@@ -20,7 +20,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -154,19 +154,30 @@ define( function( require ) {
     };
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
       {
-        node: new Text( balloonAppletShowAllChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        node: new TandemText(
+          balloonAppletShowAllChargesString,
+          _.extend( { tandem: tandem.createTandem( 'allCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+        ),
         property: model.showChargesProperty,
         value: 'all'
       },
       {
-        node: new Text( balloonAppletShowNoChargesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        node: new TandemText(
+          balloonAppletShowNoChargesString,
+          _.extend( { tandem: tandem.createTandem( 'noCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+        ),
         property: model.showChargesProperty,
-        value: 'none'
+        value: 'none',
+        tandem: tandem.createTandem( 'noCharges' )
       },
       {
-        node: new Text( balloonAppletShowChargeDifferencesString, RADIO_BUTTON_TEXT_OPTIONS ),
+        node: new TandemText(
+          balloonAppletShowChargeDifferencesString,
+          _.extend( { tandem: tandem.createTandem( 'differentialCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+        ),
         property: model.showChargesProperty,
-        value: 'diff'
+        value: 'diff',
+        tandem: tandem.createTandem( 'differentialCharges' )
       }
     ], {
       radius: 7,
@@ -277,8 +288,14 @@ define( function( require ) {
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
-      new Text( resetBalloonsString, { font: new PhetFont( 15 ) } ),
-      new Text( resetBalloonString, { font: new PhetFont( 15 ) } ),
+      new TandemText( resetBalloonString, {
+        font: new PhetFont( 15 ),
+        tandem: tandem.createTandem( 'resetBalloonText' )
+      } ),
+      new TandemText( resetBalloonsString, {
+        font: new PhetFont( 15 ),
+        tandem: tandem.createTandem( 'resetBalloonsText' )
+      } ),
       model.greenBalloon.isVisibleProperty,
       { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
     );
