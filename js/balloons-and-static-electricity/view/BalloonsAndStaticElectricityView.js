@@ -6,7 +6,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
@@ -91,11 +91,23 @@ define( function( require ) {
     playAreaContainerNode.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.articleContainerNode.addChild( new Rectangle( model.wall.x + wall.wallNode.width, 0, 1000, 1000, { fill: 'black' } ) );
+    this.articleContainerNode.addChild( new TandemRectangle(
+      model.wall.x + wall.wallNode.width,
+      0,
+      1000,
+      1000,
+      { fill: 'black', tandem: tandem.createTandem( 'spaceToRightOfWall' ) }
+    ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
-    this.articleContainerNode.addChild( new Rectangle( maxX - 1000, 0, 1000, 1000, { fill: 'black' } ) );
+    this.articleContainerNode.addChild( new TandemRectangle(
+      maxX - 1000,
+      0,
+      1000,
+      1000,
+      { fill: 'black', tandem: tandem.createTandem( 'spaceToLeftOfWall' ) }
+    ) );
 
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
@@ -132,11 +144,12 @@ define( function( require ) {
     this.articleContainerNode.addChild( controlPanel );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.articleContainerNode.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
+    this.articleContainerNode.addChild( new TandemRectangle( 0, 0, 3000, this.layoutBounds.height, {
       fill: 'black',
       x: -1000,
       y: this.layoutBounds.height,
-      pickable: false
+      pickable: false,
+      tandem: tandem.createTandem( 'navBarExtension' )
     } ) );
 
     // set the accessible order: sweater, balloons wall

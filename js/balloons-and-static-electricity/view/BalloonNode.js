@@ -19,8 +19,8 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
@@ -208,9 +208,10 @@ define( function( require ) {
     // a11y
     // focus highlight - turns black when balloon is picked up for dragging
     var lineWidth = 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude();
-    var focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+    var focusHighlightNode = new TandemRectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: lineWidth,
-      stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR
+      stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR,
+      tandem: tandem.createTandem( 'focusHighlightNode' )
     } );
 
     // the herald that will announce alerts via screen reader
