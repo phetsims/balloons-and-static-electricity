@@ -167,13 +167,14 @@ define( function( require ) {
 
     //if change charge, show more minus charges and update the description
     model.chargeProperty.link( function updateCharge( chargeVal ) {
-      if ( chargeVal ) {
-        model.minusCharges[ model.plusCharges.length - 1 - chargeVal ].view.visible = true;
-
-        // a11y
-        var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
-        self.setDescription( locationDescription );
+      var numVisibleMinusCharges = model.plusCharges.length + Math.abs( chargeVal );
+      for ( var i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
+        model.minusCharges[ i ].view.visible = i < numVisibleMinusCharges;
       }
+
+      // a11y
+      var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
+      self.setDescription( locationDescription );
     } );
 
     // TODO: Balloon 'string' removevd for now, we are investigating ways of removing confusion involving buoyant forces

@@ -437,11 +437,6 @@ define( function( require ) {
       this.velocityProperty.set( new Vector2( 0, 0 ) );
       this.locationProperty.set( this.initialLocation.copy() );
 
-      for ( var i = this.plusCharges.length; i < this.minusCharges.length; i++ ) {
-        if ( this.minusCharges[ i ].view ) {
-          this.minusCharges[ i ].view.visible = false;
-        }
-      }
       if ( !notResetVisibility ) {
         this.isVisibleProperty.set( this.defaultVisibily );
       }
