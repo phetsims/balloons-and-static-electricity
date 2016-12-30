@@ -15,7 +15,6 @@ define( function( require ) {
 
   // modules
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -214,11 +213,6 @@ define( function( require ) {
         new TandemImage( balloonYellow, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
           tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
-        } ),
-        new TandemRectangle( 0, 0, twoBalloonIcon.width / scale, twoBalloonIcon.height / scale, {
-          fill: 'black',
-          visible: false,
-          tandem: tandem.createTandem( 'blackRectangle' )
         } )
       ],
       scale: scale,
