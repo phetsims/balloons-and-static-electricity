@@ -19,15 +19,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
-  var HBox = require ( 'SCENERY/nodes/HBox' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var Property = require( 'AXON/Property' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
-  var ButtonModel = require( 'SUN/buttons/ButtonModel' );
-  var RectangularButtonView = require( 'SUN/buttons/RectangularButtonView' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Color = require( 'SCENERY/util/Color' );
@@ -36,7 +30,6 @@ define( function( require ) {
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
-  var DISABLED_OPACITY = 0.3;
 
   /**
    *
@@ -165,7 +158,7 @@ define( function( require ) {
         selectedButton.fill = options.baseColor;
         deselectedButton.fill = options.baseColor;
       }
-    }
+    };
     setStyles( this.enabledProperty.get() );
 
     // listener that makes this node behave like a button
@@ -207,8 +200,7 @@ define( function( require ) {
       this.removeInputListener( downUpListener );
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
-    }
-
+    };
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
