@@ -140,7 +140,7 @@ define( function( require ) {
     //is balloon over minus charge on sweater?
 
     /**
-     * Check if the balloon is over a minus charge on the sweawter.  If it is, move the charge
+     * Check if the balloon is over a minus charge on the sweater.  If it is, move the charge
      * from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved
      *
      * @param  {type} balloon
@@ -159,7 +159,7 @@ define( function( require ) {
       var chargeMoved = false;
 
       this.minusCharges.forEach( function( entry ) {
-        if ( !entry.moved ) {
+        if ( !entry.movedProperty.get() ) {
           if ( x1 < entry.locationProperty.get().x && entry.locationProperty.get().x < x2 ) {
             if ( y1 < entry.locationProperty.get().y && entry.locationProperty.get().y < y2 ) {
               //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
@@ -172,9 +172,10 @@ define( function( require ) {
 
       return chargeMoved;
     },
+
     //charge from sweater to balloon
     moveChargeTo: function( charge, balloon ) {
-      charge.moved = true;
+      charge.movedProperty.set( true );
       charge.view.visible = false;
 
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
@@ -200,7 +201,7 @@ define( function( require ) {
     reset: function() {
       this.minusCharges.forEach( function( entry ) {
         if ( entry.view ) {
-          entry.moved = false;
+          entry.movedProperty.set( false );
         }
       } );
       this.chargeProperty.set( 0 );

@@ -282,6 +282,7 @@ define( function( require ) {
      * @return {type}  description
      */
     getClosestCharge: function() {
+
       // find the closest charge to the balloon that has not yet been picked up
       var sweater = this.balloonsAndStaticElectricityModel.sweater;
 
@@ -304,7 +305,7 @@ define( function( require ) {
         var charge = sweater.minusCharges[ i ];
 
         // if the charge has been moved already, skip it
-        if ( charge.moved ) {
+        if ( charge.movedProperty.get() ) {
           continue;
         }
 
