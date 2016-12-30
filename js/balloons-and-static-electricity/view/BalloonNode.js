@@ -28,7 +28,6 @@ define( function( require ) {
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
-  var KEY_H = 72; // keycode for 'h'
   var KEY_SPACE = 32; // keycode for 'spacebar'
 
   // strings
@@ -236,13 +235,6 @@ define( function( require ) {
           // release the balloon and set focus to button
           self.releaseBalloon();
           accessibleButtonNode.focus();
-        }
-      },
-      onKeyDown: function( event ) {
-
-        if ( event.keyCode === KEY_H ) {
-          keyboardHelpDialog.activeElement = self.draggableNode.domElement;
-          keyboardHelpDialog.show();
         }
       },
       onTab: function( event ) {
