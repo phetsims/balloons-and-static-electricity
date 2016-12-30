@@ -16,7 +16,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var Vector2 = require( 'DOT/Vector2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var AccessibleNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleNode' );
+  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
 
   // constants
   var KEY_TAB = 9;
