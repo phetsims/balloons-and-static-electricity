@@ -75,7 +75,7 @@ define( function( require ) {
         soundToPlay = null;
       }
       else {
-        if ( balloon.dragVelocity.equals( Vector2.ZERO ) ) {
+        if ( balloon.dragVelocityProperty.get().equals( Vector2.ZERO ) ) {
 
           // implement hysterisis for turning the sound on and off, otherwise it can start and stop too often
           this.balloonStillTime += dt;
@@ -87,7 +87,7 @@ define( function( require ) {
           this.balloonStillTime = 0;
 
           // if moving up or to the right, play the moving up sound
-          if ( balloon.dragVelocity.x > 0 || balloon.dragVelocity.y > 0 ) {
+          if ( balloon.dragVelocityProperty.get().x > 0 || balloon.dragVelocityProperty.get().y > 0 ) {
             soundToPlay = this.balloonDraggingUpSound;
           }
           else {
