@@ -219,67 +219,7 @@ define( function( require ) {
       tandem: oneBalloonIconTandem
     } );
 
-    // // ABSwitch inside of a panel to control the number of balloons on screen
-    // var showBalloonsChoice = new RadioButtonGroup( model.greenBalloon.isVisibleProperty,
-    //   [
-    //     {
-    //       value: false,
-    //       node: oneBalloonIcon,
-    //       tandemName: 'oneBalloonRadioButton'
-    //     },
-    //     {
-    //       value: true,
-    //       node: twoBalloonIcon,
-    //       tandemName: 'twoBalloonRadioButton'
-    //     }
-    //   ],
-    //   {
-    //     orientation: 'horizontal',
-    //     baseColor: 'white',
-    //     spacing: 5,
-    //     tandem: tandem.createTandem( 'radioButtonGroup' )
-    //   }
-    // );
     var showBalloonsChoice = new TwoSceneSelectionNode( model.greenBalloon.isVisibleProperty, false, true, oneBalloonIcon, twoBalloonIcon );
-
-    // the balloon radio buttons need unique representation in the DOM for now, see
-    // showBalloonsChoice.accessibleContent = null;
-    // showBalloonsChoice.children.forEach( function( child ) {
-      // child.accessibleContent = null;
-    // } );
-    // showBalloonsChoice.accessibleContent = null;
-
-    // var accessibleShowBalloonsChoice = new AccessibleNode( {
-    //   tagName: 'input',
-    //   inputType: 'checkbox',
-    //   useAriaLabel: true,
-    //   focusable: true,
-    //   parentContainerTagName: 'div',
-    //   ariaRole: 'switch',
-    //   ariaAttributes: [
-    //     { attribute: 'aria-checked', value: false }
-    //   ],
-    //   label: twoBalloonExperimentLabelString,
-    //   description: abSwitchDescriptionString,
-    //   descriptionTagName: 'p',
-    //   events: {
-    //     click: function( event ) {
-
-    //       var newState = !model.greenBalloon.isVisibleProperty.get();
-
-    //       // toggle the value on click event
-    //       model.greenBalloon.isVisibleProperty.set( !model.greenBalloon.isVisibleProperty.get() );
-
-    //       // toggle the aria-checked value, checked when valueB selected
-    //       this.setAttribute( 'aria-checked', newState );
-    //     }
-    //   }
-    // } );
-
-    // the input element must have at least this width for Safari to recognize
-    // accessibleShowBalloonsChoice.domElement.style.width = '1px';
-
-    // accessibleShowBalloonsChoice.addChild( showBalloonsChoice );
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
