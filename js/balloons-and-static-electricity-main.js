@@ -24,7 +24,8 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
 
-    var helpContent = new BASEKeyboardHelpContent( { maxWidth: 720 } );
+    var tandem = Tandem.createRootTandem();
+    var keyboardHelpContent = new BASEKeyboardHelpContent( tandem.createTandem( 'keyboardHelpContent' ), { maxWidth: 720 } );
 
     var simOptions = {
       credits: {
@@ -35,10 +36,9 @@ define( function( require ) {
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       },
       accessibility: true,
-      keyboardHelpNode: helpContent
+      keyboardHelpNode: keyboardHelpContent
     };
 
-    var tandem = Tandem.createRootTandem();
     var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
     //Create and start the sim

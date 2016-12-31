@@ -18,7 +18,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -64,21 +63,18 @@ define( function( require ) {
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    *
-   * @param {ScreenView} screenView
    * @param {Tandem} tandem
    * @constructor
    **/
-  function BASEKeyboardHelpContent( options ) {
+  function BASEKeyboardHelpContent( tandem, options ) {
 
     options = _.extend( {
       stroke: null,
       xMargin: DIALOG_MARGIN,
       yMargin: DIALOG_MARGIN,
       fill: 'rgb( 214, 237, 249 )',
-      tandem: Tandem.createDefaultTandem( 'keyboardHelpDialog' )
+      tandem: tandem
     }, options );
-
-    Tandem.validateOptions( options );
 
     var self = this;
 
