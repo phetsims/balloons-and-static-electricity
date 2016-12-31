@@ -89,9 +89,5 @@
   "controlPanel.label": {
     "value": "Control Panel",
     "visible" : false
-  },
-  "keyboardHelp.close": {
-    "value": "Close Dialog",
-    "visible": false
   }
 }

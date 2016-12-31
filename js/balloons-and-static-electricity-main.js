@@ -14,6 +14,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
+  var BASEKeyboardHelpContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEKeyboardHelpContent' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Property = require( 'AXON/Property' );
   var Color = require( 'SCENERY/util/Color' );
@@ -23,6 +24,8 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
 
+    var helpContent = new BASEKeyboardHelpContent( { maxWidth: 720 } );
+
     var simOptions = {
       credits: {
         leadDesign: 'Noah Podolefsky & Sam Reid',
@@ -31,7 +34,8 @@ define( function( require ) {
         graphicArts: 'Sharon Siman-Tov',
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       },
-      accessibility: true
+      accessibility: true,
+      keyboardHelpNode: helpContent
     };
 
     var tandem = Tandem.createRootTandem();

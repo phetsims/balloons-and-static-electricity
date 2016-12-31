@@ -17,7 +17,6 @@ define( function( require ) {
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
-  var KeyboardHelpDialog = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/KeyboardHelpDialog' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/SceneSummaryNode' );
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
@@ -76,12 +75,6 @@ define( function( require ) {
       labelTagName: 'h2'
     } );
 
-    // create the keyboard help dialog for accessibility
-    var keyboardHelpDialog = new KeyboardHelpDialog( this, {
-      maxWidth: self.layoutBounds.width,
-      tandem: tandem.createTandem( 'keyboardHelpDialog' )
-    } );
-
     this.articleContainerNode.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
@@ -119,7 +112,6 @@ define( function( require ) {
       balloonGreen,
       model,
       'green',
-      keyboardHelpDialog,
       tandem.createTandem( 'greenBalloonNode' )
     );
     this.yellowBalloon = new BalloonNode(
@@ -129,7 +121,6 @@ define( function( require ) {
       balloonYellow,
       model,
       'yellow',
-      keyboardHelpDialog,
       tandem.createTandem( 'yellowBalloonNode' )
     );
 
@@ -154,9 +145,6 @@ define( function( require ) {
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ accessibleHeaderNode, sweaterNode, balloonsNode, wall ];
-
-    // keyboard help dialog must be centered since it is instantiated within the screen view constructor
-    keyboardHelpDialog.centerBottom = this.center;
 
     // visualise regions of the play area
     if ( phet.chipper.queryParameters.dev ) {

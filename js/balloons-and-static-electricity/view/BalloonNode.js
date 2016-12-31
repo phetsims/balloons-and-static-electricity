@@ -51,7 +51,7 @@ define( function( require ) {
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, keyboardHelpDialog, tandem ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, tandem ) {
     var self = this;
 
     var balloonButtonLabel;

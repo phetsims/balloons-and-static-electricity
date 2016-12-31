@@ -17,24 +17,20 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Dialog = require( 'JOIST/Dialog' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Property = require( 'AXON/Property' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSeparator = require( 'SUN/HSeparator' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
+  var Panel = require( 'SUN/Panel' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
   var keyboardHelpDialogString = 'Balloon Hot Keys and Key Commands';
-  var keyboardHelpCloseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/keyboardHelp.close' );
 
   var keysForDraggingAndRubbingString = 'Keys for Dragging and Rubbing';
   var draggindDescriptionString = 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right with small steps.';
@@ -58,6 +54,7 @@ define( function( require ) {
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
   var CONTENT_FONT = new PhetFont( 10 );
+  var DIALOG_MARGIN = 25;
 
   var SEPARATOR_OPTIONS = { fill: 'white', lineWidth: 0 };
   var SECTION_TAB = new HSeparator( 30, SEPARATOR_OPTIONS );
@@ -71,20 +68,19 @@ define( function( require ) {
    * @param {Tandem} tandem
    * @constructor
    **/
-  function KeyboardHelpDialog( screenView, options ) {
+  function BASEKeyboardHelpContent( options ) {
 
     options = _.extend( {
+      stroke: null,
+      xMargin: DIALOG_MARGIN,
+      yMargin: DIALOG_MARGIN,
+      fill: 'rgb( 214, 237, 249 )',
       tandem: Tandem.createDefaultTandem( 'keyboardHelpDialog' )
     }, options );
 
     Tandem.validateOptions( options );
 
     var self = this;
-
-    // generate a uniqueID for the accessible label
-    self.labelID = 'label-id-' + screenView.id;
-
-    this.activeElement = null;
 
     // create the content for this dialog, temporarily just a text label
     var dialogLabelText = new Text( keyboardHelpDialogString, {
@@ -101,7 +97,7 @@ define( function( require ) {
       }
     } );
 
-    // create visual text for the keyboard help dialog
+    // create visual text for the keyboarg help dialog
     var createTextContent = function( string, font, spacing, domRepresentation, listItem ) {
       var textContent = new Text( string, font );
 
@@ -163,40 +159,6 @@ define( function( require ) {
       align: 'left'
     } );
 
-    // Add a custom close button to this dialdog.
-    var closeText = new Text( keyboardHelpCloseString, { font: new PhetFont( 18 ) } );
-    var closeFunction = function() {
-      self.shownProperty.set( false );
-
-
-      // set focus to the previously active screen view element
-      self.activeElement.focus();
-    };
-    var closeButton = new RectangularPushButton( {
-      content: closeText,
-      listener: closeFunction,
-      tandem: options.tandem.createTandem( 'closeButton' )
-    } );
-
-    // define the accessible content for the close button - close button neds to have a unique event listener that sets
-    // focus to the dialog content if 'tab' is pressed
-    closeButton.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        var accessiblePeer = RectangularPushButton.RectangularPushButtonAccessiblePeer( accessibleInstance, keyboardHelpCloseString, closeFunction );
-
-        accessiblePeer.domElement.addEventListener( 'keydown', function( event ) {
-          if ( event.keyCode === Input.KEY_TAB ) {
-
-            // TODO: Scenery should eventually be able to provide a reference to the node's domElement?
-            contentVBox.accessibleInstances[ 0 ].peer.domElement.focus();
-            event.preventDefault();
-          }
-        } );
-
-        return accessiblePeer;
-      }
-    };
-
     // dialogLabelText and closeText in an VBox to center in the dialog
     var contentVBox = new VBox( {
       children: [ dialogLabelText, keyboardHelpText ],
@@ -211,7 +173,6 @@ define( function( require ) {
           domElement.addEventListener( 'keydown', function( event ) {
             if ( event.keyCode === Input.KEY_TAB ) {
               if ( event.shiftKey ) {
-                closeButton.accessibleInstances[ 0 ].peer.domElement.focus();
                 event.preventDefault();
               }
             }
@@ -222,89 +183,10 @@ define( function( require ) {
       }
     } );
 
-    // dialog should close if escape is pressed
-    var dialogVBox = new VBox( {
-      children: [ contentVBox, closeButton ],
-      spacing: 20,
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-
-          // just for structure
-          var domElement = document.createElement( 'div' );
-
-          // should bubble down to both text content and close button children
-          domElement.addEventListener( 'keydown', function( event ) {
-
-            // close on escape key
-            if ( event.keyCode === 27 ) {
-              closeFunction();
-            }
-          } );
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
-    } );
-
-    // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
-    // remotely.  Done for a11y so the property can be tracked in the accessibility tree, allowing keyboard and mouse
-    // events to be tracked together.
-    this.shownProperty = new Property( false );
-
-    var manageDialog = function( shown ) {
-      if ( shown ) {
-        Dialog.prototype.show.call( self );
-      }
-      else {
-        Dialog.prototype.hide.call( self );
-      }
-    };
-
-    this.shownProperty.lazyLink( function( shown ) {
-      manageDialog( shown );
-    } );
-
-    Dialog.call( this, dialogVBox, {
-      modal: true,
-      hasCloseButton: false,
-      layoutStrategy: function( window, simBounds, screenBounds, scale ) {
-
-        // if simBounds are null, return without setting center.
-        if ( simBounds !== null ) {
-
-          // Update the location of the dialog (size is set in Sim.js)
-          self.center = simBounds.center.times( 1.0 / scale );
-        }
-      }
-    } );
-
-    // screenView 'hidden' property need to be linked to the shownProperty.  If the dialog is shown, hide everything
-    // in the screen view.
-    self.shownProperty.lazyLink( function( isShown ) {
-
-      // if shown, focus immediately - must happen before hiding the screenView, or the AT gets lost in the hidden elements.
-      if ( isShown ) {
-
-        // TODO: Scenery should eventually be able to create a reference to the node's DOM element?
-        contentVBox.accessibleInstances[ 0 ].peer.domElement.focus();
-      }
-
-      screenView.articleContainerNode.hidden = isShown;
-    } );
-
-    // close it on a click
-    this.addInputListener( new ButtonListener( {
-      fire: self.hide.bind( self )
-    } ) );
+    Panel.call( this, contentVBox, options );
   }
 
-  balloonsAndStaticElectricity.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
+  balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHelpContent );
 
-  return inherit( Dialog, KeyboardHelpDialog, {
-    hide: function() {
-      this.shownProperty.value = false;
-    },
-    show: function() {
-      this.shownProperty.value = true;
-    }
-  } );
+  return inherit( Panel, BASEKeyboardHelpContent );
 } );
