@@ -8,7 +8,7 @@
  * See https://github.com/phetsims/balloons-and-static-electricity/issues/120.
  *
  * buttons and model control elements
- * Author: Vasily Shakhov (Mlearner)
+ * @author Vasily Shakhov (Mlearner)
  */
 define( function( require ) {
   'use strict';
@@ -151,34 +151,31 @@ define( function( require ) {
       font: radioButtonFont,
       maxWidth: 200
     };
-    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [
-      {
-        node: new TandemText(
-          balloonAppletShowAllChargesString,
-          _.extend( { tandem: tandem.createTandem( 'allCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
-        ),
-        property: model.showChargesProperty,
-        value: 'all'
-      },
-      {
-        node: new TandemText(
-          balloonAppletShowNoChargesString,
-          _.extend( { tandem: tandem.createTandem( 'noCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
-        ),
-        property: model.showChargesProperty,
-        value: 'none',
-        tandem: tandem.createTandem( 'noCharges' )
-      },
-      {
-        node: new TandemText(
-          balloonAppletShowChargeDifferencesString,
-          _.extend( { tandem: tandem.createTandem( 'differentialCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
-        ),
-        property: model.showChargesProperty,
-        value: 'diff',
-        tandem: tandem.createTandem( 'differentialCharges' )
-      }
-    ], {
+    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
+      node: new TandemText(
+        balloonAppletShowAllChargesString,
+        _.extend( { tandem: tandem.createTandem( 'allCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+      ),
+      property: model.showChargesProperty,
+      value: 'all',
+      tandemName: 'showAllChargesRadioButton'
+    }, {
+      node: new TandemText(
+        balloonAppletShowNoChargesString,
+        _.extend( { tandem: tandem.createTandem( 'noCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+      ),
+      property: model.showChargesProperty,
+      value: 'none',
+      tandemName: 'showNoChargesRadioButton'
+    }, {
+      node: new TandemText(
+        balloonAppletShowChargeDifferencesString,
+        _.extend( { tandem: tandem.createTandem( 'differentialCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
+      ),
+      property: model.showChargesProperty,
+      value: 'diff',
+      tandemName: 'showChargeDifferencesRadioButton'
+    } ], {
       radius: 7,
       touchAreaXDilation: 5,
       radioButtonOptions: {
