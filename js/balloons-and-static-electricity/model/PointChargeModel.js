@@ -22,8 +22,8 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {number} x      
-   * @param {number} y      
+   * @param {number} x
+   * @param {number} y
    * @param {Tandem} tandem
    */
   function PointChargeModel( x, y, tandem ) {
@@ -33,6 +33,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2
     } );
+    this.locationProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @public (read-only)
     this.defaultLocation = new Vector2( x, y );

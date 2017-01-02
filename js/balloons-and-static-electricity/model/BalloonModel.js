@@ -138,6 +138,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2
     } );
+    this.locationProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
@@ -150,6 +151,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
       phetioValueType: TVector2
     } );
+    this.dragVelocityProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     //------------------------------------------------
 
