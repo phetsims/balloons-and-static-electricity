@@ -63,17 +63,16 @@ define( function( require ) {
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
    *
-   * @param {Tandem} tandem
+   * @param {Object} options
    * @constructor
    **/
-  function BASEKeyboardHelpContent( tandem, options ) {
+  function BASEKeyboardHelpContent( options ) {
 
     options = _.extend( {
       stroke: null,
       xMargin: DIALOG_MARGIN,
       yMargin: DIALOG_MARGIN,
-      fill: 'rgb( 214, 237, 249 )',
-      tandem: tandem
+      fill: 'rgb( 214, 237, 249 )'
     }, options );
 
     var self = this;

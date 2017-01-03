@@ -25,7 +25,7 @@ define( function( require ) {
   SimLauncher.launch( function() {
 
     var tandem = Tandem.createRootTandem();
-    var keyboardHelpContent = new BASEKeyboardHelpContent( tandem.createTandem( 'keyboardHelpContent' ), { maxWidth: 720 } );
+    var keyboardHelpContent = new BASEKeyboardHelpContent( { maxWidth: 720 } );
 
     var simOptions = {
       credits: {
