@@ -25,10 +25,6 @@ define( function( require ) {
   SimLauncher.launch( function() {
 
     var tandem = Tandem.createRootTandem();
-    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
-
-    var keyboardHelpTandem = balloonsAndStaticElectricityScreenTandem.createTandem('keyboardHelpContent');
-    var keyboardHelpContent = new BASEKeyboardHelpContent( { maxWidth: 720, tandem: keyboardHelpTandem} );
 
     var simOptions = {
       credits: {
@@ -39,17 +35,22 @@ define( function( require ) {
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       },
       accessibility: true,
-      keyboardHelpNode: keyboardHelpContent
+      keyboardHelpNode: new BASEKeyboardHelpContent( {
+        maxWidth: 720,
+        tandem: tandem.createTandem( 'keyboardHelpNode' )
+      } )
     };
 
+    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [
       new Screen(
-        function() {return new BalloonsAndStaticElectricityModel(
-          768,
-          504,
-          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );
+        function() {
+          return new BalloonsAndStaticElectricityModel(
+            768,
+            504,
+            balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );
         },
         function( model ) {
           return new BalloonsAndStaticElectricityView(
@@ -59,7 +60,8 @@ define( function( require ) {
         },
         {
           backgroundColorProperty: new Property( Color.toColor( '#9ddcf8' ) ),
-          tandem: balloonsAndStaticElectricityScreenTandem }
+          tandem: balloonsAndStaticElectricityScreenTandem
+        }
       )
     ], simOptions ).start();
   } );
