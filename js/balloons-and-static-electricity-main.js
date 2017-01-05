@@ -37,7 +37,7 @@ define( function( require ) {
       accessibility: true,
       keyboardHelpNode: new BASEKeyboardHelpContent( {
         maxWidth: 720,
-        tandem: tandem.createTandem( 'keyboardHelpNode' )
+        tandem: tandem.createTandem( 'sim.keyboardHelpNode' )
       } )
     };
 
