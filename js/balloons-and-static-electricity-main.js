@@ -25,7 +25,10 @@ define( function( require ) {
   SimLauncher.launch( function() {
 
     var tandem = Tandem.createRootTandem();
-    var keyboardHelpContent = new BASEKeyboardHelpContent( { maxWidth: 720 } );
+    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
+
+    var keyboardHelpTandem = balloonsAndStaticElectricityScreenTandem.createTandem('keyboardHelpContent');
+    var keyboardHelpContent = new BASEKeyboardHelpContent( { maxWidth: 720, tandem: keyboardHelpTandem} );
 
     var simOptions = {
       credits: {
@@ -39,7 +42,6 @@ define( function( require ) {
       keyboardHelpNode: keyboardHelpContent
     };
 
-    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [
