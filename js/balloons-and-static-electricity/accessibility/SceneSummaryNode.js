@@ -32,109 +32,54 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
-
-  // strings
-  var sceneSummaryLabelString = 'Scene Summary';
-  var openingSummaryString = 'Simulation contains a Play Area and a Control Panel. The play area is a small room. The control panel has buttons and switches to change conditions in the room.';
-  var roomItemsStringPattern = 'Currently, room has {0}';
-
-  //-----------------
-  // Location Descriptions
-  var twoBalloonDescriptionPattern = '{0} {1}'; // used when both balloons are visible
-  var balloonLocationDescriptionStringPattern = '{0}, {1}';
-  var balloonInCenterPatternString = '{0} {1}';
-
-  // possible items in the room
-  var balloonSweaterAndRemovableWallString = 'a balloon, a sweater, and a removable wall.';
-  var twoBalloonsSweaterAndRemovableWallString = 'two balloons, a sweater, and a removable wall';
-  var balloonAndSweaterString = 'a balloon and a sweater';
-  var twoBalloonsAndASweater = 'two balloons and a sweater';
-  var touchingWallStringPattern = 'touching {0} wall.';
-  var inPlayAreaStringPattern = 'in {0} of play area.';
-  var inPlayAreaNearItemStringPattern = 'in {0} of play area, {1}.';
-  var nearWallString = 'near wall';
-  var nearSweaterString = 'near sweater';
-  var evenlyBetweenString = 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.';
-  var stickingToWallStringPattern = 'sticking to {0} wall. {1}';
-  var negativeChargesMoveStringPattern = 'Negative charges in wall move away from balloon {0}.';
-
-  var aLittleBitString = 'a little bit';
-  var aLotString = 'a lot';
-  var quiteALotString = 'quite a lot';
-
-  var stickingToSweaterStringPattern = 'sticking to {0} of sweater.';
-  var upperLeftArmString = 'upper left arm';
-  var upperRightArmString = 'upper right arm';
-  var lowerLeftArmString = 'lower left arm';
-  var lowerRightArmString = 'lower right arm';
-
-  var upperLeftSideSweaterString = 'upper left side';
-  var upperRightSideSweaterString = 'upper right side';
-  var lowerLeftSideSweaterString = 'lower left side';
-  var lowerRightSideSweaterString = 'lower right side';
-
-  var greenBalloonLabelString = 'Green Balloon';
-  var yellowBalloonLabelString = 'Yellow Balloon';
-
-  var topRightEdgeOfPlayAreaString = 'top right edge of play area';
-  var upperRightEdgeOfPlayAreaString = 'upper right edge of play area';
-  var lowerRightEdgeOfPlayAreaString = 'lower right edge of play area';
-  var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
-
-  //--------------------------
-  // Charge descriptions
-  // var tempChargeDescriptionString = 'No charge descriptions in the summary for now, to be implemented soon.';
-
-  //--------------------------
-  // navigation hints
-  var grabBalloonHintString = 'Grab balloon to play.';
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // constants
   var BALLOON_LABELS = {
-    YELLOW: yellowBalloonLabelString,
-    GREEN: greenBalloonLabelString
+    YELLOW: BASEA11yStrings.yellowBalloonLabelString,
+    GREEN: BASEA11yStrings.greenBalloonLabelString
   };
 
   var BALLOON_ON_SWEATER_DESCRIPTION_MAP = {
-    TOP_RIGHT_SWEATER: upperRightSideSweaterString,
-    UPPER_RIGHT_SWEATER: upperRightSideSweaterString,
+    TOP_RIGHT_SWEATER: BASEA11yStrings.upperRightSideSweaterString,
+    UPPER_RIGHT_SWEATER: BASEA11yStrings.upperRightSideSweaterString,
 
-    BOTTOM_RIGHT_SWEATER: lowerRightSideSweaterString,
-    LOWER_RIGHT_SWEATER: lowerRightSideSweaterString,
+    BOTTOM_RIGHT_SWEATER: BASEA11yStrings.lowerRightSideSweaterString,
+    LOWER_RIGHT_SWEATER: BASEA11yStrings.lowerRightSideSweaterString,
 
-    TOP_LEFT_SWEATER: upperLeftSideSweaterString,
-    UPPER_LEFT_SWEATER: upperLeftSideSweaterString,
+    TOP_LEFT_SWEATER: BASEA11yStrings.upperLeftSideSweaterString,
+    UPPER_LEFT_SWEATER: BASEA11yStrings.upperLeftSideSweaterString,
 
-    LOWER_LEFT_SWEATER: lowerLeftSideSweaterString,
-    BOTTOM_LEFT_SWEATER: lowerLeftSideSweaterString,
+    LOWER_LEFT_SWEATER: BASEA11yStrings.lowerLeftSideSweaterString,
+    BOTTOM_LEFT_SWEATER: BASEA11yStrings.lowerLeftSideSweaterString,
 
-    TOP_RIGHT_ARM: upperRightArmString,
-    UPPER_RIGHT_ARM: upperRightArmString,
+    TOP_RIGHT_ARM: BASEA11yStrings.upperRightArmString,
+    UPPER_RIGHT_ARM: BASEA11yStrings.upperRightArmString,
 
-    BOTTOM_RIGHT_ARM: lowerRightArmString,
-    LOWER_RIGHT_ARM: lowerRightArmString,
+    BOTTOM_RIGHT_ARM: BASEA11yStrings.lowerRightArmString,
+    LOWER_RIGHT_ARM: BASEA11yStrings.lowerRightArmString,
 
-    TOP_LEFT_ARM: upperLeftArmString,
-    UPPER_LEFT_ARM: upperLeftArmString,
+    TOP_LEFT_ARM: BASEA11yStrings.upperLeftArmString,
+    UPPER_LEFT_ARM: BASEA11yStrings.upperLeftArmString,
 
-    BOTTOM_LEFT_ARM: lowerLeftArmString,
-    LOWER_LEFT_ARM: lowerLeftArmString,
+    BOTTOM_LEFT_ARM: BASEA11yStrings.lowerLeftArmString,
+    LOWER_LEFT_ARM: BASEA11yStrings.lowerLeftArmString,
 
-    TOP_LEFT: upperLeftArmString,
-    UPPER_LEFT: upperLeftArmString,
+    TOP_LEFT: BASEA11yStrings.upperLeftArmString,
+    UPPER_LEFT: BASEA11yStrings.upperLeftArmString,
 
-    BOTTOM_LEFT: lowerLeftArmString,
-    LOWER_LEFT: lowerLeftArmString,
+    BOTTOM_LEFT: BASEA11yStrings.lowerLeftArmString,
+    LOWER_LEFT: BASEA11yStrings.lowerLeftArmString,
 
-    UPPER_LEFT_PLAY_AREA: upperRightArmString,
-    TOP_LEFT_PLAY_AREA: upperRightArmString,
-    LOWER_LEFT_PLAY_AREA: lowerRightArmString,
-    BOTTOM_LEFT_PLAY_AREA: lowerRightArmString,
+    UPPER_LEFT_PLAY_AREA: BASEA11yStrings.upperRightArmString,
+    TOP_LEFT_PLAY_AREA: BASEA11yStrings.upperRightArmString,
+    LOWER_LEFT_PLAY_AREA: BASEA11yStrings.lowerRightArmString,
+    BOTTOM_LEFT_PLAY_AREA: BASEA11yStrings.lowerRightArmString,
 
-    TOP_RIGHT: topRightEdgeOfPlayAreaString,
-    UPPER_RIGHT: upperRightEdgeOfPlayAreaString,
-    LOWER_RIGHT: lowerRightEdgeOfPlayAreaString,
-    BOTTOM_RIGHT: bottomRightEdgeOfPlayAreaString
+    TOP_RIGHT: BASEA11yStrings.topRightEdgeOfPlayAreaString,
+    UPPER_RIGHT: BASEA11yStrings.upperRightEdgeOfPlayAreaString,
+    LOWER_RIGHT: BASEA11yStrings.lowerRightEdgeOfPlayAreaString,
+    BOTTOM_RIGHT: BASEA11yStrings.bottomRightEdgeOfPlayAreaString
 
   };
 
@@ -155,7 +100,7 @@ define( function( require ) {
     AccessibleNode.call( this, {
       tagName: 'section',
       labelTagName: 'h2',
-      label: sceneSummaryLabelString,
+      label: BASEA11yStrings.sceneSummaryLabelString,
       descriptionTagName: 'ul' // description contained in an unordered list
     } );
 
@@ -167,11 +112,11 @@ define( function( require ) {
     this.greenBalloonDescriber = model.greenBalloon.balloonDescriber;
 
     // the description node is a list composed of these items:
-    this.addDescriptionItem( openingSummaryString ); // ID not needed for static content
-    var roomItemsItemID = this.addDescriptionItem( StringUtils.format( roomItemsStringPattern, balloonSweaterAndRemovableWallString ) );
+    this.addDescriptionItem( BASEA11yStrings.openingSummaryString ); // ID not needed for static content
+    var roomItemsItemID = this.addDescriptionItem( StringUtils.format( BASEA11yStrings.roomItemsStringPattern, BASEA11yStrings.balloonSweaterAndRemovableWallString ) );
     var locationItemID = this.addDescriptionItem( '' ); // text content set by listener
     var chargeItemID = this.addDescriptionItem( 'Balloon, sweater, and wall all have net neutral charge.' ); // id not needed for static content
-    this.addDescriptionItem( grabBalloonHintString ); // id not needed for static content
+    this.addDescriptionItem( BASEA11yStrings.grabBalloonHintString ); // id not needed for static content
 
     // update the description of room items depending on visibility
     var roomItemsDescriptionListener = function() {
@@ -179,23 +124,23 @@ define( function( require ) {
 
       if ( model.wall.isVisibleProperty.get() ) {
         if ( model.greenBalloon.isVisible ) {
-          visibleItemsDescription = twoBalloonsSweaterAndRemovableWallString;
+          visibleItemsDescription = BASEA11yStrings.twoBalloonsSweaterAndRemovableWallString;
         }
         else {
-          visibleItemsDescription = balloonSweaterAndRemovableWallString;
+          visibleItemsDescription = BASEA11yStrings.balloonSweaterAndRemovableWallString;
         }
       }
       else {
         if ( model.greenBalloon.isVisible ) {
-          visibleItemsDescription = twoBalloonsAndASweater;
+          visibleItemsDescription = BASEA11yStrings.twoBalloonsAndASweater;
         }
         else {
-          visibleItemsDescription = balloonAndSweaterString;
+          visibleItemsDescription = BASEA11yStrings.balloonAndSweaterString;
         }
       }
 
       assert && assert( visibleItemsDescription, 'There must be a combination of visible items which can be described.' );
-      self.updateDescriptionItem( roomItemsItemID, StringUtils.format( roomItemsStringPattern, visibleItemsDescription ) );
+      self.updateDescriptionItem( roomItemsItemID, StringUtils.format( BASEA11yStrings.roomItemsStringPattern, visibleItemsDescription ) );
 
     };
     model.wall.isVisibleProperty.link( roomItemsDescriptionListener );
@@ -214,7 +159,7 @@ define( function( require ) {
       if ( model.greenBalloon.isVisibleProperty.get() ) {
         var greenBalloonDescription = self.getBalloonLocationDescription( model.greenBalloon );
 
-        var combinedDescription = StringUtils.format( twoBalloonDescriptionPattern, yellowBalloonDescription, greenBalloonDescription );
+        var combinedDescription = StringUtils.format( BASEA11yStrings.twoBalloonDescriptionPattern, yellowBalloonDescription, greenBalloonDescription );
         self.updateDescriptionItem( locationItemID, combinedDescription );
       }
       else {
@@ -222,7 +167,7 @@ define( function( require ) {
         // if the single balloon is in the center of the play area, there also needs to be a description
         // for the relative locations of the other items in the play area
         if ( model.yellowBalloon.getCenter().x === model.playArea.atCenter && model.wall.isVisibleProperty.get() ) {
-          yellowBalloonDescription = StringUtils.format( balloonInCenterPatternString, yellowBalloonDescription, evenlyBetweenString );
+          yellowBalloonDescription = StringUtils.format( BASEA11yStrings.balloonInCenterPatternString, yellowBalloonDescription, BASEA11yStrings.evenlyBetweenString );
         }
         self.updateDescriptionItem( locationItemID, yellowBalloonDescription );
       }
@@ -279,12 +224,12 @@ define( function( require ) {
 
       // if near the wall, that needs to be described
       if ( nearWall && this.model.wall.isVisibleProperty.get() ) {
-        locationString = StringUtils.format( inPlayAreaNearItemStringPattern, upperOrLowerString, nearWallString );
+        locationString = StringUtils.format( BASEA11yStrings.inPlayAreaNearItemStringPattern, upperOrLowerString, BASEA11yStrings.nearWallString );
       }
       else {
-        locationString = StringUtils.format( inPlayAreaStringPattern, upperOrLowerString );
+        locationString = StringUtils.format( BASEA11yStrings.inPlayAreaStringPattern, upperOrLowerString );
       }
-      return StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, locationString );
+      return StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, locationString );
     },
 
     /**
@@ -302,12 +247,12 @@ define( function( require ) {
 
       // if near sweater, that needs to be described
       if ( nearSweater ) {
-        locationString = StringUtils.format( inPlayAreaNearItemStringPattern, upperOrLowerString, nearSweaterString );
+        locationString = StringUtils.format( BASEA11yStrings.inPlayAreaNearItemStringPattern, upperOrLowerString, BASEA11yStrings.nearSweaterString );
       }
       else {
-        locationString = StringUtils.format( inPlayAreaStringPattern, upperOrLowerString );
+        locationString = StringUtils.format( BASEA11yStrings.inPlayAreaStringPattern, upperOrLowerString );
       }
-      return StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, locationString );
+      return StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, locationString );
     },
 
     getBalloonTouchingWallDescription: function( charge, upperOrLowerString, balloonLabel ) {
@@ -318,24 +263,24 @@ define( function( require ) {
         var chargeString;
 
         if ( LITTLE_BIT_RANGE.contains( absCharge ) ) {
-          chargeString = aLittleBitString;
+          chargeString = BASEA11yStrings.aLittleBitString;
         }
         else if ( A_LOT_RANGE.contains( absCharge ) ) {
-          chargeString = aLotString;
+          chargeString = BASEA11yStrings.aLotString;
         }
         else if ( QUITE_A_LOT_RANGE.contains( absCharge ) ) {
-          chargeString = quiteALotString;
+          chargeString = BASEA11yStrings.quiteALotString;
         }
         assert && assert( chargeString, 'could not describe induced charge for balloon with charge: ' + charge );
-        var wallChargesString = StringUtils.format( negativeChargesMoveStringPattern, chargeString );
+        var wallChargesString = StringUtils.format( BASEA11yStrings.negativeChargesMoveStringPattern, chargeString );
 
-        var stickingToWallString = StringUtils.format( stickingToWallStringPattern, upperOrLowerString, wallChargesString );
-        balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, stickingToWallString );
+        var stickingToWallString = StringUtils.format( BASEA11yStrings.stickingToWallWithChargesStringPattern, upperOrLowerString, wallChargesString );
+        balloonLocationDescription = StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, stickingToWallString );
 
       }
       else {
-        var touchingWallString = StringUtils.format( touchingWallStringPattern, upperOrLowerString );
-        balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, touchingWallString );
+        var touchingWallString = StringUtils.format( BASEA11yStrings.touchingWallStringPattern, upperOrLowerString );
+        balloonLocationDescription = StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, touchingWallString );
       }
       return balloonLocationDescription;
     },
@@ -345,8 +290,8 @@ define( function( require ) {
       var onSweaterDescription = BALLOON_ON_SWEATER_DESCRIPTION_MAP[ currentBounds ];
       assert && assert( onSweaterDescription, 'could not find description for location of sweater' );
 
-      var stickingToSweaterString = StringUtils.format( stickingToSweaterStringPattern, onSweaterDescription );
-      balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, stickingToSweaterString );
+      var stickingToSweaterString = StringUtils.format( BASEA11yStrings.stickingToSweaterStringPattern, onSweaterDescription );
+      balloonLocationDescription = StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, stickingToSweaterString );
       return balloonLocationDescription;
     },
 
@@ -356,7 +301,7 @@ define( function( require ) {
       var locationDescription = balloon.balloonDescriber.getBalloonLocationDescription( balloon );
 
       // piece them together
-      var balloonLocationDescription = StringUtils.format( balloonLocationDescriptionStringPattern, balloonLabel, locationDescription );
+      var balloonLocationDescription = StringUtils.format( BASEA11yStrings.balloonLocationDescriptionStringPattern, balloonLabel, locationDescription );
       return balloonLocationDescription;
     }
   } );

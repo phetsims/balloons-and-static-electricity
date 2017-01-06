@@ -18,6 +18,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
   var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // constants
@@ -25,26 +26,6 @@ define( function( require ) {
   var A_LITTLE_BIT_RANGE = new Range( 1, 20 );
   var A_LOT_RANGE = new Range( 20, 40 );
   var QUITE_A_LOT_RANGE = new Range( 40, 60 );
-
-  // strings
-  var wallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.label' );
-  var wallNeutralChargeDescriptionString = 'Wall has a net neutral charge, many pairs of negative and positive charges.';
-
-  // Wall has a net neutral charge, many pairs of negative and positive charges.
-  // At yellow balloon touch point, no change in charges.
-  // At green balloon touch point, negative charges in wall move away from balloon a little bit.
-  var twoBalloonsTouchingWallPatternString = '{0}. {1}. {2}.';
-  var oneBalloonTouchingWallPatternString = '{0} {1}';
-  var balloonTouchPointDescriptionPatternString = 'At {0} touch point, {1}';
-  var chargeDescriptionPatternString = 'negative charges in wall move away from balloon {0}.  Positive charges do not move.';
-
-  var noChangeInChargesString = 'no change in charges';
-  var aLittleBitString = 'a little bit';
-  var aLotString = 'a lot';
-  var quiteALotString = 'quite a lot';
-
-  var yellowBalloonString = 'yellow balloon';
-  var greenBalloonString = 'green balloon';
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -68,7 +49,7 @@ define( function( require ) {
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      label: wallLabelString,
+      label: BASEA11yStrings.wallLabelString,
       descriptionTagName: 'p'
     } );
 
@@ -146,7 +127,7 @@ define( function( require ) {
       var greenBalloonTouchingWall = greenBalloon.touchingWall();
 
       if ( !yellowBalloonTouchingWall && !greenBalloonTouchingWall ) {
-        chargeDescription = wallNeutralChargeDescriptionString;
+        chargeDescription = BASEA11yStrings.wallNeutralChargeDescriptionString;
       }
       else {
         var yellowBalloonInducedChargeDescription;
@@ -154,16 +135,16 @@ define( function( require ) {
 
         if ( yellowBalloonTouchingWall ) {
           yellowBalloonInducedChargeDescription = StringUtils.format(
-            balloonTouchPointDescriptionPatternString,
-            yellowBalloonString,
+            BASEA11yStrings.balloonTouchPointDescriptionPatternString,
+            BASEA11yStrings.yellowBalloonString,
             this.getInducedChargeDescription( yellowBalloon )
           );
         }
 
         if ( greenBalloon.isVisibleProperty.get() && greenBalloonTouchingWall ) {
           greenBalloonInducedChargeDescription = StringUtils.format(
-            balloonTouchPointDescriptionPatternString,
-            greenBalloonString,
+            BASEA11yStrings.balloonTouchPointDescriptionPatternString,
+            BASEA11yStrings.greenBalloonString,
             this.getInducedChargeDescription( greenBalloon )
           );
         }
@@ -171,7 +152,7 @@ define( function( require ) {
         // if both balloons are touching the wall, both induced charge descriptions need to be included
         if ( yellowBalloonInducedChargeDescription && greenBalloonInducedChargeDescription ) {
           chargeDescription = StringUtils.format(
-            twoBalloonsTouchingWallPatternString, wallNeutralChargeDescriptionString,
+            BASEA11yStrings.twoBalloonsTouchingWallPatternString, BASEA11yStrings.wallNeutralChargeDescriptionString,
             yellowBalloonInducedChargeDescription, greenBalloonInducedChargeDescription
           );
         }
@@ -181,8 +162,8 @@ define( function( require ) {
           var inducedChargeDescription = yellowBalloonInducedChargeDescription || greenBalloonInducedChargeDescription;
 
           chargeDescription = StringUtils.format(
-            oneBalloonTouchingWallPatternString,
-            wallNeutralChargeDescriptionString,
+            BASEA11yStrings.oneBalloonTouchingWallPatternString,
+            BASEA11yStrings.wallNeutralChargeDescriptionString,
             inducedChargeDescription
           );
         }
@@ -209,16 +190,16 @@ define( function( require ) {
       if ( balloonCharge === 0 ) {
 
         // if the charge is zero, there is no induced charge
-        changeInChargesString = noChangeInChargesString;
+        changeInChargesString = BASEA11yStrings.noChangeInChargesString;
       }
       else if ( A_LITTLE_BIT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, aLittleBitString );
+        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.aLittleBitString );
       }
       else if ( A_LOT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, aLotString );
+        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.aLotString );
       }
       else if ( QUITE_A_LOT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( chargeDescriptionPatternString, quiteALotString );
+        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.quiteALotString );
       }
 
       assert && assert( changeInChargesString, 'No for description for balloon touching wall' );

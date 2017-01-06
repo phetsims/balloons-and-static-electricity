@@ -17,6 +17,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Range = require( 'DOT/Range' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants - ranges to describe charges in the sweater
@@ -24,19 +25,6 @@ define( function( require ) {
   var SEVERAL_RANGE = new Range( 15, 40 );
   var MANY_RANGE = new Range( 40, 56 );
   var MAX_CHARGE = 57;
-
-  // strings
-  var sweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/sweater.label' );
-  var sweaterDescriptionPatternString = 'Sweater has net {0} charge, {1} more positive charges than negative charges';
-  var sweaterChargeDepletedString = 'Sweater has a net positive charge, no negative charges, only positive charges';
-
-  var neutralString = 'neutral';
-  var positiveString = 'positive';
-
-  var noString = 'no';
-  var aFewString = 'a few';
-  var severalString = 'several';
-  var manyString = 'many';
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -55,7 +43,7 @@ define( function( require ) {
       // accessibility options
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
-      label: sweaterLabelString,
+      label: BASEA11yStrings.sweaterLabelString,
       descriptionTagName: 'p'
     } );
 
@@ -138,28 +126,28 @@ define( function( require ) {
       var neutralityString;
 
       if ( charge === 0 ) {
-        chargeString = noString;
-        neutralityString = neutralString;
+        chargeString = BASEA11yStrings.noString;
+        neutralityString = BASEA11yStrings.neutralString;
       }
       else if ( A_FEW_RANGE.contains( charge ) ) {
-        chargeString = aFewString;
-        neutralityString = positiveString;
+        chargeString = BASEA11yStrings.aFewString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
       else if ( SEVERAL_RANGE.contains( charge ) ) {
-        chargeString = severalString;
-        neutralityString = positiveString;
+        chargeString = BASEA11yStrings.severalString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
       else if ( MANY_RANGE.contains( charge ) ) {
-        chargeString = manyString;
-        neutralityString = positiveString;
+        chargeString = BASEA11yStrings.manyString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
       else if ( charge === MAX_CHARGE ) {
 
         // if no more negative charges remain on sweater, return this immediately
-        return sweaterChargeDepletedString;
+        return BASEA11yStrings.sweaterChargeDepletedString;
       }
 
-      return StringUtils.format( sweaterDescriptionPatternString, neutralityString, chargeString );
+      return StringUtils.format( BASEA11yStrings.sweaterDescriptionPatternString, neutralityString, chargeString );
     }
   } );
 } );

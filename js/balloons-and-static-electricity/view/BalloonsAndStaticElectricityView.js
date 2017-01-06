@@ -21,11 +21,11 @@ define( function( require ) {
   var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/SceneSummaryNode' );
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
   var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
-  var playAreaLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/playArea.label' );
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -70,7 +70,7 @@ define( function( require ) {
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleNode( {
       tagName: 'section',
-      label: playAreaLabelString,
+      label: BASEA11yStrings.playAreaLabelString,
       childContainerTagName: 'div',
       labelTagName: 'h2'
     } );

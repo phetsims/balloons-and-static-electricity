@@ -23,21 +23,13 @@ define( function( require ) {
   var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
   var KEY_SPACE = 32; // keycode for 'spacebar'
-
-  // strings
-  var balloonGrabCueString = 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space bar.';
-  var grabPatternString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabPattern' );
-  var greenBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloon.label' );
-  var yellowBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/yellowBalloon.label' );
-
-  var greenBalloonRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonRemoved' );
-  var greenBalloonAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/greenBalloonAdded' );
 
   /**
    * Constructor for the balloon
@@ -57,12 +49,12 @@ define( function( require ) {
     var balloonButtonLabel;
     var balloonDraggableLabel;
     if ( balloonColor === 'green' ) {
-      balloonButtonLabel = StringUtils.format( grabPatternString, greenBalloonLabelString );
-      balloonDraggableLabel = greenBalloonLabelString;
+      balloonButtonLabel = StringUtils.format( BASEA11yStrings.grabPatternString, BASEA11yStrings.greenBalloonLabelString );
+      balloonDraggableLabel = BASEA11yStrings.greenBalloonLabelString;
     }
     else {
-      balloonButtonLabel = StringUtils.format( grabPatternString, yellowBalloonLabelString );
-      balloonDraggableLabel = yellowBalloonLabelString;
+      balloonButtonLabel = StringUtils.format( BASEA11yStrings.grabPatternString, BASEA11yStrings.yellowBalloonLabelString );
+      balloonDraggableLabel = BASEA11yStrings.yellowBalloonLabelString;
     }
 
     // super constructor
@@ -283,7 +275,7 @@ define( function( require ) {
       label: balloonButtonLabel,
       descriptionTagName: 'p',
       focusable: true,
-      description: balloonGrabCueString,
+      description: BASEA11yStrings.balloonGrabCueString,
       events: {
         click: function( event ) {
           model.isDraggedProperty.set( true );
@@ -304,7 +296,7 @@ define( function( require ) {
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       self.setHidden( !isVisible );
 
-      var alertDescription = isVisible ? greenBalloonAddedString : greenBalloonRemovedString;
+      var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
       self.ariaHerald.announceAssertive( alertDescription );
     } );
 

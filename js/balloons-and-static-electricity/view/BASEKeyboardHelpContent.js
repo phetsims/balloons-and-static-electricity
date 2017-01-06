@@ -26,29 +26,8 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-
-  // strings
-  var keyboardHelpDialogString = 'Balloon Hot Keys and Key Commands';
-
-  var keysForDraggingAndRubbingString = 'Keys for Dragging and Rubbing';
-  var draggindDescriptionString = 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right with small steps.';
-  var pressWString = 'Press W to drag up, or Shift key plus W to drag up a little.';
-  var pressAString = 'Press A to drag left, or Shift key plus A to drag left a little. ';
-  var pressSString = 'Press S to drag down, or Shift key plus S to drag down a little.';
-  var pressDString = 'Press D to drag right, or Shift key plus D to drag right a little.';
-  var addShiftString = 'Add the Shift key to a letter key to drag or rub with smaller steps.';
-  var hotkeysJumpingString = 'Hot Keys for Jumping';
-  var pressToJumpString = 'Move the balloon quickly to a location with these hot key combinations:';
-  var JSString = 'JS jumps close to Sweater.';
-  var JWString = 'JW jumps to Wall.';
-  var JNString = 'JN jumps to near Wall.';
-  var JCString = 'JC jumps to center of Play Area.';
-  var releaseBalloonString = 'Release Balloon';
-  var spacebarString = 'Press Space bar to release the balloon.';
-  var tabString = 'Pressing the Tab key also releases the Balloon as you go to the next item in the simulation.';
-  var grabDescriptionString = 'Press Space bar or Enter key on the Grab Balloon button to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.';
-  var grabBalloonString = 'Grab balloon';
 
   // constants
   var SECTION_HEADING_FONT = new PhetFont( { size: 15, style: 'italic' } );
@@ -78,14 +57,14 @@ define( function( require ) {
     var self = this;
 
     // create the content for this dialog, temporarily just a text label
-    var dialogLabelText = new Text( keyboardHelpDialogString, {
+    var dialogLabelText = new Text( BASEA11yStrings.keyboardHelpDialogString, {
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
       fill: 'rgba( 0, 0, 0, 0.5 )',
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           var domElement = document.createElement( 'h1' );
           domElement.id = self.labelID;
-          domElement.textContent = keyboardHelpDialogString;
+          domElement.textContent = BASEA11yStrings.keyboardHelpDialogString;
 
           return new AccessiblePeer( accessibleInstance, domElement );
         }
@@ -134,17 +113,17 @@ define( function( require ) {
     };
 
     var textChildren = [
-      createTextContent( hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( pressToJumpString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ JSString, JWString, JNString, JCString ] ),
-      createTextContent( releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ spacebarString, tabString ] ),
-      createTextContent( grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ grabDescriptionString ] ),
-      createTextContent( keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createTextContent( addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ pressWString, pressAString, pressSString, pressDString ] )
+      createTextContent( BASEA11yStrings.hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( BASEA11yStrings.pressToJumpString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),
+      createTextContent( BASEA11yStrings.releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ BASEA11yStrings.spacebarString, BASEA11yStrings.tabString ] ),
+      createTextContent( BASEA11yStrings.grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ BASEA11yStrings.grabDescriptionString ] ),
+      createTextContent( BASEA11yStrings.keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( BASEA11yStrings.draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( BASEA11yStrings.addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createListContent( [ BASEA11yStrings.pressWString, BASEA11yStrings.pressAString, BASEA11yStrings.pressSString, BASEA11yStrings.pressDString ] )
     ];
 
     // all visual text in a layout box

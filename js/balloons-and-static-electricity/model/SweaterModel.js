@@ -15,16 +15,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
 
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-
-  // strings
-  var sweaterNetChargePatternString = 'Sweater has a {0} charge';
-  var netNeutralString = 'net neutral';
-  var netPositiveString = 'net positive';
 
   /**
    * @constructor
@@ -190,10 +186,10 @@ define( function( require ) {
      */
     getChargeDescription: function() {
       if ( this.chargeProperty.get() > 0 ) {
-        return StringUtils.format( sweaterNetChargePatternString, netPositiveString );
+        return StringUtils.format( BASEA11yStrings.sweaterNetChargePatternString, BASEA11yStrings.netPositiveString );
       }
       else {
-        return StringUtils.format( sweaterNetChargePatternString, netNeutralString );
+        return StringUtils.format( BASEA11yStrings.sweaterNetChargePatternString, BASEA11yStrings.netNeutralString );
       }
     },
 

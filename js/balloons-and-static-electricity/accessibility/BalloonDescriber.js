@@ -5,8 +5,6 @@
  * is quite complicated so this distributes the description work so that BalloonNode does not become
  * a massive file.  Used for accessibility.
  *
- * !! The LocationEnum maps nicely to these descriptions, so this shouldn't be so bad!
- *
  * @author Jesse Greenberg
  */
 
@@ -19,6 +17,7 @@ define( function( require ) {
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
   var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
@@ -26,165 +25,6 @@ define( function( require ) {
   var SEVERAL_RANGE = new Range( 15, 40 );
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
-
-  // strings
-  var balloonDescriptionPatternString = '{0} {1} {2}'; // location, charge, interaction cue
-  var balloonGrabbedDescriptionPatternString = '{0} {1} {2} {3}'; // grabbed, location, charge, interaction cue 
-  var balloonDragDescriptionPatternString = '{0} {1} {2} {3} {4} {5}'; // direction, proximity, charge, 
-  var grabButtonNavigationCueString = 'Look for grab button to play.';
-  var dragNavigationCueString = 'Press W, A, S, or D key to drag balloon. Space bar to let go. H key for hotkeys and help.';
-
-  // location strings (organized by collumns in the play area)
-  var balloonLocationStringPattern = 'In {0}.';
-  var draggingLocationStringPattern = 'At {0}.';
-  var stickingToLocationPatternString = 'Sticking to {0}.';
-
-  var grabbedString = 'Grabbed.';
-
-  var topLeftEdgeOfSweaterString = 'top left edge of sweater';
-  var upperLeftEdgeOfSweaterString = 'upper left edge of sweater';
-  var lowerLeftEdgeOfSweaterString = 'lower left edge of sweater';
-  var bottomLeftEdgeOfSweaterString = 'bottom left edge of sweater';
-
-  var topLeftArmString = 'top left arm';
-  var upperLeftArmString = 'upper left arm';
-  var lowerLeftArmString = 'lower left arm';
-  var bottomLeftArmString = 'bottom left arm';
-
-  var topLeftSideOfSweaterString = 'top left side of sweater';
-  var upperLeftSideOfSweaterString = 'upper left side of sweater';
-  var lowerLeftSideOfSweaterString = 'lower left side of sweater';
-  var bottomLeftSideOfSweaterString = 'bottom left side of sweater';
-
-  var topRightSideOfSweaterString = 'top right side of sweater';
-  var upperRightSideOfSweaterString = 'upper right side of sweater';
-  var lowerRightSideOfSweaterString = 'lower right side of sweater';
-  var bottomRightSideOfSweaterString = 'bottom right side of sweater';
-
-  var topRightArmString = 'top right arm';
-  var upperRightArmString = 'upper right arm';
-  var lowerRightArmString = 'lower right arm';
-  var bottomRightArmString = 'bottom right arm';
-
-  var topLeftSideOfPlayAreaString = 'top left side of play area';
-  var upperLeftSideOfPlayAreaString = 'upper left side of play area';
-  var lowerLeftSideOfPlayAreaString = 'lower left side of play area';
-  var bottomLeftSideOfPlayAreaString = 'bottom left side of play area';
-
-  var topCenterOfPlayAreaString = 'top center of play area';
-  var upperCenterOfPlayAreaString = 'upper center of play area';
-  var lowerCenterOfPlayAreaString = 'lower center of play area';
-  var bottomCenterOfPlayAreaString = 'bottom center of play area';
-
-  var topRightSideOfPlayAreaString = 'top right side of play area';
-  var upperRightSideOfPlayAreaString = 'upper right side of play area';
-  var lowerRightSideOfPlayAreaString = 'lower right side of play area';
-  var bottomRightSideOfPlayAreaString = 'bottom right side of play area';
-
-  var topRightEdgeOfPlayAreaString = 'top right edge of play area';
-  var upperRightEdgeOfPlayAreaString = 'upper right edge of play area';
-  var lowerRightEdgeOfPlayAreaString = 'lower right edge of play area';
-  var bottomRightEdgeOfPlayAreaString = 'bottom right edge of play area';
-
-  // location strings while touching another object
-  // var atWallPatternString = 'At {0} wall.';
-  var touchingWallStringPattern = 'Touching {0} wall.';
-  var stickingToWallStringPattern = 'Sticking to {0} wall.';
-  var lowerWallString = 'lower';
-  var upperWallString = 'upper';
-
-  var stickingToSweaterString = 'Now sticking to upper right side of sweater.';
-
-  // charge descriptions
-  var namedBalloonChargeDescriptionPatternString = '{0} has net {1} charge, {2} more negative charges than positive charges.';
-  var balloonChargeStringPattern = 'Has net {0} charge, {1} more negative charges than positive charges.';
-  var sweaterChargePatternString = 'Sweater has net {0} charge, {1} more positive charges than negative charges.';
-
-  var neutralString = 'neutral';
-  var negativeString = 'negative';
-  var positiveString = 'positive';
-
-  var noString = 'no';
-  var aFewString = 'a few';
-  var severalString = 'several';
-  var manyString = 'many';
-
-  // wall charge descriptions
-  var atWallString = 'At wall.';
-  var atWallTouchPointPatternString = 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has net neutral charge, many pairs of negative and positive charges.';
-  var wallRubStringPattern = 'No transfer of charge.  At touch point, negative charges in wall {0}.  Positive charges do not move.';
-  var wallChargesReturnString = 'Negative charges in wall return {0}.';
-
-  var slightlyString = 'slightly';
-  var allTheWayString = 'all the way';
-
-  var noChangeInChargesString = 'No change in charges.';
-  var aLittleBitString = 'move away from balloon a little bit';
-  var aLotString = 'move away from balloon a lot';
-  var quiteALotString = 'move away from balloon quite a lot';
-  var doNotMoveString = 'do not move';
-
-  var noMoreChargesRemainingOnSweaterString = 'No change in charges. No more charges remaining on sweater.';
-
-  // TODO: Why are these commented out?
-  // var positiveChargesDoNotMoveString = 'Positive charges do not move.';
-  // var wallHasChargePairsString = 'Wall has many pairs of positive and negative charges';
-  // var balloonHasChargesPatternString = 'Balloon has {0} more negative charges than positive charges.';
-
-  // release descriptions
-  var balloonReleasedPatternString = 'Balloon released. Moved {0} to {1}.';
-  var balloonReleasedNoChangePatternString = 'Balloon Released. {0}';
-  var noChangeInPositionOrChargeString = 'No change in position.  No change in charge.';
-
-  var wallString = 'wall';
-  var sweaterString = 'sweater';
-
-  var movesToObjectPatternString = 'Moves {0} towards {1}.';
-
-  // interaction descriptions
-  var upTowardsTopString = 'Up. Towards top.';
-  var leftTowardsSweaterString = 'Left. Towards sweater.';
-  var downTowardsBottomString = 'Down. Towards bottom.';
-  var rightTowardsWallString = 'Right. Towards wall.';
-  var rightTowardsRightSideOfPlayAreaString = 'Right. Towards right side of play area.';
-
-  var closerToTopString = 'Up. Closer to top.';
-  var closerToSweaterString = 'Left. Closer to sweater.';
-  var closerToBottomString = 'Down. Closer to bottom.';
-  var closerToWallString = 'Right. Closer to wall.';
-  var closerToRightSideString = 'Right. Closer to right side of play area.';
-
-  var upString = 'Up.';
-  var leftString = 'Left.';
-  var downString = 'Down.';
-  var rightString = 'Right.';
-
-  var morePairsOfChargesStringPattern = 'More pairs of charges {0}.';
-
-  var wallRemovedString = 'Wall removed from play area.';
-  var wallAddedString = 'Wall added to play area.';
-
-  // boundary strings
-  var atTopOfPlayAreaString = 'At top of play area.';
-  var atBottomOfPlayAreaString = 'At bottom of play area';
-  var leftEdgeString = 'At left edge of play area';
-  var rightEdgeString = 'At right edge of play area';
-
-  var nearSweaterString = 'Near sweater';
-  var onSweaterPatternStringString = 'On sweater. {0}';
-  var picksUpNegativeChargesString = 'Picks up negative charges from sweater.';
-  var nearWallString = 'Near wall.';
-  var offSweaterString = 'Off sweater.';
-
-  var atCenterOfPlayAreaString = 'At center of play area.';
-  var onRightSideOfPlayAreaString = 'On right side of play area.';
-
-  var balloonPicksUpMoreChargesString = 'Balloon picks up more negative charges';
-  var againMoreChargesString = 'Again, more negative charges.';
-
-  // labels
-  var greenBalloonString = 'Green balloon';
-  var yellowBalloonString = 'Yellow balloon';
 
   /**
    * @param {BalloonsAndStaticElectricityModel} model
@@ -200,62 +40,62 @@ define( function( require ) {
     this.balloon = balloon;
 
     this.balloonLabelMap = {
-      GREEN: greenBalloonString,
-      YELLOW: yellowBalloonString
+      GREEN: BASEA11yStrings.greenBalloonString,
+      YELLOW: BASEA11yStrings.yellowBalloonString
     };
 
     // @private
     this.locationDescriptionMap = {
-      TOP_LEFT: topLeftEdgeOfSweaterString,
-      UPPER_LEFT: upperLeftEdgeOfSweaterString,
-      LOWER_LEFT: lowerLeftEdgeOfSweaterString,
-      BOTTOM_LEFT: bottomLeftEdgeOfSweaterString,
+      TOP_LEFT: BASEA11yStrings.topLeftEdgeOfSweaterString,
+      UPPER_LEFT: BASEA11yStrings.upperLeftEdgeOfSweaterString,
+      LOWER_LEFT: BASEA11yStrings.lowerLeftEdgeOfSweaterString,
+      BOTTOM_LEFT: BASEA11yStrings.bottomLeftEdgeOfSweaterString,
 
-      TOP_LEFT_ARM: topLeftArmString,
-      UPPER_LEFT_ARM: upperLeftArmString,
-      LOWER_LEFT_ARM: lowerLeftArmString,
-      BOTTOM_LEFT_ARM: bottomLeftArmString,
+      TOP_LEFT_ARM: BASEA11yStrings.topLeftArmString,
+      UPPER_LEFT_ARM: BASEA11yStrings.upperLeftArmString,
+      LOWER_LEFT_ARM: BASEA11yStrings.lowerLeftArmString,
+      BOTTOM_LEFT_ARM: BASEA11yStrings.bottomLeftArmString,
 
-      TOP_LEFT_SWEATER: topLeftSideOfSweaterString,
-      UPPER_LEFT_SWEATER: upperLeftSideOfSweaterString,
-      LOWER_LEFT_SWEATER: lowerLeftSideOfSweaterString,
-      BOTTOM_LEFT_SWEATER: bottomLeftSideOfSweaterString,
+      TOP_LEFT_SWEATER: BASEA11yStrings.topLeftSideOfSweaterString,
+      UPPER_LEFT_SWEATER: BASEA11yStrings.upperLeftSideOfSweaterString,
+      LOWER_LEFT_SWEATER: BASEA11yStrings.lowerLeftSideOfSweaterString,
+      BOTTOM_LEFT_SWEATER: BASEA11yStrings.bottomLeftSideOfSweaterString,
 
-      TOP_RIGHT_SWEATER: topRightSideOfSweaterString,
-      UPPER_RIGHT_SWEATER: upperRightSideOfSweaterString,
-      LOWER_RIGHT_SWEATER: lowerRightSideOfSweaterString,
-      BOTTOM_RIGHT_SWEATER: bottomRightSideOfSweaterString,
+      TOP_RIGHT_SWEATER: BASEA11yStrings.topRightSideOfSweaterString,
+      UPPER_RIGHT_SWEATER: BASEA11yStrings.upperRightSideOfSweaterString,
+      LOWER_RIGHT_SWEATER: BASEA11yStrings.lowerRightSideOfSweaterString,
+      BOTTOM_RIGHT_SWEATER: BASEA11yStrings.bottomRightSideOfSweaterString,
 
-      TOP_RIGHT_ARM: topRightArmString,
-      UPPER_RIGHT_ARM: upperRightArmString,
-      LOWER_RIGHT_ARM: lowerRightArmString,
-      BOTTOM_RIGHT_ARM: bottomRightArmString,
+      TOP_RIGHT_ARM: BASEA11yStrings.topRightArmString,
+      UPPER_RIGHT_ARM: BASEA11yStrings.upperRightArmString,
+      LOWER_RIGHT_ARM: BASEA11yStrings.lowerRightArmString,
+      BOTTOM_RIGHT_ARM: BASEA11yStrings.bottomRightArmString,
 
-      TOP_LEFT_PLAY_AREA: topLeftSideOfPlayAreaString,
-      UPPER_LEFT_PLAY_AREA: upperLeftSideOfPlayAreaString,
-      LOWER_LEFT_PLAY_AREA: lowerLeftSideOfPlayAreaString,
-      BOTTOM_LEFT_PLAY_AREA: bottomLeftSideOfPlayAreaString,
+      TOP_LEFT_PLAY_AREA: BASEA11yStrings.topLeftSideOfPlayAreaString,
+      UPPER_LEFT_PLAY_AREA: BASEA11yStrings.upperLeftSideOfPlayAreaString,
+      LOWER_LEFT_PLAY_AREA: BASEA11yStrings.lowerLeftSideOfPlayAreaString,
+      BOTTOM_LEFT_PLAY_AREA: BASEA11yStrings.bottomLeftSideOfPlayAreaString,
 
-      TOP_CENTER_PLAY_AREA: topCenterOfPlayAreaString,
-      UPPER_CENTER_PLAY_AREA: upperCenterOfPlayAreaString,
-      LOWER_CENTER_PLAY_AREA: lowerCenterOfPlayAreaString,
-      BOTTOM_CENTER_PLAY_AREA: bottomCenterOfPlayAreaString,
+      TOP_CENTER_PLAY_AREA: BASEA11yStrings.topCenterOfPlayAreaString,
+      UPPER_CENTER_PLAY_AREA: BASEA11yStrings.upperCenterOfPlayAreaString,
+      LOWER_CENTER_PLAY_AREA: BASEA11yStrings.lowerCenterOfPlayAreaString,
+      BOTTOM_CENTER_PLAY_AREA: BASEA11yStrings.bottomCenterOfPlayAreaString,
 
-      TOP_RIGHT_PLAY_AREA: topRightSideOfPlayAreaString,
-      UPPER_RIGHT_PLAY_AREA: upperRightSideOfPlayAreaString,
-      LOWER_RIGHT_PLAY_AREA: lowerRightSideOfPlayAreaString,
-      BOTTOM_RIGHT_PLAY_AREA: bottomRightSideOfPlayAreaString,
+      TOP_RIGHT_PLAY_AREA: BASEA11yStrings.topRightSideOfPlayAreaString,
+      UPPER_RIGHT_PLAY_AREA: BASEA11yStrings.upperRightSideOfPlayAreaString,
+      LOWER_RIGHT_PLAY_AREA: BASEA11yStrings.lowerRightSideOfPlayAreaString,
+      BOTTOM_RIGHT_PLAY_AREA: BASEA11yStrings.bottomRightSideOfPlayAreaString,
 
-      TOP_RIGHT: topRightEdgeOfPlayAreaString,
-      UPPER_RIGHT: upperRightEdgeOfPlayAreaString,
-      LOWER_RIGHT: lowerRightEdgeOfPlayAreaString,
-      BOTTOM_RIGHT: bottomRightEdgeOfPlayAreaString,
+      TOP_RIGHT: BASEA11yStrings.topRightEdgeOfPlayAreaString,
+      UPPER_RIGHT: BASEA11yStrings.upperRightEdgeOfPlayAreaString,
+      LOWER_RIGHT: BASEA11yStrings.lowerRightEdgeOfPlayAreaString,
+      BOTTOM_RIGHT: BASEA11yStrings.bottomRightEdgeOfPlayAreaString,
 
-      TOP_EDGE: atTopOfPlayAreaString,
-      BOTTOM_EDGE: atBottomOfPlayAreaString,
-      LEFT_EDGE: leftEdgeString,
-      RIGHT_EDGE: rightEdgeString,
-      AT_WALL: atWallString
+      TOP_EDGE: BASEA11yStrings.atTopOfPlayAreaString,
+      BOTTOM_EDGE: BASEA11yStrings.atBottomOfPlayAreaString,
+      LEFT_EDGE: BASEA11yStrings.leftEdgeString,
+      RIGHT_EDGE: BASEA11yStrings.rightEdgeString,
+      AT_WALL: BASEA11yStrings.atWallString
 
     };
 
@@ -291,14 +131,14 @@ define( function( require ) {
 
       var locationStringPattern;
       if ( dragging ) {
-        locationStringPattern = draggingLocationStringPattern;
+        locationStringPattern = BASEA11yStrings.draggingLocationStringPattern;
       }
       else {
         if ( balloon.chargeProperty.get() < 0 && balloon.onSweater() && !balloon.isDraggedProperty.get() ) {
-          locationStringPattern = stickingToLocationPatternString;
+          locationStringPattern = BASEA11yStrings.stickingToLocationPatternString;
         }
         else {
-          locationStringPattern = balloonLocationStringPattern;
+          locationStringPattern = BASEA11yStrings.balloonLocationStringPattern;
         }
       }
 
@@ -322,17 +162,17 @@ define( function( require ) {
       var upperLowerString;
       var balloonLocationDescription;
       if ( balloon.inUpperHalfOfPlayArea() ) {
-        upperLowerString = upperWallString;
+        upperLowerString = BASEA11yStrings.upperWallString;
       }
       else {
-        upperLowerString = lowerWallString;
+        upperLowerString = BASEA11yStrings.lowerWallString;
       }
 
       if ( balloon.chargeProperty.get() === 0 || dragging ) {
-        balloonLocationDescription = StringUtils.format( touchingWallStringPattern, upperLowerString );
+        balloonLocationDescription = StringUtils.format( BASEA11yStrings.touchingWallStringPattern, upperLowerString );
       }
       else {
-        balloonLocationDescription = StringUtils.format( stickingToWallStringPattern, upperLowerString );
+        balloonLocationDescription = StringUtils.format( BASEA11yStrings.stickingToWallStringPattern, upperLowerString );
       }
 
       return balloonLocationDescription;
@@ -347,10 +187,10 @@ define( function( require ) {
       var proximityDescription;
       var balloonOnSweater = balloon.onSweater();
       if ( balloon.nearSweater() ) {
-        proximityDescription = nearSweaterString;
+        proximityDescription = BASEA11yStrings.nearSweaterString; 
       }
       else if ( balloon.nearWall() && this.model.wall.isVisibleProperty.get() ) {
-        proximityDescription = nearWallString;
+        proximityDescription = BASEA11yStrings.nearWallString;
       }
       else if ( balloonOnSweater !== this.balloonOnSweater ) {
         if ( balloonOnSweater ) {
@@ -358,15 +198,15 @@ define( function( require ) {
           // only anounce on sweater the first time it hits the sweater
           // if the balloon picks up a charge as it touches the sweater, anounce this
           if ( balloon.chargeProperty.get() !== this.balloonCharge ) {
-            proximityDescription = StringUtils.format( onSweaterPatternStringString, picksUpNegativeChargesString );
+            proximityDescription = StringUtils.format( BASEA11yStrings.onSweaterPatternStringString, BASEA11yStrings.picksUpNegativeChargesString );
             this.balloonCharge = balloon.chargeProperty.get();
           }
           else {
-            proximityDescription = StringUtils.format( onSweaterPatternStringString, '' );
+            proximityDescription = StringUtils.format( BASEA11yStrings.onSweaterPatternStringString, '' );
           }
         }
         else {
-          proximityDescription = offSweaterString;
+          proximityDescription = BASEA11yStrings.offSweaterString;
         }
         this.balloonOnSweater = balloonOnSweater;
         this.transitionedToNewArea = true;
@@ -397,35 +237,35 @@ define( function( require ) {
 
       var charge = Math.abs( balloon.chargeProperty.value );
       if ( charge === 0 ) {
-        chargeString = noString;
-        neutralityString = neutralString;
-        inducedChargeString = doNotMoveString;
+        chargeString = BASEA11yStrings.noString;
+        neutralityString = BASEA11yStrings.neutralString;
+        inducedChargeString = BASEA11yStrings.doNotMoveString;
       }
       else if ( A_FEW_RANGE.contains( charge ) ) {
-        chargeString = aFewString;
-        neutralityString = negativeString;
-        inducedChargeString = aLittleBitString;
+        chargeString = BASEA11yStrings.aFewString;
+        neutralityString = BASEA11yStrings.negativeString;
+        inducedChargeString = BASEA11yStrings.moveALittleBitString;
       }
       else if ( SEVERAL_RANGE.contains( charge ) ) {
-        chargeString = severalString;
-        neutralityString = negativeString;
-        inducedChargeString = aLotString;
+        chargeString = BASEA11yStrings.severalString;
+        neutralityString = BASEA11yStrings.negativeString;
+        inducedChargeString = BASEA11yStrings.moveALotString;
       }
       else if ( MANY_RANGE.contains( charge ) ) {
-        chargeString = manyString;
-        neutralityString = negativeString;
-        inducedChargeString = quiteALotString;
+        chargeString = BASEA11yStrings.manyString;
+        neutralityString = BASEA11yStrings.negativeString;
+        inducedChargeString = BASEA11yStrings.moveQuiteALotString;
       }
       assert && assert( chargeString, 'no description found for balloon with charge: ' + balloon.chargeProperty.get() );
 
       if ( dragging ) {
-        balloonChargeDescription = StringUtils.format( namedBalloonChargeDescriptionPatternString, balloonLabel, neutralityString, chargeString );
+        balloonChargeDescription = StringUtils.format( BASEA11yStrings.namedBalloonChargeDescriptionPatternString, balloonLabel, neutralityString, chargeString );
       }
       else {
-        balloonChargeDescription = StringUtils.format( balloonChargeStringPattern, neutralityString, chargeString );
+        balloonChargeDescription = StringUtils.format( BASEA11yStrings.balloonChargeStringPattern, neutralityString, chargeString );
       }
 
-      var wallChargeDescription = StringUtils.format( atWallTouchPointPatternString, inducedChargeString );
+      var wallChargeDescription = StringUtils.format( BASEA11yStrings.atWallTouchPointPatternString, inducedChargeString );
 
       // assemble a description for the wall charge if the balloon is touching the wall
       if ( balloon.touchingWall() && this.model.wall.isVisibleProperty.get() ) {
@@ -442,22 +282,22 @@ define( function( require ) {
 
       var jumpDescription;
       if ( balloonCenterX === this.model.playArea.atNearSweater ) {
-        jumpDescription = nearSweaterString;
+        jumpDescription = BASEA11yStrings.nearSweaterString;
       }
       else if ( balloonCenterX === this.model.playArea.atNearWall ) {
         if ( this.model.wall.isVisibleProperty.get() ) {
-          jumpDescription = nearWallString;
+          jumpDescription = BASEA11yStrings.nearWallString;
         }
         else {
-          jumpDescription = onRightSideOfPlayAreaString;
+          jumpDescription = BASEA11yStrings.onRightSideOfPlayAreaString;
         }
       }
       else if ( balloonCenterX === this.model.playArea.atCenter ) {
-        jumpDescription = atCenterOfPlayAreaString;
+        jumpDescription = BASEA11yStrings.atCenterOfPlayAreaString;
       }
       else if ( balloonCenterX === this.model.playArea.atWall ) {
         var chargeDescription = this.getBalloonChargeDescription( balloon, true );
-        jumpDescription = StringUtils.format( '{0} {1}', atWallString, chargeDescription );
+        jumpDescription = StringUtils.format( '{0} {1}', BASEA11yStrings.atWallString, chargeDescription );
       }
 
       return jumpDescription;
@@ -469,24 +309,24 @@ define( function( require ) {
 
       var charge = Math.abs( balloon.chargeProperty.value );
       if ( charge === 0 ) {
-        chargeString = noString;
-        neutralityString = neutralString;
+        chargeString = BASEA11yStrings.noString;
+        neutralityString = BASEA11yStrings.neutralString;
       }
       else if ( A_FEW_RANGE.contains( charge ) ) {
-        chargeString = aFewString;
-        neutralityString = positiveString;
+        chargeString = BASEA11yStrings.aFewString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
       else if ( SEVERAL_RANGE.contains( charge ) ) {
-        chargeString = severalString;
-        neutralityString = positiveString;
+        chargeString = BASEA11yStrings.severalString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
       else if ( MANY_RANGE.contains( charge ) ) {
-        chargeString = manyString;
-        neutralityString = positiveString;
+        chargeString =BASEA11yStrings. manyString;
+        neutralityString = BASEA11yStrings.positiveString;
       }
 
       assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.chargeProperty.get() );
-      return StringUtils.format( sweaterChargePatternString, neutralityString, chargeString );
+      return StringUtils.format( BASEA11yStrings.sweaterChargePatternString, neutralityString, chargeString );
     },
 
     /**
@@ -504,71 +344,71 @@ define( function( require ) {
       var directionString;
       if ( direction === BalloonDirectionEnum.UP ) {
         if ( this.balloon.onSweater() ) {
-          directionString = upString;
+          directionString = BASEA11yStrings.moveUpString;
         }
         else if ( this.wKeyPressedCount === 0 ) {
-          directionString = upTowardsTopString;
+          directionString = BASEA11yStrings.upTowardsTopString;
         }
         else if ( this.wKeyPressedCount < 2 ) {
-          directionString = closerToTopString;
+          directionString = BASEA11yStrings.closerToTopString;
         }
         else {
-          directionString = upString;
+          directionString = BASEA11yStrings.moveUpString;
         }
         this.wKeyPressedCount++;
       }
       else if ( direction === BalloonDirectionEnum.DOWN ) {
         if ( this.balloon.onSweater() ) {
-          directionString = downString;
+          directionString = BASEA11yStrings.moveDownString;
         }
         else if ( this.sKeyPressedCount === 0 ) {
-          directionString = downTowardsBottomString;
+          directionString = BASEA11yStrings.downTowardsBottomString;
         }
         else if ( this.sKeyPressedCount < 2 ) {
-          directionString = closerToBottomString;
+          directionString = BASEA11yStrings.closerToBottomString;
         }
         else {
-          directionString = downString;
+          directionString = BASEA11yStrings.moveDownString;
         }
         this.sKeyPressedCount++;
       }
       else if ( direction === BalloonDirectionEnum.LEFT ) {
         if ( this.balloon.onSweater() ) {
-          directionString = leftString;
+          directionString = BASEA11yStrings.moveLeftString;
         }
         else if ( this.aKeyPressedCount === 0 ) {
-          directionString = leftTowardsSweaterString;
+          directionString = BASEA11yStrings.leftTowardsSweaterString;
         }
         else if ( this.aKeyPressedCount < 2 ) {
-          directionString = closerToSweaterString;
+          directionString = BASEA11yStrings.closerToSweaterString;
         }
         else {
-          directionString = leftString;
+          directionString = BASEA11yStrings.moveLeftString;
         }
         this.aKeyPressedCount++;
       }
       else if ( direction === BalloonDirectionEnum.RIGHT ) {
         if ( this.balloon.onSweater() ) {
-          directionString = rightString;
+          directionString = BASEA11yStrings.moveRightString;
         }
         else if ( this.dKeyPressedCount === 0 ) {
           if ( this.model.wall.isVisibleProperty.get() ) {
-            directionString = rightTowardsWallString;
+            directionString = BASEA11yStrings.rightTowardsWallString;
           }
           else {
-            directionString = rightTowardsRightSideOfPlayAreaString;
+            directionString = BASEA11yStrings.rightTowardsRightSideOfPlayAreaString;
           }
         }
         else if ( this.dKeyPressedCount < 2 ) {
           if ( this.model.wall.isVisibleProperty.get() ) {
-            directionString = closerToWallString;
+            directionString = BASEA11yStrings.closerToWallString;
           }
           else {
-            directionString = closerToRightSideString;
+            directionString = BASEA11yStrings.closerToRightSideString;
           }
         }
         else {
-          directionString = rightString;
+          directionString = BASEA11yStrings.moveRightString;
         }
         this.dKeyPressedCount++;
       }
@@ -630,7 +470,7 @@ define( function( require ) {
       }
 
       this.balloonLocation = this.balloon.locationProperty.get();
-      draggingDescription = StringUtils.format( balloonDragDescriptionPatternString, string1, string2, string3, string4, string5, string6 );
+      draggingDescription = StringUtils.format( BASEA11yStrings.balloonDragDescriptionPatternString, string1, string2, string3, string4, string5, string6 );
       return draggingDescription;
     },
 
@@ -670,10 +510,10 @@ define( function( require ) {
       var distanceToWall = Math.abs( balloon.getDistanceToWall() );
 
       if ( distanceToWall < 40 ) {
-        return StringUtils.format( wallChargesReturnString, slightlyString );
+        return StringUtils.format( BASEA11yStrings.wallChargesReturnString, BASEA11yStrings.slightlyString );
       }
       else {
-        return StringUtils.format( wallChargesReturnString, allTheWayString );
+        return StringUtils.format( BASEA11yStrings.wallChargesReturnString, BASEA11yStrings.allTheWayString );
       }
     },
 
@@ -689,19 +529,19 @@ define( function( require ) {
       var inducedChargeDescription;
 
       if ( charge === 0 ) {
-        inducedChargeDescription = doNotMoveString;
+        inducedChargeDescription = BASEA11yStrings.doNotMoveString;
       }
       else if ( A_FEW_RANGE.contains( charge ) ) {
-        inducedChargeDescription = aLittleBitString;
+        inducedChargeDescription = BASEA11yStrings.moveALittleBitString;
       }
       else if ( SEVERAL_RANGE.contains( charge ) ) {
-        inducedChargeDescription = aLotString;
+        inducedChargeDescription = BASEA11yStrings.moveALotString;
       }
       else if ( MANY_RANGE.contains( charge ) ) {
-        inducedChargeDescription = quiteALotString;
+        inducedChargeDescription = BASEA11yStrings.moveQuiteALotString;
       }
 
-      return StringUtils.format( wallRubStringPattern, inducedChargeDescription );
+      return StringUtils.format( BASEA11yStrings.wallRubStringPattern, inducedChargeDescription );
     },
 
     /**
@@ -719,7 +559,7 @@ define( function( require ) {
 
       var sweater = this.model.sweater;
       if ( sweater.chargeProperty.get() === -MAX_BALLOON_CHARGE ) {
-        return noMoreChargesRemainingOnSweaterString;
+        return BASEA11yStrings.noMoreChargesRemainingOnSweaterString;
       }
       else if ( currentBalloonCharge !== this.balloonCharge ) {
 
@@ -742,10 +582,10 @@ define( function( require ) {
 
         }
         else if ( this.balloonInChargeRangeCount === 1 ) {
-          balloonPicksUpChargesString = balloonPicksUpMoreChargesString;
+          balloonPicksUpChargesString = BASEA11yStrings.balloonPicksUpMoreChargesString;
         }
         else {
-          balloonPicksUpChargesString = againMoreChargesString;
+          balloonPicksUpChargesString = BASEA11yStrings.againMoreChargesString;
         }
 
         this.balloonInChargeRangeCount++;
@@ -764,9 +604,9 @@ define( function( require ) {
           var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
           var locationDescription = this.locationDescriptionMap[ locationBounds ];
 
-          balloonLocation = StringUtils.format( draggingLocationStringPattern, locationDescription );
+          balloonLocation = StringUtils.format( BASEA11yStrings.draggingLocationStringPattern, locationDescription );
         }
-        return StringUtils.format( locationHelpStringPattern, noChangeInChargesString, balloonLocation, moreChargesString );
+        return StringUtils.format( locationHelpStringPattern, BASEA11yStrings.noChangeInChargesString, balloonLocation, moreChargesString );
       }
 
       if ( balloonPicksUpChargesString ) {
@@ -794,7 +634,7 @@ define( function( require ) {
       var directionCueString = StringMaps.DIRECTION_MAP[ directionToCharge ];
       assert && assert( directionCueString, 'no direction found for nearest charge' );
 
-      return StringUtils.format( morePairsOfChargesStringPattern, directionCueString );
+      return StringUtils.format( BASEA11yStrings.morePairsOfChargesStringPattern, directionCueString );
     },
 
     /**
@@ -832,10 +672,10 @@ define( function( require ) {
 
       // if picked up for dragging, the navigation cue changes to describe the interaction
       if ( isDragged ) {
-        return StringUtils.format( balloonGrabbedDescriptionPatternString, grabbedString, locationDescription, chargeDescription, dragNavigationCueString );
+        return StringUtils.format( BASEA11yStrings.balloonGrabbedDescriptionPatternString, BASEA11yStrings.grabbedString, locationDescription, chargeDescription, BASEA11yStrings.dragNavigationCueString );
       }
       else {
-        return StringUtils.format( balloonDescriptionPatternString, locationDescription, chargeDescription, grabButtonNavigationCueString );
+        return StringUtils.format( BASEA11yStrings.balloonDescriptionPatternString, locationDescription, chargeDescription, BASEA11yStrings.grabButtonNavigationCueString );
       }
     },
 
@@ -881,15 +721,15 @@ define( function( require ) {
 
         // when the charge is zero, we want to hear the balloon Label, release position, no change in position,
         // no change in charges, button label
-        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, noChangeInPositionOrChargeString );
+        descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedNoChangePatternString, BASEA11yStrings.noChangeInPositionOrChargeString );
       }
       else if ( this.balloon.touchingWall() ) {
         var touchingWallDescription = this.getTouchingWallDescription( this.balloon );
-        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, touchingWallDescription );
+        descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedNoChangePatternString, touchingWallDescription );
       }
       else if ( this.balloon.centerInSweater() ) {
-        var stickingString = StringUtils.format( stickingToLocationPatternString, sweaterString );
-        descriptionString = StringUtils.format( balloonReleasedNoChangePatternString, stickingString );
+        var stickingString = StringUtils.format( BASEA11yStrings.stickingToLocationPatternString, BASEA11yStrings.sweaterString );
+        descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedNoChangePatternString, stickingString );
       }
       else {
 
@@ -899,7 +739,7 @@ define( function( require ) {
         var attractedObject = this.getAttractedObject();
 
         // put it together
-        descriptionString = StringUtils.format( balloonReleasedPatternString, velocityDescription, attractedObject );
+        descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedPatternString, velocityDescription, attractedObject );
       }
 
       return descriptionString;
@@ -912,10 +752,10 @@ define( function( require ) {
 
       var attractedObject;
       if ( attractedDirection === BalloonDirectionEnum.RIGHT ) {
-        attractedObject = wallString;
+        attractedObject = BASEA11yStrings.wallString;
       }
       else {
-        attractedObject = sweaterString;
+        attractedObject = BASEA11yStrings.sweaterString;
       }
 
       return attractedObject;
@@ -927,18 +767,18 @@ define( function( require ) {
      * @return {}
      */
     getWallRemovedDescription: function( wallRemoved ) {
-      var wallRemovedFromPlayAreaAlert = wallRemoved ? wallRemovedString : wallAddedString;
+      var wallRemovedFromPlayAreaAlert = wallRemoved ? BASEA11yStrings.wallRemovedString : BASEA11yStrings.wallAddedString;
       var balloonLabel = this.balloonLabelMap[ this.balloon.balloonLabel ];
 
       var velocityString = this.getVelocityDescription();
       var attractedObject = this.getAttractedObject();
-      var velocityDescription = StringUtils.format( movesToObjectPatternString, velocityString, attractedObject );
+      var velocityDescription = StringUtils.format( BASEA11yStrings.movesToObjectPatternString, velocityString, attractedObject );
 
       var balloonChargeDescription = this.getBalloonChargeDescription( this.balloon );
       var sweaterChargeDescription = this.getSweaterChargeDescription( this.balloon );
 
       var stringPattern = '{0} {1} {2} {3} {4} {5}';
-      return StringUtils.format( stringPattern, wallRemovedFromPlayAreaAlert, balloonLabel, velocityDescription, stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
+      return StringUtils.format( stringPattern, wallRemovedFromPlayAreaAlert, balloonLabel, velocityDescription, BASEA11yStrings.stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
     },
 
     /**

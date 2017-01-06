@@ -33,6 +33,7 @@ define( function( require ) {
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
 
   // images
@@ -40,36 +41,17 @@ define( function( require ) {
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   // strings
-  var balloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloon' );
-  var balloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons' );
-  var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
-  var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
-
   var balloonAppletShowAllChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowAllCharges' );
   var balloonAppletShowNoChargesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowNoCharges' );
   var balloonAppletShowChargeDifferencesString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/BalloonApplet.ShowChargeDifferences' );
-
-  var wallDescriptionString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wall.description' );
+  var addWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall' );
+  var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
-  // var twoBalloonExperimentLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/twoBalloonExperiment.label' );
-  var controlPanelLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/controlPanel.label' );
-  var addWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/addWall.label' );
-  var removeWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall.label' );
-  var wallAddedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallAdded' );
-  var wallRemovedString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/wallRemoved' );
 
-  var resetBalloonsDescriptionPatternString = 'Reset {0} to start {1} and an uncharged state.';
-  var positionString = 'position';
-  var positionsString = 'positions';
 
-  var resetAllString = 'Reset All';
-  var resetAlertString = 'Sim screen restarted.  Everything reset.';
 
-  var resetBalloonAlertDescriptionPatternString = 'Sweater and {0} reset to net neutral charge. {1} in center of play area.';
-  // var abSwitchDescriptionString = 'Play with two balloons or just one.';
-
-  /**
+    /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
    * @param {Bounds2} layoutBounds
@@ -81,7 +63,7 @@ define( function( require ) {
     AccessibleNode.call( this, {
       tagName: 'section', // this is a separate section of elements
       childContainerTagName: 'div', // all children contained in a div under the section
-      label: controlPanelLabelString,
+      label: BASEA11yStrings.controlPanelLabelString,
       labelTagName: 'h2'
     } );
 
@@ -121,8 +103,8 @@ define( function( require ) {
       parentContainerTagName: 'div',
       tagName: 'button',
       focusable: true,
-      label: removeWallLabelString,
-      description: wallDescriptionString,
+      label: BASEA11yStrings.removeWallLabelString,
+      description: BASEA11yStrings.wallDescriptionString,
       descriptionTagName: 'p',
       events: {
         click: function( event ) {
@@ -135,11 +117,11 @@ define( function( require ) {
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     var self = this;
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
-      var updatedLabel = wallVisible ? removeWallLabelString : addWallLabelString;
+      var updatedLabel = wallVisible ? BASEA11yStrings.removeWallLabelString : BASEA11yStrings.addWallLabelString;
       self.accessibleWallButton.setLabel( updatedLabel );
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
-        var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
+        var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
         ariaHerald.announceAssertive( alertDescription );
       }
 
@@ -239,7 +221,6 @@ define( function( require ) {
     };
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
-      buttonValue: resetBalloonString,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
       accessibleContent: null, // temporary - disable content here, implemented below
@@ -248,9 +229,9 @@ define( function( require ) {
 
     // create the accessible description for the reset balloon button
     var generateDescriptionString = function( balloonVisible ) {
-      var balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
-      var positionDescriptionString = balloonVisible ? positionsString : positionString;
-      return StringUtils.format( resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
+      var balloonDescriptionString = balloonVisible ? BASEA11yStrings.balloonsString : BASEA11yStrings.balloonString;
+      var positionDescriptionString = balloonVisible ? BASEA11yStrings.positionsString : BASEA11yStrings.positionString;
+      return StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
     var accessibleResetBalloonButton = new AccessibleNode( {
@@ -274,7 +255,7 @@ define( function( require ) {
             balloonString = 'balloon';
             bothBalloonString = 'Balloon';
           }
-          var resetDescription = StringUtils.format( resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
+          var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
           ariaHerald.announceAssertive( resetDescription );
         }
       }
@@ -282,7 +263,7 @@ define( function( require ) {
     accessibleResetBalloonButton.addChild( resetBalloonButton );
 
     model.greenBalloon.isVisibleProperty.link( function( balloonVisible ) {
-      var newLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
+      var newLabel = balloonVisible ? BASEA11yStrings.resetBalloonsString : resetBalloonString;
       accessibleResetBalloonButton.setLabel( newLabel );
       accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
     } );
@@ -307,7 +288,7 @@ define( function( require ) {
       focusHighlight: new Shape().circle( 0, 0, 28 ),
       tagName: 'button',
       parentContainerTagName: 'div',
-      label: resetAllString,
+      label: BASEA11yStrings.resetAllString,
       events: {
         click: function( event ) {
 
@@ -323,7 +304,7 @@ define( function( require ) {
           ariaHerald.hidden = false;
 
           // announce that the sim has been reset
-          ariaHerald.announceAssertive( resetAlertString );
+          ariaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
         }
       }
     } );
