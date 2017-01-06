@@ -8,11 +8,7 @@
   },
   "devDependencies": {
     "grunt": "~1.0.0",
-    "grunt-eslint": "~19.0.0",
-    "uglify-js": "~2.4.0",
-    "requirejs": "~2.1.8",
-    "esprima": "~1.0.4",
-    "escodegen": "~0.0.27"
+    "grunt-eslint": "~19.0.0"
   },
   "phet": {
     "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
