@@ -61,8 +61,8 @@ define( function( require ) {
 
         //minus
         var minusCharge = new PointChargeModel(
-          x + position[ 0 ] - PointChargeModel.radius,
-          position[ 1 ] - PointChargeModel.radius,
+          x + position[ 0 ] - PointChargeModel.RADIUS,
+          position[ 1 ] - PointChargeModel.RADIUS,
           minusChargesTandemGroup.createNextTandem()
         );
         this.minusCharges.push( minusCharge );
@@ -84,10 +84,10 @@ define( function( require ) {
         var dv1 = new Vector2( 0, 0 );
         var dv2 = new Vector2( 0, 0 );
         if ( model.yellowBalloon.isVisibleProperty.get() ) {
-          dv1 = BalloonModel.getForce( ch.defaultLocation, model.yellowBalloon.getCenter(), k * PointChargeModel.charge * model.yellowBalloon.chargeProperty.get(), 2.35 );
+          dv1 = BalloonModel.getForce( ch.defaultLocation, model.yellowBalloon.getCenter(), k * PointChargeModel.CHARGE * model.yellowBalloon.chargeProperty.get(), 2.35 );
         }
         if ( model.greenBalloon.isVisibleProperty.get() ) {
-          dv2 = BalloonModel.getForce( ch.defaultLocation, model.greenBalloon.getCenter(), k * PointChargeModel.charge * model.greenBalloon.chargeProperty.get(), 2.35 );
+          dv2 = BalloonModel.getForce( ch.defaultLocation, model.greenBalloon.getCenter(), k * PointChargeModel.CHARGE * model.greenBalloon.chargeProperty.get(), 2.35 );
         }
         entry.locationProperty.set(
           new Vector2( entry.defaultLocation.x + dv1.x + dv2.x, entry.defaultLocation.y + dv1.y + dv2.y )
@@ -109,7 +109,7 @@ define( function( require ) {
     //function to place charges on wall's grid
     calculatePosition: function( i, k ) {
       var y0 = i % 2 === 0 ? this.dy / 2 : 1;
-      return [ i * this.dx + PointChargeModel.radius + 1, k * this.dy + y0 ];
+      return [ i * this.dx + PointChargeModel.RADIUS + 1, k * this.dy + y0 ];
     }
   } );
   return WallModel;

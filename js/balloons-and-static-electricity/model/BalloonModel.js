@@ -202,8 +202,8 @@ define( function( require ) {
 
       //minus
       var minusCharge = new PointChargeModel(
-        entry[ 0 ] + PointChargeModel.radius,
-        entry[ 1 ] + PointChargeModel.radius,
+        entry[ 0 ] + PointChargeModel.RADIUS,
+        entry[ 1 ] + PointChargeModel.RADIUS,
         minusChargesTandemGroup.createNextTandem()
       );
       self.minusCharges.push( minusCharge );

@@ -20,6 +20,12 @@ define( function( require ) {
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
+  // constants
+  var RADIUS = 8;
+
+  //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
+  var CHARGE = -1.754;
+
   /**
    * @constructor
    * @param {number} x
@@ -47,11 +53,6 @@ define( function( require ) {
     this.reset();
   }
 
-  PointChargeModel.radius = 8;
-
-  //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
-  PointChargeModel.charge = -1.754;
-
   balloonsAndStaticElectricity.register( 'PointChargeModel', PointChargeModel );
 
   inherit( Object, PointChargeModel, {
@@ -62,6 +63,11 @@ define( function( require ) {
     getCenter: function() {
       return new Vector2( this.locationProperty.get().x + this.radius, this.locationProperty.get().y + this.radius );
     }
+  }, {
+
+    // static properties
+    RADIUS: RADIUS,
+    CHARGE: CHARGE
   } );
 
   return PointChargeModel;

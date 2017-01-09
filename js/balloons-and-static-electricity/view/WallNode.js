@@ -79,7 +79,7 @@ define( function( require ) {
     wallModel.minusCharges.forEach( function( entry ) {
       entry.view = new MinusChargeNode( entry.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
       entry.locationProperty.link( function updateLocation( location ) {
-        entry.view.setTranslation( location.x + PointChargeModel.radius, location.y + PointChargeModel.radius );
+        entry.view.setTranslation( location.x + PointChargeModel.RADIUS, location.y + PointChargeModel.RADIUS );
       } );
       minusChargesNode.addChild( entry.view );
     } );

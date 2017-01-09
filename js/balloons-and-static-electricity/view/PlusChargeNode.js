@@ -19,13 +19,13 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
-  var radius = PointChargeModel.radius;
+  var RADIUS = PointChargeModel.RADIUS;
 
   //Scale up before rasterization so it won't be too pixellated/fuzzy
   var scale = 2;
   var plusChargeNode = new Node( {
     children: [
-      new Circle( radius, {
+      new Circle( RADIUS, {
         x: 0, y: 0,
         fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
           .addColorStop( 0, '#f97d7d' )
@@ -62,7 +62,7 @@ define( function( require ) {
 
     TandemNode.call( this, { pickable: false, tandem: tandem } );
 
-    this.translate( locationProperty.get().x - radius, locationProperty.get().y - radius );
+    this.translate( locationProperty.get().x - RADIUS, locationProperty.get().y - RADIUS );
 
     this.addChild( node );
   }
