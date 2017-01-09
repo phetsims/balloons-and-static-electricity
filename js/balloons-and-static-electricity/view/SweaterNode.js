@@ -89,8 +89,8 @@ define( function( require ) {
         var showAll = (value === 'all');
         for ( var i = 0; i < self.sweaterModel.minusCharges.length; i++ ) {
           self.sweaterModel.plusCharges[ i ].view.visible = showAll ||
-                                                            self.sweaterModel.minusCharges[ i ].moved;
-          self.sweaterModel.minusCharges[ i ].view.visible = showAll && !self.sweaterModel.minusCharges[ i ].moved;
+                                                            self.sweaterModel.minusCharges[ i ].movedProperty.get();
+          self.sweaterModel.minusCharges[ i ].view.visible = showAll && !self.sweaterModel.minusCharges[ i ].movedProperty.get();
         }
       }
     };

@@ -15,7 +15,11 @@ define( function( require ) {
   // modules
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Property = require( 'AXON/Property' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
   // constants
   var RADIUS = 8;
@@ -34,8 +38,11 @@ define( function( require ) {
     // @public (read-only) - location of this charge
     this.location = new Vector2( x, y );
 
-    // @public - whether or not the charge has been moved from sweater to balloon
-    this.moved = false;
+    // @public {boolean} - whether or not the charge has been moved from sweater to balloon
+    this.movedProperty = new Property( false, {
+      tandem: tandem.createTandem( 'movedProperty' ),
+      phetioValueType: TBoolean
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'PointChargeModel', PointChargeModel );
@@ -46,7 +53,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.moved = false;
+      this.movedProperty.reset();
     },
 
     /**

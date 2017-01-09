@@ -307,7 +307,7 @@ define( function( require ) {
         var charge = sweater.minusCharges[ i ];
 
         // if the charge has been moved already, skip it
-        if ( charge.moved ) {
+        if ( charge.movedProperty.get() ) {
           continue;
         }
 

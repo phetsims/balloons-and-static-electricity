@@ -155,7 +155,7 @@ define( function( require ) {
       var chargeMoved = false;
 
       this.minusCharges.forEach( function( entry ) {
-        if ( !entry.moved ) {
+        if ( !entry.movedProperty.get() ) {
           if ( x1 < entry.location.x && entry.location.x < x2 ) {
             if ( y1 < entry.location.y && entry.location.y < y2 ) {
               //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
@@ -171,7 +171,8 @@ define( function( require ) {
 
     //charge from sweater to balloon
     moveChargeTo: function( charge, balloon ) {
-      charge.moved = true;
+      charge.movedProperty.set( true );
+      // charge.moved = true;
       charge.view.visible = false;
 
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
@@ -197,7 +198,7 @@ define( function( require ) {
     reset: function() {
       this.minusCharges.forEach( function( entry ) {
         if ( entry.view ) {
-          entry.moved = false;
+          entry.movedProperty.set( false );
         }
       } );
       this.chargeProperty.set( 0 );
