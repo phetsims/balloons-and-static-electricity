@@ -123,7 +123,7 @@ define( function( require ) {
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, minusChargesGroupTandem.createNextTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.RADIUS, entry[ 1 ] + y + PointChargeModel.RADIUS, minusChargesGroupTandem.createNextTandem() );
       self.minusCharges.push( minusCharge );
     } );
     this.reset();
@@ -155,9 +155,9 @@ define( function( require ) {
       var chargeMoved = false;
 
       this.minusCharges.forEach( function( entry ) {
-        if ( !entry.movedProperty.get() ) {
-          if ( x1 < entry.locationProperty.get().x && entry.locationProperty.get().x < x2 ) {
-            if ( y1 < entry.locationProperty.get().y && entry.locationProperty.get().y < y2 ) {
+        if ( !entry.moved ) {
+          if ( x1 < entry.location.x && entry.location.x < x2 ) {
+            if ( y1 < entry.location.y && entry.location.y < y2 ) {
               //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
               self.moveChargeTo( entry, balloon );
               chargeMoved = true;
@@ -171,7 +171,7 @@ define( function( require ) {
 
     //charge from sweater to balloon
     moveChargeTo: function( charge, balloon ) {
-      charge.movedProperty.set( true );
+      charge.moved = true;
       charge.view.visible = false;
 
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
@@ -197,7 +197,7 @@ define( function( require ) {
     reset: function() {
       this.minusCharges.forEach( function( entry ) {
         if ( entry.view ) {
-          entry.movedProperty.set( false );
+          entry.moved = false;
         }
       } );
       this.chargeProperty.set( 0 );

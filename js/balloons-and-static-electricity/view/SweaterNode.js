@@ -66,14 +66,11 @@ define( function( require ) {
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeNodesTandemGroup.createNextTandem() );
+      plusCharge.view = new PlusChargeNode( plusCharge.location, plusChargeNodesTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusCharge.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
-      minusCharge.locationProperty.link( function updateLocation( location ) {
-        minusCharge.view.setTranslation( location );
-      } );
+      minusCharge.view = new MinusChargeNode( minusCharge.location, minusChargeNodesTandemGroup.createNextTandem() );
       self.minusChargesNode.addChild( minusCharge.view );
     } );
 
@@ -92,8 +89,8 @@ define( function( require ) {
         var showAll = (value === 'all');
         for ( var i = 0; i < self.sweaterModel.minusCharges.length; i++ ) {
           self.sweaterModel.plusCharges[ i ].view.visible = showAll ||
-                                                            self.sweaterModel.minusCharges[ i ].movedProperty.get();
-          self.sweaterModel.minusCharges[ i ].view.visible = showAll && !self.sweaterModel.minusCharges[ i ].movedProperty.get();
+                                                            self.sweaterModel.minusCharges[ i ].moved;
+          self.sweaterModel.minusCharges[ i ].view.visible = showAll && !self.sweaterModel.minusCharges[ i ].moved;
         }
       }
     };

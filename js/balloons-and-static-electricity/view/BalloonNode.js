@@ -131,13 +131,13 @@ define( function( require ) {
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
       model.plusCharges[ i ].view = new PlusChargeNode(
-        model.plusCharges[ i ].locationProperty,
+        model.plusCharges[ i ].location,
         plusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( model.plusCharges[ i ].view );
 
       model.minusCharges[ i ].view = new MinusChargeNode(
-        model.minusCharges[ i ].locationProperty,
+        model.minusCharges[ i ].location,
         minusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( model.minusCharges[ i ].view );
@@ -147,7 +147,7 @@ define( function( require ) {
     var addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       model.minusCharges[ i ].view = new MinusChargeNode(
-        model.minusCharges[ i ].locationProperty,
+        model.minusCharges[ i ].location,
         addedChargeNodesTandemGroup.createNextTandem()
       );
       model.minusCharges[ i ].view.visible = false;

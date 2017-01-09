@@ -307,12 +307,12 @@ define( function( require ) {
         var charge = sweater.minusCharges[ i ];
 
         // if the charge has been moved already, skip it
-        if ( charge.movedProperty.get() ) {
+        if ( charge.moved ) {
           continue;
         }
 
-        var distX = charge.locationProperty.get().x - centerX;
-        var distY = charge.locationProperty.get().y - centerY;
+        var distX = charge.location.x - centerX;
+        var distY = charge.location.y - centerY;
         difference.setXY( distX, distY );
 
         if ( difference.magnitude() < minDistance ) {

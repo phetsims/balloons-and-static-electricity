@@ -70,14 +70,14 @@ define( function( require ) {
     //draw plusCharges on the wall
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.locationProperty, plusChargeNodesTandemGroup.createNextTandem() );
+      entry.view = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
       plusChargesNode.addChild( entry.view );
     } );
 
     //draw minusCharges on the wall
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     wallModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
+      entry.view = new MinusChargeNode( entry.location, minusChargeNodesTandemGroup.createNextTandem() );
       entry.locationProperty.link( function updateLocation( location ) {
         entry.view.setTranslation( location.x + PointChargeModel.RADIUS, location.y + PointChargeModel.RADIUS );
       } );
