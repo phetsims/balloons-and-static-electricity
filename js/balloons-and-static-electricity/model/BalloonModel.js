@@ -351,7 +351,7 @@ define( function( require ) {
      * @return {type}             description
      */
     getDirectionToCharge: function( chargeModel ) {
-      var difference = chargeModel.locationProperty.get().minus( this.getDraggingCenter() );
+      var difference = chargeModel.location.minus( this.getDraggingCenter() );
 
       var diffX = difference.x;
       var diffY = difference.y;
