@@ -199,8 +199,6 @@ define( function( require ) {
       }
     } );
 
-    model.view = this;
-
     // a11y
     // focus highlight - turns black when balloon is picked up for dragging
     var lineWidth = 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude();
