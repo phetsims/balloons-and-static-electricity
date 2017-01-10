@@ -358,15 +358,15 @@ define( function( require ) {
 
       // direction string to be returned
       var direction;
-      if ( diffX > 0 && diffY > 0 ) {
+      if ( diffX >= 0 && diffY >= 0 ) {
         // charge is up and to the right
         direction = BalloonDirectionEnum.DOWN_RIGHT;
       }
-      else if ( diffX > 0 && diffY < 0 ) {
+      else if ( diffX >= 0 && diffY < 0 ) {
         // charge is down and to the right
         direction = BalloonDirectionEnum.UP_RIGHT;
       }
-      else if ( diffX < 0 && diffY > 0 ) {
+      else if ( diffX < 0 && diffY >= 0 ) {
         // charge is up and to the left
         direction = BalloonDirectionEnum.DOWN_LEFT;
       }
