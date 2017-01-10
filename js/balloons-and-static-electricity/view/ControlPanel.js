@@ -255,7 +255,7 @@ define( function( require ) {
             balloonString = 'balloon';
             bothBalloonString = 'Balloon';
           }
-          var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonAlertDescriptionPatternString, balloonString, bothBalloonString );
+          var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
           ariaHerald.announceAssertive( resetDescription );
         }
       }
