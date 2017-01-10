@@ -172,9 +172,6 @@ define( function( require ) {
     //charge from sweater to balloon
     moveChargeTo: function( charge, balloon ) {
       charge.movedProperty.set( true );
-      // charge.moved = true;
-      charge.view.visible = false;
-
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
       this.chargeProperty.set( this.chargeProperty.get() + 1 );
     },
