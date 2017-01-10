@@ -130,37 +130,41 @@ define( function( require ) {
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      model.plusCharges[ i ].view = new PlusChargeNode(
+      var plusChargeNode = new PlusChargeNode(
         model.plusCharges[ i ].location,
         plusChargeNodesTandemGroup.createNextTandem()
       );
-      originalChargesNode.addChild( model.plusCharges[ i ].view );
+      originalChargesNode.addChild( plusChargeNode );
 
-      model.minusCharges[ i ].view = new MinusChargeNode(
+      var minusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].location,
         minusChargeNodesTandemGroup.createNextTandem()
       );
-      originalChargesNode.addChild( model.minusCharges[ i ].view );
+      originalChargesNode.addChild( minusChargeNode );
     }
 
     //possible charges
+    var addedNodes = []; // track in a local array to update visibility with charge
     var addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      model.minusCharges[ i ].view = new MinusChargeNode(
+      var addedMinusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].location,
         addedChargeNodesTandemGroup.createNextTandem()
       );
-      model.minusCharges[ i ].view.visible = false;
-      addedChargesNode.addChild( model.minusCharges[ i ].view );
+      addedMinusChargeNode.visible = false;
+      addedChargesNode.addChild( addedMinusChargeNode );
+
+      addedNodes.push( addedMinusChargeNode );
     }
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
     //if change charge, show more minus charges and update the description
     model.chargeProperty.link( function updateCharge( chargeVal ) {
-      var numVisibleMinusCharges = model.plusCharges.length + Math.abs( chargeVal );
-      for ( var i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-        model.minusCharges[ i ].view.visible = i < numVisibleMinusCharges;
+      var numVisibleMinusCharges = Math.abs( chargeVal );
+
+      for ( var i = 0; i < addedNodes.length; i++ ) {
+        addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
 
       // a11y
