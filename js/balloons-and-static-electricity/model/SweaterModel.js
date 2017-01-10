@@ -194,9 +194,7 @@ define( function( require ) {
     // Reset the entire model
     reset: function() {
       this.minusCharges.forEach( function( entry ) {
-        if ( entry.view ) {
-          entry.movedProperty.set( false );
-        }
+        entry.movedProperty.set( false );
       } );
       this.chargeProperty.set( 0 );
     }
