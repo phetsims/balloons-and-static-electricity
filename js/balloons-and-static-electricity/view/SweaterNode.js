@@ -20,6 +20,9 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
+  // phet-io modules
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+
   // constants - ranges to describe charges in the sweater
   var A_FEW_RANGE = new Range( 1, 15 );
   var SEVERAL_RANGE = new Range( 15, 40 );
@@ -66,14 +69,11 @@ define( function( require ) {
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      plusCharge.view = new PlusChargeNode( plusCharge.locationProperty, plusChargeNodesTandemGroup.createNextTandem() );
+      plusCharge.view = new PlusChargeNode( plusCharge.location, plusChargeNodesTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusCharge.view );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      minusCharge.view = new MinusChargeNode( minusCharge.locationProperty, minusChargeNodesTandemGroup.createNextTandem() );
-      minusCharge.locationProperty.link( function updateLocation( location ) {
-        minusCharge.view.setTranslation( location );
-      } );
+      minusCharge.view = new MinusChargeNode( minusCharge.location, minusChargeNodesTandemGroup.createNextTandem() );
       self.minusChargesNode.addChild( minusCharge.view );
     } );
 
@@ -108,6 +108,12 @@ define( function( require ) {
       // a11y - update description of sweater when charge changes
       var chargeDescription = self.getChargeDescription( charge );
       self.setDescription( chargeDescription );
+    } );
+
+    // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
+    // due to the fact that the movedProperty state could get loaded before the chargeProperty state.
+    phetio.setStateEmitter && phetio.setStateEmitter.addListener( function() {
+      updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
     } );
   }
 
