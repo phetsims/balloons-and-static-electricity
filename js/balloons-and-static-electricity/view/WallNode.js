@@ -70,18 +70,18 @@ define( function( require ) {
     //draw plusCharges on the wall
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( function( entry ) {
-      entry.view = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
-      plusChargesNode.addChild( entry.view );
+      var plusChargeNode = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
+      plusChargesNode.addChild( plusChargeNode );
     } );
 
     //draw minusCharges on the wall
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     wallModel.minusCharges.forEach( function( entry ) {
-      entry.view = new MinusChargeNode( entry.location, minusChargeNodesTandemGroup.createNextTandem() );
+      var minusChargeNode = new MinusChargeNode( entry.location, minusChargeNodesTandemGroup.createNextTandem() );
       entry.locationProperty.link( function updateLocation( location ) {
-        entry.view.setTranslation( location.x + PointChargeModel.RADIUS, location.y + PointChargeModel.RADIUS );
+        minusChargeNode.setTranslation( location.x + PointChargeModel.RADIUS, location.y + PointChargeModel.RADIUS );
       } );
-      minusChargesNode.addChild( entry.view );
+      minusChargesNode.addChild( minusChargeNode );
     } );
 
     this.addChild( plusChargesNode );
