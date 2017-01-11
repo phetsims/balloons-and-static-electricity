@@ -215,7 +215,7 @@ define( function( require ) {
     var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
 
     // a flag to track whether or not a charge was picked up for dragging
-    self.draggableNode = new AccessibleDragNode( model.locationProperty, {
+    self.accessibleDragNode = new AccessibleDragNode( model.locationProperty, tandem.createTandem( 'accessibleDragNode' ), {
       dragBounds: balloonDragBounds,
       label: balloonDraggableLabel,
       labelTagName: 'p',
@@ -239,12 +239,12 @@ define( function( require ) {
         if ( event.shiftKey ) {
 
           // if shift key is down, focus the previous element in the navigation order
-          self.draggableNode.getPreviousFocusable().focus();
+          self.accessibleDragNode.getPreviousFocusable().focus();
         }
         else {
 
           // focus the nest element in the navigation order
-          self.draggableNode.getNextFocusable().focus();
+          self.accessibleDragNode.getNextFocusable().focus();
         }
 
         self.releaseBalloon();
@@ -253,8 +253,8 @@ define( function( require ) {
       ariaLabelledBy: this.getLabelElementID()
     } );
 
-    this.draggableNode.keyUpEmitter.addListener( function( event ) {
-      if ( self.draggableNode.draggableKeyUp( event.keyCode ) ) {
+    this.accessibleDragNode.keyUpEmitter.addListener( function( event ) {
+      if ( self.accessibleDragNode.draggableKeyUp( event.keyCode ) ) {
         // on the next animation frame (after balloon has moved and picked up all charges)
         // announce the interaction in an alert
         model.announceInteraction = true;
@@ -266,7 +266,7 @@ define( function( require ) {
       self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 
-    this.draggableNode.balloonJumpingEmitter.addListener( function( event ) {
+    this.accessibleDragNode.balloonJumpingEmitter.addListener( function( event ) {
       self.ariaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
     } );
 
@@ -283,7 +283,7 @@ define( function( require ) {
           model.isDraggedProperty.set( true );
 
           // grab and focus the draggable element
-          self.draggableNode.focus();
+          self.accessibleDragNode.focus();
 
           // reset the velocity when picked up
           model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -292,7 +292,7 @@ define( function( require ) {
     } );
 
     this.addChild( accessibleButtonNode );
-    this.addChild( self.draggableNode );
+    this.addChild( self.accessibleDragNode );
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
@@ -307,11 +307,11 @@ define( function( require ) {
       focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
 
       // when the balloon is no longer being dragged, it should be removed from the focus order
-      self.draggableNode.setFocusable( isDragged );
+      self.accessibleDragNode.setFocusable( isDragged );
 
       // the button node must be hidden first
       accessibleButtonNode.setHidden( isDragged );
-      self.draggableNode.setHidden( !isDragged );
+      self.accessibleDragNode.setHidden( !isDragged );
 
       // a11y - update the navigation cue when the balloon is picked up
       var locationDescription = model.balloonDescriber.getDescription( model, isDragged );
@@ -345,7 +345,7 @@ define( function( require ) {
       var boundsHeight = globalModel.playArea.maxY - self.model.height;
 
       var balloonDragBounds = new Bounds2( 0, 0, boundsWidth, boundsHeight );
-      self.draggableNode.setDragBounds( balloonDragBounds );
+      self.accessibleDragNode.setDragBounds( balloonDragBounds );
 
       // get a description for the changing balloon in case it moves when the wall is made invisible
       // should only be announced if the balloon had a charge, was touching the wall, and the wall is 
@@ -371,7 +371,7 @@ define( function( require ) {
      * @param  {number} dt
      */
     step: function( dt ) {
-      this.draggableNode.step( dt );
+      this.accessibleDragNode.step( dt );
     },
 
     /**
