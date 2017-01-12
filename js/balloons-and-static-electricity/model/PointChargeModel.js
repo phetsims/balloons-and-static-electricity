@@ -2,7 +2,7 @@
 
 /**
  * A single point change, which has a location.  The location is intended to never change.  Most charges in this
- * sim do not require observable Properties, so using this type for most of these can improve performance.  
+ * sim do not require observable Properties, so using this type for most of these can improve performance.
  * If the charge needs an observable dynamic location, please use MovablePointChargeModel.
  *
  * @author Vasily Shakhov (Mlearner)
@@ -31,9 +31,9 @@ define( function( require ) {
    * @constructor
    * @param {number} x
    * @param {number} y
-   * @param {Tandem} tandem
+   * @param {Tandem|null} tandem, null if the item should not be instrumented
    */
-  function PointChargeModel( x, y, tandem ) {
+  function PointChargeModel( x, y, tandem, phetioStateElement ) {
 
     // @public (read-only) - location of this charge
     this.location = new Vector2( x, y );
@@ -41,7 +41,8 @@ define( function( require ) {
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new Property( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
-      phetioValueType: TBoolean
+      phetioValueType: TBoolean,
+      phetioStateElement: phetioStateElement
     } );
   }
 

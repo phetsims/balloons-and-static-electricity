@@ -24,8 +24,8 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {number} x      
-   * @param {number} y      
+   * @param {number} x
+   * @param {number} y
    * @param {Tandem} tandem
    */
   function SweaterModel( x, y, tandem ) {
@@ -119,11 +119,11 @@ define( function( require ) {
     var plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
     this.positions.forEach( function( entry ) {
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, plusChargesGroupTandem.createNextTandem() );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] + y, plusChargesGroupTandem.createNextTandem(), false );
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.RADIUS, entry[ 1 ] + y + PointChargeModel.RADIUS, minusChargesGroupTandem.createNextTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ] + PointChargeModel.RADIUS, entry[ 1 ] + y + PointChargeModel.RADIUS, minusChargesGroupTandem.createNextTandem(), true );
       self.minusCharges.push( minusCharge );
     } );
     this.reset();

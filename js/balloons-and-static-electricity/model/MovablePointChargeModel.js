@@ -27,14 +27,15 @@ define( function( require ) {
    * @param {number} y
    * @param {Tandem} tandem
    */
-  function MovablePointChargeModel( x, y, tandem ) {
+  function MovablePointChargeModel( x, y, tandem, phetioStateElement ) {
 
-    PointChargeModel.call( this, x, y, tandem );
+    PointChargeModel.call( this, x, y, tandem, phetioStateElement );
 
     // @public {Vector2} - location of the point charge
     this.locationProperty = new Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioValueType: TVector2
+      phetioValueType: TVector2,
+      phetioStateElement: phetioStateElement
     } );
     this.locationProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
   }
@@ -55,7 +56,7 @@ define( function( require ) {
 
     /**
      * Get the center of the charge.
-     * 
+     *
      * @return {Vector2}
      * @override
      */

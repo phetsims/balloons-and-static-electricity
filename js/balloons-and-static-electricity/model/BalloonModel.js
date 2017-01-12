@@ -197,14 +197,15 @@ define( function( require ) {
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( function( entry ) {
       //plus
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem() );
+      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
       self.plusCharges.push( plusCharge );
 
       //minus
       var minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
-        minusChargesTandemGroup.createNextTandem()
+        minusChargesTandemGroup.createNextTandem(),
+        false
       );
       self.minusCharges.push( minusCharge );
     } );
@@ -212,7 +213,7 @@ define( function( require ) {
     //charges that we can get from sweater
     POSITIONS.forEach( function( entry ) {
       //minus
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem() );
+      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
       self.minusCharges.push( minusCharge );
     } );
 

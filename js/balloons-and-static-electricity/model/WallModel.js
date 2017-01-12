@@ -22,12 +22,14 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {number} x     
-   * @param {number} width  
-   * @param {number} height 
+   * @param {number} x
+   * @param {number} width
+   * @param {number} height
+   * @param {Balloon} yellowBalloon
+   * @param {Balloon} greenBalloon
    * @param {Tandem} tandem
    */
-  function WallModel( x, width, height, tandem ) {
+  function WallModel( x, width, height, yellowBalloon, greenBalloon, tandem ) {
 
     //------------------------------------------------
     // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
@@ -56,7 +58,7 @@ define( function( require ) {
       for ( var k = 0; k < this.numY; k++ ) {
         //plus
         var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem() );
+        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
 
         this.plusCharges.push( plusCharge );
 
@@ -64,39 +66,46 @@ define( function( require ) {
         var minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
           position[ 1 ] - PointChargeModel.RADIUS,
-          minusChargesTandemGroup.createNextTandem()
+          minusChargesTandemGroup.createNextTandem(),
+          false
         );
         this.minusCharges.push( minusCharge );
       }
     }
 
-  }
-
-  balloonsAndStaticElectricity.register( 'WallModel', WallModel );
-
-  inherit( Object, WallModel, {
-
-    step: function( model ) {
+    var self = this;
+    var updateChargePositions = function() {
 
       var k = 10000;
       //calculate force from Balloon to each charge in the wall
-      this.minusCharges.forEach( function( entry ) {
+      self.minusCharges.forEach( function( entry ) {
         var ch = entry;
         var dv1 = new Vector2( 0, 0 );
         var dv2 = new Vector2( 0, 0 );
 
         var defaultLocation = ch.locationProperty.initialValue;
-        if ( model.yellowBalloon.isVisibleProperty.get() ) {
-          dv1 = BalloonModel.getForce( defaultLocation, model.yellowBalloon.getCenter(), k * PointChargeModel.CHARGE * model.yellowBalloon.chargeProperty.get(), 2.35 );
+        if ( yellowBalloon.isVisibleProperty.get() ) {
+          dv1 = BalloonModel.getForce( defaultLocation, yellowBalloon.getCenter(), k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(), 2.35 );
         }
-        if ( model.greenBalloon.isVisibleProperty.get() ) {
-          dv2 = BalloonModel.getForce( defaultLocation, model.greenBalloon.getCenter(), k * PointChargeModel.CHARGE * model.greenBalloon.chargeProperty.get(), 2.35 );
+        if ( greenBalloon.isVisibleProperty.get() ) {
+          dv2 = BalloonModel.getForce( defaultLocation, greenBalloon.getCenter(), k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(), 2.35 );
         }
         entry.locationProperty.set(
           new Vector2( defaultLocation.x + dv1.x + dv2.x, defaultLocation.y + dv1.y + dv2.y )
         );
       } );
-    },
+    };
+    yellowBalloon.locationProperty.link( updateChargePositions );
+    greenBalloon.locationProperty.link( updateChargePositions );
+    yellowBalloon.isVisibleProperty.link( updateChargePositions );
+    greenBalloon.isVisibleProperty.link( updateChargePositions );
+    yellowBalloon.chargeProperty.link( updateChargePositions );
+    greenBalloon.chargeProperty.link( updateChargePositions );
+  }
+
+  balloonsAndStaticElectricity.register( 'WallModel', WallModel );
+
+  inherit( Object, WallModel, {
 
     // Reset the entire model
     reset: function() {

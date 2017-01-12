@@ -46,7 +46,6 @@ define( function( require ) {
 
     this.playArea = new PlayArea( width, height, tandem.createTandem( 'playArea' ) );
 
-    this.wall = new WallModel( width - this.wallWidth, 600, height, tandem.createTandem( 'wall' ) );
     this.sweater = new SweaterModel( 0, -50, tandem.createTandem( 'sweater' ) );
 
     this.bounds = {
@@ -60,6 +59,8 @@ define( function( require ) {
     this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
+
+    this.wall = new WallModel( width - this.wallWidth, 600, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
     // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
     var self = this;
@@ -94,7 +95,6 @@ define( function( require ) {
       var curTime = Date.now();
       var dt = curTime - this.oldTime;
 
-      this.wall.step( self );
       this.balloons.forEach( function( balloon ) {
         if ( balloon.isVisibleProperty.get() ) {
           balloon.step( self, dt );
