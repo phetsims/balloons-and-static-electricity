@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+ // Copyright 2015, University of Colorado Boulder
 
 /**
  * A node in the scene graph with representation in the Parallel DOM.  This node can be 'dragged' with
@@ -35,9 +35,12 @@ define( function( require ) {
 
   /**
    * Constructor for a button Node.
+   * 
+   * @param {Property.<Vector2>} locationProperty
+   * @param {object} [options]
    * @constructor
    **/
-  function AccessibleDragNode( locationProperty, options ) {
+  function AccessibleDragNode( locationProperty, tandem, options ) {
 
     // validate options - the draggable node must be represented with <div role='application'> for screen reader support
     assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
