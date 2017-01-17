@@ -79,7 +79,7 @@ define( function( require ) {
 
       // MouseArea expansion
       mouseAreaXDilation: 0,
-      mouseAreaYDilation: 0,
+      mouseAreaYDilation: 0
 
     }, options );
 

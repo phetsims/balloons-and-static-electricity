@@ -208,9 +208,6 @@ define( function( require ) {
       tandem: tandem.createTandem( 'focusHighlightNode' )
     } );
 
-    // the herald that will announce alerts via screen reader
-    this.ariaHerald = new AriaHerald();
-
     // the balloon is dragged in model coordinates, adjusted for dimensions of the balloon body
     var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
 
@@ -263,11 +260,11 @@ define( function( require ) {
 
     // when an interaction has ended, update the user with the results through an assertive alert  
     model.interactionEndEmitter.addListener( function() {
-      self.ariaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
+      AriaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 
     this.accessibleDragNode.balloonJumpingEmitter.addListener( function( event ) {
-      self.ariaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
+      AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
     } );
 
     var accessibleButtonNode = new AccessibleNode( {
@@ -299,7 +296,7 @@ define( function( require ) {
       self.setHidden( !isVisible );
 
       var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
-      self.ariaHerald.announceAssertive( alertDescription );
+      AriaHerald.announceAssertive( alertDescription );
     } );
 
     // the focus highlight changes color when grabbed
@@ -352,7 +349,7 @@ define( function( require ) {
       // made invisible
       if ( model.chargeProperty.get() < 0 && !isVisible && model.touchingWall() ) {
         var balloonDescription = model.balloonDescriber.getWallRemovedDescription( !isVisible );
-        self.ariaHerald.announceAssertive( balloonDescription );
+        AriaHerald.announceAssertive( balloonDescription );
       }
     } );
   }
@@ -387,7 +384,7 @@ define( function( require ) {
 
       // anounce the release description
       var releaseDescription = this.model.balloonDescriber.getReleaseDescription();
-      this.ariaHerald.announcePolite( releaseDescription );
+      AriaHerald.announcePolite( releaseDescription );
     }
   } );
 } );

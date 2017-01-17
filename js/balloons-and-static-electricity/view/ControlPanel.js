@@ -93,9 +93,6 @@ define( function( require ) {
       tandem: tandem.createTandem( 'wallButton' )
     } );
 
-    // create a herald to announce when the interface changges as a result of interaction
-    var ariaHerald = new AriaHerald();
-
     // accessible node containing the wall button
     // TODO: Once accessibility common components are integrated into scenery, this container will not
     // be necessary, and RectangularPushButton can do this directly
@@ -122,7 +119,7 @@ define( function( require ) {
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
-        ariaHerald.announceAssertive( alertDescription );
+        AriaHerald.announceAssertive( alertDescription );
       }
 
     } );
@@ -256,7 +253,7 @@ define( function( require ) {
             bothBalloonString = 'Balloon';
           }
           var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
-          ariaHerald.announceAssertive( resetDescription );
+          AriaHerald.announceAssertive( resetDescription );
         }
       }
     } );
@@ -295,16 +292,16 @@ define( function( require ) {
           // hide the aria live elements so that alerts are not anounced until after simulation
           // is fully reset
           // TODO: This should be in the main model reset function
-          ariaHerald.hidden = true;
+          AriaHerald.hidden = true;
 
           // reset the model
           model.reset();
 
           // unhide the alert elements now that properties are reset
-          ariaHerald.hidden = false;
+          AriaHerald.hidden = false;
 
           // announce that the sim has been reset
-          ariaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
+          AriaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
         }
       }
     } );
