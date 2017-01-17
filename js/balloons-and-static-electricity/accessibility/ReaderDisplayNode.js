@@ -1,6 +1,10 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
+ * a node that displays what the phet screen reader is reading, useful for demo purposes
+ *
+ * This is not intended to be used in a production environment and has not been instrumented for PhET-iO.
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
