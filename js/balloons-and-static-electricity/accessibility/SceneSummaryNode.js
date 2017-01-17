@@ -34,6 +34,9 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
+  // phet-io modules
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
+
   // constants
   var BALLOON_LABELS = {
     YELLOW: BASEA11yStrings.yellowBalloonLabelString,
@@ -203,6 +206,9 @@ define( function( require ) {
     model.wall.isVisibleProperty.link( function() {
       balloonChargeListener( model.yellowBalloon.chargeProperty.get() );
     } );
+
+    // tandem support
+    tandem.addInstance( this, TNode );
   }
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
@@ -211,7 +217,7 @@ define( function( require ) {
 
     /**
      * Get a description for the balloon when it is in the right side of the play area.
-     * Formats a desription string to include information about whether the balloon is in the upper or
+     * Formats a description string to include information about whether the balloon is in the upper or
      * lower part, and if the balloon is close to the wall.
      *
      * @param  {boolean} nearWall - is the balloon near the wall?
