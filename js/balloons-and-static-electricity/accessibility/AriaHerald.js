@@ -22,6 +22,11 @@ define( function( require ) {
   // modules
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Property = require( 'AXON/Property' );
+  var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   // DOM elements which will receive the updated content
   var assertiveElement = document.getElementById( 'assertive' );
@@ -36,6 +41,40 @@ define( function( require ) {
   assert && assert( assertiveAlertElement, 'No assertive alert element found in document' );
   assert && assert( politeStatusElement, 'No polite status element found in document' );
   assert && assert( alertContainer, 'No alert container element found in document' );
+
+  // phet-io support
+  var tandem = Tandem.createStaticTandem( 'AriaHerald' );
+
+  // associate a property with each live region - this is done in support of phet-io, otherwise the region values would
+  // simply be set directly
+  var assertiveElementProperty = new Property( '', {
+    tandem: tandem.createTandem( 'assertiveElementProperty' ),
+    phetioValueType: TString
+  } );
+  assertiveElementProperty.link( function( text ) {
+    assertiveElement.textContent = text;
+  } );
+  var politeElementProperty = new Property( '', {
+    tandem: tandem.createTandem( 'politeElementProperty' ),
+    phetioValueType: TString
+  } );
+  politeElementProperty.link( function( text ) {
+    politeElement.textContent = text;
+  } );
+  var assertiveAlertElementProperty = new Property( '', {
+    tandem: tandem.createTandem( 'assertiveAlertElementProperty' ),
+    phetioValueType: TString
+  } );
+  assertiveAlertElementProperty.link( function( text ) {
+    assertiveAlertElement.textContent = text;
+  } );
+  var politeStatusElementProperty = new Property( '', {
+    tandem: tandem.createTandem( 'politeStatusElementProperty' ),
+    phetioValueType: TString
+  } );
+  politeStatusElementProperty.link( function( text ) {
+    politeStatusElement.textContent = text;
+  } );
 
   // convenience function used for output of debugging information
   function printAlert( textContent ) {
@@ -59,7 +98,7 @@ define( function( require ) {
       if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         printAlert( textContent );
       }
-      assertiveElement.textContent = textContent;
+      assertiveElementProperty.set( textContent );
     },
 
     /**
@@ -72,7 +111,7 @@ define( function( require ) {
       if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         printAlert( textContent );
       }
-      politeElement.textContent = textContent;
+      politeElementProperty.set( textContent );
     },
 
     /**
@@ -86,7 +125,7 @@ define( function( require ) {
       if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         printAlert( textContent );
       }
-      assertiveAlertElement.textContent = textContent;
+      assertiveAlertElementProperty.set( textContent );
     },
 
     /**
@@ -100,7 +139,7 @@ define( function( require ) {
       if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
         printAlert( textContent );
       }
-      politeStatusElement.textContent = textContent;
+      politeStatusElementProperty.set( textContent );
     },
 
     /**
