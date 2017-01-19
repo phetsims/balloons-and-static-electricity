@@ -79,7 +79,8 @@ define( function( require ) {
         value: 'diff'
       }
     ], {
-      touchAreaXDilation: 5
+      touchAreaXDilation: 5,
+      radius: 7
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
