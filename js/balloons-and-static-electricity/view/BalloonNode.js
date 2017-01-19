@@ -92,7 +92,7 @@ define( function( require ) {
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateLocation( chargeVal ) {
       if ( chargeVal ) {
-        model.minusCharges[ model.plusCharges.length - 1 - chargeVal - 1 ].view.visible = true;
+        model.minusCharges[ model.plusCharges.length - 1 - chargeVal ].view.visible = true;
       }
     } );
 
