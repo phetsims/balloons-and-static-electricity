@@ -141,7 +141,7 @@ define( function( require ) {
     controls.bottom = layoutBounds.maxY - 4;
 
     this.addChild( new HBox( {
-      spacing: 35,
+      spacing: 45,
       children: [ new Panel( showChargesRadioButtonGroup ), balloonsPanel ],
       align: 'bottom',
       left: 70,
