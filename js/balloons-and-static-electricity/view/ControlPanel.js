@@ -50,8 +50,7 @@ define( function( require ) {
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
 
 
-
-    /**
+  /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
    * @param {Bounds2} layoutBounds
@@ -125,7 +124,7 @@ define( function( require ) {
     } );
 
     // Radio buttons related to charges
-    var radioButtonFont = new PhetFont( 15 );
+    var radioButtonFont = new PhetFont( { size: 15, tandem: tandem.createTandem( 'radioButtonFont' ) } );
     var RADIO_BUTTON_TEXT_OPTIONS = {
       font: radioButtonFont,
       maxWidth: 200
