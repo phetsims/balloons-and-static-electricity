@@ -639,7 +639,6 @@ define( function( require ) {
           newLocation.x = rightBound - balloonModel.width;
           newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
-
         if ( newLocation.y + balloonModel.height >= model.bounds.maxY ) {
           newLocation.y = model.bounds.maxY - balloonModel.height;
           newVelocity.y = newVelocity > 0 ? 0 : newVelocity.y;
@@ -667,6 +666,7 @@ define( function( require ) {
         }
       }
     };
+
     BalloonModel.coeff = 0.1;
   }
 
