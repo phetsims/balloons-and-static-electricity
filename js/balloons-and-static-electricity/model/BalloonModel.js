@@ -429,6 +429,7 @@ define( function( require ) {
     getCenter: function() {
       return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
     },
+
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks
@@ -449,6 +450,7 @@ define( function( require ) {
       // reset the accessible describer
       this.balloonDescriber.reset();
     },
+
     step: function( model, dt ) {
       if ( dt > 0 ) {
 
@@ -475,8 +477,6 @@ define( function( require ) {
           this.announceInteraction = false;
         }
       }
-
-
       this.oldLocation = this.locationProperty.get().copy();
     },
 
@@ -525,6 +525,7 @@ define( function( require ) {
 
       return chargeFound;
     },
+
     //force between sweater and balloon
     getSweaterForce: function( sweaterModel ) {
       var retValue = new Vector2();
@@ -631,6 +632,7 @@ define( function( require ) {
       }
       return sumOfForces;
     };
+
     //applying force and move balloon to new coords each step
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
       var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
@@ -638,7 +640,9 @@ define( function( require ) {
       var isStopped = false;
 
       var force = BalloonModel.getTotalForce( model, balloonModel );
+      //console.log( 'force = ' + force );
       var newVelocity = balloonModel.velocityProperty.get().add( force.timesScalar( dt ) );
+      //console.log( 'newVelocity = ' + newVelocity );
       var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
 
       //if new position inside sweater, don't move it
@@ -646,7 +650,6 @@ define( function( require ) {
         newVelocity = new Vector2();
         newLocation = balloonModel.locationProperty.get();
       }
-
 
       if ( newLocation.x + balloonModel.width > rightBound ) {
         isStopped = true;
@@ -666,9 +669,9 @@ define( function( require ) {
         newLocation.y = model.bounds.minY;
       }
 
-      // once the balloon stops moving, notify observers that it has reached a resting
-      // destination
+      // once the balloon stops moving, notify observers that it has reached a resting destination
       if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
+        console.log( 'stopped !!!!!!!!!!!!!!!!!!!!!!!!!!!!!' );
         balloonModel.isStoppedProperty.set( true );
       }
 

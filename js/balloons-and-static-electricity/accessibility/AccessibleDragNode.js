@@ -17,6 +17,11 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+
+  // phet-io modules
+  var TAccessibleDragNode = require( 'ifphetio!PHET_IO/simulations/balloons-and-static-electricity/TAccessibleDragNode' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
   var KEY_TAB = 9;
@@ -34,13 +39,15 @@ define( function( require ) {
   var KEY_DOWN = 40; // down arrow key
 
   /**
-   * Constructor for a button Node.
-   * 
+   * constructor for an accessible drag node
    * @param {Property.<Vector2>} locationProperty
    * @param {object} [options]
+   * @param {Tandem} tandem
    * @constructor
    **/
   function AccessibleDragNode( locationProperty, tandem, options ) {
+
+    var self = this;
 
     // validate options - the draggable node must be represented with <div role='application'> for screen reader support
     assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
@@ -54,6 +61,8 @@ define( function( require ) {
       ariaRole: 'application',
       events: {
         keydown: function( event ) {
+
+          self.startedCallbacksForKeyDownEmitter.emit1( event.keyCode || event.which );
 
           // if key down is for dragging, prevent default
           if ( self.draggableKeyUp( event.keyCode ) ) {
@@ -70,10 +79,12 @@ define( function( require ) {
           options.onKeyDown( event );
 
           // notify that key state changed
-          self.keyStateChangedEmitter.emit1( event );
-          self.keyDownEmitter.emit1( event );
+          self.endedCallbacksForKeyDownEmitter.emit();
         },
+
         keyup: function( event ) {
+
+          self.startedCallbacksForKeyUpEmitter.emit1( event.keyCode || event.which );
 
           // update the key state on down
           self.keyState[ event.keyCode || event.which ] = {
@@ -86,13 +97,13 @@ define( function( require ) {
           // notify that key state changed
           if ( self.keyState[ KEY_J ] ) {
             if ( !self.keyState[ KEY_J ].isKeyDown ) {
-              self.keyStateChangedEmitter.emit1( event );
-              self.keyUpEmitter.emit1( event );
+              self.keyUpEmitter.emit1( event.keyCode );
             }
             else {
-              self.balloonJumpingEmitter.emit1( event );
+              self.balloonJumpingEmitter.emit1( event.keyCode );
             }
           }
+          self.endedCallbacksForKeyUpEmitter.emit();
         }
       },
       onTab: function() {}, // optional function to call when user 'tabs' away
@@ -105,26 +116,34 @@ define( function( require ) {
       onKeyDown: function() {}
     }, options );
 
-
-    var self = this;
-
     // @private - track the state of pressed keys - JavaScript doesn't handle multiple key presses, so we track which
     // keys are pressed and track how long they are down in ms via step()
     this.keyState = {};
 
-    // @public - emit when the keystate changes
-    this.keyStateChangedEmitter = new Emitter();
-    this.keyUpEmitter = new Emitter();
-    this.keyDownEmitter = new Emitter();
+    // @public - emit when the key goes up or down
+    this.keyUpEmitter = new TandemEmitter( {
+      tandem: tandem.createTandem( 'keyUpEmitter' ),
+      phetioArgumentTypes: [ TNumber ]
+    } );
 
-    // TODO Temporary hack to get working balloon
+    // @private (phet-io) send a message when the keys are pressed
+    this.startedCallbacksForKeyDownEmitter = new Emitter();
+    this.endedCallbacksForKeyDownEmitter = new Emitter();
+    this.startedCallbacksForKeyUpEmitter = new Emitter();
+    this.endedCallbacksForKeyUpEmitter = new Emitter();
+
+    // TODO remove (or move to balloon node) if this file is generalized
     this.keyState[ KEY_J ] = {
       isKeyDown: false,
       keyEvent: null
     };
 
-    // TODO: Temporary for now...
-    this.balloonJumpingEmitter = new Emitter();
+    // Emitter that is used to 'jump' the balloon to various specific areas on the screen.
+    // TODO: remove if this is generalized
+    this.balloonJumpingEmitter = new TandemEmitter( {
+      tandem: tandem.createTandem( 'balloonJumpingEmitter' ),
+      phetioArgumentTypes: [ TNumber ]
+    } );
 
     // @private
     this.restrictLocation = options.restrictLocation;
@@ -138,6 +157,9 @@ define( function( require ) {
 
     // button contained in a div so that it can contain descriptions or other children
     AccessibleNode.call( this, options );
+
+    // tandem support
+    tandem.addInstance( this, TAccessibleDragNode );
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleDragNode', AccessibleDragNode );

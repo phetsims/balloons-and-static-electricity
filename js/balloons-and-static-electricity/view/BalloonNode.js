@@ -250,8 +250,8 @@ define( function( require ) {
       ariaLabelledBy: this.getLabelElementID()
     } );
 
-    this.accessibleDragNode.keyUpEmitter.addListener( function( event ) {
-      if ( self.accessibleDragNode.draggableKeyUp( event.keyCode ) ) {
+    this.accessibleDragNode.keyUpEmitter.addListener( function( keyCode ) {
+      if ( self.accessibleDragNode.draggableKeyUp( keyCode ) ) {
         // on the next animation frame (after balloon has moved and picked up all charges)
         // announce the interaction in an alert
         model.announceInteraction = true;
@@ -263,8 +263,8 @@ define( function( require ) {
       AriaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 
-    this.accessibleDragNode.balloonJumpingEmitter.addListener( function( event ) {
-      AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, event.keyCode ) );
+    this.accessibleDragNode.balloonJumpingEmitter.addListener( function( keyCode ) {
+      AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, keyCode ) );
     } );
 
     var accessibleButtonNode = new AccessibleNode( {
