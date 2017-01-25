@@ -116,10 +116,11 @@ define( function( require ) {
     } );
 
     // @public {Vector2}
-    this.velocityProperty = new Property( new Vector2( 0, 0 ), {
+    this.velocityProperty = new Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
       phetioValueType: TVector2
     } );
+    this.velocityProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @public {number}
     this.isVisibleProperty = new Property( defaultVisibility, {
@@ -177,10 +178,6 @@ define( function( require ) {
     this.announceInteraction = false;
 
     var self = this;
-
-    // @public (read-only)- track when a charge is picked up so we can describe when a charge is and is not
-    // picked up.
-    this.chargePickedUpInDrag = false;
 
     this.initialLocation = this.locationProperty.initialValue;
     this.defaultVisibily = defaultVisibility;
@@ -438,44 +435,38 @@ define( function( require ) {
       this.xVelocityArray.counter = 0;
       this.yVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.yVelocityArray.counter = 0;
-      this.chargeProperty.set( 0 );
-      this.velocityProperty.set( new Vector2( 0, 0 ) );
-      this.locationProperty.set( this.initialLocation.copy() );
+      this.chargeProperty.reset();
+      this.velocityProperty.reset();
+      this.locationProperty.reset();
 
       if ( !notResetVisibility ) {
-        this.isVisibleProperty.set( this.defaultVisibily );
+        this.isVisibleProperty.reset();
       }
-      this.isDraggedProperty.set( false );
+      this.isDraggedProperty.reset();
 
       // reset the accessible describer
       this.balloonDescriber.reset();
     },
 
     step: function( model, dt ) {
-      if ( dt > 0 ) {
 
-        if ( this.isDraggedProperty.get() ) {
+      if ( this.isDraggedProperty.get() ) {
 
-          // check to see if we can catch any minus charges
-          var chargePickedUp = this.dragBalloon( model, dt );
+        // check to see if we can catch any minus charges
+        var chargePickedUp = this.dragBalloon( model, dt );
+      }
+      else {
+        BalloonModel.applyForce( model, this, dt );
+      }
 
-          if ( chargePickedUp ) {
-            this.chargePickedUpInDrag = true;
-          }
-        }
-        else {
-          BalloonModel.applyForce( model, this, dt );
-        }
+      if ( this.announceInteraction ) {
+        // once an interaction is finished, notify that the descriptions should be updated
+        // this must happen after dragBalloon is called so that the charges are correctly
+        // described
+        this.interactionEndEmitter.emit();
 
-        if ( this.announceInteraction ) {
-          // once an interaction is finished, notify that the descriptions should be updated
-          // this must happen after dragBalloon is called so that the charges are correctly
-          // described
-          this.interactionEndEmitter.emit();
-
-          // do not describe again until next interaction
-          this.announceInteraction = false;
-        }
+        // do not describe again until next interaction
+        this.announceInteraction = false;
       }
       this.oldLocation = this.locationProperty.get().copy();
     },
@@ -605,6 +596,7 @@ define( function( require ) {
       var kqq = BalloonModel.coeff * balloonModel.chargeProperty.get() * balloonModel.other.chargeProperty.get();
       return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
     };
+
     //sum of all forces applying to balloons
     BalloonModel.getTotalForce = function( model, balloonModel ) {
       if ( model.wall.isVisibleProperty.get() ) {
@@ -633,53 +625,46 @@ define( function( require ) {
       return sumOfForces;
     };
 
-    //applying force and move balloon to new coords each step
+    // applying force and move balloon to new coords each step
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
-      var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
 
-      var isStopped = false;
+      // only move if outside of the sweater
+      if ( balloonModel.locationProperty.get().x + balloonModel.width > model.sweater.x + model.sweater.width ) {
+        var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
+        var isStopped = false;
+        var force = BalloonModel.getTotalForce( model, balloonModel );
+        var newVelocity = balloonModel.velocityProperty.get().plus( force.timesScalar( dt ) );
+        var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
 
-      var force = BalloonModel.getTotalForce( model, balloonModel );
-      //console.log( 'force = ' + force );
-      var newVelocity = balloonModel.velocityProperty.get().add( force.timesScalar( dt ) );
-      //console.log( 'newVelocity = ' + newVelocity );
-      var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
+        if ( newLocation.x + balloonModel.width > rightBound ) {
+          isStopped = true;
+          newLocation.x = rightBound - balloonModel.width;
+        }
 
-      //if new position inside sweater, don't move it
-      if ( newLocation.x + balloonModel.width < model.sweater.x + model.sweater.width ) {
-        newVelocity = new Vector2();
-        newLocation = balloonModel.locationProperty.get();
-      }
+        if ( newLocation.y + balloonModel.height > model.bounds.maxY ) {
+          isStopped = true;
+          newLocation.y = model.bounds.maxY - balloonModel.height;
+        }
+        if ( newLocation.x < model.bounds.minX ) {
+          isStopped = true;
+          newLocation.x = model.bounds.minX;
+        }
+        if ( newLocation.y < model.bounds.minY ) {
+          isStopped = true;
+          newLocation.y = model.bounds.minY;
+        }
 
-      if ( newLocation.x + balloonModel.width > rightBound ) {
-        isStopped = true;
-        newLocation.x = rightBound - balloonModel.width;
-      }
+        // once the balloon stops moving, notify observers that it has reached a resting destination
+        if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
+          balloonModel.isStoppedProperty.set( true );
+        }
 
-      if ( newLocation.y + balloonModel.height > model.bounds.maxY ) {
-        isStopped = true;
-        newLocation.y = model.bounds.maxY - balloonModel.height;
-      }
-      if ( newLocation.x < model.bounds.minX ) {
-        isStopped = true;
-        newLocation.x = model.bounds.minX;
-      }
-      if ( newLocation.y < model.bounds.minY ) {
-        isStopped = true;
-        newLocation.y = model.bounds.minY;
-      }
+        balloonModel.velocityProperty.set( newVelocity );
+        balloonModel.locationProperty.set( newLocation );
 
-      // once the balloon stops moving, notify observers that it has reached a resting destination
-      if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
-        console.log( 'stopped !!!!!!!!!!!!!!!!!!!!!!!!!!!!!' );
-        balloonModel.isStoppedProperty.set( true );
-      }
-
-      balloonModel.velocityProperty.set( newVelocity );
-      balloonModel.locationProperty.set( newLocation );
-
-      if ( isStopped ) {
-        balloonModel.velocityProperty.set( new Vector2( 0, 0 ) );
+        if ( isStopped ) {
+          balloonModel.velocityProperty.set( Vector2.ZERO );
+        }
       }
     };
     BalloonModel.coeff = 0.1;
