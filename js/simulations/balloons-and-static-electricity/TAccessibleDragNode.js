@@ -13,11 +13,8 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TBoolean = require( 'PHET_IO/types/TBoolean' );
-  var TFunctionWrapper = require( 'PHET_IO/types/TFunctionWrapper' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
-  var TVoid = require( 'PHET_IO/types/TVoid' );
 
   /**
    * @param accessibleDragNode
