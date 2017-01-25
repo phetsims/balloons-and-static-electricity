@@ -636,20 +636,20 @@ define( function( require ) {
         var newVelocity = balloonModel.velocityProperty.get().plus( force.timesScalar( dt ) );
         var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
 
-        if ( newLocation.x + balloonModel.width > rightBound ) {
+        if ( newLocation.x + balloonModel.width >= rightBound ) {
           isStopped = true;
           newLocation.x = rightBound - balloonModel.width;
         }
 
-        if ( newLocation.y + balloonModel.height > model.bounds.maxY ) {
+        if ( newLocation.y + balloonModel.height >= model.bounds.maxY ) {
           isStopped = true;
           newLocation.y = model.bounds.maxY - balloonModel.height;
         }
-        if ( newLocation.x < model.bounds.minX ) {
+        if ( newLocation.x <= model.bounds.minX ) {
           isStopped = true;
           newLocation.x = model.bounds.minX;
         }
-        if ( newLocation.y < model.bounds.minY ) {
+        if ( newLocation.y <= model.bounds.minY ) {
           isStopped = true;
           newLocation.y = model.bounds.minY;
         }
@@ -659,10 +659,15 @@ define( function( require ) {
           balloonModel.isStoppedProperty.set( true );
         }
 
+        if ( isStopped ) {
+          newVelocity = Vector2.ZERO;
+        }
+
         balloonModel.velocityProperty.set( newVelocity );
         balloonModel.locationProperty.set( newLocation );
-
-        if ( isStopped ) {
+      }
+      else {
+        if ( balloonModel.velocityProperty.get().equals( Vector2.ZERO ) ) {
           balloonModel.velocityProperty.set( Vector2.ZERO );
         }
       }
