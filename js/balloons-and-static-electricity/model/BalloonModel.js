@@ -452,8 +452,8 @@ define( function( require ) {
 
       if ( this.isDraggedProperty.get() ) {
 
-        // check to see if we can catch any minus charges
-        var chargePickedUp = this.dragBalloon( model, dt );
+        // drag the balloon, which may cause it to pick up charges
+        this.dragBalloon( model, dt );
       }
       else {
         BalloonModel.applyForce( model, this, dt );
@@ -527,7 +527,7 @@ define( function( require ) {
     },
 
     /**
-     * Get the name of the object that the balloon is curently attracted to.
+     * Get the name of the object that the balloon is currently attracted to.
      *
      * @return {string}
      */

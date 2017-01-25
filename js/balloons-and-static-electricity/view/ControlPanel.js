@@ -194,7 +194,14 @@ define( function( require ) {
       tandem: oneBalloonIconTandem
     } );
 
-    var showBalloonsChoice = new TwoSceneSelectionNode( model.greenBalloon.isVisibleProperty, false, true, oneBalloonIcon, twoBalloonIcon );
+    var balloonConfigurationSelector = new TwoSceneSelectionNode(
+      model.greenBalloon.isVisibleProperty,
+      false,
+      true,
+      oneBalloonIcon,
+      twoBalloonIcon,
+      { tandem: tandem.createTandem( 'balloonConfigurationSelector' ) }
+    );
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
@@ -266,7 +273,7 @@ define( function( require ) {
 
     var balloonsPanel = new VBox( {
       spacing: 2,
-      children: [ showBalloonsChoice, accessibleResetBalloonButton ]
+      children: [ balloonConfigurationSelector, accessibleResetBalloonButton ]
     } );
 
     //Add the controls at the right, with the reset all button and the wall button

@@ -8,7 +8,7 @@
  * Therefore, this is a single button styled like two buttons.  It uses custom input listeners
  * because the typical sun button model would have modeled and styled these as two separate
  * buttons.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -27,6 +27,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -78,9 +80,13 @@ define( function( require ) {
 
       // MouseArea expansion
       mouseAreaXDilation: 0,
-      mouseAreaYDilation: 0
+      mouseAreaYDilation: 0,
 
+      // tandem
+      tandem: Tandem.tandemRequired()
     }, options );
+
+    TandemNode.call( this, { tandem: options.tandem } );
 
     // @private
     this.enabledProperty = options.enabledProperty;
@@ -97,20 +103,19 @@ define( function( require ) {
 
     // aBox.bounds === bBox.bounds since we are using AlignGroup
     var rectShape = Shape.roundRect( -xMargin, -yMargin, aBox.width + 2 * xMargin, aBox.height + 2 * yMargin, cornerRadius, cornerRadius );
-    var aButton = new Path( rectShape ); 
-    var bButton = new Path( rectShape ); 
+    var aButton = new Path( rectShape );
+    var bButton = new Path( rectShape );
     aButton.addChild( aBox );
     bButton.addChild( bBox );
 
-    LayoutBox.call( this, {
+    this.addChild( new LayoutBox( {
       spacing: options.spacing,
       orientation: options.orientation,
       align: options.align,
-
       children: [ aButton, bButton ],
       cursor: 'pointer',
       resize: false
-    } );
+    } ) );
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
     // depending on whether or not the button is enabled
@@ -204,7 +209,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
-  return inherit( LayoutBox, TwoSceneSelectionNode, {
+  return inherit( TandemNode, TwoSceneSelectionNode, {
 
     /**
      * Make eligible for garbage collection.
