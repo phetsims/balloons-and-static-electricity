@@ -6,6 +6,8 @@
  * there are vertical and horizontal lines of significance that impact the output of the screen reader, and these
  * are drawn in the play area as well.
  *
+ * This is not instrumented for phet-io because external users will not see or use it.
+ *
  @author Jesse Greenberg
  */
 define( function( require ) {
@@ -13,99 +15,61 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Line = require( 'SCENERY/nodes/Line' );
 
   /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
-   * @param {Tandem} tandem
    */
-  function PlayAreaNode( model, tandem ) {
+  function PlayAreaNode( model ) {
 
-    TandemNode.call( this, { pickable: false, tandem: tandem } );
+    Node.call( this, { pickable: false } );
     var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
     var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
 
     // left edge
-    this.addChild( new TandemRectangle(
-      model.playArea.leftColumn,
-      _.extend( { tandem: tandem.createTandem( 'leftEdge' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.leftColumn, greyOptions ) );
 
     // left arm
-    this.addChild( new TandemRectangle(
-      model.playArea.leftArmColumn,
-      _.extend( { tandem: tandem.createTandem( 'leftArm' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.leftArmColumn, blueOptions ) );
 
     // right sweater body
-    this.addChild( new TandemRectangle(
-      model.playArea.leftBodyColumn,
-      _.extend( { tandem: tandem.createTandem( 'rightSweaterBody' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.leftBodyColumn, greyOptions ) );
 
     // left sweater body
-    this.addChild( new TandemRectangle(
-      model.playArea.rightBodyColumn,
-      _.extend( { tandem: tandem.createTandem( 'leftSweaterBody' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.rightBodyColumn, blueOptions ) );
 
     // right arm
-    this.addChild( new TandemRectangle(
-      model.playArea.rightArmColumn,
-      _.extend( { tandem: tandem.createTandem( 'rightArm' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.rightArmColumn, greyOptions ) );
 
     // left side of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.playAreaLeftColumn,
-      _.extend( { tandem: tandem.createTandem( 'leftSideOfPlayArea' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle(
+      model.playArea.playAreaLeftColumn, blueOptions ) );
 
     // center of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.playAreaCenterColumn,
-      _.extend( { tandem: tandem.createTandem( 'centerOfPlayArea' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.playAreaCenterColumn, greyOptions ) );
 
     // right side of play Area
-    this.addChild( new TandemRectangle(
-      model.playArea.playAreaRightColumn,
-      _.extend( { tandem: tandem.createTandem( 'rightSideOfPlayArea' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.playAreaRightColumn, blueOptions ) );
 
     // right edge of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.rightColumn,
-      _.extend( { tandem: tandem.createTandem( 'rightEdgeOfPlayArea' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.rightColumn, greyOptions ) );
 
     // top edge of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.topRow,
-      _.extend( { tandem: tandem.createTandem( 'topEdgeOfPlayArea' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.topRow, greyOptions ) );
 
     // upper part of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.upperRow,
-      _.extend( { tandem: tandem.createTandem( 'upperPartOfPlayArea' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle(
+      model.playArea.upperRow, blueOptions ) );
 
     // lower part of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.lowerRow,
-      _.extend( { tandem: tandem.createTandem( 'lowerPartOfPlayArea' ) }, greyOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.lowerRow, greyOptions ) );
 
     // bottom part of play area
-    this.addChild( new TandemRectangle(
-      model.playArea.bottomRow,
-      _.extend( { tandem: tandem.createTandem( 'bottomPartOfPlayArea' ) }, blueOptions )
-    ) );
+    this.addChild( new Rectangle( model.playArea.bottomRow, blueOptions ) );
 
     // draw some lines to represent positions of critical balloon points
     var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 5 };
@@ -117,5 +81,5 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'PlayAreaNode', PlayAreaNode );
 
-  return inherit( TandemNode, PlayAreaNode );
+  return inherit( Node, PlayAreaNode );
 } );
