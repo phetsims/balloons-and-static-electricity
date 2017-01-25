@@ -114,18 +114,6 @@ define( function( require ) {
     var balloonImageNode = new TandemImage( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
     this.addChild( balloonImageNode );
 
-    //rope
-    //TODO: For performance, move this out of BalloonNode and into a separate layer ?
-    // var customShape = new Shape();
-    // customShape.moveTo( model.width / 2, model.height - 2 );
-    // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-    // var path = new Path( customShape, {
-    //   stroke: '#000000',
-    //   lineWidth: 1,
-    //   pickable: false
-    // } );
-    // this.addChild( path );
-
     // static charges
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
