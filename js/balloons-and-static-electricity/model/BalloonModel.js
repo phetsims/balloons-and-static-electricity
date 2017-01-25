@@ -631,36 +631,31 @@ define( function( require ) {
       // only move if outside of the sweater
       if ( balloonModel.locationProperty.get().x + balloonModel.width > model.sweater.x + model.sweater.width ) {
         var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
-        var isStopped = false;
         var force = BalloonModel.getTotalForce( model, balloonModel );
         var newVelocity = balloonModel.velocityProperty.get().plus( force.timesScalar( dt ) );
         var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
 
         if ( newLocation.x + balloonModel.width >= rightBound ) {
-          isStopped = true;
           newLocation.x = rightBound - balloonModel.width;
+          newVelocity.x = 0;
         }
 
         if ( newLocation.y + balloonModel.height >= model.bounds.maxY ) {
-          isStopped = true;
           newLocation.y = model.bounds.maxY - balloonModel.height;
+          newVelocity.y = 0;
         }
         if ( newLocation.x <= model.bounds.minX ) {
-          isStopped = true;
           newLocation.x = model.bounds.minX;
+          newVelocity.x = 0;
         }
         if ( newLocation.y <= model.bounds.minY ) {
-          isStopped = true;
           newLocation.y = model.bounds.minY;
+          newVelocity.y = 0;
         }
 
         // once the balloon stops moving, notify observers that it has reached a resting destination
         if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
           balloonModel.isStoppedProperty.set( true );
-        }
-
-        if ( isStopped ) {
-          newVelocity = Vector2.ZERO;
         }
 
         balloonModel.velocityProperty.set( newVelocity );
