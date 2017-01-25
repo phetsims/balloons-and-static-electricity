@@ -637,20 +637,20 @@ define( function( require ) {
 
         if ( newLocation.x + balloonModel.width >= rightBound ) {
           newLocation.x = rightBound - balloonModel.width;
-          newVelocity.x = 0;
+          newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
 
         if ( newLocation.y + balloonModel.height >= model.bounds.maxY ) {
           newLocation.y = model.bounds.maxY - balloonModel.height;
-          newVelocity.y = 0;
+          newVelocity.y = newVelocity > 0 ? 0 : newVelocity.y;
         }
         if ( newLocation.x <= model.bounds.minX ) {
           newLocation.x = model.bounds.minX;
-          newVelocity.x = 0;
+          newVelocity.x = newVelocity.x < 0 ? 0 : newVelocity.x;
         }
         if ( newLocation.y <= model.bounds.minY ) {
           newLocation.y = model.bounds.minY;
-          newVelocity.y = 0;
+          newVelocity.y = newVelocity < 0 ? 0 : newVelocity.y;
         }
 
         // once the balloon stops moving, notify observers that it has reached a resting destination
