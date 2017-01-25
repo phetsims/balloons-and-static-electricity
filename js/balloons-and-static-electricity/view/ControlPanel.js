@@ -205,13 +205,13 @@ define( function( require ) {
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
-      new TandemText( resetBalloonString, {
-        font: new PhetFont( 15 ),
-        tandem: tandem.createTandem( 'resetBalloonText' )
-      } ),
       new TandemText( resetBalloonsString, {
         font: new PhetFont( 15 ),
         tandem: tandem.createTandem( 'resetBalloonsText' )
+      } ),
+      new TandemText( resetBalloonString, {
+        font: new PhetFont( 15 ),
+        tandem: tandem.createTandem( 'resetBalloonText' )
       } ),
       model.greenBalloon.isVisibleProperty,
       { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
