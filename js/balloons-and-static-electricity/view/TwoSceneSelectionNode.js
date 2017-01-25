@@ -66,8 +66,7 @@ define( function( require ) {
       selectedLineWidth: 1.5,
       deselectedLineWidth: 1,
 
-      // These margins are *within* each button, relative to the
-      // largest of the two icons
+      // These margins are *within* each button, relative to the largest of the two icons
       buttonContentXMargin: 5,
       buttonContentYMargin: 5,
 
@@ -113,8 +112,8 @@ define( function( require ) {
       resize: false
     } );
 
-    // sets the styles of the buttons after an interaction, inculding the
-    // stroke, opacity, lineWidith, and fill, depending on wheter or not the button is enabled
+    // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
+    // depending on whether or not the button is enabled
     var self = this;
     var setStyles = function( enabled ) {
 
@@ -159,7 +158,7 @@ define( function( require ) {
         deselectedButton.fill = options.baseColor;
       }
     };
-    setStyles( this.enabledProperty.get() );
+    property.link( function() { setStyles( self.enabledProperty.get() ); } );
 
     // listener that makes this node behave like a button
     var downUpListener = new DownUpListener( {

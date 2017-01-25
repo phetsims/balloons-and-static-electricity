@@ -127,7 +127,7 @@ define( function( require ) {
     balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
     playAreaContainerNode.addChild( balloonsNode );
 
-    //Only show the selected balloon(s)
+    // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       self.greenBalloon.visible = isVisible;
     } );
@@ -160,7 +160,6 @@ define( function( require ) {
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
       this.articleContainerNode.addChild( display );
     }
-
   }
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
@@ -168,10 +167,9 @@ define( function( require ) {
   inherit( ScreenView, BalloonsAndStaticElectricityView, {
 
     /**
-     * Step the view.  For acccessibility, we want to step the 'AudioView'
-     * and the the keyboard drag handlers.
-     *
-     * @param  number} dt description
+     * Step the view.  For acccessibility, we want to step the 'AudioView' and the the keyboard drag handlers.
+     * @param number} dt description
+     * @public
      */
     step: function( dt ) {
       this.greenBalloon.step( dt );
