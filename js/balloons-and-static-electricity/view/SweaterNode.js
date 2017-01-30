@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -40,13 +40,13 @@ define( function( require ) {
   function SweaterNode( model, tandem ) {
     var self = this;
 
-    AccessibleNode.call( this, {
+    Node.call( this, {
       pickable: false,
 
       // accessibility options
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
-      label: BASEA11yStrings.sweaterLabelString,
+      accessibleLabel: BASEA11yStrings.sweaterLabelString,
       descriptionTagName: 'p'
     } );
 
@@ -109,7 +109,7 @@ define( function( require ) {
 
       // a11y - update description of sweater when charge changes
       var chargeDescription = self.getChargeDescription( charge );
-      self.setDescription( chargeDescription );
+      self.setAccessibleDescription( chargeDescription );
     } );
 
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
@@ -121,7 +121,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );
 
-  return inherit( AccessibleNode, SweaterNode, {
+  return inherit( Node, SweaterNode, {
 
     /**
      * Get a description for the sweater, based on its charge.

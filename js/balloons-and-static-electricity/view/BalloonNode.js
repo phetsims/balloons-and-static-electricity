@@ -12,7 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -58,16 +58,15 @@ define( function( require ) {
     }
 
     // super constructor
-    AccessibleNode.call( this, {
+    Node.call( this, {
       cursor: 'pointer',
 
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
       descriptionTagName: 'p',
-      label: balloonDraggableLabel,
-      childContainerTagName: 'div',
-      hidden: !model.isVisibleProperty.value
+      accessibleLabel: balloonDraggableLabel,
+      accessibleHidden: !model.isVisibleProperty.value
     } );
 
     this.x = x;
@@ -157,7 +156,7 @@ define( function( require ) {
 
       // a11y
       var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
-      self.setDescription( locationDescription );
+      self.setAccessibleDescription( locationDescription );
     } );
 
     // TODO: Balloon 'string' removevd for now, we are investigating ways of removing confusion involving buoyant forces
@@ -234,8 +233,8 @@ define( function( require ) {
 
         self.releaseBalloon();
       },
-      ariaDescribedBy: this.getDescriptionElementID(),
-      ariaLabelledBy: this.getLabelElementID()
+      ariaDescribedByElement: self.domElement,
+      ariaLabelledByElement: self.domElement
     } );
 
     this.accessibleDragNode.keyUpEmitter.addListener( function( keyCode ) {
@@ -255,24 +254,26 @@ define( function( require ) {
       AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, keyCode ) );
     } );
 
-    var accessibleButtonNode = new AccessibleNode( {
+    var accessibleButtonNode = new Node( {
       tagName: 'button', // representative type
       parentContainerTagName: 'div', // contains representative element, label, and description
       focusHighlight: focusHighlightNode,
-      label: balloonButtonLabel,
+      accessibleLabel: balloonButtonLabel,
       descriptionTagName: 'p',
       focusable: true,
-      description: BASEA11yStrings.balloonGrabCueString,
-      events: {
-        click: function( event ) {
-          model.isDraggedProperty.set( true );
+      accessibleDescription: BASEA11yStrings.balloonGrabCueString
+    } );
 
-          // grab and focus the draggable element
-          self.accessibleDragNode.focus();
+    // no need to remove listener in dispose, balloon will exist for life of sim
+    accessibleButtonNode.addAccessibleInputListener( {
+      click: function( event ) {
+        model.isDraggedProperty.set( true );
 
-          // reset the velocity when picked up
-          model.velocityProperty.set( new Vector2( 0, 0 ) );
-        }
+        // grab and focus the draggable element
+        self.accessibleDragNode.focus();
+
+        // reset the velocity when picked up
+        model.velocityProperty.set( new Vector2( 0, 0 ) );
       }
     } );
 
@@ -281,7 +282,7 @@ define( function( require ) {
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      self.setHidden( !isVisible );
+      self.setAccessibleHidden( !isVisible );
 
       var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
       AriaHerald.announceAssertive( alertDescription );
@@ -295,12 +296,12 @@ define( function( require ) {
       self.accessibleDragNode.setFocusable( isDragged );
 
       // the button node must be hidden first
-      accessibleButtonNode.setHidden( isDragged );
-      self.accessibleDragNode.setHidden( !isDragged );
+      accessibleButtonNode.setAccessibleHidden( isDragged );
+      self.accessibleDragNode.setAccessibleHidden( !isDragged );
 
       // a11y - update the navigation cue when the balloon is picked up
       var locationDescription = model.balloonDescriber.getDescription( model, isDragged );
-      self.setDescription( locationDescription );
+      self.setAccessibleDescription( locationDescription );
 
       // reset the describer flags
       model.balloonDescriber.reset();
@@ -318,7 +319,7 @@ define( function( require ) {
 
       // a11y - update the description when the location changes (only found with cursor keys)
       var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
-      self.setDescription( locationDescription );
+      self.setAccessibleDescription( locationDescription );
 
     } );
 
@@ -344,7 +345,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
-  return inherit( AccessibleNode, BalloonNode, {
+  return inherit( Node, BalloonNode, {
 
     getPositionOnSweaterDescription: function() {
       return 'On body of sweater';

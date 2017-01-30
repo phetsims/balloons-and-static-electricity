@@ -28,7 +28,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
@@ -100,10 +100,10 @@ define( function( require ) {
 
     var self = this;
 
-    AccessibleNode.call( this, {
+    Node.call( this, {
       tagName: 'section',
       labelTagName: 'h2',
-      label: BASEA11yStrings.sceneSummaryLabelString,
+      accessibleLabel: BASEA11yStrings.sceneSummaryLabelString,
       descriptionTagName: 'ul' // description contained in an unordered list
     } );
 
@@ -213,7 +213,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
 
-  return inherit( AccessibleNode, SceneSummaryNode, {
+  return inherit( Node, SceneSummaryNode, {
 
     /**
      * Get a description for the balloon when it is in the right side of the play area.

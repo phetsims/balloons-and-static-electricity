@@ -16,7 +16,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var Vector2 = require( 'DOT/Vector2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
 
   // phet-io modules
@@ -52,66 +52,17 @@ define( function( require ) {
     // validate options - the draggable node must be represented with <div role='application'> for screen reader support
     assert && assert( !options.tagName || options.tagName === 'div', 'a draggable element must be represented by a div' );
     assert && assert( !options.ariaRole || options.role === 'application', 'draggable peer must be of role "application"' );
-    if ( options.events ) {
-      assert && assert( !options.events.keydown && !options.events.keyup, 'please use options.onKeyUp or options.onKeyDown for keyboard dragging' );
-    }
 
     options = _.extend( {
+      // a11y options
       tagName: 'div',
       ariaRole: 'application',
-      events: {
-        keydown: function( event ) {
-
-          self.startedCallbacksForKeyDownEmitter.emit1( event.keyCode || event.which );
-
-          // if key down is for dragging, prevent default
-          if ( self.draggableKeyUp( event.keyCode ) ) {
-            // required for VoiceOver with Safari
-            event.preventDefault();
-          }
-
-          // update the key state on down
-          self.keyState[ event.keyCode || event.which ] = {
-            isKeyDown: true,
-            keyEvent: event
-          };
-
-          options.onKeyDown( event );
-
-          // notify that key state changed
-          self.endedCallbacksForKeyDownEmitter.emit();
-        },
-
-        keyup: function( event ) {
-
-          self.startedCallbacksForKeyUpEmitter.emit1( event.keyCode || event.which );
-
-          // update the key state on down
-          self.keyState[ event.keyCode || event.which ] = {
-            isKeyDown: false,
-            keyEvent: event
-          };
-
-          options.onKeyUp( event );
-
-          // notify that key state changed
-          if ( self.keyState[ KEY_J ] ) {
-            if ( !self.keyState[ KEY_J ].isKeyDown ) {
-              self.keyUpEmitter.emit1( event.keyCode );
-            }
-            else {
-              self.balloonJumpingEmitter.emit1( event.keyCode );
-            }
-          }
-          self.endedCallbacksForKeyUpEmitter.emit();
-        }
-      },
+      focusable: true,
       onTab: function() {}, // optional function to call when user 'tabs' away
       restrictLocation: function() {}, // fires during the drag
       positionDelta: 5, // change in model coordinates when user presses directional key, in model coordinates
       dragBounds: Bounds2.EVERYTHING, // drag bounds (like MovableDragHandler) in model coordinate frame
       modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
-      focusable: true,
       onKeyUp: function() {},
       onKeyDown: function() {}
     }, options );
@@ -156,7 +107,57 @@ define( function( require ) {
     this._onTab = options.onTab;
 
     // button contained in a div so that it can contain descriptions or other children
-    AccessibleNode.call( this, options );
+    Node.call( this, options );
+
+    // balloon exists for lifetime of sim, so there is no need to dispose this listener
+    var keyListener = {
+      keydown: function( event ) {
+
+        self.startedCallbacksForKeyDownEmitter.emit1( event.keyCode || event.which );
+
+        // if key down is for dragging, prevent default
+        if ( self.draggableKeyUp( event.keyCode ) ) {
+          // required for VoiceOver with Safari
+          event.preventDefault();
+        }
+
+        // update the key state on down
+        self.keyState[ event.keyCode || event.which ] = {
+          isKeyDown: true,
+          keyEvent: event
+        };
+
+        options.onKeyDown( event );
+
+        // notify that key state changed
+        self.endedCallbacksForKeyDownEmitter.emit();
+      },
+
+      keyup: function( event ) {
+
+        self.startedCallbacksForKeyUpEmitter.emit1( event.keyCode || event.which );
+
+        // update the key state on down
+        self.keyState[ event.keyCode || event.which ] = {
+          isKeyDown: false,
+          keyEvent: event
+        };
+
+        options.onKeyUp( event );
+
+        // notify that key state changed
+        if ( self.keyState[ KEY_J ] ) {
+          if ( !self.keyState[ KEY_J ].isKeyDown ) {
+            self.keyUpEmitter.emit1( event.keyCode );
+          }
+          else {
+            self.balloonJumpingEmitter.emit1( event.keyCode );
+          }
+        }
+        self.endedCallbacksForKeyUpEmitter.emit();
+      }
+    };
+    this.addAccessibleInputListener( keyListener );
 
     // tandem support
     tandem.addInstance( this, TAccessibleDragNode );
@@ -164,7 +165,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'AccessibleDragNode', AccessibleDragNode );
 
-  return inherit( AccessibleNode, AccessibleDragNode, {
+  return inherit( Node, AccessibleDragNode, {
 
     /**
      * Set the position delta for the draggable element when a key is pressed
