@@ -216,21 +216,6 @@ define( function( require ) {
         }
       },
       onTab: function( event ) {
-
-        // if the user presses 'tab' we want the focus to go to the next element in the
-        // navigation order, and then we want the screen reader to anounce something specific
-        // the balloon should also be released from dragging
-        if ( event.shiftKey ) {
-
-          // if shift key is down, focus the previous element in the navigation order
-          self.accessibleDragNode.getPreviousFocusable().focus();
-        }
-        else {
-
-          // focus the nest element in the navigation order
-          self.accessibleDragNode.getNextFocusable().focus();
-        }
-
         self.releaseBalloon();
       },
       ariaDescribedByElement: self.domElement,
