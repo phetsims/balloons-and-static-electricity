@@ -17,7 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
@@ -43,13 +43,13 @@ define( function( require ) {
 
     var wallModel = model.wall;
 
-    AccessibleNode.call( this, {
+    Node.call( this, {
       pickable: false,
 
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      label: BASEA11yStrings.wallLabelString,
+      accessibleLabel: BASEA11yStrings.wallLabelString,
       descriptionTagName: 'p'
     } );
 
@@ -90,7 +90,7 @@ define( function( require ) {
     wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
       self.visible = isVisible;
 
-      self.setHidden( !isVisible );
+      self.setAccessibleHidden( !isVisible );
     } );
 
     //show charges based on draw  property
@@ -103,14 +103,14 @@ define( function( require ) {
     model.balloons.forEach( function( balloon ) {
       balloon.locationProperty.link( function( location ) {
         var newDescription = self.getChargeDescription();
-        self.setDescription( newDescription );
+        self.setAccessibleDescription( newDescription );
       } );
     } );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );
 
-  return inherit( AccessibleNode, WallNode, {
+  return inherit( Node, WallNode, {
 
     /**
      * Get a description of the wall charges, based on balloon positions and charges.

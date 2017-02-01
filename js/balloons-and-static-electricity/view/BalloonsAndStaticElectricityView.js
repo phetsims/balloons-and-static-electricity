@@ -15,7 +15,7 @@ define( function( require ) {
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/SceneSummaryNode' );
@@ -46,16 +46,16 @@ define( function( require ) {
     } );
 
     // @public - for now, we are testing whether accessible content can be contained in an article
-    this.articleContainerNode = new AccessibleNode( {
+    this.articleContainerNode = new Node( {
       tagName: 'article'
     } );
     this.addChild( this.articleContainerNode );
 
-    var accessibleHeaderNode = new AccessibleNode( {
+    var accessibleHeaderNode = new Node( {
       tagName: 'header',
       labelTagName: 'h1',
-      label: balloonsAndStaticElectricityTitleString,
-      descriptionTagName: 'p'
+      accessibleLabel: balloonsAndStaticElectricityTitleString,
+      accessibleDescriptionTagName: 'p'
     } );
     this.articleContainerNode.addChild( accessibleHeaderNode );
 
@@ -68,13 +68,12 @@ define( function( require ) {
     }
 
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
-    var playAreaContainerNode = new AccessibleNode( {
-      tagName: 'section',
-      label: BASEA11yStrings.playAreaLabelString,
-      childContainerTagName: 'div',
+    var playAreaContainerNode = new Node( {
+      parentContainerTagName: 'section',
+      tagName: 'div',
+      accessibleLabel: BASEA11yStrings.playAreaLabelString,
       labelTagName: 'h2'
     } );
-
     this.articleContainerNode.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );

@@ -236,6 +236,8 @@ define( function( require ) {
     wallDescriptionString: 'Run experiments with or without the wall.',
     resetBalloonsDescriptionPatternString: 'Reset {0} to start {1} and an uncharged state.',
 
+    resetAllString: 'Reset All',
+
     // strings for keyboard help content
     keyboardHelpDialogString: 'Balloon Hot Keys and Key Commands',
     keysForDraggingAndRubbingString: 'Keys for Dragging and Rubbing',

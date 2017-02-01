@@ -29,7 +29,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var TwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNode' );
-  var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
@@ -59,11 +59,11 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds, tandem ) {
 
     // super constructor
-    AccessibleNode.call( this, {
-      tagName: 'section', // this is a separate section of elements
-      childContainerTagName: 'div', // all children contained in a div under the section
-      label: BASEA11yStrings.controlPanelLabelString,
-      labelTagName: 'h2'
+    Node.call( this, {
+      parentContainerTagName: 'section',
+      tagName: 'div',
+      labelTagName: 'h2',
+      accessibleLabel: BASEA11yStrings.controlPanelLabelString
     } );
 
     // Add/Remove wall button.
@@ -95,17 +95,19 @@ define( function( require ) {
     // accessible node containing the wall button
     // TODO: Once accessibility common components are integrated into scenery, this container will not
     // be necessary, and RectangularPushButton can do this directly
-    this.accessibleWallButton = new AccessibleNode( {
+    this.accessibleWallButton = new Node( {
       parentContainerTagName: 'div',
       tagName: 'button',
       focusable: true,
       label: BASEA11yStrings.removeWallLabelString,
-      description: BASEA11yStrings.wallDescriptionString,
-      descriptionTagName: 'p',
-      events: {
-        click: function( event ) {
-          model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-        }
+      accessibleDescription: BASEA11yStrings.wallDescriptionString,
+      descriptionTagName: 'p'
+    } );
+
+    // keyboard listener, no need to dispose since button exists for life of sim
+    this.accessibleWallButton.addAccessibleInputListener( {
+      click: function( event ) {
+        model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
       }
     } );
     this.accessibleWallButton.addChild( this.wallButton );
@@ -114,7 +116,7 @@ define( function( require ) {
     var self = this;
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
       var updatedLabel = wallVisible ? BASEA11yStrings.removeWallLabelString : BASEA11yStrings.addWallLabelString;
-      self.accessibleWallButton.setLabel( updatedLabel );
+      self.accessibleWallButton.setAccessibleLabel( updatedLabel );
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
@@ -237,38 +239,41 @@ define( function( require ) {
       return StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
-    var accessibleResetBalloonButton = new AccessibleNode( {
+    var accessibleResetBalloonButton = new Node( {
       focusable: true,
       parentContainerTagName: 'div',
       tagName: 'button',
-      label: resetBalloonString,
+      accessibleLabel: resetBalloonString,
       descriptionTagName: 'p',
-      description: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
-      events: {
-        click: function( event ) {
-          resetBalloonButtonListener();
-
-          var balloonString;
-          var bothBalloonString;
-          if ( model.greenBalloon.isVisibleProperty.get() ) {
-            balloonString = 'balloons';
-            bothBalloonString = 'Both balloons';
-          }
-          else {
-            balloonString = 'balloon';
-            bothBalloonString = 'Balloon';
-          }
-          var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
-          AriaHerald.announceAssertive( resetDescription );
-        }
-      }
+      accessibleDescription: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
+      events: {}
     } );
     accessibleResetBalloonButton.addChild( resetBalloonButton );
 
+    // no need to dispose, button exists for life of sim
+    accessibleResetBalloonButton.addAccessibleInputListener( {
+      click: function( event ) {
+        resetBalloonButtonListener();
+
+        var balloonString;
+        var bothBalloonString;
+        if ( model.greenBalloon.isVisibleProperty.get() ) {
+          balloonString = 'balloons';
+          bothBalloonString = 'Both balloons';
+        }
+        else {
+          balloonString = 'balloon';
+          bothBalloonString = 'Balloon';
+        }
+        var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
+        AriaHerald.announceAssertive( resetDescription );
+      }
+    } );
+
     model.greenBalloon.isVisibleProperty.link( function( balloonVisible ) {
       var newLabel = balloonVisible ? BASEA11yStrings.resetBalloonsString : resetBalloonString;
-      accessibleResetBalloonButton.setLabel( newLabel );
-      accessibleResetBalloonButton.setDescription( generateDescriptionString( balloonVisible ) );
+      accessibleResetBalloonButton.setAccessibleLabel( newLabel );
+      accessibleResetBalloonButton.setAccessibleDescription( generateDescriptionString( balloonVisible ) );
     } );
 
     var balloonsPanel = new VBox( {
@@ -283,32 +288,35 @@ define( function( require ) {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to common code
-    var accessibleResetAllButton = new AccessibleNode( {
+
+    var accessibleResetAllButton = new Node( {
       children: [ resetAllButton ],
-      focusable: true,
 
       // a11y options
+      focusable: true,
       focusHighlight: new Shape().circle( 0, 0, 28 ),
       tagName: 'button',
       parentContainerTagName: 'div',
-      label: BASEA11yStrings.resetAllString,
-      events: {
-        click: function( event ) {
+      accessibleLabel: BASEA11yStrings.resetAllString
+    } );
 
-          // hide the aria live elements so that alerts are not anounced until after simulation
-          // is fully reset
-          // TODO: This should be in the main model reset function
-          AriaHerald.hidden = true;
+    // keyboard listener, no need to dispose, button exists for life of sim
+    accessibleResetAllButton.addAccessibleInputListener( {
+      click: function( event ) {
 
-          // reset the model
-          model.reset();
+        // hide the aria live elements so that alerts are not anounced until after simulation
+        // is fully reset
+        // TODO: This should be in the main model reset function
+        AriaHerald.hidden = true;
 
-          // unhide the alert elements now that properties are reset
-          AriaHerald.hidden = false;
+        // reset the model
+        model.reset();
 
-          // announce that the sim has been reset
-          AriaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
-        }
+        // unhide the alert elements now that properties are reset
+        AriaHerald.hidden = false;
+
+        // announce that the sim has been reset
+        AriaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
       }
     } );
 
@@ -350,7 +358,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
 
-  inherit( AccessibleNode, ControlPanel );
+  inherit( Node, ControlPanel );
 
   return ControlPanel;
 } );
