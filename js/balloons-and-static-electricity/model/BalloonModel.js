@@ -433,7 +433,16 @@ define( function( require ) {
       this.balloonDescriber.reset();
     },
 
+    /**
+     * @param {BalloonsAndStaticElectricityModel} model
+     * @param {number} dt
+     */
     step: function( model, dt ) {
+
+      // limit large values of dt - they probably mean that the sim just regained focus
+      if ( dt > 500 ) {
+        dt = 1 / 60 * 1000; // nominal time stamp at 60 fps
+      }
 
       if ( this.isDraggedProperty.get() ) {
 
