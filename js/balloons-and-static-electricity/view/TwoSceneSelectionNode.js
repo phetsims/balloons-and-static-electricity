@@ -9,6 +9,8 @@
  * because the typical sun button model would have modeled and styled these as two separate
  * buttons.
  *
+ * This was created in support of accessibility.  It may be moved into common code at some point.
+ *
  * @author Jesse Greenberg
  */
 
@@ -20,6 +22,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  var Emitter = require( 'AXON/Emitter' );
   var Property = require( 'AXON/Property' );
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   var Shape = require( 'KITE/Shape' );
@@ -29,6 +32,9 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TTwoSceneSelectionNode = require( 'ifphetio!PHET_IO/simulations/balloons-and-static-electricity/TTwoSceneSelectionNode' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -88,6 +94,10 @@ define( function( require ) {
 
     TandemNode.call( this, { tandem: options.tandem } );
 
+    // Emitters for the PhET-iO data stream
+    this.startedCallbacksForToggledEmitter = new Emitter();
+    this.endedCallbacksForToggledEmitter = new Emitter();
+
     // @private
     this.enabledProperty = options.enabledProperty;
 
@@ -96,13 +106,20 @@ define( function( require ) {
     var aBox = buttonAlignGroup.createBox( nodeA );
     var bBox = buttonAlignGroup.createBox( nodeB );
 
-    // use a path so that the linewidth can be updated
+    // use a path so that the line width can be updated
     var xMargin = options.buttonContentXMargin;
     var yMargin = options.buttonContentYMargin;
     var cornerRadius = options.cornerRadius;
 
     // aBox.bounds === bBox.bounds since we are using AlignGroup
-    var rectShape = Shape.roundRect( -xMargin, -yMargin, aBox.width + 2 * xMargin, aBox.height + 2 * yMargin, cornerRadius, cornerRadius );
+    var rectShape = Shape.roundRect(
+      -xMargin,
+      -yMargin,
+      aBox.width + 2 * xMargin,
+      aBox.height + 2 * yMargin,
+      cornerRadius,
+      cornerRadius
+    );
     var aButton = new Path( rectShape );
     var bButton = new Path( rectShape );
     aButton.addChild( aBox );
@@ -169,8 +186,10 @@ define( function( require ) {
     var downUpListener = new DownUpListener( {
       up: function( event ) {
         var newValue = property.get() === valueA ? valueB : valueA;
+        self.startedCallbacksForToggledEmitter.emit2( property.get(), newValue );
         property.set( newValue );
         setStyles( self.enabledProperty.get() );
+        self.endedCallbacksForToggledEmitter.emit();
       },
       down: function( event ) {
         var otherButton = property.get() === valueA ? bButton : aButton;
@@ -205,6 +224,9 @@ define( function( require ) {
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
     };
+
+    // tandem support
+    options.tandem.addInstance( this, TTwoSceneSelectionNode );
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
