@@ -9,9 +9,12 @@
  * because the typical sun button model would have modeled and styled these as two separate
  * buttons.
  *
- * This was created in support of accessibility.  It may be moved into common code at some point.
+ * This was created in support of accessibility.  It may be moved into common code at some point.  Alternatively, it
+ * may be obsoleted and replaced with a regular, accessible radio button group.  See
+ * https://github.com/phetsims/balloons-and-static-electricity/issues/213 for the discussion on this topic.
  *
  * @author Jesse Greenberg
+ * @author John BLanco
  */
 
 define( function( require ) {
