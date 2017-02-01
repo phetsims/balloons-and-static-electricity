@@ -136,15 +136,16 @@ define( function( require ) {
     //is balloon over minus charge on sweater?
 
     /**
-     * Check if the balloon is over a minus charge on the sweater.  If it is, move the charge
-     * from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved
+     * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
+     * charges from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved.
      *
-     * @param  {type} balloon
+     * @param  {BalloonModel} balloon
      * @return {boolean} chargeMoved - was a charge moved to the balloon?
      */
-    findIntersection: function( balloon ) {
+    checkAndTransferCharges: function( balloon ) {
       var self = this;
-      //active area of balloon rectangle at the left of image
+
+      // active area of balloon rectangle at the left of image
       var balloonLocation = balloon.locationProperty.get();
       var x1 = balloonLocation.x - 5;
       var x2 = balloonLocation.x + 50;
@@ -154,12 +155,13 @@ define( function( require ) {
       // track whether or not we found a charge
       var chargeMoved = false;
 
-      this.minusCharges.forEach( function( entry ) {
-        if ( !entry.movedProperty.get() ) {
-          if ( x1 < entry.location.x && entry.location.x < x2 ) {
-            if ( y1 < entry.location.y && entry.location.y < y2 ) {
-              //if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
-              self.moveChargeTo( entry, balloon );
+      this.minusCharges.forEach( function( minusCharge ) {
+        if ( !minusCharge.movedProperty.get() ) {
+          if ( x1 < minusCharge.location.x && minusCharge.location.x < x2 ) {
+            if ( y1 < minusCharge.location.y && minusCharge.location.y < y2 ) {
+
+              // if in active area of balloon (x1,y1,x2,y2) then move charge from balloon to sweater
+              self.moveChargeTo( minusCharge, balloon );
               chargeMoved = true;
             }
           }

@@ -28,7 +28,10 @@ define( function( require ) {
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
+  // constants
   var NEAR_SWEATER_DISTANCE = 25;
+  var VELOCITY_ARRAY_LENGTH = 5;
+  var THRESHOLD_SPEED = 0.025;
 
   // collection of charge positions on the balloon
   // charges will appear in these positions as the balloon collects electrons
@@ -160,9 +163,6 @@ define( function( require ) {
     this.width = 134;
     this.height = 222;
 
-    // @private - minimum speed needed to pick up charges on the sweater
-    this.thresholdSpeed = 0.025;
-
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],
@@ -180,13 +180,12 @@ define( function( require ) {
     var self = this;
 
     this.initialLocation = this.locationProperty.initialValue;
-    this.defaultVisibily = defaultVisibility;
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
     this.direction = ''; // the direction of movement of the balloon
 
-    // a label for the balloon, not the acccessible label but one of BalloonColorsEnum
+    // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
 
     //neutral pair of charges
@@ -247,12 +246,7 @@ define( function( require ) {
      * @return {boolean}
      */
     inUpperHalfOfPlayArea: function() {
-      if ( this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top ) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      return this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top;
     },
 
     /**
@@ -263,17 +257,6 @@ define( function( require ) {
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
       return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall );
-    },
-
-    inUpperRightOfPlayArea: function() {
-      var locationBounds = this.balloonsAndStaticElectricityModel.playArea.getPointBounds( this.getCenter() );
-
-      if ( locationBounds === BalloonLocationEnum.TOP_RIGHT_PLAY_AREA || BalloonLocationEnum.UPPER_RIGHT_PLAY_AREA ) {
-        return true;
-      }
-      else {
-        return false;
-      }
     },
 
     /**
@@ -433,8 +416,10 @@ define( function( require ) {
       //then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
       this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.xVelocityArray.counter = 0;
+      assert && assert( this.xVelocityArray.length = VELOCITY_ARRAY_LENGTH, 'velocity array incorrectly initialized' );
       this.yVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.yVelocityArray.counter = 0;
+      assert && assert( this.yVelocityArray.length = VELOCITY_ARRAY_LENGTH, 'velocity array incorrectly initialized' );
       this.chargeProperty.reset();
       this.velocityProperty.reset();
       this.locationProperty.reset();
@@ -485,33 +470,32 @@ define( function( require ) {
       if ( !this.oldLocation ) {
         return;
       }
-      var dx = ( this.locationProperty.get().x - this.oldLocation.x) / dt;
-      var dy = ( this.locationProperty.get().y - this.oldLocation.y) / dt;
+      var vx = ( this.locationProperty.get().x - this.oldLocation.x ) / dt;
+      var vy = ( this.locationProperty.get().y - this.oldLocation.y ) / dt;
 
       //calculate average velocity
-      this.xVelocityArray[ this.xVelocityArray.counter++ ] = dx * dx;
-      this.xVelocityArray.counter %= 5;
-      this.yVelocityArray[ this.yVelocityArray.counter++ ] = dy * dy;
-      this.yVelocityArray.counter %= 5;
+      this.xVelocityArray[ this.xVelocityArray.counter++ ] = vx * vx;
+      this.xVelocityArray.counter %= VELOCITY_ARRAY_LENGTH;
+      this.yVelocityArray[ this.yVelocityArray.counter++ ] = vy * vy;
+      this.yVelocityArray.counter %= VELOCITY_ARRAY_LENGTH;
 
       var averageX = 0;
       var averageY = 0;
-      for ( var i = 0; i < 5; i++ ) {
-        averageX += this.xVelocityArray[ 0 ];
-        averageY += this.yVelocityArray[ 0 ];
+      for ( var i = 0; i < VELOCITY_ARRAY_LENGTH; i++ ) {
+        averageX += this.xVelocityArray[ i ];
+        averageY += this.yVelocityArray[ i ];
       }
-      averageX /= 5;
-      averageY /= 5;
+      averageX /= VELOCITY_ARRAY_LENGTH;
+      averageY /= VELOCITY_ARRAY_LENGTH;
 
-      //if average speed larger than thresholdSpeed - we try to move minus charges from sweater to balloon
+      // if average speed larger than threshold speed we try to move minus charges from sweater to balloon
       var speed = Math.sqrt( averageX * averageX + averageY * averageY );
 
-      this.dragSpeed = speed;
-      this.dragVelocityProperty.set( new Vector2( dx, dy ) );
+      this.dragVelocityProperty.set( new Vector2( vx, vy ) );
 
       var chargeFound = false;
-      if ( speed >= this.thresholdSpeed ) {
-        chargeFound = model.sweater.findIntersection( this );
+      if ( speed >= THRESHOLD_SPEED ) {
+        chargeFound = model.sweater.checkAndTransferCharges( this );
       }
 
       return chargeFound;
@@ -576,7 +560,7 @@ define( function( require ) {
   } );
 
   {
-    //force between two objects with positions p1 and p2, kqq - coefficient, F = kqq / (distance^power)
+    // force between two objects with positions p1 and p2, kqq - coefficient, F = kqq / (distance^power)
     BalloonModel.getForce = function( p1, p2, kqq, power ) {
       power = power || 2;
       var diff = p1.minus( p2 );
@@ -588,7 +572,7 @@ define( function( require ) {
       return fa;
     };
 
-    //force between two balloons
+    // force between two balloons
     BalloonModel.getOtherForce = function( balloonModel ) {
       if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisibleProperty.get() || !balloonModel.other.isVisibleProperty.get() ) {
         return new Vector2( 0, 0 );
@@ -597,7 +581,7 @@ define( function( require ) {
       return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
     };
 
-    //sum of all forces applying to balloons
+    // sum of all forces applying to balloons
     BalloonModel.getTotalForce = function( model, balloonModel ) {
       if ( model.wall.isVisibleProperty.get() ) {
         var distFromWall = model.wall.x - balloonModel.locationProperty.get().x;
