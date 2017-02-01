@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.2.0-rc.1 Wed Jan 25 2017 20:59:40 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.2.0-phetiorc.2 Wed Feb 01 2017 13:01:40 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "a707328cc11048787a807714496af23e0bd25be1",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "380755e0268a4e48951249d0c8deceaa922c8002",
+    "sha": "0e9bb56c82057eb3675ce4390f8b0b78898eaa5e",
     "branch": "1.2-phetio"
   },
   "brand": {
@@ -35,6 +35,14 @@
   "phet-core": {
     "sha": "84747dff066a54fc6f6220aabd2b1a2195ebb6e6",
     "branch": "HEAD"
+  },
+  "phet-io": {
+    "sha": "de89e855b62e93474a58f4cf8089f4c813c28487",
+    "branch": "master"
+  },
+  "phet-io-website": {
+    "sha": "e24505ad8e6e312fa25faeaf3cd1f3f65c9140de",
+    "branch": "master"
   },
   "phetcommon": {
     "sha": "1cb33196c7b03661a71e82d189e66d95c92cc061",
