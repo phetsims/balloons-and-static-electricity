@@ -88,20 +88,14 @@ define( function( require ) {
     },
 
     // Called by the animation loop
-    step: function() {
+    step: function( dt ) {
       var self = this;
-
-      // Make model changes here.
-      var curTime = Date.now();
-      var dt = curTime - this.oldTime;
 
       this.balloons.forEach( function( balloon ) {
         if ( balloon.isVisibleProperty.get() ) {
           balloon.step( self, dt );
         }
       } );
-
-      this.oldTime = curTime;
     },
 
     anyChargedBalloonTouchingWall: function() {
@@ -124,7 +118,6 @@ define( function( require ) {
 
       this.sweater.reset();
       this.wall.reset();
-      this.oldTime = Date.now();
     },
 
     //check if balloon outside world borders and return it to border if outside

@@ -435,9 +435,11 @@ define( function( require ) {
 
     /**
      * @param {BalloonsAndStaticElectricityModel} model
-     * @param {number} dt
+     * @param {number} dt elapsed time in seconds
      */
-    step: function( model, dt ) {
+    step: function( model, dtSeconds ) {
+
+      var dt = dtSeconds * 1000; // seconds to milliseconds
 
       // limit large values of dt - they probably mean that the sim just regained focus
       if ( dt > 500 ) {
