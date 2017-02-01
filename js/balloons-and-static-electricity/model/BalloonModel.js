@@ -435,7 +435,7 @@ define( function( require ) {
 
     /**
      * @param {BalloonsAndStaticElectricityModel} model
-     * @param {number} dt elapsed time in seconds
+     * @param {number} dtSeconds elapsed time in seconds
      */
     step: function( model, dtSeconds ) {
 
