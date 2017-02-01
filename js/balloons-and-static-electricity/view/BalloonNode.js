@@ -10,8 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
-  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -20,7 +19,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var TandemRectangle = require( 'TANDEM/scenery/nodes/TandemRectangle' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -76,11 +75,11 @@ define( function( require ) {
     this.model = model;
     this.globalModel = globalModel;
 
-    var originalChargesNode = new TandemNode( {
+    var originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
     } );
-    var addedChargesNode = new TandemNode( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
+    var addedChargesNode = new Node( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
 
     var property = {
 
@@ -110,7 +109,7 @@ define( function( require ) {
     this.addInputListener( dragHandler );
 
     // add the Balloon image
-    var balloonImageNode = new TandemImage( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
+    var balloonImageNode = new Image( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
     this.addChild( balloonImageNode );
 
     // static charges
@@ -189,7 +188,7 @@ define( function( require ) {
     // a11y
     // focus highlight - turns black when balloon is picked up for dragging
     var lineWidth = 4 / balloonImageNode.transform.transformDelta2( Vector2.X_UNIT ).magnitude();
-    var focusHighlightNode = new TandemRectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+    var focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: lineWidth,
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR,
       tandem: tandem.createTandem( 'focusHighlightNode' )

@@ -10,9 +10,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -50,15 +49,15 @@ define( function( require ) {
       descriptionTagName: 'p'
     } );
 
-    this.plusChargesNode = new TandemNode( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
-    this.minusChargesNode = new TandemNode( {
+    this.plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
+    this.minusChargesNode = new Node( {
       layerSplit: true,
       tandem: tandem.createTandem( 'minusChargesNode' )
     } );
     this.sweaterModel = model.sweater;
 
     // add the Sweater image
-    this.addChild( new TandemImage( sweater, {
+    this.addChild( new Image( sweater, {
       x: this.sweaterModel.x + 25,
       y: this.sweaterModel.y + 70,
       scale: 0.47,

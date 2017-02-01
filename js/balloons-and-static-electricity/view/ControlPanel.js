@@ -14,12 +14,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
   var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
-  var TandemImage = require( 'TANDEM/scenery/nodes/TandemImage' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -132,7 +131,7 @@ define( function( require ) {
       maxWidth: 200
     };
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
-      node: new TandemText(
+      node: new Text(
         balloonAppletShowAllChargesString,
         _.extend( { tandem: tandem.createTandem( 'allCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
       ),
@@ -140,7 +139,7 @@ define( function( require ) {
       value: 'all',
       tandemName: 'showAllChargesRadioButton'
     }, {
-      node: new TandemText(
+      node: new Text(
         balloonAppletShowNoChargesString,
         _.extend( { tandem: tandem.createTandem( 'noCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
       ),
@@ -148,7 +147,7 @@ define( function( require ) {
       value: 'none',
       tandemName: 'showNoChargesRadioButton'
     }, {
-      node: new TandemText(
+      node: new Text(
         balloonAppletShowChargeDifferencesString,
         _.extend( { tandem: tandem.createTandem( 'differentialCharges', RADIO_BUTTON_TEXT_OPTIONS ) } )
       ),
@@ -173,11 +172,11 @@ define( function( require ) {
 
     // Radio buttons for selecting 1 vs 2 balloons
     var scale = 0.14;
-    var yellowBalloonImage = new TandemImage( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    var yellowBalloonImage = new Image( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
     var twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
-    var twoBalloonIcon = new TandemNode( {
+    var twoBalloonIcon = new Node( {
       children: [
-        new TandemImage( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
+        new Image( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
       ],
       scale: scale,
@@ -185,9 +184,9 @@ define( function( require ) {
     } );
 
     var oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
-    var oneBalloonIcon = new TandemNode( {
+    var oneBalloonIcon = new Node( {
       children: [
-        new TandemImage( balloonYellow, {
+        new Image( balloonYellow, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
           tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
         } )
@@ -207,11 +206,11 @@ define( function( require ) {
 
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
-      new TandemText( resetBalloonsString, {
+      new Text( resetBalloonsString, {
         font: new PhetFont( 15 ),
         tandem: tandem.createTandem( 'resetBalloonsText' )
       } ),
-      new TandemText( resetBalloonString, {
+      new Text( resetBalloonString, {
         font: new PhetFont( 15 ),
         tandem: tandem.createTandem( 'resetBalloonText' )
       } ),
