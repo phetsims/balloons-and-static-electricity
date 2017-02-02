@@ -1,5 +1,11 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
+/**
+ * main view class for the simulation
+ *
+ * @author Vasily Shakhov (Mlearner)
+ * @author John Blanco
+ */
 define( function( require ) {
   'use strict';
 
@@ -17,12 +23,14 @@ define( function( require ) {
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var AccessibleNode = require( 'SCENERY/accessibility/AccessibleNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
+  var TetherNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TetherNode' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/SceneSummaryNode' );
   var PlayAreaNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaNode' );
   var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
@@ -30,6 +38,9 @@ define( function( require ) {
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
+
+  // constants
+  var BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
 
   /**
    * @constructor
@@ -105,16 +116,7 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new TandemNode( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
-    this.greenBalloon = new BalloonNode(
-      500,
-      200,
-      model.greenBalloon,
-      balloonGreen,
-      model,
-      'green',
-      tandem.createTandem( 'greenBalloonNode' )
-    );
-    this.yellowBalloon = new BalloonNode(
+    this.yellowBalloonNode = new BalloonNode(
       400,
       200,
       model.yellowBalloon,
@@ -123,13 +125,43 @@ define( function( require ) {
       'yellow',
       tandem.createTandem( 'yellowBalloonNode' )
     );
-
-    balloonsNode.children = [ this.yellowBalloon, this.greenBalloon ];
+    var tetherAnchorPoint = new Vector2(
+      model.yellowBalloon.locationProperty.get().x + this.yellowBalloonNode.width / 2,
+      this.layoutBounds.height + 50 // slightly below bottom of frame, amount was empirically determined
+    );
+    this.yellowBalloonTetherNode = new TetherNode(
+      model.yellowBalloon,
+      tetherAnchorPoint,
+      new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
+      tandem.createTandem( 'yellowBalloonTetherNode' )
+    );
+    this.greenBalloonNode = new BalloonNode(
+      500,
+      200,
+      model.greenBalloon,
+      balloonGreen,
+      model,
+      'green',
+      tandem.createTandem( 'greenBalloonNode' )
+    );
+    this.greenBalloonTetherNode = new TetherNode(
+      model.greenBalloon,
+      tetherAnchorPoint,
+      new Vector2( this.greenBalloonNode.width / 2, this.greenBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
+      tandem.createTandem( 'greenBalloonTetherNode' )
+    );
+    balloonsNode.children = [
+      this.greenBalloonTetherNode,
+      this.greenBalloonNode,
+      this.yellowBalloonTetherNode,
+      this.yellowBalloonNode
+    ];
     playAreaContainerNode.addChild( balloonsNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
-      self.greenBalloon.visible = isVisible;
+      self.greenBalloonNode.visible = isVisible;
+      self.greenBalloonTetherNode.visible = isVisible;
     } );
 
     this.articleContainerNode.addChild( controlPanel );
@@ -172,8 +204,8 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
-      this.greenBalloon.step( dt );
-      this.yellowBalloon.step( dt );
+      this.greenBalloonNode.step( dt );
+      this.yellowBalloonNode.step( dt );
 
       // step the audio
       this.audioView && this.audioView.step( dt );
