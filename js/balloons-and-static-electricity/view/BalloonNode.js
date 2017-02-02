@@ -3,7 +3,8 @@
 /**
  * Scenery display object (scene graph node) for the Balloon of the model.
  *
- @author Vasily Shakhov (Mlearner)
+ * @author Vasily Shakhov (Mlearner)
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -24,11 +25,12 @@ define( function( require ) {
   var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
-
   var KEY_SPACE = 32; // keycode for 'spacebar'
 
   /**
@@ -109,8 +111,32 @@ define( function( require ) {
 
     this.addInputListener( dragHandler );
 
-    // add the Balloon image
+    // create the balloon image, but don't add it just yet
     var balloonImageNode = new TandemImage( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
+
+    // add the tether (a.k.a. 'string', 'rope' or 'line') that goes from the balloon to the bottom of the frame
+    //TODO: For performance, move this out of BalloonNode and into a separate layer ?
+    //var tetherNode = new Path( null, {
+    //  stroke: '#000000',
+    //  lineWidth: 1,
+    //  pickable: false
+    //} );
+    //this.addChild( tetherNode );
+    //var connectionPoint = new Vector2( model.width / 2, model.height );
+    //debugger;
+    //var anchorPoint = new Vector2( globalModel.width / 2, globalModel.height );
+    //model.locationProperty.link( function( location ) {
+    //  var tetherShape = new Shape()
+    //    .moveToPoint( connectionPoint )
+    //    .lineToPoint( self.globalToParentPoint( anchorPoint ) );
+    //    //.lineTo(
+    //    //  440 - model.locationProperty.get().x + model.width / 2,
+    //    //  50 + globalModel.height - model.locationProperty.get().y
+    //    //);
+    //  tetherNode.shape = tetherShape;
+    //} );
+
+    // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
 
     // static charges
@@ -164,10 +190,10 @@ define( function( require ) {
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
-      // customShape = new Shape();
-      // customShape.moveTo( model.width / 2, model.height - 2 );
-      // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      // path.shape = customShape;
+      // tetherShape = new Shape();
+      // tetherShape.moveTo( model.width / 2, model.height - 2 );
+      // tetherShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
+      // path.shape = tetherShape;
 
       // update the charge description
       model.balloonDescriber.getDescription( model );
@@ -297,10 +323,10 @@ define( function( require ) {
     //changes visual position
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
-      // customShape = new Shape();
-      // customShape.moveTo( model.width / 2, model.height - 2 );
-      // customShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      // path.shape = customShape;
+      // tetherShape = new Shape();
+      // tetherShape.moveTo( model.width / 2, model.height - 2 );
+      // tetherShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
+      // path.shape = tetherShape;
 
       // a11y - update the description when the location changes (only found with cursor keys)
       var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
