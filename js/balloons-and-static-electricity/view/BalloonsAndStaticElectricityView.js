@@ -125,7 +125,7 @@ define( function( require ) {
       tandem.createTandem( 'yellowBalloonNode' )
     );
     var tetherAnchorPoint = new Vector2(
-      model.yellowBalloon.locationProperty.get().x + this.yellowBalloonNode.width / 2,
+      model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
       this.layoutBounds.height + 50 // slightly below bottom of frame, amount was empirically determined
     );
     this.yellowBalloonTetherNode = new TetherNode(
