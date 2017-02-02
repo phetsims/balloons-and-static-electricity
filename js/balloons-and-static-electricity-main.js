@@ -17,7 +17,6 @@ define( function( require ) {
   var BASEKeyboardHelpContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEKeyboardHelpContent' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
@@ -59,7 +58,7 @@ define( function( require ) {
           );
         },
         {
-          backgroundColorProperty: new Property( Color.toColor( '#9ddcf8' ) ),
+          backgroundColorProperty: new Property( '#9ddcf8' ),
           tandem: balloonsAndStaticElectricityScreenTandem
         }
       )
