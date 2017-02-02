@@ -1,17 +1,16 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * node that looks like a tether that holds the balloon to the ground (the use of the word 'string' has been avoided
- * for (hopefully) obvious reasons
+ * A node that looks like a tether that holds the balloon to the ground. The use of the word 'string' has been avoided
+ * in the name and the documentation for (hopefully) obvious reasons.
  *
- @author Vasily Shakhov (Mlearner)
+ @author John Blanco
  */
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var Shape = require( 'KITE/Shape' );
@@ -33,10 +32,18 @@ define( function( require ) {
       tandem: tandem
     } );
 
+    var anchorPointCopy = anchorPoint.copy();
+
     balloonModel.locationProperty.link( function( location ) {
+      var attachmentPoint = location.plus( tetherPointOffset );
       self.shape = new Shape()
-        .moveToPoint( anchorPoint )
-        .lineToPoint( location.plus( tetherPointOffset ) );
+        .moveToPoint( anchorPointCopy )
+        .quadraticCurveTo(
+          attachmentPoint.x,
+          ( anchorPointCopy.y + attachmentPoint.y ) / 2,
+          attachmentPoint.x,
+          attachmentPoint.y
+        );
     } );
   }
 
