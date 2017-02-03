@@ -20,7 +20,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -76,13 +75,6 @@ define( function( require ) {
     politeStatusElement.textContent = text;
   } );
 
-  // convenience function used for output of debugging information
-  function printAlert( textContent ) {
-    if ( !alertContainer.hidden ) {
-      console.log( textContent );
-    }
-  }
-
   /**
    * static object that provides the functions for updating the aria-live regions for announcements
    */
@@ -95,9 +87,6 @@ define( function( require ) {
      * @param  {string} textContent - the alert to announce
      */
     announceAssertive: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
-        printAlert( textContent );
-      }
       assertiveElementProperty.set( textContent );
     },
 
@@ -108,9 +97,6 @@ define( function( require ) {
      * @param  {string} textContent - the polite content to announce
      */
     announcePolite: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
-        printAlert( textContent );
-      }
       politeElementProperty.set( textContent );
     },
 
@@ -122,9 +108,6 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announceAssertiveWithAlert: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
-        printAlert( textContent );
-      }
       assertiveAlertElementProperty.set( textContent );
     },
 
@@ -136,9 +119,6 @@ define( function( require ) {
      * @param  {string} textContent - the content ot announce
      */
     announcePoliteWithStatus: function( textContent ) {
-      if ( BalloonsAndStaticElectricityQueryParameters.showLiveOutput ) {
-        printAlert( textContent );
-      }
       politeStatusElementProperty.set( textContent );
     },
 

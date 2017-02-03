@@ -19,10 +19,6 @@ define( function( require ) {
     // keyData - must be used with reader, shows key information instead of reader output, useful for debugging
     keyData: { type: 'flag' },
 
-    // showLiveOutput - shows expected output from a screen reader from aria-live content.  Useful for development and
-    // debugging without having to turn on a screen reader
-    showLiveOutput: { type: 'flag' },
-
     // template sonification to get a feel for how this might work uses strategies very similar to john-travoltage
     sonification: { type: 'flag' },
 
