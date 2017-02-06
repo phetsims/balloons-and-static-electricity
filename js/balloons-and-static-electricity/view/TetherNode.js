@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
   /**
@@ -25,7 +25,7 @@ define( function( require ) {
   function TetherNode( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
     var self = this;
 
-    TandemPath.call( this, null, {
+    Path.call( this, null, {
       stroke: '#000000',
       lineWidth: 1,
       pickable: false,
@@ -49,5 +49,5 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'TetherNode', TetherNode );
 
-  return inherit( TandemPath, TetherNode );
+  return inherit( Path, TetherNode );
 } );
