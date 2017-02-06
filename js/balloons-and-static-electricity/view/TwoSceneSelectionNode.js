@@ -33,7 +33,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
@@ -95,7 +95,7 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    TandemNode.call( this, { tandem: options.tandem } );
+    Node.call( this, { tandem: options.tandem } );
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter();
@@ -234,7 +234,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
-  return inherit( TandemNode, TwoSceneSelectionNode, {
+  return inherit( Node, TwoSceneSelectionNode, {
 
     /**
      * Make eligible for garbage collection.
