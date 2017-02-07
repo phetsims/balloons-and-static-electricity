@@ -42,7 +42,7 @@ define( function( require ) {
   assert && assert( alertContainer, 'No alert container element found in document' );
 
   // phet-io support
-  var tandem = Tandem.createStaticTandem( 'AriaHerald' );
+  var tandem = Tandem.createStaticTandem( 'ariaHerald' );
 
   // associate a property with each live region - this is done in support of phet-io, otherwise the region values would
   // simply be set directly
