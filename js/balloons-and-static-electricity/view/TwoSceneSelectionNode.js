@@ -95,7 +95,7 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Node.call( this, { tandem: options.tandem } );
+    Node.call( this, { tandem: options.tandem.createSupertypeTandem() } );
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter();
