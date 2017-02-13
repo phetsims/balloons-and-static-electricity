@@ -21,7 +21,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var AriaHerald = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AriaHerald' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
