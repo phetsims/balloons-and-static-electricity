@@ -21,7 +21,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var HSeparator = require( 'SUN/HSeparator' );
+  var Spacer = require( 'SCENERY/nodes/Spacer' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
@@ -34,10 +34,10 @@ define( function( require ) {
   var CONTENT_FONT = new PhetFont( 10 );
   var DIALOG_MARGIN = 25;
 
-  var SEPARATOR_OPTIONS = { fill: 'white', lineWidth: 0 };
-  var SECTION_TAB = new HSeparator( 30, SEPARATOR_OPTIONS );
-  var SUB_SECTION_TAB = new HSeparator( 50, SEPARATOR_OPTIONS );
-  var CONTENT_TAB = new HSeparator( 70, SEPARATOR_OPTIONS );
+  // horizontal spacers
+  var SECTION_TAB = new Spacer( 30, 0 );
+  var SUB_SECTION_TAB = new Spacer( 50, 0 );
+  var CONTENT_TAB = new Spacer( 70, 0 );
 
   /**
    * Create a node that contains a heading so that users can use AT to quickly find content in the DOM
