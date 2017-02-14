@@ -76,7 +76,9 @@ define( function( require ) {
     var self = this;
     var updateChargePositions = function() {
 
+      // value for k for calculating forces, chosen so that motion of the balloon looks like Java version
       var k = 10000;
+      
       //calculate force from Balloon to each charge in the wall
       self.minusCharges.forEach( function( entry ) {
         var ch = entry;

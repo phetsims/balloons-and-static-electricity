@@ -439,7 +439,9 @@ define( function( require ) {
      */
     step: function( model, dtSeconds ) {
 
-      var dt = dtSeconds * 1000; // seconds to milliseconds
+      // seconds to milliseconds - really, the model is fairly 'unitless' but multiplying the
+      // time step by 1000 makes the sim look and feel like the Java version
+      var dt = dtSeconds * 1000;
 
       // limit large values of dt - they probably mean that the sim just regained focus
       if ( dt > 500 ) {
@@ -571,7 +573,16 @@ define( function( require ) {
   } );
 
   {
-    // force between two objects with positions p1 and p2, kqq - coefficient, F = kqq / (distance^power)
+    /**
+     * Get the force between two objects, given charges and position. The resultant force is unitless! Constant k is
+     * can be different values throughout the sim so that balloon moves in a natural way. Charges are integer values.
+     * Generally, power is 2, but 1 is added so that the acceleration is really clear.
+     * @param  {Vector2} p1 - position of the first object
+     * @param  {Vector2} p2 - position of the second object
+     * @param  {number} kqq - some constant times the two charges 
+     * @param  {[type]} [power] - default of 2, but 1 is added so the acceleration is exaggerated
+     * @return {Vector2}
+     */
     BalloonModel.getForce = function( p1, p2, kqq, power ) {
       power = power || 2;
       var diff = p1.minus( p2 );
@@ -583,7 +594,11 @@ define( function( require ) {
       return fa;
     };
 
-    // force between two balloons
+    /**
+     * Get the force on a balloon from another balloon.
+     * @param  {BalloonModel} balloonModel
+     * @return {Vector2}
+     */
     BalloonModel.getOtherForce = function( balloonModel ) {
       if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisibleProperty.get() || !balloonModel.other.isVisibleProperty.get() ) {
         return new Vector2( 0, 0 );
@@ -621,6 +636,12 @@ define( function( require ) {
     };
 
     // applying force and move balloon to new coords each step
+    /**
+     * Apply a force on a balloon, and move it to new coordinates.  Also updates the velocity.
+     * @param  {BalloonsAndStaticElectricityModel} model
+     * @param  {BalloonModel} balloonModel
+     * @param  {number} dt - in seconds
+     */
     BalloonModel.applyForce = function( model, balloonModel, dt ) {
 
       // only move if outside of the sweater
@@ -662,6 +683,7 @@ define( function( require ) {
       }
     };
 
+    // static - value for k for calculating forces, but chosen empirically so motion looks like the Java version
     BalloonModel.coeff = 0.1;
   }
 
