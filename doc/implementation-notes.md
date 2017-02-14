@@ -16,7 +16,7 @@ the model will calculate forces present from all charged objects in the room, an
 As mentioned in model.md, this simulation takes liberties with regards to the physical model so that the balloon
 motion looks good.  The force between two objects is calculated by<br>
 F = kq<sub>1</sub>q<sub>2</sub>/r<sup>2</sup><br>
-(see model.md for an explanaition of each variable)
+(see model.md for an explanation of each variable)
 
 In this simulation, the value of k is different when calculating forces between the balloon and the sweater, and
 the balloon and the wall. r is only in ScreenView coordinates, and q<sub>1</sub> and q<sub>2</sub> charge values
