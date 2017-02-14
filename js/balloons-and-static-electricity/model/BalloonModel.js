@@ -328,8 +328,8 @@ define( function( require ) {
     /**
      * Get a direction from the balloon center to the charge.
      *
-     * @param  {type} chargeModel description
-     * @return {type}             description
+     * @param  {PointChargeModel} chargeModel
+     * @return {string}            
      */
     getDirectionToCharge: function( chargeModel ) {
       var difference = chargeModel.location.minus( this.getDraggingCenter() );
@@ -375,6 +375,11 @@ define( function( require ) {
       else { return false; }
     },
 
+    /**
+     * Returns whether or not the center of the balloon is contained within the sweater.
+     * @public
+     * @return {boolean}
+     */
     centerInSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
       return this.getCenter().x < sweaterBounds.maxX;
@@ -384,6 +389,7 @@ define( function( require ) {
      * If the balloon is near the sweater, return true.  Considered near the sweater when
      * within NEAR_SWEATER_DISTANCE from touching the sweater.
      * @return {boolean}
+     * @public
      */
     nearSweater: function() {
       var minX = this.balloonsAndStaticElectricityModel.playArea.atNearSweater;
@@ -401,11 +407,20 @@ define( function( require ) {
       return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
     },
 
+    /**
+     * Get the distance from the center of this balloon to the wall.  Note that distances are all in ScreenView
+     * coordinates for this simulation
+     * @return {number}
+     */
     getDistanceToWall: function() {
       return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
     },
 
-    //get center of Balloon
+    /**
+     * Get the center location of the balloon
+     * @public
+     * @return {Vector2}
+     */
     getCenter: function() {
       return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
     },
@@ -434,6 +449,7 @@ define( function( require ) {
     },
 
     /**
+     * Steps the BalloonModel.
      * @param {BalloonsAndStaticElectricityModel} model
      * @param {number} dtSeconds elapsed time in seconds
      */
@@ -454,7 +470,7 @@ define( function( require ) {
         this.dragBalloon( model, dt );
       }
       else {
-        BalloonModel.applyForce( model, this, dt );
+        this.applyForce( dt );
       }
 
       if ( this.announceInteraction ) {
@@ -514,7 +530,12 @@ define( function( require ) {
       return chargeFound;
     },
 
-    //force between sweater and balloon
+    /**
+     * Get the force between this balloon and the sweater.
+     * 
+     * @param  {SweaterModel} sweaterModel
+     * @return {Vector2}
+     */
     getSweaterForce: function( sweaterModel ) {
       var retValue = new Vector2();
       if ( this.locationProperty.get().x > sweaterModel.center.x ) {
@@ -525,11 +546,12 @@ define( function( require ) {
 
     /**
      * Get the name of the object that the balloon is currently attracted to.
+     * @public
      *
      * @return {string}
      */
     getAttractedDirection: function() {
-      var force = BalloonModel.getTotalForce( this.balloonsAndStaticElectricityModel, this );
+      var force = this.getTotalForce();
       if ( force.x > 0 ) {
         return BalloonDirectionEnum.RIGHT;
       }
@@ -541,7 +563,7 @@ define( function( require ) {
     /**
      * Get the object that the balloon is touching.  If the balloon is in free space, return null.
      *
-     * @return {type}  description
+     * @return {string}
      */
     getBoundaryObject: function() {
       var playArea = this.balloonsAndStaticElectricityModel.playArea;
@@ -569,94 +591,30 @@ define( function( require ) {
       else {
         return null;
       }
-    }
-  } );
-
-  {
-    /**
-     * Get the force between two objects, given charges and position. The resultant force is unitless! Constant k is
-     * can be different values throughout the sim so that balloon moves in a natural way. Charges are integer values.
-     * Generally, power is 2, but 1 is added so that the acceleration is really clear.
-     * @param  {Vector2} p1 - position of the first object
-     * @param  {Vector2} p2 - position of the second object
-     * @param  {number} kqq - some constant times the two charges 
-     * @param  {[type]} [power] - default of 2, but 1 is added so the acceleration is exaggerated
-     * @return {Vector2}
-     */
-    BalloonModel.getForce = function( p1, p2, kqq, power ) {
-      power = power || 2;
-      var diff = p1.minus( p2 );
-      var r = diff.magnitude();
-      if ( r === 0 ) {
-        return new Vector2( 0, 0 );
-      }
-      var fa = diff.timesScalar( kqq / ( Math.pow( r, power + 1 ) ) );
-      return fa;
-    };
+    },
 
     /**
-     * Get the force on a balloon from another balloon.
-     * @param  {BalloonModel} balloonModel
-     * @return {Vector2}
-     */
-    BalloonModel.getOtherForce = function( balloonModel ) {
-      if ( balloonModel.isDraggedProperty.get() || !balloonModel.isVisibleProperty.get() || !balloonModel.other.isVisibleProperty.get() ) {
-        return new Vector2( 0, 0 );
-      }
-      var kqq = BalloonModel.coeff * balloonModel.chargeProperty.get() * balloonModel.other.chargeProperty.get();
-      return BalloonModel.getForce( balloonModel.getCenter(), balloonModel.other.getCenter(), kqq );
-    };
-
-    // sum of all forces applying to balloons
-    BalloonModel.getTotalForce = function( model, balloonModel ) {
-      if ( model.wall.isVisibleProperty.get() ) {
-        var distFromWall = model.wall.x - balloonModel.locationProperty.get().x;
-        //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
-        if ( balloonModel.chargeProperty.get() < -5 ) {
-          var relDist = distFromWall - balloonModel.width;
-          var fright = 0.003;
-          if ( relDist <= 40 + balloonModel.chargeProperty.get() / 8 ) {
-            return new Vector2( -fright * balloonModel.chargeProperty.get() / 20.0, 0 );
-          }
-        }
-      }
-
-      var force = balloonModel.getSweaterForce( model.sweater );
-      var other = BalloonModel.getOtherForce( balloonModel );
-      var sumOfForces = force.plus( other );
-
-      //Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
-      var mag = sumOfForces.magnitude();
-      var max = 1E-2;
-      if ( mag > max ) {
-        sumOfForces.normalize();
-        sumOfForces.multiplyScalar( max );
-      }
-      return sumOfForces;
-    };
-
-    // applying force and move balloon to new coords each step
-    /**
-     * Apply a force on a balloon, and move it to new coordinates.  Also updates the velocity.
-     * @param  {BalloonsAndStaticElectricityModel} model
-     * @param  {BalloonModel} balloonModel
+     * Apply a force on this balloon, and move it to new coordinates.  Also updates the velocity.
+     * @private
+     * 
      * @param  {number} dt - in seconds
      */
-    BalloonModel.applyForce = function( model, balloonModel, dt ) {
+    applyForce: function( dt ) {
 
       // only move if outside of the sweater
-      if ( balloonModel.locationProperty.get().x + balloonModel.width > model.sweater.x + model.sweater.width ) {
+      var model = this.balloonsAndStaticElectricityModel;
+      if ( this.locationProperty.get().x + this.width > model.sweater.x + model.sweater.width ) {
         var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
-        var force = BalloonModel.getTotalForce( model, balloonModel );
-        var newVelocity = balloonModel.velocityProperty.get().plus( force.timesScalar( dt ) );
-        var newLocation = balloonModel.locationProperty.get().plus( balloonModel.velocityProperty.get().timesScalar( dt ) );
+        var force = this.getTotalForce();
+        var newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
+        var newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
 
-        if ( newLocation.x + balloonModel.width >= rightBound ) {
-          newLocation.x = rightBound - balloonModel.width;
+        if ( newLocation.x + this.width >= rightBound ) {
+          newLocation.x = rightBound - this.width;
           newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
-        if ( newLocation.y + balloonModel.height >= model.bounds.maxY ) {
-          newLocation.y = model.bounds.maxY - balloonModel.height;
+        if ( newLocation.y + this.height >= model.bounds.maxY ) {
+          newLocation.y = model.bounds.maxY - this.height;
           newVelocity.y = newVelocity > 0 ? 0 : newVelocity.y;
         }
         if ( newLocation.x <= model.bounds.minX ) {
@@ -669,23 +627,99 @@ define( function( require ) {
         }
 
         // once the balloon stops moving, notify observers that it has reached a resting destination
-        if ( !balloonModel.isStoppedProperty.get() && ( balloonModel.locationProperty.get().equals( newLocation ) ) ) {
-          balloonModel.isStoppedProperty.set( true );
+        if ( !this.isStoppedProperty.get() && ( this.locationProperty.get().equals( newLocation ) ) ) {
+          this.isStoppedProperty.set( true );
         }
 
-        balloonModel.velocityProperty.set( newVelocity );
-        balloonModel.locationProperty.set( newLocation );
+        this.velocityProperty.set( newVelocity );
+        this.locationProperty.set( newLocation );
       }
       else {
-        if ( balloonModel.velocityProperty.get().equals( Vector2.ZERO ) ) {
-          balloonModel.velocityProperty.set( Vector2.ZERO );
+        if ( this.velocityProperty.get().equals( Vector2.ZERO ) ) {
+          this.velocityProperty.set( Vector2.ZERO );
         }
       }
-    };
+    },
 
-    // static - value for k for calculating forces, but chosen empirically so motion looks like the Java version
-    BalloonModel.coeff = 0.1;
-  }
+    /**
+     * Get the total force on this balloon.  The balloon will feel forces from all objects in the play area, including
+     * the sweater, the wall, and the other balloon if it is visible.
+     * @private
+     * @return {Vector2}
+     */
+    getTotalForce: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      if ( model.wall.isVisibleProperty.get() ) {
+        var distFromWall = model.wall.x - this.locationProperty.get().x;
+
+        //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
+        if ( this.chargeProperty.get() < -5 ) {
+          var relDist = distFromWall - this.width;
+          var fright = 0.003;
+          if ( relDist <= 40 + this.chargeProperty.get() / 8 ) {
+            return new Vector2( -fright * this.chargeProperty.get() / 20.0, 0 );
+          }
+        }
+      }
+
+      var force = this.getSweaterForce( model.sweater );
+      var other = this.getOtherBalloonForce();
+      var sumOfForces = force.plus( other );
+
+      //Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
+      var mag = sumOfForces.magnitude();
+      var max = 1E-2;
+      if ( mag > max ) {
+        sumOfForces.normalize();
+        sumOfForces.multiplyScalar( max );
+      }
+      return sumOfForces;
+    },
+
+    /**
+     * Get the force on this balloon model from another balloon model. If the other balloon is being dragged, or is
+     * invisible, zero is returned. See getForce() for the actual force calculation
+     * @public
+     * 
+     * @return {Vector2}
+     */
+    getOtherBalloonForce: function() {
+      if ( this.isDraggedProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
+        return new Vector2( 0, 0 );
+      }
+      var kqq = BalloonModel.coeff * this.chargeProperty.get() * this.other.chargeProperty.get();
+      return BalloonModel.getForce( this.getCenter(), this.other.getCenter(), kqq );
+    }
+  }, {
+
+    /**
+     * Get the force between two objects, given charges and position. The resultant force is unitless! Constant k is
+     * can be different values throughout the sim so that balloon moves in a natural way. Charges are integer values.
+     * Generally, power is 2, but 1 is added so that the acceleration is really clear.
+     * @public
+     * @static
+     * 
+     * @param  {Vector2} p1 - position of the first object
+     * @param  {Vector2} p2 - position of the second object
+     * @param  {number} kqq - some constant times the two charges 
+     * @param  {number} [power] - optional, default of 2, but 1 is added so the acceleration is exaggerated
+     * @return {Vector2}
+     */
+    getForce: function( p1, p2, kqq, power ) {
+      power = power || 2;
+      var diff = p1.minus( p2 );
+      var r = diff.magnitude();
+      if ( r === 0 ) {
+        return new Vector2( 0, 0 );
+      }
+      var fa = diff.timesScalar( kqq / ( Math.pow( r, power + 1 ) ) );
+      return fa;
+    },
+
+    // @static - value for k for calculating forces, but chosen empirically so motion looks like the Java version
+    coeff: 0.1
+
+  } );
 
   return BalloonModel;
 } );
