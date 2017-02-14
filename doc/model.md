@@ -27,4 +27,4 @@ with<br>
 F = kq<sub>1</sub>q<sub>2</sub>/r<sup>3</sup><br>
 
 so that the acceleration of the balloon is exaggerated. For more details
-on the implementation of this simulation, please see: [place link to implementation-notes.md]
+on the implementation of this simulation, please see https://github.com/phetsims/balloons-and-static-electricity/blob/master/doc/implementation-notes.md
