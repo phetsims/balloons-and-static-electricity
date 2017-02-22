@@ -80,9 +80,9 @@ define( function( require ) {
     stickingToSweaterString: 'Now sticking to upper right side of sweater.',
 
     // charge descriptions
-    namedBalloonChargeDescriptionPatternString: '{0} has net {1} charge, {2} more negative charges than positive charges.',
-    balloonChargeStringPattern: 'Has net {0} charge, {1} more negative charges than positive charges.',
-    sweaterChargePatternString: 'Sweater has net {0} charge, {1} more positive charges than negative charges.',
+    namedBalloonChargeDescriptionPatternString: '{0} has {1} net charge, {2} more negative charges than positive charges.',
+    balloonChargeStringPattern: 'Has {0} net charge, {1} more negative charges than positive charges.',
+    sweaterChargePatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
 
     neutralString: 'neutral',
     negativeString: 'negative',
@@ -95,7 +95,7 @@ define( function( require ) {
 
     // wall charge descriptions
     atWallString: 'At wall.',
-    atWallTouchPointPatternString: 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has net neutral charge, many pairs of negative and positive charges.',
+    atWallTouchPointPatternString: 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has neutral net charge, many pairs of negative and positive charges.',
     wallRubStringPattern: 'No transfer of charge.  At touch point, negative charges in wall {0}.  Positive charges do not move.',
     wallChargesReturnString: 'Negative charges in wall return {0}.',
 
@@ -212,9 +212,9 @@ define( function( require ) {
     downAndLeftString: 'down and to the left',
 
     // sweater charge descriptions
-    sweaterNetChargePatternString: 'Sweater has a {0} charge',
-    netNeutralString: 'net neutral',
-    netPositiveString: 'net positive',
+    sweaterNetChargePatternString: 'Sweater has {0} charge',
+    netNeutralString: 'neutral net',
+    netPositiveString: 'positive net',
 
     // balloon grab cue
     balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space key.',
@@ -260,12 +260,12 @@ define( function( require ) {
     grabBalloonString: 'Grab balloon',
 
     // sweater descriptions
-    sweaterDescriptionPatternString: 'Sweater has net {0} charge, {1} more positive charges than negative charges',
-    sweaterChargeDepletedString: 'Sweater has a net positive charge, no negative charges, only positive charges',
+    sweaterDescriptionPatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
+    sweaterChargeDepletedString: 'Sweater has positive net charge, no negative charges, only positive charges.',
 
     // wall strings
       // strings
-    wallNeutralChargeDescriptionString: 'Wall has a net neutral charge, many pairs of negative and positive charges.',
+    wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
 
     twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
     oneBalloonTouchingWallPatternString: '{0} {1}',
