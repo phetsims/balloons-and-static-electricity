@@ -112,7 +112,7 @@ define( function( require ) {
     noMoreChargesRemainingOnSweaterString: 'No change in charges. No more charges remaining on sweater.',
 
      // release descriptions
-    balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.',
+    balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.', //need end location string
     balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
 
@@ -145,12 +145,12 @@ define( function( require ) {
     wallAddedString: 'Wall added to play area.',
 
     // boundary strings
-    atTopOfPlayAreaString: 'At top of play area.',
-    atBottomOfPlayAreaString: 'At bottom of play area',
-    leftEdgeString: 'At left edge of play area',
-    rightEdgeString: 'At right edge of play area',
+    atTopOfPlayAreaString: 'At top.',
+    atBottomOfPlayAreaString: 'At bottom.',
+    leftEdgeString: 'At left edge.',
+    rightEdgeString: 'At right edge.',
 
-    nearSweaterString: 'Near sweater',
+    nearSweaterString: 'Near sweater.',
     onSweaterPatternStringString: 'On sweater. {0}',
     picksUpNegativeChargesString: 'Picks up negative charges from sweater.',
     nearWallString: 'Near wall.',
@@ -159,7 +159,7 @@ define( function( require ) {
     atCenterOfPlayAreaString: 'At center of play area.',
     onRightSideOfPlayAreaString: 'On right side of play area.',
 
-    balloonPicksUpMoreChargesString: 'Balloon picks up more negative charges',
+    balloonPicksUpMoreChargesString: 'Balloon picks up more negative charges.',
     againMoreChargesString: 'Again, more negative charges.',
 
     // labels
