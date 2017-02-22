@@ -72,12 +72,13 @@ define( function( require ) {
     bottomRightEdgeOfPlayAreaString: 'lower-right edge of play area',
 
     // location strings while touching another object
-    touchingWallStringPattern: 'Touching {0} wall.',
-    stickingToWallStringPattern: 'Sticking to {0} wall.',
-    lowerWallString: 'lower',
-    upperWallString: 'upper',
+    touchingWallStringPattern: 'Touching {0}.',
+    stickingToWallStringPattern: 'Sticking to {0}.',
+	generalWallString: 'wall',
+    lowerWallString: 'lower wall',
+    upperWallString: 'upper wall',
 
-    stickingToSweaterString: 'Now sticking to upper right side of sweater.',
+    stickingToSweaterString: 'Sticking to right side of sweater.',
 
     // charge descriptions
     namedBalloonChargeDescriptionPatternString: '{0} has {1} net charge, {2} more negative charges than positive charges.',
