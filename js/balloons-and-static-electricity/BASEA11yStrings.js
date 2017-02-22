@@ -17,7 +17,7 @@ define( function( require ) {
     balloonGrabbedDescriptionPatternString: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
     balloonDragDescriptionPatternString: '{0} {1} {2} {3} {4} {5}', // direction, proximity, charge, ,
     grabButtonNavigationCueString: 'Look for grab button to play.',
-    dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space bar to let go.',
+    dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space key to let go.',
 
     grabbedString: 'Grabbed.',
 
@@ -217,7 +217,7 @@ define( function( require ) {
     netPositiveString: 'net positive',
 
     // balloon grab cue
-    balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space bar.',
+    balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space key.',
 
     // misc labels
     removeWallLabelString: 'Remove Wall',
@@ -254,9 +254,9 @@ define( function( require ) {
     JNString: 'JN jumps to near Wall.',
     JCString: 'JC jumps to center of Play Area.',
     releaseBalloonString: 'Release Balloon',
-    spacebarString: 'Press Space bar to release the balloon.',
+    spacebarString: 'Press Space key to release the balloon.',
     tabString: 'Pressing the Tab key also releases the Balloon as you go to the next item in the simulation.',
-    grabDescriptionString: 'Press Space bar or Enter key on the Grab Balloon button to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.',
+    grabDescriptionString: 'Press Space key or Enter key on the Grab Balloon button to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.',
     grabBalloonString: 'Grab balloon',
 
     // sweater descriptions
