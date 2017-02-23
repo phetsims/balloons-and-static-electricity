@@ -240,16 +240,16 @@ define( function( require ) {
     resetAllString: 'Reset All',
 
     // strings for keyboard help content
-    keyboardHelpDialogString: 'Balloon Hot Keys and Key Commands',
+    keyboardHelpDialogString: 'Balloon Hot Keys and Keyboard Help',
     keysForDraggingAndRubbingString: 'Keys for Dragging and Rubbing',
-    draggindDescriptionString: 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right with small steps.',
+    draggindDescriptionString: 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right.',
+	addShiftString: 'Add the Shift key to a letter key to drag or rub with smaller steps.',
     pressWString: 'Press W to drag up, or Shift key plus W to drag up a little.',
     pressAString: 'Press A to drag left, or Shift key plus A to drag left a little. ',
     pressSString: 'Press S to drag down, or Shift key plus S to drag down a little.',
     pressDString: 'Press D to drag right, or Shift key plus D to drag right a little.',
-    addShiftString: 'Add the Shift key to a letter key to drag or rub with smaller steps.',
     hotkeysJumpingString: 'Hot Keys for Jumping',
-    pressToJumpString: 'Move the balloon quickly to a location with these hot key combinations:',
+    pressToJumpString: 'Move the balloon quickly to a location with these hot key pairs:',
     JSString: 'JS jumps close to Sweater.',
     JWString: 'JW jumps to Wall.',
     JNString: 'JN jumps to near Wall.',
@@ -257,7 +257,7 @@ define( function( require ) {
     releaseBalloonString: 'Release Balloon',
     spacebarString: 'Press Space key to release the balloon.',
     tabString: 'Pressing the Tab key also releases the Balloon as you go to the next item in the simulation.',
-    grabDescriptionString: 'Press Space key or Enter key on the Grab Balloon button to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.',
+    grabDescriptionString: 'Press Space key or Enter key to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.',
     grabBalloonString: 'Grab balloon',
 
     // sweater descriptions
