@@ -240,7 +240,7 @@ define( function( require ) {
     resetAllString: 'Reset All',
 
     // strings for keyboard help content
-    keyboardHelpDialogString: 'Balloon Hot Keys and Keyboard Help',
+    keyboardHelpDialogString: 'Keyboard Commands and Hot Keys',
     keysForDraggingAndRubbingString: 'Keys for Dragging and Rubbing',
     draggindDescriptionString: 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right.',
 	addShiftString: 'Add the Shift key to a letter key to drag or rub with smaller steps.',
