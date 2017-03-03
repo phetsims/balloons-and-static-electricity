@@ -204,13 +204,7 @@ define( function( require ) {
       twoBalloonIcon,
       {
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
-
-        panelFill: BASEConstants.backgroundColorProperty,
-        panelStroke: null,
-        panelLinewidth: 0,
-        panelXMargin: 0,
-        panelYMargin: 0,
-        panelCornerRadius: 0
+        maskFill: BASEConstants.backgroundColorProperty
       }
     );
 

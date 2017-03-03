@@ -34,7 +34,6 @@ define( function( require ) {
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
@@ -56,13 +55,8 @@ define( function( require ) {
       orientation: 'horizontal',
       align: 'center',
 
-      // Panel options - buttons in a panel for convenience and to mask objects that might appear behind the buttons
-      panelFill: 'white',
-      panelStroke: 'black',
-      panelLinewidth: 1,
-      panelXMargin: 5,
-      panelYMargin: 5,
-      panelCornerRadius: 10,
+      // mask behind the buttons - if non null, hides everything behind
+      maskFill: null,
 
       // whether or not these buttons are enabled
       enabledProperty: new Property( true ),
@@ -126,6 +120,9 @@ define( function( require ) {
     var yMargin = options.buttonContentYMargin;
     var cornerRadius = options.cornerRadius;
 
+    var aButton = new Node();
+    var bButton = new Node();
+
     // aBox.bounds === bBox.bounds since we are using AlignGroup
     var rectShape = Shape.roundRect(
       -xMargin,
@@ -135,10 +132,21 @@ define( function( require ) {
       cornerRadius,
       cornerRadius
     );
-    var aButton = new Path( rectShape );
-    var bButton = new Path( rectShape );
-    aButton.addChild( aBox );
-    bButton.addChild( bBox );
+    var aButtonPath = new Path( rectShape );
+    var bButtonPath = new Path( rectShape );
+
+    // if there should be a mask, add before the buttons
+    if ( options.maskFill ) {
+      aButton.addChild( new Path( rectShape, { fill: options.maskFill  } ) );
+      bButton.addChild( new Path( rectShape, { fill: options.maskFill  } ) );
+    }
+
+    aButton.addChild( aButtonPath );
+    bButton.addChild( bButtonPath );
+
+    // add the icons
+    aButtonPath.addChild( aBox );
+    bButtonPath.addChild( bBox );
 
     var buttonBox = new LayoutBox( {
       spacing: options.spacing,
@@ -147,19 +155,7 @@ define( function( require ) {
       children: [ aButton, bButton ],
       resize: false
     } );
-
-    // place the buttons in a panel for convenience and masking since state is conveyed with opacity
-    this.addChild( new Panel( buttonBox, {
-      fill: options.panelFill,
-      stroke: options.panelStroke,
-      lineWidth: options.panelLinewidth,
-      xMargin: options.panelXMargin,
-      yMargin: options.panelYMargin,
-      cornerRadius: options.panelCornerRadius,
-      panelResize: false,
-      panelBackgroundPickable: true,
-    }
-    ) );
+    this.addChild( buttonBox );
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
     // depending on whether or not the button is enabled
@@ -172,14 +168,14 @@ define( function( require ) {
       var deselectedContent;
 
       if ( property.get() === valueA ) {
-        selectedButton = aButton;
-        deselectedButton = bButton;
+        selectedButton = aButtonPath;
+        deselectedButton = bButtonPath;
         selectedContent = nodeA;
         deselectedContent = nodeB;
       }
       else {
-        selectedButton = bButton;
-        deselectedButton = aButton;
+        selectedButton = bButtonPath;
+        deselectedButton = aButtonPath;
         selectedContent = nodeB;
         deselectedContent = nodeA;
       }
@@ -219,14 +215,14 @@ define( function( require ) {
         self.endedCallbacksForToggledEmitter.emit();
       },
       down: function( event ) {
-        var otherButton = property.get() === valueA ? bButton : aButton;
+        var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
         otherButton.fill = options.pressedColor;
       }
     } );
 
     // listener that highlights the unselected button when mouse is over local bounds
     var highlightListener = new HighlightListener( function( target, highlight ) {
-      var otherButton = property.get() === valueA ? bButton : aButton;
+      var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
       var otherContent = property.get() === valueA ? nodeB : nodeA;
 
       var buttonOpacity = highlight ? options.overButtonOpacity : options.deselectedButtonOpacity;
