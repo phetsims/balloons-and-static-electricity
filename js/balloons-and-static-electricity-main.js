@@ -13,10 +13,10 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var BASEKeyboardHelpContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEKeyboardHelpContent' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Property = require( 'AXON/Property' );
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
@@ -58,7 +58,7 @@ define( function( require ) {
           );
         },
         {
-          backgroundColorProperty: new Property( '#9ddcf8' ),
+          backgroundColorProperty: BASEConstants.backgroundColorProperty,
           tandem: balloonsAndStaticElectricityScreenTandem
         }
       )

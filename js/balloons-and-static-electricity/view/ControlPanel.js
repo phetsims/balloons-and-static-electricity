@@ -23,6 +23,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Panel = require( 'SUN/Panel' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -201,7 +202,16 @@ define( function( require ) {
       true,
       oneBalloonIcon,
       twoBalloonIcon,
-      { tandem: tandem.createTandem( 'showSecondBalloonSelector' ) }
+      {
+        tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
+
+        panelFill: BASEConstants.backgroundColorProperty,
+        panelStroke: null,
+        panelLinewidth: 0,
+        panelXMargin: 0,
+        panelYMargin: 0,
+        panelCornerRadius: 0
+      }
     );
 
     // 'Reset Balloons' button

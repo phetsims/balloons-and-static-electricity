@@ -34,6 +34,7 @@ define( function( require ) {
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Panel = require( 'SUN/Panel' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
@@ -50,15 +51,23 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // LayoutBox options
+      // LayoutBox options - buttons oriented with a layout box
       spacing: 10,
       orientation: 'horizontal',
       align: 'center',
 
+      // Panel options - buttons in a panel for convenience and to mask objects that might appear behind the buttons
+      panelFill: 'white',
+      panelStroke: 'black',
+      panelLinewidth: 1,
+      panelXMargin: 5,
+      panelYMargin: 5,
+      panelCornerRadius: 10,
+
       // whether or not these buttons are enabled
       enabledProperty: new Property( true ),
 
-      // The fill for the rectangle behind the radio buttons.  Default color is bluish color, as in the other button library.
+      // The fill for the buttons - default is white
       baseColor: DEFAULT_FILL,
       pressedColor: DEFAULT_FILL.colorUtilsDarker( 0.4 ),
       disabledBaseColor: ColorConstants.LIGHT_GRAY,
@@ -131,13 +140,26 @@ define( function( require ) {
     aButton.addChild( aBox );
     bButton.addChild( bBox );
 
-    this.addChild( new LayoutBox( {
+    var buttonBox = new LayoutBox( {
       spacing: options.spacing,
       orientation: options.orientation,
       align: options.align,
       children: [ aButton, bButton ],
       resize: false
-    } ) );
+    } );
+
+    // place the buttons in a panel for convenience and masking since state is conveyed with opacity
+    this.addChild( new Panel( buttonBox, {
+      fill: options.panelFill,
+      stroke: options.panelStroke,
+      lineWidth: options.panelLinewidth,
+      xMargin: options.panelXMargin,
+      yMargin: options.panelYMargin,
+      cornerRadius: options.panelCornerRadius,
+      panelResize: false,
+      panelBackgroundPickable: true,
+    }
+    ) );
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
     // depending on whether or not the button is enabled
