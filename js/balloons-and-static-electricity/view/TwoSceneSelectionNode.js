@@ -95,7 +95,10 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    Node.call( this, { tandem: options.tandem.createSupertypeTandem() } );
+    Node.call( this, {
+      cursor: 'pointer',
+      tandem: options.tandem.createSupertypeTandem()
+    } );
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter();
@@ -133,7 +136,6 @@ define( function( require ) {
       orientation: options.orientation,
       align: options.align,
       children: [ aButton, bButton ],
-      cursor: 'pointer',
       resize: false
     } ) );
 
