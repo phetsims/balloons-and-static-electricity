@@ -353,7 +353,7 @@ define( function( require ) {
     }
 
     this.addChild( new HBox( {
-      spacing: 35,
+      spacing: 50,
       children: visibilityControls,
       align: 'bottom',
       left: controlsLeft,
