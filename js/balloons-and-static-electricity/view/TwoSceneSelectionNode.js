@@ -35,9 +35,7 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TTwoSceneSelectionNode = require( 'ifphetio!PHET_IO/simulations/balloons-and-static-electricity/TTwoSceneSelectionNode' );
+  var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
