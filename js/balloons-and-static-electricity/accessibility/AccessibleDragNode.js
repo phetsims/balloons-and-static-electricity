@@ -20,7 +20,7 @@ define( function( require ) {
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
 
   // phet-io modules
-  var TAccessibleDragNode = require( 'ifphetio!PHET_IO/simulations/balloons-and-static-electricity/TAccessibleDragNode' );
+  var TAccessibleDragNode = require( 'ifphetio!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/TAccessibleDragNode' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants

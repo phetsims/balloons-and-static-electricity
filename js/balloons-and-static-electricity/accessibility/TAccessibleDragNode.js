@@ -10,11 +10,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
 
   /**
    * @param accessibleDragNode
@@ -51,7 +53,7 @@ define( function( require ) {
     events: [ 'keyDown', 'keyUp' ]
   } );
 
-  phetioNamespace.register( 'TAccessibleDragNode', TAccessibleDragNode );
+  balloonsAndStaticElectricity.register( 'TAccessibleDragNode', TAccessibleDragNode );
 
   return TAccessibleDragNode;
 } );
