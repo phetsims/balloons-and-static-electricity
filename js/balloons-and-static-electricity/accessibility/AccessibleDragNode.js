@@ -26,7 +26,7 @@ define( function( require ) {
   // constants
   var KEY_TAB = 9;
   var KEY_S = 83; // keycode for 's'
-  var KEY_W = 87; // keyvode for 'w'
+  var KEY_W = 87; // keycode for 'w'
   var KEY_A = 65; // keycode for 'a'
   var KEY_D = 68; // keycode for 'd'
   var KEY_J = 74; // keycode for 'j'
