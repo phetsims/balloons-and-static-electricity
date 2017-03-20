@@ -18,9 +18,9 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Node = require( 'SCENERY/nodes/Node' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+  var TAccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/TAccessibleDragNode' );
 
   // phet-io modules
-  var TAccessibleDragNode = require( 'ifphetio!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/TAccessibleDragNode' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
