@@ -32,7 +32,7 @@ define( function( require ) {
       accessibleDragNode.endedCallbacksForKeyDownEmitter,
       'user',
       phetioID,
-      TAccessibleDragNode,
+      this.constructor,
       'keyDown',
       function( keyCode ) { return { keyCode: keyCode }; }
     );
@@ -42,7 +42,7 @@ define( function( require ) {
       accessibleDragNode.endedCallbacksForKeyUpEmitter,
       'user',
       phetioID,
-      TAccessibleDragNode,
+      this.constructor,
       'keyUp',
       function( keyCode ) { return { keyCode: keyCode }; }
     );
