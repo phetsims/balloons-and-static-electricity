@@ -274,7 +274,7 @@ define( function( require ) {
     } );
 
     model.greenBalloon.isVisibleProperty.link( function( balloonVisible ) {
-      var newLabel = balloonVisible ? BASEA11yStrings.resetBalloonsString : resetBalloonString;
+      var newLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
       accessibleResetBalloonButton.setAccessibleLabel( newLabel );
       accessibleResetBalloonButton.setAccessibleDescription( generateDescriptionString( balloonVisible ) );
     } );

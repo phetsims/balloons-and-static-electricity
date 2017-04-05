@@ -117,7 +117,6 @@ define( function( require ) {
     var roomItemsItemID = this.addDescriptionItem( StringUtils.format( BASEA11yStrings.roomItemsStringPattern, BASEA11yStrings.balloonSweaterAndRemovableWallString ) );
     var locationItemID = this.addDescriptionItem( '' ); // text content set by listener
     var chargeItemID = this.addDescriptionItem( 'Balloon, sweater, and wall all have net neutral charge.' ); // id not needed for static content
-    this.addDescriptionItem( BASEA11yStrings.grabBalloonHintString ); // id not needed for static content
 
     // update the description of room items depending on visibility
     var roomItemsDescriptionListener = function() {
