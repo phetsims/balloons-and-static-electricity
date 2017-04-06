@@ -242,7 +242,7 @@ define( function( require ) {
      * Check to see if the key up was one of the keys that drags the element.
      *
      * @param {number} keyCode - event key code on the 'keyup' event
-     * @return {boolean}
+     * @returns {boolean}
      */
     draggableKeyUp: function( keyCode ) {
       return ( keyCode === KEY_S || keyCode === KEY_W || keyCode === KEY_A || keyCode === KEY_D || 
@@ -254,7 +254,7 @@ define( function( require ) {
      *
      * @private
      * @param  {number} keyCode
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     isKeyDown: function( keyCode ) {
       return this.keyState[ keyCode ] && this.keyState[ keyCode ].isKeyDown;

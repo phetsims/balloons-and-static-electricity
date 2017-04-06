@@ -243,7 +243,7 @@ define( function( require ) {
     /**
      * If the balloon is in the upper half of the play area, return true.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     inUpperHalfOfPlayArea: function() {
       return this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top;
@@ -252,7 +252,7 @@ define( function( require ) {
     /**
      * Return true if the balloon is near the wall without touching it.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
@@ -262,7 +262,7 @@ define( function( require ) {
     /**
      * findClosestCharge - description
      *
-     * @return {type}  description
+     * @returns {type}  description
      */
     getClosestCharge: function() {
 
@@ -310,7 +310,7 @@ define( function( require ) {
      * Center of a rectangular area that defines the bounds of the balloon
      * that must drag acrosss the sweater to pick up a charge.
      *
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getDraggingCenter: function() {
       var balloonLocation = this.locationProperty.get();
@@ -329,7 +329,7 @@ define( function( require ) {
      * Get a direction from the balloon center to the charge.
      *
      * @param  {PointChargeModel} chargeModel
-     * @return {string}            
+     * @returns {string}
      */
     getDirectionToCharge: function( chargeModel ) {
       var difference = chargeModel.location.minus( this.getDraggingCenter() );
@@ -365,7 +365,7 @@ define( function( require ) {
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
      * if its left edge is inside the right edge of the sweater bounds.
      *
-     * @return {type}  description
+     * @returns {type}  description
      */
     onSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
@@ -378,7 +378,7 @@ define( function( require ) {
     /**
      * Returns whether or not the center of the balloon is contained within the sweater.
      * @public
-     * @return {boolean}
+     * @returns {boolean}
      */
     centerInSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
@@ -388,7 +388,7 @@ define( function( require ) {
     /**
      * If the balloon is near the sweater, return true.  Considered near the sweater when
      * within NEAR_SWEATER_DISTANCE from touching the sweater.
-     * @return {boolean}
+     * @returns {boolean}
      * @public
      */
     nearSweater: function() {
@@ -401,7 +401,7 @@ define( function( require ) {
     /**
      * Returns true if the balloon is touching the wall
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     touchingWall: function() {
       return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
@@ -410,7 +410,7 @@ define( function( require ) {
     /**
      * Get the distance from the center of this balloon to the wall.  Note that distances are all in ScreenView
      * coordinates for this simulation
-     * @return {number}
+     * @returns {number}
      */
     getDistanceToWall: function() {
       return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
@@ -419,7 +419,7 @@ define( function( require ) {
     /**
      * Get the center location of the balloon
      * @public
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getCenter: function() {
       return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
@@ -491,7 +491,7 @@ define( function( require ) {
      *
      * @param  {BalloonsAndStaticElectricityModel} model
      * @param  {number} dt
-     * @return {boolean} chargeFound
+     * @returns {boolean} chargeFound
      */
     dragBalloon: function( model, dt ) {
 
@@ -534,7 +534,7 @@ define( function( require ) {
      * Get the force between this balloon and the sweater.
      * 
      * @param  {SweaterModel} sweaterModel
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getSweaterForce: function( sweaterModel ) {
       var retValue = new Vector2();
@@ -548,7 +548,7 @@ define( function( require ) {
      * Get the name of the object that the balloon is currently attracted to.
      * @public
      *
-     * @return {string}
+     * @returns {string}
      */
     getAttractedDirection: function() {
       var force = this.getTotalForce();
@@ -563,7 +563,7 @@ define( function( require ) {
     /**
      * Get the object that the balloon is touching.  If the balloon is in free space, return null.
      *
-     * @return {string}
+     * @returns {string}
      */
     getBoundaryObject: function() {
       var playArea = this.balloonsAndStaticElectricityModel.playArea;
@@ -645,7 +645,7 @@ define( function( require ) {
      * Get the total force on this balloon.  The balloon will feel forces from all objects in the play area, including
      * the sweater, the wall, and the other balloon if it is visible.
      * @private
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getTotalForce: function() {
       var model = this.balloonsAndStaticElectricityModel;
@@ -681,7 +681,7 @@ define( function( require ) {
      * invisible, zero is returned. See getForce() for the actual force calculation
      * @public
      * 
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getOtherBalloonForce: function() {
       if ( this.isDraggedProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
@@ -703,7 +703,7 @@ define( function( require ) {
      * @param  {Vector2} p2 - position of the second object
      * @param  {number} kqq - some constant times the two charges 
      * @param  {number} [power] - optional, default of 2, but 1 is added so the acceleration is exaggerated
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getForce: function( p1, p2, kqq, power ) {
       power = power || 2;

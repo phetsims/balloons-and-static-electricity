@@ -140,7 +140,7 @@ define( function( require ) {
      * charges from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved.
      *
      * @param  {BalloonModel} balloon
-     * @return {boolean} chargeMoved - was a charge moved to the balloon?
+     * @returns {boolean} chargeMoved - was a charge moved to the balloon?
      */
     checkAndTransferCharges: function( balloon ) {
       var self = this;
@@ -182,7 +182,7 @@ define( function( require ) {
      * Get a description of the sweater's charge for accessibility
      *
      * @accessibility
-     * @return {string}
+     * @returns {string}
      */
     getChargeDescription: function() {
       if ( this.chargeProperty.get() > 0 ) {

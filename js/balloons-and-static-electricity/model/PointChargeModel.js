@@ -61,7 +61,7 @@ define( function( require ) {
      * Get center of charge.
      *
      * @public
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getCenter: function() {
       return new Vector2( this.location.x + this.radius, this.location.y + this.radius );

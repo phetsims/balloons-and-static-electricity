@@ -124,7 +124,7 @@ define( function( require ) {
      * Get a description of the balloon location.
      *
      * @param  {Balloon} balloon
-     * @return {string}
+     * @returns {string}
      */
     getBalloonLocationDescription: function( balloon, dragging ) {
       var balloonLocationDescription;
@@ -181,7 +181,7 @@ define( function( require ) {
     /**
      * Get a description of the proximity of the balloon to other items in the play area.
      * @param  {BalloonModel} balloon
-     * @return {string}
+     * @returns {string}
      */
     getBalloonProximityDescription: function( balloon ) {
       var proximityDescription;
@@ -224,7 +224,7 @@ define( function( require ) {
      * could be generalized some how.
      *
      * @param  {Baloon} balloon
-     * @return {string}
+     * @returns {string}
      */
     getBalloonChargeDescription: function( balloon, dragging ) {
       var chargeString; // qualitative description of balloon charge
@@ -334,7 +334,7 @@ define( function( require ) {
      * a drag interaction (on key up, typically).
      *
      * @param  {Balloon} balloon
-     * @return {string}
+     * @returns {string}
      */
     getDraggingDescription: function( location, oldLocation ) {
       var draggingDescription;
@@ -478,7 +478,7 @@ define( function( require ) {
      * Get the movement direction for the balloon.  Will be one of BalloonDirectionEnum entires.
      * @param  {Vector2} location    
      * @param  {Vector2} oldLocation 
-     * @return {string}s
+     * @returns {string}s
      */
     getMovementDirection: function( location, oldLocation ) {
       var delta = location.minus( oldLocation );
@@ -504,7 +504,7 @@ define( function( require ) {
      * Get a description of the balloon leaving the wall as a function of distance from the wall.
      *
      * @param  {BalloonModel} balloon
-     * @return {string}
+     * @returns {string}
      */
     getLeavingWallDescription: function( balloon ) {
       var distanceToWall = Math.abs( balloon.getDistanceToWall() );
@@ -522,7 +522,7 @@ define( function( require ) {
      * if the balloon is touching the wall.  This description includes the induced charge
      * in the wall.
      * @param  {BalloonModel} balloon
-     * @return {string}
+     * @returns {string}
      */
     getWallRubDescription: function( balloon ) {
       var charge = Math.abs( balloon.chargeProperty.get() );
@@ -547,7 +547,7 @@ define( function( require ) {
     /**
      * Get an alert for when the balloon rubs on the sweater.
      * @param  {BalloonModel} balloon
-     * @return {string}
+     * @returns {string}
      */
     getSweaterRubDescription: function( balloon ) {
       var currentBalloonCharge = balloon.chargeProperty.get();
@@ -622,7 +622,7 @@ define( function( require ) {
     /**
      * Get a description that tells the user where they can find more charges.
      *
-     * @return {string}
+     * @returns {string}
      */
     getChargePositionCue: function() {
       assert && assert( this.model.sweater.chargeProperty.get() < -MAX_BALLOON_CHARGE, 'trying to find more charges when none remain' );
@@ -639,7 +639,7 @@ define( function( require ) {
 
     /**
      * Return the range that contains the current charge value of the balloon.
-     * @return {Range|null}
+     * @returns {Range|null}
      */
     getCurrentChargeRange: function() {
       var charge = Math.abs( this.balloon.chargeProperty.get() );
@@ -664,7 +664,7 @@ define( function( require ) {
      *
      * @param  {Balloon} balloon
      * @param {boolean} isDragged - if dragged, the navigation cue changes
-     * @return {string}
+     * @returns {string}
      */
     getDescription: function( balloon, isDragged ) {
       var locationDescription = this.getBalloonLocationDescription( balloon, false );
@@ -712,7 +712,7 @@ define( function( require ) {
     /**
      * Get a description of the balloon after it has been released.
      * This description id dependent on the position.
-     * @return {string}
+     * @returns {string}
      */
     getReleaseDescription: function() {
 
@@ -764,7 +764,7 @@ define( function( require ) {
     /**
      * Get a description of how the balloon changes when the wall is removed.
      *
-     * @return {}
+     * @returns {}
      */
     getWallRemovedDescription: function( wallRemoved ) {
       var wallRemovedFromPlayAreaAlert = wallRemoved ? BASEA11yStrings.wallRemovedString : BASEA11yStrings.wallAddedString;
@@ -783,7 +783,7 @@ define( function( require ) {
 
     /**
      * Return true when it is time to reset the dragging descriptions.
-     * @return {boolean}
+     * @returns {boolean}
      */
     keyCountsNeedToBeReset: function() {
       var countsTooHigh =
@@ -799,7 +799,7 @@ define( function( require ) {
      * Get a description of how quickly the balloon moves to another object in the play area
      * as a function of the charge.
      * @param  {number} charge
-     * @return {string}
+     * @returns {string}
      */
     getVelocityDescription: function() {
       var velocityDescription = '';

@@ -114,7 +114,7 @@ define( function( require ) {
     /**
      * Get a description of the wall charges, based on balloon positions and charges.
      *
-     * @return {string}
+     * @returns {string}
      */
     getChargeDescription: function() {
       var chargeDescription;
@@ -175,7 +175,7 @@ define( function( require ) {
     /**
      * Get an induced charge description for a balloon, based on charge of the balloon
      * @param  {Balloon} balloon
-     * @return {string}
+     * @returns {string}
      */
     getInducedChargeDescription: function( balloon ) {
 

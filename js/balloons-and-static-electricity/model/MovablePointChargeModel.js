@@ -55,7 +55,7 @@ define( function( require ) {
     /**
      * Get the center of the charge.
      *
-     * @return {Vector2}
+     * @returns {Vector2}
      * @override
      */
     getCenter: function() {

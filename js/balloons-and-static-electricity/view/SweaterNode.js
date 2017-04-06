@@ -126,7 +126,7 @@ define( function( require ) {
      * Get a description for the sweater, based on its charge.
      *
      * @param  {number} charge
-     * @return {string}
+     * @returns {string}
      */
     getChargeDescription: function( charge ) {
       var chargeString;

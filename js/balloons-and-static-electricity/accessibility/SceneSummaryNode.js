@@ -220,7 +220,7 @@ define( function( require ) {
      * @param  {boolean} nearWall - is the balloon near the wall?
      * @param  {string} upperOrLowerString description
      * @param {string} balloonLabel - label for the balloon
-     * @return {string}
+     * @returns {string}
      */
     getRightSideOfPlayAreaDescription: function( nearWall, upperOrLowerString, balloonLabel ) {
       var locationString;
@@ -243,7 +243,7 @@ define( function( require ) {
      * @param  {string} upperOrLowerString - string that describes whether the balloon is in the upper or lower part
      *                                        of the play area
      * @param {string} balloonLabel - translatable label for the balloon
-     * @return {string} - formatted string
+     * @returns {string} - formatted string
      */
     getLeftSideOfPlayAreaDescription: function( nearSweater, upperOrLowerString, balloonLabel ) {
       var locationString;

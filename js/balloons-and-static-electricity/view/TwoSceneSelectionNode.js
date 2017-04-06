@@ -274,7 +274,7 @@ define( function( require ) {
 
     /**
      * Get enabled/disabled value.
-     * @return {boolean}
+     * @returns {boolean}
      */
     getEnabled: function() {
       return this.enabledProperty.get();

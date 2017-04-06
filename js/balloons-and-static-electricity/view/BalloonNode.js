@@ -372,7 +372,7 @@ define( function( require ) {
      * Release the balloon from a dragging state with the keyboard.  Calling this function
      * will set the model dragging property and anounce alert description.s
      *
-     * @return {type}  description
+     * @returns {type}  description
      */
     releaseBalloon: function() {
 
