@@ -12,14 +12,14 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Sound = require( 'VIBE/Sound' );
+  // var Sound = require( 'VIBE/Sound' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  // audio
-  var balloonDraggingUpOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-up-on-sweater' );
-  var balloonDraggingDownOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-down-on-sweater' );
-  var chargeTransferBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/charge-transfer-beep' );
-  var boundsBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/bounds-beep' );
+  // audio - removed until PhET creates sufficient audio files
+  // var balloonDraggingUpOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-up-on-sweater' );
+  // var balloonDraggingDownOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-down-on-sweater' );
+  // var chargeTransferBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/charge-transfer-beep' );
+  // var boundsBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/bounds-beep' );
 
   /**
    * @param {BalloonsAndStaticElectricityModel} model
@@ -32,10 +32,10 @@ define( function( require ) {
     this.model = model;
 
     // TODO: add sounds for the other balloon
-    this.balloonDraggingUpSound = new Sound( balloonDraggingUpOnSweater );
-    this.balloonDraggingDownSound = new Sound( balloonDraggingDownOnSweater );
-    this.chargeTransferBeepSound = new Sound( chargeTransferBeep );
-    this.boundsBeepSound = new Sound( boundsBeep );
+    // this.balloonDraggingUpSound = new Sound( balloonDraggingUpOnSweater );
+    // this.balloonDraggingDownSound = new Sound( balloonDraggingDownOnSweater );
+    // this.chargeTransferBeepSound = new Sound( chargeTransferBeep );
+    // this.boundsBeepSound = new Sound( boundsBeep );
 
     // @private - audio queue for setting up a list of sounds to play in turn with a given duration
     this.audioQueue = new TimedQueue( 500 );
@@ -44,15 +44,15 @@ define( function( require ) {
     this.balloonStillTime = 0;
     this.soundBeingPlayed = null;
 
-    var self = this;
+    // var self = this;
     this.model.balloons.forEach( function( balloon ) {
 
       // whenever the balloon picks up a charge, play the charge beep with a bit of a delay
       // so that it is clear what is happening when multiple charges are picked up at once
       balloon.chargeProperty.lazyLink( function( charge ) {
-        self.audioQueue.add( function() {
-          self.chargeTransferBeepSound.play();
-        }, ( self.chargeTransferBeepSound.audioBuffer.duration / 5 ) * 1000 ); // conversion to ms
+        // self.audioQueue.add( function() {
+        //   self.chargeTransferBeepSound.play();
+        // }, ( self.chargeTransferBeepSound.audioBuffer.duration / 5 ) * 1000 ); // conversion to ms
       } );
     } );
   }
@@ -88,17 +88,17 @@ define( function( require ) {
 
           // if moving up or to the right, play the moving up sound
           if ( balloon.dragVelocityProperty.get().x > 0 || balloon.dragVelocityProperty.get().y > 0 ) {
-            soundToPlay = this.balloonDraggingUpSound;
+            // soundToPlay = this.balloonDraggingUpSound;
           }
           else {
-            soundToPlay = this.balloonDraggingDownSound;
+            // soundToPlay = this.balloonDraggingDownSound;
           }
         }
       }
 
       // play a sound when a balloon hits a boundary object
       if ( balloon.getBoundaryObject() ) {
-        soundToPlay = this.boundsBeepSound;
+        // soundToPlay = this.boundsBeepSound;
       }
 
       // if the correct sound isn't currently being played, update it
