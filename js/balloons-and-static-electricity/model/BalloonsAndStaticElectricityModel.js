@@ -46,7 +46,8 @@ define( function( require ) {
 
     this.playArea = new PlayArea( width, height, tandem.createTandem( 'playArea' ) );
 
-    this.sweater = new SweaterModel( 0, -50, tandem.createTandem( 'sweater' ) );
+    // @public (read-only) - Model of the sweater, position empirically determined to match design
+    this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
     this.bounds = {
       minX: 0,

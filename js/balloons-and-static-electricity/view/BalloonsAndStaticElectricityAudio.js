@@ -77,7 +77,7 @@ define( function( require ) {
       else {
         if ( balloon.dragVelocityProperty.get().equals( Vector2.ZERO ) ) {
 
-          // implement hysterisis for turning the sound on and off, otherwise it can start and stop too often
+          // implement hysteresis for turning the sound on and off, otherwise it can start and stop too often
           this.balloonStillTime += dt;
           if ( this.balloonStillTime > 0.1 ) {
             soundToPlay = null;

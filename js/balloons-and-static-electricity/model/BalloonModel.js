@@ -137,7 +137,7 @@ define( function( require ) {
       phetioValueType: TBoolean
     } );
 
-    // @public {Vector2}
+    // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2
@@ -532,16 +532,16 @@ define( function( require ) {
 
     /**
      * Get the force between this balloon and the sweater.
-     * 
+     *
      * @param  {SweaterModel} sweaterModel
      * @returns {Vector2}
      */
     getSweaterForce: function( sweaterModel ) {
-      var retValue = new Vector2();
-      if ( this.locationProperty.get().x > sweaterModel.center.x ) {
-        retValue = BalloonModel.getForce( sweaterModel.center, this.getCenter(), -BalloonModel.coeff * sweaterModel.chargeProperty.get() * this.chargeProperty.get() );
-      }
-      return retValue;
+      return BalloonModel.getForce(
+        sweaterModel.center,
+        this.getCenter(),
+        -BalloonModel.coeff * sweaterModel.chargeProperty.get() * this.chargeProperty.get()
+      );
     },
 
     /**
@@ -594,16 +594,31 @@ define( function( require ) {
     },
 
     /**
+     * get a bounding rectangle
+     * @returns {Bounds2}
+     * @private
+     */
+    getBounds: function() {
+      return new Bounds2(
+        this.locationProperty.get().x,
+        this.locationProperty.get().y,
+        this.locationProperty.get().x + this.width,
+        this.locationProperty.get().y + this.height
+      );
+    },
+
+    /**
      * Apply a force on this balloon, and move it to new coordinates.  Also updates the velocity.
      * @private
-     * 
+     *
      * @param  {number} dt - in seconds
      */
     applyForce: function( dt ) {
 
       // only move if outside of the sweater
       var model = this.balloonsAndStaticElectricityModel;
-      if ( this.locationProperty.get().x + this.width > model.sweater.x + model.sweater.width ) {
+      if ( !model.sweater.bounds.containsBounds( this.getBounds() ) ) {
+
         var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
         var force = this.getTotalForce();
         var newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
@@ -652,7 +667,7 @@ define( function( require ) {
       if ( model.wall.isVisibleProperty.get() ) {
         var distFromWall = model.wall.x - this.locationProperty.get().x;
 
-        //if balloon have enough charge and close enough to wall, wall attracts it more than sweater
+        // if the balloon has enough charge and is close enough to the wall, the wall attracts it more than the sweater
         if ( this.chargeProperty.get() < -5 ) {
           var relDist = distFromWall - this.width;
           var fright = 0.003;
@@ -666,7 +681,7 @@ define( function( require ) {
       var other = this.getOtherBalloonForce();
       var sumOfForces = force.plus( other );
 
-      //Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
+      // Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
       var mag = sumOfForces.magnitude();
       var max = 1E-2;
       if ( mag > max ) {
@@ -680,7 +695,7 @@ define( function( require ) {
      * Get the force on this balloon model from another balloon model. If the other balloon is being dragged, or is
      * invisible, zero is returned. See getForce() for the actual force calculation
      * @public
-     * 
+     *
      * @returns {Vector2}
      */
     getOtherBalloonForce: function() {
@@ -698,10 +713,10 @@ define( function( require ) {
      * Generally, power is 2, but 1 is added so that the acceleration is really clear.
      * @public
      * @static
-     * 
+     *
      * @param  {Vector2} p1 - position of the first object
      * @param  {Vector2} p2 - position of the second object
-     * @param  {number} kqq - some constant times the two charges 
+     * @param  {number} kqq - some constant times the two charges
      * @param  {number} [power] - optional, default of 2, but 1 is added so the acceleration is exaggerated
      * @returns {Vector2}
      */

@@ -4,6 +4,7 @@
  * Scenery display object (scene graph node) for the sweater of the model.
  *
  * @author Vasily Shakhov (Mlearner)
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -56,15 +57,22 @@ define( function( require ) {
     } );
     this.sweaterModel = model.sweater;
 
-    // add the Sweater image
-    this.addChild( new Image( sweater, {
-      x: this.sweaterModel.x + 25,
-      y: this.sweaterModel.y + 70,
-      scale: 0.47,
-      tandem: tandem.createTandem( 'sweater' )
-    } ) );
+    // create the sweater image
+    var sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
 
-    //draw plus and minus charges
+    // scale image to match model, then set position
+    sweaterImageNode.scale(
+      this.sweaterModel.width / sweaterImageNode.width,
+      this.sweaterModel.height / sweaterImageNode.height
+    );
+
+    sweaterImageNode.left = this.sweaterModel.x;
+    sweaterImageNode.top = this.sweaterModel.y;
+
+    // add the sweater image
+    this.addChild( sweaterImageNode );
+
+    // draw plus and minus charges
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
@@ -79,7 +87,7 @@ define( function( require ) {
     this.addChild( this.plusChargesNode );
     this.addChild( this.minusChargesNode );
 
-    //show all, none or charge difference
+    // show all, none or charge difference
     var updateChargesVisibilityOnSweater = function( value ) {
       if ( value === 'none' ) {
         self.plusChargesNode.visible = false;
