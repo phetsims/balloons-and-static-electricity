@@ -111,28 +111,6 @@ define( function( require ) {
     // create the balloon image, but don't add it just yet
     var balloonImageNode = new Image( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
 
-    // add the tether (a.k.a. 'string', 'rope' or 'line') that goes from the balloon to the bottom of the frame
-    //TODO: For performance, move this out of BalloonNode and into a separate layer ?
-    //var tetherNode = new Path( null, {
-    //  stroke: '#000000',
-    //  lineWidth: 1,
-    //  pickable: false
-    //} );
-    //this.addChild( tetherNode );
-    //var connectionPoint = new Vector2( model.width / 2, model.height );
-    //debugger;
-    //var anchorPoint = new Vector2( globalModel.width / 2, globalModel.height );
-    //model.locationProperty.link( function( location ) {
-    //  var tetherShape = new Shape()
-    //    .moveToPoint( connectionPoint )
-    //    .lineToPoint( self.globalToParentPoint( anchorPoint ) );
-    //    //.lineTo(
-    //    //  440 - model.locationProperty.get().x + model.width / 2,
-    //    //  50 + globalModel.height - model.locationProperty.get().y
-    //    //);
-    //  tetherNode.shape = tetherShape;
-    //} );
-
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
 
