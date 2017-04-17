@@ -160,15 +160,9 @@ define( function( require ) {
       self.setAccessibleDescription( locationDescription );
     } );
 
-    // TODO: Balloon 'string' removevd for now, we are investigating ways of removing confusion involving buoyant forces
-    // see https://github.com/phetsims/balloons-and-static-electricity/issues/127
-    //changes visual position
+    // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
-      // tetherShape = new Shape();
-      // tetherShape.moveTo( model.width / 2, model.height - 2 );
-      // tetherShape.lineTo( 440 - model.location.x + model.width / 2, 50 + globalModel.height - model.location.y );
-      // path.shape = tetherShape;
 
       // update the charge description
       model.balloonDescriber.getDescription( model );
