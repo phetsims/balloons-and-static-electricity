@@ -87,10 +87,20 @@ define( function( require ) {
 
         var defaultLocation = ch.locationProperty.initialValue;
         if ( yellowBalloon.isVisibleProperty.get() ) {
-          dv1 = BalloonModel.getForce( defaultLocation, yellowBalloon.getCenter(), k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(), 2.35 );
+          dv1 = BalloonModel.getForce(
+            defaultLocation,
+            yellowBalloon.getCenter(),
+            k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(),
+            2.35
+          );
         }
         if ( greenBalloon.isVisibleProperty.get() ) {
-          dv2 = BalloonModel.getForce( defaultLocation, greenBalloon.getCenter(), k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(), 2.35 );
+          dv2 = BalloonModel.getForce(
+            defaultLocation,
+            greenBalloon.getCenter(),
+            k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(),
+            2.35
+          );
         }
         entry.locationProperty.set(
           new Vector2( defaultLocation.x + dv1.x + dv2.x, defaultLocation.y + dv1.y + dv2.y )

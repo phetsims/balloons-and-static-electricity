@@ -708,9 +708,10 @@ define( function( require ) {
   }, {
 
     /**
-     * Get the force between two objects, given charges and position. The resultant force is unitless! Constant k is
-     * can be different values throughout the sim so that balloon moves in a natural way. Charges are integer values.
-     * Generally, power is 2, but 1 is added so that the acceleration is really clear.
+     * Calculate the force between to charged objects using Coulomb's law.  This allows the client to provide a
+     * different value for the exponent used on the radius, which can be used to tweak the visual performance of the
+     * simulation.
+     *
      * @public
      * @static
      *
@@ -721,18 +722,28 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getForce: function( p1, p2, kqq, power ) {
+
+      // power defaults to 2
       power = power || 2;
-      var diff = p1.minus( p2 );
-      var r = diff.magnitude();
+
+      // calculate a vector from one point to the other
+      var difference = p1.minus( p2 );
+      var r = difference.magnitude();
+
+      // if the points are right on top of one another, return an attraction value of zero
       if ( r === 0 ) {
         return new Vector2( 0, 0 );
       }
-      var fa = diff.timesScalar( kqq / ( Math.pow( r, power + 1 ) ) );
-      return fa;
+
+      // make this a unit vector
+      difference.setMagnitude( 1 );
+
+      // scale by the force value
+      return difference.timesScalar( kqq / ( Math.pow( r, power ) ) );
     },
 
     // @static - value for k for calculating forces, but chosen empirically so motion looks like the Java version
-    coeff: 0.1
+    coeff: 0.05
 
   } );
 
