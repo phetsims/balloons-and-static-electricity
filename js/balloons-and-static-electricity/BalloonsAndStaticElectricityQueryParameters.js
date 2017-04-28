@@ -1,9 +1,10 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Query parameters used in sim-specific code, specifically involving prototype accessibility work.
+ * query parameters used in this sim
  *
  * @author Jesse Greenberg
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
@@ -23,7 +24,10 @@ define( function( require ) {
     sonification: { type: 'flag' },
 
     // hide the radio button group responsible for toggling visibility of charges in the view
-    hideChargeControls: { type: 'flag' }
+    hideChargeControls: { type: 'flag' },
+
+    // show charged area on sweater
+    showSweaterChargedArea: { type: 'flag' }
 
   } );
 

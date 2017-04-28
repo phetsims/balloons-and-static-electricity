@@ -10,9 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -71,6 +73,13 @@ define( function( require ) {
 
     // add the sweater image
     this.addChild( sweaterImageNode );
+
+    // show the charge area
+    if ( BalloonsAndStaticElectricityQueryParameters.showSweaterChargedArea ) {
+      this.addChild( new Path( this.sweaterModel.chargedArea, {
+        fill: 'rgba( 255, 255, 0, 0.5 )'
+      } ) );
+    }
 
     // draw plus and minus charges
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );

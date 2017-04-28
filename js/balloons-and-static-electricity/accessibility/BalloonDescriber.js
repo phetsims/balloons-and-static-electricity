@@ -600,7 +600,7 @@ define( function( require ) {
 
         var locationHelpStringPattern = '{0} {1} {2}';
         var balloonLocation = '';
-        if ( balloon.centerInSweater() ) {
+        if ( balloon.centerInSweaterChargedArea() ) {
           var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
           var locationDescription = this.locationDescriptionMap[ locationBounds ];
 
@@ -727,7 +727,7 @@ define( function( require ) {
         var touchingWallDescription = this.getTouchingWallDescription( this.balloon );
         descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedNoChangePatternString, touchingWallDescription );
       }
-      else if ( this.balloon.centerInSweater() ) {
+      else if ( this.balloon.centerInSweaterChargedArea() ) {
         var stickingString = StringUtils.format( BASEA11yStrings.stickingToLocationPatternString, BASEA11yStrings.sweaterString );
         descriptionString = StringUtils.format( BASEA11yStrings.balloonReleasedNoChangePatternString, stickingString );
       }

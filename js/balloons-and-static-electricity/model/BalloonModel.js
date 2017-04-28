@@ -28,10 +28,12 @@ define( function( require ) {
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
-  // constants
+  // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
   var NEAR_SWEATER_DISTANCE = 25;
   var VELOCITY_ARRAY_LENGTH = 5;
   var THRESHOLD_SPEED = 0.025;
+  var BALLOON_WIDTH = 134;
+  var BALLOON_HEIGHT = 222;
 
   // collection of charge positions on the balloon
   // charges will appear in these positions as the balloon collects electrons
@@ -108,6 +110,8 @@ define( function( require ) {
    */
   function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString, tandem ) {
 
+    var self = this;
+
     //------------------------------------------------
     // Properties
 
@@ -160,8 +164,8 @@ define( function( require ) {
     //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon
-    this.width = 134;
-    this.height = 222;
+    this.width = BALLOON_WIDTH;
+    this.height = BALLOON_HEIGHT;
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
@@ -177,8 +181,6 @@ define( function( require ) {
     // @private - flag that is set to true once the user has completed an interaction
     this.announceInteraction = false;
 
-    var self = this;
-
     this.initialLocation = this.locationProperty.initialValue;
     this.plusCharges = [];
     this.minusCharges = [];
@@ -188,7 +190,7 @@ define( function( require ) {
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
 
-    //neutral pair of charges
+    // neutral pair of charges
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( function( entry ) {
@@ -376,13 +378,12 @@ define( function( require ) {
     },
 
     /**
-     * Returns whether or not the center of the balloon is contained within the sweater.
+     * returns whether or not the center of the balloon is within the charged area of the sweater
      * @public
      * @returns {boolean}
      */
-    centerInSweater: function() {
-      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
-      return this.getCenter().x < sweaterBounds.maxX;
+    centerInSweaterChargedArea: function() {
+      return this.balloonsAndStaticElectricityModel.sweater.chargedArea.containsPoint( this.getCenter() );
     },
 
     /**
@@ -540,7 +541,7 @@ define( function( require ) {
       return BalloonModel.getForce(
         sweaterModel.center,
         this.getCenter(),
-        -BalloonModel.coeff * sweaterModel.chargeProperty.get() * this.chargeProperty.get()
+        -BalloonModel.FORCE_CONSTANT * sweaterModel.chargeProperty.get() * this.chargeProperty.get()
       );
     },
 
@@ -615,9 +616,9 @@ define( function( require ) {
      */
     applyForce: function( dt ) {
 
-      // only move if outside of the sweater
+      // only move if this balloon is not over the sweater
       var model = this.balloonsAndStaticElectricityModel;
-      if ( !model.sweater.bounds.containsBounds( this.getBounds() ) ) {
+      if ( !this.centerInSweaterChargedArea() ) {
 
         var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
         var force = this.getTotalForce();
@@ -702,7 +703,7 @@ define( function( require ) {
       if ( this.isDraggedProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
         return new Vector2( 0, 0 );
       }
-      var kqq = BalloonModel.coeff * this.chargeProperty.get() * this.other.chargeProperty.get();
+      var kqq = BalloonModel.FORCE_CONSTANT * this.chargeProperty.get() * this.other.chargeProperty.get();
       return BalloonModel.getForce( this.getCenter(), this.other.getCenter(), kqq );
     }
   }, {
@@ -742,8 +743,9 @@ define( function( require ) {
       return difference.timesScalar( kqq / ( Math.pow( r, power ) ) );
     },
 
-    // @static - value for k for calculating forces, but chosen empirically so motion looks like the Java version
-    coeff: 0.05
+    // @static - value for Coulomb's constant used in the calculations but NOT THE ACTUAL VALUE.  It has been tweaked in
+    // order to get the visual behavior that we need in the sim.
+    FORCE_CONSTANT: 0.05
 
   } );
 

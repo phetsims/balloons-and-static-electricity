@@ -23,65 +23,65 @@ define( function( require ) {
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
-  // positions of the charge pairs, in absoluate model coordinates (i.e. not relative to the sweater position)
+  // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [
-    [ 104, 64 ],
-    [ 94, 90 ],
-    [ 85, 121 ],
-    [ 80, 147 ],
-    [ 76, 178 ],
-    [ 74, 209 ],
-    [ 71, 242 ],
-    [ 67, 273 ],
-    [ 67, 304 ],
-    [ 61, 330 ],
-    [ 140, 85 ],
-    [ 142, 116 ],
-    [ 145, 145 ],
-    [ 145, 174 ],
-    [ 143, 205 ],
-    [ 140, 237 ],
-    [ 138, 267 ],
-    [ 132, 296 ],
-    [ 128, 327 ],
-    [ 170, 98 ],
-    [ 171, 129 ],
-    [ 171, 160 ],
-    [ 172, 191 ],
-    [ 171, 223 ],
-    [ 169, 254 ],
-    [ 167, 287 ],
-    [ 163, 318 ],
-    [ 163, 350 ],
-    [ 208, 88 ],
-    [ 208, 117 ],
-    [ 206, 148 ],
-    [ 205, 179 ],
-    [ 203, 210 ],
-    [ 202, 241 ],
-    [ 200, 272 ],
-    [ 197, 302 ],
-    [ 196, 333 ],
-    [ 239, 75 ],
-    [ 236, 105 ],
-    [ 234, 135 ],
-    [ 233, 166 ],
-    [ 232, 197 ],
-    [ 231, 229 ],
-    [ 230, 260 ],
-    [ 227, 291 ],
-    [ 226, 321 ],
-    [ 224, 350 ],
-    [ 266, 59 ],
-    [ 283, 90 ],
-    [ 292, 121 ],
-    [ 292, 152 ],
-    [ 292, 187 ],
-    [ 290, 217 ],
-    [ 295, 247 ],
-    [ 296, 278 ],
-    [ 295, 308 ],
-    [ 290, 337 ]
+    new Vector2( 104, 64 ),
+    new Vector2( 94, 90 ),
+    new Vector2( 85, 121 ),
+    new Vector2( 80, 147 ),
+    new Vector2( 76, 178 ),
+    new Vector2( 74, 209 ),
+    new Vector2( 71, 242 ),
+    new Vector2( 67, 273 ),
+    new Vector2( 67, 304 ),
+    new Vector2( 61, 330 ),
+    new Vector2( 140, 85 ),
+    new Vector2( 142, 116 ),
+    new Vector2( 145, 145 ),
+    new Vector2( 145, 174 ),
+    new Vector2( 143, 205 ),
+    new Vector2( 140, 237 ),
+    new Vector2( 138, 267 ),
+    new Vector2( 132, 296 ),
+    new Vector2( 128, 327 ),
+    new Vector2( 170, 98 ),
+    new Vector2( 171, 129 ),
+    new Vector2( 171, 160 ),
+    new Vector2( 172, 191 ),
+    new Vector2( 171, 223 ),
+    new Vector2( 169, 254 ),
+    new Vector2( 167, 287 ),
+    new Vector2( 163, 318 ),
+    new Vector2( 163, 350 ),
+    new Vector2( 208, 88 ),
+    new Vector2( 208, 117 ),
+    new Vector2( 206, 148 ),
+    new Vector2( 205, 179 ),
+    new Vector2( 203, 210 ),
+    new Vector2( 202, 241 ),
+    new Vector2( 200, 272 ),
+    new Vector2( 197, 302 ),
+    new Vector2( 196, 333 ),
+    new Vector2( 239, 75 ),
+    new Vector2( 236, 105 ),
+    new Vector2( 234, 135 ),
+    new Vector2( 233, 166 ),
+    new Vector2( 232, 197 ),
+    new Vector2( 231, 229 ),
+    new Vector2( 230, 260 ),
+    new Vector2( 227, 291 ),
+    new Vector2( 226, 321 ),
+    new Vector2( 224, 350 ),
+    new Vector2( 266, 59 ),
+    new Vector2( 283, 90 ),
+    new Vector2( 292, 121 ),
+    new Vector2( 292, 152 ),
+    new Vector2( 292, 187 ),
+    new Vector2( 290, 217 ),
+    new Vector2( 295, 247 ),
+    new Vector2( 296, 278 ),
+    new Vector2( 295, 308 ),
+    new Vector2( 290, 337 )
   ];
 
   /**
@@ -92,7 +92,7 @@ define( function( require ) {
    */
   function SweaterModel( x, y, tandem ) {
 
-    // public (read-only) - dimensions of the sweater, empirically determined to match design
+    // public (read-only) - dimensions of the sweater, empirically determined to match design spec
     this.width = 305;
     this.height = 385;
 
@@ -108,11 +108,48 @@ define( function( require ) {
     this.x = x;
     this.y = y;
 
-    //location of center of the sweater
+    // @public {Vector2} - location of center of the sweater
     this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
 
-    // bounds containing the sweater
+    // @public {Bounds2} bounds containing the sweater
     this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
+
+    // @private {Shape} create an approximate shape of the charged area of the sweater based on the position of the
+    // charges. This is used for accurate detection of when the balloons are over the charged area, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/240.  This algorithm works by dividing the
+    // unit circle into a set of slices and finding the charge location that is furthest from the center in that
+    // slice, then building a shape from that set of points.
+    var numSlices = 9; // this number can be adjusted to get a more refined shape to enclose the charges
+    var shapeDefiningPoints = [];
+    var sliceWidth = ( 2 * Math.PI ) / numSlices; // in radians
+    _.times( numSlices ).forEach( function( sliceNumber ) {
+      shapeDefiningPoints.push( self.center.copy() );
+      var slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
+      CHARGE_PAIR_POSITIONS.forEach( function( chargePairPosition ) {
+        var angle = chargePairPosition.minus( self.center ).angle();
+
+        // convert negative angles
+        if ( angle < 0 ) {
+          angle += 2 * Math.PI;
+        }
+        if ( slice.contains( angle ) ) {
+          if ( !shapeDefiningPoints[ sliceNumber ] ||
+               ( chargePairPosition.distance( self.center ) >
+                 shapeDefiningPoints[ sliceNumber ].distance( self.center )) ) {
+
+            // this point is either the first one in this slice or further out than the previous one, so use it
+            shapeDefiningPoints[ sliceNumber ] = chargePairPosition;
+          }
+        }
+      } );
+    } );
+
+    // @public {Shape} - area on the sweater where charges exist
+    this.chargedArea = new Shape().moveToPoint( shapeDefiningPoints[ 0 ] );
+    for ( var i = 1; i < shapeDefiningPoints.length; i++ ) {
+      this.chargedArea.lineToPoint( shapeDefiningPoints[ i ] );
+    }
+    this.chargedArea.close();
 
     // arrays of plus and minus charges on the sweater, created from positions array above
     this.plusCharges = [];
@@ -120,14 +157,19 @@ define( function( require ) {
 
     var plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
-    CHARGE_PAIR_POSITIONS.forEach( function( entry ) {
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesGroupTandem.createNextTandem(), false );
+    CHARGE_PAIR_POSITIONS.forEach( function( chargePairPosition ) {
+      var plusCharge = new PointChargeModel(
+        chargePairPosition.x,
+        chargePairPosition.y,
+        plusChargesGroupTandem.createNextTandem(),
+        false
+      );
       self.plusCharges.push( plusCharge );
 
       //minus
       var minusCharge = new PointChargeModel(
-        entry[ 0 ] + PointChargeModel.RADIUS,
-        entry[ 1 ] + PointChargeModel.RADIUS,
+        chargePairPosition.x + PointChargeModel.RADIUS,
+        chargePairPosition.y + PointChargeModel.RADIUS,
         minusChargesGroupTandem.createNextTandem(),
         true
       );
