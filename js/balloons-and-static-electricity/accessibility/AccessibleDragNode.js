@@ -74,7 +74,7 @@ define( function( require ) {
     // @public - emit when the key goes up or down
     this.keyUpEmitter = new TandemEmitter( {
       tandem: tandem.createTandem( 'keyUpEmitter' ),
-      phetioArgumentTypes: [ TNumber ]
+      phetioArgumentTypes: [ TNumber( { type: 'Integer' } ) ]
     } );
 
     // @private (phet-io) send a message when the keys are pressed
@@ -151,7 +151,7 @@ define( function( require ) {
             self.keyUpEmitter.emit1( event.keyCode );
           }
           else {
-            self.balloonJumpingEmitter.emit1( event.keyCode );
+            self.balloonJumpingEmitter.emit1( event.keyCode || event.which );
           }
         }
         self.endedCallbacksForKeyUpEmitter.emit();
