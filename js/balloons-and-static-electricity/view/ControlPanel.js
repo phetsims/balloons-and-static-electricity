@@ -88,41 +88,17 @@ define( function( require ) {
       content: wallToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: wallButtonListener,
-      accessibleContent: null, // for now, accessible content implemented below
       tandem: tandem.createTandem( 'wallButton' )
     } );
 
-    // accessible node containing the wall button
-    // TODO: Once accessibility common components are integrated into scenery, this container will not
-    // be necessary, and RectangularPushButton can do this directly
-    this.accessibleWallButton = new Node( {
-      parentContainerTagName: 'div',
-      tagName: 'button',
-      focusable: true,
-      label: BASEA11yStrings.removeWallLabelString,
-      accessibleDescription: BASEA11yStrings.wallDescriptionString,
-      descriptionTagName: 'p'
-    } );
-
-    // keyboard listener, no need to dispose since button exists for life of sim
-    this.accessibleWallButton.addAccessibleInputListener( {
-      click: function( event ) {
-        model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-      }
-    } );
-    this.accessibleWallButton.addChild( this.wallButton );
-
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
-    var self = this;
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
-      var updatedLabel = wallVisible ? BASEA11yStrings.removeWallLabelString : BASEA11yStrings.addWallLabelString;
-      self.accessibleWallButton.setAccessibleLabel( updatedLabel );
+      // var updatedLabel = wallVisible ? BASEA11yStrings.removeWallLabelString : BASEA11yStrings.addWallLabelString;
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
         AriaHerald.announceAssertive( alertDescription );
       }
-
     } );
 
     // Radio buttons related to charges
@@ -273,12 +249,6 @@ define( function( require ) {
       }
     } );
 
-    model.greenBalloon.isVisibleProperty.link( function( balloonVisible ) {
-      var newLabel = balloonVisible ? resetBalloonsString : resetBalloonString;
-      accessibleResetBalloonButton.setAccessibleLabel( newLabel );
-      accessibleResetBalloonButton.setAccessibleDescription( generateDescriptionString( balloonVisible ) );
-    } );
-
     var balloonsPanel = new VBox( {
       spacing: 2,
       children: [ showSecondBalloonSelector, accessibleResetBalloonButton ]
@@ -326,7 +296,7 @@ define( function( require ) {
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ accessibleResetAllButton, this.accessibleWallButton ]
+      children: [ accessibleResetAllButton, this.wallButton ]
     } );
 
     controls.right = layoutBounds.maxX - 2;
@@ -355,7 +325,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.accessibleWallButton, accessibleResetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ this.wallButton, accessibleResetBalloonButton, resetAllButton ];
 
   }
 
