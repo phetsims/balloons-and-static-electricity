@@ -22,8 +22,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Spacer = require( 'SCENERY/nodes/Spacer' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -54,21 +52,14 @@ define( function( require ) {
       fill: 'rgb( 214, 237, 249 )'
     }, options );
 
-    var self = this;
-
     // create the content for this dialog, temporarily just a text label
     var dialogLabelText = new Text( BASEA11yStrings.keyboardHelpDialogString, {
       font: new PhetFont( { size: 18, weight: 'bold', style: 'italic' } ),
       fill: 'rgba( 0, 0, 0, 0.5 )',
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var domElement = document.createElement( 'h1' );
-          domElement.id = self.labelID;
-          domElement.textContent = BASEA11yStrings.keyboardHelpDialogString;
 
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
+      // a11y
+      tagName: 'h1',
+      accessibleLabel: BASEA11yStrings.keyboardHelpDialogString
     } );
 
     // create visual text for the keyboarg help dialog
@@ -79,16 +70,12 @@ define( function( require ) {
 
       var spacedContent = new HBox( {
         children: children,
-        spacing: 2
-      } );
+        spacing: 2,
 
-      spacedContent.accessibleContent = {
-        createPeer: function( accessibleInstance ) {
-          var domElement = document.createElement( domRepresentation );
-          domElement.textContent = string;
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      };
+        // a11y
+        tagName: domRepresentation,
+        accessibleLabel: string
+      } );
 
       return spacedContent;
     };
@@ -103,12 +90,9 @@ define( function( require ) {
         children: children,
         spacing: 5,
         align: 'left',
-        accessibleContent: {
-          createPeer: function( accessibleInstance ) {
-            var domElement = document.createElement( 'ul' );
-            return new AccessiblePeer( accessibleInstance, domElement );
-          }
-        }
+
+        // a11y
+        tagName: 'ul'
       } );
     };
 
@@ -137,25 +121,11 @@ define( function( require ) {
     var contentVBox = new VBox( {
       children: [ dialogLabelText, keyboardHelpText ],
       spacing: 20,
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var domElement = document.createElement( 'div' );
-          domElement.tabIndex = 0;
 
-          domElement.setAttribute( 'aria-labelledby', self.labelID );
-
-          domElement.addEventListener( 'keydown', function( event ) {
-            if ( event.keyCode === Input.KEY_TAB ) {
-              if ( event.shiftKey ) {
-                event.preventDefault();
-              }
-            }
-          } );
-
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
+      tagName: 'div',
+      focusable: true
     } );
+    contentVBox.setAriaLabelledByElement( contentVBox.domElement );
 
     Panel.call( this, contentVBox, options );
   }
