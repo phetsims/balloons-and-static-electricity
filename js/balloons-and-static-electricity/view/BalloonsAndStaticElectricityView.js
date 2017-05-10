@@ -51,8 +51,7 @@ define( function( require ) {
     var self = this;
 
     ScreenView.call( this, {
-      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      accessibleContent: null
+      layoutBounds: new Bounds2( 0, 0, 768, 504 )
     } );
 
     // @public - for now, we are testing whether accessible content can be contained in an article

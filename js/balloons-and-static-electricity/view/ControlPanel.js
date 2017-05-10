@@ -134,17 +134,7 @@ define( function( require ) {
     } ], {
       radius: 7,
       touchAreaXDilation: 5,
-      radioButtonOptions: {
-        accessibleContent: null
-      },
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' )
-    } );
-
-    // the charge radio buttons should not be accessible for now, see
-    // https://github.com/phetsims/balloons-and-static-electricity/issues/194
-    showChargesRadioButtonGroup.accessibleContent = null;
-    showChargesRadioButtonGroup.children.forEach( function( child ) {
-      child.accessibleContent = null;
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -207,7 +197,6 @@ define( function( require ) {
       content: resetBalloonToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
-      accessibleContent: null, // temporary - disable content here, implemented below
       tandem: tandem.createTandem( 'resetBalloonButton' )
     } );
 
@@ -260,7 +249,6 @@ define( function( require ) {
       scale: 0.96,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    resetAllButton.accessibleContent = null; // temporary for testing, perhaps this will move to common code
 
     var accessibleResetAllButton = new Node( {
       children: [ resetAllButton ],
