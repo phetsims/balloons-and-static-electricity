@@ -97,17 +97,16 @@ define( function( require ) {
     };
 
     var textChildren = [
-      createTextContent( BASEA11yStrings.hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( BASEA11yStrings.pressToJumpString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),
-      createTextContent( BASEA11yStrings.releaseBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ BASEA11yStrings.spacebarString, BASEA11yStrings.tabString ] ),
       createTextContent( BASEA11yStrings.grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ BASEA11yStrings.grabDescriptionString ] ),
+      createListContent( [ BASEA11yStrings.grabDescriptionString ] ),  
+      createTextContent( BASEA11yStrings.hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),   
       createTextContent( BASEA11yStrings.keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createTextContent( BASEA11yStrings.draggindDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+	  createTextContent( BASEA11yStrings.draggingDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( BASEA11yStrings.draggingDescriptionWASDString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createTextContent( BASEA11yStrings.addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-      createListContent( [ BASEA11yStrings.pressWString, BASEA11yStrings.pressAString, BASEA11yStrings.pressSString, BASEA11yStrings.pressDString ] )
+	  createTextContent( BASEA11yStrings.generalNavigationString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createListContent( [ BASEA11yStrings.tabString, BASEA11yStrings.shiftTabString, BASEA11yStrings.escString ] )
     ];
 
     // all visual text in a layout box

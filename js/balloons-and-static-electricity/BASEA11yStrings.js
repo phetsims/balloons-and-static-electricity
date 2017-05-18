@@ -111,7 +111,7 @@ define( function( require ) {
 
     noMoreChargesRemainingOnSweaterString: 'No change in charges. No more charges remaining on sweater.',
 
-     // release descriptions
+    // release descriptions
     balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.', //need end location string
     balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
@@ -239,26 +239,39 @@ define( function( require ) {
 
     resetAllString: 'Reset All',
 
-    // strings for keyboard help content
-    keyboardHelpDialogString: 'Keyboard Commands and Hot Keys',
-    keysForDraggingAndRubbingString: 'Keys for Dragging and Rubbing',
-    draggindDescriptionString: 'Press the W, A, S, or D keys to drag or rub the balloon up, left, down, or right.',
-	addShiftString: 'Add the Shift key to a letter key to drag or rub with smaller steps.',
-    pressWString: 'Press W to drag up, or Shift key plus W to drag up a little.',
-    pressAString: 'Press A to drag left, or Shift key plus A to drag left a little. ',
-    pressSString: 'Press S to drag down, or Shift key plus S to drag down a little.',
-    pressDString: 'Press D to drag right, or Shift key plus D to drag right a little.',
-    hotkeysJumpingString: 'Hot Keys for Jumping',
-    pressToJumpString: 'Move the balloon quickly to a location with these hot key pairs:',
-    JSString: 'JS jumps close to Sweater.',
-    JWString: 'JW jumps to Wall.',
-    JNString: 'JN jumps to near Wall.',
-    JCString: 'JC jumps to center of Play Area.',
-    releaseBalloonString: 'Release Balloon',
-    spacebarString: 'Press Space key to release the balloon.',
-    tabString: 'Pressing the Tab key also releases the Balloon as you go to the next item in the simulation.',
-    grabDescriptionString: 'Press Space key or Enter key to pick up or grab the Balloon. Once grabbed, press the W, A, S, or D key to drag the balloon.',
-    grabBalloonString: 'Grab balloon',
+    // strings for keyboard shortcuts help content
+    keyboardHelpDialogString: 'Keyboard Shortcuts',
+	grabBalloonString: 'Grab/Release Balloon',
+    grabDescriptionString: 'Space or Enter grabs or releases the balloon.',
+    hotkeysJumpingString: 'Jump Grabbed Balloon',
+    
+    //Removed next line from content
+	// pressToJumpString: 'Move the balloon quickly to a location with these hot key combinations:',
+    JSString: 'J plus S jumps close to sweater.',
+    JWString: 'J plus W jumps to wall.',
+    JNString: 'J plus N jumps to near wall.',
+    JCString: 'J plus C jumps to center of Play Area.',
+    keysForDraggingAndRubbingString: 'Move Grabbed Balloon',
+    //New string for dragging with arrow keys - not sure why there is a d instead of a g in the string name
+	draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
+	draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
+	//Removed following 4 strings from content 
+    // pressWString: 'Press W to drag up, or Shift key plus W to drag up a little.',
+    // pressAString: 'Press A to drag left, or Shift key plus A to drag left a little. ',
+    // pressSString: 'Press S to drag down, or Shift key plus S to drag down a little.',
+    // pressDString: 'Press D to drag right, or Shift key plus D to drag right a little.',
+	//New string for adding shift key to make smaller steps.
+    addShiftString: 'Hold down Shift and press a drag key to move in smaller steps.',
+    //Removed two strings from content
+	// releaseBalloonString: 'Release Balloon',
+    // spacebarString: 'Press Space key to release the balloon.',
+	//New heading string
+	generalNavigationString: 'General Navigation',
+    tabString: 'Tab key moves to next item.',
+
+	//Two new strings for general navigation
+	shiftTabString: 'Shift plus Tab moves to previous item.',
+	escString: 'Escape key closes a dialog, like this one.',
 
     // sweater descriptions
     sweaterDescriptionPatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
