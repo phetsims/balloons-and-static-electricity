@@ -17,7 +17,7 @@ define( function( require ) {
     balloonGrabbedDescriptionPatternString: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
     balloonDragDescriptionPatternString: '{0} {1} {2} {3} {4} {5}', // direction, proximity, charge, ,
     grabButtonNavigationCueString: 'Look for grab button to play.',
-    dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space bar to let go.',
+    dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space key to let go.',
 
     grabbedString: 'Grabbed.',
 
@@ -26,63 +26,64 @@ define( function( require ) {
     draggingLocationStringPattern: 'At {0}.',
     stickingToLocationPatternString: 'Sticking to {0}.',
 
-    topLeftEdgeOfSweaterString: 'top left edge of sweater',
-    upperLeftEdgeOfSweaterString: 'upper left edge of sweater',
-    lowerLeftEdgeOfSweaterString: 'lower left edge of sweater',
-    bottomLeftEdgeOfSweaterString: 'bottom left edge of sweater',
+    topLeftEdgeOfSweaterString: 'left shoulder of sweater',
+    upperLeftEdgeOfSweaterString: 'left arm of sweater',
+    lowerLeftEdgeOfSweaterString: 'left arm of sweater',
+    bottomLeftEdgeOfSweaterString: 'lower-left arm of sweater',
 
-    topLeftArmString: 'top left arm',
-    upperLeftArmString: 'upper left arm',
-    lowerLeftArmString: 'lower left arm',
-    bottomLeftArmString: 'bottom left arm',
+    topLeftArmString: 'left shoulder',
+    upperLeftArmString: 'left arm',
+    lowerLeftArmString: 'left arm',
+    bottomLeftArmString: 'lower-left arm',
 
-    topLeftSideOfSweaterString: 'top left side of sweater',
-    upperLeftSideOfSweaterString: 'upper left side of sweater',
-    lowerLeftSideOfSweaterString: 'lower left side of sweater',
-    bottomLeftSideOfSweaterString: 'bottom left side of sweater',
+    topLeftSideOfSweaterString: 'upper-left side of sweater',
+    upperLeftSideOfSweaterString: 'left side of sweater',
+    lowerLeftSideOfSweaterString: 'left side of sweater',
+    bottomLeftSideOfSweaterString: 'lower-left side of sweater',
 
-    topRightSideOfSweaterString: 'top right side of sweater',
-    upperRightSideOfSweaterString: 'upper right side of sweater',
-    lowerRightSideOfSweaterString: 'lower right side of sweater',
-    bottomRightSideOfSweaterString: 'bottom right side of sweater',
+    topRightSideOfSweaterString: 'upper-right side of sweater',
+    upperRightSideOfSweaterString: 'right side of sweater',
+    lowerRightSideOfSweaterString: 'right side of sweater',
+    bottomRightSideOfSweaterString: 'lower-right side of sweater',
 
-    topRightArmString: 'top right arm',
-    upperRightArmString: 'upper right arm',
-    lowerRightArmString: 'lower right arm',
-    bottomRightArmString: 'bottom right arm',
+    topRightArmString: 'right shoulder',
+    upperRightArmString: 'right arm',
+    lowerRightArmString: 'right arm',
+    bottomRightArmString: 'lower-right arm',
 
-    topLeftSideOfPlayAreaString: 'top left side of play area',
-    upperLeftSideOfPlayAreaString: 'upper left side of play area',
-    lowerLeftSideOfPlayAreaString: 'lower left side of play area',
-    bottomLeftSideOfPlayAreaString: 'bottom left side of play area',
+    topLeftSideOfPlayAreaString: 'upper-left side of play area',
+    upperLeftSideOfPlayAreaString: 'left side of play area',
+    lowerLeftSideOfPlayAreaString: 'left side of play area',
+    bottomLeftSideOfPlayAreaString: 'lower-left side of play area',
 
-    topCenterOfPlayAreaString: 'top center of play area',
-    upperCenterOfPlayAreaString: 'upper center of play area',
-    lowerCenterOfPlayAreaString: 'lower center of play area',
-    bottomCenterOfPlayAreaString: 'bottom center of play area',
+    topCenterOfPlayAreaString: 'upper-center of play area',
+    upperCenterOfPlayAreaString: 'center of play area',
+    lowerCenterOfPlayAreaString: 'center of play area',
+    bottomCenterOfPlayAreaString: 'lower-center of play area',
 
-    topRightSideOfPlayAreaString: 'top right side of play area',
-    upperRightSideOfPlayAreaString: 'upper right side of play area',
-    lowerRightSideOfPlayAreaString: 'lower right side of play area',
-    bottomRightSideOfPlayAreaString: 'bottom right side of play area',
+    topRightSideOfPlayAreaString: 'upper-right side of play area',
+    upperRightSideOfPlayAreaString: 'right side of play area',
+    lowerRightSideOfPlayAreaString: 'right side of play area',
+    bottomRightSideOfPlayAreaString: 'lower-right side of play area',
 
-    topRightEdgeOfPlayAreaString: 'top right edge of play area',
-    upperRightEdgeOfPlayAreaString: 'upper right edge of play area',
-    lowerRightEdgeOfPlayAreaString: 'lower right edge of play area',
-    bottomRightEdgeOfPlayAreaString: 'bottom right edge of play area',
+    topRightEdgeOfPlayAreaString: 'upper-right edge of play area',
+    upperRightEdgeOfPlayAreaString: 'right edge of play area',
+    lowerRightEdgeOfPlayAreaString: 'right edge of play area',
+    bottomRightEdgeOfPlayAreaString: 'lower-right edge of play area',
 
     // location strings while touching another object
-    touchingWallStringPattern: 'Touching {0} wall.',
-    stickingToWallStringPattern: 'Sticking to {0} wall.',
-    lowerWallString: 'lower',
-    upperWallString: 'upper',
+    touchingWallStringPattern: 'Touching {0}.',
+    stickingToWallStringPattern: 'Sticking to {0}.',
+	generalWallString: 'wall',
+    lowerWallString: 'lower wall',
+    upperWallString: 'upper wall',
 
-    stickingToSweaterString: 'Now sticking to upper right side of sweater.',
+    stickingToSweaterString: 'Sticking to right side of sweater.',
 
     // charge descriptions
-    namedBalloonChargeDescriptionPatternString: '{0} has net {1} charge, {2} more negative charges than positive charges.',
-    balloonChargeStringPattern: 'Has net {0} charge, {1} more negative charges than positive charges.',
-    sweaterChargePatternString: 'Sweater has net {0} charge, {1} more positive charges than negative charges.',
+    namedBalloonChargeDescriptionPatternString: '{0} has {1} net charge, {2} more negative charges than positive charges.',
+    balloonChargeStringPattern: 'Has {0} net charge, {1} more negative charges than positive charges.',
+    sweaterChargePatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
 
     neutralString: 'neutral',
     negativeString: 'negative',
@@ -95,7 +96,7 @@ define( function( require ) {
 
     // wall charge descriptions
     atWallString: 'At wall.',
-    atWallTouchPointPatternString: 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has net neutral charge, many pairs of negative and positive charges.',
+    atWallTouchPointPatternString: 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has neutral net charge, many pairs of negative and positive charges.',
     wallRubStringPattern: 'No transfer of charge.  At touch point, negative charges in wall {0}.  Positive charges do not move.',
     wallChargesReturnString: 'Negative charges in wall return {0}.',
 
@@ -110,8 +111,8 @@ define( function( require ) {
 
     noMoreChargesRemainingOnSweaterString: 'No change in charges. No more charges remaining on sweater.',
 
-     // release descriptions
-    balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.',
+    // release descriptions
+    balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.', //need end location string
     balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
 
@@ -144,12 +145,12 @@ define( function( require ) {
     wallAddedString: 'Wall added to play area.',
 
     // boundary strings
-    atTopOfPlayAreaString: 'At top of play area.',
-    atBottomOfPlayAreaString: 'At bottom of play area',
-    leftEdgeString: 'At left edge of play area',
-    rightEdgeString: 'At right edge of play area',
+    atTopOfPlayAreaString: 'At top.',
+    atBottomOfPlayAreaString: 'At bottom.',
+    leftEdgeString: 'At left edge.',
+    rightEdgeString: 'At right edge.',
 
-    nearSweaterString: 'Near sweater',
+    nearSweaterString: 'Near sweater.',
     onSweaterPatternStringString: 'On sweater. {0}',
     picksUpNegativeChargesString: 'Picks up negative charges from sweater.',
     nearWallString: 'Near wall.',
@@ -158,7 +159,7 @@ define( function( require ) {
     atCenterOfPlayAreaString: 'At center of play area.',
     onRightSideOfPlayAreaString: 'On right side of play area.',
 
-    balloonPicksUpMoreChargesString: 'Balloon picks up more negative charges',
+    balloonPicksUpMoreChargesString: 'Balloon picks up more negative charges.',
     againMoreChargesString: 'Again, more negative charges.',
 
     // labels
@@ -212,12 +213,12 @@ define( function( require ) {
     downAndLeftString: 'down and to the left',
 
     // sweater charge descriptions
-    sweaterNetChargePatternString: 'Sweater has a {0} charge',
-    netNeutralString: 'net neutral',
-    netPositiveString: 'net positive',
+    sweaterNetChargePatternString: 'Sweater has {0} charge',
+    netNeutralString: 'neutral net',
+    netPositiveString: 'positive net',
 
     // balloon grab cue
-    balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space bar.',
+    balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space key.',
 
     // misc labels
     removeWallLabelString: 'Remove Wall',
@@ -243,6 +244,7 @@ define( function( require ) {
 	grabBalloonString: 'Grab/Release Balloon',
     grabDescriptionString: 'Space or Enter grabs or releases the balloon.',
     hotkeysJumpingString: 'Jump Grabbed Balloon',
+    
     //Removed next line from content
 	// pressToJumpString: 'Move the balloon quickly to a location with these hot key combinations:',
     JSString: 'J plus S jumps close to sweater.',
@@ -266,17 +268,18 @@ define( function( require ) {
 	//New heading string
 	generalNavigationString: 'General Navigation',
     tabString: 'Tab key moves to next item.',
+
 	//Two new strings for general navigation
 	shiftTabString: 'Shift plus Tab moves to previous item.',
 	escString: 'Escape key closes a dialog, like this one.',
 
     // sweater descriptions
-    sweaterDescriptionPatternString: 'Sweater has net {0} charge, {1} more positive charges than negative charges',
-    sweaterChargeDepletedString: 'Sweater has a net positive charge, no negative charges, only positive charges',
+    sweaterDescriptionPatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
+    sweaterChargeDepletedString: 'Sweater has positive net charge, no negative charges, only positive charges.',
 
     // wall strings
       // strings
-    wallNeutralChargeDescriptionString: 'Wall has a net neutral charge, many pairs of negative and positive charges.',
+    wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
 
     twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
     oneBalloonTouchingWallPatternString: '{0} {1}',

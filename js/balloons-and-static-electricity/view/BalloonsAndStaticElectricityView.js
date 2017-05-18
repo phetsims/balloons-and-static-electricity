@@ -176,7 +176,7 @@ define( function( require ) {
     playAreaContainerNode.accessibleOrder = [ accessibleHeaderNode, sweaterNode, balloonsNode, wall ];
 
     // visualise regions of the play area
-    if ( phet.chipper.queryParameters.dev ) {
+    if ( BalloonsAndStaticElectricityQueryParameters.showGrid ) {
       this.articleContainerNode.addChild( new PlayAreaNode( model, tandem.createTandem( 'playAreaNode' ) ) );
     }
 
