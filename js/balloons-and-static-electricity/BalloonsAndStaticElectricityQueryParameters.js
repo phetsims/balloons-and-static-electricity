@@ -20,6 +20,9 @@ define( function( require ) {
     // keyData - must be used with reader, shows key information instead of reader output, useful for debugging
     keyData: { type: 'flag' },
 
+    // showGrid - show the description grid, the grid that breaks up the play area into regions for location descriptions
+    showGrid: { type: 'flag' },
+
     // template sonification to get a feel for how this might work uses strategies very similar to john-travoltage
     sonification: { type: 'flag' },
 
