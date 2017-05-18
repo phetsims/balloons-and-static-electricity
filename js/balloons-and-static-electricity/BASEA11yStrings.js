@@ -251,8 +251,8 @@ define( function( require ) {
     JCString: 'J plus C jumps to center of Play Area.',
     keysForDraggingAndRubbingString: 'Move Grabbed Balloon',
     //New string for dragging with arrow keys - not sure why there is a d instead of a g in the string name
-	draggindDescriptionStringArrows: 'Arrow keys drag and rub grabbed balloon.',
-	draggindDescriptionString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
+	draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
+	draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
 	//Removed following 4 strings from content 
     // pressWString: 'Press W to drag up, or Shift key plus W to drag up a little.',
     // pressAString: 'Press A to drag left, or Shift key plus A to drag left a little. ',
