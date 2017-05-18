@@ -102,10 +102,10 @@ define( function( require ) {
       createTextContent( BASEA11yStrings.hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),   
       createTextContent( BASEA11yStrings.keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-	  createTextContent( BASEA11yStrings.draggingDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
+      createTextContent( BASEA11yStrings.draggingDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createTextContent( BASEA11yStrings.draggingDescriptionWASDString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createTextContent( BASEA11yStrings.addShiftString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
-	  createTextContent( BASEA11yStrings.generalNavigationString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
+      createTextContent( BASEA11yStrings.generalNavigationString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createListContent( [ BASEA11yStrings.tabString, BASEA11yStrings.shiftTabString, BASEA11yStrings.escString ] )
     ];
 

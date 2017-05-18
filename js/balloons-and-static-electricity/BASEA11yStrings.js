@@ -102,7 +102,6 @@ define( function( require ) {
 
     slightlyString: 'slightly',
     allTheWayString: 'all the way',
-
     noChangeInChargesString: 'No change in charges.',
     moveALittleBitString: 'move away from balloon a little bit',
     moveALotString: 'move away from balloon a lot',
@@ -244,32 +243,16 @@ define( function( require ) {
 	grabBalloonString: 'Grab/Release Balloon',
     grabDescriptionString: 'Space or Enter grabs or releases the balloon.',
     hotkeysJumpingString: 'Jump Grabbed Balloon',
-    
-    //Removed next line from content
-	// pressToJumpString: 'Move the balloon quickly to a location with these hot key combinations:',
     JSString: 'J plus S jumps close to sweater.',
     JWString: 'J plus W jumps to wall.',
     JNString: 'J plus N jumps to near wall.',
     JCString: 'J plus C jumps to center of Play Area.',
     keysForDraggingAndRubbingString: 'Move Grabbed Balloon',
-    //New string for dragging with arrow keys - not sure why there is a d instead of a g in the string name
 	draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
 	draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
-	//Removed following 4 strings from content 
-    // pressWString: 'Press W to drag up, or Shift key plus W to drag up a little.',
-    // pressAString: 'Press A to drag left, or Shift key plus A to drag left a little. ',
-    // pressSString: 'Press S to drag down, or Shift key plus S to drag down a little.',
-    // pressDString: 'Press D to drag right, or Shift key plus D to drag right a little.',
-	//New string for adding shift key to make smaller steps.
     addShiftString: 'Hold down Shift and press a drag key to move in smaller steps.',
-    //Removed two strings from content
-	// releaseBalloonString: 'Release Balloon',
-    // spacebarString: 'Press Space key to release the balloon.',
-	//New heading string
 	generalNavigationString: 'General Navigation',
     tabString: 'Tab key moves to next item.',
-
-	//Two new strings for general navigation
 	shiftTabString: 'Shift plus Tab moves to previous item.',
 	escString: 'Escape key closes a dialog, like this one.',
 
@@ -278,7 +261,6 @@ define( function( require ) {
     sweaterChargeDepletedString: 'Sweater has positive net charge, no negative charges, only positive charges.',
 
     // wall strings
-      // strings
     wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
 
     twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
