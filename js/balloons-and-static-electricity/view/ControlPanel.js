@@ -206,11 +206,10 @@ define( function( require ) {
       return StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
-
     // update the button description when the green balloon is made visible
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       resetBalloonButton.accessibleDescription = generateDescriptionString( isVisible );
-      console.log( resetBalloonButton.parentContainerElement );
+      resetBalloonButton.accessibleLabel = isVisible ? resetBalloonsString : resetBalloonString;
     } );
 
     // no need to dispose, button exists for life of sim
