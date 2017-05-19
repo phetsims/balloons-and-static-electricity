@@ -3,10 +3,6 @@
 /**
  * All buttons and control elements for Balloons and Static Electricity.
  *
- * Note: All code related to the charge radio buttons is commented out until descriptions are designed
- * for the state of the radio button group.  Strings are removed from strings json file as well.
- * See https://github.com/phetsims/balloons-and-static-electricity/issues/120.
- *
  * buttons and model control elements
  * @author Vasily Shakhov (Mlearner)
  */
