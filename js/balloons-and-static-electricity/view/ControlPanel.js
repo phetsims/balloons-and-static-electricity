@@ -44,6 +44,7 @@ define( function( require ) {
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
+  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString;
 
 
   /**
@@ -166,7 +167,8 @@ define( function( require ) {
       twoBalloonIcon,
       {
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
-        maskFill: BASEConstants.backgroundColorProperty
+        maskFill: BASEConstants.backgroundColorProperty,
+        accessibleLabel: twoBalloonExperimentLabelString
       }
     );
 

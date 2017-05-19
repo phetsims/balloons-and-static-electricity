@@ -97,17 +97,16 @@ define( function( require ) {
       mouseAreaXDilation: 0,
       mouseAreaYDilation: 0,
 
-      // tandem
-      tandem: Tandem.tandemRequired()
-    }, options );
-
-    Node.call( this, {
+      // cursor
       cursor: 'pointer',
-      tandem: options.tandem.createSupertypeTandem(),
+      tandem: Tandem.tandemRequired(),
 
       // a11y
       tagName: 'button'
-    } );
+
+    }, options );
+
+    Node.call( this, options );
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter();
@@ -209,7 +208,12 @@ define( function( require ) {
         deselectedButton.fill = options.baseColor;
       }
     };
-    property.link( function() { setStyles( self.enabledProperty.get() ); } );
+    property.link( function( value ) {
+
+      // update the button look and its accessible pressed state
+      setStyles( self.enabledProperty.get() );
+      self.setAccessibleAttribute( 'aria-pressed', value === valueB );
+    } );
 
     // listener that makes this node behave like a button
     var upFunction = function() {
