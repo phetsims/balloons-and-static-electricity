@@ -193,7 +193,10 @@ define( function( require ) {
       content: resetBalloonToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
-      tandem: tandem.createTandem( 'resetBalloonButton' )
+      tandem: tandem.createTandem( 'resetBalloonButton' ),
+
+      // a11y
+      parentContainerTagName: 'div'
     } );
 
     // create the accessible description for the reset balloon button
@@ -203,19 +206,15 @@ define( function( require ) {
       return StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
-    var accessibleResetBalloonButton = new Node( {
-      focusable: true,
-      parentContainerTagName: 'div',
-      tagName: 'button',
-      accessibleLabel: resetBalloonString,
-      descriptionTagName: 'p',
-      accessibleDescription: generateDescriptionString( model.greenBalloon.isVisibleProperty ),
-      events: {}
+
+    // update the button description when the green balloon is made visible
+    model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
+      resetBalloonButton.accessibleDescription = generateDescriptionString( isVisible );
+      console.log( resetBalloonButton.parentContainerElement );
     } );
-    accessibleResetBalloonButton.addChild( resetBalloonButton );
 
     // no need to dispose, button exists for life of sim
-    accessibleResetBalloonButton.addAccessibleInputListener( {
+    resetBalloonButton.addAccessibleInputListener( {
       click: function( event ) {
         resetBalloonButtonListener();
 
@@ -236,7 +235,7 @@ define( function( require ) {
 
     var balloonsPanel = new VBox( {
       spacing: 2,
-      children: [ showSecondBalloonSelector, accessibleResetBalloonButton ]
+      children: [ showSecondBalloonSelector, resetBalloonButton ]
     } );
 
     //Add the controls at the right, with the reset all button and the wall button
@@ -309,7 +308,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.wallButton, accessibleResetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ this.wallButton, resetBalloonButton, resetAllButton ];
 
   }
 

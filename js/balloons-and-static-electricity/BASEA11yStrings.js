@@ -21,6 +21,9 @@ define( function( require ) {
 
     grabbedString: 'Grabbed.',
 
+    positionString: 'position',
+    positionsString: 'positions',
+
     // location strings
     balloonLocationStringPattern: 'In {0}.',
     draggingLocationStringPattern: 'At {0}.',
