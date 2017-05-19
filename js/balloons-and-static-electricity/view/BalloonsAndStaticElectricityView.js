@@ -51,25 +51,14 @@ define( function( require ) {
     var self = this;
 
     ScreenView.call( this, {
-      layoutBounds: new Bounds2( 0, 0, 768, 504 )
-    } );
+      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
 
-    // @public - for now, we are testing whether accessible content can be contained in an article
-    this.articleContainerNode = new Node( {
-      tagName: 'article'
+      // a11y
+      accessibleLabel: balloonsAndStaticElectricityTitleString
     } );
-    this.addChild( this.articleContainerNode );
-
-    var accessibleHeaderNode = new Node( {
-      tagName: 'header',
-      labelTagName: 'h1',
-      accessibleLabel: balloonsAndStaticElectricityTitleString,
-      accessibleDescriptionTagName: 'p'
-    } );
-    this.articleContainerNode.addChild( accessibleHeaderNode );
 
     var sceneSummaryNode = new SceneSummaryNode( model, tandem.createTandem( 'sceneSummaryNode' ) );
-    this.articleContainerNode.addChild( sceneSummaryNode );
+    this.addChild( sceneSummaryNode );
 
     // add sonification if enabled
     if ( BalloonsAndStaticElectricityQueryParameters.sonification ) {
@@ -83,7 +72,7 @@ define( function( require ) {
       accessibleLabel: BASEA11yStrings.playAreaLabelString,
       labelTagName: 'h2'
     } );
-    this.articleContainerNode.addChild( playAreaContainerNode );
+    this.addChild( playAreaContainerNode );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     playAreaContainerNode.addChild( sweaterNode );
@@ -92,7 +81,7 @@ define( function( require ) {
     playAreaContainerNode.addChild( wall );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
-    this.articleContainerNode.addChild( new Rectangle(
+    this.addChild( new Rectangle(
       model.wall.x + wall.wallNode.width,
       0,
       1000,
@@ -102,7 +91,7 @@ define( function( require ) {
 
     //Add black to the left of the screen to match the black region to the right of the wall
     var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
-    this.articleContainerNode.addChild( new Rectangle(
+    this.addChild( new Rectangle(
       maxX - 1000,
       0,
       1000,
@@ -161,10 +150,10 @@ define( function( require ) {
       self.greenBalloonTetherNode.visible = isVisible;
     } );
 
-    this.articleContainerNode.addChild( controlPanel );
+    this.addChild( controlPanel );
 
     //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.articleContainerNode.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
+    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
       fill: 'black',
       x: -1000,
       y: this.layoutBounds.height,
@@ -173,11 +162,11 @@ define( function( require ) {
     } ) );
 
     // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ accessibleHeaderNode, sweaterNode, balloonsNode, wall ];
+    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wall ];
 
     // visualise regions of the play area
     if ( BalloonsAndStaticElectricityQueryParameters.showGrid ) {
-      this.articleContainerNode.addChild( new PlayAreaNode( model, tandem.createTandem( 'playAreaNode' ) ) );
+      this.addChild( new PlayAreaNode( model, tandem.createTandem( 'playAreaNode' ) ) );
     }
 
     // enable the prototype screen reader
@@ -187,7 +176,7 @@ define( function( require ) {
 
       var reader = new Reader( cursor );
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
-      this.articleContainerNode.addChild( display );
+      this.addChild( display );
     }
   }
 
