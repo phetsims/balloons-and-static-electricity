@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Shape = require( 'KITE/Shape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -246,41 +245,10 @@ define( function( require ) {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    var accessibleResetAllButton = new Node( {
-      children: [ resetAllButton ],
-
-      // a11y options
-      focusable: true,
-      focusHighlight: new Shape().circle( 0, 0, 28 ),
-      tagName: 'button',
-      parentContainerTagName: 'div',
-      accessibleLabel: BASEA11yStrings.resetAllString
-    } );
-
-    // keyboard listener, no need to dispose, button exists for life of sim
-    accessibleResetAllButton.addAccessibleInputListener( {
-      click: function( event ) {
-
-        // hide the aria live elements so that alerts are not anounced until after simulation
-        // is fully reset
-        // TODO: This should be in the main model reset function
-        AriaHerald.hidden = true;
-
-        // reset the model
-        model.reset();
-
-        // unhide the alert elements now that properties are reset
-        AriaHerald.hidden = false;
-
-        // announce that the sim has been reset
-        AriaHerald.announceAssertive( BASEA11yStrings.resetAlertString );
-      }
-    } );
-
     var controls = new HBox( {
       spacing: 16,
       align: 'bottom',
-      children: [ accessibleResetAllButton, this.wallButton ]
+      children: [ resetAllButton, this.wallButton ]
     } );
 
     controls.right = layoutBounds.maxX - 2;
@@ -309,7 +277,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.wallButton, resetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ this.wallButton, showSecondBalloonSelector, resetBalloonButton, resetAllButton ];
 
   }
 
