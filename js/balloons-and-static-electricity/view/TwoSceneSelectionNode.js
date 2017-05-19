@@ -103,7 +103,10 @@ define( function( require ) {
 
     Node.call( this, {
       cursor: 'pointer',
-      tandem: options.tandem.createSupertypeTandem()
+      tandem: options.tandem.createSupertypeTandem(),
+
+      // a11y
+      tagName: 'button'
     } );
 
     // Emitters for the PhET-iO data stream
@@ -209,13 +212,16 @@ define( function( require ) {
     property.link( function() { setStyles( self.enabledProperty.get() ); } );
 
     // listener that makes this node behave like a button
+    var upFunction = function() {
+      var newValue = property.get() === valueA ? valueB : valueA;
+      self.startedCallbacksForToggledEmitter.emit2( property.get(), newValue );
+      property.set( newValue );
+      setStyles( self.enabledProperty.get() );
+      self.endedCallbacksForToggledEmitter.emit();
+    };
     var downUpListener = new DownUpListener( {
       up: function( event ) {
-        var newValue = property.get() === valueA ? valueB : valueA;
-        self.startedCallbacksForToggledEmitter.emit2( property.get(), newValue );
-        property.set( newValue );
-        setStyles( self.enabledProperty.get() );
-        self.endedCallbacksForToggledEmitter.emit();
+        upFunction();
       },
       down: function( event ) {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
@@ -235,10 +241,14 @@ define( function( require ) {
       otherContent.opacity = contentOpacity;
     } );
 
+    // listener that is called when the button is presed with 'enter' or 'spacebar'
+    var clickListener = { click: upFunction };
+
     // add listeners, to be disposed
     this.addInputListener( downUpListener );
     this.addInputListener( highlightListener );
     this.enabledProperty.link( setStyles );
+    this.addAccessibleInputListener( clickListener );
 
     // set mouse and touch areas
     this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
@@ -249,6 +259,7 @@ define( function( require ) {
       this.removeInputListener( downUpListener );
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
+      this.removeAccessibleInputListener( clickListener );
     };
 
     // tandem support
