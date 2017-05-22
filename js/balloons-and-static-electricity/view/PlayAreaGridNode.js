@@ -24,7 +24,7 @@ define( function( require ) {
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
    */
-  function PlayAreaNode( model ) {
+  function PlayAreaGridNode( model ) {
 
     Node.call( this, { pickable: false } );
     var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
@@ -79,7 +79,7 @@ define( function( require ) {
     this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
   }
 
-  balloonsAndStaticElectricity.register( 'PlayAreaNode', PlayAreaNode );
+  balloonsAndStaticElectricity.register( 'PlayAreaGridNode', PlayAreaGridNode );
 
-  return inherit( Node, PlayAreaNode );
+  return inherit( Node, PlayAreaGridNode );
 } );
