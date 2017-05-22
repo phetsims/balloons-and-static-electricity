@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Panel = require( 'SUN/Panel' );
@@ -44,6 +45,7 @@ define( function( require ) {
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString;
+  var controlPanelString = BASEA11yStrings.controlPanelString;
 
 
   /**
@@ -55,12 +57,7 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds, tandem ) {
 
     // super constructor
-    Node.call( this, {
-      parentContainerTagName: 'section',
-      tagName: 'div',
-      labelTagName: 'h2',
-      accessibleLabel: BASEA11yStrings.controlPanelLabelString
-    } );
+    AccessibleSectionNode.call( this, controlPanelString );
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
@@ -283,7 +280,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
 
-  inherit( Node, ControlPanel );
+  inherit( AccessibleSectionNode, ControlPanel );
 
   return ControlPanel;
 } );

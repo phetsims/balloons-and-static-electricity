@@ -235,7 +235,7 @@ define( function( require ) {
     playAreaString: 'Play Area',
     sweaterLabelString: 'Sweater',
     wallLabelString: 'Wall',
-    controlPanelLabelString: 'Control Panel',
+    controlPanelString: 'Control Panel',
     wallDescriptionString: 'Run experiments with or without the wall.',
     resetBalloonsDescriptionPatternString: 'Reset {0} to start {1} and an uncharged state.',
 
