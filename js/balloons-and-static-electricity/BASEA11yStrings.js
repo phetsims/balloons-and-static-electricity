@@ -19,6 +19,9 @@ define( function( require ) {
     grabButtonNavigationCueString: 'Look for grab button to play.',
     dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space key to let go.',
 
+    grabBalloonToPlayString: 'Grab balloon to play.',
+    keyboardShortcutsHelpString: 'If needed, check out the keyboard shortcuts for this sim.',
+
     grabbedString: 'Grabbed.',
 
     positionString: 'position',
@@ -169,7 +172,7 @@ define( function( require ) {
     yellowBalloonString: 'Yellow balloon',
 
     // scene summary
-    sceneSummaryLabelString: 'Scene Summary',
+    sceneSummaryString: 'Scene Summary',
     openingSummaryString: 'Simulation contains a Play Area and a Control Panel. The play area is a small room. The control panel has buttons and switches to change conditions in the room.',
     roomItemsStringPattern: 'Currently, room has {0}',
 

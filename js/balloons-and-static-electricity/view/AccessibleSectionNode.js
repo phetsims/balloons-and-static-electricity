@@ -25,7 +25,6 @@ define( function( require ) {
     assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
 
     Node.call( this, {
-      pickable: false,
 
       // a11y
       parentContainerTagName: 'section',

@@ -33,7 +33,14 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var TNode = require( 'SCENERY/nodes/TNode' );
+
+  // strings
+  var sceneSummaryString = BASEA11yStrings.sceneSummaryString;
+  var openingSummaryString = BASEA11yStrings.openingSummaryString;
+  var keyboardShortcutsHelpString = BASEA11yStrings.keyboardShortcutsHelpString;
+  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString;
 
   // constants
   var BALLOON_LABELS = {
@@ -98,12 +105,7 @@ define( function( require ) {
 
     var self = this;
 
-    Node.call( this, {
-      tagName: 'section',
-      labelTagName: 'h2',
-      accessibleLabel: BASEA11yStrings.sceneSummaryLabelString,
-      descriptionTagName: 'ul' // description contained in an unordered list
-    } );
+    AccessibleSectionNode.call( this, sceneSummaryString );
 
     // @private
     this.model = model;
@@ -112,18 +114,37 @@ define( function( require ) {
     this.yellowBalloonDescriber = model.yellowBalloon.balloonDescriber;
     this.greenBalloonDescriber = model.greenBalloon.balloonDescriber;
 
-    // the description node is a list composed of these items:
-    this.addDescriptionItem( BASEA11yStrings.openingSummaryString ); // ID not needed for static content
-    var roomItemsItemID = this.addDescriptionItem( StringUtils.format( BASEA11yStrings.roomItemsStringPattern, BASEA11yStrings.balloonSweaterAndRemovableWallString ) );
-    var locationItemID = this.addDescriptionItem( '' ); // text content set by listener
-    var chargeItemID = this.addDescriptionItem( 'Balloon, sweater, and wall all have net neutral charge.' ); // id not needed for static content
+    // opening paragraph for the simulation
+    var openingSummaryNode = new Node( {
+      pickable: false,
+
+      // a11y
+      tagName: 'p',
+      accessibleLabel: openingSummaryString
+    } );
+    this.addChild( openingSummaryNode );
+
+    // list of dynamic description content that will update with the state of the simulation
+    var listNode = new Node( { tagName: 'ul' } );
+    var roomObjectsNode = new Node( { tagName: 'li' } );
+    var locationDescriptionNode = new Node( { tagName: 'li' } );
+    var chargeDescriptionNode = new Node( { tagName: 'li' } );
+
+    this.addChild( listNode );
+    listNode.addChild( roomObjectsNode );
+    listNode.addChild( locationDescriptionNode );
+    listNode.addChild( chargeDescriptionNode );
+
+    // static interaction hints
+    this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
+    this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
 
     // update the description of room items depending on visibility
     var roomItemsDescriptionListener = function() {
       var visibleItemsDescription;
 
       if ( model.wall.isVisibleProperty.get() ) {
-        if ( model.greenBalloon.isVisible ) {
+        if ( model.greenBalloon.isVisibleProperty.get() ) {
           visibleItemsDescription = BASEA11yStrings.twoBalloonsSweaterAndRemovableWallString;
         }
         else {
@@ -131,7 +152,7 @@ define( function( require ) {
         }
       }
       else {
-        if ( model.greenBalloon.isVisible ) {
+        if ( model.greenBalloon.isVisibleProperty.get() ) {
           visibleItemsDescription = BASEA11yStrings.twoBalloonsAndASweater;
         }
         else {
@@ -140,9 +161,9 @@ define( function( require ) {
       }
 
       assert && assert( visibleItemsDescription, 'There must be a combination of visible items which can be described.' );
-      self.updateDescriptionItem( roomItemsItemID, StringUtils.format( BASEA11yStrings.roomItemsStringPattern, visibleItemsDescription ) );
-
+      roomObjectsNode.accessibleLabel = StringUtils.format( BASEA11yStrings.roomItemsStringPattern, visibleItemsDescription );
     };
+
     model.wall.isVisibleProperty.link( roomItemsDescriptionListener );
     model.greenBalloon.isVisibleProperty.link( roomItemsDescriptionListener );
 
@@ -160,7 +181,7 @@ define( function( require ) {
         var greenBalloonDescription = self.getBalloonLocationDescription( model.greenBalloon );
 
         var combinedDescription = StringUtils.format( BASEA11yStrings.twoBalloonDescriptionPattern, yellowBalloonDescription, greenBalloonDescription );
-        self.updateDescriptionItem( locationItemID, combinedDescription );
+        locationDescriptionNode.accessibleLabel = combinedDescription;
       }
       else {
 
@@ -169,7 +190,8 @@ define( function( require ) {
         if ( model.yellowBalloon.getCenter().x === model.playArea.atCenter && model.wall.isVisibleProperty.get() ) {
           yellowBalloonDescription = StringUtils.format( BASEA11yStrings.balloonInCenterPatternString, yellowBalloonDescription, BASEA11yStrings.evenlyBetweenString );
         }
-        self.updateDescriptionItem( locationItemID, yellowBalloonDescription );
+
+        locationDescriptionNode.accessibleLabel = yellowBalloonDescription;
       }
     };
     model.yellowBalloon.locationProperty.link( balloonLocationListener );
@@ -186,14 +208,12 @@ define( function( require ) {
       if ( self.model.wall.isVisibleProperty.get() ) {
         stringPattern = '{0} {1} {2}';
         string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription, wallDescription );
-        self.updateDescriptionItem( chargeItemID, string );
       }
       else {
         stringPattern = '{0} {1}';
         string = StringUtils.format( stringPattern, balloonChargeDescription, sweaterChargeDescription );
-        self.updateDescriptionItem( chargeItemID, string );
       }
-
+      chargeDescriptionNode.accessibleLabel = string;
 
       return string;
     };
@@ -210,7 +230,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
 
-  return inherit( Node, SceneSummaryNode, {
+  return inherit( AccessibleSectionNode, SceneSummaryNode, {
 
     /**
      * Get a description for the balloon when it is in the right side of the play area.
