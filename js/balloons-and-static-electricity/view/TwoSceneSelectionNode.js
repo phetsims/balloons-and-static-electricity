@@ -97,16 +97,16 @@ define( function( require ) {
       mouseAreaXDilation: 0,
       mouseAreaYDilation: 0,
 
-      // cursor
-      cursor: 'pointer',
-      tandem: Tandem.tandemRequired(),
-
-      // a11y
-      tagName: 'button'
-
+      tandem: Tandem.tandemRequired()
     }, options );
 
-    Node.call( this, options );
+    Node.call( this, {
+      cursor: 'pointer',
+      tandem: options.tandem.createSupertypeTandem()
+    } );
+
+    // a11y
+    this.tagName = 'button';
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter();
