@@ -232,7 +232,7 @@ define( function( require ) {
     grabPatternString: 'Grab {0}',
     greenBalloonRemovedString: 'Green balloon removed from Play Area',
     greenBalloonAddedString: 'Green balloon added to Play Area',
-    playAreaLabelString: 'Play Area',
+    playAreaString: 'Play Area',
     sweaterLabelString: 'Sweater',
     wallLabelString: 'Wall',
     controlPanelLabelString: 'Control Panel',
