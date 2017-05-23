@@ -3,6 +3,18 @@
 /**
  * Scenery display object (scene graph node) for the Balloon of the model.
  *
+ * The accessible content for the balloon looks like this for assistive technology:
+ * <div>
+ *   <h3>Yellow Balloon</h3>
+ *   <p>Description of the balloon</p?
+ *   <div>
+ *     <button>Grab Yellow Balloon</button>
+ *     <div role="application"></div>
+ *
+ * Accessible content for BalloonNode acts as a container for the button and application div, which are provided by
+ * children of this node.  Beware that changing the scene graph under this node will change the structure of the
+ * accessible content.
+ *
  * @author Vasily Shakhov (Mlearner)
  * @author John Blanco
  */
@@ -18,9 +30,7 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
@@ -44,7 +54,8 @@ define( function( require ) {
     options = _.extend( {
       cursor: 'pointer',
 
-      // a11y
+      // a11y - this node will act as a container for more accessible content, its children will implement
+      // the keyboard navigation
       parentContainerTagName: 'div',
       tagName: 'div',
       labelTagName: 'h3',
@@ -95,7 +106,14 @@ define( function( require ) {
     this.addInputListener( dragHandler );
 
     // create the balloon image, but don't add it just yet
-    var balloonImageNode = new Image( imgsrc, { tandem: tandem.createTandem( 'balloonImageNode' ) } );
+    // as a child, the image node implements much of the accessilbe content
+    var balloonImageNode = new Image( imgsrc, {
+      tandem: tandem.createTandem( 'balloonImageNode' ),
+
+      // a11y
+      tagName: 'button',
+      accessibleLabel: options.accessibleButtonLabel
+    } );
 
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
@@ -172,11 +190,8 @@ define( function( require ) {
     } );
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
-    model.isVisibleProperty.lazyLink( function( isVisible ) {
+    model.isVisibleProperty.link( function( isVisible ) {
       self.setAccessibleHidden( !isVisible );
-
-      var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
-      AriaHerald.announcePolite( alertDescription );
     } );
 
     model.isDraggedProperty.link( function( isDragged ) {
