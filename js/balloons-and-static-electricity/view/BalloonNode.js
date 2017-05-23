@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -164,9 +165,13 @@ define( function( require ) {
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
 
+      console.log( model.getCenter() );
+
       // update the charge description
       model.balloonDescriber.getDescription( model );
     } );
+
+    this.addChild( new Circle( 5, { fill: 'blue', center: balloonImageNode.center } ) );
 
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( function updateChargesVisibilityOnBalloon( value ) {

@@ -18,65 +18,61 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Line = require( 'SCENERY/nodes/Line' );
 
   /**
    * @constructor
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Bounds2} layoutBounds - layout bounds of the screen view
    */
-  function PlayAreaGridNode( model ) {
+  function PlayAreaGridNode( layoutBounds, tandem ) {
 
     Node.call( this, { pickable: false } );
-    var blueOptions = { fill: 'rgba(0,0,255,0.3)' };
-    var greyOptions = { fill: 'rgba(200,200,200,0.3)' };
+    var blueOptions = { fill: 'rgba(0,0,255,0.5)' };
+    var greyOptions = { fill: 'rgba(200,200,200,0.5)' };
 
-    // left edge
-    this.addChild( new Rectangle( model.playArea.leftColumn, greyOptions ) );
+    var columns = PlayAreaMap.COLUMN_RANGES;
+    var rows = PlayAreaMap.ROW_RANGES;
 
-    // left arm
-    this.addChild( new Rectangle( model.playArea.leftArmColumn, blueOptions ) );
+    // draw each column
+    var self = this;
+    var i = 0;
+    var range;
+    for ( range in columns ) {
+      if ( columns.hasOwnProperty( range ) ) {
+        if ( i % 2 === 0 ) {
+          self.addChild( new Rectangle( columns[ range ].min, 0, columns[ range ].getLength(), PlayAreaMap.HEIGHT, blueOptions ) );
+        }
+        i++;
+      }
+    }
 
-    // right sweater body
-    this.addChild( new Rectangle( model.playArea.leftBodyColumn, greyOptions ) );
+    // draw each row
+    for ( range in rows ) {
+      if ( rows.hasOwnProperty( range ) ) {
+        if ( i % 2 === 0 ) {
+          self.addChild( new Rectangle( 0, rows[ range ].min, PlayAreaMap.WIDTH, rows[ range ].getLength(), greyOptions ) );
+        }
+        i++;
+      }
+    }
 
-    // left sweater body
-    this.addChild( new Rectangle( model.playArea.rightBodyColumn, blueOptions ) );
+    // draw the lines to along critical balloon locations along both x and y
+    var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
+    var xLocations = PlayAreaMap.X_LOCATIONS;
+    var yLocations = PlayAreaMap.Y_LOCATIONS;
+    var location;
+    for ( location in xLocations ) {
+      if ( xLocations.hasOwnProperty( location ) ) {
+        self.addChild( new Line( xLocations[ location ], 0, xLocations[ location ], PlayAreaMap.HEIGHT, lineOptions ) );
+      }
+    }
 
-    // right arm
-    this.addChild( new Rectangle( model.playArea.rightArmColumn, greyOptions ) );
-
-    // left side of play area
-    this.addChild( new Rectangle(
-      model.playArea.playAreaLeftColumn, blueOptions ) );
-
-    // center of play area
-    this.addChild( new Rectangle( model.playArea.playAreaCenterColumn, greyOptions ) );
-
-    // right side of play Area
-    this.addChild( new Rectangle( model.playArea.playAreaRightColumn, blueOptions ) );
-
-    // right edge of play area
-    this.addChild( new Rectangle( model.playArea.rightColumn, greyOptions ) );
-
-    // top edge of play area
-    this.addChild( new Rectangle( model.playArea.topRow, greyOptions ) );
-
-    // upper part of play area
-    this.addChild( new Rectangle(
-      model.playArea.upperRow, blueOptions ) );
-
-    // lower part of play area
-    this.addChild( new Rectangle( model.playArea.lowerRow, greyOptions ) );
-
-    // bottom part of play area
-    this.addChild( new Rectangle( model.playArea.bottomRow, blueOptions ) );
-
-    // draw some lines to represent positions of critical balloon points
-    var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 5 };
-    this.addChild( new Line( model.playArea.atWall, model.playArea.minY, model.playArea.atWall, model.playArea.maxY, lineOptions ) );
-    this.addChild( new Line( model.playArea.atNearWall, model.playArea.minY, model.playArea.atNearWall, model.playArea.maxY, lineOptions ) );
-    this.addChild( new Line( model.playArea.atCenter, model.playArea.minY, model.playArea.atCenter, model.playArea.maxY, lineOptions ) );
-    this.addChild( new Line( model.playArea.atNearSweater, model.playArea.minY, model.playArea.atNearSweater, model.playArea.maxY, lineOptions ) );
+    for ( location in yLocations ) {
+      if ( yLocations.hasOwnProperty( location ) ) {
+        self.addChild( new Line( 0, yLocations[ location ], PlayAreaMap.WIDTH, yLocations[ location ], lineOptions ) );
+      }
+    }
   }
 
   balloonsAndStaticElectricity.register( 'PlayAreaGridNode', PlayAreaGridNode );

@@ -14,7 +14,7 @@ define( function( require ) {
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
-  var PlayArea = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea' );
+  var PlayArea2 = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea2' );
   var Property = require( 'AXON/Property' );
   var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -44,7 +44,7 @@ define( function( require ) {
     // @public {read-only}
     this.wallWidth = 80;
 
-    this.playArea = new PlayArea( width, height, tandem.createTandem( 'playArea' ) );
+    this.playArea = new PlayArea2( width, height, tandem.createTandem( 'playArea' ) );
 
     // @public (read-only) - Model of the sweater, position empirically determined to match design
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );

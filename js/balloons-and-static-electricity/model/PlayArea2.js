@@ -24,7 +24,7 @@ define( function( require ) {
    * @param {number} height
    * @param {Tandem} tandem
    */
-  function PlayArea( width, height, tandem ) {
+  function PlayArea2( width, height, tandem ) {
 
     // total bounds of the play area
     Bounds2.call( this, ORIGIN.x, ORIGIN.y, width, height );
@@ -117,9 +117,9 @@ define( function( require ) {
 
   }
 
-  balloonsAndStaticElectricity.register( 'PlayArea', PlayArea );
+  balloonsAndStaticElectricity.register( 'PlayArea2', PlayArea2 );
 
-  return inherit( Bounds2, PlayArea, {
+  return inherit( Bounds2, PlayArea2, {
 
     /**
      * Determine which section of the play area the location vector is.
