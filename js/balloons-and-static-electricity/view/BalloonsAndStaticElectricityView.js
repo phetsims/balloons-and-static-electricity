@@ -13,9 +13,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var HSlider = require( 'SUN/HSlider' );
-  var Property = require( 'AXON/Property' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
@@ -42,11 +39,9 @@ define( function( require ) {
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   var balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
-  var backgroundImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/grid-mockup.png' );
 
   // constants
   var BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
-  var MOCKUP = BalloonsAndStaticElectricityQueryParameters.mockup;
 
   /**
    * @constructor
@@ -179,16 +174,6 @@ define( function( require ) {
       var reader = new Reader( cursor );
       var display = new ReaderDisplayNode( reader, readerDisplayBounds );
       this.addChild( display );
-    }
-
-    if ( MOCKUP ) {
-      //Show the mock-up and a slider to change its transparency
-      var mockupOpacityProperty = new Property( 0.00 );
-      var mockImage = new Image( backgroundImage, { pickable: false } );
-      mockImage.scale( this.layoutBounds.width / mockImage.width, this.layoutBounds.height / mockImage.height );
-      mockupOpacityProperty.linkAttribute( mockImage, 'opacity' );
-      this.addChild( mockImage );
-      this.addChild( new HSlider( mockupOpacityProperty, { min: 0, max: 1 }, { top: 10, left: 10 } ) );
     }
   }
 

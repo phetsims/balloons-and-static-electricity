@@ -14,8 +14,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var AccessibleDragNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/AccessibleDragNode' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -29,7 +27,6 @@ define( function( require ) {
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
-  var KEY_SPACE = 32; // keycode for 'spacebar'
 
   /**
    * Constructor for the balloon
@@ -165,8 +162,6 @@ define( function( require ) {
     model.locationProperty.link( function updateLocation( location ) {
       self.translation = location;
 
-      console.log( model.getCenter() );
-
       // update the charge description
       model.balloonDescriber.getDescription( model );
     } );
@@ -196,48 +191,48 @@ define( function( require ) {
     } );
 
     // the balloon is dragged in model coordinates, adjusted for dimensions of the balloon body
-    var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
+    // var balloonDragBounds = new Bounds2( 0, 0, globalModel.playArea.maxX - this.model.width, globalModel.playArea.maxY - this.model.height );
 
-    // a flag to track whether or not a charge was picked up for dragging
-    self.accessibleDragNode = new AccessibleDragNode( model.locationProperty, tandem.createTandem( 'accessibleDragNode' ), {
-      dragBounds: balloonDragBounds,
-      label: balloonDraggableLabel,
-      labelTagName: 'p',
-      descriptionTagName: 'p',
-      parentContainerTagName: 'div',
-      focusHighlight: focusHighlightNode,
-      focusable: false, // this is only focusable by pressing the button, should not be in navigation order
-      onKeyUp: function( event ) {
-        if ( event.keyCode === KEY_SPACE ) {
+    // // a flag to track whether or not a charge was picked up for dragging
+    // self.accessibleDragNode = new AccessibleDragNode( model.locationProperty, tandem.createTandem( 'accessibleDragNode' ), {
+    //   dragBounds: balloonDragBounds,
+    //   label: balloonDraggableLabel,
+    //   labelTagName: 'p',
+    //   descriptionTagName: 'p',
+    //   parentContainerTagName: 'div',
+    //   focusHighlight: focusHighlightNode,
+    //   focusable: false, // this is only focusable by pressing the button, should not be in navigation order
+    //   onKeyUp: function( event ) {
+    //     if ( event.keyCode === KEY_SPACE ) {
 
-          // release the balloon and set focus to button
-          self.releaseBalloon();
-          accessibleButtonNode.focus();
-        }
-      },
-      onTab: function( event ) {
-        self.releaseBalloon();
-      },
-      ariaDescribedByElement: self.domElement,
-      ariaLabelledByElement: self.domElement
-    } );
+    //       // release the balloon and set focus to button
+    //       self.releaseBalloon();
+    //       accessibleButtonNode.focus();
+    //     }
+    //   },
+    //   onTab: function( event ) {
+    //     self.releaseBalloon();
+    //   },
+    //   ariaDescribedByElement: self.domElement,
+    //   ariaLabelledByElement: self.domElement
+    // } );
 
-    this.accessibleDragNode.keyUpEmitter.addListener( function( keyCode ) {
-      if ( self.accessibleDragNode.draggableKeyUp( keyCode ) ) {
-        // on the next animation frame (after balloon has moved and picked up all charges)
-        // announce the interaction in an alert
-        model.announceInteraction = true;
-      }
-    } );
+    // this.accessibleDragNode.keyUpEmitter.addListener( function( keyCode ) {
+    //   if ( self.accessibleDragNode.draggableKeyUp( keyCode ) ) {
+    //     // on the next animation frame (after balloon has moved and picked up all charges)
+    //     // announce the interaction in an alert
+    //     model.announceInteraction = true;
+    //   }
+    // } );
 
     // when an interaction has ended, update the user with the results through an assertive alert  
     model.interactionEndEmitter.addListener( function() {
       AriaHerald.announceAssertive( model.balloonDescriber.getDraggingDescription( model.locationProperty.get(), model.oldLocation ) );
     } );
 
-    this.accessibleDragNode.balloonJumpingEmitter.addListener( function( keyCode ) {
-      AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, keyCode ) );
-    } );
+    // this.accessibleDragNode.balloonJumpingEmitter.addListener( function( keyCode ) {
+    //   AriaHerald.announceAssertive( model.balloonDescriber.getJumpingDescription( self.model, keyCode ) );
+    // } );
 
     var accessibleButtonNode = new Node( {
       tagName: 'button', // representative type
@@ -255,7 +250,7 @@ define( function( require ) {
         model.isDraggedProperty.set( true );
 
         // grab and focus the draggable element
-        self.accessibleDragNode.focus();
+        // self.accessibleDragNode.focus();
 
         // reset the velocity when picked up
         model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -263,7 +258,7 @@ define( function( require ) {
     } );
 
     this.addChild( accessibleButtonNode );
-    this.addChild( self.accessibleDragNode );
+    // this.addChild( self.accessibleDragNode );
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.lazyLink( function( isVisible ) {
@@ -278,11 +273,11 @@ define( function( require ) {
       focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
 
       // when the balloon is no longer being dragged, it should be removed from the focus order
-      self.accessibleDragNode.setFocusable( isDragged );
+      // self.accessibleDragNode.setFocusable( isDragged );
 
       // the button node must be hidden first
       accessibleButtonNode.setAccessibleHidden( isDragged );
-      self.accessibleDragNode.setAccessibleHidden( !isDragged );
+      // self.accessibleDragNode.setAccessibleHidden( !isDragged );
 
       // a11y - update the navigation cue when the balloon is picked up
       var locationDescription = model.balloonDescriber.getDescription( model, isDragged );
@@ -311,12 +306,12 @@ define( function( require ) {
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
 
       // an adjustment to the draggable width depending on whether or not the wall is visible
-      var boundsAdjustment = isVisible ? globalModel.wallWidth : 0;
-      var boundsWidth = globalModel.playArea.maxX - self.model.width - boundsAdjustment;
-      var boundsHeight = globalModel.playArea.maxY - self.model.height;
+      // var boundsAdjustment = isVisible ? globalModel.wallWidth : 0;
+      // var boundsWidth = globalModel.playArea.maxX - self.model.width - boundsAdjustment;
+      // var boundsHeight = globalModel.playArea.maxY - self.model.height;
 
-      var balloonDragBounds = new Bounds2( 0, 0, boundsWidth, boundsHeight );
-      self.accessibleDragNode.setDragBounds( balloonDragBounds );
+      // var balloonDragBounds = new Bounds2( 0, 0, boundsWidth, boundsHeight );
+      // self.accessibleDragNode.setDragBounds( balloonDragBounds );
 
       // get a description for the changing balloon in case it moves when the wall is made invisible
       // should only be announced if the balloon had a charge, was touching the wall, and the wall is 
@@ -342,7 +337,7 @@ define( function( require ) {
      * @param  {number} dt
      */
     step: function( dt ) {
-      this.accessibleDragNode.step( dt );
+      // this.accessibleDragNode.step( dt );
     },
 
     /**

@@ -32,7 +32,6 @@ define( function( require ) {
     AT_BOTTOM: 393
   };
 
-  // column ranges
   var COLUMN_RANGES = {
     LEFT_ARM: new Range( 0, 138 ),
     LEFT_SIDE_OF_SWEATER: new Range( 138, 203 ),
