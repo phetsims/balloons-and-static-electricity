@@ -35,6 +35,8 @@ define( function( require ) {
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
   var playAreaString = BASEA11yStrings.playAreaString;
+  var yellowBalloonString = BASEA11yStrings.yellowBalloonString;
+  var greenBalloonString = BASEA11yStrings.greenBalloonString;
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -99,15 +101,9 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
-    this.yellowBalloonNode = new BalloonNode(
-      400,
-      200,
-      model.yellowBalloon,
-      balloonYellow,
-      model,
-      'yellow',
-      tandem.createTandem( 'yellowBalloonNode' )
-    );
+    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', tandem.createTandem( 'yellowBalloonNode' ), {
+      accessibleLabel: yellowBalloonString
+    } );
     var tetherAnchorPoint = new Vector2(
       model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
       this.layoutBounds.height + 50 // slightly below bottom of frame, amount was empirically determined
@@ -118,15 +114,9 @@ define( function( require ) {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode(
-      500,
-      200,
-      model.greenBalloon,
-      balloonGreen,
-      model,
-      'green',
-      tandem.createTandem( 'greenBalloonNode' )
-    );
+    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', tandem.createTandem( 'greenBalloonNode' ), {
+      accessibleLabel: greenBalloonString
+    } );
     this.greenBalloonTetherNode = new TetherNode(
       model.greenBalloon,
       tetherAnchorPoint,
@@ -187,8 +177,8 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
-      this.greenBalloonNode.step( dt );
-      this.yellowBalloonNode.step( dt );
+      // this.greenBalloonNode.step( dt );
+      // this.yellowBalloonNode.step( dt );
 
       // step the audio
       this.audioView && this.audioView.step( dt );
