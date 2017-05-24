@@ -190,6 +190,5 @@ define( function( require ) {
     reset: function() {
       this.keyState = {};
     }
-
   } );
 } );
