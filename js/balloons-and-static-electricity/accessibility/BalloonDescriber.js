@@ -16,7 +16,6 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
-  var StringMaps = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/StringMaps' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
@@ -25,6 +24,19 @@ define( function( require ) {
   var SEVERAL_RANGE = new Range( 15, 40 );
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
+
+  var StringMaps = {
+    DIRECTION_MAP: {
+      UP: BASEA11yStrings.upString,
+      DOWN: BASEA11yStrings.downString,
+      LEFT: BASEA11yStrings.leftString,
+      RIGHT: BASEA11yStrings.rightString,
+      UP_RIGHT: BASEA11yStrings.upAndRightString,
+      UP_LEFT: BASEA11yStrings.upAndLeftString,
+      DOWN_RIGHT: BASEA11yStrings.downAndRightString,
+      DOWN_LEFT: BASEA11yStrings.downAndLeftString
+    }
+  };
 
   /**
    * @param {BalloonsAndStaticElectricityModel} model
