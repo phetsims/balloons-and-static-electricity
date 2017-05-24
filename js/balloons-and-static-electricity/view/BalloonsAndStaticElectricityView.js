@@ -173,12 +173,15 @@ define( function( require ) {
 
     /**
      * Step the view.  For acccessibility, we want to step the 'AudioView' and the the keyboard drag handlers.
-     * @param number} dt description
+     * @param number} dt 
      * @public
      */
     step: function( dt ) {
-      // this.greenBalloonNode.step( dt );
-      // this.yellowBalloonNode.step( dt );
+      this.greenBalloonNode.keyboardDragHandler.step();
+      this.yellowBalloonNode.keyboardDragHandler.step();
+
+      // this.greenBalloonNode.step();
+      // this.yellowBalloonNode.step();
 
       // step the audio
       this.audioView && this.audioView.step( dt );

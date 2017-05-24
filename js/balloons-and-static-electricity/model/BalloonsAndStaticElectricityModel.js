@@ -16,6 +16,7 @@ define( function( require ) {
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   var PlayArea2 = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea2' );
   var Property = require( 'AXON/Property' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -49,12 +50,8 @@ define( function( require ) {
     // @public (read-only) - Model of the sweater, position empirically determined to match design
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
-    this.bounds = {
-      minX: 0,
-      minY: 0,
-      maxX: width - this.wallWidth,
-      maxY: height
-    };
+    // @public
+    this.bounds = new Bounds2( 0, 0, width - this.wallWidth, height );
 
     this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW, tandem.createTandem( 'yellowBalloon' ) );
     this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
@@ -71,6 +68,10 @@ define( function( require ) {
           balloon.isStoppedProperty.set( false );
         }
       } );
+
+      // update the model bounds
+      var newWidth = isVisible ? width - self.wallWidth : width;
+      self.bounds.setMaxX( newWidth );
     } );
 
     this.reset();
@@ -123,15 +124,12 @@ define( function( require ) {
 
     //check if balloon outside world borders and return it to border if outside
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
-      var rightBound = this.width;
 
       //flag to check if we outside borders
       var isOutBounds = false;
 
-      //if wall exist - right border smaller on wallWidth
-      if ( this.wall.isVisibleProperty.get() ) {
-        rightBound -= this.wallWidth;
-      }
+      // if wall visible, right bound will be smaller by width of wall
+      var rightBound = this.bounds.width;
 
       //if more than maxRight position - set maxRight position
       if ( position.x + objWidth > rightBound ) {

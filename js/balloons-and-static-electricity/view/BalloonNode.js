@@ -25,11 +25,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var KeyboardDragHandler = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/KeyboardDragHandler' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // constants
@@ -112,7 +114,33 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: options.accessibleButtonLabel
+      accessibleLabel: options.accessibleButtonLabel,
+      focusHighlight: focusHighlightNode
+    } );
+
+    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
+    // information
+    this.keyboardDragHandler = new KeyboardDragHandler( model.locationProperty, {
+      dragBounds: this.getDragBounds(),
+      shiftKeyMultiplier: 0.25
+    } );
+
+    // when the button is clicked, the accessible content should change to 
+    // the div with the ARIA application role
+    balloonImageNode.addAccessibleInputListener( {
+      click: function() {
+        balloonImageNode.mutate( {
+          tagName: 'div',
+          ariaRole: 'application',
+          focusable: true,
+          accessibleLabel: self.accessibleLabel,
+        } );
+
+        balloonImageNode.addAccessibleInputListener( self.keyboardDragHandler );
+
+        balloonImageNode.focus();
+        model.isDraggedProperty.set( true );
+      }
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
@@ -151,6 +179,11 @@ define( function( require ) {
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
+    // update the drag bounds when wall visibility changes
+    globalModel.wall.isVisibleProperty.link( function( isVisible ) {
+      self.keyboardDragHandler.dragBounds = self.getDragBounds();
+    } );
+
     //if change charge, show more minus charges and update the description
     model.chargeProperty.link( function updateCharge( chargeVal ) {
       var numVisibleMinusCharges = Math.abs( chargeVal );
@@ -188,6 +221,7 @@ define( function( require ) {
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR,
       tandem: tandem.createTandem( 'focusHighlightNode' )
     } );
+    balloonImageNode.focusHighlight = focusHighlightNode;
 
     // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.link( function( isVisible ) {
@@ -217,6 +251,13 @@ define( function( require ) {
 
       // release the balloon
       this.model.isDraggedProperty.set( false );
+    },
+
+    getDragBounds: function() {
+      var modelBounds = this.globalModel.bounds;
+      var balloonWidth = this.model.width;
+      var balloonHeight = this.model.height;
+      return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
     }
   } );
 } );
