@@ -4,8 +4,8 @@
  * A general type for keyboard dragging.  Updates a position Property with keyboard interaction.  Objects can be
  * dragged in two dimensions with the arrow keys and with the WASD keys.
  *
- * JavaScript does not natively handle many 'keydown' events at once, so we have a custom implementation that
- * tracks which keys are down and for how long in a step() function. Therefore, this drag handler requires a view step.
+ * JavaScript does not natively handle multiple 'keydown' events at once, so we have a custom implementation that
+ * tracks which keys are down and for how long in a step() function. To function, this drag handler requires a view step.
  * 
  * @author Jesse Greenberg
  */
@@ -29,17 +29,16 @@ define( function( require ) {
 
     var self = this;
     options = _.extend( {
-      positionDelta: 5, // while the key is down, 1D delta for the positionProperty
+      positionDelta: 5, // while direction key is down, 1D delta for the positionProperty
       shiftKeyMultiplier: 2, // if shift key is down, dragging speed will be changed by this multiplier
       dragBounds: Bounds2.EVERYTHING // position will be limited to these bounds
     }, options );
 
-    // @private - tracks the state of the keyboard, key value pairs of keycode {number} and isDown {boolean}
-    // JavaScript doesn't handle multiple key presses, so we track whcih keys are currently down and update via step()
+    // @private - tracks the state of the keyboard, key-value pairs of keycode {number} and isDown {boolean}
+    // JavaScript doesn't handle multiple key presses, so we track which keys are currently down and update via step()
     this.keyState = {};
 
-    // @private - the change in position (in model coordinates) that will be applied by
-    // dragging with the keyboard
+    // @private - the change in position (in model coordinates) that will be applied by dragging with the keyboard
     this.positionDelta = options.positionDelta;
 
     // @private
