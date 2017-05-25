@@ -150,6 +150,10 @@ define( function( require ) {
       return this.keyState[ Input.KEY_DOWN_ARROW ] || this.keyState[ Input.KEY_S ];
     },
 
+    enterKeyDown: function() {
+      return this.keyState[ Input.KEY_ENTER ];
+    },
+
     /**
      * Returns true if the keystate indicates that the shift key is currently down.
      * 

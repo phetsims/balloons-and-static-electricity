@@ -26,6 +26,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Input = require( 'SCENERY/input/Input' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -46,11 +47,10 @@ define( function( require ) {
    * @param  {BalloonModel} model
    * @param  {Image} imgsrc - image source from the image plugin
    * @param  {BalloonsAndStaticElectricityModel} globalModel
-   * @param  {string} balloonColor - 'yellow'|'green'
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, balloonColor, tandem, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleButtonLabel, tandem, options ) {
     var self = this;
 
     options = _.extend( {
@@ -114,8 +114,9 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: options.accessibleButtonLabel,
-      focusHighlight: focusHighlightNode
+      accessibleLabel: accessibleButtonLabel,
+      focusHighlight: focusHighlightNode,
+      focusable: true
     } );
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
@@ -125,23 +126,81 @@ define( function( require ) {
       shiftKeyMultiplier: 0.25
     } );
 
-    // when the button is clicked, the accessible content should change to 
-    // the div with the ARIA application role
-    balloonImageNode.addAccessibleInputListener( {
-      click: function() {
+    // a flag that will prevent the balloon from being picked up again immediately after dropping with 'enter'
+    // when dropped with 'enter', enter is still down on the balloon so a click event will be registered immediately
+    var dropWithEnter = false;
+    var keyboardDropListener = {
+      keyup: function( event ) {
+        if ( event.keyCode === Input.KEY_SPACE ) {
+          balloonImageNode.mutate( {
+            tagName: 'button',
+            accessibleLabel: accessibleButtonLabel,
+          } );
+
+          // remove the drag handler and pickup listener
+          balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
+          balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
+
+          // pick up again on 'enter' and 'spacebar'
+          keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
+
+          balloonImageNode.focus();
+          model.isDraggedProperty.set( false );
+        }
+      },
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_ENTER ) {
+
+          dropWithEnter = true;
+          balloonImageNode.mutate( {
+            tagName: 'button',
+            accessibleLabel: accessibleButtonLabel,
+          } );
+
+          // remove the drag handler and pickup listener
+          balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
+          balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
+
+          // pick up again on 'enter' and 'spacebar'
+          keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
+
+          balloonImageNode.focus();
+          model.isDraggedProperty.set( false );
+        }
+      }
+    };
+
+    var keyboardPickUpListener = {
+      click: function( event ) {
+
+        // if we dropped the balloon with enter, refrain from picking up immediately - enter will be 'down' on
+        // the dropped balloon and a click event will be triggered immediately
+        if ( dropWithEnter ) {
+          dropWithEnter = false;
+          return;
+        }
+
         balloonImageNode.mutate( {
           tagName: 'div',
           ariaRole: 'application',
-          focusable: true,
-          accessibleLabel: self.accessibleLabel,
+          accessibleLabel: self.accessibleLabel
         } );
+        balloonImageNode.removeAccessibleInputListener( keyboardPickUpListener );
 
+        // drag handler
         balloonImageNode.addAccessibleInputListener( self.keyboardDragHandler );
+
+        // drop the balloon on 'enter' and 'spacebar'
+        keyboardDropListener = balloonImageNode.addAccessibleInputListener( keyboardDropListener );
 
         balloonImageNode.focus();
         model.isDraggedProperty.set( true );
       }
-    } );
+    };
+
+    // when the button is clicked, the accessible content should change to 
+    // the div with the ARIA application role
+    keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
 
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );

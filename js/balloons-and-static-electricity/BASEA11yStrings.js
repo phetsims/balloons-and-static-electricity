@@ -207,6 +207,9 @@ define( function( require ) {
     greenBalloonLabelString: 'Green Balloon',
     yellowBalloonLabelString: 'Yellow Balloon',
 
+    grabGreenBalloonString: 'Grab Green Balloon',
+    grabYellowBalloonString: 'Grab Yellow Balloon',
+
     // directions
     upString: 'up',
     downString: 'down',

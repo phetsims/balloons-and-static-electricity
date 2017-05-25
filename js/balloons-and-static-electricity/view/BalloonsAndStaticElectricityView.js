@@ -37,6 +37,9 @@ define( function( require ) {
   var playAreaString = BASEA11yStrings.playAreaString;
   var yellowBalloonString = BASEA11yStrings.yellowBalloonString;
   var greenBalloonString = BASEA11yStrings.greenBalloonString;
+  var grabYellowBalloonString = BASEA11yStrings.grabYellowBalloonString;
+  var grabGreenBalloonString = BASEA11yStrings.grabGreenBalloonString;
+
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -101,7 +104,7 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
-    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'yellow', tandem.createTandem( 'yellowBalloonNode' ), {
+    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, grabYellowBalloonString, tandem.createTandem( 'yellowBalloonNode' ), {
       accessibleLabel: yellowBalloonString
     } );
     var tetherAnchorPoint = new Vector2(
@@ -114,7 +117,7 @@ define( function( require ) {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, 'green', tandem.createTandem( 'greenBalloonNode' ), {
+    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, grabGreenBalloonString, tandem.createTandem( 'greenBalloonNode' ), {
       accessibleLabel: greenBalloonString
     } );
     this.greenBalloonTetherNode = new TetherNode(
