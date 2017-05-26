@@ -126,46 +126,40 @@ define( function( require ) {
       shiftKeyMultiplier: 0.25
     } );
 
-    // a flag that will prevent the balloon from being picked up again immediately after dropping with 'enter'
-    // when dropped with 'enter', enter is still down on the balloon so a click event will be registered immediately
+    var accessibleDropBalloon = function() {
+      balloonImageNode.mutate( {
+        tagName: 'button',
+        accessibleLabel: accessibleButtonLabel
+      } );
+
+      // remove the drag handler and pickup listener
+      balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
+      balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
+
+      // pick up again on 'enter' and 'spacebar'
+      keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
+
+      model.isDraggedProperty.set( false );
+      self.keyboardDragHandler.reset();
+    };
+
+
+    // the ballooon can be dropped with enter, spacebar, and tab.  If with enter, we set a flag that prevents
+    // the balloon from being picked up immediately again when the accessible content changes to a button and
+    // the 'enter' key is still down.  
     var dropWithEnter = false;
     var keyboardDropListener = {
       keyup: function( event ) {
         if ( event.keyCode === Input.KEY_SPACE ) {
-          balloonImageNode.mutate( {
-            tagName: 'button',
-            accessibleLabel: accessibleButtonLabel,
-          } );
-
-          // remove the drag handler and pickup listener
-          balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
-          balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
-
-          // pick up again on 'enter' and 'spacebar'
-          keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
-
+          accessibleDropBalloon();
           balloonImageNode.focus();
-          model.isDraggedProperty.set( false );
         }
       },
       keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_ENTER ) {
-
-          dropWithEnter = true;
-          balloonImageNode.mutate( {
-            tagName: 'button',
-            accessibleLabel: accessibleButtonLabel,
-          } );
-
-          // remove the drag handler and pickup listener
-          balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
-          balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
-
-          // pick up again on 'enter' and 'spacebar'
-          keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
-
+        if ( event.keyCode === Input.KEY_ENTER ) { dropWithEnter = true; }
+        if ( event.keyCode === Input.KEY_ENTER || event.keyCode === Input.KEY_TAB ) {
+          accessibleDropBalloon();
           balloonImageNode.focus();
-          model.isDraggedProperty.set( false );
         }
       }
     };
@@ -187,10 +181,7 @@ define( function( require ) {
         } );
         balloonImageNode.removeAccessibleInputListener( keyboardPickUpListener );
 
-        // drag handler
         balloonImageNode.addAccessibleInputListener( self.keyboardDragHandler );
-
-        // drop the balloon on 'enter' and 'spacebar'
         keyboardDropListener = balloonImageNode.addAccessibleInputListener( keyboardDropListener );
 
         balloonImageNode.focus();
@@ -298,18 +289,6 @@ define( function( require ) {
 
     getPositionOnSweaterDescription: function() {
       return 'Please implement this function or delete.';
-    },
-
-    /**
-     * Release the balloon from a dragging state with the keyboard.  Calling this function
-     * will set the model dragging property and anounce alert description.s
-     *
-     * @returns {type}  description
-     */
-    releaseBalloon: function() {
-
-      // release the balloon
-      this.model.isDraggedProperty.set( false );
     },
 
     getDragBounds: function() {
