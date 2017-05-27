@@ -107,7 +107,8 @@ define( function( require ) {
       ),
       property: model.showChargesProperty,
       value: 'all',
-      tandemName: 'showAllChargesRadioButton'
+      tandemName: 'showAllChargesRadioButton',
+      accessibleLabel: balloonAppletShowAllChargesString
     }, {
       node: new Text(
         balloonAppletShowNoChargesString,
@@ -115,7 +116,8 @@ define( function( require ) {
       ),
       property: model.showChargesProperty,
       value: 'none',
-      tandemName: 'showNoChargesRadioButton'
+      tandemName: 'showNoChargesRadioButton',
+      accessibleLabel: balloonAppletShowNoChargesString
     }, {
       node: new Text(
         balloonAppletShowChargeDifferencesString,
@@ -123,11 +125,12 @@ define( function( require ) {
       ),
       property: model.showChargesProperty,
       value: 'diff',
-      tandemName: 'showChargeDifferencesRadioButton'
+      tandemName: 'showChargeDifferencesRadioButton',
+      accessibleLabel: balloonAppletShowChargeDifferencesString
     } ], {
       radius: 7,
       touchAreaXDilation: 5,
-      tandem: tandem.createTandem( 'showChargesRadioButtonGroup' )
+      tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
