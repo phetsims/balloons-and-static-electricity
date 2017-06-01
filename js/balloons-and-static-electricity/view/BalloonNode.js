@@ -126,6 +126,15 @@ define( function( require ) {
       shiftKeyMultiplier: 0.25
     } );
 
+    // add some jumping key functionality
+    this.keyboardDragHandler.addHotkeyGroup( {
+      keys: [ Input.KEY_J, Input.KEY_W ],
+      callback: function() {
+        model.locationProperty.set( new Vector2( 0, 0 ) );
+      }
+    } );
+    
+
     var accessibleDropBalloon = function() {
       balloonImageNode.mutate( {
         tagName: 'button',

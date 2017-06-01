@@ -34,9 +34,18 @@ define( function( require ) {
       dragBounds: Bounds2.EVERYTHING // position will be limited to these bounds
     }, options );
 
-    // @private - tracks the state of the keyboard, key-value pairs of keycode {number} and isDown {boolean}
-    // JavaScript doesn't handle multiple key presses, so we track which keys are currently down and update via step()
-    this.keyState = {};
+    // @private - tracks the state of the keyboard, array elements are objects with key-value pairs of keyCode {number},
+    // isDown {boolean}, and timeDown {number}. JavaScript doesn't handle multiple key presses, so we track
+    // which keys are currently down and update via step()
+    this.keyState = [];
+
+    // @private - groups of keys that will change the position property or have other behavior.  Entries of the array will look
+    // like { keys: <Array.number>, callback: <Function> }.  Add hotkey groups with this.addHotkeyGroup
+    this.hotkeyGroups = [];
+
+    // @private - a key in the hot key group that is currently down.  Object collects { keyCode: <number>, timeDown: <number> }
+    // when one of the hotkeys are pressed down, this 
+    this.hotKeyDown = {};
 
     // @private - the change in position (in model coordinates) that will be applied by dragging with the keyboard
     this.positionDelta = options.positionDelta;
@@ -50,21 +59,30 @@ define( function( require ) {
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
     this.keydown = function( event ) {
 
+      // if the key is already down, don't do anything else (we don't want to create a new keystate object
+      // for a key that is already being tracked and down)
+      if ( self.keyInListDown( [ event.keyCode ] ) ) { return; }
+
       // required to work with Safari and VoiceOver, otherwise arrow keys will move virtual cursor
-      if ( Input.isArrowKey( event.keyCode ) ) {
-        event.preventDefault();
-      }
+      if ( Input.isArrowKey( event.keyCode ) ) { event.preventDefault(); }
 
       // update the key state
-      self.keyState[ event.keyCode ] = true;
+      self.keyState.push( {
+        keyDown: true,
+        keyCode: event.keyCode,
+        timeDown: 0 // in ms
+      } );
+
     };
 
     // @public (read-only) - listener that will be added to the node for dragging behavior, made public on the Object
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
     this.keyup = function( event ) {
-
-      // update the key state
-      self.keyState[ event.keyCode ] = false;
+      for ( var i = 0; i < self.keyState.length; i++ ) {
+        if ( event.keyCode === self.keyState[ i ].keyCode ) {
+          self.keyState.splice( i, 1 );
+        }
+      }
     };
   }
 
@@ -81,6 +99,43 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
+
+      //  for each key that is still down, increment the tracked time that they have been down
+      for ( var i = 0; i < this.keyState.length; i++ ) {
+        if ( this.keyState[ i ].keyDown ) {
+          this.keyState[ i ].timeDown += dt;
+        }
+      }
+
+      // check to see if any hotkey combinations are down -
+      for ( var j = 0; j < this.hotkeyGroups.length; j++ ) {
+        var hotkeysDown = [];
+        var keys = this.hotkeyGroups[ j ].keys;
+
+        for ( var k = 0; k < keys.length; k++ ) {
+          for ( var l = 0; l < this.keyState.length; l++ ) {
+            if ( this.keyState[ l ].keyCode === keys[ k ] ) {
+              hotkeysDown.push( this.keyState[ l ] );
+            }
+          }
+        }
+
+        console.log( hotkeysDown );
+
+        // the hotKeysDown array order should match the order of teh key group, so now we just need to make
+        // sure that the key down times are in the right order
+        var keysInOrder = false;
+        for ( var m = 0; m < hotkeysDown.length - 1; m++ ) {
+          if ( hotkeysDown[ m + 1 ] && hotkeysDown[ m ].timeDown > hotkeysDown[ m + 1 ].timeDown ) {
+            keysInOrder = true;
+          }
+        }
+
+        // if keys are in order, call the callback associated with the group
+        if ( keysInOrder ) {
+          this.hotkeyGroups[ j ].callback();
+        }
+      }
 
       var deltaX = 0;
       var deltaY = 0;
@@ -110,6 +165,42 @@ define( function( require ) {
       }
     },
 
+    getKeyInState: function( keyCode ) {
+      var keyObject = null;
+      for ( var i = 0; i < this.keyState.length; i++ ) {
+        if ( this.keyState[ i ].keyCode === keyCode ) {
+          keyObject = this.keyState[ i ];
+        }
+      }
+      return keyObject;
+    },
+
+    /**
+     * Returns true if any of the keys in the list are currently down.
+     * 
+     * @param  {Array.<number>} keys
+     * @return {boolean}
+     */
+    keyInListDown: function( keys ) {
+      var keyIsDown = false;
+      for ( var i = 0; i < this.keyState.length; i++ ) {
+        if ( this.keyState[ i ].keyDown ) {
+          for ( var j = 0; j < keys.length; j++ ) {
+            if ( keys[ j ] === this.keyState[ i ].keyCode ) {
+              keyIsDown = true;
+              break;
+            }
+          }
+        }
+        if ( keyIsDown ) {
+          // no need to keep looking
+          break;
+        }
+      }
+
+      return keyIsDown;
+    },
+
     /**
      * Returns true if the keystate indicates that a key is down that should move the object to the left.
      * 
@@ -117,7 +208,7 @@ define( function( require ) {
      * @return {boolean}
      */
     leftMovementKeysDown: function() {
-      return this.keyState[ Input.KEY_LEFT_ARROW ] || this.keyState[ Input.KEY_A ];
+      return this.keyInListDown( [ Input.KEY_A, Input.KEY_LEFT_ARROW ] );
     },
 
     /**
@@ -127,7 +218,7 @@ define( function( require ) {
      * @return {boolean}
      */
     rightMovementKeysDown: function() {
-      return this.keyState[ Input.KEY_RIGHT_ARROW ] || this.keyState[ Input.KEY_D ];
+      return this.keyInListDown( [ Input.KEY_RIGHT_ARROW, Input.KEY_D ] );
     },
 
     /**
@@ -137,7 +228,7 @@ define( function( require ) {
      * @return {boolean}
      */
     upMovementKeysDown: function() {
-      return this.keyState[ Input.KEY_UP_ARROW ] || this.keyState[ Input.KEY_W ];
+      return this.keyInListDown( [ Input.KEY_UP_ARROW, Input.KEY_W ] );
     },
 
     /**
@@ -147,11 +238,11 @@ define( function( require ) {
      * @return {boolean}
      */
     downMovementKeysDown: function() {
-      return this.keyState[ Input.KEY_DOWN_ARROW ] || this.keyState[ Input.KEY_S ];
+      return this.keyInListDown( [ Input.KEY_DOWN_ARROW, Input.KEY_S ] );
     },
 
     enterKeyDown: function() {
-      return this.keyState[ Input.KEY_ENTER ];
+      return this.keyInListDown( [ Input.KEY_ENTER ] );
     },
 
     /**
@@ -160,7 +251,7 @@ define( function( require ) {
      * @return {boolean}
      */
     shiftKeyDown: function() {
-      return this.keyState[ Input.KEY_SHIFT ];
+      return this.keyInListDown( [ Input.KEY_SHIFT ] );
     },
 
     /**
@@ -187,12 +278,21 @@ define( function( require ) {
     get dragBounds() { return this.getDragBounds(); },
 
     /**
+     * Add a set of hotkeys that will provide special behavior to 
+     * @param {Array.<number>} keys
+     * @param {Function} callback - called back when all keys listed in keys array are down
+     */
+    addHotkeyGroup: function( hotkeyGroup ) {
+      this.hotkeyGroups.push( hotkeyGroup );
+    },
+
+    /**
      * Reset the keystate Object tracking which keys are currently pressed down.
      * 
      * @public
      */
     reset: function() {
-      this.keyState = {};
+      this.keyState = [];
     }
   } );
 } );
