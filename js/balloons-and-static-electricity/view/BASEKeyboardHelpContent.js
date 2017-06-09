@@ -124,7 +124,6 @@ define( function( require ) {
       tagName: 'div',
       focusable: true
     } );
-    contentVBox.setAriaLabelledByElement( contentVBox.domElement );
 
     Panel.call( this, contentVBox, options );
   }
