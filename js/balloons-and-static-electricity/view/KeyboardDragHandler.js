@@ -120,8 +120,6 @@ define( function( require ) {
           }
         }
 
-        console.log( hotkeysDown );
-
         // the hotKeysDown array order should match the order of teh key group, so now we just need to make
         // sure that the key down times are in the right order
         var keysInOrder = false;
