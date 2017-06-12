@@ -33,7 +33,7 @@ define( function( require ) {
   var VELOCITY_ARRAY_LENGTH = 5;
   var THRESHOLD_SPEED = 0.025;
 
-  // collection of charge positions on the balloon
+  // collection of charge positions on the balloon, relative to the top left corners
   // charges will appear in these positions as the balloon collects electrons
   var POSITIONS = [
     [ 14, 70 ],
@@ -689,6 +689,27 @@ define( function( require ) {
       }
       var kqq = BalloonModel.coeff * this.chargeProperty.get() * this.other.chargeProperty.get();
       return BalloonModel.getForce( this.getCenter(), this.other.getCenter(), kqq );
+    },
+
+    /**
+     * Balloon charges aren't evenly distributed throughout the balloon, they conform to the upper left edge of the
+     * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
+     * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the
+     * balloon plus the average y position of the charges.
+     * 
+     * @public
+     * @return {Vector2}
+     */
+    getChargeCenter: function() {
+      var positionYSum = 0;
+      for (var i = 0; i < POSITIONS.length; i++ ) {
+        positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
+      }
+
+      var centerX = this.getCenter().x;
+      var centerY = this.locationProperty.get().y + ( positionYSum / POSITIONS.length );
+
+      return new Vector2( centerX, centerY );
     }
   }, {
 

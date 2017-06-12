@@ -79,7 +79,8 @@ define( function( require ) {
       // value for k for calculating forces, chosen so that motion of the balloon looks like Java version
       var k = 10000;
       
-      //calculate force from Balloon to each charge in the wall
+      // calculate force from Balloon to each charge in the wall, we subtract by the PointChargeModel radius
+      // to make the force look correct because each charge is minus charge is shifted down by that much initially
       self.minusCharges.forEach( function( entry ) {
         var ch = entry;
         var dv1 = new Vector2( 0, 0 );
@@ -87,10 +88,20 @@ define( function( require ) {
 
         var defaultLocation = ch.locationProperty.initialValue;
         if ( yellowBalloon.isVisibleProperty.get() ) {
-          dv1 = BalloonModel.getForce( defaultLocation, yellowBalloon.getCenter(), k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(), 2.35 );
+          dv1 = BalloonModel.getForce(
+            defaultLocation,
+            yellowBalloon.getChargeCenter().minusXY( 0, PointChargeModel.RADIUS ),
+            k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(),
+            2.35
+          );
         }
         if ( greenBalloon.isVisibleProperty.get() ) {
-          dv2 = BalloonModel.getForce( defaultLocation, greenBalloon.getCenter(), k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(), 2.35 );
+          dv2 = BalloonModel.getForce(
+            defaultLocation,
+            greenBalloon.getChargeCenter().minusXY( 0, PointChargeModel.RADIUS ),
+            k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(),
+            2.35
+          );
         }
         entry.locationProperty.set(
           new Vector2( defaultLocation.x + dv1.x + dv2.x, defaultLocation.y + dv1.y + dv2.y )

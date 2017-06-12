@@ -23,8 +23,13 @@ define( function( require ) {
     sonification: { type: 'flag' },
 
     // hide the radio button group responsible for toggling visibility of charges in the view
-    hideChargeControls: { type: 'flag' }
+    hideChargeControls: { type: 'flag' },
 
+    // show charged area on sweater
+    showSweaterChargedArea: { type: 'flag' },
+
+    // debugging - show locations of center of balloon and center of balloon charges
+    showBalloonChargeCenter: { type: 'flag' }
   } );
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityQueryParameters', BalloonsAndStaticElectricityQueryParameters );
