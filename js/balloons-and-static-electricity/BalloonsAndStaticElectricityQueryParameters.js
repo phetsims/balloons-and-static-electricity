@@ -30,8 +30,10 @@ define( function( require ) {
     hideChargeControls: { type: 'flag' },
 
     // show charged area on sweater
-    showSweaterChargedArea: { type: 'flag' }
+    showSweaterChargedArea: { type: 'flag' },
 
+    // debugging - show locations of center of balloon and center of balloon charges
+    showBalloonChargeCenter: { type: 'flag' }
   } );
 
   balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityQueryParameters', BalloonsAndStaticElectricityQueryParameters );
