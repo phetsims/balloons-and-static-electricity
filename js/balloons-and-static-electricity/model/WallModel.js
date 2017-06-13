@@ -90,7 +90,7 @@ define( function( require ) {
         if ( yellowBalloon.isVisibleProperty.get() ) {
           dv1 = BalloonModel.getForce(
             defaultLocation,
-            yellowBalloon.getChargeCenter().minusXY( 0, PointChargeModel.RADIUS ),
+            yellowBalloon.getChargeCenter().minusXY( 0, 2 * PointChargeModel.RADIUS ),
             k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(),
             2.35
           );
@@ -98,7 +98,7 @@ define( function( require ) {
         if ( greenBalloon.isVisibleProperty.get() ) {
           dv2 = BalloonModel.getForce(
             defaultLocation,
-            greenBalloon.getChargeCenter().minusXY( 0, PointChargeModel.RADIUS ),
+            greenBalloon.getChargeCenter().minusXY( 0, 2 * PointChargeModel.RADIUS ),
             k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(),
             2.35
           );
