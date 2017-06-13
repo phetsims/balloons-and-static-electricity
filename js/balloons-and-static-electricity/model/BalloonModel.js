@@ -98,6 +98,13 @@ define( function( require ) {
     [ 34, 77 ]
   ];
 
+  // determine average the Y position for the charges in the balloon
+  var positionYSum = 0;
+  for (var i = 0; i < POSITIONS.length; i++ ) {
+    positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
+  }
+  var AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
+
   /**
    * Constructor
    * @param {number} x - initial x position
@@ -718,14 +725,8 @@ define( function( require ) {
      * @return {Vector2}
      */
     getChargeCenter: function() {
-      var positionYSum = 0;
-      for (var i = 0; i < POSITIONS.length; i++ ) {
-        positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
-      }
-
       var centerX = this.getCenter().x;
-      var centerY = this.locationProperty.get().y + ( positionYSum / POSITIONS.length );
-
+      var centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
       return new Vector2( centerX, centerY );
     }
   }, {
