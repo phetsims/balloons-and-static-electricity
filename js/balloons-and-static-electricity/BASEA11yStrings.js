@@ -171,9 +171,11 @@ define( function( require ) {
     greenBalloonString: 'Green balloon',
     yellowBalloonString: 'Yellow balloon',
 
-    // scene summary
+    // scene summary strings
     sceneSummaryString: 'Scene Summary',
+
     openingSummaryString: 'Simulation contains a Play Area and a Control Panel. The play area is a small room. The control panel has buttons and switches to change conditions in the room.',
+
     roomObjectsPatternString: 'Currently, room has {{description}}.',
     aBalloonString: 'a balloon',
     twoBalloonsString: 'two balloons',

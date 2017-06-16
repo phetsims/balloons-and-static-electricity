@@ -35,8 +35,8 @@ define( function( require ) {
   var objectsWithWallPatternString = BASEA11yStrings.objectsWithWallPatternString;
   var objectsNoWallPatternString = BASEA11yStrings.objectsNoWallPatternString;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
+  // var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
+  // var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
 
   /**
    * @constructor
