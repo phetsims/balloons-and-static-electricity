@@ -174,7 +174,14 @@ define( function( require ) {
     // scene summary
     sceneSummaryString: 'Scene Summary',
     openingSummaryString: 'Simulation contains a Play Area and a Control Panel. The play area is a small room. The control panel has buttons and switches to change conditions in the room.',
-    roomItemsStringPattern: 'Currently, room has {0}',
+    roomObjectsPatternString: 'Currently, room has {{description}}.',
+    aBalloonString: 'a balloon',
+    twoBalloonsString: 'two balloons',
+    andARemovableWallString: 'and a removable wall',
+    aSweaterString: 'a sweater',
+    andASweaterString: 'and a sweater',
+    objectsWithWallPatternString: '{{balloons}}, {{sweater}}, {{wall}}',
+    objectsNoWallPatternString: '{{balloons}} {{sweater}}',
 
     //-----------------
     // Location Descriptions
@@ -182,9 +189,7 @@ define( function( require ) {
     balloonLocationDescriptionStringPattern: '{0}, {1}',
     balloonInCenterPatternString: '{0} {1}',
 
-    // possible items in the room
-    balloonSweaterAndRemovableWallString: 'a balloon, a sweater, and a removable wall.',
-    twoBalloonsSweaterAndRemovableWallString: 'two balloons, a sweater, and a removable wall',
+    // TODO: are these used anywhere?
     balloonAndSweaterString: 'a balloon and a sweater',
     twoBalloonsAndASweater: 'two balloons and a sweater',
     inPlayAreaStringPattern: 'in {0} of play area.',

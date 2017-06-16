@@ -21,18 +21,19 @@ define( function( require ) {
    * @constructor
    * @param {string} label
    */
-  function AccessibleSectionNode( label ) {
+  function AccessibleSectionNode( label, options ) {
     assert && assert( label && typeof label === 'string', 'Accessible section must have a label' );
 
-    Node.call( this, {
-
-      // a11y
+    // options for accessibility, but others can be passed to Node call
+    options = _.extend( {
       parentContainerTagName: 'section',
       tagName: 'div',
       accessibleLabel: label,
       labelTagName: 'h2',
       prependLabels: true
     } );
+
+    Node.call( this, options );
   }
 
   balloonsAndStaticElectricity.register( 'AccessibleSectionNode', AccessibleSectionNode );
