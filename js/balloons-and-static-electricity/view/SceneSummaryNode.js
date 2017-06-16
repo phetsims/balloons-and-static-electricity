@@ -2,25 +2,11 @@
 
 /**
  * Scene summary for this sim.  The scene summary is composed of a dynamic list of descriptions
- * for parts of the play area and control panel.  By breaking up the summary into a list of items,
- * the user can find specific information about the scene very quickly, and in an orginizied way.
+ * for parts of the play area and control panel.  This content will only ever be seen by a screen reader.
+ * By breaking up the summary into a list of items, the user can find specific information about the
+ * scene very quickly.
  *
- *  Example 1:
- *  Yellow balloon, touching lower wall.
- *
- *  Example 2:
- *  Yellow balloon, touching upper wall. Green balloon, in lower play area, at center.
- *
- *  Example 3:
- *  Yellow balloon, in upper-right side of play areal.
- *
- *  Example 4:
- *  Yellow balloon, in lower-left side of play area. Green balloon, sticking to upper wall. Negative charges in wall move away from balloon a little bit.
- *
- *  Example 5:
- *  Yellow balloon, in upper play area, at center. Green balloon, sticking to lower-right arm of sweater.
- *
- *  @author Jesse Greenberg
+ * @author Jesse Greenberg
  */
 
 define( function( require ) {
@@ -49,6 +35,8 @@ define( function( require ) {
   var objectsWithWallPatternString = BASEA11yStrings.objectsWithWallPatternString;
   var objectsNoWallPatternString = BASEA11yStrings.objectsNoWallPatternString;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
+  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
+  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
 
   /**
    * @constructor
@@ -83,10 +71,8 @@ define( function( require ) {
     this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
 
     // roomObjectsNode content is dependent on the visibility of the wall and green balloon
-    var self = this;
     Property.multilink( [ greenBalloon.isVisibleProperty, wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
-      roomObjectsNode.accessibleLabel = self.getVisibleObjectsDescription( balloonVisible, wallVisible );
-      console.log( roomObjectsNode.accessibleLabel );
+      roomObjectsNode.accessibleLabel = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
     // tandem support
@@ -95,8 +81,16 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
 
-  return inherit( AccessibleSectionNode, SceneSummaryNode, {
+  return inherit( AccessibleSectionNode, SceneSummaryNode, {}, {
 
+    /**
+     * Get a description of the objects that are currently visible in the sim.
+     * 
+     * @private
+     * @param  {Property.<boolean>} balloonVisible
+     * @param  {Property.<boolean>} wallVisible
+     * @return {string}
+     */
     getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
       var sweaterString = wallVisible ? aSweaterString : andASweaterString;
       var balloonString = balloonVisible ? twoBalloonsString : aBalloonString;
