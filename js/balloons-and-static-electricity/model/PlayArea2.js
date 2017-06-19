@@ -122,6 +122,9 @@ define( function( require ) {
   return inherit( Bounds2, PlayArea2, {
 
     /**
+     * TODO: Remove this entirely, it is replaced by BalloonDescriber.getLocationDescription,
+     * wich is a superior implementation
+     * 
      * Determine which section of the play area the location vector is.
      * NOTE: Is this relative to upper left corner of balloon bounds or its center?
      * @param  {Vector2} position

@@ -64,7 +64,10 @@ define( function( require ) {
       accessibleLabel: balloonsAndStaticElectricityTitleString
     } );
 
-    var sceneSummaryNode = new SceneSummaryNode( model, tandem.createTandem( 'sceneSummaryNode' ) );
+    var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
+    var wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
+
+    var sceneSummaryNode = new SceneSummaryNode( model, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
     this.addChild( sceneSummaryNode );
 
     // add sonification if enabled
@@ -75,16 +78,12 @@ define( function( require ) {
     // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleSectionNode( playAreaString );
     this.addChild( playAreaContainerNode );
-
-    var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     playAreaContainerNode.addChild( sweaterNode );
-
-    var wall = new WallNode( model, tandem.createTandem( 'wall' ) );
-    playAreaContainerNode.addChild( wall );
+    playAreaContainerNode.addChild( wallNode );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
     this.addChild( new Rectangle(
-      model.wall.x + wall.wallNode.width,
+      model.wall.x + wallNode.wallNode.width,
       0,
       1000,
       1000,
@@ -92,7 +91,7 @@ define( function( require ) {
     ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
-    var maxX = this.layoutBounds.maxX - model.wall.x - wall.wallNode.width;
+    var maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
     this.addChild( new Rectangle(
       maxX - 1000,
       0,
@@ -152,7 +151,7 @@ define( function( require ) {
     } ) );
 
     // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wall ];
+    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];
 
     // visualise regions of the play area
     if ( BalloonsAndStaticElectricityQueryParameters.showGrid ) {

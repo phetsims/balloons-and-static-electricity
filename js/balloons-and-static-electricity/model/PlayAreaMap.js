@@ -52,10 +52,8 @@ define( function( require ) {
   var PlayAreaMap = {
     X_LOCATIONS: X_LOCATIONS,
     Y_LOCATIONS: Y_LOCATIONS,
-
     COLUMN_RANGES: COLUMN_RANGES,
     ROW_RANGES: ROW_RANGES,
-
     WIDTH: 768,
     HEIGHT: 504
   };

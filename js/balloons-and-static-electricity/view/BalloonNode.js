@@ -35,6 +35,7 @@ define( function( require ) {
   var KeyboardDragHandler = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/KeyboardDragHandler' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var Line = require( 'SCENERY/nodes/Line' );  
 
   // constants
@@ -75,6 +76,9 @@ define( function( require ) {
     // @private
     this.model = model;
     this.globalModel = globalModel;
+
+    // a11y - a type that generates descriptions for the balloon 
+    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model );
 
     var originalChargesNode = new Node( {
       pickable: false,
@@ -245,17 +249,13 @@ define( function( require ) {
       self.keyboardDragHandler.dragBounds = self.getDragBounds();
     } );
 
-    //if change charge, show more minus charges and update the description
+    //if change charge, show more minus charges
     model.chargeProperty.link( function updateCharge( chargeVal ) {
       var numVisibleMinusCharges = Math.abs( chargeVal );
 
       for ( var i = 0; i < addedNodes.length; i++ ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
-
-      // a11y
-      var locationDescription = model.balloonDescriber.getDescription( model, model.isDraggedProperty.get() );
-      self.setAccessibleDescription( locationDescription );
     } );
 
     // link the position of this node to the model

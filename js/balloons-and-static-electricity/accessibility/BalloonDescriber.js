@@ -5,6 +5,9 @@
  * is quite complicated so this distributes the description work so that BalloonNode does not become
  * a massive file.  Used for accessibility.
  *
+ * TODO: Do we need a SweaterDescriber and a WallDescriber? At the moment, that description logic is in the
+ * WallNode/SweaterNode.
+ *
  * @author Jesse Greenberg
  */
 
@@ -25,6 +28,7 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
+  // strings
   var StringMaps = {
     DIRECTION_MAP: {
       UP: BASEA11yStrings.upString,
@@ -56,7 +60,7 @@ define( function( require ) {
       YELLOW: BASEA11yStrings.yellowBalloonString
     };
 
-    // @private
+    // @private - TODO: delete this?
     this.locationDescriptionMap = {
       TOP_LEFT: BASEA11yStrings.topLeftEdgeOfSweaterString,
       UPPER_LEFT: BASEA11yStrings.upperLeftEdgeOfSweaterString,
@@ -131,43 +135,6 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
 
   return inherit( Object, BalloonDescriber, {
-
-    /**
-     * Get a description of the balloon location.
-     *
-     * @param  {Balloon} balloon
-     * @returns {string}
-     */
-    getBalloonLocationDescription: function( balloon, dragging ) {
-      var balloonLocationDescription;
-
-      var locationStringPattern;
-      if ( dragging ) {
-        locationStringPattern = BASEA11yStrings.draggingLocationStringPattern;
-      }
-      else {
-        if ( balloon.chargeProperty.get() < 0 && balloon.onSweater() && !balloon.isDraggedProperty.get() ) {
-          locationStringPattern = BASEA11yStrings.stickingToLocationPatternString;
-        }
-        else {
-          locationStringPattern = BASEA11yStrings.balloonLocationStringPattern;
-        }
-      }
-
-      // if touching the wall (balloon has no charge)
-      if ( this.model.playArea.atWall === balloon.getCenter().x ) {
-        balloonLocationDescription = this.getTouchingWallDescription( balloon, dragging );
-      }
-      else {
-        var locationBounds = this.model.playArea.getPointBounds( balloon.getCenter() );
-        var locationDescription = this.locationDescriptionMap[ locationBounds ];
-
-        balloonLocationDescription = StringUtils.format( locationStringPattern, locationDescription );
-      }
-
-      assert && assert( balloonLocationDescription, 'no description found for balloon location' );
-      return balloonLocationDescription;
-    },
 
     getTouchingWallDescription: function( balloon, dragging ) {
 
@@ -339,151 +306,6 @@ define( function( require ) {
 
       assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.chargeProperty.get() );
       return StringUtils.format( BASEA11yStrings.sweaterChargePatternString, neutralityString, chargeString );
-    },
-
-    /**
-     * Get a description of the balloon as it is dragging.  This should be called when the user completes
-     * a drag interaction (on key up, typically).
-     *
-     * @param  {Balloon} balloon
-     * @returns {string}
-     */
-    getDraggingDescription: function( location, oldLocation ) {
-      var draggingDescription;
-
-      var direction = this.getMovementDirection( location, oldLocation );
-
-      var directionString;
-      if ( direction === BalloonDirectionEnum.UP ) {
-        if ( this.balloon.onSweater() ) {
-          directionString = BASEA11yStrings.moveUpString;
-        }
-        else if ( this.wKeyPressedCount === 0 ) {
-          directionString = BASEA11yStrings.upTowardsTopString;
-        }
-        else if ( this.wKeyPressedCount < 2 ) {
-          directionString = BASEA11yStrings.closerToTopString;
-        }
-        else {
-          directionString = BASEA11yStrings.moveUpString;
-        }
-        this.wKeyPressedCount++;
-      }
-      else if ( direction === BalloonDirectionEnum.DOWN ) {
-        if ( this.balloon.onSweater() ) {
-          directionString = BASEA11yStrings.moveDownString;
-        }
-        else if ( this.sKeyPressedCount === 0 ) {
-          directionString = BASEA11yStrings.downTowardsBottomString;
-        }
-        else if ( this.sKeyPressedCount < 2 ) {
-          directionString = BASEA11yStrings.closerToBottomString;
-        }
-        else {
-          directionString = BASEA11yStrings.moveDownString;
-        }
-        this.sKeyPressedCount++;
-      }
-      else if ( direction === BalloonDirectionEnum.LEFT ) {
-        if ( this.balloon.onSweater() ) {
-          directionString = BASEA11yStrings.moveLeftString;
-        }
-        else if ( this.aKeyPressedCount === 0 ) {
-          directionString = BASEA11yStrings.leftTowardsSweaterString;
-        }
-        else if ( this.aKeyPressedCount < 2 ) {
-          directionString = BASEA11yStrings.closerToSweaterString;
-        }
-        else {
-          directionString = BASEA11yStrings.moveLeftString;
-        }
-        this.aKeyPressedCount++;
-      }
-      else if ( direction === BalloonDirectionEnum.RIGHT ) {
-        if ( this.balloon.onSweater() ) {
-          directionString = BASEA11yStrings.moveRightString;
-        }
-        else if ( this.dKeyPressedCount === 0 ) {
-          if ( this.model.wall.isVisibleProperty.get() ) {
-            directionString = BASEA11yStrings.rightTowardsWallString;
-          }
-          else {
-            directionString = BASEA11yStrings.rightTowardsRightSideOfPlayAreaString;
-          }
-        }
-        else if ( this.dKeyPressedCount < 2 ) {
-          if ( this.model.wall.isVisibleProperty.get() ) {
-            directionString = BASEA11yStrings.closerToWallString;
-          }
-          else {
-            directionString = BASEA11yStrings.closerToRightSideString;
-          }
-        }
-        else {
-          directionString = BASEA11yStrings.moveRightString;
-        }
-        this.dKeyPressedCount++;
-      }
-
-      // TODO: When do key counds need to be reset?
-      if ( this.keyCountsNeedToBeReset() ) {
-        this.resetKeyCounts();
-      }
-
-      if ( this.balloonOnSweater ) {
-
-        // this will be true on the first rub, after user hits sweater the first time
-        var onSweaterDescription = this.getSweaterRubDescription( this.balloon );
-      }
-      if ( this.balloon.touchingWall() ) {
-        var atWallDescription = this.getWallRubDescription( this.balloon );
-      }
-      if ( this.balloon.touchingWall() !== this.balloonTouchingWall ) {
-        if ( !this.balloon.touchingWall() && this.balloon.chargeProperty.get() < 0 ) {
-
-          // the balloon is leaving the wall, so describe the change in induced charge
-          var leavingWallDescription = this.getLeavingWallDescription( this.balloon );
-        }
-        this.balloonTouchingWall = this.balloon.touchingWall();
-      }
-
-      var newBounds = this.model.playArea.getPointBounds( this.balloon.getCenter() );
-      if ( newBounds !== this.balloonBounds || this.balloon.getBoundaryObject() ) {
-        this.balloonBounds = newBounds;
-        var locationString = this.getBalloonLocationDescription( this.balloon, true );
-      }
-      var proximityString = this.getBalloonProximityDescription( this.balloon );
-
-      var string1 = '';
-      var string2 = '';
-      var string3 = '';
-      var string4 = '';
-      var string5 = '';
-      var string6 = '';
-      if ( directionString && this.balloonLocation !== this.balloon.locationProperty.get() ) {
-        string1 = directionString;
-      }
-      if ( onSweaterDescription && this.balloon.onSweater() ) {
-
-        // if the balloon moves off the sweater, we do not want to hear this
-        string2 = onSweaterDescription;
-      }
-      if ( proximityString ) {
-        string3 = proximityString;
-      }
-      if ( locationString && !this.balloon.onSweater() ) {
-        string4 = locationString;
-      }
-      if ( atWallDescription && this.balloonLocation !== this.balloon.locationProperty.get() ) {
-        string5 = atWallDescription;
-      }
-      if ( leavingWallDescription ) {
-        string6 = leavingWallDescription;
-      }
-
-      this.balloonLocation = this.balloon.locationProperty.get();
-      draggingDescription = StringUtils.format( BASEA11yStrings.balloonDragDescriptionPatternString, string1, string2, string3, string4, string5, string6 );
-      return draggingDescription;
     },
 
     /**
@@ -669,26 +491,6 @@ define( function( require ) {
         return MANY_RANGE;
       }
 
-    },
-
-    /**
-     * Get a description for the balloon, including charge and location.
-     *
-     * @param  {Balloon} balloon
-     * @param {boolean} isDragged - if dragged, the navigation cue changes
-     * @returns {string}
-     */
-    getDescription: function( balloon, isDragged ) {
-      var locationDescription = this.getBalloonLocationDescription( balloon, false );
-      var chargeDescription = this.getBalloonChargeDescription( balloon, false );
-
-      // if picked up for dragging, the navigation cue changes to describe the interaction
-      if ( isDragged ) {
-        return StringUtils.format( BASEA11yStrings.balloonGrabbedDescriptionPatternString, BASEA11yStrings.grabbedString, locationDescription, chargeDescription, BASEA11yStrings.dragNavigationCueString );
-      }
-      else {
-        return StringUtils.format( BASEA11yStrings.balloonDescriptionPatternString, locationDescription, chargeDescription, BASEA11yStrings.grabButtonNavigationCueString );
-      }
     },
 
     /**

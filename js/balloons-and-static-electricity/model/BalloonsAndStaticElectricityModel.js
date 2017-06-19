@@ -57,7 +57,8 @@ define( function( require ) {
     this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
-
+    
+    // @public (read-only) - Model of the wall
     this.wall = new WallModel( width - this.wallWidth, 600, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
     // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall

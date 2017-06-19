@@ -16,18 +16,38 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Range = require( 'DOT/Range' );
+  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityDescriber' );
   var Node = require( 'SCENERY/nodes/Node' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
-  // constants
-  // these charge ranges determine description of induced charge
-  var A_LITTLE_BIT_RANGE = new Range( 1, 20 );
-  var A_LOT_RANGE = new Range( 20, 40 );
-  var QUITE_A_LOT_RANGE = new Range( 40, 60 );
-
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
+
+  // strings
+  var aLittleBitString = BASEA11yStrings.aLittleBitString;
+  var aLotString = BASEA11yStrings.aLotString;
+  var quiteALotString = BASEA11yStrings.quiteALotString;
+  var inducedChargePatternString = BASEA11yStrings.inducedChargePatternString;
+
+  // constants
+  var INDUCED_CHARGE_DESCRIPTION_MAP = {
+    A_LITTLE_BIT: {
+      range: new Range( 0, 10 ),
+      description: aLittleBitString
+    },
+    A_LOT: {
+      range: new Range( 10, 20 ),
+      description: aLotString
+    },
+    QUITE_A_LOT: {
+      range: new Range( 20, Number.MAX_VALUE ),
+      description: quiteALotString
+    }
+  };
+
+  // when charge displacement in wall is larger than this value, it will be described (determined by visual inspection)
+  var INDUCED_CHARGE_DESCRIPTION_THRESHOLD = 3;
 
   /**
    * @constructor
@@ -97,14 +117,6 @@ define( function( require ) {
       plusChargesNode.visible = (value === 'all');
       minusChargesNode.visible = (value === 'all');
     } );
-
-    // a11y - when the balloons change position, we need to update the wall description
-    model.balloons.forEach( function( balloon ) {
-      balloon.locationProperty.link( function( location ) {
-        var newDescription = self.getChargeDescription();
-        self.setAccessibleDescription( newDescription );
-      } );
-    } );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );
@@ -112,97 +124,63 @@ define( function( require ) {
   return inherit( Node, WallNode, {
 
     /**
-     * Get a description of the wall charges, based on balloon positions and charges.
+     * Get an induced charge description for a balloon, based on the positions of charges in the wall.  We find the
+     * closest charge to the balloon, and determine how far it has been displaced from its initial position. Will return
+     * null if there is no induced charge.
      *
-     * @returns {string}
+     * @private
+     * @param  {Balloon} balloon
+     * @returns {string|null}
      */
-    getChargeDescription: function() {
-      var chargeDescription;
+    getInducedChargeAmountDescription: function( balloon, closestCharge ) {
 
-      var yellowBalloon = this.model.yellowBalloon;
-      var greenBalloon = this.model.greenBalloon;
+      // map the displacement of the closest charge to a description of how much the charge has moved been displaced
+      var initialPosition = closestCharge.locationProperty.initialValue;
+      var displacement = closestCharge.locationProperty.get().distance( initialPosition );
 
-      var yellowBalloonTouchingWall = yellowBalloon.touchingWall();
-      var greenBalloonTouchingWall = greenBalloon.touchingWall();
-
-      if ( !yellowBalloonTouchingWall && !greenBalloonTouchingWall ) {
-        chargeDescription = BASEA11yStrings.wallNeutralChargeDescriptionString;
-      }
-      else {
-        var yellowBalloonInducedChargeDescription;
-        var greenBalloonInducedChargeDescription;
-
-        if ( yellowBalloonTouchingWall ) {
-          yellowBalloonInducedChargeDescription = StringUtils.format(
-            BASEA11yStrings.balloonTouchPointDescriptionPatternString,
-            BASEA11yStrings.yellowBalloonString,
-            this.getInducedChargeDescription( yellowBalloon )
-          );
-        }
-
-        if ( greenBalloon.isVisibleProperty.get() && greenBalloonTouchingWall ) {
-          greenBalloonInducedChargeDescription = StringUtils.format(
-            BASEA11yStrings.balloonTouchPointDescriptionPatternString,
-            BASEA11yStrings.greenBalloonString,
-            this.getInducedChargeDescription( greenBalloon )
-          );
-        }
-
-        // if both balloons are touching the wall, both induced charge descriptions need to be included
-        if ( yellowBalloonInducedChargeDescription && greenBalloonInducedChargeDescription ) {
-          chargeDescription = StringUtils.format(
-            BASEA11yStrings.twoBalloonsTouchingWallPatternString, BASEA11yStrings.wallNeutralChargeDescriptionString,
-            yellowBalloonInducedChargeDescription, greenBalloonInducedChargeDescription
-          );
-        }
-        else {
-
-          // if only one is touching the wall, describe that one
-          var inducedChargeDescription = yellowBalloonInducedChargeDescription || greenBalloonInducedChargeDescription;
-
-          chargeDescription = StringUtils.format(
-            BASEA11yStrings.oneBalloonTouchingWallPatternString,
-            BASEA11yStrings.wallNeutralChargeDescriptionString,
-            inducedChargeDescription
-          );
+      // if large enough, return a description based on the displacement
+      var inducedChargeDescription = null;
+      if ( displacement > INDUCED_CHARGE_DESCRIPTION_THRESHOLD ) {
+        var descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
+        for ( var j = 0; j < descriptionKeys.length; j++ ) {
+          var value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
+          if ( value.range.contains( displacement ) ) {
+            inducedChargeDescription = value.description;
+          }
         }
       }
 
-      assert && assert( chargeDescription, 'No description found for wall' );
-      return chargeDescription;
+      return inducedChargeDescription;
     },
 
     /**
-     * Get an induced charge description for a balloon, based on charge of the balloon
-     * @param  {Balloon} balloon
-     * @returns {string}
+     * Get the induced charge description for the wall.  The description is contains the location of the displaced
+     * charges, which balloon is inducing charge, and how much a relative description of how much induced charge there
+     * is.  If there is not enough induced charge, this function will return null.
+     * 
+     * @param  {BalloonModel} balloon
+     * @param  {string} balloonLabel
+     * @return {}
      */
-    getInducedChargeDescription: function( balloon ) {
+    getInducedChargeDescriptionIfBigEnough: function( balloon, balloonLabel ) {
 
-      // the balloon must be touching the wall for the wall to have this description
-      // Note that even though charge can be induced without physically touching the wall, this description can only be
-      // found with the virtual cursor
-      assert && assert( balloon.touchingWall(), 'induced charge description should only be added when balloon is touching wall' );
+      // get the variable parts of the description to place in the pattern
+      var closestCharge = this.model.wall.getClosestChargeToBalloon( balloon );
+      var location = closestCharge.locationProperty.get();
+      var isVisible = this.model.wall.isVisibleProperty.get();
+      var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, isVisible );
+      var inducedChargeAmount = this.getInducedChargeAmountDescription( balloon, closestCharge );
 
-      var changeInChargesString;
-      var balloonCharge = Math.abs( balloon.chargeProperty.get() );
-      if ( balloonCharge === 0 ) {
-
-        // if the charge is zero, there is no induced charge
-        changeInChargesString = BASEA11yStrings.noChangeInChargesString;
-      }
-      else if ( A_LITTLE_BIT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.aLittleBitString );
-      }
-      else if ( A_LOT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.aLotString );
-      }
-      else if ( QUITE_A_LOT_RANGE.contains( balloonCharge ) ) {
-        changeInChargesString = StringUtils.format( BASEA11yStrings.chargeDescriptionPatternString, BASEA11yStrings.quiteALotString );
+      var inducedChargeDescription = null;
+      if ( inducedChargeAmount ) {
+        inducedChargeDescription = StringUtils.fillIn( inducedChargePatternString, {
+          wallLocation: chargeLocationString,
+          balloon: balloonLabel,
+          inductionAmount: inducedChargeAmount
+        } ); 
       }
 
-      assert && assert( changeInChargesString, 'No for description for balloon touching wall' );
-      return changeInChargesString;
+      return inducedChargeDescription;
     }
   } );
 } );

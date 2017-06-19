@@ -134,6 +134,34 @@ define( function( require ) {
     calculatePosition: function( i, k ) {
       var y0 = i % 2 === 0 ? this.dy / 2 : 1;
       return [ i * this.dx + PointChargeModel.RADIUS + 1, k * this.dy + y0 ];
+    },
+
+    /**
+     * Get the minus charge that is the closest in the wall to the balloon, relative to the charge's initial
+     * position.
+     * 
+     * @return {MovablePointChargeModel}
+     */
+    getClosestChargeToBalloon: function( balloon ) {
+      var minusCharges = this.minusCharges;
+
+      // get the minus charge that is closest to the balloon
+      var closestCharge = null;
+      var chargeDistance = Number.POSITIVE_INFINITY;
+      var balloonChargeCenter = balloon.getChargeCenter();
+
+      for ( var i = 0; i < minusCharges.length; i++ ) {
+        var charge = minusCharges[ i ];
+        var newChargeDistance = charge.locationProperty.initialValue.distance( balloonChargeCenter );
+
+        if ( newChargeDistance < chargeDistance ) {
+          chargeDistance = newChargeDistance;
+          closestCharge = charge;
+        }
+      }
+      assert && assert( charge, 'Unable to find charge closest to balloon' );
+
+      return closestCharge;
     }
   } );
   return WallModel;

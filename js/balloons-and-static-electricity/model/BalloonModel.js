@@ -20,7 +20,6 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
-  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var TVector2 = require( 'DOT/TVector2' );
 
@@ -233,14 +232,6 @@ define( function( require ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
     } );
 
-    // a11y - describes the balloon based on its model properties
-    this.balloonDescriber = new BalloonDescriber(
-      balloonsAndStaticElectricityModel,
-      balloonsAndStaticElectricityModel.wall,
-      this,
-      tandem.createTandem( 'balloonDescriber' )
-    );
-
     this.reset();
 
   }
@@ -412,7 +403,19 @@ define( function( require ) {
      * @returns {boolean}
      */
     touchingWall: function() {
-      return ( this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall );
+      var atWall = this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall;
+      var wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
+      return ( atWall && wallVisible );
+    },
+
+    /**
+     * Returns true if the balloon is currently sticking to the wall. The balloon is sticking to the wall
+     * when it is charged, touching the wall, and not being dragged.
+     * @public
+     * @return {boolean}
+     */
+    stickingToWall: function() {
+      return ( this.chargeProperty.get() > 0 ) && this.touchingWall() && !this.isDraggedProperty.get();
     },
 
     /**
@@ -433,6 +436,31 @@ define( function( require ) {
       return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
     },
 
+    /**
+     * Balloon charges aren't evenly distributed throughout the balloon, they conform to the upper left edge of the
+     * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
+     * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the
+     * balloon plus the average y position of the charges.
+     * 
+     * @public
+     * @return {Vector2}
+     */
+    getChargeCenter: function() {
+      var centerX = this.getCenter().x;
+      var centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
+      return new Vector2( centerX, centerY );
+    },
+
+    /**
+     * Get the position of the touch point of the balloon on the wall.
+     * @type {Vector2}
+     */
+    getWallTouchingCenter: function() {
+      var centerX = this.locationProperty.get().x + this.width;
+      var centerY = this.getCenter().y;
+      return new Vector2( centerX, centerY );
+    },
+
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks
@@ -451,9 +479,6 @@ define( function( require ) {
         this.isVisibleProperty.reset();
       }
       this.isDraggedProperty.reset();
-
-      // reset the accessible describer
-      this.balloonDescriber.reset();
     },
 
     /**
@@ -713,21 +738,6 @@ define( function( require ) {
       }
       var kqq = BalloonModel.FORCE_CONSTANT * this.chargeProperty.get() * this.other.chargeProperty.get();
       return BalloonModel.getForce( this.getCenter(), this.other.getCenter(), kqq );
-    },
-
-    /**
-     * Balloon charges aren't evenly distributed throughout the balloon, they conform to the upper left edge of the
-     * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
-     * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the
-     * balloon plus the average y position of the charges.
-     * 
-     * @public
-     * @return {Vector2}
-     */
-    getChargeCenter: function() {
-      var centerX = this.getCenter().x;
-      var centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
-      return new Vector2( centerX, centerY );
     }
   }, {
 

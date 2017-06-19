@@ -32,57 +32,47 @@ define( function( require ) {
     draggingLocationStringPattern: 'At {0}.',
     stickingToLocationPatternString: 'Sticking to {0}.',
 
-    topLeftEdgeOfSweaterString: 'left shoulder of sweater',
-    upperLeftEdgeOfSweaterString: 'left arm of sweater',
-    lowerLeftEdgeOfSweaterString: 'left arm of sweater',
+    // location strings for the grid in the play area
+    leftShoulderOfSweaterString: 'left shoulder of sweater',
+    leftArmOfSweaterString: 'left arm of sweater',
     bottomLeftEdgeOfSweaterString: 'lower-left arm of sweater',
 
-    topLeftArmString: 'left shoulder',
-    upperLeftArmString: 'left arm',
-    lowerLeftArmString: 'left arm',
-    bottomLeftArmString: 'lower-left arm',
+    upperLeftSideOfSweaterString: 'upper-left side of sweater',
+    leftSideOfSweaterString: 'left side of sweater',
+    lowerLeftSideOfSweaterString: 'lower-left side of sweater',
 
-    topLeftSideOfSweaterString: 'upper-left side of sweater',
-    upperLeftSideOfSweaterString: 'left side of sweater',
-    lowerLeftSideOfSweaterString: 'left side of sweater',
-    bottomLeftSideOfSweaterString: 'lower-left side of sweater',
+    upperRightSideOfSweaterString: 'upper-right side of sweater',
+    rightSideOfSweaterString: 'right side of sweater',
+    lowerRightSideOfSweater: 'lower-right side of sweater',
 
-    topRightSideOfSweaterString: 'upper-right side of sweater',
-    upperRightSideOfSweaterString: 'right side of sweater',
-    lowerRightSideOfSweaterString: 'right side of sweater',
-    bottomRightSideOfSweaterString: 'lower-right side of sweater',
+    rightShoulderOfSweaterString: 'right shoulder of sweater',
+    rightArmOfSweaterString: 'right arm of sweater',
+    lowerRightArmOfSweaterString: 'lower-right arm of sweater',
 
-    topRightArmString: 'right shoulder',
-    upperRightArmString: 'right arm',
-    lowerRightArmString: 'right arm',
-    bottomRightArmString: 'lower-right arm',
+    upperLeftSideOfPlayAreaString: 'upper-left side of Play Area',
+    leftSideOfPlayAreaString: 'left side of Play Area',
+    lowerLeftSideOfPlayAreaString: 'lower-left side of Play Area',
 
-    topLeftSideOfPlayAreaString: 'upper-left side of play area',
-    upperLeftSideOfPlayAreaString: 'left side of play area',
-    lowerLeftSideOfPlayAreaString: 'left side of play area',
-    bottomLeftSideOfPlayAreaString: 'lower-left side of play area',
+    upperCenterOfPlayAreaString: 'upper-center of Play Area',
+    centerOfPlayAreaString: 'center of Play Area',
+    lowerCenterOfPlayAreaString: 'lower-center of Play Area',
 
-    topCenterOfPlayAreaString: 'upper-center of play area',
-    upperCenterOfPlayAreaString: 'center of play area',
-    lowerCenterOfPlayAreaString: 'center of play area',
-    bottomCenterOfPlayAreaString: 'lower-center of play area',
+    upperRightSideOfPlayAreaString: 'upper-right side of Play Area',
+    rightSideOfPlayAreaString: 'right side of Play Area',
+    lowerRightSideOfPlayAreaString: 'lower-right side of Play Area',
 
-    topRightSideOfPlayAreaString: 'upper-right side of play area',
-    upperRightSideOfPlayAreaString: 'right side of play area',
-    lowerRightSideOfPlayAreaString: 'right side of play area',
-    bottomRightSideOfPlayAreaString: 'lower-right side of play area',
+    upperWallString: 'upper wall',
+    wallString: 'wall',
+    lowerWallString: 'lower wall',
 
-    topRightEdgeOfPlayAreaString: 'upper-right edge of play area',
-    upperRightEdgeOfPlayAreaString: 'right edge of play area',
-    lowerRightEdgeOfPlayAreaString: 'right edge of play area',
-    bottomRightEdgeOfPlayAreaString: 'lower-right edge of play area',
+    upperRightEdgeOfPlayAreaString: 'upper-right edge of Play Area',
+    rightEdgeOfPlayArea: 'right edge of Play Area',
+    lowerRightEdgeOfPlayArea: 'lower-right edge of Play Area',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
     stickingToWallStringPattern: 'Sticking to {0}.',
 	generalWallString: 'wall',
-    lowerWallString: 'lower wall',
-    upperWallString: 'upper wall',
 
     stickingToSweaterString: 'Sticking to right side of sweater.',
 
@@ -121,7 +111,6 @@ define( function( require ) {
     balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
 
-    wallString: 'wall',
     sweaterString: 'sweater',
 
     movesToObjectPatternString: 'Moves {0} towards {1}.',
@@ -171,19 +160,33 @@ define( function( require ) {
     greenBalloonString: 'Green balloon',
     yellowBalloonString: 'Yellow balloon',
 
-    // scene summary strings
+    //------------------------------------------------------------------------
+    // Scene summary strings
+    //------------------------------------------------------------------------
     sceneSummaryString: 'Scene Summary',
-
     openingSummaryString: 'Simulation contains a Play Area and a Control Panel. The play area is a small room. The control panel has buttons and switches to change conditions in the room.',
 
+    // objects for the scene summary
     roomObjectsPatternString: 'Currently, room has {{description}}.',
     aBalloonString: 'a balloon',
     twoBalloonsString: 'two balloons',
     andARemovableWallString: 'and a removable wall',
     aSweaterString: 'a sweater',
     andASweaterString: 'and a sweater',
-    objectsWithWallPatternString: '{{balloons}}, {{sweater}}, {{wall}}',
-    objectsNoWallPatternString: '{{balloons}} {{sweater}}',
+    objectsWithWallPatternString: '{{balloon}}, {{sweater}}, {{wall}}',
+    objectsNoWallPatternString: '{{balloon}} {{sweater}}',
+
+    // patterns for the balloon description in the scene summary
+    balloonSummaryWithInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}. Positive charges do not move.',
+    balloonSummaryWithoutInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}.',
+    twoBalloonLocationSummaryString: '{{yellowBalloon}} {{greenBalloon}}',
+
+    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
+
+    // describing the attractive state of a balloon in the scene summary
+    stickingToString: 'sticking to',
+    onString: 'on',
+    touchingString: 'touching',
 
     //-----------------
     // Location Descriptions
@@ -200,6 +203,9 @@ define( function( require ) {
     stickingToWallWithChargesStringPattern: 'sticking to {0} wall. {1}',
     negativeChargesMoveStringPattern: 'Negative charges in wall move away from balloon {0}.',
 
+    //------------------------------------------------------------------------
+    // Induced charge strings
+    //------------------------------------------------------------------------
     aLittleBitString: 'a little bit',
     aLotString: 'a lot',
     quiteALotString: 'quite a lot',
