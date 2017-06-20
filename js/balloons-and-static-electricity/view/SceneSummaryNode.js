@@ -91,7 +91,6 @@ define( function( require ) {
     Property.multilink( locationProperties, function( yellowBalloonLocation ) {
 
         var description = self.getLocationDescription( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode );
-        console.log( description );
         locationDescriptionNode.accessibleLabel = description;
       }
     );
