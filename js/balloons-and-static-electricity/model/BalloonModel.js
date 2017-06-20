@@ -173,6 +173,12 @@ define( function( require ) {
     this.width = BALLOON_WIDTH;
     this.height = BALLOON_HEIGHT;
 
+    // @public {MovablePointChargeModel} - the closest minus charge to the balloon which is in the wall
+    this.closestChargeInWall = null;
+
+    // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall, determined by
+    this.inducingChargeInWall = false;
+
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],

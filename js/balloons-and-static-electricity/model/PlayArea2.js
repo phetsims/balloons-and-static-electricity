@@ -123,7 +123,7 @@ define( function( require ) {
 
     /**
      * TODO: Remove this entirely, it is replaced by BalloonDescriber.getLocationDescription,
-     * wich is a superior implementation
+     * wich is a superior implementation.
      * 
      * Determine which section of the play area the location vector is.
      * NOTE: Is this relative to upper left corner of balloon bounds or its center?

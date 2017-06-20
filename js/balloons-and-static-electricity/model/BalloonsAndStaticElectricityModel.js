@@ -57,7 +57,7 @@ define( function( require ) {
     this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
-    
+
     // @public (read-only) - Model of the wall
     this.wall = new WallModel( width - this.wallWidth, 600, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
@@ -74,6 +74,14 @@ define( function( require ) {
       var newWidth = isVisible ? width - self.wallWidth : width;
       self.bounds.setMaxX( newWidth );
     } );
+
+    // when the balloon locations change, update the closest charge in the wall
+    this.balloons.forEach( function( balloon ) {
+      balloon.locationProperty.link( function() {
+        balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
+        balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
+      } );
+    } ); 
 
     this.reset();
   }

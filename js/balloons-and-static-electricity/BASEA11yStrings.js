@@ -177,9 +177,10 @@ define( function( require ) {
     objectsNoWallPatternString: '{{balloon}} {{sweater}}',
 
     // patterns for the balloon description in the scene summary
-    balloonSummaryWithInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}. Positive charges do not move.',
+    balloonSummaryWithInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}.',
     balloonSummaryWithoutInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}.',
     twoBalloonLocationSummaryString: '{{yellowBalloon}} {{greenBalloon}}',
+    balloonLocationSummaryWithPositiveChargeDescription: '{{balloonSummary}} Positive charges do not move.',
 
     inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
 

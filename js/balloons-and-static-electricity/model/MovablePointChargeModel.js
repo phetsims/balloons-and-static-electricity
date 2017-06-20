@@ -19,6 +19,10 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var TVector2 = require( 'DOT/TVector2' );
 
+  // constants
+  // when charge displacement is larger than this, there is an appreciable induced charge
+  var INDUCED_CHARGE_DISPLACEMENT_THRESHOLD = 3;
+
   /**
    * @constructor
    * @param {number} x
@@ -50,6 +54,30 @@ define( function( require ) {
     reset: function() {
       PointChargeModel.prototype.reset.call( this );
       this.locationProperty.reset();
+    },
+
+    /**
+     * Get the displacement of the charge from its initial position. Useful as a measure of the induced charge.
+     * 
+     * @return {Vector2}
+     */
+    getDisplacement: function() {
+      var initialPosition = this.locationProperty.initialValue;
+      var displacement = this.locationProperty.get().distance( initialPosition );
+
+      return displacement;
+    },
+
+    /**
+     * If the displacement is large enough, it indicates that the containing object has an induced charge. Check agains
+     * some threshold to return a boolean representing this.
+     *
+     * @public
+     * @return {boolean}
+     */
+    displacementIndicatesInducedCharge: function() {
+      var displacement = this.getDisplacement();
+      return displacement > INDUCED_CHARGE_DISPLACEMENT_THRESHOLD;
     },
 
     /**

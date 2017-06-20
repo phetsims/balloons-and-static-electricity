@@ -44,6 +44,7 @@ define( function( require ) {
   var onString = BASEA11yStrings.onString;
   var touchingString = BASEA11yStrings.touchingString;
   var twoBalloonLocationSummaryString = BASEA11yStrings.twoBalloonLocationSummaryString;
+  var balloonLocationSummaryWithPositiveChargeDescription = BASEA11yStrings.balloonLocationSummaryWithPositiveChargeDescription;
 
   /**
    * @constructor
@@ -99,6 +100,13 @@ define( function( require ) {
       }
       else {
         description = yellowBalloonDescription;
+      }
+
+      // if there is any induced charge in the wall, attach that to the end of the description
+      if ( yellowBalloon.inducingCharge || greenBalloon.inducingCharge ) {
+        description = StringUtils.fillIn( balloonLocationSummaryWithPositiveChargeDescription, {
+          balloonSummary: description
+        } );
       }
 
       console.log( description );

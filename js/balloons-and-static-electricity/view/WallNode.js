@@ -46,9 +46,6 @@ define( function( require ) {
     }
   };
 
-  // when charge displacement in wall is larger than this value, it will be described (determined by visual inspection)
-  var INDUCED_CHARGE_DESCRIPTION_THRESHOLD = 3;
-
   /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
@@ -132,19 +129,15 @@ define( function( require ) {
      * @param  {Balloon} balloon
      * @returns {string|null}
      */
-    getInducedChargeAmountDescription: function( balloon, closestCharge ) {
-
-      // map the displacement of the closest charge to a description of how much the charge has moved been displaced
-      var initialPosition = closestCharge.locationProperty.initialValue;
-      var displacement = closestCharge.locationProperty.get().distance( initialPosition );
+    getInducedChargeAmountDescription: function( balloon ) {
 
       // if large enough, return a description based on the displacement
       var inducedChargeDescription = null;
-      if ( displacement > INDUCED_CHARGE_DESCRIPTION_THRESHOLD ) {
+      if ( balloon.inducingCharge ) {
         var descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
         for ( var j = 0; j < descriptionKeys.length; j++ ) {
           var value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
-          if ( value.range.contains( displacement ) ) {
+          if ( value.range.contains( balloon.closestChargeInWall.getDisplacement() ) ) {
             inducedChargeDescription = value.description;
           }
         }
@@ -160,19 +153,21 @@ define( function( require ) {
      * 
      * @param  {BalloonModel} balloon
      * @param  {string} balloonLabel
-     * @return {}
+     * @return {string|null}
      */
     getInducedChargeDescriptionIfBigEnough: function( balloon, balloonLabel ) {
-
-      // get the variable parts of the description to place in the pattern
-      var closestCharge = this.model.wall.getClosestChargeToBalloon( balloon );
-      var location = closestCharge.locationProperty.get();
-      var isVisible = this.model.wall.isVisibleProperty.get();
-      var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, isVisible );
-      var inducedChargeAmount = this.getInducedChargeAmountDescription( balloon, closestCharge );
-
       var inducedChargeDescription = null;
-      if ( inducedChargeAmount ) {
+
+      // start here - this needs to be on a balloon basis, something like balloon.iniducingCharge?
+      if ( balloon.inducingCharge ) {
+
+        // get the variable parts of the description to place in the pattern
+        var closestCharge = balloon.closestChargeInWall;
+        var location = closestCharge.locationProperty.get();
+        var isVisible = this.model.wall.isVisibleProperty.get();
+        var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, isVisible );
+        var inducedChargeAmount = this.getInducedChargeAmountDescription( balloon );
+
         inducedChargeDescription = StringUtils.fillIn( inducedChargePatternString, {
           wallLocation: chargeLocationString,
           balloon: balloonLabel,
