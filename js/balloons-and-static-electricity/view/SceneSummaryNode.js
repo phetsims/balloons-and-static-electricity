@@ -87,31 +87,14 @@ define( function( require ) {
     } );
 
     var self = this;
-    Property.multilink( [ yellowBalloon.locationProperty, greenBalloon.locationProperty, greenBalloon.isVisibleProperty ], function( yellowBalloonLocation ) {
-      var description;
+    var locationProperties = [ yellowBalloon.locationProperty, greenBalloon.locationProperty, greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ];
+    Property.multilink( locationProperties, function( yellowBalloonLocation ) {
 
-      var yellowBalloonDescription = self.getBalloonLocationDescription( yellowBalloon, yellowBalloonLabelString, wallNode );
-      if ( greenBalloon.isVisibleProperty.get() ) {
-        var greenBalloonDescription = self.getBalloonLocationDescription( greenBalloon, greenBalloonLabelString, wallNode );
-        description = StringUtils.fillIn( twoBalloonLocationSummaryString, {
-          yellowBalloon: yellowBalloonDescription,
-          greenBalloon: greenBalloonDescription
-        } );
+        var description = self.getLocationDescription( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode );
+        console.log( description );
+        locationDescriptionNode.accessibleLabel = description;
       }
-      else {
-        description = yellowBalloonDescription;
-      }
-
-      // if there is any induced charge in the wall, attach that to the end of the description
-      if ( yellowBalloon.inducingCharge || greenBalloon.inducingCharge ) {
-        description = StringUtils.fillIn( balloonLocationSummaryWithPositiveChargeDescription, {
-          balloonSummary: description
-        } );
-      }
-
-      console.log( description );
-      locationDescriptionNode.accessibleLabel = description;
-    } );
+    );
 
     // tandem support
     tandem.addInstance( this, TNode );
@@ -185,6 +168,38 @@ define( function( require ) {
       }
 
       return locationDescription;
+    },
+
+    /**
+     * Gets the description content for the scene summary, which includes information about both balloon locations and
+     * their impact on the wall (induced charge).
+     * @private
+     * @return {string}
+     */
+    getLocationDescription: function( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode ) {
+      var description;
+
+      // descriptions for each balloon, if green balloon is invisible it is skipped
+      var yellowBalloonDescription = this.getBalloonLocationDescription( yellowBalloon, yellowBalloonLabelString, wallNode );
+      if ( greenBalloon.isVisibleProperty.get() ) {
+        var greenBalloonDescription = this.getBalloonLocationDescription( greenBalloon, greenBalloonLabelString, wallNode );
+        description = StringUtils.fillIn( twoBalloonLocationSummaryString, {
+          yellowBalloon: yellowBalloonDescription,
+          greenBalloon: greenBalloonDescription
+        } );
+      }
+      else {
+        description = yellowBalloonDescription;
+      }
+
+      // if there is any induced charge in the wall, attach that to the end of the description
+      if ( yellowBalloon.inducingCharge || greenBalloon.inducingCharge ) {
+        description = StringUtils.fillIn( balloonLocationSummaryWithPositiveChargeDescription, {
+          balloonSummary: description
+        } );
+      }
+
+      return description;
     }
   }, {
 
