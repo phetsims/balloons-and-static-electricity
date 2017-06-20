@@ -119,7 +119,7 @@ define( function( require ) {
       var attractiveStateString = '';
 
       if ( balloon.onSweater() || balloon.touchingWall() ) {
-        if ( !balloon.isDraggedProperty.get() && balloon.chargeProperty.get() > 0 ) {
+        if ( !balloon.isDraggedProperty.get() && Math.abs( balloon.chargeProperty.get() ) > 0 ) {
           attractiveStateString = stickingToString;
         }
         else {
