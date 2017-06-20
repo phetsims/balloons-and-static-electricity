@@ -133,11 +133,33 @@ define( function( require ) {
       return attractiveStateString;
     },
 
+    /**
+     * Get the location description of a single balloon, as well as a description of any charge that it is inducing
+     * in the wall.
+     *
+     * TODO: Parts of this will likely be useful elswhere in the sim.
+     * @private
+     * @param  {BalloonModel} balloon
+     * @param  {string} balloonLabel
+     * @param  {WallNode} wallNode
+     * @return {string}
+     */
     getBalloonLocationDescription: function( balloon, balloonLabel, wallNode ) {
 
       // phrase describing the location of the balloon in the play area, determined relative to center of the balloon
-      // unless balloon is touching the wall
-      var describedBalloonPosition = balloon.touchingWall() ? balloon.getWallTouchingCenter() : balloon.getCenter();
+      // unless balloon is touching the wall or sweater, in which case the descriped point is relative to the sides
+      // of the balloon
+      // TODO: Should this be moved somewhere else to a function like getDescribedPoint() ?
+      var describedBalloonPosition;
+      if ( balloon.touchingWall() ) {
+        describedBalloonPosition = balloon.getWallTouchingCenter(); 
+      }
+      else if ( balloon.onSweater() ) {
+        describedBalloonPosition = balloon.getSweaterTouchingCenter();
+      }
+      else {
+        describedBalloonPosition = balloon.getCenter();
+      }
       var wallVisible = this.wall.isVisibleProperty.get();
       var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
 

@@ -467,6 +467,17 @@ define( function( require ) {
       return new Vector2( centerX, centerY );
     },
 
+    /**
+     * Get the position of the left touch point of the balloon against the sweater, assumed to be the left most
+     * center of of the balloon.
+     * @return {Vector2} [description]
+     */
+    getSweaterTouchingCenter: function() {
+      var centerX = this.locationProperty.get().x;
+      var centerY = this.getCenter().y;
+      return new Vector2( centerX, centerY );
+    },
+
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks
