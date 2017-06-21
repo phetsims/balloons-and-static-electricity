@@ -189,6 +189,12 @@ define( function( require ) {
     onString: 'on',
     touchingString: 'touching',
 
+    // scene summary charge strings
+    allHaveNoNetChargeString: 'All have no net charge',
+    neutralBalloonChargePatternString: '{{balloon}} has a few pairs of negative and positive charges.',
+    neutralSweaterChargeString: 'Sweater, many pairs of negative and positive charges.',
+    neutralSweaterAndWallChargeString: 'Sweater and wall, many pairs of negative and positive charges.',
+
     //-----------------
     // Location Descriptions
     twoBalloonDescriptionPattern: '{0} {1}',

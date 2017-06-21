@@ -45,6 +45,10 @@ define( function( require ) {
   var touchingString = BASEA11yStrings.touchingString;
   var twoBalloonLocationSummaryString = BASEA11yStrings.twoBalloonLocationSummaryString;
   var balloonLocationSummaryWithPositiveChargeDescription = BASEA11yStrings.balloonLocationSummaryWithPositiveChargeDescription;
+  var allHaveNoNetChargeString = BASEA11yStrings.allHaveNoNetChargeString;
+  var neutralBalloonChargePatternString = BASEA11yStrings.neutralBalloonChargePatternString;
+  var neutralSweaterChargeString = BASEA11yStrings.neutralSweaterChargeString;
+  var neutralSweaterAndWallChargeString = BASEA11yStrings.neutralSweaterAndWallChargeString;
 
   /**
    * @constructor
@@ -52,6 +56,9 @@ define( function( require ) {
    * @param {Tandem} tandem
    */
   function SceneSummaryNode( model, wallNode, tandem ) {
+
+    var self = this;
+
     AccessibleSectionNode.call( this, sceneSummaryString, {
       pickable: false // scene summary (and its subtree) do not need to be pickable
     } );
@@ -61,6 +68,7 @@ define( function( require ) {
     var greenBalloon = model.greenBalloon;
 
     // @private
+    this.model = model;
     this.wall = model.wall;
 
     // opening paragraph for the simulation
@@ -81,17 +89,22 @@ define( function( require ) {
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
 
-    // roomObjectsNode content is dependent on the visibility of the wall and green balloon
+    // update the description that covers the visible objects in the play area
     Property.multilink( [ greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
       roomObjectsNode.accessibleLabel = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    var self = this;
+    // update the description which covers the location of each balloon and how it induced charge on the wall
     var locationProperties = [ yellowBalloon.locationProperty, greenBalloon.locationProperty, greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ];
     Property.multilink( locationProperties, function( yellowBalloonLocation ) {
         locationDescriptionNode.accessibleLabel = self.getLocationDescription( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode );
       }
     );
+
+    var chargeProperties = [ yellowBalloon.chargeProperty, greenBalloon.chargeProperty ];
+    Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge ) {
+      chargeDescriptionNode.accessibleLabel = self.getChargeDescription();
+    } );
 
     // tandem support
     tandem.addInstance( this, TNode );
@@ -135,6 +148,7 @@ define( function( require ) {
      * in the wall.
      *
      * TODO: Parts of this will likely be useful elswhere in the sim.
+     * TODO: Should this be in the BalloonDescriber?
      * @private
      * @param  {BalloonModel} balloon
      * @param  {string} balloonLabel
@@ -187,6 +201,93 @@ define( function( require ) {
       }
 
       return locationDescription;
+    },
+
+    /**
+     * Get the charge description for the overall state of the simulation.  Something like "All have no net charge".
+     * NOTE: Implementation on hold, waiting for implications of the two balloon case.
+     * 
+     * @private
+     * @return {string}
+     */
+    getOverallChargeDescription: function() {
+      var overallDescription;
+
+      // if none of the objects have charge, use a simple summary sentence that describes this - all objects will
+      // be neutral if the sweater still has all its charges
+      if ( this.model.sweater.chargeProperty.get() === 0 ) {
+        overallDescription = allHaveNoNetChargeString;
+      }
+      else {
+        overallDescription = 'Please implement the rest of this function.';
+      }
+
+      return overallDescription;
+    },
+
+    /**
+     * Get the charge description for a single balloon.
+     * NOTE: Implementation on hold, waiting for the two-balloon case.
+     *
+     * TODO: Should this move to BalloonDescriber?
+     * @param  {BalloonModel} balloonModel
+     * @param  {string} balloonLabel
+     * @return {string}
+     */
+    getBalloonChargeDescription: function( balloonModel, balloonLabel ) {
+      var chargeDescription;
+      if ( balloonModel.chargeProperty.get() === 0 ) {
+        chargeDescription = StringUtils.fillIn( neutralBalloonChargePatternString, {
+          balloon: balloonLabel
+        } );
+      }
+      else {
+        chargeDescription = 'Please handle the other cases. Perhaps a range map would work?';
+      }
+
+      return chargeDescription;
+    },
+
+    /**
+     * NOTE: charge description implementation on hold, waiting for the two balloon case.
+     * 
+     * @return {string}
+     */
+    getSweaterAndWallChargeDescription: function() {
+      var chargeDescription;
+
+      // if sweater and wall have a neutral charge, they are put together in the same summary description
+      // neither will have charge if the sweater still has neutral charge
+      if ( this.model.sweater.chargeProperty.get() === 0 ) {
+        if ( this.model.wall.isVisibleProperty.get() ) {
+          chargeDescription = neutralSweaterAndWallChargeString;
+        }
+        else {
+          chargeDescription = neutralSweaterChargeString;
+        }
+      }
+      else {
+        chargeDescription = 'Please implement charged cases.';
+      }
+
+      return chargeDescription;
+    },
+
+    /**
+     * Get a description which describes the charge of all objects in the simulation.
+     * NOTE: Implementation on hold, waiting for the two-balloon case.
+     * 
+     * @return {string} [description]
+     */
+    getChargeDescription: function() {
+      // var model = this.model;
+
+      // the charge description is composed of these parts
+      // var overallDescription = this.getOverallChargeDescription();
+      // var yellowBalloonDescription = this.getBalloonChargeDescription( model.yellowBalloon, yellowBalloonLabelString );
+      // var greenBalloonDescription = this.getBalloonChargeDescription( model.greenBalloon, greenBalloonLabelString );
+      // var sweaterAndWallDescription = this.getSweaterAndWallChargeDescription();
+
     },
 
     /**
