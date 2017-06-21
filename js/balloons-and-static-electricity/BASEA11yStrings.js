@@ -79,7 +79,6 @@ define( function( require ) {
     // charge descriptions
     namedBalloonChargeDescriptionPatternString: '{0} has {1} net charge, {2} more negative charges than positive charges.',
     balloonChargeStringPattern: 'Has {0} net charge, {1} more negative charges than positive charges.',
-    sweaterChargePatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
 
     neutralString: 'neutral',
     negativeString: 'negative',
@@ -219,11 +218,19 @@ define( function( require ) {
 
     stickingToSweaterStringPattern: 'sticking to {0} of sweater.',
 
-    upperLeftSideSweaterString: 'upper left side',
-    upperRightSideSweaterString: 'upper right side',
-    lowerLeftSideSweaterString: 'lower left side',
-    lowerRightSideSweaterString: 'lower right side',
+    //------------------------------------------------------------------------
+    // Sweater strings
+    //------------------------------------------------------------------------
+    sweaterLabelString: 'Sweater',
+    sweaterDescriptionPatternString: 'At left edge of Play Area. {{charge}}.',
+    sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
+    sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
+    sweaterRelativeChargePatternString: '{{charge}} more positive charges than negative charges',
+    sweaterNoMoreChargesString: 'no negative charges, only positive charges',
 
+    //------------------------------------------------------------------------
+    // Balloon strings
+    //------------------------------------------------------------------------
     greenBalloonLabelString: 'Green Balloon',
     yellowBalloonLabelString: 'Yellow Balloon',
 
@@ -241,7 +248,6 @@ define( function( require ) {
     downAndLeftString: 'down and to the left',
 
     // sweater charge descriptions
-    sweaterNetChargePatternString: 'Sweater has {0} charge',
     netNeutralString: 'neutral net',
     netPositiveString: 'positive net',
 
@@ -259,7 +265,6 @@ define( function( require ) {
     greenBalloonRemovedString: 'Green balloon removed from Play Area',
     greenBalloonAddedString: 'Green balloon added to Play Area',
     playAreaString: 'Play Area',
-    sweaterLabelString: 'Sweater',
     wallLabelString: 'Wall',
     controlPanelString: 'Control Panel',
     wallDescriptionString: 'Run experiments with or without the wall.',
@@ -284,10 +289,6 @@ define( function( require ) {
     tabString: 'Tab key moves to next item.',
 	shiftTabString: 'Shift plus Tab moves to previous item.',
 	escString: 'Escape key closes a dialog, like this one.',
-
-    // sweater descriptions
-    sweaterDescriptionPatternString: 'Sweater has {0} net charge, {1} more positive charges than negative charges.',
-    sweaterChargeDepletedString: 'Sweater has positive net charge, no negative charges, only positive charges.',
 
     // wall strings
     wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',

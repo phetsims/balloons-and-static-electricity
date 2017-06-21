@@ -25,11 +25,42 @@ define( function( require ) {
   // phet-io modules
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
 
+  // strings
+  var sweaterLabelString = BASEA11yStrings.sweaterLabelString;
+  var noString = BASEA11yStrings.noString;
+  var aFewString = BASEA11yStrings.aFewString;
+  var severalString = BASEA11yStrings.severalString;
+  var manyString = BASEA11yStrings.manyString;
+  var positiveString = BASEA11yStrings.positiveString;
+  var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPatternString;
+  var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePatternString;
+  var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreChargesString;
+  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
+  var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString;
+
   // constants - ranges to describe charges in the sweater
-  var A_FEW_RANGE = new Range( 1, 15 );
-  var SEVERAL_RANGE = new Range( 15, 40 );
-  var MANY_RANGE = new Range( 40, 56 );
-  var MAX_CHARGE = 57;
+  var SWEATER_DESCRIPTION_MAP = {
+    NO_MORE_RANGE: {
+      range: new Range( 0, 0 ),
+      description: noString
+    },
+    A_FEW_RANGE: {
+      range: new Range( 1, 15 ),
+      description: aFewString
+    },
+    SEVERAL_RANGE: {
+      range: new Range( 15, 40 ),
+      description: severalString
+    },
+    MANY_RANGE: {
+      range: new Range( 40, 56 ),
+      description: manyString
+    },
+    MAX_RANGE: {
+      range: new Range( 57, 57 ),
+      description: ''
+    } 
+  };
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -45,10 +76,10 @@ define( function( require ) {
     Node.call( this, {
       pickable: false,
 
-      // accessibility options
+      // a11y
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
-      accessibleLabel: BASEA11yStrings.sweaterLabelString,
+      accessibleLabel: sweaterLabelString,
       descriptionTagName: 'p'
     } );
 
@@ -123,9 +154,8 @@ define( function( require ) {
     this.sweaterModel.chargeProperty.link( function( charge ) {
       updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
 
-      // a11y - update description of sweater when charge changes
-      var chargeDescription = self.getChargeDescription( charge );
-      self.setAccessibleDescription( chargeDescription );
+      // a11y - update description of sweater when charge changesgetS
+      self.setAccessibleDescription( self.getSweaterDescription( model.wall.isVisibleProperty.get() ) );
     } );
 
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
@@ -140,38 +170,56 @@ define( function( require ) {
   return inherit( Node, SweaterNode, {
 
     /**
-     * Get a description for the sweater, based on its charge.
+     * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
+     * relative proportion of positive and negative charges.  Example:
      *
-     * @param  {number} charge
-     * @returns {string}
+     * "At left edge of Play Area. Has positive net charge, a few more positive charges than negative charges."
+     * TODO: Should this be moved into a SweaterDescriber type?
+     * 
+     * @param  {boolean} wallVisible
+     * @return {string}
      */
-    getChargeDescription: function( charge ) {
-      var chargeString;
-      var neutralityString;
+    getSweaterDescription: function( wallVisible ) {
+      var relativeChargeString; // description of relative positive/negative charges
+      var chargeAmountString; // short description of amount of charge like "a few"
+      var netChargeString; // description of net charge, like 'no' or 'positive'
+      var chargeString; // full description of charge
 
-      if ( charge === 0 ) {
-        chargeString = BASEA11yStrings.noString;
-        neutralityString = BASEA11yStrings.neutralString;
-      }
-      else if ( A_FEW_RANGE.contains( charge ) ) {
-        chargeString = BASEA11yStrings.aFewString;
-        neutralityString = BASEA11yStrings.positiveString;
-      }
-      else if ( SEVERAL_RANGE.contains( charge ) ) {
-        chargeString = BASEA11yStrings.severalString;
-        neutralityString = BASEA11yStrings.positiveString;
-      }
-      else if ( MANY_RANGE.contains( charge ) ) {
-        chargeString = BASEA11yStrings.manyString;
-        neutralityString = BASEA11yStrings.positiveString;
-      }
-      else if ( charge === MAX_CHARGE ) {
-
-        // if no more negative charges remain on sweater, return this immediately
-        return BASEA11yStrings.sweaterChargeDepletedString;
+      // get the description for the amount of charge
+      var sweaterCharge = this.sweaterModel.chargeProperty.get();
+      var descriptionKeys = Object.keys( SWEATER_DESCRIPTION_MAP );
+      for ( var i = 0; i < descriptionKeys.length; i++ ) {
+        var descriptionContent = SWEATER_DESCRIPTION_MAP[ descriptionKeys[ i ] ];
+        if ( descriptionContent.range.contains( sweaterCharge ) ) {
+          chargeAmountString = descriptionContent.description;
+        }
       }
 
-      return StringUtils.format( BASEA11yStrings.sweaterDescriptionPatternString, neutralityString, chargeString );
+      // assemble net charge string
+      netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
+        netCharge: sweaterCharge > 0 ? positiveString : noString
+      } );
+
+      // assemble the relative charge string
+      if ( SWEATER_DESCRIPTION_MAP.MAX_RANGE.range.contains( sweaterCharge ) ) {
+        relativeChargeString = sweaterNoMoreChargesString;
+      }
+      else {
+        relativeChargeString = StringUtils.fillIn( sweaterRelativeChargePatternString, {
+          charge: chargeAmountString
+        } );
+      }
+
+      // assemble the full description of charge
+      chargeString = StringUtils.fillIn( sweaterChargePatternString, {
+        netCharge: netChargeString,
+        relativeCharge: relativeChargeString
+      } );
+
+      // assemble the description to be returned
+      return StringUtils.fillIn( sweaterDescriptionPatternString, {
+        charge: chargeString
+      } );
     }
   } );
 } );

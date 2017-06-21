@@ -111,6 +111,9 @@ define( function( require ) {
     // @public {Vector2} - location of center of the sweater
     this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
 
+    // @public (read-only) {Vector2} - location of the left edge of the sweater
+    this.left = new Vector2( self.x, self.y + self.height / 2 );
+
     // @public {Bounds2} bounds containing the sweater
     this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
 
