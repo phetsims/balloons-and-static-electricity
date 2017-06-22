@@ -252,7 +252,7 @@ define( function( require ) {
     netPositiveString: 'positive net',
 
     // balloon grab cue
-    balloonGrabCueString: 'Once grabbed, get ready to drag balloon.  Press W, A, S, or D key to drag up, left, down, or right.  To let go, press Space key.',
+    balloonButtonHelpString: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.',
 
     // misc labels
     removeWallLabelString: 'Remove Wall',

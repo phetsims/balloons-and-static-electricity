@@ -3,14 +3,6 @@
 /**
  * Scenery display object (scene graph node) for the Balloon of the model.
  *
- * The accessible content for the balloon looks like this for assistive technology:
- * <div>
- *   <h3>Yellow Balloon</h3>
- *   <p>Description of the balloon</p?
- *   <div>
- *     <button>Grab Yellow Balloon</button>
- *     <div role="application"></div>
- *
  * Accessible content for BalloonNode acts as a container for the button and application div, which are provided by
  * children of this node.  Beware that changing the scene graph under this node will change the structure of the
  * accessible content.
@@ -36,11 +28,15 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/BalloonDescriber' );
-  var Line = require( 'SCENERY/nodes/Line' );  
+  var Line = require( 'SCENERY/nodes/Line' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
+
+  // strings
+  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
 
   /**
    * Constructor for the balloon
@@ -120,7 +116,9 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
+      parentContainerTagName: 'div',
       accessibleLabel: accessibleButtonLabel,
+      accessibleDescription: balloonButtonHelpString,
       focusHighlight: focusHighlightNode,
       focusable: true
     } );
@@ -140,11 +138,11 @@ define( function( require ) {
       }
     } );
     
-
     var accessibleDropBalloon = function() {
       balloonImageNode.mutate( {
         tagName: 'button',
-        accessibleLabel: accessibleButtonLabel
+        accessibleLabel: accessibleButtonLabel,
+        accessibleDescription: balloonButtonHelpString
       } );
 
       // remove the drag handler and pickup listener
@@ -192,6 +190,7 @@ define( function( require ) {
         balloonImageNode.mutate( {
           tagName: 'div',
           ariaRole: 'application',
+          accessibleDescription: null,
           accessibleLabel: self.accessibleLabel
         } );
         balloonImageNode.removeAccessibleInputListener( keyboardPickUpListener );
