@@ -159,7 +159,7 @@ define( function( require ) {
       var inducedChargeDescription = null;
 
       // start here - this needs to be on a balloon basis, something like balloon.iniducingCharge?
-      if ( balloon.inducingCharge ) {
+      if ( balloon.inducingCharge && this.model.wall.isVisibleProperty.get() ) {
 
         // get the variable parts of the description to place in the pattern
         var closestCharge = balloon.closestChargeInWall;
