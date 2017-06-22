@@ -150,6 +150,8 @@ define( function( require ) {
      * Get the induced charge description for the wall.  The description is contains the location of the displaced
      * charges, which balloon is inducing charge, and how much a relative description of how much induced charge there
      * is.  If there is not enough induced charge, this function will return null.
+     *
+     * TODO: Perhaps this should move to BalloonDescriber? This portion is used while describing the balloon.
      * 
      * @param  {BalloonModel} balloon
      * @param  {string} balloonLabel
