@@ -177,9 +177,10 @@ define( function( require ) {
       // attractive state segment, like "sticking to" or "on"
       var attractiveStateString = this.getAttractiveStateString( balloon );
 
-      // description for induced charge in the wall, will be null unless there is enough induced
-      // charge to describe
-      var inducedChargeString = wallNode.wallDescriber.getInducedChargeDescription( balloon, balloonLabel );
+      // description for induced charge in the wall if it is visible
+      if ( this.model.wall.isVisibleProperty.get() ) {
+        var inducedChargeString = wallNode.wallDescriber.getInducedChargeDescription( balloon, balloonLabel );
+      }
 
       // if there is an induced charge, add it to the description - otherwise, just describe the balloon
       // and its location

@@ -236,6 +236,7 @@ define( function( require ) {
     );
     this.locationProperty.link( function( location ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+      console.log( self.getCenter().x );
     } );
 
     this.reset();
