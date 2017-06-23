@@ -219,6 +219,16 @@ define( function( require ) {
     stickingToSweaterStringPattern: 'sticking to {0} of sweater.',
 
     //------------------------------------------------------------------------
+    // Charge view strings
+    //------------------------------------------------------------------------
+    noChargesShownString: 'no charges shown',
+
+    //------------------------------------------------------------------------
+    // Object strings (strings shared between all objects)
+    //------------------------------------------------------------------------
+    manyChargePairsString: 'many pairs of positive and negative charges',
+
+    //------------------------------------------------------------------------
     // Sweater strings
     //------------------------------------------------------------------------
     sweaterLabelString: 'Sweater',
@@ -229,13 +239,23 @@ define( function( require ) {
     sweaterNoMoreChargesString: 'no negative charges, only positive charges',
 
     //------------------------------------------------------------------------
+    // Wall strings
+    //------------------------------------------------------------------------
+    wallDescriptionPatternString: '{{location}}. {{charge}}.',
+    wallLocationString: 'At right edge of Play Area',
+    wallNoNetChargeString: 'Has no net charge',
+    wallNoTransferOfChargeString: 'No transfer of charge',
+    wallChargeWithoutInducedPatternString: '{{netCharge}}, {{shownCharges}}',
+    wallChargeWithInducedPatternString: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}',
+    wallTwoBalloonInducedChargePatternString: '{{yellowBalloon}}. {{greenBalloon}}',
+
+    //------------------------------------------------------------------------
     // Balloon strings
     //------------------------------------------------------------------------
     greenBalloonLabelString: 'Green Balloon',
     yellowBalloonLabelString: 'Yellow Balloon',
 
-    grabGreenBalloonString: 'Grab Green Balloon',
-    grabYellowBalloonString: 'Grab Yellow Balloon',
+    grabBalloonPatternString: 'Grab {{balloon}}',
 
     // directions
     upString: 'up',

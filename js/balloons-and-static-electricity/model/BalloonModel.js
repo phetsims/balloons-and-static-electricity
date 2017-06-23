@@ -177,7 +177,7 @@ define( function( require ) {
     this.closestChargeInWall = null;
 
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall, determined by
-    this.inducingChargeInWall = false;
+    this.inducingCharge = false;
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [

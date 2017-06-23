@@ -179,7 +179,7 @@ define( function( require ) {
 
       // description for induced charge in the wall, will be null unless there is enough induced
       // charge to describe
-      var inducedChargeString = wallNode.getInducedChargeDescriptionIfBigEnough( balloon, balloonLabel );
+      var inducedChargeString = wallNode.wallDescriber.getInducedChargeDescription( balloon, balloonLabel );
 
       // if there is an induced charge, add it to the description - otherwise, just describe the balloon
       // and its location

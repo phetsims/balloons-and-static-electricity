@@ -15,36 +15,12 @@ define( function( require ) {
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Range = require( 'DOT/Range' );
-  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityDescriber' );
+  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallDescriber' );
   var Node = require( 'SCENERY/nodes/Node' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
-
-  // strings
-  var aLittleBitString = BASEA11yStrings.aLittleBitString;
-  var aLotString = BASEA11yStrings.aLotString;
-  var quiteALotString = BASEA11yStrings.quiteALotString;
-  var inducedChargePatternString = BASEA11yStrings.inducedChargePatternString;
-
-  // constants
-  var INDUCED_CHARGE_DESCRIPTION_MAP = {
-    A_LITTLE_BIT: {
-      range: new Range( 0, 10 ),
-      description: aLittleBitString
-    },
-    A_LOT: {
-      range: new Range( 10, 20 ),
-      description: aLotString
-    },
-    QUITE_A_LOT: {
-      range: new Range( 20, Number.MAX_VALUE ),
-      description: quiteALotString
-    }
-  };
 
   /**
    * @constructor
@@ -56,8 +32,9 @@ define( function( require ) {
 
     // @private
     this.model = model;
-
     var wallModel = model.wall;
+
+    this.wallDescriber = new WallDescriber( wallModel, model.showChargesProperty );
 
     Node.call( this, {
       pickable: false,
@@ -114,70 +91,18 @@ define( function( require ) {
       plusChargesNode.visible = (value === 'all');
       minusChargesNode.visible = (value === 'all');
     } );
+
+    // a11y - when the balloons change location, update the description of the induced charge in the wall
+    var updateWallDescription = function() {
+      self.setAccessibleDescription( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon ) );
+    };
+
+    model.yellowBalloon.locationProperty.link( updateWallDescription );
+    model.greenBalloon.locationProperty.link( updateWallDescription );
+    model.showChargesProperty.link( updateWallDescription );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );
 
-  return inherit( Node, WallNode, {
-
-    /**
-     * Get an induced charge description for a balloon, based on the positions of charges in the wall.  We find the
-     * closest charge to the balloon, and determine how far it has been displaced from its initial position. Will return
-     * null if there is no induced charge.
-     *
-     * @private
-     * @param  {Balloon} balloon
-     * @returns {string|null}
-     */
-    getInducedChargeAmountDescription: function( balloon ) {
-
-      // if large enough, return a description based on the displacement
-      var inducedChargeDescription = null;
-      if ( balloon.inducingCharge ) {
-        var descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
-        for ( var j = 0; j < descriptionKeys.length; j++ ) {
-          var value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
-          if ( value.range.contains( balloon.closestChargeInWall.getDisplacement() ) ) {
-            inducedChargeDescription = value.description;
-          }
-        }
-      }
-
-      return inducedChargeDescription;
-    },
-
-    /**
-     * Get the induced charge description for the wall.  The description is contains the location of the displaced
-     * charges, which balloon is inducing charge, and how much a relative description of how much induced charge there
-     * is.  If there is not enough induced charge, this function will return null.
-     *
-     * TODO: Perhaps this should move to BalloonDescriber? This portion is used while describing the balloon.
-     * 
-     * @param  {BalloonModel} balloon
-     * @param  {string} balloonLabel
-     * @return {string|null}
-     */
-    getInducedChargeDescriptionIfBigEnough: function( balloon, balloonLabel ) {
-      var inducedChargeDescription = null;
-
-      // start here - this needs to be on a balloon basis, something like balloon.iniducingCharge?
-      if ( balloon.inducingCharge && this.model.wall.isVisibleProperty.get() ) {
-
-        // get the variable parts of the description to place in the pattern
-        var closestCharge = balloon.closestChargeInWall;
-        var location = closestCharge.locationProperty.get();
-        var isVisible = this.model.wall.isVisibleProperty.get();
-        var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, isVisible );
-        var inducedChargeAmount = this.getInducedChargeAmountDescription( balloon );
-
-        inducedChargeDescription = StringUtils.fillIn( inducedChargePatternString, {
-          wallLocation: chargeLocationString,
-          balloon: balloonLabel,
-          inductionAmount: inducedChargeAmount
-        } ); 
-      }
-
-      return inducedChargeDescription;
-    }
-  } );
+  return inherit( Node, WallNode );
 } );

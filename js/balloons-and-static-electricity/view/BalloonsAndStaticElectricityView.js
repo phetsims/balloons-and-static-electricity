@@ -35,11 +35,8 @@ define( function( require ) {
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
   var playAreaString = BASEA11yStrings.playAreaString;
-  var yellowBalloonString = BASEA11yStrings.yellowBalloonString;
-  var greenBalloonString = BASEA11yStrings.greenBalloonString;
-  var grabYellowBalloonString = BASEA11yStrings.grabYellowBalloonString;
-  var grabGreenBalloonString = BASEA11yStrings.grabGreenBalloonString;
-
+  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
+  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
@@ -103,8 +100,8 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
-    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, grabYellowBalloonString, tandem.createTandem( 'yellowBalloonNode' ), {
-      accessibleLabel: yellowBalloonString
+    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
+      accessibleLabel: yellowBalloonLabelString
     } );
     var tetherAnchorPoint = new Vector2(
       model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
@@ -116,8 +113,8 @@ define( function( require ) {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, grabGreenBalloonString, tandem.createTandem( 'greenBalloonNode' ), {
-      accessibleLabel: greenBalloonString
+    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, greenBalloonLabelString, tandem.createTandem( 'greenBalloonNode' ), {
+      accessibleLabel: greenBalloonLabelString
     } );
     this.greenBalloonTetherNode = new TetherNode(
       model.greenBalloon,

@@ -32,7 +32,7 @@ define( function( require ) {
    */
   function BalloonsAndStaticElectricityModel( width, height, tandem ) {
 
-    // @public {string} - charge visibility setting
+    // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new Property( 'all', {
       tandem: tandem.createTandem( 'showChargesProperty' ),
       phetioValueType: TString

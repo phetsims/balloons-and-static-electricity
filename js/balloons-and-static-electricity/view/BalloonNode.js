@@ -19,6 +19,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Input = require( 'SCENERY/input/Input' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -37,6 +38,7 @@ define( function( require ) {
 
   // strings
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
+  var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
 
   /**
    * Constructor for the balloon
@@ -49,7 +51,7 @@ define( function( require ) {
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleButtonLabel, tandem, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, tandem, options ) {
     var self = this;
 
     options = _.extend( {
@@ -72,6 +74,10 @@ define( function( require ) {
     // @private
     this.model = model;
     this.globalModel = globalModel;
+
+    var accessibleButtonLabel = StringUtils.fillIn( grabBalloonPatternString, {
+      balloon: accessibleLabelString
+    } );
 
     // a11y - a type that generates descriptions for the balloon 
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model );
