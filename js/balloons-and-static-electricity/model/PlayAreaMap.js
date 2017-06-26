@@ -33,20 +33,20 @@ define( function( require ) {
   };
 
   var COLUMN_RANGES = {
-    LEFT_ARM: new Range( 0, 138 ),
+    LEFT_ARM: new Range( -Number.MAX_VALUE, 138 ),
     LEFT_SIDE_OF_SWEATER: new Range( 138, 203 ),
     RIGHT_SIDE_OF_SWEATER: new Range( 203, 270 ),
     RIGHT_ARM: new Range( 270, 335 ),
     LEFT_PLAY_AREA: new Range( 335, 467 ),
     CENTER_PLAY_AREA: new Range( 467, 544 ),
     RIGHT_PLAY_AREA: new Range( 544, 676 ),
-    RIGHT_EDGE: new Range( 676, 768 )
+    RIGHT_EDGE: new Range( 676, Number.MAX_VALUE )
   };
 
   var ROW_RANGES = {
-    UPPER_PLAY_AREA: new Range( 0, 172 ),
+    UPPER_PLAY_AREA: new Range( -Number.MAX_VALUE, 172 ),
     CENTER_PLAY_AREA: new Range( 172, 326 ),
-    LOWER_PLAY_AREA: new Range( 326, 504 )
+    LOWER_PLAY_AREA: new Range( 326, Number.MAX_VALUE )
   };
 
   var PlayAreaMap = {

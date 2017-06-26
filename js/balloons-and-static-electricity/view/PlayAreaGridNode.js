@@ -38,10 +38,15 @@ define( function( require ) {
     var self = this;
     var i = 0;
     var range;
+    var minValue;
+    var maxValue;
     for ( range in columns ) {
       if ( columns.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
-          self.addChild( new Rectangle( columns[ range ].min, 0, columns[ range ].getLength(), PlayAreaMap.HEIGHT, blueOptions ) );
+          minValue = Math.max( layoutBounds.minX, columns[ range ].min );
+          maxValue = Math.min( layoutBounds.maxX, columns[ range ].max );
+          var width = maxValue - minValue;
+          self.addChild( new Rectangle( minValue, 0, width, PlayAreaMap.HEIGHT, blueOptions ) );
         }
         i++;
       }
@@ -51,7 +56,10 @@ define( function( require ) {
     for ( range in rows ) {
       if ( rows.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
-          self.addChild( new Rectangle( 0, rows[ range ].min, PlayAreaMap.WIDTH, rows[ range ].getLength(), greyOptions ) );
+          minValue = Math.max( layoutBounds.minY, rows[ range ].min );
+          maxValue = Math.min( layoutBounds.maxY, rows[ range ].max );
+          var height = maxValue - minValue;
+          self.addChild( new Rectangle( 0, minValue, PlayAreaMap.WIDTH, height, greyOptions ) );
         }
         i++;
       }

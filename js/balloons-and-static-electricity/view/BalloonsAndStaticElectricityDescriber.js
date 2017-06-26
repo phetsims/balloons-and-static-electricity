@@ -141,7 +141,7 @@ define( function( require ) {
           currentRow = rowKeys[ i ];
         }
       }
-      assert && assert( currentColumn && currentRow, 'balloon should be in a row or column of the play area' );
+      assert && assert( currentColumn && currentRow, 'item should be in a row or column of the play area' );
 
       // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
       if ( wallVisible && currentColumn === 'RIGHT_EDGE' ) {
