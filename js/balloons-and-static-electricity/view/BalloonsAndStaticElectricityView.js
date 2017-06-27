@@ -18,7 +18,7 @@ define( function( require ) {
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
-  var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/accessibility/ReaderDisplayNode' );
+  var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ReaderDisplayNode' );
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var Node = require( 'SCENERY/nodes/Node' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
