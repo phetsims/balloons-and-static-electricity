@@ -13,6 +13,13 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   var BASEA11yStrings = {
+
+    //------------------------------------------------------------------------
+    // General utility strings
+    //------------------------------------------------------------------------
+    singleStatementPatternString: '{{statement}}.',
+
+    // TODO: Can these be removed?
     balloonDescriptionPatternString: '{0} {1} {2}', // location, charge, interaction cu,
     balloonGrabbedDescriptionPatternString: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
     balloonDragDescriptionPatternString: '{0} {1} {2} {3} {4} {5}', // direction, proximity, charge, ,
