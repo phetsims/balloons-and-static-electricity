@@ -264,6 +264,12 @@ define( function( require ) {
 
     grabBalloonPatternString: 'Grab {{balloon}}',
 
+    //------------------------------------------------------------------------
+    // Control panel strings
+    //------------------------------------------------------------------------
+    chargeSettingsDescriptionString: 'Choose how you see or hear charge information.',
+    chargeSettingsLabelString: 'Charge Settings',
+
     // directions
     upString: 'up',
     downString: 'down',

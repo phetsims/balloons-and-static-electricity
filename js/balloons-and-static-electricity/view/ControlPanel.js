@@ -46,6 +46,8 @@ define( function( require ) {
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString;
   var controlPanelString = BASEA11yStrings.controlPanelString;
+  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString;
+  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString;
 
 
   /**
@@ -131,6 +133,13 @@ define( function( require ) {
       radius: 7,
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
+
+      // a11y
+      labelTagName: 'h3',
+      parentContainerTagName: 'div',
+      prependLabels: true,
+      accessibleLabel: chargeSettingsLabelString,
+      accessibleDescription: chargeSettingsDescriptionString
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
