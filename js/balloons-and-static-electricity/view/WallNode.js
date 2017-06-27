@@ -88,8 +88,8 @@ define( function( require ) {
 
     //show charges based on draw  property
     model.showChargesProperty.link( function switchWallChargesView( value ) {
-      plusChargesNode.visible = (value === 'all');
-      minusChargesNode.visible = (value === 'all');
+      plusChargesNode.visible = ( value === 'all' );
+      minusChargesNode.visible = ( value === 'all' );
     } );
 
     // a11y - when the balloons change location, update the description of the induced charge in the wall
