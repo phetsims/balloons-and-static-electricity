@@ -178,7 +178,7 @@ define( function( require ) {
       var attractiveStateString = this.getAttractiveStateString( balloon );
 
       // description for induced charge in the wall if it is visible
-      if ( this.model.wall.isVisibleProperty.get() ) {
+      if ( this.model.wall.isVisibleProperty.get() && balloon.inducingCharge ) {
         var inducedChargeString = wallNode.wallDescriber.getInducedChargeDescription( balloon, balloonLabel );
       }
 
