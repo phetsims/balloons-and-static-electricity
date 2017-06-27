@@ -14,9 +14,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
+  var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // strings
+  // play area grid strings
   var leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweaterString;
   var leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweaterString;
   var bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweaterString;
@@ -52,6 +54,12 @@ define( function( require ) {
   var upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayAreaString;
   var rightEdgeOfPlayArea = BASEA11yStrings.rightEdgeOfPlayArea;
   var lowerRightEdgeOfPlayArea = BASEA11yStrings.lowerRightEdgeOfPlayArea;
+
+  // charge strings
+  var noString = BASEA11yStrings.noString;
+  var aFewString = BASEA11yStrings.aFewString;
+  var severalString = BASEA11yStrings.severalString;
+  var manyString = BASEA11yStrings.manyString;
 
   // constants
   var locationDescriptionMap = {
@@ -99,6 +107,26 @@ define( function( require ) {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
       CENTER_PLAY_AREA: rightEdgeOfPlayArea,
       LOWER_PLAY_AREA: lowerRightEdgeOfPlayArea
+    }
+  };
+
+  // constants - ranges to describe relative charges in various objects
+  var RELATIVE_CHARGE_DESCRIPTION_MAP = {
+    NO_MORE_RANGE: {
+      range: new Range( 0, 0 ),
+      description: noString
+    },
+    A_FEW_RANGE: {
+      range: new Range( 1, 15 ),
+      description: aFewString
+    },
+    SEVERAL_RANGE: {
+      range: new Range( 15, 40 ),
+      description: severalString
+    },
+    MANY_RANGE: {
+      range: new Range( 40, 57 ),
+      description: manyString
     }
   };
 
@@ -150,5 +178,30 @@ define( function( require ) {
 
       return locationDescriptionMap[ currentColumn ][ currentRow ];
     },
+
+    /**
+     * Get a fragment that describes the relative charge for an objet, like 'a few' or 'several', to be used in 
+     * string patterns
+     * 
+     * @param  {number} charge
+     * @return {string}
+     */
+    getRelativeChargeDescription: function( charge ) {
+      assert && assert( charge >= 0, 'map only works for positive values.' );
+      var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
+
+      var description;
+
+      for ( var i = 0; i < keys.length; i++ ) {
+        var value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
+        if ( value.range.contains( charge ) ) {
+          description = value.description;
+          break;
+        }
+      }
+
+      assert && assert( description, 'no relative description found for charge value, check value or entries in description map' );
+      return description;
+    }
   } );
 } );

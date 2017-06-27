@@ -5,8 +5,7 @@
  * is quite complicated so this distributes the description work so that BalloonNode does not become
  * a massive file.  Used for accessibility.
  *
- * TODO: Do we need a SweaterDescriber and a WallDescriber? At the moment, that description logic is in the
- * WallNode/SweaterNode.
+ * TODO: Bring up to standards, immprove documentation, delete many functions which are now unused.
  *
  * @author Jesse Greenberg
  */
@@ -20,7 +19,31 @@ define( function( require ) {
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+
+  // strings
+  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
+  var upString = BASEA11yStrings.upString;
+  var downString = BASEA11yStrings.downString;
+  var leftString = BASEA11yStrings.leftString;
+  var rightString = BASEA11yStrings.rightString;
+  var upAndRightString = BASEA11yStrings.upAndRightString;
+  var upAndLeftString = BASEA11yStrings.upAndLeftString;
+  var downAndRightString = BASEA11yStrings.downAndRightString;
+  var downAndLeftString = BASEA11yStrings.downAndLeftString;
+  var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
+  var balloonOnString = BASEA11yStrings.balloonOnString;
+  var balloonTouchingString = BASEA11yStrings.balloonTouchingString;
+  var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString;
+  var balloonNoString = BASEA11yStrings.balloonNoString;
+  var balloonNegativeString = BASEA11yStrings.balloonNegativeString;
+  var balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePatternString;
+  var balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPatternString;
+  var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePatternString;
+  var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString;
+  var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString;
+  var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -28,17 +51,16 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
-  // strings
   var StringMaps = {
     DIRECTION_MAP: {
-      UP: BASEA11yStrings.upString,
-      DOWN: BASEA11yStrings.downString,
-      LEFT: BASEA11yStrings.leftString,
-      RIGHT: BASEA11yStrings.rightString,
-      UP_RIGHT: BASEA11yStrings.upAndRightString,
-      UP_LEFT: BASEA11yStrings.upAndLeftString,
-      DOWN_RIGHT: BASEA11yStrings.downAndRightString,
-      DOWN_LEFT: BASEA11yStrings.downAndLeftString
+      UP: upString,
+      DOWN: downString,
+      LEFT: leftString,
+      RIGHT: rightString,
+      UP_RIGHT: upAndRightString,
+      UP_LEFT: upAndLeftString,
+      DOWN_RIGHT: downAndRightString,
+      DOWN_LEFT: downAndLeftString
     }
   };
 
@@ -48,12 +70,16 @@ define( function( require ) {
    * @param {BalloonModel} balloon
    * @constructor
    */
-  function BalloonDescriber( model, wall, balloon ) {
+  function BalloonDescriber( model, wall, balloon, accessibleLabel ) {
 
     // @private
     this.model = model;
     this.wall = wall;
-    this.balloon = balloon;
+    this.balloon = balloon; // TODO: remove
+    this.balloonModel = balloon;
+    this.accessibleLabel = accessibleLabel;
+    this.showChargesProperty = model.showChargesProperty;
+
 
     this.balloonLabelMap = {
       GREEN: BASEA11yStrings.greenBalloonString,
@@ -136,6 +162,127 @@ define( function( require ) {
 
   return inherit( Object, BalloonDescriber, {
 
+    /**
+     * Get the description for this balloon, including information about the Balloon's location, and charge
+     * 
+     * @return {string}
+     */
+    getBalloonDescription: function() {
+      var description;
+      var showCharges = this.showChargesProperty.get();
+
+      // a string that peices together attractive state and location.
+      var locationDescriptionString = this.getBalloonLocationDescription();
+      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
+      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+        attractiveState: attractiveStateDescriptionString,
+        location: locationDescriptionString 
+      } );
+
+      if ( showCharges === 'none' ) {
+        description = StringUtils.fillIn( balloonShowNoChargesPatternString, {
+          stateAndLocation: attractiveStateAndLocationString
+        } );
+      }
+      else {
+        // balloon net charge description
+        var netChargeDescriptionString = this.getNetChargeDescription();
+
+        // balloon relative charge string, dependent on charge visibility
+        var relativeChargesString = this.getRelativeChargeDescription();
+
+        description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
+          stateAndLocation: attractiveStateAndLocationString,
+          netCharge: netChargeDescriptionString,
+          relativeCharge: relativeChargesString
+        } );
+      }
+
+      return StringUtils.fillIn( balloonDescriptionWithHelpPatternString, {
+        description: description,
+        help: balloonButtonHelpString
+      } );
+    },
+
+    getNetChargeDescription: function() {
+      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
+      return StringUtils.fillIn( balloonNetChargePatternString, {
+        chargeAmount: chargeAmountString
+      } );
+    },
+
+    getRelativeChargeDescription: function() {
+      var chargeValue = Math.abs( this.balloonModel.chargeProperty.get() );
+      var relativeChargesString = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( chargeValue );
+
+      var stringPattern;
+      var showCharges = this.showChargesProperty.get();
+      if ( showCharges === 'all' ) {
+        stringPattern = balloonRelativeChargePatternString;
+      }
+      else if ( showCharges === 'diff' ) {
+        stringPattern = balloonChargeDifferencesPatternString;
+      }
+      assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
+
+      return StringUtils.fillIn( stringPattern, {
+        amount: relativeChargesString
+      } );
+    },
+
+    getAttractiveStateDescription: function() {
+      var attractiveStateString = '';
+
+      if ( this.balloonModel.onSweater() || this.balloonModel.touchingWall() ) {
+        if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
+          attractiveStateString = balloonStickingToString;
+        }
+        else {
+          attractiveStateString = balloonTouchingString;
+        }
+      }
+      else {
+        attractiveStateString = balloonOnString;
+      }
+
+      return attractiveStateString;
+    },
+
+    /**
+     * Return a phrase describing the location of the balloon in the play area.  This is usually described relative
+     * to the center of the balloon, unless the balloon is touching an object, in which case it will be relative to the
+     * point where the objects are touching.
+     * 
+     * @return {[type]} [description]
+     */
+    getBalloonLocationDescription: function() {
+      var describedBalloonPosition = this.getDescribedPoint();
+      var wallVisible = this.wall.isVisibleProperty.get();
+
+      return BalloonsAndStaticElectricityDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
+    },
+
+    /**
+     * Get the point on the balloon that should be described. Generally, this is the balloon center.  If the balloon
+     * is touching the sweater or the wall, the point of touching should be described, so the touch point is returned.
+     * 
+     * @return {Vector2}
+     */
+    getDescribedPoint: function() {
+      var describedBalloonPosition;
+      if ( this.balloonModel.touchingWall() ) {
+        describedBalloonPosition = this.balloonModel.getWallTouchingCenter(); 
+      }
+      else if ( this.balloonModel.onSweater() ) {
+        describedBalloonPosition = this.balloonModel.getSweaterTouchingCenter();
+      }
+      else {
+        describedBalloonPosition = this.balloonModel.getCenter();
+      }
+
+      return describedBalloonPosition;
+    },
+
     getTouchingWallDescription: function( balloon, dragging ) {
 
       var upperLowerString;
@@ -197,6 +344,10 @@ define( function( require ) {
       return proximityDescription;
     },
 
+    getBalloonChargeDescription: function() {
+      
+    },
+
     /**
      * Get a description of the balloon's charge.
      * TODO: This kind of method of getting descriptions based on numerical values in a range
@@ -205,7 +356,7 @@ define( function( require ) {
      * @param  {Baloon} balloon
      * @returns {string}
      */
-    getBalloonChargeDescription: function( balloon, dragging ) {
+    getBalloonChargeDescriptionDeprecated: function( balloon, dragging ) {
       var chargeString; // qualitative description of balloon charge
       var neutralityString; // description of whether balloon has no or negative charge
       var inducedChargeString; // qualitative description for induced charge

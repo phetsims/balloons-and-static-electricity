@@ -190,10 +190,10 @@ define( function( require ) {
 
     inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
 
-    // describing the attractive state of a balloon in the scene summary
-    stickingToString: 'sticking to',
-    onString: 'on',
-    touchingString: 'touching',
+    // describing the attractive state of a balloon
+    sceneSummaryStickingToString: 'sticking to',
+    sceneSummaryOnString: 'on',
+    sceneSummaryTouchingString: 'touching',
 
     // scene summary charge strings
     allHaveNoNetChargeString: 'All have no net charge',
@@ -261,8 +261,25 @@ define( function( require ) {
     //------------------------------------------------------------------------
     greenBalloonLabelString: 'Green Balloon',
     yellowBalloonLabelString: 'Yellow Balloon',
-
     grabBalloonPatternString: 'Grab {{balloon}}',
+
+    balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}',
+    balloonShowAllChargesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{relativeCharge}}.',
+    balloonShowNoChargesPatternString: '{{stateAndLocation}}.',
+    balloonShowChargeDifferencesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
+    balloonDescriptionWithHelpPatternString: '{{description}} {{help}}',
+
+    // describing the attractive state of a balloon
+    balloonStickingToString: 'Sticking to',
+    balloonOnString: 'On',
+    balloonTouchingString: 'Touching',
+
+    balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
+    balloonNoString: 'no',
+    balloonNegativeString: 'negative',
+    balloonRelativeChargePatternString: '{{amount}} more nevative charges than positive charges',
+    balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
+
 
     //------------------------------------------------------------------------
     // Control panel strings

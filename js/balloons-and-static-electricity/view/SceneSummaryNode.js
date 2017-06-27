@@ -40,9 +40,9 @@ define( function( require ) {
   var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
   var balloonSummaryWithInducedChargePatternString = BASEA11yStrings.balloonSummaryWithInducedChargePatternString;
   var balloonSummaryWithoutInducedChargePatternString = BASEA11yStrings.balloonSummaryWithoutInducedChargePatternString;
-  var stickingToString = BASEA11yStrings.stickingToString;
-  var onString = BASEA11yStrings.onString;
-  var touchingString = BASEA11yStrings.touchingString;
+  var sceneSummaryStickingToString = BASEA11yStrings.sceneSummaryStickingToString;
+  var sceneSummaryOnString = BASEA11yStrings.sceneSummaryOnString;
+  var sceneSummaryTouchingString = BASEA11yStrings.sceneSummaryTouchingString;
   var twoBalloonLocationSummaryString = BASEA11yStrings.twoBalloonLocationSummaryString;
   var balloonLocationSummaryWithPositiveChargeDescription = BASEA11yStrings.balloonLocationSummaryWithPositiveChargeDescription;
   var allHaveNoNetChargeString = BASEA11yStrings.allHaveNoNetChargeString;
@@ -120,8 +120,6 @@ define( function( require ) {
      * sweater or wall, and not dragged. We use 'touching' if the balloon is just touching the sweater or wall.
      * Otherwise, we use 'on', maybe BalloonsAndStaticElectricityDescriber.js?
      * 
-     * TODO: This will probably be useful elswhere.
-     * 
      * @private
      * @return {string}
      */
@@ -130,14 +128,14 @@ define( function( require ) {
 
       if ( balloon.onSweater() || balloon.touchingWall() ) {
         if ( !balloon.isDraggedProperty.get() && Math.abs( balloon.chargeProperty.get() ) > 0 ) {
-          attractiveStateString = stickingToString;
+          attractiveStateString = sceneSummaryStickingToString;
         }
         else {
-          attractiveStateString = touchingString;
+          attractiveStateString = sceneSummaryTouchingString;
         }
       }
       else {
-        attractiveStateString = onString;
+        attractiveStateString = sceneSummaryOnString;
       }
 
       return attractiveStateString;

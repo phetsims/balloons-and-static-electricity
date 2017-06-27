@@ -37,7 +37,6 @@ define( function( require ) {
   var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
   // strings
-  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
 
   /**
@@ -58,10 +57,11 @@ define( function( require ) {
       cursor: 'pointer',
 
       // a11y - this node will act as a container for more accessible content, its children will implement
-      // the keyboard navigation
+      // most of the keyboard navigation
       parentContainerTagName: 'div',
       tagName: 'div',
       labelTagName: 'h3',
+      accessibleLabel: accessibleLabelString,
       prependLabels: true
     }, options );
 
@@ -80,7 +80,7 @@ define( function( require ) {
     } );
 
     // a11y - a type that generates descriptions for the balloon 
-    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model );
+    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString );
 
     var originalChargesNode = new Node( {
       pickable: false,
@@ -120,17 +120,14 @@ define( function( require ) {
     this.addInputListener( dragHandler );
 
     // create the balloon image, but don't add it just yet
-    // as a child, the image node implements much of the accessilbe content
+    // this image node implements much of the accessilbe content
     var balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
 
       // a11y
       tagName: 'button',
-      parentContainerTagName: 'div',
       accessibleLabel: accessibleButtonLabel,
-      accessibleDescription: balloonButtonHelpString,
-      focusHighlight: focusHighlightNode,
-      focusable: true
+      focusHighlight: focusHighlightNode
     } );
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
@@ -147,76 +144,7 @@ define( function( require ) {
         model.locationProperty.set( new Vector2( 0, 0 ) );
       }
     } );
-    
-    var accessibleDropBalloon = function() {
-      balloonImageNode.mutate( {
-        tagName: 'button',
-        accessibleLabel: accessibleButtonLabel,
-        accessibleDescription: balloonButtonHelpString
-      } );
-
-      // remove the drag handler and pickup listener
-      balloonImageNode.removeAccessibleInputListener( self.keyboardDragHandler );
-      balloonImageNode.removeAccessibleInputListener( keyboardDropListener );
-
-      // pick up again on 'enter' and 'spacebar'
-      keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
-
-      endDragListener();
-      self.keyboardDragHandler.reset();
-    };
-
-
-    // the ballooon can be dropped with enter, spacebar, and tab.  If with enter, we set a flag that prevents
-    // the balloon from being picked up immediately again when the accessible content changes to a button and
-    // the 'enter' key is still down.  
-    var dropWithEnter = false;
-    var keyboardDropListener = {
-      keyup: function( event ) {
-        if ( event.keyCode === Input.KEY_SPACE ) {
-          accessibleDropBalloon();
-          balloonImageNode.focus();
-        }
-      },
-      keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_ENTER ) { dropWithEnter = true; }
-        if ( event.keyCode === Input.KEY_ENTER || event.keyCode === Input.KEY_TAB ) {
-          accessibleDropBalloon();
-          balloonImageNode.focus();
-        }
-      }
-    };
-
-    var keyboardPickUpListener = {
-      click: function( event ) {
-
-        // if we dropped the balloon with enter, refrain from picking up immediately - enter will be 'down' on
-        // the dropped balloon and a click event will be triggered immediately
-        if ( dropWithEnter ) {
-          dropWithEnter = false;
-          return;
-        }
-
-        balloonImageNode.mutate( {
-          tagName: 'div',
-          ariaRole: 'application',
-          accessibleDescription: null,
-          accessibleLabel: self.accessibleLabel
-        } );
-        balloonImageNode.removeAccessibleInputListener( keyboardPickUpListener );
-
-        balloonImageNode.addAccessibleInputListener( self.keyboardDragHandler );
-        keyboardDropListener = balloonImageNode.addAccessibleInputListener( keyboardDropListener );
-
-        balloonImageNode.focus();
-        model.isDraggedProperty.set( true );
-      }
-    };
-
-    // when the button is clicked, the accessible content should change to 
-    // the div with the ARIA application role
-    keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
-
+  
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
 
@@ -293,7 +221,7 @@ define( function( require ) {
     } );
     balloonImageNode.focusHighlight = focusHighlightNode;
 
-    // the balloon is hidden from AT when invisible, and an alert is announced to let the user know
+    // a11y - the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.link( function( isVisible ) {
       self.setAccessibleHidden( !isVisible );
     } );
@@ -301,6 +229,15 @@ define( function( require ) {
     model.isDraggedProperty.link( function( isDragged ) {
       focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
     } );
+
+    // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
+    // description for assistive technology
+    var updateAccessibleDescription = function() {
+      self.accessibleDescription = self.describer.getBalloonDescription( model );
+    };
+    model.locationProperty.link( updateAccessibleDescription );
+    model.chargeProperty.link( updateAccessibleDescription );
+    globalModel.showChargesProperty.link( updateAccessibleDescription );
 
     if ( BalloonsAndStaticElectricityQueryParameters.showBalloonChargeCenter ) {
       var parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
