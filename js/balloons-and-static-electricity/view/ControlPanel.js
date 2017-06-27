@@ -48,6 +48,9 @@ define( function( require ) {
   var controlPanelString = BASEA11yStrings.controlPanelString;
   var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString;
   var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString;
+  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString;
+  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString;
+  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString;
 
 
   /**
@@ -140,6 +143,23 @@ define( function( require ) {
       prependLabels: true,
       accessibleLabel: chargeSettingsLabelString,
       accessibleDescription: chargeSettingsDescriptionString
+    } );
+
+    // announce an alert that describes the state of charge visibility
+    model.showChargesProperty.link( function( value ) {
+      var alertString;
+      if ( value === 'all' ) {
+        alertString = showAllChargesAlertString;
+      }
+      else if ( value === 'none' ) {
+        alertString = shoNoChargesAlertString;
+      }
+      else if ( value === 'diff' ) {
+        alertString = showChargeDifferencesAlertString;
+      }
+      
+      assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
+      AriaHerald.announcePolite( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons

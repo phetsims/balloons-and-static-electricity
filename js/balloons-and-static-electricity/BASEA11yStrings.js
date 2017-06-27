@@ -269,6 +269,9 @@ define( function( require ) {
     //------------------------------------------------------------------------
     chargeSettingsDescriptionString: 'Choose how you see or hear charge information.',
     chargeSettingsLabelString: 'Charge Settings',
+    showAllChargesAlertString: 'No charges hidden.',
+    shoNoChargesAlertString: 'All charges hidden.',
+    showChargeDifferencesAlertString: 'Only unpaired charges shown.',
 
     // directions
     upString: 'up',
