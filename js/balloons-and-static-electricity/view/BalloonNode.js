@@ -97,6 +97,12 @@ define( function( require ) {
       get: function() { return model.locationProperty.get(); }
     };
 
+    var endDragListener = function() {
+      model.isDraggedProperty.set( false );
+      model.velocityProperty.set( new Vector2( 0, 0 ) );
+      model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
+    };
+
     //When dragging, move the balloon
     var dragHandler = new MovableDragHandler( property, {
 
@@ -106,9 +112,7 @@ define( function( require ) {
         model.isDraggedProperty.set( true );
       },
       endDrag: function() {
-        model.isDraggedProperty.set( false );
-        model.velocityProperty.set( new Vector2( 0, 0 ) );
-        model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
+        endDragListener();
       },
       tandem: tandem.createTandem( 'dragHandler' )
     } );
@@ -158,7 +162,7 @@ define( function( require ) {
       // pick up again on 'enter' and 'spacebar'
       keyboardPickUpListener = balloonImageNode.addAccessibleInputListener( keyboardPickUpListener );
 
-      model.isDraggedProperty.set( false );
+      endDragListener();
       self.keyboardDragHandler.reset();
     };
 
