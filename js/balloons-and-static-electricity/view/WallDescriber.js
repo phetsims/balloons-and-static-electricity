@@ -63,13 +63,23 @@ define( function( require ) {
 
   return inherit( Object, WallDescriber, {
 
+    /**
+     * Get the full description for the wall including its location, net charge, and induced charge.  This is used
+     * as the general description for the wall which an AT user can read at any time with the virtual cursor.
+     * The content is dependent on the view representation of charges (model.showchargesProperty).
+     * 
+     * @public
+     * @param  {BalloonModel} yellowBalloon
+     * @param  {BalloonModel} greenBalloon
+     * @return {string}
+     */
     getWallDescription: function( yellowBalloon, greenBalloon ) {
 
-      // get the description for induced charge from each balloon
+      // get the description for induced charge from each balloon, only added to description if all charges shown
       var inducedChargeString;
       var yellowBalloonInducedChargeString;
       var greenBalloonInducedChargeString;
-      if ( this.model.isVisibleProperty.get() ) {
+      if ( this.model.isVisibleProperty.get() && this.showChargesProperty.get() === 'all' ) {
         if ( yellowBalloon.inducingCharge ) {
           yellowBalloonInducedChargeString = this.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString );
           inducedChargeString = yellowBalloonInducedChargeString;
