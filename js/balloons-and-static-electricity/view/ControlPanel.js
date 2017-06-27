@@ -291,7 +291,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.wallButton, showSecondBalloonSelector, resetBalloonButton, resetAllButton ];
+    this.accessibleOrder = [ this.wallButton, showSecondBalloonSelector, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
 
   }
 
