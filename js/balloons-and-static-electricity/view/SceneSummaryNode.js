@@ -80,12 +80,14 @@ define( function( require ) {
     var roomObjectsNode = new Node( { tagName: 'li' } );
     var locationDescriptionNode = new Node( { tagName: 'li' } );
     var chargeDescriptionNode = new Node( { tagName: 'li' } );
+    var inducedChargeDescriptionNode = new Node( { tagName: 'li' } );
 
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
     listNode.addChild( locationDescriptionNode );
     listNode.addChild( chargeDescriptionNode );
+    listNode.addChild( inducedChargeDescriptionNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
 
@@ -94,10 +96,11 @@ define( function( require ) {
       roomObjectsNode.accessibleLabel = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    // update the description which covers the location of each balloon and how it induced charge on the wall
+    // update the descriptions which covers the location of each balloon and how they inducee charge on the wall
     var locationProperties = [ yellowBalloon.locationProperty, greenBalloon.locationProperty, greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ];
     Property.multilink( locationProperties, function( yellowBalloonLocation ) {
         locationDescriptionNode.accessibleLabel = self.getLocationDescription( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode );
+        inducedChargeDescriptionNode.accessibleLabel = self.getInducedChargeDescription();
       }
     );
 
@@ -276,9 +279,11 @@ define( function( require ) {
      * Get a description which describes the charge of all objects in the simulation.
      * NOTE: Implementation on hold, waiting for the two-balloon case.
      * 
-     * @return {string} [description]
+     * @return {string}
      */
     getChargeDescription: function() {
+
+      return 'Charge description item - <on hold>';
       // var model = this.model;
 
       // the charge description is composed of these parts
@@ -287,6 +292,16 @@ define( function( require ) {
       // var greenBalloonDescription = this.getBalloonChargeDescription( model.greenBalloon, greenBalloonLabelString );
       // var sweaterAndWallDescription = this.getSweaterAndWallChargeDescription();
 
+    },
+
+    /**
+     * A description about the induced charge. Note that this is on hold until the two balloon
+     * descriptions are designed.
+     * 
+     * @return {string}
+     */
+    getInducedChargeDescription: function() {
+      return 'Induced charge description item - <on hold>';
     },
 
     /**
