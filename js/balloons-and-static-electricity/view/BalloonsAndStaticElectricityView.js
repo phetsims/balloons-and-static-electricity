@@ -176,8 +176,8 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
-      this.greenBalloonNode.keyboardDragHandler.step( dt );
-      this.yellowBalloonNode.keyboardDragHandler.step( dt );
+      this.greenBalloonNode.step( dt );
+      this.yellowBalloonNode.step( dt );
 
       // step the audio
       this.audioView && this.audioView.step( dt );

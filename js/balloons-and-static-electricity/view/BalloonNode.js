@@ -34,7 +34,6 @@ define( function( require ) {
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
-  var GRABBED_FOCUS_HIGHLIGHT_COLOR = 'black';
 
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
@@ -119,30 +118,12 @@ define( function( require ) {
 
     this.addInputListener( dragHandler );
 
-    // create the balloon image, but don't add it just yet
-    // this image node implements much of the accessilbe content
     var balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
 
       // a11y
       tagName: 'button',
-      accessibleLabel: accessibleButtonLabel,
-      focusHighlight: focusHighlightNode
-    } );
-
-    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
-    // information
-    this.keyboardDragHandler = new KeyboardDragHandler( model.locationProperty, {
-      dragBounds: this.getDragBounds(),
-      shiftKeyMultiplier: 0.25
-    } );
-
-    // add some jumping key functionality
-    this.keyboardDragHandler.addHotkeyGroup( {
-      keys: [ Input.KEY_J, Input.KEY_W ],
-      callback: function() {
-        model.locationProperty.set( new Vector2( 0, 0 ) );
-      }
+      accessibleLabel: accessibleButtonLabel
     } );
   
     // now add the balloon, so that the tether is behind it in the z order
@@ -181,11 +162,6 @@ define( function( require ) {
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
-    // update the drag bounds when wall visibility changes
-    globalModel.wall.isVisibleProperty.link( function( isVisible ) {
-      self.keyboardDragHandler.dragBounds = self.getDragBounds();
-    } );
-
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateCharge( chargeVal ) {
       var numVisibleMinusCharges = Math.abs( chargeVal );
@@ -214,20 +190,16 @@ define( function( require ) {
     } );
 
     // a11y
-    var focusHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+    var buttonHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: 3,
       stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR,
-      tandem: tandem.createTandem( 'focusHighlightNode' )
+      tandem: tandem.createTandem( 'buttonHighlightNode' )
     } );
-    balloonImageNode.focusHighlight = focusHighlightNode;
+    balloonImageNode.focusHighlight = buttonHighlightNode;
 
     // a11y - the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.link( function( isVisible ) {
       self.setAccessibleHidden( !isVisible );
-    } );
-
-    model.isDraggedProperty.link( function( isDragged ) {
-      focusHighlightNode.stroke = isDragged ? GRABBED_FOCUS_HIGHLIGHT_COLOR : DROPPED_FOCUS_HIGHLIGHT_COLOR;
     } );
 
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
@@ -239,6 +211,85 @@ define( function( require ) {
     model.chargeProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
+    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
+    // information
+    this.keyboardDragHandler = new KeyboardDragHandler( model.locationProperty, {
+      dragBounds: this.getDragBounds(),
+      shiftKeyMultiplier: 0.25
+    } );
+
+    // add some jumping key functionality
+    this.keyboardDragHandler.addHotkeyGroup( {
+      keys: [ Input.KEY_J, Input.KEY_W ],
+      callback: function() {
+        model.locationProperty.set( new Vector2( 0, 0 ) );
+      }
+    } );    
+
+    var dragHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
+      lineWidth: 3,
+      stroke: 'black',
+      tandem: tandem.createTandem( 'dragHighlightNode' )
+    } );
+
+    // A node that receives focus and handles keyboard draging
+    var accessibleDragNode = new Node( {
+      tagName: 'div',
+      focusable: false,
+      accessibleHidden: true,
+      pickable: false,
+      focusHighlight: dragHighlightNode
+    } );
+    this.addChild( accessibleDragNode );
+
+    // add the keyboard drag handler to the node that will handle this
+    accessibleDragNode.addAccessibleInputListener( this.keyboardDragHandler );
+
+    // update the drag bounds when wall visibility changes
+    globalModel.wall.isVisibleProperty.link( function( isVisible ) {
+      self.keyboardDragHandler.dragBounds = self.getDragBounds();
+    } );
+
+    // when the "Grab Balloon" button is pressed, focus the dragable node and set to dragged state
+    balloonImageNode.addAccessibleInputListener( {
+      click: function( event ) {
+
+        // make unhidden and focusable
+        accessibleDragNode.accessibleHidden = false;
+        accessibleDragNode.focusable = true;
+
+        // focus
+        accessibleDragNode.focus();
+
+        // the balloon is picked up for dragging
+        model.isDraggedProperty.set( true );
+      }
+    } );
+
+    // when the dragable balloon is released,
+    accessibleDragNode.addAccessibleInputListener( {
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_SPACE || event.keyCode === Input.KEY_ENTER ) {
+
+          // release the balloon
+          model.isDraggedProperty.set( false );
+
+          // focus the grab balloon button
+          balloonImageNode.focus();
+
+          // the draggable node should no longer be focusable
+          accessibleDragNode.focusable = false;
+          accessibleDragNode.accessibleHidden = true;
+
+          // reset the key state of the drag handler
+          self.keyboardDragHandler.reset();
+
+          // make sure the balloon's velocity gets reset on release
+          model.velocityProperty.reset();
+        }
+      }
+    } );
+
     if ( BalloonsAndStaticElectricityQueryParameters.showBalloonChargeCenter ) {
       var parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
       this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) ); 
@@ -249,6 +300,16 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
   return inherit( Node, BalloonNode, {
+
+    /**
+     * Step the keyboard drag handler to track how long keys have been pressed down.
+     * 
+     * @public
+     * @param  {number} dt
+     */
+    step: function( dt ) {
+      this.keyboardDragHandler.step( dt );
+    },
 
     getPositionOnSweaterDescription: function() {
       return 'Please implement this function or delete.';

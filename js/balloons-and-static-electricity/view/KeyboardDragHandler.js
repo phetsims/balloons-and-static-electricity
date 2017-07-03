@@ -72,7 +72,6 @@ define( function( require ) {
         keyCode: event.keyCode,
         timeDown: 0 // in ms
       } );
-
     };
 
     // @public (read-only) - listener that will be added to the node for dragging behavior, made public on the Object
@@ -100,7 +99,7 @@ define( function( require ) {
      */
     step: function( dt ) {
 
-      //  for each key that is still down, increment the tracked time that they have been down
+      // for each key that is still down, increment the tracked time that they have been down
       for ( var i = 0; i < this.keyState.length; i++ ) {
         if ( this.keyState[ i ].keyDown ) {
           this.keyState[ i ].timeDown += dt;
@@ -120,7 +119,7 @@ define( function( require ) {
           }
         }
 
-        // the hotKeysDown array order should match the order of teh key group, so now we just need to make
+        // the hotKeysDown array order should match the order of the key group, so now we just need to make
         // sure that the key down times are in the right order
         var keysInOrder = false;
         for ( var m = 0; m < hotkeysDown.length - 1; m++ ) {
