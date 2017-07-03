@@ -22,5 +22,11 @@
   },
   "resetBalloons": {
     "value": "Reset Balloons"
+  },
+  "toGrabOrRelease": {
+    "value": "to <b>Grab</b> or <b>Release</b>"
+  },
+  "space": {
+    "value": "Space"
   }
 }

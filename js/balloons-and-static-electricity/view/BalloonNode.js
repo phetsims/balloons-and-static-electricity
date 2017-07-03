@@ -18,6 +18,8 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Shape = require( 'KITE/Shape' );
+  var Emitter = require( 'AXON/Emitter' );
   var Input = require( 'SCENERY/input/Input' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -32,9 +34,6 @@ define( function( require ) {
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
   var Line = require( 'SCENERY/nodes/Line' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-
-  // constants
-  var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
@@ -55,6 +54,10 @@ define( function( require ) {
    */
   function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, tandem, options ) {
     var self = this;
+
+    // @public (a11y) - emits an event when the balloon receives focus
+    // TODO: should Accessibility.js emit events for such things?
+    this.focusEmitter = new Emitter();
 
     options = _.extend( {
       cursor: 'pointer',
@@ -194,12 +197,7 @@ define( function( require ) {
     } );
 
     // a11y
-    var buttonHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
-      lineWidth: 3,
-      stroke: DROPPED_FOCUS_HIGHLIGHT_COLOR,
-      tandem: tandem.createTandem( 'buttonHighlightNode' )
-    } );
-    balloonImageNode.focusHighlight = buttonHighlightNode;
+    balloonImageNode.focusHighlight = Shape.rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height );
 
     // a11y - the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.link( function( isVisible ) {
@@ -288,6 +286,9 @@ define( function( require ) {
 
         // the balloon is picked up for dragging
         model.isDraggedProperty.set( true );
+      },
+      focus: function( event ) {
+        self.focusEmitter.emit1( self.focused );
       }
     } );
 

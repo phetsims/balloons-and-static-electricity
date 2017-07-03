@@ -30,6 +30,7 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BalloonInteractionCueNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonInteractionCueNode' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
@@ -123,12 +124,18 @@ define( function( require ) {
       tandem.createTandem( 'greenBalloonTetherNode' )
     );
 
+    // a11y - a node that provides some information when this node receives focus for the first time
+    var yellowBalloonCueNode = new BalloonInteractionCueNode( model.yellowBalloon, this.yellowBalloonNode.focusEmitter );
+    var greenBalloonCueNode = new BalloonInteractionCueNode( model.greenBalloon, this.greenBalloonNode.focusEmitter );
+
     // children specified in this order for layering purposes
     balloonsNode.children = [
       this.greenBalloonTetherNode,
       this.greenBalloonNode,
+      greenBalloonCueNode,
       this.yellowBalloonTetherNode,
-      this.yellowBalloonNode
+      this.yellowBalloonNode,
+      yellowBalloonCueNode
     ];
     playAreaContainerNode.addChild( balloonsNode );
 
