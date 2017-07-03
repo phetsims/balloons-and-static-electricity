@@ -24,6 +24,7 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var Vector2 = require( 'DOT/Vector2' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var KeyboardDragHandler = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/KeyboardDragHandler' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -34,6 +35,9 @@ define( function( require ) {
 
   // constants
   var DROPPED_FOCUS_HIGHLIGHT_COLOR = 'rgba( 250, 40, 135, 0.9 )';
+
+  // a11y - critical x locations for the balloon
+  var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
@@ -219,13 +223,33 @@ define( function( require ) {
       shiftKeyMultiplier: 0.25
     } );
 
-    // add some jumping key functionality
-    this.keyboardDragHandler.addHotkeyGroup( {
-      keys: [ Input.KEY_J, Input.KEY_W ],
-      callback: function() {
-        model.locationProperty.set( new Vector2( 0, 0 ) );
+    // jump to the wall on 'J + W'
+    this.keyboardDragHandler.addHotkeyGroups( [
+      {
+        keys: [ Input.KEY_J, Input.KEY_W ],
+        callback: function() {
+          model.setCenter( new Vector2( X_LOCATIONS.AT_WALL, model.getCenterY() ) );
+        }
+      },
+      {
+        keys: [ Input.KEY_J, Input.KEY_S ],
+        callback: function() {
+          model.setCenter( new Vector2( X_LOCATIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
+        }
+      },
+      {
+        keys: [ Input.KEY_J, Input.KEY_N ],
+        callback: function() {
+          model.setCenter( new Vector2( X_LOCATIONS.AT_NEAR_WALL, model.getCenterY() ) );
+        }
+      },
+      {
+        keys: [ Input.KEY_J, Input.KEY_C ],
+        callback: function() {
+          model.setCenter( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
+        }
       }
-    } );    
+    ] );    
 
     var dragHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: 3,

@@ -106,24 +106,24 @@ define( function( require ) {
         }
       }
 
-      // check to see if any hotkey combinations are down -
+      // check to see if any hotkey combinations are down
       for ( var j = 0; j < this.hotkeyGroups.length; j++ ) {
-        var hotkeysDown = [];
+        var hotkeysDownList = [];
         var keys = this.hotkeyGroups[ j ].keys;
 
         for ( var k = 0; k < keys.length; k++ ) {
           for ( var l = 0; l < this.keyState.length; l++ ) {
             if ( this.keyState[ l ].keyCode === keys[ k ] ) {
-              hotkeysDown.push( this.keyState[ l ] );
+              hotkeysDownList.push( this.keyState[ l ] );
             }
           }
         }
 
-        // the hotKeysDown array order should match the order of the key group, so now we just need to make
+        // the hotkeysDownList array order should match the order of the key group, so now we just need to make
         // sure that the key down times are in the right order
         var keysInOrder = false;
-        for ( var m = 0; m < hotkeysDown.length - 1; m++ ) {
-          if ( hotkeysDown[ m + 1 ] && hotkeysDown[ m ].timeDown > hotkeysDown[ m + 1 ].timeDown ) {
+        for ( var m = 0; m < hotkeysDownList.length - 1; m++ ) {
+          if ( hotkeysDownList[ m + 1 ] && hotkeysDownList[ m ].timeDown > hotkeysDownList[ m + 1 ].timeDown ) {
             keysInOrder = true;
           }
         }
@@ -134,6 +134,7 @@ define( function( require ) {
         }
       }
 
+      // handle the change in position
       var deltaX = 0;
       var deltaY = 0;
       var positionDelta = this.shiftKeyDown() ? ( this.positionDelta * this.shiftKeyMultiplier ) : this.positionDelta;
@@ -275,12 +276,26 @@ define( function( require ) {
     get dragBounds() { return this.getDragBounds(); },
 
     /**
-     * Add a set of hotkeys that will provide special behavior to 
-     * @param {Array.<number>} keys
-     * @param {Function} callback - called back when all keys listed in keys array are down
+     * Add a set of hotkeys that behave such that the desired callback will be called when 
+     * all keys listed in the array are pressed down in order.
+     * 
+     * @param {Object} hotKeyGroup - { keys: [].<number>, callback: function }
      */
     addHotkeyGroup: function( hotkeyGroup ) {
       this.hotkeyGroups.push( hotkeyGroup );
+    },
+
+    /**
+     * Add mutliple sets of hotkey groups that behave such hat the desired callback will be called
+     * when all keys listed in the array are pressed down in order.  Behaves much like addHotkeyGroup,
+     * but allows you to add multiple groups at one time.
+     * 
+     * @param {[].<string>} hotKeyGroups
+     */
+    addHotkeyGroups: function( hotKeyGroups ) {
+      for ( var i = 0; i < hotKeyGroups.length; i++ ) {
+        this.addHotkeyGroup( hotKeyGroups[ i ] );
+      }
     },
 
     /**

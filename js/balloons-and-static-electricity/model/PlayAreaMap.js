@@ -3,7 +3,8 @@
 /**
  * A map of the 2D play area for this simulation.  The play area includes anywhere that the Balloons can move about, so it
  * contains the entire bounds of the model.  This map is used for accessibility to generate descriptions about where
- * the balloons are as they move about the play area.
+ * the balloons are as they move about the play area.  There are also critical landmarks that describe where
+ * the balloon is.
  * 
  * @author Jesse Greenberg
  */

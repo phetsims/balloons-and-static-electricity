@@ -434,12 +434,35 @@ define( function( require ) {
     },
 
     /**
+     * Set the center location of the balloon. Sets the location Property but with an offset to account
+     * for the balloon dimenstions.
+     *
+     * @param {number} x
+     * @param {number} y
+     * @public
+     */
+    setCenter: function( center ) {
+      this.locationProperty.set( new Vector2(
+        center.x - this.width / 2,
+        center.y - this.height /2
+      ) );
+    },
+
+    /**
      * Get the center location of the balloon
      * @public
      * @returns {Vector2}
      */
     getCenter: function() {
       return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
+    },
+
+    /**
+     * Get the vertical center of the balloon model.
+     * @return {number} 
+     */
+    getCenterY: function() {
+      return this.locationProperty.get().y + this.height / 2;
     },
 
     /**
