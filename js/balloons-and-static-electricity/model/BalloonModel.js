@@ -724,7 +724,7 @@ define( function( require ) {
         this.locationProperty.set( newLocation );
       }
       else {
-        if ( this.velocityProperty.get().equals( Vector2.ZERO ) ) {
+        if ( !this.velocityProperty.get().equals( Vector2.ZERO ) ) {
           this.velocityProperty.set( Vector2.ZERO );
         }
       }
