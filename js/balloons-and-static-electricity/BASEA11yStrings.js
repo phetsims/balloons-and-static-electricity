@@ -239,11 +239,14 @@ define( function( require ) {
     // Sweater strings
     //------------------------------------------------------------------------
     sweaterLabelString: 'Sweater',
-    sweaterDescriptionPatternString: 'At left edge of Play Area. {{charge}}.',
+    sweaterLocationString: 'At left edge of Play Area',
+    sweaterDescriptionPatternString: '{{location}}. {{charge}}.',
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
     sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
-    sweaterRelativeChargePatternString: '{{charge}} more positive charges than negative charges',
-    sweaterNoMoreChargesString: 'no negative charges, only positive charges',
+    sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges',
+    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
+    sweaterNoChargesShownString: 'no charges shown',
+    sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
 
     //------------------------------------------------------------------------
     // Wall strings
