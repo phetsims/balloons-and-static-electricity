@@ -209,6 +209,7 @@ define( function( require ) {
     };
     model.locationProperty.link( updateAccessibleDescription );
     model.chargeProperty.link( updateAccessibleDescription );
+    model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
