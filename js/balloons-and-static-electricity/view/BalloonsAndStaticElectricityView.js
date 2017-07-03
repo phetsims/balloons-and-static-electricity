@@ -122,6 +122,8 @@ define( function( require ) {
       new Vector2( this.greenBalloonNode.width / 2, this.greenBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'greenBalloonTetherNode' )
     );
+
+    // children specified in this order for layering purposes
     balloonsNode.children = [
       this.greenBalloonTetherNode,
       this.greenBalloonNode,
@@ -129,6 +131,9 @@ define( function( require ) {
       this.yellowBalloonNode
     ];
     playAreaContainerNode.addChild( balloonsNode );
+
+    // the yellow balloon should come first in keyboard navigation order
+    balloonsNode.accessibleOrder = [ this.yellowBalloonNode, this.greenBalloonNode ];
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
