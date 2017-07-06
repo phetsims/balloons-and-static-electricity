@@ -20,7 +20,6 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
   var Property = require( 'AXON/Property' );
 
   // strings
@@ -53,6 +52,7 @@ define( function( require ) {
   /**
    * @constructor
    * @param {BalloonsAndStaticElectricityModel} model
+   * @param wallNode
    * @param {Tandem} tandem
    */
   function SceneSummaryNode( model, wallNode, tandem ) {
@@ -110,7 +110,9 @@ define( function( require ) {
     } );
 
     // tandem support
-    tandem.addInstance( this, TNode );
+    this.mutate( {
+      tandem: tandem
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
@@ -122,7 +124,7 @@ define( function( require ) {
      * 'sticking to', 'on', or 'touching'.  We use 'sticking to' if the balloon is charged, touching the
      * sweater or wall, and not dragged. We use 'touching' if the balloon is just touching the sweater or wall.
      * Otherwise, we use 'on', maybe BalloonsAndStaticElectricityDescriber.js?
-     * 
+     *
      * @private
      * @return {string}
      */
@@ -164,7 +166,7 @@ define( function( require ) {
       // TODO: Should this be moved somewhere else to a function like getDescribedPoint() ?
       var describedBalloonPosition;
       if ( balloon.touchingWall() ) {
-        describedBalloonPosition = balloon.getWallTouchingCenter(); 
+        describedBalloonPosition = balloon.getWallTouchingCenter();
       }
       else if ( balloon.onSweater() ) {
         describedBalloonPosition = balloon.getSweaterTouchingCenter();
@@ -208,7 +210,7 @@ define( function( require ) {
     /**
      * Get the charge description for the overall state of the simulation.  Something like "All have no net charge".
      * NOTE: Implementation on hold, waiting for implications of the two balloon case.
-     * 
+     *
      * @private
      * @return {string}
      */
@@ -252,7 +254,7 @@ define( function( require ) {
 
     /**
      * NOTE: charge description implementation on hold, waiting for the two balloon case.
-     * 
+     *
      * @return {string}
      */
     getSweaterAndWallChargeDescription: function() {
@@ -278,7 +280,7 @@ define( function( require ) {
     /**
      * Get a description which describes the charge of all objects in the simulation.
      * NOTE: Implementation on hold, waiting for the two-balloon case.
-     * 
+     *
      * @return {string}
      */
     getChargeDescription: function() {
@@ -297,7 +299,7 @@ define( function( require ) {
     /**
      * A description about the induced charge. Note that this is on hold until the two balloon
      * descriptions are designed.
-     * 
+     *
      * @return {string}
      */
     getInducedChargeDescription: function() {
@@ -339,7 +341,7 @@ define( function( require ) {
 
     /**
      * Get a description of the objects that are currently visible in the sim.
-     * 
+     *
      * @private
      * @param  {Property.<boolean>} balloonVisible
      * @param  {Property.<boolean>} wallVisible
@@ -360,7 +362,7 @@ define( function( require ) {
       else {
         descriptionString = StringUtils.fillIn( objectsNoWallPatternString, {
           balloon: balloonString,
-          sweater: sweaterString 
+          sweater: sweaterString
         } );
       }
 
