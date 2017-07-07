@@ -64,7 +64,7 @@ define( function( require ) {
 
     // create visual text for the keyboarg help dialog
     var createTextContent = function( string, font, spacing, domRepresentation, listItem ) {
-      var textContent = new Text( string, font );
+      var textContent = new Text( string, { font: font } );
 
       var children = listItem ? [ spacing, new Circle( 2, { fill: 'black' } ), textContent ] : [ spacing, textContent ];
 
@@ -98,9 +98,9 @@ define( function( require ) {
 
     var textChildren = [
       createTextContent( BASEA11yStrings.grabBalloonString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ BASEA11yStrings.grabDescriptionString ] ),  
+      createListContent( [ BASEA11yStrings.grabDescriptionString ] ),
       createTextContent( BASEA11yStrings.hotkeysJumpingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
-      createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),   
+      createListContent( [ BASEA11yStrings.JSString, BASEA11yStrings.JWString, BASEA11yStrings.JNString, BASEA11yStrings.JCString ] ),
       createTextContent( BASEA11yStrings.keysForDraggingAndRubbingString, SECTION_HEADING_FONT, SECTION_TAB, 'h2' ),
       createTextContent( BASEA11yStrings.draggingDescriptionString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
       createTextContent( BASEA11yStrings.draggingDescriptionWASDString, CONTENT_FONT, SUB_SECTION_TAB, 'p' ),
