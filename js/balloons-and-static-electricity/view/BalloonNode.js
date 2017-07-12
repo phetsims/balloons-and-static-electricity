@@ -127,6 +127,7 @@ define( function( require ) {
 
     var balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
+      pickable: false, // custom touch areas applied to parent
 
       // a11y
       tagName: 'button',
@@ -135,6 +136,10 @@ define( function( require ) {
   
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
+
+    // custom elliptical touch/mouse areas so the balloon is easier to grab when under the other balloon
+    this.mouseArea = Shape.ellipse( balloonImageNode.centerX, balloonImageNode.centerY, balloonImageNode.width / 2, balloonImageNode.height / 2, 0 );
+    this.touchArea = this.mouseArea;
 
     // static charges
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );

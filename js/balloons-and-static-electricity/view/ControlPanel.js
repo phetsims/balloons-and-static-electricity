@@ -88,6 +88,8 @@ define( function( require ) {
       listener: wallButtonListener,
       tandem: tandem.createTandem( 'wallButton' )
     } );
+    this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
+    this.wallButton.mouseArea = this.wallButton.bounds.eroded( 25 );
 
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
