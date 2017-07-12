@@ -29,7 +29,7 @@ define( function( require ) {
   var spaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/space' );
 
 
-  function BalloonInteractionCueNode( balloonModel, focusEmitter, options ) {
+  function BalloonInteractionCueNode( balloonModel, focusEmitter, blurEmitter, options ) {
 
     Node.call( this );
     var self = this;
@@ -86,7 +86,11 @@ define( function( require ) {
       else {
         self.visible = false;
       }
-    } );  
+    } );
+
+    blurEmitter.addListener( function( blurred ) {
+      self.visible = false;
+    } );
 
   }
 

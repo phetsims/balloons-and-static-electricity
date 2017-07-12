@@ -58,6 +58,7 @@ define( function( require ) {
     // @public (a11y) - emits an event when the balloon receives focus
     // TODO: should Accessibility.js emit events for such things?
     this.focusEmitter = new Emitter();
+    this.blurEmitter = new Emitter();
 
     options = _.extend( {
       cursor: 'pointer',
@@ -294,6 +295,9 @@ define( function( require ) {
       },
       focus: function( event ) {
         self.focusEmitter.emit1( self.focused );
+      },
+      blur: function( event ) {
+        self.blurEmitter.emit();
       }
     } );
 

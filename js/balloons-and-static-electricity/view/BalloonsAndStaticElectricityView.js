@@ -125,8 +125,8 @@ define( function( require ) {
     );
 
     // a11y - a node that provides some information when this node receives focus for the first time
-    var yellowBalloonCueNode = new BalloonInteractionCueNode( model.yellowBalloon, this.yellowBalloonNode.focusEmitter );
-    var greenBalloonCueNode = new BalloonInteractionCueNode( model.greenBalloon, this.greenBalloonNode.focusEmitter );
+    var yellowBalloonCueNode = new BalloonInteractionCueNode( model.yellowBalloon, this.yellowBalloonNode.focusEmitter, this.yellowBalloonNode.blurEmitter );
+    var greenBalloonCueNode = new BalloonInteractionCueNode( model.greenBalloon, this.greenBalloonNode.focusEmitter, this.greenBalloonNode.blurEmitter );
 
     // children specified in this order for layering purposes
     balloonsNode.children = [
