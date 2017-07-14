@@ -349,10 +349,18 @@ define( function( require ) {
       // delete this?
     },
 
+    /**
+     * Get an alert that indicates that the balloon has been grabbed for dragging.
+     * @return {string}
+     */
     getDraggedAlert: function() {
       return grabbedString;
     },
 
+    /**
+     * Get an alert that indicates that the balloon has been released.
+     * @return {string}
+     */
     getReleasedAlert: function() {
       return StringUtils.fillIn( balloonReleasedPatternString, {
         balloon: this.accessibleLabel
