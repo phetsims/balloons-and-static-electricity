@@ -187,6 +187,9 @@ define( function( require ) {
       [ 88, 140 ]
     ];
 
+    // @public - will emit an event when the balloon is reset
+    this.resetEmitter = new Emitter();
+
     // @public - will emit when the user has completed an interaction with the balloon
     this.interactionEndEmitter = new Emitter();
 
@@ -519,6 +522,9 @@ define( function( require ) {
         this.isVisibleProperty.reset();
       }
       this.isDraggedProperty.reset();
+
+      // broadcast a message when we are reset
+      this.resetEmitter.emit();
     },
 
     /**

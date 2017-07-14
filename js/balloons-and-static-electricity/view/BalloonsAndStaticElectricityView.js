@@ -125,17 +125,15 @@ define( function( require ) {
     );
 
     // a11y - a node that provides some information when this node receives focus for the first time
-    var yellowBalloonCueNode = new BalloonInteractionCueNode( model.yellowBalloon, this.yellowBalloonNode.focusEmitter, this.yellowBalloonNode.blurEmitter );
-    var greenBalloonCueNode = new BalloonInteractionCueNode( model.greenBalloon, this.greenBalloonNode.focusEmitter, this.greenBalloonNode.blurEmitter );
+    var yellowBalloonCueNode = new BalloonInteractionCueNode( model, model.yellowBalloon, this.yellowBalloonNode, this.layoutBounds );
+    var greenBalloonCueNode = new BalloonInteractionCueNode( model, model.greenBalloon, this.greenBalloonNode, this.layoutBounds );
 
     // children specified in this order for layering purposes
     balloonsNode.children = [
       this.greenBalloonTetherNode,
       this.greenBalloonNode,
-      greenBalloonCueNode,
       this.yellowBalloonTetherNode,
       this.yellowBalloonNode,
-      yellowBalloonCueNode
     ];
     playAreaContainerNode.addChild( balloonsNode );
 
@@ -158,6 +156,10 @@ define( function( require ) {
       pickable: false,
       tandem: tandem.createTandem( 'navBarExtension' )
     } ) );
+
+    // interaction cues layered on top of everything
+    this.addChild( yellowBalloonCueNode );
+    this.addChild( greenBalloonCueNode );
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];

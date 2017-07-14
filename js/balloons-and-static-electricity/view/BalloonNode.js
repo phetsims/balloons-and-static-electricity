@@ -15,6 +15,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -59,6 +60,8 @@ define( function( require ) {
     // TODO: should Accessibility.js emit events for such things?
     this.focusEmitter = new Emitter();
     this.blurEmitter = new Emitter();
+    this.dragNodeFocusedEmitter = new Emitter();
+    this.dragNodeBlurredEmitter = new Emitter();
 
     options = _.extend( {
       cursor: 'pointer',
@@ -81,6 +84,10 @@ define( function( require ) {
     // @private
     this.model = model;
     this.globalModel = globalModel;
+
+    // @public (a11y, read-only) - increments when there is a successful drag interaction with the keyboard,
+    // used by the BalloonInteractionCueNode
+    this.keyboardDragCount = 0;
 
     var accessibleButtonLabel = StringUtils.fillIn( grabBalloonPatternString, {
       balloon: accessibleLabelString
@@ -224,7 +231,12 @@ define( function( require ) {
     // information
     this.keyboardDragHandler = new KeyboardDragHandler( model.locationProperty, {
       dragBounds: this.getDragBounds(),
-      shiftKeyMultiplier: 0.25
+      shiftKeyMultiplier: 0.25,
+      onDrag: function() {
+        if ( self.keyboardDragCount === 0 ) {
+          self.keyboardDragCount++;
+        }
+      }
     } );
 
     // jump to the wall on 'J + W'
@@ -257,7 +269,8 @@ define( function( require ) {
 
     var dragHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
       lineWidth: 3,
-      stroke: 'black',
+      stroke: 'rgba(250,40,135,0.9)',
+      lineDash: [ 7, 7 ],
       tandem: tandem.createTandem( 'dragHighlightNode' )
     } );
 
@@ -273,6 +286,16 @@ define( function( require ) {
 
     // add the keyboard drag handler to the node that will handle this
     accessibleDragNode.addAccessibleInputListener( this.keyboardDragHandler );
+
+    // add a listener that emits events when accessible drag node is blurred and focused
+    accessibleDragNode.addAccessibleInputListener( {
+      focus: function() {
+        self.dragNodeFocusedEmitter.emit();
+      },
+      blur: function() {
+        self.dragNodeBlurredEmitter.emit();
+      }
+    } );
 
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
@@ -307,7 +330,7 @@ define( function( require ) {
         if ( event.keyCode === Input.KEY_SPACE || event.keyCode === Input.KEY_ENTER ) {
 
           // release the balloon
-          model.isDraggedProperty.set( false );
+          endDragListener();
 
           // focus the grab balloon button
           balloonImageNode.focus();
@@ -318,11 +341,41 @@ define( function( require ) {
 
           // reset the key state of the drag handler
           self.keyboardDragHandler.reset();
-
-          // make sure the balloon's velocity gets reset on release
-          model.velocityProperty.reset();
         }
+      },
+      focus: function() {
+        self.dragNodeFocusedEmitter.emit();
+      },
+      blur: function() {
+        endDragListener();
+
+        // the draggable node should no longer be focusable
+        accessibleDragNode.focusable = false;
+        accessibleDragNode.accessibleHidden = true;
+
+        // reset the key state of the drag handler
+        self.keyboardDragHandler.reset();
+
+        self.dragNodeBlurredEmitter.emit();
       }
+    } );
+
+    // when reset, reset the interaction trackers
+    model.resetEmitter.addListener( function() {
+      self.keyboardDragCount = 0;
+    } );
+
+    // a11y - when the balloon is picked up or released, generate and announce an alert that indicates
+    // the interaction and the balloons state
+    model.isDraggedProperty.link( function( isDragged ) {
+      var alert;
+      if ( isDragged ) {
+        alert = self.describer.getDraggedAlert();
+      }
+      else {
+        alert = self.describer.getReleasedAlert();
+      }
+      AriaHerald.announcePolite( alert );
     } );
 
     if ( BalloonsAndStaticElectricityQueryParameters.showBalloonChargeCenter ) {

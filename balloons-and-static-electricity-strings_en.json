@@ -28,5 +28,17 @@
   },
   "space": {
     "value": "Space"
+  },
+  "a": {
+    "value": "A"
+  },
+  "s": {
+    "value": "S"
+  },
+  "d": {
+    "value": "D"
+  },
+  "w": {
+    "value": "W"
   }
 }

@@ -31,7 +31,8 @@ define( function( require ) {
     options = _.extend( {
       positionDelta: 5, // while direction key is down, 1D delta for the positionProperty
       shiftKeyMultiplier: 2, // if shift key is down, dragging speed will be changed by this multiplier
-      dragBounds: Bounds2.EVERYTHING // position will be limited to these bounds
+      dragBounds: Bounds2.EVERYTHING, // position will be limited to these bounds
+      onDrag: function() {}
     }, options );
 
     // @private - tracks the state of the keyboard, array elements are objects with key-value pairs of keyCode {number},
@@ -54,6 +55,9 @@ define( function( require ) {
     this.shiftKeyMultiplier = options.shiftKeyMultiplier;
     this.positionProperty = positionProperty;
     this._dragBounds = options.dragBounds;
+
+    // @private
+    this.onDrag = options.onDrag;
 
     // @public (read-only) - listener that will be added to the node for dragging behavior, made public on the Object
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
@@ -160,6 +164,9 @@ define( function( require ) {
       // update the position if it is different
       if ( !newPosition.equals( this.positionProperty.get() ) ) {
         this.positionProperty.set( newPosition );
+
+        // on successful drag, call the optional onDrag function
+        this.onDrag();
       }
     },
 

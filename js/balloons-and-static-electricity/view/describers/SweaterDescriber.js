@@ -131,7 +131,6 @@ define( function( require ) {
       } );
 
       // assemble the description to be returned
-      console.log( sweaterLocationString );
       return StringUtils.fillIn( sweaterDescriptionPatternString, {
         location: sweaterLocationString,
         charge: chargeString

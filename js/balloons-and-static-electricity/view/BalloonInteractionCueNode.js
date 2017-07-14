@@ -8,8 +8,7 @@
  *
  * TODO: needs to float to stay visible in the screen view
  * 
- *
- @author John Blanco
+ * @author Jesse Greenberg
  */
 define( function( require ) {
   'use strict';
@@ -17,29 +16,48 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var RichText = require( 'SCENERY_PHET/RichText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Shape = require( 'KITE/Shape' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
+  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
   var toGrabOrReleaseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/toGrabOrRelease' );
   var spaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/space' );
+  var aString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/a' );
+  var sString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/s' );
+  var dString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/d' );
+  var wString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/w' );
 
+  // constants
+  var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
+  var ARROW_HEIGHT = 15; // dimensions for the arrow icons
+  var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
+  var KEY_FONT_OPTIONS = { font: new PhetFont( 14 ) };
+  var KEY_ARROW_SPACING = 2;
+  var BALLOON_KEY_SPACING = 5;
+  var SHADOW_WIDTH = 2;
+  var BALLOON_GRAB_CUE_SPACING = 10;
 
-  function BalloonInteractionCueNode( balloonModel, focusEmitter, blurEmitter, options ) {
+  // possible directions or the directional cues
+  var DIRECTION_ANGLES = {
+    up: 0,
+    down: Math.PI,
+    left: -Math.PI / 2,
+    right: Math.PI / 2
+  };
+
+  function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBounds, options ) {
 
     Node.call( this );
-    var self = this;
-
-    // other than first keyboard focus, we are invisible
-    self.visible = false;
-
-    // when the balloon receives focus, this will get incremented.  For the first focus (after reset/refresh)
-    // balloon will receive focus
-    var keyboardFocusCount = 0;
 
     // Create the help content for the space key to pick up the balloon
     var spaceKeyNode = new TextKeyNode( spaceString, {
@@ -59,42 +77,131 @@ define( function( require ) {
       spacing: 10
     } );
 
-    // rectangle containing the content
+    // rectangle containing the content, not visible until focused the first time
     var backgroundRectangle = new Rectangle( spaceKeyHBox.bounds.dilatedXY( 15, 5 ), {
       fill: 'white',
-      stroke: 'black'
+      stroke: 'black',
+      visible: false 
     } );
     backgroundRectangle.addChild( spaceKeyHBox );
     this.addChild( backgroundRectangle );
 
-    // create the help node for the WASD and arrow keys
+    // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
+    var directionKeysParent = new Node( { visible: false } );
+    this.addChild( directionKeysParent );
+
+    var wNode = this.createMovementKeyNode( 'up' );
+    var aNode = this.createMovementKeyNode( 'left' );
+    var sNode = this.createMovementKeyNode( 'down' );
+    var dNode = this.createMovementKeyNode( 'right' );
+
+    directionKeysParent.addChild( wNode );
+    directionKeysParent.addChild( aNode );
+    directionKeysParent.addChild( sNode );
+    directionKeysParent.addChild( dNode );
 
     // layout once children and bounds have been defined
     this.mutate( options );
 
+    // add listeners to update location and visibility
+    // TODO: update position when wall visibility changes as well
     balloonModel.locationProperty.link( function( location ) {
-      backgroundRectangle.centerTop = balloonModel.getCenter().plusXY( 0, balloonModel.height / 2 + 10 );
-    } );
 
-    focusEmitter.addListener( function( focussed ) {
-      keyboardFocusCount++;
-
-      // debugger;
-      if ( keyboardFocusCount === 1 ) {
-        self.visible = true;
+      // get the max x locations depending on if the wall is visible
+      var maxX;
+      var centerXBoundary;
+      if ( model.wall.isVisibleProperty.get() ) {
+        maxX = model.bounds.width;
+        centerXBoundary = PlayAreaMap.X_LOCATIONS.AT_WALL;
       }
       else {
-        self.visible = false;
+        maxX = layoutBounds.width;
+        centerXBoundary = PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE;
+      }
+
+      var balloonBounds = balloonModel.getBounds();
+      var balloonCenter = balloonModel.getCenter();
+
+      // position the 'grab' cue - make sure it is totally in the play area
+      backgroundRectangle.centerTop = balloonModel.getCenter().plusXY( 0, balloonModel.height / 2 + BALLOON_GRAB_CUE_SPACING );
+      backgroundRectangle.left = Math.max( 0, backgroundRectangle.left );
+      backgroundRectangle.right = Math.min( maxX, backgroundRectangle.right );
+      backgroundRectangle.bottom = Math.min( backgroundRectangle.bottom, layoutBounds.maxY );
+
+      // movement direction cues
+      wNode.centerBottom = balloonBounds.getCenterTop().plusXY( 0, -BALLOON_KEY_SPACING );
+      aNode.rightCenter = balloonBounds.getLeftCenter().plusXY( -BALLOON_KEY_SPACING, 0 );
+      sNode.centerTop = balloonBounds.getCenterBottom().plusXY( 0, BALLOON_KEY_SPACING + SHADOW_WIDTH );
+      dNode.leftCenter = balloonBounds.getRightCenter().plusXY( BALLOON_KEY_SPACING + SHADOW_WIDTH, 0 );
+
+      aNode.visible = balloonCenter.x !== PlayAreaMap.X_LOCATIONS.AT_LEFT_EDGE;
+      sNode.visible = balloonCenter.y !== PlayAreaMap.Y_LOCATIONS.AT_BOTTOM;
+      dNode.visible = balloonCenter.x !== centerXBoundary;
+      wNode.visible = balloonCenter.y !== PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE;
+
+      // if we move and the interaction count is no longer zero, make the cues invisible
+      if ( directionKeysParent.visible && balloonNode.keyboardDragCount === CUE_REPEATS ) {
+        directionKeysParent.visible = false;
       }
     } );
 
-    blurEmitter.addListener( function( blurred ) {
-      self.visible = false;
+    balloonNode.focusEmitter.addListener( function( focussed ) {
+      backgroundRectangle.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
+    } );
+
+    balloonNode.blurEmitter.addListener( function( blurred ) {
+      backgroundRectangle.visible = false;
+    } );
+
+    balloonNode.dragNodeFocusedEmitter.addListener( function() {
+      directionKeysParent.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
+    } );
+
+    balloonNode.dragNodeBlurredEmitter.addListener( function() {
+      directionKeysParent.visible = false;
     } );
 
   }
 
   balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
 
-  return inherit( Node, BalloonInteractionCueNode );
+  return inherit( Node, BalloonInteractionCueNode, {
+    createMovementKeyNode: function( direction ) {
+
+      // create the arrow icon
+      var arrowShape = new Shape();
+      arrowShape.moveTo( ARROW_HEIGHT / 2, 0 ).lineTo( ARROW_HEIGHT, ARROW_WIDTH ).lineTo( 0, ARROW_WIDTH ).close();
+      var arrowIcon = new Path( arrowShape, {
+        fill: 'white',
+        stroke: 'black',
+        lineJoin: 'bevel',
+        lineCap: 'butt',
+        lineWidth: 2,
+        rotation: DIRECTION_ANGLES[ direction ]
+      } );
+
+      // determine direction dependent variables
+      var keyIcon;
+      var box;
+      if ( direction === 'up' ) {
+        keyIcon = new KeyNode( new Text( wString, KEY_FONT_OPTIONS ) );
+        box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
+      }
+      else if ( direction === 'left' ) {
+        keyIcon = new KeyNode( new Text( aString, KEY_FONT_OPTIONS ) );
+        box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
+      }
+      else if ( direction === 'right' ) {
+        keyIcon = new KeyNode( new Text( dString, KEY_FONT_OPTIONS ) );
+        box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
+      }
+      else if ( direction === 'down' ) {
+        keyIcon = new KeyNode( new Text( sString, KEY_FONT_OPTIONS ) );
+        box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
+      }
+
+      assert && assert( box, 'No box created for direction ' + direction );
+      return box;
+    }
+  } );
 } );

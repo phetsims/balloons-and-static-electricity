@@ -29,8 +29,6 @@ define( function( require ) {
     grabBalloonToPlayString: 'Grab balloon to play.',
     keyboardShortcutsHelpString: 'If needed, check out the keyboard shortcuts for this sim.',
 
-    grabbedString: 'Grabbed.',
-
     positionString: 'position',
     positionsString: 'positions',
 
@@ -113,7 +111,6 @@ define( function( require ) {
     noMoreChargesRemainingOnSweaterString: 'No change in charges. No more charges remaining on sweater.',
 
     // release descriptions
-    balloonReleasedPatternString: 'Balloon released. Moved {0} to {1}.', //need end location string
     balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
 
@@ -283,6 +280,11 @@ define( function( require ) {
     balloonRelativeChargePatternString: '{{amount}} more nevative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
 
+    //--------------------------------------------------------------------------
+    // Balloon interaction strings
+    //--------------------------------------------------------------------------
+    grabbedString: 'Grabbed.',
+    balloonReleasedPatternString: '{{balloon}} released.',
 
     //------------------------------------------------------------------------
     // Control panel strings

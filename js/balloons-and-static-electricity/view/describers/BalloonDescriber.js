@@ -44,6 +44,8 @@ define( function( require ) {
   var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString;
   var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString;
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
+  var grabbedString = BASEA11yStrings.grabbedString;
+  var balloonReleasedPatternString = BASEA11yStrings.balloonReleasedPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -79,7 +81,6 @@ define( function( require ) {
     this.balloonModel = balloon;
     this.accessibleLabel = accessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
-
 
     this.balloonLabelMap = {
       GREEN: BASEA11yStrings.greenBalloonString,
@@ -345,7 +346,17 @@ define( function( require ) {
     },
 
     getBalloonChargeDescription: function() {
-      
+      // delete this?
+    },
+
+    getDraggedAlert: function() {
+      return grabbedString;
+    },
+
+    getReleasedAlert: function() {
+      return StringUtils.fillIn( balloonReleasedPatternString, {
+        balloon: this.accessibleLabel
+      } );
     },
 
     /**

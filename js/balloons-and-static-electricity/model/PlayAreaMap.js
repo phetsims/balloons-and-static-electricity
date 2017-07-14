@@ -24,7 +24,7 @@ define( function( require ) {
     AT_CENTER_PLAY_AREA: 507,
     AT_NEAR_WALL: 596,
     AT_WALL: 621,
-    AT_RIGHT_EDGE: 710
+    AT_RIGHT_EDGE: 701
   };
 
   // critical y locations for the balloon (relative to the balloon's center)
