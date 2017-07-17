@@ -240,6 +240,9 @@ define( function( require ) {
               // get the movement direction description
               var directionString = self.describer.getMovementDirectionDescription( location, oldLocation );
 
+              // just announce direction always for now
+              AriaHerald.announcePolite( directionString );
+
               // reset timer
               self.timeSincePositionAlert = 0;
             }
@@ -289,17 +292,17 @@ define( function( require ) {
           self.keyboardDragCount++;
         }
       },
-      endDrag: function() {
+      endDrag: function( event ) {
 
         // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
         // description next time we press a key
         self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
       },
-      startDrag: function() {
-        
+      startDrag: function( event ) {
+
         // if touching a boundary, anounce an indication of this
-        if ( model.getTouchingBoundary() ) {
-          console.log( 'touching bounds' );
+        if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
+          AriaHerald.announcePolite( self.describer.getTouchingBoundaryDescription() );
         }
       }
     } );
@@ -472,6 +475,19 @@ define( function( require ) {
 
     getPositionOnSweaterDescription: function() {
       return 'Please implement this function or delete.';
+    },
+
+    /**
+     * Determine if the user attempted to move beyond the play area bounds with the keyboard.
+     * @return {[type]} [description]
+     */
+    attemptToMoveBeyondBoundary: function( keyCode ) {
+      return (
+        ( KeyboardDragHandler.isLeftMovementKey( keyCode ) && this.model.isTouchingLeftBoundary() ) ||
+        ( KeyboardDragHandler.isUpMovementKey( keyCode ) && this.model.isTouchingTopBoundary() ) ||
+        ( KeyboardDragHandler.isRightMovementKey( keyCode ) && this.model.isTouchingRightBoundary() ) ||
+        ( KeyboardDragHandler.isDownMovementKey( keyCode ) && this.model.isTouchingBottomBoundary() )
+      );
     },
 
     getDragBounds: function() {

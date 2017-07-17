@@ -53,6 +53,10 @@ define( function( require ) {
   var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
   var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
   var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
+  var atLeftEdgeString = BASEA11yStrings.atLeftEdgeString;
+  var atTopString = BASEA11yStrings.atTopString;
+  var atBottomString = BASEA11yStrings.atBottomString;
+  var atRightEdgeString = BASEA11yStrings.atRightEdgeString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -500,8 +504,33 @@ define( function( require ) {
       }
 
       assert && assert( movementString, 'no direction description found for balloon moving at angle ' + angle + ' (radians).' );
-      console.log( movementString );
       return movementString;
+    },
+
+    /**
+     * Get a description of wich boundary the balloon is touching.
+     * 
+     * @return {string}
+     */
+    getTouchingBoundaryDescription: function() {
+      assert && assert ( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
+
+      var boundaryString;
+      if ( this.balloonModel.isTouchingBottomBoundary() ) {
+        boundaryString = atBottomString;
+      }
+      else if ( this.balloonModel.isTouchingLeftBoundary() ) {
+        boundaryString = atLeftEdgeString;
+      }
+      else if ( this.balloonModel.isTouchingRightBoundary() ) {
+        boundaryString = atRightEdgeString;
+      }
+      else if ( this.balloonModel.isTouchingTopBoundary() ) {
+        boundaryString = atTopString;
+      }
+
+      assert && assert ( boundaryString, 'No boundary string found for balloon.' );
+      return boundaryString;
     },
 
     /**

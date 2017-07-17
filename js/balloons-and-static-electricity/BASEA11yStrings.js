@@ -309,6 +309,11 @@ define( function( require ) {
     downAndToTheRightString: 'Down and to the right.',
     downAndToTheLeftString: 'Down and to the left.',
 
+    atLeftEdgeString: 'At left edge.',
+    atTopString: 'At top.',
+    atBottomString: 'At bottom.',
+    atRightEdgeString: 'At right edge.',
+
     //------------------------------------------------------------------------
     // Control panel strings
     //------------------------------------------------------------------------

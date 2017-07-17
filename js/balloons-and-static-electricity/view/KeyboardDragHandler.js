@@ -33,8 +33,8 @@ define( function( require ) {
       shiftKeyMultiplier: 2, // if shift key is down, dragging speed will be changed by this multiplier
       dragBounds: Bounds2.EVERYTHING, // position will be limited to these bounds
       onDrag: function() {}, // called every drag where the position changes
-      startDrag: function() {}, // called at the very start of the drag
-      endDrag: function() {}, // called at the end of the dragging interaction
+      startDrag: function( event ) {}, // called at the very start of the drag
+      endDrag: function( event ) {}, // called at the end of the dragging interaction
     }, options );
 
     // @private - tracks the state of the keyboard, array elements are objects with key-value pairs of keyCode {number},
@@ -80,7 +80,7 @@ define( function( require ) {
       } );
 
       if ( self.movementKeysDown ) {
-        options.startDrag();
+        options.startDrag( event );
       }
     };
 
@@ -98,7 +98,7 @@ define( function( require ) {
       // if movement keys are no longer down after keyup, call the optional end drag function
       var moveKeysStillDown = self.movementKeysDown;
       if ( !moveKeysStillDown && moveKeysDown !== moveKeysStillDown ) {
-        options.endDrag();
+        options.endDrag( event );
       }
     };
   }
@@ -343,5 +343,46 @@ define( function( require ) {
     reset: function() {
       this.keyState = [];
     }
+  }, {
+
+    /**
+     * Returns true if the keycode corresponds to a key that should move the object to the left.
+     * 
+     * @private
+     * @return {boolean}
+     */
+    isLeftMovementKey: function( keyCode ) {
+      return keyCode === Input.KEY_A || keyCode === Input.KEY_LEFT_ARROW;
+    },
+
+    /**
+     * Returns true if the keycode corresponds to a key that should move the object to the right.
+     * 
+     * @public
+     * @return {boolean}
+     */
+    isRightMovementKey: function( keyCode ) {
+      return keyCode === Input.KEY_D || keyCode === Input.KEY_RIGHT_ARROW;
+    },
+
+    /**
+     * Returns true if the keycode corresponse to a key that should move the object up.
+     * 
+     * @public
+     * @return {boolean}
+     */
+    isUpMovementKey: function( keyCode ) {
+      return keyCode === Input.KEY_W || keyCode === Input.KEY_UP_ARROW;
+    },
+
+    /**
+     * Returns true if the keycode corresponds to a key that should move the upject down.
+     * 
+     * @public
+     * @return {boolean}
+     */
+    isDownMovementKey: function( keyCode ) {
+      return keyCode === Input.KEY_S || keyCode === Input.KEY_DOWN_ARROW;
+    },
   } );
 } );

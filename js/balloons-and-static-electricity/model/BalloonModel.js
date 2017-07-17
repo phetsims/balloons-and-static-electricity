@@ -666,9 +666,9 @@ define( function( require ) {
      * and top edges, or the right edge or wall depending on wall visibility.
      * @return {string}
      */
-    getTouchingBoundary: function() {
-      return this.getTouchingRightBoundary() || this.getTouchingLeftBoundary() ||
-            this.getTouchingBottomBoundary() || this.getTouchingTopBoundary();
+    isTouchingBoundary: function() {
+      return this.isTouchingRightBoundary() || this.isTouchingLeftBoundary() ||
+            this.isTouchingBottomBoundary() || this.isTouchingTopBoundary();
     },
 
     /**
@@ -678,7 +678,7 @@ define( function( require ) {
      * 
      * @return {boolean}
      */
-    getTouchingRightBoundary: function() {
+    isTouchingRightBoundary: function() {
       var balloonX = this.getCenter().x;
       if ( this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() ) {
         return PlayAreaMap.X_LOCATIONS.AT_WALL === balloonX;
@@ -692,11 +692,11 @@ define( function( require ) {
      * Returns whether or not the balloon is touching the bottom boundary of the play area.
      * @return {boolean}
      */
-    getTouchingBottomBoundary: function() {
+    isTouchingBottomBoundary: function() {
       return PlayAreaMap.Y_LOCATIONS.AT_BOTTOM === this.getCenterY();
     },
 
-    getTouchingLeftBoundary: function() {
+    isTouchingLeftBoundary: function() {
       return PlayAreaMap.X_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
     },
 
@@ -705,7 +705,7 @@ define( function( require ) {
      * 
      * @return {boolean}
      */
-    getTouchingTopBoundary: function() {
+    isTouchingTopBoundary: function() {
       return PlayAreaMap.Y_LOCATIONS.AT_TOP === this.getCenterY();
     },
 
