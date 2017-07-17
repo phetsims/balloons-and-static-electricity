@@ -14,6 +14,7 @@ define( function( require ) {
 
   var BASEConstants = {
     backgroundColorProperty: new Property( '#9ddcf8' ),
+    msScaleFactor: 1000 // to convert seconds to miliseconds, used throughout the view
   };
 
   balloonsAndStaticElectricity.register( 'BASEConstants', BASEConstants );

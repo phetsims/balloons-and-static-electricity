@@ -18,6 +18,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
   var Range = require( 'DOT/Range' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -476,6 +477,14 @@ define( function( require ) {
     },
 
     /**
+     * Get the horizontal center location of the balloon.
+     * @return {number}
+     */
+    getCenterX: function() {
+      return this.locationProperty.get().x + this.width / 2;
+    },
+
+    /**
      * Balloon charges aren't evenly distributed throughout the balloon, they conform to the upper left edge of the
      * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
      * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the
@@ -650,6 +659,54 @@ define( function( require ) {
       else {
         return BalloonDirectionEnum.LEFT;
       }
+    },
+
+    /**
+     * Returns whether or not the balloon is touching the boundary of the play area, including the bottom, left
+     * and top edges, or the right edge or wall depending on wall visibility.
+     * @return {string}
+     */
+    getTouchingBoundary: function() {
+      return this.getTouchingRightBoundary() || this.getTouchingLeftBoundary() ||
+            this.getTouchingBottomBoundary() || this.getTouchingTopBoundary();
+    },
+
+    /**
+     * Returns whether or not the balloon is touching the right boundary of the play area.  If the wall 
+     * is visible, this will be the location where the balloon is touching the wall, otherwise it will
+     * be the location where the balloon is touching the right edge of the play area.
+     * 
+     * @return {boolean}
+     */
+    getTouchingRightBoundary: function() {
+      var balloonX = this.getCenter().x;
+      if ( this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() ) {
+        return PlayAreaMap.X_LOCATIONS.AT_WALL === balloonX;
+      }
+      else {
+        return PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+      }
+    },
+
+    /**
+     * Returns whether or not the balloon is touching the bottom boundary of the play area.
+     * @return {boolean}
+     */
+    getTouchingBottomBoundary: function() {
+      return PlayAreaMap.Y_LOCATIONS.AT_BOTTOM === this.getCenterY();
+    },
+
+    getTouchingLeftBoundary: function() {
+      return PlayAreaMap.X_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
+    },
+
+    /**
+     * Returns whether or not the balloon is touching the top boundary of the play area.
+     * 
+     * @return {boolean}
+     */
+    getTouchingTopBoundary: function() {
+      return PlayAreaMap.Y_LOCATIONS.AT_TOP === this.getCenterY();
     },
 
     /**

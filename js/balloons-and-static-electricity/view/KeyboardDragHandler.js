@@ -32,7 +32,9 @@ define( function( require ) {
       positionDelta: 5, // while direction key is down, 1D delta for the positionProperty
       shiftKeyMultiplier: 2, // if shift key is down, dragging speed will be changed by this multiplier
       dragBounds: Bounds2.EVERYTHING, // position will be limited to these bounds
-      onDrag: function() {}
+      onDrag: function() {}, // called every drag where the position changes
+      startDrag: function() {}, // called at the very start of the drag
+      endDrag: function() {}, // called at the end of the dragging interaction
     }, options );
 
     // @private - tracks the state of the keyboard, array elements are objects with key-value pairs of keyCode {number},
@@ -64,7 +66,7 @@ define( function( require ) {
     this.keydown = function( event ) {
 
       // if the key is already down, don't do anything else (we don't want to create a new keystate object
-      // for a key that is already being tracked and down)
+      // for a key that is already being tracked and down, nor call startDrag every keydown event)
       if ( self.keyInListDown( [ event.keyCode ] ) ) { return; }
 
       // required to work with Safari and VoiceOver, otherwise arrow keys will move virtual cursor
@@ -76,15 +78,27 @@ define( function( require ) {
         keyCode: event.keyCode,
         timeDown: 0 // in ms
       } );
+
+      if ( self.movementKeysDown ) {
+        options.startDrag();
+      }
     };
 
     // @public (read-only) - listener that will be added to the node for dragging behavior, made public on the Object
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
     this.keyup = function( event ) {
+      var moveKeysDown = self.movementKeysDown;
+
       for ( var i = 0; i < self.keyState.length; i++ ) {
         if ( event.keyCode === self.keyState[ i ].keyCode ) {
           self.keyState.splice( i, 1 );
         }
+      }
+
+      // if movement keys are no longer down after keyup, call the optional end drag function
+      var moveKeysStillDown = self.movementKeysDown;
+      if ( !moveKeysStillDown && moveKeysDown !== moveKeysStillDown ) {
+        options.endDrag();
       }
     };
   }
@@ -246,6 +260,22 @@ define( function( require ) {
       return this.keyInListDown( [ Input.KEY_DOWN_ARROW, Input.KEY_S ] );
     },
 
+    /**
+     * Returns true if any of the movement keys are down (arrow keys or WASD keys).
+     * 
+     * @return {boolean}
+     */
+    getMovementKeysDown: function() {
+      return this.rightMovementKeysDown() || this.leftMovementKeysDown() ||
+                this.upMovementKeysDown() || this.downMovementKeysDown();
+    },
+    get movementKeysDown() { return this.getMovementKeysDown(); },
+
+    /**
+     * Returns true if the enter key is currently pressed down.
+     * 
+     * @return {boolean}
+     */
     enterKeyDown: function() {
       return this.keyInListDown( [ Input.KEY_ENTER ] );
     },

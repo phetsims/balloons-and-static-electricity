@@ -99,8 +99,9 @@ define( function( require ) {
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString );
 
     // @private (a11y) - if this time is greater than DESCRIPTION_REFRESH_RATE and the balloon
-    // is moving due to an applied force, we will alert a new description
-    this.timeSincePositionAlert = 0; // in ms
+    // is moving due to an applied force, we will alert a new description, intially the refresh rate
+    // so that the first movement is described
+    this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
 
     // @private (a11y) - a flag that tracks if the initial movmement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up.
@@ -203,9 +204,11 @@ define( function( require ) {
 
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
+
+      // translate the node to the new location
       self.translation = location;
 
-      // if visible, not dragging, and moving, see if we need to send an alert to assistive technology
+      // everything else for a11y - compose the alert that needs to be sent to assistive technology
       if ( oldLocation ) {
         if ( self.model.isVisibleProperty.get() ) {
           if ( !self.model.isDraggedProperty.get() ) {
@@ -229,10 +232,20 @@ define( function( require ) {
 
             AriaHerald.announcePolite( alert );
           }
+          else {
+
+            // balloon is moving due to dragging
+            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+
+              // get the movement direction description
+              var directionString = self.describer.getMovementDirectionDescription( location, oldLocation );
+
+              // reset timer
+              self.timeSincePositionAlert = 0;
+            }
+          }
         }
       }
-
-      // self.timeSincePositionAlert += dt;
     } );
 
     //show charges based on showCharges property
@@ -274,6 +287,19 @@ define( function( require ) {
       onDrag: function() {
         if ( self.keyboardDragCount === 0 ) {
           self.keyboardDragCount++;
+        }
+      },
+      endDrag: function() {
+
+        // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
+        // description next time we press a key
+        self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
+      },
+      startDrag: function() {
+        
+        // if touching a boundary, anounce an indication of this
+        if ( model.getTouchingBoundary() ) {
+          console.log( 'touching bounds' );
         }
       }
     } );
@@ -439,6 +465,9 @@ define( function( require ) {
      */
     step: function( dt ) {
       this.keyboardDragHandler.step( dt );
+
+      // increment timer tracking time since alert description
+      this.timeSincePositionAlert += dt * 1000;
     },
 
     getPositionOnSweaterDescription: function() {

@@ -24,14 +24,6 @@ define( function( require ) {
 
   // strings
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
-  var upString = BASEA11yStrings.upString;
-  var downString = BASEA11yStrings.downString;
-  var leftString = BASEA11yStrings.leftString;
-  var rightString = BASEA11yStrings.rightString;
-  var upAndRightString = BASEA11yStrings.upAndRightString;
-  var upAndLeftString = BASEA11yStrings.upAndLeftString;
-  var downAndRightString = BASEA11yStrings.downAndRightString;
-  var downAndLeftString = BASEA11yStrings.downAndLeftString;
   var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
   var balloonOnString = BASEA11yStrings.balloonOnString;
   var balloonTouchingString = BASEA11yStrings.balloonTouchingString;
@@ -53,6 +45,14 @@ define( function( require ) {
   var slowlyString = BASEA11yStrings.slowlyString;
   var quicklyString = BASEA11yStrings.quicklyString;
   var veryQuicklyString = BASEA11yStrings.veryQuicklyString;
+  var upString = BASEA11yStrings.upString;
+  var leftString = BASEA11yStrings.leftString;
+  var downString = BASEA11yStrings.downString;
+  var rightString = BASEA11yStrings.rightString;
+  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
+  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
+  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
+  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -66,17 +66,31 @@ define( function( require ) {
       DOWN: downString,
       LEFT: leftString,
       RIGHT: rightString,
-      UP_RIGHT: upAndRightString,
-      UP_LEFT: upAndLeftString,
-      DOWN_RIGHT: downAndRightString,
-      DOWN_LEFT: downAndLeftString
+      UP_RIGHT: upAndToTheRightString,
+      UP_LEFT: upAndToTheLeftString,
+      DOWN_RIGHT: downAndToTheRightString,
+      DOWN_LEFT: downAndToTheLeftString
     }
+  };
+
+  // threshold for diagonal movement is +/- 15 degrees from diagonals
+  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+
+  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
+  // of the movement and the direction is determined by getMovementDirectionDescription, see that function for use
+  // of this map
+  var BALLOON_DIRECTION_MAP = {
+    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    HORIZONTAL: new Range( Math.PI / 2 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 2 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
   var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 
-  // maps magnitude of velocity to the description, velocity in the model ranges from 0 to ~1.6
+  // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
     VERY_SLOWLY_RANGE: {
       range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 100 ),
@@ -447,6 +461,47 @@ define( function( require ) {
 
       // if moving right, return moving to wall string, otherwise, moving to sweater
       return ( location.x - oldLocation.x > 0 ) ? toWallString : towardsSweaterString;
+    },
+
+    /**
+     * Get a movement description, which is dependent on the angle of movement, calculated by the change
+     * in position.
+     * 
+     * @param  {Vector2} location   
+     * @param  {Vector2} oldLocation
+     * @return {string}
+     */
+    getMovementDirectionDescription: function( location, oldLocation ) {
+      var movementString;
+
+      var dx = location.x - oldLocation.x;
+      var dy = location.y - oldLocation.y;
+      var angle = Math.atan2( dx, dy );
+      var absAngle = Math.abs( angle );
+
+      // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
+      // are moving left/right, and then use the absolute value of angle to determine up/down
+      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
+        movementString = downString;
+      }
+      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL  .contains( absAngle ) ) {
+
+        // diagonal in the third or fourth quadrants
+        movementString = ( angle > 0 ) ? downAndToTheRightString : downAndToTheLeftString;
+      }
+      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
+        movementString = ( angle > 0 ) ? rightString : leftString;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
+        movementString = ( angle > 0 ) ? upAndToTheRightString : upAndToTheLeftString;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
+        movementString = upString;
+      }
+
+      assert && assert( movementString, 'no direction description found for balloon moving at angle ' + angle + ' (radians).' );
+      console.log( movementString );
+      return movementString;
     },
 
     /**

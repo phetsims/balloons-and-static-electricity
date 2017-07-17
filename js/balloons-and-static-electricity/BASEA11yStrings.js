@@ -297,6 +297,18 @@ define( function( require ) {
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
 
+    //--------------------------------------------------------------------------
+    // Balloon Dragging strings
+    //--------------------------------------------------------------------------
+    upString: 'Up.',
+    leftString: 'Left.',
+    downString: 'Down.',
+    rightString: 'Right.',
+    upAndToTheRightString: 'Up and to the right.',
+    upAndToTheLeftString: 'Up and to the left.',
+    downAndToTheRightString: 'Down and to the right.',
+    downAndToTheLeftString: 'Down and to the left.',
+
     //------------------------------------------------------------------------
     // Control panel strings
     //------------------------------------------------------------------------
@@ -305,16 +317,6 @@ define( function( require ) {
     showAllChargesAlertString: 'No charges hidden.',
     shoNoChargesAlertString: 'All charges hidden.',
     showChargeDifferencesAlertString: 'Only unpaired charges shown.',
-
-    // directions
-    upString: 'up',
-    downString: 'down',
-    rightString: 'right',
-    leftString: 'left',
-    upAndRightString: 'up and to the right',
-    upAndLeftString: 'up and to the left',
-    downAndRightString: 'down and to the right',
-    downAndLeftString: 'down and to the left',
 
     // sweater charge descriptions
     netNeutralString: 'neutral net',
