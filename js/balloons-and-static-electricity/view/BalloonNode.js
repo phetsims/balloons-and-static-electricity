@@ -230,7 +230,7 @@ define( function( require ) {
               // self.timeSincePositionAlert = 0;
             }
 
-            AriaHerald.announcePolite( alert );
+            alert && AriaHerald.announcePolite( alert );
           }
           else {
 
