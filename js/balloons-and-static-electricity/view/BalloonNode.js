@@ -38,6 +38,8 @@ define( function( require ) {
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
+  var DESCRIPTION_REFRESH_RATE = 3000; // in ms
+  var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
 
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
@@ -95,6 +97,14 @@ define( function( require ) {
 
     // a11y - a type that generates descriptions for the balloon 
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString );
+
+    // @private (a11y) - if this time is greater than DESCRIPTION_REFRESH_RATE and the balloon
+    // is moving due to an applied force, we will alert a new description
+    this.timeSincePositionAlert = 0; // in ms
+
+    // @private (a11y) - a flag that tracks if the initial movmement of the balloon after release has
+    // been described. Gets reset whenever the balloon is picked up.
+    this.initialMovementDescribed = false;
 
     var originalChargesNode = new Node( {
       pickable: false,
@@ -192,8 +202,37 @@ define( function( require ) {
     } );
 
     // link the position of this node to the model
-    model.locationProperty.link( function updateLocation( location ) {
+    model.locationProperty.link( function updateLocation( location, oldLocation ) {
       self.translation = location;
+
+      // if visible, not dragging, and moving, see if we need to send an alert to assistive technology
+      if ( oldLocation ) {
+        if ( self.model.isVisibleProperty.get() ) {
+          if ( !self.model.isDraggedProperty.get() ) {
+
+            var alert;
+            if ( !self.initialMovementDescribed ) {
+              if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+
+                // get the initial description of balloon movement
+                self.initialMovementDescribed = true;
+                alert = self.describer.getInitialMovementDescription( location, oldLocation );
+              }
+            }
+            else if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+
+              // TODO
+              // get subsequent descriptions of movement ("still moving...")
+              // var alert = self.describer.getContinuousMovementDescription();
+              // self.timeSincePositionAlert = 0;
+            }
+
+            AriaHerald.announcePolite( alert );
+          }
+        }
+      }
+
+      // self.timeSincePositionAlert += dt;
     } );
 
     //show charges based on showCharges property
@@ -376,6 +415,9 @@ define( function( require ) {
         alert = self.describer.getReleasedAlert();
       }
       AriaHerald.announcePolite( alert );
+
+      // reset flags that track description content
+      self.initialMovementDescribed = false;
     } );
 
     if ( BalloonsAndStaticElectricityQueryParameters.showBalloonChargeCenter ) {
@@ -390,7 +432,7 @@ define( function( require ) {
   return inherit( Node, BalloonNode, {
 
     /**
-     * Step the keyboard drag handler to track how long keys have been pressed down.
+     * Also, step the keyboard drag handler to track how long keys have been pressed down.
      * 
      * @public
      * @param  {number} dt

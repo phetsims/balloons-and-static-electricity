@@ -179,6 +179,13 @@ define( function( require ) {
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall, determined by
     this.inducingCharge = false;
 
+    // @private (a11y) - the amount of time that has passed since balloon has been released
+    this.timeSinceRelease = 0; // in ms
+
+    // @public (read-only) - the old location of the balloon, used throughout the model and view to calculate
+    // changes in position
+    this.oldLocation = this.locationProperty.get().copy();
+
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],
@@ -547,9 +554,15 @@ define( function( require ) {
 
         // drag the balloon, which may cause it to pick up charges
         this.dragBalloon( model, dt );
+
+        // reset time since release to 0
+        this.timeSinceRelease = 0;
       }
       else {
         this.applyForce( dt );
+
+        // increment the time since release
+        this.timeSinceRelease += dt;
       }
 
       if ( this.announceInteraction ) {

@@ -46,6 +46,13 @@ define( function( require ) {
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
   var grabbedString = BASEA11yStrings.grabbedString;
   var balloonReleasedPatternString = BASEA11yStrings.balloonReleasedPatternString;
+  var movesToObjectPatternString = BASEA11yStrings.movesToObjectPatternString;
+  var towardsSweaterString = BASEA11yStrings.towardsSweaterString;
+  var toWallString = BASEA11yStrings.toWallString;
+  var verySlowlyString = BASEA11yStrings.verySlowlyString;
+  var slowlyString = BASEA11yStrings.slowlyString;
+  var quicklyString = BASEA11yStrings.quicklyString;
+  var veryQuicklyString = BASEA11yStrings.veryQuicklyString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -63,6 +70,29 @@ define( function( require ) {
       UP_LEFT: upAndLeftString,
       DOWN_RIGHT: downAndRightString,
       DOWN_LEFT: downAndLeftString
+    }
+  };
+
+  // maximum velocity of a balloon immediately after release in this simulation, determined by observation
+  var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
+
+  // maps magnitude of velocity to the description, velocity in the model ranges from 0 to ~1.6
+  var BALLOON_VELOCITY_MAP = {
+    VERY_SLOWLY_RANGE: {
+      range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 100 ),
+      description: verySlowlyString
+    },
+    SLOWLY_RANGE: {
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 100, MAXIMUM_VELOCITY_ON_RELEASE  / 50 ),
+      description: slowlyString
+    },
+    QUICKLY_RANGE: {
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 50,  MAXIMUM_VELOCITY_ON_RELEASE / 4 ),
+      description: quicklyString
+    },
+    VERY_QUICKLY_RANGE: {
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 4, Number.MAX_VALUE ),
+      description: veryQuicklyString
     }
   };
 
@@ -365,6 +395,58 @@ define( function( require ) {
       return StringUtils.fillIn( balloonReleasedPatternString, {
         balloon: this.accessibleLabel
       } );
+    },
+
+    /**
+     * Generally announced right after the balloon as been released, this is read as an alert. Generates
+     * something like "Moves toward sweater."
+     * @return {[type]} [description]
+     */
+    getInitialMovementDescription: function( location, oldLocation ) {
+      var velocityString = this.getVelocityString();
+      var toObjectString = this.getToObjectString( location, oldLocation );
+
+      var string = StringUtils.fillIn( movesToObjectPatternString, {
+        velocity: velocityString,
+        toObject: toObjectString
+      } );
+      return string;
+    },
+
+    /**
+     * Get a description of velocity for this balloon, one of "very slowly", "slowly", "quickly", "very quickly"
+     * 
+     * @private
+     * @return {string}
+     */
+    getVelocityString: function() {
+      var velocityString;
+
+      var balloonVelocity = this.balloonModel.velocityProperty.get();
+
+      var keys = Object.keys( BALLOON_VELOCITY_MAP );
+      for ( var i = 0; i < keys.length; i++ ) {
+        var entry = BALLOON_VELOCITY_MAP[ keys[ i ] ];
+        if ( entry.range.contains( balloonVelocity.magnitude() ) ) {
+          velocityString = entry.description;
+          break;
+        }
+      }
+
+      assert && assert( velocityString, 'no velocity description found' );
+
+      return velocityString;
+    },
+
+    /**
+     * Get a string that describes what the balloon is moving toward, one of "to wall" or "towards sweater"
+     * 
+     * @return {string}
+     */
+    getToObjectString: function( location, oldLocation ) {
+
+      // if moving right, return moving to wall string, otherwise, moving to sweater
+      return ( location.x - oldLocation.x > 0 ) ? toWallString : towardsSweaterString;
     },
 
     /**
@@ -743,26 +825,6 @@ define( function( require ) {
       }
 
       return attractedObject;
-    },
-
-    /**
-     * Get a description of how the balloon changes when the wall is removed.
-     *
-     * @returns {}
-     */
-    getWallRemovedDescription: function( wallRemoved ) {
-      var wallRemovedFromPlayAreaAlert = wallRemoved ? BASEA11yStrings.wallRemovedString : BASEA11yStrings.wallAddedString;
-      var balloonLabel = this.balloonLabelMap[ this.balloon.balloonLabel ];
-
-      var velocityString = this.getVelocityDescription();
-      var attractedObject = this.getAttractedObject();
-      var velocityDescription = StringUtils.format( BASEA11yStrings.movesToObjectPatternString, velocityString, attractedObject );
-
-      var balloonChargeDescription = this.getBalloonChargeDescription( this.balloon );
-      var sweaterChargeDescription = this.getSweaterChargeDescription( this.balloon );
-
-      var stringPattern = '{0} {1} {2} {3} {4} {5}';
-      return StringUtils.format( stringPattern, wallRemovedFromPlayAreaAlert, balloonLabel, velocityDescription, BASEA11yStrings.stickingToSweaterString, balloonChargeDescription, sweaterChargeDescription );
     },
 
     /**

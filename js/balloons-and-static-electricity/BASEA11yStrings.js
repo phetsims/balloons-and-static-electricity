@@ -116,8 +116,6 @@ define( function( require ) {
 
     sweaterString: 'sweater',
 
-    movesToObjectPatternString: 'Moves {0} towards {1}.',
-
     // interaction descriptions
     upTowardsTopString: 'Up. Towards top.',
     leftTowardsSweaterString: 'Left. Towards sweater.',
@@ -285,6 +283,19 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     grabbedString: 'Grabbed.',
     balloonReleasedPatternString: '{{balloon}} released.',
+
+    //--------------------------------------------------------------------------
+    // Balloon movement strings
+    //--------------------------------------------------------------------------
+    movesToObjectPatternString: 'Moves {{velocity}} {{toObject}}.',
+
+    towardsSweaterString: 'towards sweater',
+    toWallString: 'to wall',
+
+    verySlowlyString: 'very slowly',
+    slowlyString: 'slowly',
+    quicklyString: 'quickly',
+    veryQuicklyString: 'very quickly',
 
     //------------------------------------------------------------------------
     // Control panel strings
