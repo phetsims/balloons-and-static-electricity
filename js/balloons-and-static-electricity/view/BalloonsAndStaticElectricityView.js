@@ -26,6 +26,7 @@ define( function( require ) {
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SceneSummaryNode' );
   var PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
+  var Property = require( 'AXON/Property' );
   var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
@@ -124,16 +125,18 @@ define( function( require ) {
       tandem.createTandem( 'greenBalloonTetherNode' )
     );
 
+    // combine the balloon content into single nodes so that they are easily layerable
+    var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
+    var yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
+
     // a11y - a node that provides some information when this node receives focus for the first time
     var yellowBalloonCueNode = new BalloonInteractionCueNode( model, model.yellowBalloon, this.yellowBalloonNode, this.layoutBounds );
     var greenBalloonCueNode = new BalloonInteractionCueNode( model, model.greenBalloon, this.greenBalloonNode, this.layoutBounds );
 
     // children specified in this order for layering purposes
     balloonsNode.children = [
-      this.greenBalloonTetherNode,
-      this.greenBalloonNode,
-      this.yellowBalloonTetherNode,
-      this.yellowBalloonNode,
+      greenBalloonLayerNode,
+      yellowBalloonLayerNode
     ];
     playAreaContainerNode.addChild( balloonsNode );
 
@@ -163,6 +166,23 @@ define( function( require ) {
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];
+
+    // when one of the balloons is picked up, move its content and cue nodes to front of their
+    // respective parents
+    Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
+      if ( yellowDragged ) {
+        yellowBalloonLayerNode.moveToFront();
+        yellowBalloonCueNode.moveToFront();
+      }
+      else if ( greenDragged ) {
+        greenBalloonLayerNode.moveToFront();
+        greenBalloonCueNode.moveToFront();
+      }
+    } );
+
+    //--------------------------------------------------------------------------
+    // debugging
+    //--------------------------------------------------------------------------
 
     // visualise regions of the play area
     if ( BalloonsAndStaticElectricityQueryParameters.showGrid ) {

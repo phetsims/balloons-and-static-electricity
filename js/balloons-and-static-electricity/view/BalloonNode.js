@@ -348,6 +348,7 @@ define( function( require ) {
       focusable: false,
       accessibleHidden: true,
       pickable: false,
+      ariaRole: 'application',
       focusHighlight: dragHighlightNode
     } );
     this.addChild( accessibleDragNode );
@@ -414,7 +415,7 @@ define( function( require ) {
       focus: function() {
         self.dragNodeFocusedEmitter.emit();
       },
-      blur: function() {
+      blur: function( event ) {
         endDragListener();
 
         // the draggable node should no longer be focusable
