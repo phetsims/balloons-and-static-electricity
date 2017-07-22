@@ -15,7 +15,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -23,6 +22,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var Input = require( 'SCENERY/input/Input' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -230,7 +230,7 @@ define( function( require ) {
               // self.timeSincePositionAlert = 0;
             }
 
-            alert && AriaHerald.announcePolite( alert );
+            alert && UtteranceQueue.addToBack( alert );
           }
           else {
 
@@ -241,7 +241,7 @@ define( function( require ) {
               var directionString = self.describer.getMovementDirectionDescription( location, oldLocation );
 
               // just announce direction always for now
-              AriaHerald.announcePolite( directionString );
+              UtteranceQueue.addToBack( directionString );
 
               // reset timer
               self.timeSincePositionAlert = 0;
@@ -302,7 +302,7 @@ define( function( require ) {
 
         // if touching a boundary, anounce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
-          AriaHerald.announcePolite( self.describer.getTouchingBoundaryDescription() );
+          UtteranceQueue.addToBack( self.describer.getTouchingBoundaryDescription() );
         }
       }
     } );
@@ -444,7 +444,7 @@ define( function( require ) {
       else {
         alert = self.describer.getReleasedAlert();
       }
-      AriaHerald.announcePolite( alert );
+      UtteranceQueue.addToBack( alert );
 
       // reset flags that track description content
       self.initialMovementDescribed = false;

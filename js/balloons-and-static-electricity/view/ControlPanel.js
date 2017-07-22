@@ -28,7 +28,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
 
@@ -97,7 +97,7 @@ define( function( require ) {
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
-        AriaHerald.announceAssertive( alertDescription );
+        UtteranceQueue.addToFront( alertDescription );
       }
     } );
 
@@ -161,7 +161,7 @@ define( function( require ) {
       }
       
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
-      AriaHerald.announcePolite( alertString );
+      UtteranceQueue.addToBack( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -204,7 +204,7 @@ define( function( require ) {
 
     model.greenBalloon.isVisibleProperty.lazyLink( function( isVisible ) {
       var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
-      AriaHerald.announcePolite( alertDescription );
+      UtteranceQueue.addToBack( alertDescription );
     } );
 
     // 'Reset Balloons' button
@@ -265,7 +265,7 @@ define( function( require ) {
           bothBalloonString = 'Balloon';
         }
         var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
-        AriaHerald.announceAssertive( resetDescription );
+        UtteranceQueue.addToFront( resetDescription );
       }
     } );
 
