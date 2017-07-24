@@ -235,6 +235,24 @@ define( function( require ) {
     // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
     this.previousIsOnSweater = false;
 
+    // @private {boolean} - flag that indicates when the balloon is very near to the sweater
+    this.isNearSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon was previously very near to the sweater
+    this.previousIsNearSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon is very near to the wall
+    this.isNearWall = false;
+
+    // @private {boolean} - flag that tracks if the the balloon was previously very near the wall when position changes
+    this.previousIsNearWall = false;
+
+    // @private {boolean} - flag that tracks if the balloon is very near to the right edge
+    this.isNearRightEdge = false;
+
+    // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
+    this.previousIsNearRightEdge = false;
+
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
 
@@ -282,8 +300,19 @@ define( function( require ) {
         // update whether or not balloon is on sweater
         self.previousIsOnSweater = self.isOnSweater;
         self.isOnSweater = self.onSweater();
-      }
 
+        // update whether or not the balloon is very close to the sweater
+        self.previousIsNearSweater = self.isNearSweater;
+        self.isNearSweater = self.nearSweater();
+
+        // update whether or not balloon is very close to the wall
+        self.previousIsNearWall = self.isNearWall;
+        self.isNearWall = self.nearWall();
+
+        // update whether or not balloon is very close to the right edge of the play area
+        self.previousIsNearRightEdge = self.isNearRightEdge;
+        self.isNearRightEdge = self.nearRightEdge();
+      }
     } );
 
     this.reset();
@@ -310,7 +339,7 @@ define( function( require ) {
      */
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall && model.wall.isVisibleProperty.get() );
+      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_WALL && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_WALL && model.wall.isVisibleProperty.get() );
     },
 
     /**
@@ -449,6 +478,16 @@ define( function( require ) {
       var maxX = minX + NEAR_SWEATER_DISTANCE;
 
       return ( minX < this.getCenter().x && this.getCenter().x < maxX );
+    },
+
+    /**
+     * Return true if the balloon is near the right edge of the play area without touching it
+     *
+     * @returns {boolean}
+     */
+    nearRightEdge: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_RIGHT_EDGE && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE && !model.wall.isVisibleProperty.get() );
     },
 
     /**

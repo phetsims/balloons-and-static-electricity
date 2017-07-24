@@ -39,11 +39,18 @@ define( function( require ) {
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
+
   var DESCRIPTION_REFRESH_RATE = 1000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
 
+  // speed of the balloon to be considered moving slowly, determined empirically
+  var SLOW_BALLOON_SPEED = 0.08;
+
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
+  var veryCloseToSweaterString = BASEA11yStrings.veryCloseToSweaterString;
+  var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
+  var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
 
   /**
    * Constructor for the balloon
@@ -220,7 +227,9 @@ define( function( require ) {
 
                 // get the initial description of balloon movement
                 self.initialMovementDescribed = true;
-                alert = self.describer.getInitialMovementDescription( location, oldLocation );
+                if ( !location.equals(oldLocation) ) {
+                  alert = self.describer.getInitialMovementDescription( location, oldLocation );
+                }
               }
             }
             else if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
@@ -253,6 +262,30 @@ define( function( require ) {
             if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
               var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
               UtteranceQueue.addToBack( sweaterChangeString );
+            }
+
+            if ( self.model.dragVelocityProperty.get().magnitude() <= SLOW_BALLOON_SPEED) {
+
+              // if we become "very close" to the sweater while moving slowly, announce that immediately
+              if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
+                if ( self.model.isNearSweater ) {
+                  UtteranceQueue.addToBack( veryCloseToSweaterString );
+                }
+              }
+
+              // if we become "very close" to the wall while moving slowly, announce that immediately
+              if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
+                if ( self.model.isNearWall ) {
+                  UtteranceQueue.addToBack( veryCloseToWallString );
+                }
+              }
+
+              // if we become "very close" to the right of the play area while moving slowly, announce that immediately
+              if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
+                if ( self.model.isNearRightEdge ) {
+                  UtteranceQueue.addToBack( veryCloseToRightEdgeString );
+                }
+              }
             }
           }
         }

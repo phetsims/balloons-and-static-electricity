@@ -313,8 +313,12 @@ define( function( require ) {
     atBottomString: 'At bottom.',
     atRightEdgeString: 'At right edge.',
 
-    onSweaterString: 'On Sweater',
-    offSweaterString: 'Off sweater',
+    onSweaterString: 'On Sweater.',
+    offSweaterString: 'Off sweater.',
+
+    veryCloseToSweaterString: 'Very close to sweater.',
+    veryCloseToWallString: 'Very close to wall.',
+    veryCloseToRightEdgeString: 'Very close to right edge.',
 
     //------------------------------------------------------------------------
     // Control panel strings

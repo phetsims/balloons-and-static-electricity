@@ -24,6 +24,7 @@ define( function( require ) {
     AT_CENTER_PLAY_AREA: 507,
     AT_NEAR_WALL: 596,
     AT_WALL: 621,
+    AT_NEAR_RIGHT_EDGE: 676,
     AT_RIGHT_EDGE: 701
   };
 
