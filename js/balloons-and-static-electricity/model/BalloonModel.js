@@ -98,6 +98,20 @@ define( function( require ) {
     [ 34, 77 ]
   ];
 
+  // threshold for diagonal movement is +/- 15 degrees from diagonals
+  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+
+  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
+  // of the movement and the direction is determined by getMovementDirection, see that function for use
+  // of this map
+  var BALLOON_DIRECTION_MAP = {
+    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
+  };
+
   // determine average the Y position for the charges in the balloon
   var positionYSum = 0;
   for (var i = 0; i < POSITIONS.length; i++ ) {
@@ -208,7 +222,18 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
-    this.direction = ''; // the direction of movement of the balloon
+
+    // @private {null|string} - the direction of movement for the balloon
+    this.direction = null;
+
+    // @private {null|string} - the previous direction of movement for the balloon, updates when direction changes
+    this.previousDirection = null;
+
+    // @private {boolean} - flag that indicates when the balloon is on or off of the sweater
+    this.isOnSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
+    this.previousIsOnSweater = false;
 
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
@@ -245,8 +270,20 @@ define( function( require ) {
       this.locationProperty.get().x + this.width,
       this.locationProperty.get().y + this.height
     );
-    this.locationProperty.link( function( location ) {
+    this.locationProperty.link( function( location, oldLocation ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+
+      if ( oldLocation ) {
+
+        // update movement direction
+        self.previousDirection = self.direction;
+        self.direction = BalloonModel.getMovementDirection( location, oldLocation );
+
+        // update whether or not balloon is on sweater
+        self.previousIsOnSweater = self.isOnSweater;
+        self.isOnSweater = self.onSweater();
+      }
+
     } );
 
     this.reset();
@@ -267,13 +304,13 @@ define( function( require ) {
     },
 
     /**
-     * Return true if the balloon is near the wall without touching it.
+     * Return true if the balloon is near the wall without touching it, and the wall is visible.
      *
      * @returns {boolean}
      */
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall );
+      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall && model.wall.isVisibleProperty.get() );
     },
 
     /**
@@ -890,6 +927,49 @@ define( function( require ) {
 
       // scale by the force value
       return difference.timesScalar( kqq / ( Math.pow( r, power ) ) );
+    },
+
+    /**
+     * Get the direction of movement for this balloon based on the angle of movement calculated
+     * between two positions, returns one of BalloonDirectionEnum. Uses Math.atan2, so the angle
+     * is mapped from 0 to +/- Math.PI.  So we determine if movement is in the top or bottom half
+     * of the unit circle and then map to the exact quadrant based on the sign of the angle.
+     * 
+     * @param  {Vector2} location
+     * @param  {Vector2} oldLocation
+     * @return {string} - one of BalloonDirectionEnum
+     * @static
+     */
+    getMovementDirection: function( location, oldLocation ) {
+
+      var direction;
+
+      var dx = location.x - oldLocation.x;
+      var dy = location.y - oldLocation.y;
+      var angle = Math.atan2( dx, dy );
+      var absAngle = Math.abs( angle );
+
+      // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
+      // are moving left/right, and then use the absolute value of angle to determine up/down
+      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
+        direction = BalloonDirectionEnum.DOWN;
+      }
+      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL.contains( absAngle ) ) {
+
+        // diagonal in the third or fourth quadrants
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.DOWN_RIGHT : BalloonDirectionEnum.DOWN_LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.RIGHT : BalloonDirectionEnum.LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.UP_RIGHT : BalloonDirectionEnum.UP_LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
+        direction = BalloonDirectionEnum.UP;
+      }
+
+      return direction;
     },
 
     // @static - value for Coulomb's constant used in the calculations but NOT THE ACTUAL VALUE.  It has been tweaked in

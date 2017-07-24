@@ -18,6 +18,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var Shape = require( 'KITE/Shape' );
   var Emitter = require( 'AXON/Emitter' );
   var Input = require( 'SCENERY/input/Input' );
@@ -38,7 +39,7 @@ define( function( require ) {
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
-  var DESCRIPTION_REFRESH_RATE = 3000; // in ms
+  var DESCRIPTION_REFRESH_RATE = 1000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
 
   // strings
@@ -237,14 +238,21 @@ define( function( require ) {
             // balloon is moving due to dragging
             if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-              // get the movement direction description
-              var directionString = self.describer.getMovementDirectionDescription( location, oldLocation );
-
-              // just announce direction always for now
-              UtteranceQueue.addToBack( directionString );
+              // if we changed directions since the last description, alert the new direction
+              var balloonDirection = BalloonModel.getMovementDirection( location, oldLocation );
+              if ( self.model.previousDirection !== self.model.direction ) {
+                var directionString = self.describer.getMovementDirectionDescription( balloonDirection );
+                UtteranceQueue.addToBack( directionString );
+              }
 
               // reset timer
               self.timeSincePositionAlert = 0;
+            }
+
+            // if we are enter or leave the sweater, announce that immediately
+            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
+              UtteranceQueue.addToBack( sweaterChangeString );
             }
           }
         }

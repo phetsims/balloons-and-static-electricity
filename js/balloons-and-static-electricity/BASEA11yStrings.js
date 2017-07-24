@@ -149,7 +149,6 @@ define( function( require ) {
     onSweaterPatternStringString: 'On sweater. {0}',
     picksUpNegativeChargesString: 'Picks up negative charges from sweater.',
     nearWallString: 'Near wall.',
-    offSweaterString: 'Off sweater.',
 
     atCenterOfPlayAreaString: 'At center of play area.',
     onRightSideOfPlayAreaString: 'On right side of play area.',
@@ -313,6 +312,9 @@ define( function( require ) {
     atTopString: 'At top.',
     atBottomString: 'At bottom.',
     atRightEdgeString: 'At right edge.',
+
+    onSweaterString: 'On Sweater',
+    offSweaterString: 'Off sweater',
 
     //------------------------------------------------------------------------
     // Control panel strings

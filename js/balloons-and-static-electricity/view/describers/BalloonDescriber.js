@@ -57,6 +57,8 @@ define( function( require ) {
   var atTopString = BASEA11yStrings.atTopString;
   var atBottomString = BASEA11yStrings.atBottomString;
   var atRightEdgeString = BASEA11yStrings.atRightEdgeString;
+  var onSweaterString = BASEA11yStrings.onSweaterString;
+  var offSweaterString = BASEA11yStrings.offSweaterString;  
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -64,31 +66,16 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
-  var StringMaps = {
-    DIRECTION_MAP: {
-      UP: upString,
-      DOWN: downString,
-      LEFT: leftString,
-      RIGHT: rightString,
-      UP_RIGHT: upAndToTheRightString,
-      UP_LEFT: upAndToTheLeftString,
-      DOWN_RIGHT: downAndToTheRightString,
-      DOWN_LEFT: downAndToTheLeftString
-    }
-  };
-
-  // threshold for diagonal movement is +/- 15 degrees from diagonals
-  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
-
-  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
-  // of the movement and the direction is determined by getMovementDirectionDescription, see that function for use
-  // of this map
+  // maps balloon direction to a description string
   var BALLOON_DIRECTION_MAP = {
-    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
+    UP: upString,
+    DOWN: downString,
+    LEFT: leftString,
+    RIGHT: rightString,
+    UP_RIGHT: upAndToTheRightString,
+    UP_LEFT: upAndToTheLeftString,
+    DOWN_RIGHT: downAndToTheRightString,
+    DOWN_LEFT: downAndToTheLeftString
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
@@ -468,42 +455,16 @@ define( function( require ) {
     },
 
     /**
-     * Get a movement description, which is dependent on the angle of movement, calculated by the change
-     * in position.
-     * 
-     * @param  {Vector2} location   
-     * @param  {Vector2} oldLocation
+     * Get a movement description from the movement direction tracked in the model.  The direction
+     * is one of BalloonDirectionEnum.
+     *
+     * @param {string} direction - one of BalloonDirectionEnum
      * @return {string}
      */
-    getMovementDirectionDescription: function( location, oldLocation ) {
-      var movementString;
+    getMovementDirectionDescription: function( direction ) {
+      var movementString = BALLOON_DIRECTION_MAP[ direction ];
 
-      var dx = location.x - oldLocation.x;
-      var dy = location.y - oldLocation.y;
-      var angle = Math.atan2( dx, dy );
-      var absAngle = Math.abs( angle );
-
-      // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
-      // are moving left/right, and then use the absolute value of angle to determine up/down
-      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
-        movementString = downString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL  .contains( absAngle ) ) {
-
-        // diagonal in the third or fourth quadrants
-        movementString = ( angle > 0 ) ? downAndToTheRightString : downAndToTheLeftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
-        movementString = ( angle > 0 ) ? rightString : leftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
-        movementString = ( angle > 0 ) ? upAndToTheRightString : upAndToTheLeftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
-        movementString = upString;
-      }
-
-      assert && assert( movementString, 'no direction description found for balloon moving at angle ' + angle + ' (radians).' );
+      assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
       return movementString;
     },
 
@@ -531,6 +492,18 @@ define( function( require ) {
 
       assert && assert ( boundaryString, 'No boundary string found for balloon.' );
       return boundaryString;
+    },
+
+    getOnSweaterString: function( onSweater ) {
+      var sweaterString = '';
+      if ( onSweater ) {
+        sweaterString = onSweaterString;
+      }
+      else {
+        sweaterString = offSweaterString;
+      }
+
+      return sweaterString;
     },
 
     /**
@@ -642,32 +615,6 @@ define( function( require ) {
 
       assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.chargeProperty.get() );
       return StringUtils.format( BASEA11yStrings.sweaterChargePatternString, neutralityString, chargeString );
-    },
-
-    /**
-     * Get the movement direction for the balloon.  Will be one of BalloonDirectionEnum entires.
-     * @param  {Vector2} location    
-     * @param  {Vector2} oldLocation 
-     * @returns {string}s
-     */
-    getMovementDirection: function( location, oldLocation ) {
-      var delta = location.minus( oldLocation );
-      var direction; // string
-
-      if ( delta.x > 0 ) {
-        direction = BalloonDirectionEnum.RIGHT;
-      }
-      else if ( delta.x < 0 ) {
-        direction = BalloonDirectionEnum.LEFT;
-      }
-      else if ( delta.y > 0 ) {
-        direction = BalloonDirectionEnum.DOWN;
-      }
-      else if ( delta.y < 0 ) {
-        direction = BalloonDirectionEnum.UP;
-      }
-
-      return direction;
     },
 
     /**
@@ -787,24 +734,6 @@ define( function( require ) {
         return StringUtils.format( stringPattern, balloonChargeString, sweaterChargeString );
       }
 
-    },
-
-    /**
-     * Get a description that tells the user where they can find more charges.
-     *
-     * @returns {string}
-     */
-    getChargePositionCue: function() {
-      assert && assert( this.model.sweater.chargeProperty.get() < -MAX_BALLOON_CHARGE, 'trying to find more charges when none remain' );
-
-      // get the closest charge that has not been picked up
-      var closestCharge = this.balloon.getClosestCharge();
-      var directionToCharge = this.balloon.getDirectionToCharge( closestCharge );
-
-      var directionCueString = StringMaps.DIRECTION_MAP[ directionToCharge ];
-      assert && assert( directionCueString, 'no direction found for nearest charge' );
-
-      return StringUtils.format( BASEA11yStrings.morePairsOfChargesStringPattern, directionCueString );
     },
 
     /**
