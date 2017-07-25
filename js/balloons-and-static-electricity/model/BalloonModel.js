@@ -218,9 +218,6 @@ define( function( require ) {
     // @public - will emit when the user has completed an interaction with the balloon
     this.interactionEndEmitter = new Emitter();
 
-    // @private - flag that is set to true once the user has completed an interaction
-    this.announceInteraction = false;
-
     this.initialLocation = this.locationProperty.initialValue;
     this.plusCharges = [];
     this.minusCharges = [];
@@ -238,6 +235,12 @@ define( function( require ) {
     // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
     this.previousIsOnSweater = false;
 
+    // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
+    this.isStickingToSweater = false;
+
+    // @public {boolean} - flag that indicates if the balloon was previously sticking to the sweater on location change
+    this.previousIsStickingToSweater = false;
+
     // @private {boolean} - flag that indicates when the balloon is very near to the sweater
     this.isNearSweater = false;
 
@@ -249,6 +252,12 @@ define( function( require ) {
 
     // @private {boolean} - flag that tracks if the the balloon was previously very near the wall when position changes
     this.previousIsNearWall = false;
+
+    // @public {read-only} - flag that tracks whether or not the balloon is touching the wall
+    this.isTouchingWall = false;
+
+    // @public {read-only} - flag that tracks whether or not the balloon was previously touching the wall when location chanves
+    this.previousIsTouchingWall = false;
 
     // @private {boolean} - flag that tracks if the balloon is very near to the right edge
     this.isNearRightEdge = false;
@@ -310,6 +319,10 @@ define( function( require ) {
         self.previousIsOnSweater = self.isOnSweater;
         self.isOnSweater = self.onSweater();
 
+        // update whether or not the balloon is touching the wall
+        self.previousIsTouchingWall = self.isTouchingWall;
+        self.isTouchingWall = self.touchingWall();
+
         // update whether or not the balloon is very close to the sweater
         self.previousIsNearSweater = self.isNearSweater;
         self.isNearSweater = self.nearSweater();
@@ -321,6 +334,10 @@ define( function( require ) {
         // update whether or not balloon is very close to the right edge of the play area
         self.previousIsNearRightEdge = self.isNearRightEdge;
         self.isNearRightEdge = self.nearRightEdge();
+
+        // update whether or not the balloon is sticking to the sweater
+        self.previousIsStickingToSweater = self.isStickingToSweater;
+        self.isStickingToSweater = self.stickingToSweater();
       }
     } );
 
@@ -518,6 +535,15 @@ define( function( require ) {
      */
     stickingToWall: function() {
       return ( this.chargeProperty.get() > 0 ) && this.touchingWall() && !this.isDraggedProperty.get();
+    },
+
+    /**
+     * Returns true if the balloon is sticking to the sweater.  Balloon is sticking to the sweater when
+     * the balloon center is in the sweater charged area and the balloon has charges.
+     * @return {boolean}
+     */
+    stickingToSweater: function() {
+      return ( this.chargeProperty.get() < 0 && this.centerInSweaterChargedArea() );
     },
 
     /**
@@ -720,16 +746,6 @@ define( function( require ) {
 
         // increment the time since release
         this.timeSinceRelease += dt;
-      }
-
-      if ( this.announceInteraction ) {
-        // once an interaction is finished, notify that the descriptions should be updated
-        // this must happen after dragBalloon is called so that the charges are correctly
-        // described
-        this.interactionEndEmitter.emit();
-
-        // do not describe again until next interaction
-        this.announceInteraction = false;
       }
       this.oldLocation = this.locationProperty.get().copy();
     },

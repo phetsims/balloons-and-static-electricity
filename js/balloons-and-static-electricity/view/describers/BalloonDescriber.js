@@ -299,6 +299,7 @@ define( function( require ) {
     getAttractiveStateAndLocationDescription: function() {
       // a string that peices together attractive state and location.
       var locationDescriptionString = this.getBalloonLocationDescription();
+      
       var attractiveStateDescriptionString = this.getAttractiveStateDescription();
       var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
         attractiveState: attractiveStateDescriptionString,

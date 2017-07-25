@@ -52,6 +52,7 @@ define( function( require ) {
   var veryCloseToSweaterString = BASEA11yStrings.veryCloseToSweaterString;
   var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
   var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
 
   /**
    * Constructor for the balloon
@@ -226,22 +227,31 @@ define( function( require ) {
             if ( !self.initialMovementDescribed ) {
               if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
 
-                // get the initial description of balloon movement
+                // get the initial description of balloon movement upon release
                 self.initialMovementDescribed = true;
                 if ( !location.equals(oldLocation) ) {
                   alert = self.describer.getInitialReleaseDescription( location, oldLocation );
+                  UtteranceQueue.addToBack( alert );
                 }
               }
             }
             if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-              // TODO
               // get subsequent descriptions of movement ("still moving...")
               // var alert = self.describer.getContinuousMovementDescription();
               // self.timeSincePositionAlert = 0;
             }
 
-            alert && UtteranceQueue.addToBack( alert );
+            if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
+                 self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
+
+              // immediately announce that we are touching something and describe
+              // the attractive state with punctuation
+              alert = StringUtils.fillIn( singleStatementPatternString, {
+                statement: self.describer.getAttractiveStateAndLocationDescription()
+              } );
+              UtteranceQueue.addToBack( alert );
+            }
           }
           else {
 
