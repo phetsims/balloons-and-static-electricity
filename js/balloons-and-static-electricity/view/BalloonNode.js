@@ -291,16 +291,28 @@ define( function( require ) {
               }
             }
 
-            // if we are less than 50 percent through the current play area region, and we are moving
-            // quickly, and we are moving horizontally, announce our location
+
             var progressThroughRegion = self.model.getProgressThroughRegion();
             var notDiagonal = !self.model.movingDiagonally();
-            if ( progressThroughRegion <= 0.50 && dragSpeed > SLOW_BALLOON_SPEED && notDiagonal ) {
-              var draggingDescription = self.describer.getPlayAreaDragLocationDescription();
+            if ( progressThroughRegion <= 0.50 && notDiagonal ) {
+
+              // we are less than 50 percent through the current play area region and we are moving horizontally,
+              // so announce our current location
+              var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
               UtteranceQueue.addToBack( new Utterance( draggingDescription, {
                 typeId: 'locationAlert'
               } ) );
             }
+            else if ( progressThroughRegion > 0.50 && notDiagonal ) {
+
+              // we are greater than 50 percent through the play area region and moving horizontally so
+              // announce an indication that we are moving closer to the object
+              var progressDescription = self.describer.getPlayAreaDragProgressDescription();
+              UtteranceQueue.addToBack( new Utterance( progressDescription, {
+                typeId: 'progressAlert'
+              } ) );
+            }
+
           }
         }
       }

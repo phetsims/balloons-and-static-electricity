@@ -77,7 +77,6 @@ define( function( require ) {
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
     stickingToWallStringPattern: 'Sticking to {0}.',
-	generalWallString: 'wall',
 
     stickingToSweaterString: 'Sticking to right side of sweater.',
 
@@ -322,6 +321,10 @@ define( function( require ) {
 
     balloonAtLocationPatternString: 'At {{location}}.',
     balloonOnLocationPatternString: 'On {{location}}.',
+
+    closerToObjectPatternString: 'Closer to {{object}}.',
+    topEdgeOfPlayAreaString: 'top edge of Play Area',
+    bottomEdgeOfPlayAreaString: 'bottom edge of Play Area',
 
     //------------------------------------------------------------------------
     // Control panel strings

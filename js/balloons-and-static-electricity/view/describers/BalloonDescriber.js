@@ -62,6 +62,13 @@ define( function( require ) {
   var offSweaterString = BASEA11yStrings.offSweaterString;  
   var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString;
   var balloonOnLocationPatternString = BASEA11yStrings.balloonOnLocationPatternString;
+  var closerToObjectPatternString = BASEA11yStrings.closerToObjectPatternString;
+  var sweaterString = BASEA11yStrings.sweaterString;
+  var wallString = BASEA11yStrings.wallString;
+  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString;
+  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
+  var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
+  var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -498,15 +505,7 @@ define( function( require ) {
     },
 
     getOnSweaterString: function( onSweater ) {
-      var sweaterString = '';
-      if ( onSweater ) {
-        sweaterString = onSweaterString;
-      }
-      else {
-        sweaterString = offSweaterString;
-      }
-
-      return sweaterString;
+     return onSweater ? onSweaterString : offSweaterString;
     },
 
     /**
@@ -514,7 +513,7 @@ define( function( require ) {
      * 
      * @return {string}
      */
-    getPlayAreaDragLocationDescription: function() {
+    getPlayAreaDragNewRegionDescription: function() {
 
       // if in a boundary location that touches the edge of the play area, considered "On",
       // otherwise considered "At" location
@@ -529,6 +528,55 @@ define( function( require ) {
 
       return StringUtils.fillIn( patternString, {
         location: locationString 
+      } );
+    },
+
+    /**
+     * Get a progress string toward the sweater, wall, top edge, bottom edge, or center of play area.
+     * 
+     * @return {string}
+     */
+    getPlayAreaDragProgressDescription: function() {
+      var nearestObjectString;
+
+      var centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
+      var centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
+      var balloonCenterX = this.balloonModel.getCenterX();
+      var balloonCenterY = this.balloonModel.getCenterY();
+      var balloonDirection = this.balloonModel.direction;
+
+      if ( balloonDirection === BalloonDirectionEnum.LEFT ) {
+
+        // if right of center, describe closer to center, otherwise closer to sweater
+        nearestObjectString = ( balloonCenterX > centerPlayAreaX ) ? centerOfPlayAreaString : sweaterString;
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.RIGHT ) {
+
+        if ( balloonCenterX < centerPlayAreaX ) {
+
+          // if left of center, describe that we are closer to the center
+          nearestObjectString = centerOfPlayAreaString;
+        }
+        else {
+
+          // otherwise describe closer to wall or righe edge depending on wall visibility
+          nearestObjectString = this.model.wall.isVisibleProperty.get() ? wallString : rightEdgeOfPlayAreaString;
+        }
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.UP ) {
+
+        // below center describe closer to center, otherwise closer to top of play area
+        nearestObjectString = ( balloonCenterY > centerPlayAreaY ) ? centerOfPlayAreaString : topEdgeOfPlayAreaString;
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.DOWN ) {
+
+        // above center describe closer to center, otherwise closer to bottom edge of play area
+        nearestObjectString = ( balloonCenterY < centerPlayAreaY ) ? centerOfPlayAreaString : bottomEdgeOfPlayAreaString;
+      }
+
+      assert && assert( nearestObjectString, 'no nearest object found for movement direction: ' + balloonDirection );
+      return StringUtils.fillIn( closerToObjectPatternString, {
+        object: nearestObjectString
       } );
     },
 

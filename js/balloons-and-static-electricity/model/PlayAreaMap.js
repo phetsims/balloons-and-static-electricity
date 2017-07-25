@@ -31,7 +31,8 @@ define( function( require ) {
   // critical y locations for the balloon (relative to the balloon's center)
   var Y_LOCATIONS = {
     AT_TOP: 111,
-    AT_BOTTOM: 393
+    AT_BOTTOM: 393,
+    AT_CENTER_PLAY_AREA: 249
   };
 
   var COLUMN_RANGES = {
