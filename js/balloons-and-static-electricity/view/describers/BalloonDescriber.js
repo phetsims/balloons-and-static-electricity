@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -59,6 +60,8 @@ define( function( require ) {
   var atRightEdgeString = BASEA11yStrings.atRightEdgeString;
   var onSweaterString = BASEA11yStrings.onSweaterString;
   var offSweaterString = BASEA11yStrings.offSweaterString;  
+  var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString;
+  var balloonOnLocationPatternString = BASEA11yStrings.balloonOnLocationPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -504,6 +507,29 @@ define( function( require ) {
       }
 
       return sweaterString;
+    },
+
+    /**
+     * Get the dragging description while the balloon is moving through the play area being dragged.
+     * 
+     * @return {string}
+     */
+    getPlayAreaDragLocationDescription: function() {
+
+      // if in a boundary location that touches the edge of the play area, considered "On",
+      // otherwise considered "At" location
+      var balloonCenter = this.balloonModel.getCenter();
+      var nearSide = PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA.contains( balloonCenter.x ) ||
+                     PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA.contains( balloonCenter.x );
+
+      var patternString = nearSide ? balloonOnLocationPatternString : balloonAtLocationPatternString;
+
+      var wallVisible = this.model.wall.isVisibleProperty.get();
+      var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( balloonCenter, wallVisible );
+
+      return StringUtils.fillIn( patternString, {
+        location: locationString 
+      } );
     },
 
     /**

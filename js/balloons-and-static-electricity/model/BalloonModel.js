@@ -253,6 +253,12 @@ define( function( require ) {
     // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
     this.previousIsNearRightEdge = false;
 
+    // @private string - the current row of the play area for the balloon
+    this.playAreaColumn = null;
+
+    // @private string - the current column of the play area for the balloon
+    this.playAreaRow = null;
+
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
 
@@ -518,6 +524,69 @@ define( function( require ) {
      */
     getDistanceToWall: function() {
       return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
+    },
+
+    /**
+     * Returns true if the balloon is moving horizontally, left or right.
+     * @public
+     * @return {string} - "LEFT"|"RIGHT"
+     */
+    movingHorizontally: function() {
+      return this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.RIGHT;
+    },
+
+    /**
+     * Returns true if the balloon is movingv vertically, up or down
+     * @public
+     * @return {string} - "UP"|"DOWN"
+     */
+    movingVertically: function() {
+      return this.direction === BalloonDirectionEnum.UP || this.direction === BalloonDirectionEnum.DOWN;
+    },
+
+    /**
+     * Returns true if the balloon is moving horizontally, left or right.
+     * @public
+     * @return {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
+     */
+    movingDiagonally: function() {
+      return this.direction === BalloonDirectionEnum.UP_LEFT ||
+             this.direction === BalloonDirectionEnum.UP_RIGHT ||
+             this.direction === BalloonDirectionEnum.DOWN_LEFT ||
+             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+    },
+
+    /**
+     * Returns a proportion of this balloon's movement through a region in the play area, dependent
+     * on the direction of movement.  Returns a number out of 1 (full range of the region).  If moving
+     * horizontally, progress will be proportion of width.  If moving vertically, progress will be
+     * a proportion of the height.
+     * 
+     * @return {number}
+     */
+    getProgressThroughRegion: function() {
+
+      var range;
+      var difference;
+      if ( this.movingHorizontally() || this.movingDiagonally() ) {
+        range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumn ];
+        difference = this.getCenter().x - range.min;
+      }
+      else if ( this.movingVertically() ) {
+        range = PlayAreaMap.ROW_RANGES[ this.playAreaRow ];
+        difference = this.getCenter().y - range.min;
+      }
+
+      // determine how far we are through the region
+      var progress = difference / range.getLength();
+
+      // progress is the difference of the calculated proportion if moving to the left or up
+      if ( this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.UP ) {
+        progress = 1 - progress;
+      }
+
+      assert && assert( typeof progress === 'number' && progress >= 0, 'no progress through play area region was determined.' );
+      return progress;
     },
 
     /**

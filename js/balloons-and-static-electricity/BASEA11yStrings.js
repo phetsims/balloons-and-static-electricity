@@ -320,6 +320,9 @@ define( function( require ) {
     veryCloseToWallString: 'Very close to wall.',
     veryCloseToRightEdgeString: 'Very close to right edge.',
 
+    balloonAtLocationPatternString: 'At {{location}}.',
+    balloonOnLocationPatternString: 'On {{location}}.',
+
     //------------------------------------------------------------------------
     // Control panel strings
     //------------------------------------------------------------------------

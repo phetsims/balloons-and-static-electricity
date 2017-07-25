@@ -62,7 +62,7 @@ define( function( require ) {
   var manyString = BASEA11yStrings.manyString;
 
   // constants
-  var locationDescriptionMap = {
+  var LOCATION_DESCRIPTION_MAP = {
     LEFT_ARM: {
       UPPER_PLAY_AREA: leftShoulderOfSweaterString,
       CENTER_PLAY_AREA: leftArmOfSweaterString,
@@ -176,7 +176,7 @@ define( function( require ) {
         currentColumn = 'WALL';
       }
 
-      return locationDescriptionMap[ currentColumn ][ currentRow ];
+      return LOCATION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
     },
 
     /**

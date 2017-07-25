@@ -24,6 +24,7 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -264,7 +265,9 @@ define( function( require ) {
               UtteranceQueue.addToBack( sweaterChangeString );
             }
 
-            if ( self.model.dragVelocityProperty.get().magnitude() <= SLOW_BALLOON_SPEED) {
+            // while moving slowly, we will add indications that we are very close to objects
+            var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
+            if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
 
               // if we become "very close" to the sweater while moving slowly, announce that immediately
               if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
@@ -286,6 +289,17 @@ define( function( require ) {
                   UtteranceQueue.addToBack( veryCloseToRightEdgeString );
                 }
               }
+            }
+
+            // if we are less than 50 percent through the current play area region, and we are moving
+            // quickly, and we are moving horizontally, announce our location
+            var progressThroughRegion = self.model.getProgressThroughRegion();
+            var notDiagonal = !self.model.movingDiagonally();
+            if ( progressThroughRegion <= 0.50 && dragSpeed > SLOW_BALLOON_SPEED && notDiagonal ) {
+              var draggingDescription = self.describer.getPlayAreaDragLocationDescription();
+              UtteranceQueue.addToBack( new Utterance( draggingDescription, {
+                typeId: 'locationAlert'
+              } ) );
             }
           }
         }
