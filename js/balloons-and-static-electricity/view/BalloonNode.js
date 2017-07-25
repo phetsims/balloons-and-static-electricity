@@ -291,7 +291,6 @@ define( function( require ) {
               }
             }
 
-
             var progressThroughRegion = self.model.getProgressThroughRegion();
             var notDiagonal = !self.model.movingDiagonally();
             if ( progressThroughRegion <= 0.50 && notDiagonal ) {
@@ -369,7 +368,9 @@ define( function( require ) {
 
         // if touching a boundary, anounce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
-          UtteranceQueue.addToBack( self.describer.getTouchingBoundaryDescription() );
+          UtteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription(), {
+            typeId: 'boundaryAlert'
+          } ) );
         }
       }
     } );
