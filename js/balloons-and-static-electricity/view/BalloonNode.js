@@ -229,11 +229,11 @@ define( function( require ) {
                 // get the initial description of balloon movement
                 self.initialMovementDescribed = true;
                 if ( !location.equals(oldLocation) ) {
-                  alert = self.describer.getInitialMovementDescription( location, oldLocation );
+                  alert = self.describer.getInitialReleaseDescription( location, oldLocation );
                 }
               }
             }
-            else if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
               // TODO
               // get subsequent descriptions of movement ("still moving...")
@@ -514,6 +514,9 @@ define( function( require ) {
       }
       UtteranceQueue.addToBack( alert );
 
+      // update the location of release
+      self.model.locationOnRelease = model.locationProperty.get();
+
       // reset flags that track description content
       self.initialMovementDescribed = false;
     } );
@@ -540,6 +543,18 @@ define( function( require ) {
 
       // increment timer tracking time since alert description
       this.timeSincePositionAlert += dt * 1000;
+
+      if ( !this.model.isDraggedProperty.get() ) {
+        if ( !this.initialMovementDescribed ) {
+          if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+            if ( this.model.locationProperty.get().equals( this.model.locationOnRelease ) ) {
+              var alert = this.describer.getNoChangeReleaseDescription();
+              UtteranceQueue.addToBack( alert );
+              this.initialMovementDescribed = true;
+            }
+          }
+        }
+      }
     },
 
     getPositionOnSweaterDescription: function() {

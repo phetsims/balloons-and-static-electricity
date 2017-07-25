@@ -71,8 +71,8 @@ define( function( require ) {
     lowerWallString: 'lower wall',
 
     upperRightEdgeOfPlayAreaString: 'upper-right edge of Play Area',
-    rightEdgeOfPlayArea: 'right edge of Play Area',
-    lowerRightEdgeOfPlayArea: 'lower-right edge of Play Area',
+    rightEdgeOfPlayAreaString: 'right edge of Play Area',
+    lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
@@ -294,6 +294,9 @@ define( function( require ) {
     slowlyString: 'slowly',
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
+
+    noChangeInPositionString: 'No change in position',
+    noChangeAndLocationPatternString: '{{noChange}}. {{location}}.',
 
     //--------------------------------------------------------------------------
     // Balloon Dragging strings

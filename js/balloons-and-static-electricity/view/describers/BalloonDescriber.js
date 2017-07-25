@@ -69,6 +69,8 @@ define( function( require ) {
   var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
   var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
   var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
+  var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
+  var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -217,13 +219,7 @@ define( function( require ) {
       var description;
       var showCharges = this.showChargesProperty.get();
 
-      // a string that peices together attractive state and location.
-      var locationDescriptionString = this.getBalloonLocationDescription();
-      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
-      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
-        attractiveState: attractiveStateDescriptionString,
-        location: locationDescriptionString 
-      } );
+      var attractiveStateAndLocationString = this.getAttractiveStateAndLocationDescription();
 
       if ( showCharges === 'none' ) {
         description = StringUtils.fillIn( balloonShowNoChargesPatternString, {
@@ -292,6 +288,24 @@ define( function( require ) {
       }
 
       return attractiveStateString;
+    },
+
+    /**
+     * Returns a string that combines the balloon's attractive state and location descriptions. Something
+     * like "On center of play area." or "Sticking to wall."
+     * 
+     * @return {string}
+     */
+    getAttractiveStateAndLocationDescription: function() {
+      // a string that peices together attractive state and location.
+      var locationDescriptionString = this.getBalloonLocationDescription();
+      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
+      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+        attractiveState: attractiveStateDescriptionString,
+        location: locationDescriptionString 
+      } );
+
+      return attractiveStateAndLocationString;
     },
 
     /**
@@ -415,17 +429,39 @@ define( function( require ) {
     /**
      * Generally announced right after the balloon as been released, this is read as an alert. Generates
      * something like "Moves toward sweater."
-     * @return {[type]} [description]
+     *
+     * @param {Vector2} location - the current location of the balloon
+     * @param {Vector2} oldLocation - the previous location of the balloon
+     * @return {string}
      */
-    getInitialMovementDescription: function( location, oldLocation ) {
+    getInitialReleaseDescription: function( location, oldLocation ) {
+
+      // the balloon is moving with some initial velocity, describe that
       var velocityString = this.getVelocityString();
       var toObjectString = this.getToObjectString( location, oldLocation );
 
-      var string = StringUtils.fillIn( movesToObjectPatternString, {
+      var description = StringUtils.fillIn( movesToObjectPatternString, {
         velocity: velocityString,
         toObject: toObjectString
       } );
-      return string;
+
+      return description;
+    },
+
+    /**
+     * Produces an alert when there is no change in position.  Indicates that there is no change
+     * and also reminds user where the balloon currently is.
+     * 
+     * @return {string}
+     */
+    getNoChangeReleaseDescription: function() {
+      var noChangeString = noChangeInPositionString;
+      var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescription();
+
+      return StringUtils.fillIn( noChangeAndLocationPatternString, {
+        noChange: noChangeString,
+        location: attractiveStateAndLocationDescription
+      } );
     },
 
     /**
