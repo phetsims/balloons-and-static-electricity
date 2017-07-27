@@ -42,11 +42,11 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {Property} property 
-   * @param {Object} valueA - valid value for the property  
+   * @param {Property} property
+   * @param {Object} valueA - valid value for the property
    * @param {Object} valueB - alternate valid value for the property
-   * @param {Node} nodeA    
-   * @param {Node} nodeB    
+   * @param {Node} nodeA
+   * @param {Node} nodeB
    * @param {Object} options
    */
   function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options ) {
@@ -101,8 +101,7 @@ define( function( require ) {
     }, options );
 
     Node.call( this, {
-      cursor: 'pointer',
-      tandem: options.tandem.createSupertypeTandem()
+      cursor: 'pointer'
     } );
 
     // a11y
@@ -142,8 +141,8 @@ define( function( require ) {
 
     // if there should be a mask, add before the buttons
     if ( options.maskFill ) {
-      aButton.addChild( new Path( rectShape, { fill: options.maskFill  } ) );
-      bButton.addChild( new Path( rectShape, { fill: options.maskFill  } ) );
+      aButton.addChild( new Path( rectShape, { fill: options.maskFill } ) );
+      bButton.addChild( new Path( rectShape, { fill: options.maskFill } ) );
     }
 
     aButton.addChild( aButtonPath );
@@ -267,7 +266,10 @@ define( function( require ) {
     };
 
     // tandem support
-    options.tandem.addInstance( this, TTwoSceneSelectionNode );
+    this.mutate( {
+      tandem: options.tandem,
+      phetioType: TTwoSceneSelectionNode
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
