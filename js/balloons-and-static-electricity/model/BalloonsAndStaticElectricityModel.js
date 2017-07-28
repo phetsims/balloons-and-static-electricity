@@ -15,6 +15,7 @@ define( function( require ) {
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   var PlayArea2 = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea2' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
@@ -77,9 +78,13 @@ define( function( require ) {
 
     // when the balloon locations change, update the closest charge in the wall
     this.balloons.forEach( function( balloon ) {
-      balloon.locationProperty.link( function() {
+      balloon.locationProperty.link( function( location ) {
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
         balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
+
+        // update the balloon play area row and column
+        balloon.playAreaRow = PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() );
+        balloon.playAreaColumn = PlayAreaMap.getPlayAreaColumn( balloon.getCenter() );
       } );
     } ); 
 
@@ -167,6 +172,60 @@ define( function( require ) {
       //set flag
       position.isOutBounds = isOutBounds;
       return position;
+    }
+  }, {
+
+    /**
+     * Get the column of the play area for the a given location in the model.
+     * 
+     * @param  {Vector2} location
+     * @return {string}         
+     */
+    getPlayAreaColumn: function( location, wallVisible ) {
+      var columns = PlayAreaMap.COLUMN_RANGES;
+
+      // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
+      // loops
+      var columnsKeys = Object.keys( columns );
+
+      var column;
+      var i;
+      for ( i = 0; i < columnsKeys.length; i++ ) {
+        if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
+          column = columnsKeys[ i ];
+        }
+      }
+      assert && assert( column, 'object should be in a column of the play area' );
+
+      // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
+      if ( wallVisible && column === 'RIGHT_EDGE' ) {
+        column = 'WALL';
+      }
+
+      return column;
+    },
+
+    /**
+     * Get a row in the play area that contains the location in the model.
+     * @param  {Vector2} location 
+     * @return {strint}
+     */
+    getPlayAreaRow: function( location ) {
+      var rows = PlayAreaMap.ROW_RANGES;
+
+      // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
+      var rowKeys = Object.keys( rows );
+
+      var row;
+      var i;
+      for ( i = 0; i < rowKeys.length; i++ ) {
+        if ( rows[ rowKeys[ i ] ].contains( location.y ) ) {
+          row = rowKeys[ i ];
+        }
+      }
+      assert && assert( row, 'item should be in a row of the play area' );
+
+      return row;
     }
   } );
 

@@ -98,6 +98,20 @@ define( function( require ) {
     [ 34, 77 ]
   ];
 
+  // threshold for diagonal movement is +/- 15 degrees from diagonals
+  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+
+  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
+  // of the movement and the direction is determined by getMovementDirection, see that function for use
+  // of this map
+  var BALLOON_DIRECTION_MAP = {
+    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
+  };
+
   // determine average the Y position for the charges in the balloon
   var positionYSum = 0;
   for (var i = 0; i < POSITIONS.length; i++ ) {
@@ -187,6 +201,9 @@ define( function( require ) {
     // changes in position
     this.oldLocation = this.locationProperty.get().copy();
 
+    // @private (a11y) {Vector2} - copy of the balloon position when balloon is released
+    this.locationOnRelease = this.locationProperty.get().copy();
+
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],
@@ -201,14 +218,58 @@ define( function( require ) {
     // @public - will emit when the user has completed an interaction with the balloon
     this.interactionEndEmitter = new Emitter();
 
-    // @private - flag that is set to true once the user has completed an interaction
-    this.announceInteraction = false;
-
     this.initialLocation = this.locationProperty.initialValue;
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
-    this.direction = ''; // the direction of movement of the balloon
+
+    // @private {null|string} - the direction of movement for the balloon
+    this.direction = null;
+
+    // @private {null|string} - the previous direction of movement for the balloon, updates when direction changes
+    this.previousDirection = null;
+
+    // @private {boolean} - flag that indicates when the balloon is on or off of the sweater
+    this.isOnSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
+    this.previousIsOnSweater = false;
+
+    // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
+    this.isStickingToSweater = false;
+
+    // @public {boolean} - flag that indicates if the balloon was previously sticking to the sweater on location change
+    this.previousIsStickingToSweater = false;
+
+    // @private {boolean} - flag that indicates when the balloon is very near to the sweater
+    this.isNearSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon was previously very near to the sweater
+    this.previousIsNearSweater = false;
+
+    // @private {boolean} - flag that tracks if the balloon is very near to the wall
+    this.isNearWall = false;
+
+    // @private {boolean} - flag that tracks if the the balloon was previously very near the wall when position changes
+    this.previousIsNearWall = false;
+
+    // @public {read-only} - flag that tracks whether or not the balloon is touching the wall
+    this.isTouchingWall = false;
+
+    // @public {read-only} - flag that tracks whether or not the balloon was previously touching the wall when location chanves
+    this.previousIsTouchingWall = false;
+
+    // @private {boolean} - flag that tracks if the balloon is very near to the right edge
+    this.isNearRightEdge = false;
+
+    // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
+    this.previousIsNearRightEdge = false;
+
+    // @private string - the current row of the play area for the balloon
+    this.playAreaColumn = null;
+
+    // @private string - the current column of the play area for the balloon
+    this.playAreaRow = null;
 
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
@@ -245,8 +306,39 @@ define( function( require ) {
       this.locationProperty.get().x + this.width,
       this.locationProperty.get().y + this.height
     );
-    this.locationProperty.link( function( location ) {
+    this.locationProperty.link( function( location, oldLocation ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+
+      if ( oldLocation ) {
+
+        // update movement direction
+        self.previousDirection = self.direction;
+        self.direction = BalloonModel.getMovementDirection( location, oldLocation );
+
+        // update whether or not balloon is on sweater
+        self.previousIsOnSweater = self.isOnSweater;
+        self.isOnSweater = self.onSweater();
+
+        // update whether or not the balloon is touching the wall
+        self.previousIsTouchingWall = self.isTouchingWall;
+        self.isTouchingWall = self.touchingWall();
+
+        // update whether or not the balloon is very close to the sweater
+        self.previousIsNearSweater = self.isNearSweater;
+        self.isNearSweater = self.nearSweater();
+
+        // update whether or not balloon is very close to the wall
+        self.previousIsNearWall = self.isNearWall;
+        self.isNearWall = self.nearWall();
+
+        // update whether or not balloon is very close to the right edge of the play area
+        self.previousIsNearRightEdge = self.isNearRightEdge;
+        self.isNearRightEdge = self.nearRightEdge();
+
+        // update whether or not the balloon is sticking to the sweater
+        self.previousIsStickingToSweater = self.isStickingToSweater;
+        self.isStickingToSweater = self.stickingToSweater();
+      }
     } );
 
     this.reset();
@@ -267,13 +359,13 @@ define( function( require ) {
     },
 
     /**
-     * Return true if the balloon is near the wall without touching it.
+     * Return true if the balloon is near the wall without touching it, and the wall is visible.
      *
      * @returns {boolean}
      */
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > model.playArea.atNearWall && this.getCenter().x < model.playArea.atWall );
+      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_WALL && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_WALL && model.wall.isVisibleProperty.get() );
     },
 
     /**
@@ -415,6 +507,16 @@ define( function( require ) {
     },
 
     /**
+     * Return true if the balloon is near the right edge of the play area without touching it
+     *
+     * @returns {boolean}
+     */
+    nearRightEdge: function() {
+      var model = this.balloonsAndStaticElectricityModel;
+      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_RIGHT_EDGE && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE && !model.wall.isVisibleProperty.get() );
+    },
+
+    /**
      * Returns true if the balloon is touching the wall
      *
      * @returns {boolean}
@@ -436,12 +538,84 @@ define( function( require ) {
     },
 
     /**
+     * Returns true if the balloon is sticking to the sweater.  Balloon is sticking to the sweater when
+     * the balloon center is in the sweater charged area and the balloon has charges.
+     * @return {boolean}
+     */
+    stickingToSweater: function() {
+      return ( this.chargeProperty.get() < 0 && this.centerInSweaterChargedArea() );
+    },
+
+    /**
      * Get the distance from the center of this balloon to the wall.  Note that distances are all in ScreenView
      * coordinates for this simulation
      * @returns {number}
      */
     getDistanceToWall: function() {
       return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
+    },
+
+    /**
+     * Returns true if the balloon is moving horizontally, left or right.
+     * @public
+     * @return {string} - "LEFT"|"RIGHT"
+     */
+    movingHorizontally: function() {
+      return this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.RIGHT;
+    },
+
+    /**
+     * Returns true if the balloon is movingv vertically, up or down
+     * @public
+     * @return {string} - "UP"|"DOWN"
+     */
+    movingVertically: function() {
+      return this.direction === BalloonDirectionEnum.UP || this.direction === BalloonDirectionEnum.DOWN;
+    },
+
+    /**
+     * Returns true if the balloon is moving horizontally, left or right.
+     * @public
+     * @return {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
+     */
+    movingDiagonally: function() {
+      return this.direction === BalloonDirectionEnum.UP_LEFT ||
+             this.direction === BalloonDirectionEnum.UP_RIGHT ||
+             this.direction === BalloonDirectionEnum.DOWN_LEFT ||
+             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+    },
+
+    /**
+     * Returns a proportion of this balloon's movement through a region in the play area, dependent
+     * on the direction of movement.  Returns a number out of 1 (full range of the region).  If moving
+     * horizontally, progress will be proportion of width.  If moving vertically, progress will be
+     * a proportion of the height.
+     * 
+     * @return {number}
+     */
+    getProgressThroughRegion: function() {
+
+      var range;
+      var difference;
+      if ( this.movingHorizontally() || this.movingDiagonally() ) {
+        range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumn ];
+        difference = this.getCenter().x - range.min;
+      }
+      else if ( this.movingVertically() ) {
+        range = PlayAreaMap.ROW_RANGES[ this.playAreaRow ];
+        difference = this.getCenter().y - range.min;
+      }
+
+      // determine how far we are through the region
+      var progress = difference / range.getLength();
+
+      // progress is the difference of the calculated proportion if moving to the left or up
+      if ( this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.UP ) {
+        progress = 1 - progress;
+      }
+
+      assert && assert( typeof progress === 'number' && progress >= 0, 'no progress through play area region was determined.' );
+      return progress;
     },
 
     /**
@@ -572,16 +746,6 @@ define( function( require ) {
 
         // increment the time since release
         this.timeSinceRelease += dt;
-      }
-
-      if ( this.announceInteraction ) {
-        // once an interaction is finished, notify that the descriptions should be updated
-        // this must happen after dragBalloon is called so that the charges are correctly
-        // described
-        this.interactionEndEmitter.emit();
-
-        // do not describe again until next interaction
-        this.announceInteraction = false;
       }
       this.oldLocation = this.locationProperty.get().copy();
     },
@@ -890,6 +1054,49 @@ define( function( require ) {
 
       // scale by the force value
       return difference.timesScalar( kqq / ( Math.pow( r, power ) ) );
+    },
+
+    /**
+     * Get the direction of movement for this balloon based on the angle of movement calculated
+     * between two positions, returns one of BalloonDirectionEnum. Uses Math.atan2, so the angle
+     * is mapped from 0 to +/- Math.PI.  So we determine if movement is in the top or bottom half
+     * of the unit circle and then map to the exact quadrant based on the sign of the angle.
+     * 
+     * @param  {Vector2} location
+     * @param  {Vector2} oldLocation
+     * @return {string} - one of BalloonDirectionEnum
+     * @static
+     */
+    getMovementDirection: function( location, oldLocation ) {
+
+      var direction;
+
+      var dx = location.x - oldLocation.x;
+      var dy = location.y - oldLocation.y;
+      var angle = Math.atan2( dx, dy );
+      var absAngle = Math.abs( angle );
+
+      // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
+      // are moving left/right, and then use the absolute value of angle to determine up/down
+      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
+        direction = BalloonDirectionEnum.DOWN;
+      }
+      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL.contains( absAngle ) ) {
+
+        // diagonal in the third or fourth quadrants
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.DOWN_RIGHT : BalloonDirectionEnum.DOWN_LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.RIGHT : BalloonDirectionEnum.LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
+        direction = ( angle > 0 ) ? BalloonDirectionEnum.UP_RIGHT : BalloonDirectionEnum.UP_LEFT;
+      }
+      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
+        direction = BalloonDirectionEnum.UP;
+      }
+
+      return direction;
     },
 
     // @static - value for Coulomb's constant used in the calculations but NOT THE ACTUAL VALUE.  It has been tweaked in

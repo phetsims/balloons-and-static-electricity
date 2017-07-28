@@ -71,13 +71,12 @@ define( function( require ) {
     lowerWallString: 'lower wall',
 
     upperRightEdgeOfPlayAreaString: 'upper-right edge of Play Area',
-    rightEdgeOfPlayArea: 'right edge of Play Area',
-    lowerRightEdgeOfPlayArea: 'lower-right edge of Play Area',
+    rightEdgeOfPlayAreaString: 'right edge of Play Area',
+    lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
     stickingToWallStringPattern: 'Sticking to {0}.',
-	generalWallString: 'wall',
 
     stickingToSweaterString: 'Sticking to right side of sweater.',
 
@@ -149,7 +148,6 @@ define( function( require ) {
     onSweaterPatternStringString: 'On sweater. {0}',
     picksUpNegativeChargesString: 'Picks up negative charges from sweater.',
     nearWallString: 'Near wall.',
-    offSweaterString: 'Off sweater.',
 
     atCenterOfPlayAreaString: 'At center of play area.',
     onRightSideOfPlayAreaString: 'On right side of play area.',
@@ -297,6 +295,9 @@ define( function( require ) {
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
 
+    noChangeInPositionString: 'No change in position',
+    noChangeAndLocationPatternString: '{{noChange}}. {{location}}.',
+
     //--------------------------------------------------------------------------
     // Balloon Dragging strings
     //--------------------------------------------------------------------------
@@ -313,6 +314,20 @@ define( function( require ) {
     atTopString: 'At top.',
     atBottomString: 'At bottom.',
     atRightEdgeString: 'At right edge.',
+
+    onSweaterString: 'On Sweater.',
+    offSweaterString: 'Off sweater.',
+
+    veryCloseToSweaterString: 'Very close to sweater.',
+    veryCloseToWallString: 'Very close to wall.',
+    veryCloseToRightEdgeString: 'Very close to right edge.',
+
+    balloonAtLocationPatternString: 'At {{location}}.',
+    balloonOnLocationPatternString: 'On {{location}}.',
+
+    closerToObjectPatternString: 'Closer to {{object}}.',
+    topEdgeOfPlayAreaString: 'top edge of Play Area',
+    bottomEdgeOfPlayAreaString: 'bottom edge of Play Area',
 
     //------------------------------------------------------------------------
     // Control panel strings

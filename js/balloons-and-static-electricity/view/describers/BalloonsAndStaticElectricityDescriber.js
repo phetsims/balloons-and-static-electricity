@@ -52,8 +52,8 @@ define( function( require ) {
   var lowerWallString = BASEA11yStrings.lowerWallString;
 
   var upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayAreaString;
-  var rightEdgeOfPlayArea = BASEA11yStrings.rightEdgeOfPlayArea;
-  var lowerRightEdgeOfPlayArea = BASEA11yStrings.lowerRightEdgeOfPlayArea;
+  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
+  var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayAreaString;
 
   // charge strings
   var noString = BASEA11yStrings.noString;
@@ -62,7 +62,7 @@ define( function( require ) {
   var manyString = BASEA11yStrings.manyString;
 
   // constants
-  var locationDescriptionMap = {
+  var LOCATION_DESCRIPTION_MAP = {
     LEFT_ARM: {
       UPPER_PLAY_AREA: leftShoulderOfSweaterString,
       CENTER_PLAY_AREA: leftArmOfSweaterString,
@@ -105,8 +105,8 @@ define( function( require ) {
     },
     RIGHT_EDGE: {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
-      CENTER_PLAY_AREA: rightEdgeOfPlayArea,
-      LOWER_PLAY_AREA: lowerRightEdgeOfPlayArea
+      CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
+      LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
     }
   };
 
@@ -176,7 +176,7 @@ define( function( require ) {
         currentColumn = 'WALL';
       }
 
-      return locationDescriptionMap[ currentColumn ][ currentRow ];
+      return LOCATION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
     },
 
     /**

@@ -24,13 +24,15 @@ define( function( require ) {
     AT_CENTER_PLAY_AREA: 507,
     AT_NEAR_WALL: 596,
     AT_WALL: 621,
+    AT_NEAR_RIGHT_EDGE: 676,
     AT_RIGHT_EDGE: 701
   };
 
   // critical y locations for the balloon (relative to the balloon's center)
   var Y_LOCATIONS = {
     AT_TOP: 111,
-    AT_BOTTOM: 393
+    AT_BOTTOM: 393,
+    AT_CENTER_PLAY_AREA: 249
   };
 
   var COLUMN_RANGES = {
@@ -56,7 +58,61 @@ define( function( require ) {
     COLUMN_RANGES: COLUMN_RANGES,
     ROW_RANGES: ROW_RANGES,
     WIDTH: 768,
-    HEIGHT: 504
+    HEIGHT: 504,
+
+    /**
+     * Get the column of the play area for the a given location in the model.
+     * 
+     * @param  {Vector2} location
+     * @return {string}         
+     */
+    getPlayAreaColumn: function( location, wallVisible ) {
+      var columns = COLUMN_RANGES;
+
+      // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
+      // loops
+      var columnsKeys = Object.keys( columns );
+
+      var column;
+      for ( var i = 0; i < columnsKeys.length; i++ ) {
+        if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
+          column = columnsKeys[ i ];
+        }
+      }
+      assert && assert( column, 'object should be in a column of the play area' );
+
+      // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
+      if ( wallVisible && column === 'RIGHT_EDGE' ) {
+        column = 'WALL';
+      }
+
+      return column;
+    },
+
+    /**
+     * Get a row in the play area that contains the location in the model.
+     * 
+     * @param  {Vector2} location 
+     * @return {strint}
+     */
+    getPlayAreaRow: function( location ) {
+      var rows = PlayAreaMap.ROW_RANGES;
+
+      // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
+      var rowKeys = Object.keys( rows );
+
+      var row;
+      var i;
+      for ( i = 0; i < rowKeys.length; i++ ) {
+        if ( rows[ rowKeys[ i ] ].contains( location.y ) ) {
+          row = rowKeys[ i ];
+        }
+      }
+      assert && assert( row, 'item should be in a row of the play area' );
+
+      return row;
+    }
+
   };
 
   balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );

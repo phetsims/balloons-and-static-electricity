@@ -18,11 +18,13 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var Shape = require( 'KITE/Shape' );
   var Emitter = require( 'AXON/Emitter' );
   var Input = require( 'SCENERY/input/Input' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -38,11 +40,19 @@ define( function( require ) {
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
-  var DESCRIPTION_REFRESH_RATE = 3000; // in ms
+
+  var DESCRIPTION_REFRESH_RATE = 1000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
+
+  // speed of the balloon to be considered moving slowly, determined empirically
+  var SLOW_BALLOON_SPEED = 0.08;
 
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
+  var veryCloseToSweaterString = BASEA11yStrings.veryCloseToSweaterString;
+  var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
+  var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
 
   /**
    * Constructor for the balloon
@@ -217,35 +227,101 @@ define( function( require ) {
             if ( !self.initialMovementDescribed ) {
               if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
 
-                // get the initial description of balloon movement
+                // get the initial description of balloon movement upon release
                 self.initialMovementDescribed = true;
-                alert = self.describer.getInitialMovementDescription( location, oldLocation );
+                if ( !location.equals(oldLocation) ) {
+                  alert = self.describer.getInitialReleaseDescription( location, oldLocation );
+                  UtteranceQueue.addToBack( alert );
+                }
               }
             }
-            else if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-              // TODO
               // get subsequent descriptions of movement ("still moving...")
               // var alert = self.describer.getContinuousMovementDescription();
               // self.timeSincePositionAlert = 0;
             }
 
-            alert && UtteranceQueue.addToBack( alert );
+            if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
+                 self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
+
+              // immediately announce that we are touching something and describe
+              // the attractive state with punctuation
+              alert = StringUtils.fillIn( singleStatementPatternString, {
+                statement: self.describer.getAttractiveStateAndLocationDescription()
+              } );
+              UtteranceQueue.addToBack( alert );
+            }
           }
           else {
 
             // balloon is moving due to dragging
             if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-              // get the movement direction description
-              var directionString = self.describer.getMovementDirectionDescription( location, oldLocation );
-
-              // just announce direction always for now
-              UtteranceQueue.addToBack( directionString );
+              // if we changed directions since the last description, alert the new direction
+              var balloonDirection = BalloonModel.getMovementDirection( location, oldLocation );
+              if ( self.model.previousDirection !== self.model.direction ) {
+                var directionString = self.describer.getMovementDirectionDescription( balloonDirection );
+                UtteranceQueue.addToBack( directionString );
+              }
 
               // reset timer
               self.timeSincePositionAlert = 0;
             }
+
+            // if we are enter or leave the sweater, announce that immediately
+            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
+              UtteranceQueue.addToBack( sweaterChangeString );
+            }
+
+            // while moving slowly, we will add indications that we are very close to objects
+            var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
+            if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
+
+              // if we become "very close" to the sweater while moving slowly, announce that immediately
+              if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
+                if ( self.model.isNearSweater ) {
+                  UtteranceQueue.addToBack( veryCloseToSweaterString );
+                }
+              }
+
+              // if we become "very close" to the wall while moving slowly, announce that immediately
+              if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
+                if ( self.model.isNearWall ) {
+                  UtteranceQueue.addToBack( veryCloseToWallString );
+                }
+              }
+
+              // if we become "very close" to the right of the play area while moving slowly, announce that immediately
+              if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
+                if ( self.model.isNearRightEdge ) {
+                  UtteranceQueue.addToBack( veryCloseToRightEdgeString );
+                }
+              }
+            }
+
+            var progressThroughRegion = self.model.getProgressThroughRegion();
+            var notDiagonal = !self.model.movingDiagonally();
+            if ( progressThroughRegion <= 0.50 && notDiagonal ) {
+
+              // we are less than 50 percent through the current play area region and we are moving horizontally,
+              // so announce our current location
+              var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
+              UtteranceQueue.addToBack( new Utterance( draggingDescription, {
+                typeId: 'locationAlert'
+              } ) );
+            }
+            else if ( progressThroughRegion > 0.50 && notDiagonal ) {
+
+              // we are greater than 50 percent through the play area region and moving horizontally so
+              // announce an indication that we are moving closer to the object
+              var progressDescription = self.describer.getPlayAreaDragProgressDescription();
+              UtteranceQueue.addToBack( new Utterance( progressDescription, {
+                typeId: 'progressAlert'
+              } ) );
+            }
+
           }
         }
       }
@@ -302,7 +378,9 @@ define( function( require ) {
 
         // if touching a boundary, anounce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
-          UtteranceQueue.addToBack( self.describer.getTouchingBoundaryDescription() );
+          UtteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription(), {
+            typeId: 'boundaryAlert'
+          } ) );
         }
       }
     } );
@@ -446,6 +524,9 @@ define( function( require ) {
       }
       UtteranceQueue.addToBack( alert );
 
+      // update the location of release
+      self.model.locationOnRelease = model.locationProperty.get();
+
       // reset flags that track description content
       self.initialMovementDescribed = false;
     } );
@@ -472,6 +553,18 @@ define( function( require ) {
 
       // increment timer tracking time since alert description
       this.timeSincePositionAlert += dt * 1000;
+
+      if ( !this.model.isDraggedProperty.get() ) {
+        if ( !this.initialMovementDescribed ) {
+          if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+            if ( this.model.locationProperty.get().equals( this.model.locationOnRelease ) ) {
+              var alert = this.describer.getNoChangeReleaseDescription();
+              UtteranceQueue.addToBack( alert );
+              this.initialMovementDescribed = true;
+            }
+          }
+        }
+      }
     },
 
     getPositionOnSweaterDescription: function() {

@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -57,6 +58,19 @@ define( function( require ) {
   var atTopString = BASEA11yStrings.atTopString;
   var atBottomString = BASEA11yStrings.atBottomString;
   var atRightEdgeString = BASEA11yStrings.atRightEdgeString;
+  var onSweaterString = BASEA11yStrings.onSweaterString;
+  var offSweaterString = BASEA11yStrings.offSweaterString;  
+  var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString;
+  var balloonOnLocationPatternString = BASEA11yStrings.balloonOnLocationPatternString;
+  var closerToObjectPatternString = BASEA11yStrings.closerToObjectPatternString;
+  var sweaterString = BASEA11yStrings.sweaterString;
+  var wallString = BASEA11yStrings.wallString;
+  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString;
+  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
+  var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
+  var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
+  var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
+  var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -64,31 +78,16 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
-  var StringMaps = {
-    DIRECTION_MAP: {
-      UP: upString,
-      DOWN: downString,
-      LEFT: leftString,
-      RIGHT: rightString,
-      UP_RIGHT: upAndToTheRightString,
-      UP_LEFT: upAndToTheLeftString,
-      DOWN_RIGHT: downAndToTheRightString,
-      DOWN_LEFT: downAndToTheLeftString
-    }
-  };
-
-  // threshold for diagonal movement is +/- 15 degrees from diagonals
-  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
-
-  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
-  // of the movement and the direction is determined by getMovementDirectionDescription, see that function for use
-  // of this map
+  // maps balloon direction to a description string
   var BALLOON_DIRECTION_MAP = {
-    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
+    UP: upString,
+    DOWN: downString,
+    LEFT: leftString,
+    RIGHT: rightString,
+    UP_RIGHT: upAndToTheRightString,
+    UP_LEFT: upAndToTheLeftString,
+    DOWN_RIGHT: downAndToTheRightString,
+    DOWN_LEFT: downAndToTheLeftString
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
@@ -220,13 +219,7 @@ define( function( require ) {
       var description;
       var showCharges = this.showChargesProperty.get();
 
-      // a string that peices together attractive state and location.
-      var locationDescriptionString = this.getBalloonLocationDescription();
-      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
-      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
-        attractiveState: attractiveStateDescriptionString,
-        location: locationDescriptionString 
-      } );
+      var attractiveStateAndLocationString = this.getAttractiveStateAndLocationDescription();
 
       if ( showCharges === 'none' ) {
         description = StringUtils.fillIn( balloonShowNoChargesPatternString, {
@@ -295,6 +288,25 @@ define( function( require ) {
       }
 
       return attractiveStateString;
+    },
+
+    /**
+     * Returns a string that combines the balloon's attractive state and location descriptions. Something
+     * like "On center of play area." or "Sticking to wall."
+     * 
+     * @return {string}
+     */
+    getAttractiveStateAndLocationDescription: function() {
+      // a string that peices together attractive state and location.
+      var locationDescriptionString = this.getBalloonLocationDescription();
+      
+      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
+      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+        attractiveState: attractiveStateDescriptionString,
+        location: locationDescriptionString 
+      } );
+
+      return attractiveStateAndLocationString;
     },
 
     /**
@@ -418,17 +430,39 @@ define( function( require ) {
     /**
      * Generally announced right after the balloon as been released, this is read as an alert. Generates
      * something like "Moves toward sweater."
-     * @return {[type]} [description]
+     *
+     * @param {Vector2} location - the current location of the balloon
+     * @param {Vector2} oldLocation - the previous location of the balloon
+     * @return {string}
      */
-    getInitialMovementDescription: function( location, oldLocation ) {
+    getInitialReleaseDescription: function( location, oldLocation ) {
+
+      // the balloon is moving with some initial velocity, describe that
       var velocityString = this.getVelocityString();
       var toObjectString = this.getToObjectString( location, oldLocation );
 
-      var string = StringUtils.fillIn( movesToObjectPatternString, {
+      var description = StringUtils.fillIn( movesToObjectPatternString, {
         velocity: velocityString,
         toObject: toObjectString
       } );
-      return string;
+
+      return description;
+    },
+
+    /**
+     * Produces an alert when there is no change in position.  Indicates that there is no change
+     * and also reminds user where the balloon currently is.
+     * 
+     * @return {string}
+     */
+    getNoChangeReleaseDescription: function() {
+      var noChangeString = noChangeInPositionString;
+      var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescription();
+
+      return StringUtils.fillIn( noChangeAndLocationPatternString, {
+        noChange: noChangeString,
+        location: attractiveStateAndLocationDescription
+      } );
     },
 
     /**
@@ -468,42 +502,16 @@ define( function( require ) {
     },
 
     /**
-     * Get a movement description, which is dependent on the angle of movement, calculated by the change
-     * in position.
-     * 
-     * @param  {Vector2} location   
-     * @param  {Vector2} oldLocation
+     * Get a movement description from the movement direction tracked in the model.  The direction
+     * is one of BalloonDirectionEnum.
+     *
+     * @param {string} direction - one of BalloonDirectionEnum
      * @return {string}
      */
-    getMovementDirectionDescription: function( location, oldLocation ) {
-      var movementString;
+    getMovementDirectionDescription: function( direction ) {
+      var movementString = BALLOON_DIRECTION_MAP[ direction ];
 
-      var dx = location.x - oldLocation.x;
-      var dy = location.y - oldLocation.y;
-      var angle = Math.atan2( dx, dy );
-      var absAngle = Math.abs( angle );
-
-      // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
-      // are moving left/right, and then use the absolute value of angle to determine up/down
-      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
-        movementString = downString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL  .contains( absAngle ) ) {
-
-        // diagonal in the third or fourth quadrants
-        movementString = ( angle > 0 ) ? downAndToTheRightString : downAndToTheLeftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
-        movementString = ( angle > 0 ) ? rightString : leftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
-        movementString = ( angle > 0 ) ? upAndToTheRightString : upAndToTheLeftString;
-      }
-      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
-        movementString = upString;
-      }
-
-      assert && assert( movementString, 'no direction description found for balloon moving at angle ' + angle + ' (radians).' );
+      assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
       return movementString;
     },
 
@@ -531,6 +539,82 @@ define( function( require ) {
 
       assert && assert ( boundaryString, 'No boundary string found for balloon.' );
       return boundaryString;
+    },
+
+    getOnSweaterString: function( onSweater ) {
+     return onSweater ? onSweaterString : offSweaterString;
+    },
+
+    /**
+     * Get the dragging description while the balloon is moving through the play area being dragged.
+     * 
+     * @return {string}
+     */
+    getPlayAreaDragNewRegionDescription: function() {
+
+      // if in a boundary location that touches the edge of the play area, considered "On",
+      // otherwise considered "At" location
+      var balloonCenter = this.balloonModel.getCenter();
+      var nearSide = PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA.contains( balloonCenter.x ) ||
+                     PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA.contains( balloonCenter.x );
+
+      var patternString = nearSide ? balloonOnLocationPatternString : balloonAtLocationPatternString;
+
+      var wallVisible = this.model.wall.isVisibleProperty.get();
+      var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( balloonCenter, wallVisible );
+
+      return StringUtils.fillIn( patternString, {
+        location: locationString 
+      } );
+    },
+
+    /**
+     * Get a progress string toward the sweater, wall, top edge, bottom edge, or center of play area.
+     * 
+     * @return {string}
+     */
+    getPlayAreaDragProgressDescription: function() {
+      var nearestObjectString;
+
+      var centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
+      var centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
+      var balloonCenterX = this.balloonModel.getCenterX();
+      var balloonCenterY = this.balloonModel.getCenterY();
+      var balloonDirection = this.balloonModel.direction;
+
+      if ( balloonDirection === BalloonDirectionEnum.LEFT ) {
+
+        // if right of center, describe closer to center, otherwise closer to sweater
+        nearestObjectString = ( balloonCenterX > centerPlayAreaX ) ? centerOfPlayAreaString : sweaterString;
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.RIGHT ) {
+
+        if ( balloonCenterX < centerPlayAreaX ) {
+
+          // if left of center, describe that we are closer to the center
+          nearestObjectString = centerOfPlayAreaString;
+        }
+        else {
+
+          // otherwise describe closer to wall or righe edge depending on wall visibility
+          nearestObjectString = this.model.wall.isVisibleProperty.get() ? wallString : rightEdgeOfPlayAreaString;
+        }
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.UP ) {
+
+        // below center describe closer to center, otherwise closer to top of play area
+        nearestObjectString = ( balloonCenterY > centerPlayAreaY ) ? centerOfPlayAreaString : topEdgeOfPlayAreaString;
+      }
+      else if ( balloonDirection === BalloonDirectionEnum.DOWN ) {
+
+        // above center describe closer to center, otherwise closer to bottom edge of play area
+        nearestObjectString = ( balloonCenterY < centerPlayAreaY ) ? centerOfPlayAreaString : bottomEdgeOfPlayAreaString;
+      }
+
+      assert && assert( nearestObjectString, 'no nearest object found for movement direction: ' + balloonDirection );
+      return StringUtils.fillIn( closerToObjectPatternString, {
+        object: nearestObjectString
+      } );
     },
 
     /**
@@ -642,32 +726,6 @@ define( function( require ) {
 
       assert && assert( chargeString, 'no description found for sweater with charge: ' + -balloon.chargeProperty.get() );
       return StringUtils.format( BASEA11yStrings.sweaterChargePatternString, neutralityString, chargeString );
-    },
-
-    /**
-     * Get the movement direction for the balloon.  Will be one of BalloonDirectionEnum entires.
-     * @param  {Vector2} location    
-     * @param  {Vector2} oldLocation 
-     * @returns {string}s
-     */
-    getMovementDirection: function( location, oldLocation ) {
-      var delta = location.minus( oldLocation );
-      var direction; // string
-
-      if ( delta.x > 0 ) {
-        direction = BalloonDirectionEnum.RIGHT;
-      }
-      else if ( delta.x < 0 ) {
-        direction = BalloonDirectionEnum.LEFT;
-      }
-      else if ( delta.y > 0 ) {
-        direction = BalloonDirectionEnum.DOWN;
-      }
-      else if ( delta.y < 0 ) {
-        direction = BalloonDirectionEnum.UP;
-      }
-
-      return direction;
     },
 
     /**
@@ -787,24 +845,6 @@ define( function( require ) {
         return StringUtils.format( stringPattern, balloonChargeString, sweaterChargeString );
       }
 
-    },
-
-    /**
-     * Get a description that tells the user where they can find more charges.
-     *
-     * @returns {string}
-     */
-    getChargePositionCue: function() {
-      assert && assert( this.model.sweater.chargeProperty.get() < -MAX_BALLOON_CHARGE, 'trying to find more charges when none remain' );
-
-      // get the closest charge that has not been picked up
-      var closestCharge = this.balloon.getClosestCharge();
-      var directionToCharge = this.balloon.getDirectionToCharge( closestCharge );
-
-      var directionCueString = StringMaps.DIRECTION_MAP[ directionToCharge ];
-      assert && assert( directionCueString, 'no direction found for nearest charge' );
-
-      return StringUtils.format( BASEA11yStrings.morePairsOfChargesStringPattern, directionCueString );
     },
 
     /**
