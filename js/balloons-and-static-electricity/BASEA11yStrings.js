@@ -144,7 +144,6 @@ define( function( require ) {
     leftEdgeString: 'At left edge.',
     rightEdgeString: 'At right edge.',
 
-    nearSweaterString: 'Near sweater.',
     onSweaterPatternStringString: 'On sweater. {0}',
     picksUpNegativeChargesString: 'Picks up negative charges from sweater.',
     nearWallString: 'Near wall.',
@@ -328,6 +327,11 @@ define( function( require ) {
     closerToObjectPatternString: 'Closer to {{object}}.',
     topEdgeOfPlayAreaString: 'top edge of Play Area',
     bottomEdgeOfPlayAreaString: 'bottom edge of Play Area',
+
+    //--------------------------------------------------------------------------
+    // Balloon jumping strings
+    //--------------------------------------------------------------------------
+    nearSweaterString: 'Near sweater.',
 
     //------------------------------------------------------------------------
     // Control panel strings

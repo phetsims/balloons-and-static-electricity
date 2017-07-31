@@ -71,6 +71,7 @@ define( function( require ) {
   var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
   var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
   var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
+  var nearSweaterString = BASEA11yStrings.nearSweaterString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -618,6 +619,28 @@ define( function( require ) {
     },
 
     /**
+     * Get a description of where the balloon jumped to.  Depending on where the balloon goes, there
+     * could be an indication of where the balloon is in the play area, and potentially the state of
+     * the induced charge in the wall.
+     * 
+     * @public
+     * @param  {Vector2} center
+     * @return {string}
+     */
+    getJumpingDescription: function( center ) {
+      var description = '';
+
+      // all jumping is in the x direction
+      var centerX = center.x;
+
+      // determine which description we should use depending on the center location of the balloon
+      if ( centerX === PlayAreaMap.X_LOCATIONS.AT_NEAR_SWEATER ) {
+        description = nearSweaterString;
+      }
+      return description;
+    },
+
+    /**
      * Get a description of the balloon's charge.
      * TODO: This kind of method of getting descriptions based on numerical values in a range
      * could be generalized some how.
@@ -674,32 +697,6 @@ define( function( require ) {
         return balloonChargeDescription;
       }
 
-    },
-
-    getJumpingDescription: function( balloon ) {
-      var balloonCenterX = balloon.getCenter().x;
-
-      var jumpDescription;
-      if ( balloonCenterX === this.model.playArea.atNearSweater ) {
-        jumpDescription = BASEA11yStrings.nearSweaterString;
-      }
-      else if ( balloonCenterX === this.model.playArea.atNearWall ) {
-        if ( this.model.wall.isVisibleProperty.get() ) {
-          jumpDescription = BASEA11yStrings.nearWallString;
-        }
-        else {
-          jumpDescription = BASEA11yStrings.onRightSideOfPlayAreaString;
-        }
-      }
-      else if ( balloonCenterX === this.model.playArea.atCenter ) {
-        jumpDescription = BASEA11yStrings.atCenterOfPlayAreaString;
-      }
-      else if ( balloonCenterX === this.model.playArea.atWall ) {
-        var chargeDescription = this.getBalloonChargeDescription( balloon, true );
-        jumpDescription = StringUtils.format( '{0} {1}', BASEA11yStrings.atWallString, chargeDescription );
-      }
-
-      return jumpDescription;
     },
 
     getSweaterChargeDescription: function( balloon ) {

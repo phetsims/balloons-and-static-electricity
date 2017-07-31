@@ -397,25 +397,25 @@ define( function( require ) {
       {
         keys: [ Input.KEY_J, Input.KEY_W ],
         callback: function() {
-          model.setCenter( new Vector2( X_LOCATIONS.AT_WALL, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_WALL, model.getCenterY() ) );
         }
       },
       {
         keys: [ Input.KEY_J, Input.KEY_S ],
         callback: function() {
-          model.setCenter( new Vector2( X_LOCATIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
         }
       },
       {
         keys: [ Input.KEY_J, Input.KEY_N ],
         callback: function() {
-          model.setCenter( new Vector2( X_LOCATIONS.AT_NEAR_WALL, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_WALL, model.getCenterY() ) );
         }
       },
       {
         keys: [ Input.KEY_J, Input.KEY_C ],
         callback: function() {
-          model.setCenter( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
       }
     ] );    
@@ -572,6 +572,29 @@ define( function( require ) {
           }
         }
       }
+    },
+
+    /**
+     * Jump the balloon to a new location, first muting the UtteranceQueue, then updating position,
+     * then clearing the queue and enabling it once more.  Finally, we will add a custom utterance
+     * to the queue describing the jump interaction.
+     * 
+     * @param  {Vector2} center - new center location for the balloon
+     */
+    jumpBalloon: function( center ) {
+
+      // mute the queue so that none of the normal position updates come through while jumping
+      UtteranceQueue.muted = true;
+
+      // update model position
+      this.model.setCenter( center );
+
+      // clear the queue of utterances that collected as position changed
+      UtteranceQueue.clear();
+
+      // unmute and send a custom alert, depending on where the balloon was moved to
+      UtteranceQueue.muted = false;
+      UtteranceQueue.addToBack( this.describer.getJumpingDescription( center ) );
     },
 
     getPositionOnSweaterDescription: function() {
