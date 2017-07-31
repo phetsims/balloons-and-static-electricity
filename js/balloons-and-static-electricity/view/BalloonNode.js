@@ -318,7 +318,14 @@ define( function( require ) {
               // announce an indication that we are moving closer to the object
               var progressDescription = self.describer.getPlayAreaDragProgressDescription();
               UtteranceQueue.addToBack( new Utterance( progressDescription, {
-                typeId: 'progressAlert'
+                typeId: 'progressAlert',
+                predicate: function() {
+
+                  // only announce a progress update if the balloon has not reached the sweater or wall
+                  var onSweater = self.model.onSweater();
+                  var touchingWall = self.model.touchingWall();
+                  return !onSweater && !touchingWall;
+                }
               } ) );
             }
 
