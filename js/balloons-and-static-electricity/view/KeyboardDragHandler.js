@@ -169,6 +169,7 @@ define( function( require ) {
           this.draggingDisabled = true;
         }
         else {
+          this.draggingDisabled = false;
 
           // keys are no longer down, clear the group
           this.keyGroupDown = null;
