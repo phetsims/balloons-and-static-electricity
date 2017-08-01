@@ -298,6 +298,8 @@ define( function( require ) {
     noChangeInPositionString: 'No change in position',
     noChangeAndLocationPatternString: '{{noChange}}. {{location}}.',
 
+    stillMovingPatternString: 'Still moving towards {{toObject}}.',
+
     //--------------------------------------------------------------------------
     // Balloon Dragging strings
     //--------------------------------------------------------------------------

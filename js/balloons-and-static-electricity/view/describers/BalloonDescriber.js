@@ -77,6 +77,7 @@ define( function( require ) {
   var balloonNearString = BASEA11yStrings.balloonNearString;
   var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
+  var stillMovingPatternString= BASEA11yStrings.stillMovingPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -480,6 +481,31 @@ define( function( require ) {
       } );
 
       return description;
+    },
+
+    /**
+     * Get a description of continuous movement of the balloon after it has been released and is
+     * still moving through the play area.  Will return something like
+     * "Still moving towards sweater."
+     * 
+     * @param {Vector2} location   
+     * @param {Vector2} oldLocation
+     * @return
+     */
+    getContinuousReleaseDescription: function( location, oldLocation ) {
+      var attractedObjectString;
+
+      var deltaX = location.x - oldLocation.x;
+      if ( deltaX > 0 ) {
+        attractedObjectString = wallString;
+      }
+      else {
+        attractedObjectString = sweaterString;
+      }
+
+      return StringUtils.fillIn( stillMovingPatternString, {
+        toObject: attractedObjectString
+      } );
     },
 
     /**

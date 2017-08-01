@@ -42,6 +42,7 @@ define( function( require ) {
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   var DESCRIPTION_REFRESH_RATE = 1000; // in ms
+  var RELEASE_DESCRIPTION_REFRESH_RATE = 2000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
 
   // speed of the balloon to be considered moving slowly, determined empirically
@@ -235,11 +236,14 @@ define( function( require ) {
                 }
               }
             }
-            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+            if ( self.timeSincePositionAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // get subsequent descriptions of movement ("still moving...")
-              // var alert = self.describer.getContinuousMovementDescription();
-              // self.timeSincePositionAlert = 0;
+              alert = self.describer.getContinuousReleaseDescription( location, oldLocation );
+              UtteranceQueue.addToBack( alert );
+
+              // reset timer
+              self.timeSincePositionAlert = 0;
             }
 
             if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
