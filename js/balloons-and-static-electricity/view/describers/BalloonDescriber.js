@@ -19,6 +19,8 @@ define( function( require ) {
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var Range = require( 'DOT/Range' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
@@ -72,6 +74,9 @@ define( function( require ) {
   var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
   var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
   var nearSweaterString = BASEA11yStrings.nearSweaterString;
+  var balloonNearString = BASEA11yStrings.balloonNearString;
+  var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -273,22 +278,40 @@ define( function( require ) {
       } );
     },
 
-    getAttractiveStateDescription: function() {
-      var attractiveStateString = '';
+    /**
+     * Get a description that describes the attractive state or proximity of the balloon, such as
+     * "On...", "sticking to...", "Near..." and so on.
+     * 
+     * @return {string}
+     */
+    getAttractiveStateOrProximityDescription: function() {
+      var string = '';
+
+      var wallVisible = this.wall.isVisibleProperty.get();
+      var balloonRight = this.balloonModel.getRight();
+      var wallLeft = this.wall.x;
 
       if ( this.balloonModel.onSweater() || this.balloonModel.touchingWall() ) {
         if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
-          attractiveStateString = balloonStickingToString;
+
+          // has charged and not dragging, balloon is sticking to the object
+          string = balloonStickingToString;
         }
         else {
-          attractiveStateString = balloonTouchingString;
+          string = balloonTouchingString;
         }
       }
+      else if ( this.balloonModel.nearWall() || ( balloonRight === wallLeft && !wallVisible ) ) {
+
+        // use 'near' if near the wall, or at the wall location when the the wall is invisible
+        // because we are near the right edge
+        string = balloonNearString;
+      }
       else {
-        attractiveStateString = balloonOnString;
+        string = balloonOnString;
       }
 
-      return attractiveStateString;
+      return string;
     },
 
     /**
@@ -301,7 +324,7 @@ define( function( require ) {
       // a string that peices together attractive state and location.
       var locationDescriptionString = this.getBalloonLocationDescription();
       
-      var attractiveStateDescriptionString = this.getAttractiveStateDescription();
+      var attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
       var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
         attractiveState: attractiveStateDescriptionString,
         location: locationDescriptionString 
@@ -326,17 +349,26 @@ define( function( require ) {
 
     /**
      * Get the point on the balloon that should be described. Generally, this is the balloon center.  If the balloon
-     * is touching the sweater or the wall, the point of touching should be described, so the touch point is returned.
+     * is touching the sweater or the wall, the point of touching should be described.  If near the wall, the described
+     * point is the edge of the wall to accomplish a description like "Yellow balloon, Near upper wall".
      * 
      * @return {Vector2}
      */
     getDescribedPoint: function() {
       var describedBalloonPosition;
-      if ( this.balloonModel.touchingWall() ) {
-        describedBalloonPosition = this.balloonModel.getWallTouchingCenter(); 
+
+      var balloonRight = this.balloonModel.getRight();
+
+      // if the balloon is touching the wall (regardless of whether or not it is visible, describe
+      // its right edge)
+      if ( PlayAreaMap.COLUMN_RANGES.RIGHT_EDGE.contains( balloonRight ) ) {
+        describedBalloonPosition = new Vector2( balloonRight, this.balloonModel.getCenterY() ); 
       }
       else if ( this.balloonModel.onSweater() ) {
         describedBalloonPosition = this.balloonModel.getSweaterTouchingCenter();
+      }
+      else if ( this.balloonModel.nearWall() ) {
+        describedBalloonPosition = new Vector2( this.wall.x, this.balloonModel.getCenterY() );
       }
       else {
         describedBalloonPosition = this.balloonModel.getCenter();
@@ -636,6 +668,32 @@ define( function( require ) {
       // determine which description we should use depending on the center location of the balloon
       if ( centerX === PlayAreaMap.X_LOCATIONS.AT_NEAR_SWEATER ) {
         description = nearSweaterString;
+      }
+      else {
+
+        // general location description for the balloon
+        var locationDescription = this.getAttractiveStateAndLocationDescription();
+
+        // state variables used to generate description content
+        var wallVisible = this.wall.isVisibleProperty.get();
+        var inducingCharge = this.balloonModel.inducingCharge;
+        var showCharges = this.showChargesProperty.get();
+
+        // if there is an induced charge and the charges are visible, describe induced charge
+        if ( wallVisible && inducingCharge && showCharges === 'all' ) {
+          var inducedChargeDescription = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          description = StringUtils.fillIn( locationAndInducedChargePatternString, {
+            location: locationDescription,
+            inducedCharge: inducedChargeDescription
+          } );
+        }
+        else {
+
+          // otherwise, only provide the location description
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: locationDescription
+          } );
+        }
       }
       return description;
     },

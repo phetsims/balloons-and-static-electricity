@@ -365,7 +365,7 @@ define( function( require ) {
      */
     nearWall: function() {
       var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_WALL && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_WALL && model.wall.isVisibleProperty.get() );
+      return ( this.getCenter().x >= PlayAreaMap.X_LOCATIONS.AT_NEAR_WALL && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_WALL && model.wall.isVisibleProperty.get() );
     },
 
     /**
@@ -656,6 +656,15 @@ define( function( require ) {
      */
     getCenterX: function() {
       return this.locationProperty.get().x + this.width / 2;
+    },
+
+    /**
+     * Get the right edge of the balloon.
+     * 
+     * @return {number}
+     */
+    getRight: function() {
+      return this.locationProperty.get().x + this.width;
     },
 
     /**

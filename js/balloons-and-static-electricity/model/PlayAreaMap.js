@@ -17,6 +17,8 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
 
   // constants
+  var LANDMARK_WIDTH = 10;
+
   // critical x locations for the balloon (relative to the balloon's center)
   var X_LOCATIONS = {
     AT_LEFT_EDGE: 67,
@@ -33,6 +35,16 @@ define( function( require ) {
     AT_TOP: 111,
     AT_BOTTOM: 393,
     AT_CENTER_PLAY_AREA: 249
+  };
+
+  var LANDMARK_RANGES = {
+    AT_LEFT_EDGE: new Range( X_LOCATIONS.AT_LEFT_EDGE - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_LEFT_EDGE + LANDMARK_WIDTH / 2 ),
+    AT_NEAR_SWEATER: new Range( X_LOCATIONS.AT_NEAR_SWEATER - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_NEAR_SWEATER + LANDMARK_WIDTH / 2 ),
+    AT_CENTER_PLAY_AREA: new Range( X_LOCATIONS.AT_CENTER_PLAY_AREA - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_CENTER_PLAY_AREA + LANDMARK_WIDTH / 2 ),
+    AT_NEAR_WALL: new Range( X_LOCATIONS.AT_NEAR_WALL - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_NEAR_WALL + LANDMARK_WIDTH / 2 ),
+    AT_WALL: new Range( X_LOCATIONS.AT_WALL - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_WALL + LANDMARK_WIDTH / 2 ),
+    AT_NEAR_RIGHT_EDGE: new Range( X_LOCATIONS.AT_NEAR_RIGHT_EDGE - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_NEAR_RIGHT_EDGE + LANDMARK_WIDTH / 2 ),
+    AT_RIGHT_EDGE: new Range( X_LOCATIONS.AT_RIGHT_EDGE - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_RIGHT_EDGE + LANDMARK_WIDTH / 2 )
   };
 
   var COLUMN_RANGES = {
@@ -57,11 +69,12 @@ define( function( require ) {
     Y_LOCATIONS: Y_LOCATIONS,
     COLUMN_RANGES: COLUMN_RANGES,
     ROW_RANGES: ROW_RANGES,
+    LANDMARK_RANGES: LANDMARK_RANGES,
     WIDTH: 768,
     HEIGHT: 504,
 
     /**
-     * Get the column of the play area for the a given location in the model.
+     * Get the column of the play area for the a given location in the model, including landmark locations.
      * 
      * @param  {Vector2} location
      * @return {string}         

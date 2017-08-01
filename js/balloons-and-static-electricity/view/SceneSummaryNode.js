@@ -20,6 +20,7 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
   var Property = require( 'AXON/Property' );
 
   // strings
@@ -182,7 +183,7 @@ define( function( require ) {
 
       // description for induced charge in the wall if it is visible
       if ( this.model.wall.isVisibleProperty.get() && balloon.inducingCharge ) {
-        var inducedChargeString = wallNode.wallDescriber.getInducedChargeDescription( balloon, balloonLabel );
+        var inducedChargeString = WallDescriber.getInducedChargeDescription( balloon, balloonLabel, this.model.wall.isVisibleProperty.get() );
       }
 
       // if there is an induced charge, add it to the description - otherwise, just describe the balloon

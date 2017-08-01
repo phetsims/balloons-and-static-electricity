@@ -268,6 +268,7 @@ define( function( require ) {
     balloonStickingToString: 'Sticking to',
     balloonOnString: 'On',
     balloonTouchingString: 'Touching',
+    balloonNearString: 'Near',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
     balloonNoString: 'no',
@@ -332,6 +333,7 @@ define( function( require ) {
     // Balloon jumping strings
     //--------------------------------------------------------------------------
     nearSweaterString: 'Near sweater.',
+    locationAndInducedChargePatternString: '{{location}}.  {{inducedCharge}}.',
 
     //------------------------------------------------------------------------
     // Control panel strings

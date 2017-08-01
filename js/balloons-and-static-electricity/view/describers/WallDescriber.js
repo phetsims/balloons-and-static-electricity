@@ -76,6 +76,8 @@ define( function( require ) {
      */
     getWallDescription: function( yellowBalloon, greenBalloon ) {
 
+      var wallVisible = this.model.isVisibleProperty.get();
+
       // if no charges are shown, the location is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
         return StringUtils.fillIn( singleStatementPatternString, {
@@ -87,13 +89,13 @@ define( function( require ) {
         var inducedChargeString;
         var yellowBalloonInducedChargeString;
         var greenBalloonInducedChargeString;
-        if ( this.model.isVisibleProperty.get() && this.showChargesProperty.get() === 'all' ) {
+        if ( wallVisible && this.showChargesProperty.get() === 'all' ) {
           if ( yellowBalloon.inducingCharge ) {
-            yellowBalloonInducedChargeString = this.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString );
+            yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible );
             inducedChargeString = yellowBalloonInducedChargeString;
           }
           if ( greenBalloon.inducingCharge && greenBalloon.isVisibleProperty.get() ) {
-            greenBalloonInducedChargeString = this.getInducedChargeDescription( greenBalloon, greenBalloonLabelString );
+            greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible );
           }
         }
 
@@ -137,10 +139,12 @@ define( function( require ) {
         } );  
       }    
     },
+  }, {
 
     /**
      * Get an induced charge description for a balloon, based on the positions of charges in the wall.  We find the
      * closest charge to the balloon, and determine how far it has been displaced from its initial position.
+     * @static
      *
      * @private
      * @param  {Balloon} balloon
@@ -160,22 +164,21 @@ define( function( require ) {
     },
 
     /**
-     * Get the induced charge description for the wall.  The description contains the location of the displaced
-     * charges, which balloon is inducing charge, and a relative description of how much induced charge there
-     * is.
-     *
+     * Get the description for induced charge of the wall.
+     * 
+     * @static
      * @param  {BalloonModel} balloon
-     * @param  {string} balloonLabel
+     * @param  {string} balloonLabel - the accessible label for the balloon
+     * @param  {boolean} wallVisible
      * @return {string}
      */
-    getInducedChargeDescription: function( balloon, balloonLabel ) {
+    getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
 
-      // get the variable parts of the description to place in the pattern
       var closestCharge = balloon.closestChargeInWall;
       var location = closestCharge.locationProperty.get();
-      var isVisible = this.model.isVisibleProperty.get();
-      var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, isVisible );
-      var inducedChargeAmount = this.getInducedChargeAmountDescription( balloon );
+
+      var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
+      var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
       return StringUtils.fillIn( inducedChargePatternString, {
         wallLocation: chargeLocationString,

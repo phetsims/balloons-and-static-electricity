@@ -30,9 +30,11 @@ define( function( require ) {
     Node.call( this, { pickable: false } );
     var blueOptions = { fill: 'rgba(0,0,255,0.5)' };
     var greyOptions = { fill: 'rgba(200,200,200,0.5)' };
+    var redOptions = { fill: 'rgba(250,0,50,0.45)' };
 
     var columns = PlayAreaMap.COLUMN_RANGES;
     var rows = PlayAreaMap.ROW_RANGES;
+    var landmarks = PlayAreaMap.LANDMARK_RANGES;
 
     // draw each column
     var self = this;
@@ -62,6 +64,16 @@ define( function( require ) {
           self.addChild( new Rectangle( 0, minValue, PlayAreaMap.WIDTH, height, greyOptions ) );
         }
         i++;
+      }
+    }
+
+    // draw rectangles around the landmark regions
+    for ( range in landmarks ) {
+      if ( landmarks.hasOwnProperty( range ) ) {
+        minValue = Math.max( layoutBounds.minX, landmarks[ range ].min );
+        maxValue = Math.min( layoutBounds.maxX, landmarks[ range ].max );
+        var landmarkWidth = maxValue - minValue;
+        self.addChild( new Rectangle( minValue, 0, landmarkWidth, PlayAreaMap.HEIGHT, redOptions ) );
       }
     }
 
