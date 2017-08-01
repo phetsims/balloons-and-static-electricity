@@ -341,6 +341,14 @@ define( function( require ) {
       }
     } );
 
+    // when the balloon is released, reset the timer
+    this.isDraggedProperty.link( function( isDragged ) {
+      // reset time since release to 0
+      if ( !isDragged ) {
+        self.timeSinceRelease = 0;
+      }
+    } );
+
     this.reset();
 
   }
@@ -746,9 +754,6 @@ define( function( require ) {
 
         // drag the balloon, which may cause it to pick up charges
         this.dragBalloon( model, dt );
-
-        // reset time since release to 0
-        this.timeSinceRelease = 0;
       }
       else {
         this.applyForce( dt );
