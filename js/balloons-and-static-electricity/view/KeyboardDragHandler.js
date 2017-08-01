@@ -61,6 +61,14 @@ define( function( require ) {
     // @private
     this.onDrag = options.onDrag;
 
+    // @private {keys: <Array.number>, callback: <Function>} - when a hotkey group is down, dragging
+    // will be disabled until all hotkeys are up again
+    this.keyGroupDown = null;
+
+    // @private {boolean} - when a hotkey group is pressed down, dragging will be disabled until
+    // all keys are up again in case any of the movemene keys are also used as hotkeys
+    this.draggingDisabled = false;
+
     // @public (read-only) - listener that will be added to the node for dragging behavior, made public on the Object
     // so that a KeyboardDragHandler can be added via myNode.addAccessibleInputListener( myKeyboardDragHandler )
     this.keydown = function( event ) {
@@ -146,41 +154,59 @@ define( function( require ) {
           }
         }
 
-        // if keys are in order, call the callback associated with the group
+        // if keys are in order, call the callback associated with the group, and disable dragging until
+        // all hotkeys associated with that group are up again
         if ( keysInOrder ) {
+          this.keyGroupDown = this.hotkeyGroups[ j ];
           this.hotkeyGroups[ j ].callback();
         }
       }
 
-      // handle the change in position
-      var deltaX = 0;
-      var deltaY = 0;
-      var positionDelta = this.shiftKeyDown() ? ( this.positionDelta * this.shiftKeyMultiplier ) : this.positionDelta;
+      // if a key group is down, check to see if any of those keys are still down - if so, we will disable dragging
+      // until all of them are up
+      if ( this.keyGroupDown ) {
+        if ( this.keyInListDown( this.keyGroupDown.keys ) ) {
+          this.draggingDisabled = true;
+        }
+        else {
 
-      if ( this.leftMovementKeysDown() ) {
-        deltaX = -positionDelta;
-      }
-      if ( this.rightMovementKeysDown() ) {
-        deltaX = positionDelta;
-      }
-      if ( this.upMovementKeysDown() ) {
-        deltaY = -positionDelta;
-      }
-      if ( this.downMovementKeysDown() ) {
-        deltaY = positionDelta;
+          // keys are no longer down, clear the group
+          this.keyGroupDown = null;
+        }
       }
 
-      // determine if the new position is within the constraints of the drag bounds
-      var vectorDelta = new Vector2( deltaX, deltaY );
-      var newPosition = this.positionProperty.get().plus( vectorDelta );
-      newPosition = this._dragBounds.closestPointTo( newPosition );
+      if ( !this.draggingDisabled ) {
 
-      // update the position if it is different
-      if ( !newPosition.equals( this.positionProperty.get() ) ) {
-        this.positionProperty.set( newPosition );
+        // handle the change in position
+        var deltaX = 0;
+        var deltaY = 0;
+        var positionDelta = this.shiftKeyDown() ? ( this.positionDelta * this.shiftKeyMultiplier ) : this.positionDelta;
 
-        // on successful drag, call the optional onDrag function
-        this.onDrag();
+        if ( this.leftMovementKeysDown() ) {
+          deltaX = -positionDelta;
+        }
+        if ( this.rightMovementKeysDown() ) {
+          deltaX = positionDelta;
+        }
+        if ( this.upMovementKeysDown() ) {
+          deltaY = -positionDelta;
+        }
+        if ( this.downMovementKeysDown() ) {
+          deltaY = positionDelta;
+        }
+
+        // determine if the new position is within the constraints of the drag bounds
+        var vectorDelta = new Vector2( deltaX, deltaY );
+        var newPosition = this.positionProperty.get().plus( vectorDelta );
+        newPosition = this._dragBounds.closestPointTo( newPosition );
+
+        // update the position if it is different
+        if ( !newPosition.equals( this.positionProperty.get() ) ) {
+          this.positionProperty.set( newPosition );
+
+          // on successful drag, call the optional onDrag function
+          this.onDrag();
+        }
       }
     },
 
