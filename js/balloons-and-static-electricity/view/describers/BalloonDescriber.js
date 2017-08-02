@@ -727,6 +727,10 @@ define( function( require ) {
       return description;
     },
 
+    getSweaterRubbingDescription: function() {
+      
+    },
+
     /**
      * Get a description of the balloon's charge.
      * TODO: This kind of method of getting descriptions based on numerical values in a range

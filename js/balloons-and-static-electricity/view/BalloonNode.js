@@ -221,6 +221,7 @@ define( function( require ) {
       self.translation = location;
 
       // everything else for a11y - compose the alert that needs to be sent to assistive technology
+      // TODO: Can all this be moved to the view step?
       if ( oldLocation ) {
         if ( self.model.isVisibleProperty.get() ) {
           if ( !self.model.isDraggedProperty.get() ) {
@@ -259,7 +260,7 @@ define( function( require ) {
           }
           else {
 
-            // balloon is moving due to dragging
+            // balloon is moving due to dragging, describe the dragging at this refresh rate
             if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
               // if we changed directions since the last description, alert the new direction
@@ -269,70 +270,87 @@ define( function( require ) {
                 UtteranceQueue.addToBack( directionString );
               }
 
+              if ( self.model.onSweater() ) {
+
+                // if we are dragging on the sweater, get an alert that describes movement and charge pickup
+
+
+              }
+              else if ( self.model.touchingWall() ) {
+
+                // if we are dragging along the wall, get an alert that describes the movement and
+                // behavior of charges
+
+              }
+              else {
+
+                // we are being dragged through the play area
+                // while moving slowly, we will add indications that we are very close to objects
+                var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
+                if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
+
+                  // if we become "very close" to the sweater while moving slowly, announce that immediately
+                  if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
+                    if ( self.model.isNearSweater ) {
+                      UtteranceQueue.addToBack( veryCloseToSweaterString );
+                    }
+                  }
+
+                  // if we become "very close" to the wall while moving slowly, announce that immediately
+                  if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
+                    if ( self.model.isNearWall ) {
+                      UtteranceQueue.addToBack( veryCloseToWallString );
+                    }
+                  }
+
+                  // if we become "very close" to the right of the play area while moving slowly, announce that immediately
+                  if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
+                    if ( self.model.isNearRightEdge ) {
+                      UtteranceQueue.addToBack( veryCloseToRightEdgeString );
+                    }
+                  }
+                }
+
+                var progressThroughRegion = self.model.getProgressThroughRegion();
+                var notDiagonal = !self.model.movingDiagonally();
+                if ( progressThroughRegion <= 0.50 && notDiagonal ) {
+
+                  // we are less than 50 percent through the current play area region and we are moving horizontally,
+                  // so announce our current location
+                  var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
+                  UtteranceQueue.addToBack( new Utterance( draggingDescription, {
+                    typeId: 'locationAlert'
+                  } ) );
+                }
+                else if ( progressThroughRegion > 0.50 && notDiagonal ) {
+
+                  // we are greater than 50 percent through the play area region and moving horizontally so
+                  // announce an indication that we are moving closer to the object
+                  var progressDescription = self.describer.getPlayAreaDragProgressDescription();
+                  UtteranceQueue.addToBack( new Utterance( progressDescription, {
+                    typeId: 'progressAlert',
+                    predicate: function() {
+
+                      // only announce a progress update if the balloon has not reached the sweater or wall
+                      var onSweater = self.model.onSweater();
+                      var touchingWall = self.model.touchingWall();
+                      return !onSweater && !touchingWall;
+                    }
+                  } ) );
+                }
+              }
+
+              // if we are enter or leave the sweater, announce that immediately
+              if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+                var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
+                UtteranceQueue.addToBack( sweaterChangeString );
+              }
+
+              // TODO: if we touch the wall, announce that immedately here
+ 
               // reset timer
               self.timeSincePositionAlert = 0;
             }
-
-            // if we are enter or leave the sweater, announce that immediately
-            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
-              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
-              UtteranceQueue.addToBack( sweaterChangeString );
-            }
-
-            // while moving slowly, we will add indications that we are very close to objects
-            var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
-            if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
-
-              // if we become "very close" to the sweater while moving slowly, announce that immediately
-              if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
-                if ( self.model.isNearSweater ) {
-                  UtteranceQueue.addToBack( veryCloseToSweaterString );
-                }
-              }
-
-              // if we become "very close" to the wall while moving slowly, announce that immediately
-              if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
-                if ( self.model.isNearWall ) {
-                  UtteranceQueue.addToBack( veryCloseToWallString );
-                }
-              }
-
-              // if we become "very close" to the right of the play area while moving slowly, announce that immediately
-              if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
-                if ( self.model.isNearRightEdge ) {
-                  UtteranceQueue.addToBack( veryCloseToRightEdgeString );
-                }
-              }
-            }
-
-            var progressThroughRegion = self.model.getProgressThroughRegion();
-            var notDiagonal = !self.model.movingDiagonally();
-            if ( progressThroughRegion <= 0.50 && notDiagonal ) {
-
-              // we are less than 50 percent through the current play area region and we are moving horizontally,
-              // so announce our current location
-              var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
-              UtteranceQueue.addToBack( new Utterance( draggingDescription, {
-                typeId: 'locationAlert'
-              } ) );
-            }
-            else if ( progressThroughRegion > 0.50 && notDiagonal ) {
-
-              // we are greater than 50 percent through the play area region and moving horizontally so
-              // announce an indication that we are moving closer to the object
-              var progressDescription = self.describer.getPlayAreaDragProgressDescription();
-              UtteranceQueue.addToBack( new Utterance( progressDescription, {
-                typeId: 'progressAlert',
-                predicate: function() {
-
-                  // only announce a progress update if the balloon has not reached the sweater or wall
-                  var onSweater = self.model.onSweater();
-                  var touchingWall = self.model.touchingWall();
-                  return !onSweater && !touchingWall;
-                }
-              } ) );
-            }
-
           }
         }
       }
