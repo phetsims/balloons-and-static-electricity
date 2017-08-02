@@ -44,6 +44,7 @@ define( function( require ) {
   var DESCRIPTION_REFRESH_RATE = 1000; // in ms
   var RELEASE_DESCRIPTION_REFRESH_RATE = 4000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
+  var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500;
 
   // speed of the balloon to be considered moving slowly, determined empirically
   var SLOW_BALLOON_SPEED = 0.08;
@@ -339,18 +340,18 @@ define( function( require ) {
                   } ) );
                 }
               }
-
-              // if we are enter or leave the sweater, announce that immediately
-              if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
-                var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
-                UtteranceQueue.addToBack( sweaterChangeString );
-              }
-
-              // TODO: if we touch the wall, announce that immedately here
  
               // reset timer
               self.timeSincePositionAlert = 0;
             }
+            
+            // if we are enter or leave the sweater, announce that immediately
+            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
+              UtteranceQueue.addToBack( sweaterChangeString );
+            }
+
+            // TODO: if we touch the wall, announce that immedately here
           }
         }
       }
@@ -595,7 +596,7 @@ define( function( require ) {
       // alert if it doesn't move within the time delay
       if ( !this.model.isDraggedProperty.get() ) {
         if ( !this.initialMovementDescribed ) {
-          if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+          if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
             if ( touchingReleasePoint ) {
               var alert = this.describer.getNoChangeReleaseDescription();
