@@ -42,7 +42,7 @@ define( function( require ) {
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   var DESCRIPTION_REFRESH_RATE = 1000; // in ms
-  var RELEASE_DESCRIPTION_REFRESH_RATE = 2000; // in ms
+  var RELEASE_DESCRIPTION_REFRESH_RATE = 4000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
 
   // speed of the balloon to be considered moving slowly, determined empirically
@@ -114,8 +114,9 @@ define( function( require ) {
     // so that the first movement is described
     this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
 
-    // @private (a11y) - a flag that tracks if the initial movmement of the balloon after release has
-    // been described. Gets reset whenever the balloon is picked up.
+    // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
+    // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
+    // the balloon is sticking to the wall
     this.initialMovementDescribed = false;
 
     var originalChargesNode = new Node( {
@@ -236,7 +237,7 @@ define( function( require ) {
                 }
               }
             }
-            if ( self.timeSincePositionAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
+            else if ( self.timeSincePositionAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // get subsequent descriptions of movement ("still moving...")
               alert = self.describer.getContinuousReleaseDescription( location, oldLocation );
@@ -245,8 +246,7 @@ define( function( require ) {
               // reset timer
               self.timeSincePositionAlert = 0;
             }
-
-            if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
+            else if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
                  self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
 
               // immediately announce that we are touching something and describe
@@ -458,6 +458,14 @@ define( function( require ) {
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
       self.keyboardDragHandler.dragBounds = self.getDragBounds();
+
+      // if the f
+      if ( !isVisible ) {
+        if ( self.model.getRight() === globalModel.wall.x ) {
+          self.initialMovementDescribed = false;
+        }
+      }
+
     } );
 
     // when the "Grab Balloon" button is pressed, focus the dragable node and set to dragged state
@@ -565,10 +573,13 @@ define( function( require ) {
       // increment timer tracking time since alert description
       this.timeSincePositionAlert += dt * 1000;
 
+      // when the balloon is released (either from dragging or from the wall being removed), announce an
+      // alert if it doesn't move within the time delay
       if ( !this.model.isDraggedProperty.get() ) {
         if ( !this.initialMovementDescribed ) {
           if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
-            if ( this.model.locationProperty.get().equals( this.model.locationOnRelease ) ) {
+            var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
+            if ( touchingReleasePoint ) {
               var alert = this.describer.getNoChangeReleaseDescription();
               UtteranceQueue.addToBack( alert );
               this.initialMovementDescribed = true;

@@ -343,6 +343,7 @@ define( function( require ) {
 
     // when the balloon is released, reset the timer
     this.isDraggedProperty.link( function( isDragged ) {
+
       // reset time since release to 0
       if ( !isDragged ) {
         self.timeSinceRelease = 0;
@@ -350,7 +351,6 @@ define( function( require ) {
     } );
 
     this.reset();
-
   }
 
   balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
@@ -522,6 +522,17 @@ define( function( require ) {
     nearRightEdge: function() {
       var model = this.balloonsAndStaticElectricityModel;
       return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_RIGHT_EDGE && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE && !model.wall.isVisibleProperty.get() );
+    },
+
+    /**
+     * Returns whether or not the right edge of the balloon is at the wall location, regardless of 
+     * balloon or wall visibility.  Useful for checking whether the balloon is at the wall location
+     * when the wall is removed.
+     * 
+     * @return {boolean}
+     */
+    rightAtWallLocation: function() {
+      return this.getRight() === this.balloonsAndStaticElectricityModel.wall.x;
     },
 
     /**
@@ -709,6 +720,18 @@ define( function( require ) {
       var centerX = this.locationProperty.get().x;
       var centerY = this.getCenter().y;
       return new Vector2( centerX, centerY );
+    },
+
+    /**
+     * Returns whether or not this balloon has any charge.  Just a helper function to avoid directly
+     * getting the Property value everywhere.
+     * @public
+     * @return {boolean}
+     */
+    isCharged: function() {
+
+      // value will be negative (electrons)
+      return this.chargeProperty.get() < 0;
     },
 
     //reset balloon to initial state

@@ -164,9 +164,6 @@ define( function( require ) {
     this.addChild( yellowBalloonCueNode );
     this.addChild( greenBalloonCueNode );
 
-    // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];
-
     // when one of the balloons is picked up, move its content and cue nodes to front of their
     // respective parents
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
@@ -179,6 +176,9 @@ define( function( require ) {
         greenBalloonCueNode.moveToFront();
       }
     } );
+
+    // set the accessible order: sweater, balloons wall
+    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];
 
     //--------------------------------------------------------------------------
     // debugging

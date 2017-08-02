@@ -114,6 +114,20 @@ define( function( require ) {
     greenBalloon.isVisibleProperty.link( updateChargePositions );
     yellowBalloon.chargeProperty.link( updateChargePositions );
     greenBalloon.chargeProperty.link( updateChargePositions );
+
+    // if a balloon was stuck to the wall and visible when the wall becomes invisible, we need to
+    // notify that the balloon was released by reseting the timer
+    var balloons = [ yellowBalloon, greenBalloon ];
+    this.isVisibleProperty.link( function( isVisible ) {
+      if ( !isVisible ) {
+        for ( var i = 0; i < balloons.length; i++ ) {
+          var balloon = balloons[ i ];
+          if ( balloon.isVisibleProperty.get() && balloon.rightAtWallLocation() && balloon.isCharged() ) {
+            balloon.timeSinceRelease = 0;
+          }
+        }
+      }
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'WallModel', WallModel );

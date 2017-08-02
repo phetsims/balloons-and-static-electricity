@@ -280,12 +280,11 @@ define( function( require ) {
     // Balloon interaction strings
     //--------------------------------------------------------------------------
     grabbedString: 'Grabbed.',
-    balloonReleasedPatternString: '{{balloon}} released.',
-
+    releasedString: 'Released.',
     //--------------------------------------------------------------------------
     // Balloon movement strings
     //--------------------------------------------------------------------------
-    movesToObjectPatternString: 'Moves {{velocity}} {{toObject}}.',
+    movesToObjectPatternString: '{{balloonLabel}} moves {{velocity}} {{toObject}}.',
 
     towardsSweaterString: 'towards sweater',
     toWallString: 'to wall',
@@ -295,7 +294,7 @@ define( function( require ) {
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
 
-    noChangeInPositionString: 'No change in position',
+    noChangeInPositionPatternString: '{{balloonLabel}}, no change in position',
     noChangeAndLocationPatternString: '{{noChange}}. {{location}}.',
 
     stillMovingPatternString: 'Still moving towards {{toObject}}.',

@@ -40,7 +40,7 @@ define( function( require ) {
   var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString;
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
   var grabbedString = BASEA11yStrings.grabbedString;
-  var balloonReleasedPatternString = BASEA11yStrings.balloonReleasedPatternString;
+  var releasedString = BASEA11yStrings.releasedString;
   var movesToObjectPatternString = BASEA11yStrings.movesToObjectPatternString;
   var towardsSweaterString = BASEA11yStrings.towardsSweaterString;
   var toWallString = BASEA11yStrings.toWallString;
@@ -71,7 +71,7 @@ define( function( require ) {
   var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
   var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
   var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
-  var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
+  var noChangeInPositionPatternString = BASEA11yStrings.noChangeInPositionPatternString;
   var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
   var nearSweaterString = BASEA11yStrings.nearSweaterString;
   var balloonNearString = BASEA11yStrings.balloonNearString;
@@ -456,9 +456,7 @@ define( function( require ) {
      * @return {string}
      */
     getReleasedAlert: function() {
-      return StringUtils.fillIn( balloonReleasedPatternString, {
-        balloon: this.accessibleLabel
-      } );
+      return releasedString;
     },
 
     /**
@@ -476,6 +474,7 @@ define( function( require ) {
       var toObjectString = this.getToObjectString( location, oldLocation );
 
       var description = StringUtils.fillIn( movesToObjectPatternString, {
+        balloonLabel: this.accessibleLabel,
         velocity: velocityString,
         toObject: toObjectString
       } );
@@ -515,7 +514,11 @@ define( function( require ) {
      * @return {string}
      */
     getNoChangeReleaseDescription: function() {
-      var noChangeString = noChangeInPositionString;
+
+      var noChangeString = StringUtils.fillIn( noChangeInPositionPatternString, {
+        balloonLabel: this.accessibleLabel
+      } );
+
       var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescription();
 
       return StringUtils.fillIn( noChangeAndLocationPatternString, {
