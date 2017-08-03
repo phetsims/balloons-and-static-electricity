@@ -182,6 +182,12 @@ define( function( require ) {
     } );
     this.dragVelocityProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
+    // @private string - the current row of the play area for the balloon
+    this.playAreaColumnProperty = new Property( null );
+
+    // @private string - the current column of the play area for the balloon
+    this.playAreaRowProperty = new Property( null );
+
     //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon
@@ -264,12 +270,6 @@ define( function( require ) {
 
     // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
     this.previousIsNearRightEdge = false;
-
-    // @private string - the current row of the play area for the balloon
-    this.playAreaColumn = null;
-
-    // @private string - the current column of the play area for the balloon
-    this.playAreaRow = null;
 
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     this.balloonLabel = labelString;
@@ -617,11 +617,11 @@ define( function( require ) {
       var range;
       var difference;
       if ( this.movingHorizontally() || this.movingDiagonally() ) {
-        range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumn ];
+        range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumnProperty.get() ];
         difference = this.getCenter().x - range.min;
       }
       else if ( this.movingVertically() ) {
-        range = PlayAreaMap.ROW_RANGES[ this.playAreaRow ];
+        range = PlayAreaMap.ROW_RANGES[ this.playAreaRowProperty.get() ];
         difference = this.getCenter().y - range.min;
       }
 

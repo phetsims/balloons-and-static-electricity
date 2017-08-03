@@ -83,8 +83,8 @@ define( function( require ) {
         balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
 
         // update the balloon play area row and column
-        balloon.playAreaRow = PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() );
-        balloon.playAreaColumn = PlayAreaMap.getPlayAreaColumn( balloon.getCenter() );
+        balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() ) );
+        balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter() ) );
       } );
     } ); 
 

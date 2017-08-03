@@ -16,6 +16,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var Property = require( 'AXON/Property' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
@@ -36,12 +37,13 @@ define( function( require ) {
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
   var Line = require( 'SCENERY/nodes/Line' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
-  var DESCRIPTION_REFRESH_RATE = 1000; // in ms
+  var DESCRIPTION_REFRESH_RATE = 2000; // in ms
   var RELEASE_DESCRIPTION_REFRESH_RATE = 4000; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500;
@@ -114,6 +116,8 @@ define( function( require ) {
     // is moving due to an applied force, we will alert a new description, intially the refresh rate
     // so that the first movement is described
     this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
+
+    this.timeSinceReleaseAlert = 0;
 
     // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
@@ -225,28 +229,28 @@ define( function( require ) {
       // TODO: Can all this be moved to the view step?
       if ( oldLocation ) {
         if ( self.model.isVisibleProperty.get() ) {
-          if ( !self.model.isDraggedProperty.get() ) {
 
-            var alert;
+          var alert;
+          if ( !self.model.isDraggedProperty.get() ) {
             if ( !self.initialMovementDescribed ) {
               if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
 
                 // get the initial description of balloon movement upon release
                 self.initialMovementDescribed = true;
-                if ( !location.equals(oldLocation) ) {
+                if ( !location.equals( oldLocation ) ) {
                   alert = self.describer.getInitialReleaseDescription( location, oldLocation );
                   UtteranceQueue.addToBack( alert );
                 }
               }
             }
-            else if ( self.timeSincePositionAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
+            else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // get subsequent descriptions of movement ("still moving...")
               alert = self.describer.getContinuousReleaseDescription( location, oldLocation );
               UtteranceQueue.addToBack( alert );
 
               // reset timer
-              self.timeSincePositionAlert = 0;
+              self.timeSinceReleaseAlert = 0;
             }
             else if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
                  self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
@@ -261,8 +265,23 @@ define( function( require ) {
           }
           else {
 
-            // balloon is moving due to dragging, describe the dragging at this refresh rate
-            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+            // describe how the balloon moves due to dragging
+
+            // if we enter or leave the sweater, announce that immediately
+            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
+              UtteranceQueue.addToBack( sweaterChangeString );
+            }
+
+            if ( self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
+              if ( self.model.direction === BalloonDirectionEnum.RIGHT ) {
+                var touchingWallString = self.describer.getWallRubbingDescription();
+                UtteranceQueue.addToBack( touchingWallString );                
+              }
+            }
+
+            // describe the dragging at this refresh rate
+            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE || !self.regionChangeHandled ) {
 
               // if we changed directions since the last description, alert the new direction
               var balloonDirection = BalloonModel.getMovementDirection( location, oldLocation );
@@ -271,17 +290,20 @@ define( function( require ) {
                 UtteranceQueue.addToBack( directionString );
               }
 
+              //--------------------------------------------------------------------------
+              // The remaining alerts should only be alerted once every DESCRIPTION_REFRESH_RATE
+              //--------------------------------------------------------------------------
+              var dragAlert;
               if ( self.model.onSweater() ) {
 
                 // if we are dragging on the sweater, get an alert that describes movement and charge pickup
-
 
               }
               else if ( self.model.touchingWall() ) {
 
                 // if we are dragging along the wall, get an alert that describes the movement and
                 // behavior of charges
-
+                dragAlert = self.describer.getWallRubbingDescription();
               }
               else {
 
@@ -293,21 +315,23 @@ define( function( require ) {
                   // if we become "very close" to the sweater while moving slowly, announce that immediately
                   if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
                     if ( self.model.isNearSweater ) {
-                      UtteranceQueue.addToBack( veryCloseToSweaterString );
+                      dragAlert = veryCloseToSweaterString;
+                      // UtteranceQueue.addToBack( veryCloseToSweaterString );
                     }
                   }
 
                   // if we become "very close" to the wall while moving slowly, announce that immediately
                   if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
                     if ( self.model.isNearWall ) {
-                      UtteranceQueue.addToBack( veryCloseToWallString );
+                      dragAlert = veryCloseToWallString;
+                      // UtteranceQueue.addToBack( veryCloseToWallString );
                     }
                   }
 
                   // if we become "very close" to the right of the play area while moving slowly, announce that immediately
                   if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
                     if ( self.model.isNearRightEdge ) {
-                      UtteranceQueue.addToBack( veryCloseToRightEdgeString );
+                      dragAlert = veryCloseToRightEdgeString;
                     }
                   }
                 }
@@ -319,16 +343,16 @@ define( function( require ) {
                   // we are less than 50 percent through the current play area region and we are moving horizontally,
                   // so announce our current location
                   var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
-                  UtteranceQueue.addToBack( new Utterance( draggingDescription, {
+                  dragAlert = new Utterance( draggingDescription, {
                     typeId: 'locationAlert'
-                  } ) );
+                  } );
                 }
                 else if ( progressThroughRegion > 0.50 && notDiagonal ) {
 
                   // we are greater than 50 percent through the play area region and moving horizontally so
                   // announce an indication that we are moving closer to the object
                   var progressDescription = self.describer.getPlayAreaDragProgressDescription();
-                  UtteranceQueue.addToBack( new Utterance( progressDescription, {
+                  dragAlert = new Utterance( progressDescription, {
                     typeId: 'progressAlert',
                     predicate: function() {
 
@@ -337,21 +361,17 @@ define( function( require ) {
                       var touchingWall = self.model.touchingWall();
                       return !onSweater && !touchingWall;
                     }
-                  } ) );
+                  } );
                 }
               }
+
+
+              dragAlert && UtteranceQueue.addToBack( dragAlert );
  
               // reset timer
               self.timeSincePositionAlert = 0;
+              self.regionChangeHandled = true;                
             }
-            
-            // if we are enter or leave the sweater, announce that immediately
-            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
-              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
-              UtteranceQueue.addToBack( sweaterChangeString );
-            }
-
-            // TODO: if we touch the wall, announce that immedately here
           }
         }
       }
@@ -368,6 +388,11 @@ define( function( require ) {
         originalChargesNode.visible = visiblity;
         addedChargesNode.visible = visiblity;
       }
+    } );
+
+    // when the balloon changes region in the paly area, we need to handle changes to description
+    Property.multilink( [ model.playAreaRowProperty, model.playAreaColumnProperty ], function( row, column ) {
+      self.regionChangeHandled = false;
     } );
 
     // a11y
@@ -592,9 +617,14 @@ define( function( require ) {
       // increment timer tracking time since alert description
       this.timeSincePositionAlert += dt * 1000;
 
+
       // when the balloon is released (either from dragging or from the wall being removed), announce an
       // alert if it doesn't move within the time delay
       if ( !this.model.isDraggedProperty.get() ) {
+
+        // if released, increment the timer for release
+        this.timeSinceReleaseAlert += dt * 1000;
+
         if ( !this.initialMovementDescribed ) {
           if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );

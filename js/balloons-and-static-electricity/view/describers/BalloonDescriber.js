@@ -78,6 +78,12 @@ define( function( require ) {
   var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var stillMovingPatternString= BASEA11yStrings.stillMovingPatternString;
+  var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString;
+  var wallChargedRubbingAllPatternString = BASEA11yStrings.wallChargedRubbingAllPatternString;
+  var wallNeutralRubbingAllPatternString = BASEA11yStrings.wallNeutralRubbingAllPatternString;
+  var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
+  var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
+  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -729,6 +735,56 @@ define( function( require ) {
 
     getSweaterRubbingDescription: function() {
       
+    },
+
+    /**
+     * Get a description of the balloon rubbing on the wall, including a description for the
+     * induced charge if there is any and depending on the charge view
+     * @return {[type]} [description]
+     */
+    getWallRubbingDescription: function() {
+      var descriptionString;
+
+      // the location string is used for all charge views
+      var locationString = this.getBalloonLocationDescription();
+      var atLocationString = StringUtils.fillIn( balloonAtLocationPatternString, {
+        location: locationString
+      } );
+
+      var shownCharges = this.showChargesProperty.get();
+      if ( shownCharges === 'none' ) {
+        descriptionString = atLocationString;
+      }
+      else if ( shownCharges === 'all' ) {
+        var wallVisible = this.wall.isVisibleProperty.get();
+        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+        var balloonChargeString = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
+          balloonLabel: this.accessibleLabel,
+          relativeCharge: this.getRelativeChargeDescription()
+        } );
+
+        if ( this.balloonModel.isCharged() ) {
+          descriptionString = StringUtils.fillIn( wallChargedRubbingAllPatternString, {
+            location: atLocationString,
+            transfer: wallNoTransferOfChargeString,
+            inducedCharge: inducedChargeString,
+            positiveCharges: wallPositiveChargesDoNotMoveString,
+            balloonCharge: balloonChargeString,
+            wallCharge: wallHasManyChargesString
+          } );
+        }
+        else {
+          descriptionString = StringUtils.fillIn( wallNeutralRubbingAllPatternString, {
+            location: atLocationString,
+            transfer: wallNoTransferOfChargeString,
+            inducedCharge: inducedChargeString,
+            balloonCharge: balloonChargeString,
+            wallCharge: wallHasManyChargesString
+          } );
+        }
+      }
+
+      return descriptionString;
     },
 
     /**

@@ -32,6 +32,7 @@ define( function( require ) {
   var noChargesShownString = BASEA11yStrings.noChargesShownString;
   var manyChargePairsString = BASEA11yStrings.manyChargePairsString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
+  var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -142,13 +143,10 @@ define( function( require ) {
   }, {
 
     /**
-     * Get an induced charge description for a balloon, based on the positions of charges in the wall.  We find the
-     * closest charge to the balloon, and determine how far it has been displaced from its initial position.
-     * @static
-     *
-     * @private
-     * @param  {Balloon} balloon
-     * @returns {string}
+     * Get the induced charge amount description for the balloon, describing whether the charges are
+     * "a little bit" displaced and so on.
+     * @param  {BalloonModel} balloon
+     * @return {string}
      */
     getInducedChargeAmountDescription: function( balloon ) {
 
@@ -164,27 +162,40 @@ define( function( require ) {
     },
 
     /**
-     * Get the description for induced charge of the wall.
-     * 
+     * Get an induced charge amount description for a balloon, based on the positions of charges in the wall.  We find the
+     * closest charge to the balloon, and determine how far it has been displaced from its initial position.
      * @static
-     * @param  {BalloonModel} balloon
-     * @param  {string} balloonLabel - the accessible label for the balloon
-     * @param  {boolean} wallVisible
-     * @return {string}
+     * @public
+     *
+     * @param  {Balloon} balloon
+     * @param {string} balloonLabel
+     * @param {boolean} wallVisible
+     * @returns {string}
      */
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
+      var descriptionString;
 
       var closestCharge = balloon.closestChargeInWall;
       var location = closestCharge.locationProperty.get();
-
       var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
-      var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
-      return StringUtils.fillIn( inducedChargePatternString, {
-        wallLocation: chargeLocationString,
-        balloon: balloonLabel,
-        inductionAmount: inducedChargeAmount
-      } ); 
+      if ( balloon.inducingCharge ) {
+        chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
+        var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
+
+        descriptionString = StringUtils.fillIn( inducedChargePatternString, {
+          wallLocation: chargeLocationString,
+          balloon: balloonLabel,  
+          inductionAmount: inducedChargeAmount
+        } ); 
+      }
+      else {
+        descriptionString = StringUtils.fillIn( wallNoChangeInChargesPatternString, {
+          location: chargeLocationString
+        } );
+      }
+
+      return descriptionString;
     }
   } );
 } );

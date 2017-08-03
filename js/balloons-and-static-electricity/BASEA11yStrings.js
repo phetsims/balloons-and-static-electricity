@@ -247,9 +247,14 @@ define( function( require ) {
     wallLocationString: 'At right edge of Play Area',
     wallNoNetChargeString: 'Has no net charge',
     wallNoTransferOfChargeString: 'No transfer of charge',
+    wallPositiveChargesDoNotMoveString: 'Positive charges do not move',
+    wallHasManyChargesString: 'Wall has many pairs of negative and positive charges',
     wallChargeWithoutInducedPatternString: '{{netCharge}}, {{shownCharges}}',
     wallChargeWithInducedPatternString: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}',
     wallTwoBalloonInducedChargePatternString: '{{yellowBalloon}}. {{greenBalloon}}',
+    wallChargedRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.',
+    wallNeutralRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.',
+    wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges.',
 
     //------------------------------------------------------------------------
     // Balloon strings
@@ -275,6 +280,7 @@ define( function( require ) {
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more nevative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
+    balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}.',
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
