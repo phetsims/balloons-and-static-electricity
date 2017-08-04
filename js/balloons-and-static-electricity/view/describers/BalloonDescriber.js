@@ -783,6 +783,9 @@ define( function( require ) {
           } );
         }
       }
+      else {
+        return 'Placeholder for wall rubbing with charge differences view';
+      }
 
       return descriptionString;
     },
