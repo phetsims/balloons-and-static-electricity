@@ -37,9 +37,9 @@ define( function( require ) {
     this.locationProperty = new Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2,
-      phetioStateElement: phetioStateElement
+      phetioStateElement: phetioStateElement,
+      useDeepEquality: true
     } );
-    this.locationProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
   }
 
   balloonsAndStaticElectricity.register( 'MovablePointChargeModel', MovablePointChargeModel );
@@ -58,7 +58,7 @@ define( function( require ) {
 
     /**
      * Get the displacement of the charge from its initial position. Useful as a measure of the induced charge.
-     * 
+     *
      * @return {Vector2}
      */
     getDisplacement: function() {

@@ -114,7 +114,7 @@ define( function( require ) {
 
   // determine average the Y position for the charges in the balloon
   var positionYSum = 0;
-  for (var i = 0; i < POSITIONS.length; i++ ) {
+  for ( var i = 0; i < POSITIONS.length; i++ ) {
     positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
   }
   var AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
@@ -146,9 +146,9 @@ define( function( require ) {
     // @public {Vector2}
     this.velocityProperty = new Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioValueType: TVector2
+      phetioValueType: TVector2,
+      useDeepEquality: true
     } );
-    this.velocityProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @public {number}
     this.isVisibleProperty = new Property( defaultVisibility, {
@@ -165,9 +165,9 @@ define( function( require ) {
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioValueType: TVector2
+      phetioValueType: TVector2,
+      useDeepEquality: true
     } );
-    this.locationProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
@@ -178,9 +178,9 @@ define( function( require ) {
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      phetioValueType: TVector2
+      phetioValueType: TVector2,
+      useDeepEquality: true
     } );
-    this.dragVelocityProperty.areValuesEqual = function( a, b ) { return a.equals( b ); };
 
     // @private string - the current row of the play area for the balloon
     this.playAreaColumnProperty = new Property( null );
@@ -525,10 +525,10 @@ define( function( require ) {
     },
 
     /**
-     * Returns whether or not the right edge of the balloon is at the wall location, regardless of 
+     * Returns whether or not the right edge of the balloon is at the wall location, regardless of
      * balloon or wall visibility.  Useful for checking whether the balloon is at the wall location
      * when the wall is removed.
-     * 
+     *
      * @return {boolean}
      */
     rightAtWallLocation: function() {
@@ -609,7 +609,7 @@ define( function( require ) {
      * on the direction of movement.  Returns a number out of 1 (full range of the region).  If moving
      * horizontally, progress will be proportion of width.  If moving vertically, progress will be
      * a proportion of the height.
-     * 
+     *
      * @return {number}
      */
     getProgressThroughRegion: function() {
@@ -648,7 +648,7 @@ define( function( require ) {
     setCenter: function( center ) {
       this.locationProperty.set( new Vector2(
         center.x - this.width / 2,
-        center.y - this.height /2
+        center.y - this.height / 2
       ) );
     },
 
@@ -663,7 +663,7 @@ define( function( require ) {
 
     /**
      * Get the vertical center of the balloon model.
-     * @return {number} 
+     * @return {number}
      */
     getCenterY: function() {
       return this.locationProperty.get().y + this.height / 2;
@@ -679,7 +679,7 @@ define( function( require ) {
 
     /**
      * Get the right edge of the balloon.
-     * 
+     *
      * @return {number}
      */
     getRight: function() {
@@ -691,7 +691,7 @@ define( function( require ) {
      * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
      * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the
      * balloon plus the average y position of the charges.
-     * 
+     *
      * @public
      * @return {Vector2}
      */
@@ -869,14 +869,14 @@ define( function( require ) {
      */
     isTouchingBoundary: function() {
       return this.isTouchingRightBoundary() || this.isTouchingLeftBoundary() ||
-            this.isTouchingBottomBoundary() || this.isTouchingTopBoundary();
+             this.isTouchingBottomBoundary() || this.isTouchingTopBoundary();
     },
 
     /**
-     * Returns whether or not the balloon is touching the right boundary of the play area.  If the wall 
+     * Returns whether or not the balloon is touching the right boundary of the play area.  If the wall
      * is visible, this will be the location where the balloon is touching the wall, otherwise it will
      * be the location where the balloon is touching the right edge of the play area.
-     * 
+     *
      * @return {boolean}
      */
     isTouchingRightBoundary: function() {
@@ -903,7 +903,7 @@ define( function( require ) {
 
     /**
      * Returns whether or not the balloon is touching the top boundary of the play area.
-     * 
+     *
      * @return {boolean}
      */
     isTouchingTopBoundary: function() {
@@ -1098,7 +1098,7 @@ define( function( require ) {
      * between two positions, returns one of BalloonDirectionEnum. Uses Math.atan2, so the angle
      * is mapped from 0 to +/- Math.PI.  So we determine if movement is in the top or bottom half
      * of the unit circle and then map to the exact quadrant based on the sign of the angle.
-     * 
+     *
      * @param  {Vector2} location
      * @param  {Vector2} oldLocation
      * @return {string} - one of BalloonDirectionEnum
