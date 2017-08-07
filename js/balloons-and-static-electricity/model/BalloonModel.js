@@ -144,7 +144,8 @@ define( function( require ) {
     } );
 
     // @public {Vector2}
-    this.velocityProperty = new Property( Vector2.ZERO, {
+    // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
+    this.velocityProperty = new Property( new Vector2(), {
       tandem: tandem.createTandem( 'velocityProperty' ),
       phetioValueType: TVector2,
       useDeepEquality: true
@@ -1001,9 +1002,7 @@ define( function( require ) {
         this.locationProperty.set( newLocation );
       }
       else {
-        if ( !this.velocityProperty.get().equals( Vector2.ZERO ) ) {
-          this.velocityProperty.set( Vector2.ZERO );
-        }
+        this.velocityProperty.set( new Vector2() ); // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
       }
     },
 
