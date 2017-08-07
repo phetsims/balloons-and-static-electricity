@@ -576,8 +576,9 @@ define( function( require ) {
     } );
 
     // a11y - when the balloon is picked up or released, generate and announce an alert that indicates
-    // the interaction and the balloons state
-    model.isDraggedProperty.link( function( isDragged ) {
+    // the interaction and the balloons state.  Linked lazilly since we don't want these alerts on 
+    // sim startup
+    model.isDraggedProperty.lazyLink( function( isDragged ) {
       var alert;
       if ( isDragged ) {
         alert = self.describer.getDraggedAlert();
@@ -625,7 +626,7 @@ define( function( require ) {
         // if released, increment the timer for release
         this.timeSinceReleaseAlert += dt * 1000;
 
-        if ( !this.initialMovementDescribed ) {
+        if ( !this.initialMovementDescribed && this.model.locationOnRelease ) {
           if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
             if ( touchingReleasePoint ) {

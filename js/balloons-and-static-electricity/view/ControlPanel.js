@@ -147,8 +147,9 @@ define( function( require ) {
       accessibleDescription: chargeSettingsDescriptionString
     } );
 
-    // announce an alert that describes the state of charge visibility
-    model.showChargesProperty.link( function( value ) {
+    // a11y - announce an alert that describes the state of charge visibility, linked lazily
+    // so that we don't get any alerts on sim startup
+    model.showChargesProperty.lazyLink( function( value ) {
       var alertString;
       if ( value === 'all' ) {
         alertString = showAllChargesAlertString;

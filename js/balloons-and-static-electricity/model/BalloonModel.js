@@ -208,8 +208,9 @@ define( function( require ) {
     // changes in position
     this.oldLocation = this.locationProperty.get().copy();
 
-    // @private (a11y) {Vector2} - copy of the balloon position when balloon is released
-    this.locationOnRelease = this.locationProperty.get().copy();
+    // @private (a11y) {Vector2|null} - copy of the balloon position when balloon is released, null until
+    // the balloon is  during user interaction
+    this.locationOnRelease = null;
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
