@@ -274,6 +274,7 @@ define( function( require ) {
     this.previousIsNearRightEdge = false;
 
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
+    // TODO: delete this, it is very confusing
     this.balloonLabel = labelString;
 
     // neutral pair of charges

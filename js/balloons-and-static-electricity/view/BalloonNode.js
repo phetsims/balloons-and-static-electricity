@@ -273,6 +273,7 @@ define( function( require ) {
               UtteranceQueue.addToBack( sweaterChangeString );
             }
 
+            // if we hit the wall, announce that immediately
             if ( self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
               if ( self.model.direction === BalloonDirectionEnum.RIGHT ) {
                 var touchingWallString = self.describer.getWallRubbingDescription();
