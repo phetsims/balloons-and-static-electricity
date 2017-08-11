@@ -24,7 +24,6 @@ define( function( require ) {
     balloonGrabbedDescriptionPatternString: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
     balloonDragDescriptionPatternString: '{0} {1} {2} {3} {4} {5}', // direction, proximity, charge, ,
     grabButtonNavigationCueString: 'Look for grab button to play.',
-    dragNavigationCueString: 'Press W, A, S, or D key to drag balloon. Space key to let go.',
 
     grabBalloonToPlayString: 'Grab balloon to play.',
     keyboardShortcutsHelpString: 'If needed, check out the keyboard shortcuts for this sim.',
@@ -278,15 +277,16 @@ define( function( require ) {
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
     balloonNoString: 'no',
     balloonNegativeString: 'negative',
-    balloonRelativeChargePatternString: '{{amount}} more nevative charges than positive charges',
+    balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}.',
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
     //--------------------------------------------------------------------------
-    grabbedString: 'Grabbed.',
-    releasedString: 'Released.',
+    grabbedString: 'Grabbed',
+    releasedString: 'Released',
+
     //--------------------------------------------------------------------------
     // Balloon movement strings
     //--------------------------------------------------------------------------
@@ -335,6 +335,19 @@ define( function( require ) {
     closerToObjectPatternString: 'Closer to {{object}}.',
     topEdgeOfPlayAreaString: 'top edge of Play Area',
     bottomEdgeOfPlayAreaString: 'bottom edge of Play Area',
+
+    //--------------------------------------------------------------------------
+    // Balloon grabbing strings (when the balloon is initially picked up)
+    //--------------------------------------------------------------------------
+    showAllGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{help}}',
+    showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}',
+    showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}',
+
+    balloonRelativeChargeAllPatternString: 'Has {{charge}}',
+    balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
+    balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges',
+
+    interactionCueString: 'Press W, A, S, or D key to move balloon. Space key to release.',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings

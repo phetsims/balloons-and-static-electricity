@@ -84,6 +84,13 @@ define( function( require ) {
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
   var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
+  var showAllGrabbedPatternString = BASEA11yStrings.showAllGrabbedPatternString;
+  var showNoneGrabbedPatternString = BASEA11yStrings.showNoneGrabbedPatternString;
+  var showDifferencesGrabbedPatternString = BASEA11yStrings.showDifferencesGrabbedPatternString;
+  var interactionCueString = BASEA11yStrings.interactionCueString;
+  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString;
+  var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
+  var noChargesShownString = BASEA11yStrings.noChargesShownString;
 
   // constants
   var A_FEW_RANGE = new Range( 1, 15 );
@@ -267,22 +274,32 @@ define( function( require ) {
     },
 
     getRelativeChargeDescription: function() {
+      var description;
       var chargeValue = Math.abs( this.balloonModel.chargeProperty.get() );
-      var relativeChargesString = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( chargeValue );
-
-      var stringPattern;
       var showCharges = this.showChargesProperty.get();
-      if ( showCharges === 'all' ) {
-        stringPattern = balloonRelativeChargePatternString;
-      }
-      else if ( showCharges === 'diff' ) {
-        stringPattern = balloonChargeDifferencesPatternString;
-      }
-      assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
 
-      return StringUtils.fillIn( stringPattern, {
-        amount: relativeChargesString
-      } );
+      // if charge view is 'diff' and there are no charges, we simply say that there are no
+      // charges shown
+      if ( chargeValue === 0 && showCharges === 'diff' ) {
+        description = noChargesShownString;
+      }
+      else {
+        var relativeChargesString = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( chargeValue );
+        var stringPattern;
+        if ( showCharges === 'all' ) {
+          stringPattern = balloonRelativeChargePatternString;
+        }
+        else if ( showCharges === 'diff' ) {
+          stringPattern = balloonChargeDifferencesPatternString;
+        }
+        assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
+
+        description = StringUtils.fillIn( stringPattern, {
+          amount: relativeChargesString
+        } );
+      }
+
+      return description;
     },
 
     /**
@@ -450,11 +467,67 @@ define( function( require ) {
     },
 
     /**
-     * Get an alert that indicates that the balloon has been grabbed for dragging.
+     * Get an alert that indicates that the balloon has been grabbed for dragging. Will compose
+     * a description containing charge information, location information, and help for how
+     * to interact with balloon. Amount of charge information will depend on charge visibility
+     * setting.
+     * 
      * @return {string}
      */
     getDraggedAlert: function() {
-      return grabbedString;
+      var alertString;
+      var chargesShown = this.showChargesProperty.get();
+
+      // showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}.',
+      // showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}.',
+
+      // attractive state and location is described for every charge view
+      var stateAndLocation = this.getAttractiveStateAndLocationDescription();
+
+      var relativeChargeString;
+      var chargeString;
+      if ( chargesShown === 'all' ) {
+
+        relativeChargeString = this.getRelativeChargeDescription();
+
+        // format the relative charge descriptions
+        chargeString = StringUtils.fillIn( balloonRelativeChargeAllPatternString, {
+          charge: relativeChargeString
+        } );
+
+        alertString = StringUtils.fillIn( showAllGrabbedPatternString, {
+          grabbed: grabbedString,
+          location: stateAndLocation,
+          charge: chargeString,
+          help: interactionCueString
+        } );
+      }
+      else if ( chargesShown === 'none' ) {
+        alertString = StringUtils.fillIn( showNoneGrabbedPatternString, {
+          grabbed: grabbedString,
+          location: stateAndLocation,
+          help: interactionCueString
+        } );
+      }
+      else if ( chargesShown === 'diff' ) {
+        var netChargeString = this.getNetChargeDescription();
+        relativeChargeString = this.getRelativeChargeDescription();
+
+        var netAndRelativeString = StringUtils.fillIn( balloonNetChargeShowingPatternString, {
+          netCharge: netChargeString,
+          showing: relativeChargeString
+        } );
+
+        alertString = StringUtils.fillIn( showDifferencesGrabbedPatternString, {
+          grabbed: grabbedString,
+          location: stateAndLocation,
+          relativeCharge: netAndRelativeString,
+          help: interactionCueString
+        } );
+      }
+
+      assert && assert( alertString, 'No grabbed alert for charge view ' + chargesShown );
+      return alertString;
     },
 
     /**
