@@ -498,9 +498,6 @@ define( function( require ) {
       var alertString;
       var chargesShown = this.showChargesProperty.get();
 
-      // showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}.',
-      // showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}.',
-
       // attractive state and location is described for every charge view
       var stateAndLocation = this.getAttractiveStateAndLocationDescription();
 
