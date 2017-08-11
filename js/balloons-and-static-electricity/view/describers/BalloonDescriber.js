@@ -48,14 +48,22 @@ define( function( require ) {
   var slowlyString = BASEA11yStrings.slowlyString;
   var quicklyString = BASEA11yStrings.quicklyString;
   var veryQuicklyString = BASEA11yStrings.veryQuicklyString;
-  var upString = BASEA11yStrings.upString;
-  var leftString = BASEA11yStrings.leftString;
-  var downString = BASEA11yStrings.downString;
-  var rightString = BASEA11yStrings.rightString;
-  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
-  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
-  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
-  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
+  var upDraggingString = BASEA11yStrings.upDraggingString;
+  var leftDraggingString = BASEA11yStrings.leftDraggingString;
+  var downDraggingString = BASEA11yStrings.downDraggingString;
+  var rightDraggingString = BASEA11yStrings.rightDraggingString;
+  var upAndToTheRightDraggingString = BASEA11yStrings.upAndToTheRightDraggingString;
+  var upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDraggingString;
+  var downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDraggingString;
+  var downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDraggingString;
+  var upReleasedString = BASEA11yStrings.upReleasedString;
+  var leftReleasedString = BASEA11yStrings.leftReleasedString;
+  var downReleasedString = BASEA11yStrings.downReleasedString;
+  var rightReleasedString = BASEA11yStrings.rightReleasedString;
+  var upAndToTheRightReleasedString = BASEA11yStrings.upAndToTheRightReleasedString;
+  var upAndToTheLeftReleasedString = BASEA11yStrings.upAndToTheLeftReleasedString;
+  var downAndToTheRightReleasedString = BASEA11yStrings.downAndToTheRightReleasedString;
+  var downAndToTheLeftReleasedString = BASEA11yStrings.downAndToTheLeftReleasedString;
   var atLeftEdgeString = BASEA11yStrings.atLeftEdgeString;
   var atTopString = BASEA11yStrings.atTopString;
   var atBottomString = BASEA11yStrings.atBottomString;
@@ -98,16 +106,28 @@ define( function( require ) {
   var MANY_RANGE = new Range( 40, 57 );
   var MAX_BALLOON_CHARGE = -57;
 
-  // maps balloon direction to a description string
-  var BALLOON_DIRECTION_MAP = {
-    UP: upString,
-    DOWN: downString,
-    LEFT: leftString,
-    RIGHT: rightString,
-    UP_RIGHT: upAndToTheRightString,
-    UP_LEFT: upAndToTheLeftString,
-    DOWN_RIGHT: downAndToTheRightString,
-    DOWN_LEFT: downAndToTheLeftString
+  // maps balloon direction to a description string while the balloon is being dragged
+  var BALLOON_DIRECTION_DRAGGING_MAP = {
+    UP: upDraggingString,
+    DOWN: downDraggingString,
+    LEFT: leftDraggingString,
+    RIGHT: rightDraggingString,
+    UP_RIGHT: upAndToTheRightDraggingString,
+    UP_LEFT: upAndToTheLeftDraggingString,
+    DOWN_RIGHT: downAndToTheRightDraggingString,
+    DOWN_LEFT: downAndToTheLeftDraggingString
+  };
+
+  // maps balloon direction to a description string for while the balloon is released
+  var BALLOON_DIRECTION_RELEASE_MAP = {
+    UP: upReleasedString,
+    DOWN: downReleasedString,
+    LEFT: leftReleasedString,
+    RIGHT: rightReleasedString,
+    UP_RIGHT: upAndToTheRightReleasedString,
+    UP_LEFT: upAndToTheLeftReleasedString,
+    DOWN_RIGHT: downAndToTheRightReleasedString,
+    DOWN_LEFT: downAndToTheLeftReleasedString
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
@@ -551,11 +571,13 @@ define( function( require ) {
       // the balloon is moving with some initial velocity, describe that
       var velocityString = this.getVelocityString();
       var toObjectString = this.getToObjectString( location, oldLocation );
+      var directionString= this.getReleaseDirectionDescription( this.balloonModel.direction );
 
       var description = StringUtils.fillIn( movesToObjectPatternString, {
         balloonLabel: this.accessibleLabel,
         velocity: velocityString,
-        toObject: toObjectString
+        toObject: toObjectString,
+        direction: directionString
       } );
 
       return description;
@@ -649,8 +671,21 @@ define( function( require ) {
      * @param {string} direction - one of BalloonDirectionEnum
      * @return {string}
      */
-    getMovementDirectionDescription: function( direction ) {
-      var movementString = BALLOON_DIRECTION_MAP[ direction ];
+    getDraggingDirectionDescription: function( direction ) {
+      var movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
+
+      assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
+      return movementString;
+    },
+
+    /**
+     * Get a description of the balloon movement direction when the balloon is not currently
+     * being dragged.
+     * 
+     * @param  {string} direction - one of BalloonDirectionEnum
+     */
+    getReleaseDirectionDescription: function( direction ) {
+      var movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction ];
 
       assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
       return movementString;

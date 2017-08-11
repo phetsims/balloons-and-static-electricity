@@ -286,7 +286,7 @@ define( function( require ) {
               // if we changed directions since the last description, alert the new direction
               var balloonDirection = BalloonModel.getMovementDirection( location, oldLocation );
               if ( self.model.previousDirection !== self.model.direction ) {
-                var directionString = self.describer.getMovementDirectionDescription( balloonDirection );
+                var directionString = self.describer.getDraggingDirectionDescription( balloonDirection );
                 UtteranceQueue.addToBack( directionString );
               }
 

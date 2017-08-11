@@ -290,7 +290,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon movement strings
     //--------------------------------------------------------------------------
-    movesToObjectPatternString: '{{balloonLabel}} moves {{velocity}} {{toObject}}.',
+    movesToObjectPatternString: '{{balloonLabel}} moves {{velocity}} {{direction}} {{toObject}}.',
 
     towardsSweaterString: 'towards sweater',
     toWallString: 'to wall',
@@ -305,17 +305,28 @@ define( function( require ) {
 
     stillMovingPatternString: 'Still moving towards {{toObject}}.',
 
+    // similar to dragging direction strings, but in context so not capitalized and no
+    // punctuation
+    upReleasedString: 'up',
+    leftReleasedString: 'left',
+    downReleasedString: 'down',
+    rightReleasedString: 'right',
+    upAndToTheRightReleasedString: 'up and to the right',
+    upAndToTheLeftReleasedString: 'up and to the left',
+    downAndToTheRightReleasedString: 'down and to the right',
+    downAndToTheLeftReleasedString: 'down and to the left',
+
     //--------------------------------------------------------------------------
     // Balloon Dragging strings
     //--------------------------------------------------------------------------
-    upString: 'Up.',
-    leftString: 'Left.',
-    downString: 'Down.',
-    rightString: 'Right.',
-    upAndToTheRightString: 'Up and to the right.',
-    upAndToTheLeftString: 'Up and to the left.',
-    downAndToTheRightString: 'Down and to the right.',
-    downAndToTheLeftString: 'Down and to the left.',
+    upDraggingString: 'Up.',
+    leftDraggingString: 'Left.',
+    downDraggingString: 'Down.',
+    rightDraggingString: 'Right.',
+    upAndToTheRightDraggingString: 'Up and to the right.',
+    upAndToTheLeftDraggingString: 'Up and to the left.',
+    downAndToTheRightDraggingString: 'Down and to the right.',
+    downAndToTheLeftDraggingString: 'Down and to the left.',
 
     atLeftEdgeString: 'At left edge.',
     atTopString: 'At top.',
