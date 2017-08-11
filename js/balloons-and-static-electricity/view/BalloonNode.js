@@ -119,6 +119,8 @@ define( function( require ) {
 
     this.timeSinceReleaseAlert = 0;
 
+    this.chargeOnEnter = 0;
+
     // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
     // the balloon is sticking to the wall
@@ -217,6 +219,15 @@ define( function( require ) {
       for ( var i = 0; i < addedNodes.length; i++ ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
+
+      // a11y - first time we pick up charges on sweater, anounce a unique alert like
+      // "Balloon picks up charges from sweater."
+      if ( self.alertFirstPickup ) {
+        var firstPickupAlert = self.describer.getInitialChargePickupDescription();
+        UtteranceQueue.addToBack( firstPickupAlert );
+
+        self.alertFirstPickup = false;
+      }
     } );
 
     // link the position of this node to the model
@@ -269,6 +280,10 @@ define( function( require ) {
 
             // if we enter or leave the sweater, announce that immediately
             if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
+
+              // entering sweater, indicate that we need to alert the next charge pickup
+              self.alertFirstPickup = true;
+
               var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
               UtteranceQueue.addToBack( sweaterChangeString );
             }

@@ -99,6 +99,7 @@ define( function( require ) {
   var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString;
   var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
   var noChargesShownString = BASEA11yStrings.noChargesShownString;
+  var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -767,6 +768,19 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    /**
+     * The first time the balloon picks up charges from the sweater after leaving the play
+     * area, we get an initial alert like "Yellow Balloon picks up negative charges
+     * from sweater.".
+     * 
+     * @return {string}
+     */
+    getInitialChargePickupDescription: function() {
+      return StringUtils.fillIn( balloonPicksUpChargesPatternString, {
+        balloon: this.accessibleLabel
+      } );
     }
   } );
 } );

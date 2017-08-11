@@ -361,6 +361,11 @@ define( function( require ) {
     interactionCueString: 'Press W, A, S, or D key to move balloon. Space key to release.',
 
     //--------------------------------------------------------------------------
+    // Balloon rubbing strings
+    //--------------------------------------------------------------------------
+    balloonPicksUpChargesPatternString: '{{balloon}} picks up negative charges from sweater.',
+
+    //--------------------------------------------------------------------------
     // Balloon jumping strings
     //--------------------------------------------------------------------------
     nearSweaterString: 'Near sweater.',
