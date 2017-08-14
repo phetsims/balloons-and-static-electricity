@@ -280,7 +280,7 @@ define( function( require ) {
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
-    balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}.',
+    balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
     balloonHasNegativeChargePatternString: '{{balloon}} has negative net charge, {{showing}}',
 
