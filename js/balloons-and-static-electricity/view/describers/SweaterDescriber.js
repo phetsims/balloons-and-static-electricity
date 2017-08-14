@@ -31,7 +31,7 @@ define( function( require ) {
   var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
   var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
-  var sweaterNoChargesShownString = BASEA11yStrings.sweaterNoChargesShownString;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
   var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString;
   var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString;
 
@@ -123,7 +123,7 @@ define( function( require ) {
       // assemble the relative charge string, special cases if we are showing charge differences
       // and charge is zero, and when there are no more charges remaining
       if ( showCharges === 'diff' && sweaterCharge === 0 ) {
-        relativeChargeString = sweaterNoChargesShownString;
+        relativeChargeString = showingNoChargesString;
       }
       else if ( SWEATER_DESCRIPTION_MAP.MAX_RANGE.range.contains( sweaterCharge ) ) {
         relativeChargeString = sweaterNoMoreChargesString;

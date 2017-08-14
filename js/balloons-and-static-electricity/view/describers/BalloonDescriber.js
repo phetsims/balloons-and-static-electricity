@@ -99,7 +99,7 @@ define( function( require ) {
   var interactionCueString = BASEA11yStrings.interactionCueString;
   var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString;
   var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
-  var noChargesShownString = BASEA11yStrings.noChargesShownString;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
   var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString;
   var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString;
   var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString;
@@ -237,7 +237,7 @@ define( function( require ) {
       // if charge view is 'diff' and there are no charges, we simply say that there are no
       // charges shown
       if ( chargeValue === 0 && showCharges === 'diff' ) {
-        description = noChargesShownString;
+        description = showingNoChargesString;
       }
       else {
         var relativeChargesString = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( chargeValue );

@@ -218,7 +218,7 @@ define( function( require ) {
     //------------------------------------------------------------------------
     // Charge view strings
     //------------------------------------------------------------------------
-    noChargesShownString: 'no charges shown',
+    showingNoChargesString: 'showing no charges',
 
     //------------------------------------------------------------------------
     // Object strings (strings shared between all objects)

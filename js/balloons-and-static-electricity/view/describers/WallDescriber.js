@@ -29,7 +29,7 @@ define( function( require ) {
   var wallTwoBalloonInducedChargePatternString = BASEA11yStrings.wallTwoBalloonInducedChargePatternString;
   var wallChargeWithoutInducedPatternString = BASEA11yStrings.wallChargeWithoutInducedPatternString;
   var wallChargeWithInducedPatternString = BASEA11yStrings.wallChargeWithInducedPatternString;
-  var noChargesShownString = BASEA11yStrings.noChargesShownString;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
   var manyChargePairsString = BASEA11yStrings.manyChargePairsString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString;
@@ -115,7 +115,7 @@ define( function( require ) {
         }
 
         // get the description for what charges are currently shown
-        var shownChargesString = ( this.showChargesProperty.get() === 'diff' ) ? noChargesShownString : manyChargePairsString;
+        var shownChargesString = ( this.showChargesProperty.get() === 'diff' ) ? showingNoChargesString : manyChargePairsString;
 
         // if there is an induced charge, include it in the full charge description
         var wallChargeString;
