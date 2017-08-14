@@ -272,6 +272,7 @@ define( function( require ) {
     // describing the attractive state of a balloon
     balloonStickingToString: 'Sticking to',
     balloonOnString: 'On',
+    balloonAtString: 'At',
     balloonTouchingString: 'Touching',
     balloonNearString: 'Near',
 

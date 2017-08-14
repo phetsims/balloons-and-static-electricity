@@ -30,6 +30,7 @@ define( function( require ) {
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
   var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
   var balloonOnString = BASEA11yStrings.balloonOnString;
+  var balloonAtString = BASEA11yStrings.balloonAtString;
   var balloonTouchingString = BASEA11yStrings.balloonTouchingString;
   var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString;
   var balloonNoString = BASEA11yStrings.balloonNoString;
@@ -299,10 +300,6 @@ define( function( require ) {
     getAttractiveStateOrProximityDescription: function() {
       var string = '';
 
-      var wallVisible = this.wall.isVisibleProperty.get();
-      var balloonRight = this.balloonModel.getRight();
-      var wallLeft = this.wall.x;
-
       if ( this.balloonModel.onSweater() || this.balloonModel.touchingWall() ) {
         if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
 
@@ -313,11 +310,35 @@ define( function( require ) {
           string = balloonTouchingString;
         }
       }
-      else if ( this.balloonModel.nearWall() || ( balloonRight === wallLeft && !wallVisible ) ) {
+      else {
+        string = this.getNearOrOnDescription();
+      }
+
+      return string;
+    },
+
+    /**
+     * Get the 'near' or 'on' or 'At' description for the balloon, depending on where the balloon is.
+     * This is used as part of the balloon location description, and changes depending on interaction
+     * or location of balloon.
+     * 
+     * @return {string}
+     */
+    getNearOrOnDescription: function() {
+      var string;
+
+      var wallVisible = this.wall.isVisibleProperty.get();
+      var balloonRight = this.balloonModel.getRight();
+      var wallLeft = this.wall.x;
+
+      if ( this.balloonModel.nearWall() || ( balloonRight === wallLeft && !wallVisible ) ) {
 
         // use 'near' if near the wall, or at the wall location when the the wall is invisible
         // because we are near the right edge
         string = balloonNearString;
+      }
+      else if ( this.balloonModel.touchingWall() ) {
+        string = balloonAtString;
       }
       else {
         string = balloonOnString;
@@ -343,6 +364,23 @@ define( function( require ) {
       } );
 
       return attractiveStateAndLocationString;
+    },
+
+    /**
+     * Get a description of the balloon being "on" an item in the play area. Instead of getting
+     * the attractive state of the balloon (like 'touching' or 'sticking' or 'near'), simply say
+     * 'on' wherever the balloon is.
+     * 
+     * @return {string}
+     */
+    getOnLocationDescription: function() {
+
+      var locationDescription = this.getBalloonLocationDescription();
+
+      return StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+        attractiveState: this.getNearOrOnDescription(),
+        location: locationDescription
+      } );
     },
 
     /**
@@ -423,7 +461,7 @@ define( function( require ) {
       var chargesShown = this.showChargesProperty.get();
 
       // attractive state and location is described for every charge view
-      var stateAndLocation = this.getAttractiveStateAndLocationDescription();
+      var stateAndLocation = this.getOnLocationDescription();
 
       var relativeChargeString;
       var chargeString;
