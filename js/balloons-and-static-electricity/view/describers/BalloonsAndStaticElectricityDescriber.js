@@ -202,6 +202,33 @@ define( function( require ) {
 
       assert && assert( description, 'no relative description found for charge value, check value or entries in description map' );
       return description;
-    }
+    },
+
+    /**
+     * For a given charge, get the described range. Useful for comparing ranges before and after
+     * a charge pickup. Descriptions are generated relative to the absolute value of the charge.
+     * 
+     * @param  {number} charge
+     * @return {Range}
+     */
+    getDescribedChargeRange: function( charge ) {
+
+      var describedCharge = Math.abs( charge );
+      var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
+
+      var range;
+      for ( var i = 0; i < keys.length; i++ ) {
+        var value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
+        if ( value.range.contains( describedCharge ) ) {
+          range = value.range;
+          break;
+        }
+      }
+
+      assert && assert( range, 'no charge range found for charge ' + charge );
+      return range;
+    },
+
+    RELATIVE_CHARGE_DESCRIPTION_MAP: RELATIVE_CHARGE_DESCRIPTION_MAP
   } );
 } );

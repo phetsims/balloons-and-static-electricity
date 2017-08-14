@@ -150,7 +150,6 @@ define( function( require ) {
     atCenterOfPlayAreaString: 'At center of play area.',
     onRightSideOfPlayAreaString: 'On right side of play area.',
 
-    balloonPicksUpMoreChargesString: 'Balloon picks up more negative charges.',
     againMoreChargesString: 'Again, more negative charges.',
 
     // labels
@@ -238,6 +237,8 @@ define( function( require ) {
     sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
     sweaterNoChargesShownString: 'no charges shown',
     sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
+    sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
+    sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}',
 
     //------------------------------------------------------------------------
     // Wall strings
@@ -280,6 +281,8 @@ define( function( require ) {
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}.',
+
+    balloonHasNegativeChargePatternString: '{{balloon}} has negative net charge, {{showing}}',
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
@@ -351,6 +354,7 @@ define( function( require ) {
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
     showAllGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{help}}',
+    showAllWithInducedGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{help}}',
     showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}',
     showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}',
 
@@ -363,7 +367,12 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon rubbing strings
     //--------------------------------------------------------------------------
-    balloonPicksUpChargesPatternString: '{{balloon}} picks up negative charges from sweater.',
+    balloonPicksUpChargesPatternString: '{{balloon}} picks up negative charges from sweater',
+    balloonPicksUpChargesDiffPatternString: '{{pickUp}}. Same number of positive charges showing on sweater.',
+    balloonPicksUpMoreChargesPatternString: '{{balloon}} picks up more negative charges',
+    balloonPicksUpMoreChargesDiffPatternString: '{{pickUp}}. Same increase of positive charges on sweater.',
+
+    balloonSweaterRelativeChargesPattnerString: '{{balloon}}. {{sweater}}.',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings

@@ -27,16 +27,6 @@ define( function( require ) {
 
   // strings
   var sweaterLabelString = BASEA11yStrings.sweaterLabelString;
-  // var noString = BASEA11yStrings.noString;
-  // var aFewString = BASEA11yStrings.aFewString;
-  // var severalString = BASEA11yStrings.severalString;
-  // var manyString = BASEA11yStrings.manyString;
-  // var positiveString = BASEA11yStrings.positiveString;
-  // var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPatternString;
-  // var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePatternString;
-  // var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreChargesString;
-  // var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
-  // var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString;
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
@@ -125,7 +115,7 @@ define( function( require ) {
     };
 
     // a11y - construct a type that manages descriptions depending on the state of the model
-    var sweaterDescriber = new SweaterDescriber( this.sweaterModel );
+    var sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
     Property.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], function( showCharges, charge ) {
       updateChargesVisibilityOnSweater( charge );

@@ -23,6 +23,7 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   // strings
@@ -100,6 +101,11 @@ define( function( require ) {
   var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
   var noChargesShownString = BASEA11yStrings.noChargesShownString;
   var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString;
+  var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString;
+  var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString;
+  var balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPatternString;
+  var balloonSweaterRelativeChargesPattnerString = BASEA11yStrings.balloonSweaterRelativeChargesPattnerString;
+  var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -163,6 +169,10 @@ define( function( require ) {
     this.balloonModel = balloon;
     this.accessibleLabel = accessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
+
+    // @private - the charge on the balloon when we generate a pickup description,
+    // tracked so we know how to describe the next pickup
+    this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -212,6 +222,13 @@ define( function( require ) {
       } );
     },
 
+    /**
+     * Get a description of the relative charge of the balloon, just a segment like
+     * "several more negative charges than positive charges".  Usages will place the
+     * segment into the correct context.
+     * 
+     * @return {string}
+     */
     getRelativeChargeDescription: function() {
       var description;
       var chargeValue = Math.abs( this.balloonModel.chargeProperty.get() );
@@ -235,6 +252,38 @@ define( function( require ) {
 
         description = StringUtils.fillIn( stringPattern, {
           amount: relativeChargesString
+        } );
+      }
+
+      return description;
+    },
+
+    /**
+     * Get the relative charge with the accessible label, something like
+     * "Yellow balloon has a few more negative charges than positive charges." or
+     * "Yellow balloon has negative net charge, showing several negative charges."
+     *
+     * Dependent on the charge view.
+     * 
+     * @return {string}
+     */
+    getRelativeChargeDescriptionWithLabel: function() {
+      var description;
+      var relativeCharge = this.getRelativeChargeDescription();
+      var chargesShown = this.showChargesProperty.get();
+
+      assert && assert( chargesShown !== 'none', 'relative description with label does not support' );
+
+      if ( chargesShown === 'all' ) {
+        description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
+          balloonLabel: this.accessibleLabel,
+          relativeCharge: relativeCharge
+        } );
+      }
+      else if ( chargesShown === 'diff' ) {
+        description = StringUtils.fillIn( balloonHasNegativeChargePatternString, {
+          showing: relativeCharge,
+          balloon: this.accessibleLabel
         } );
       }
 
@@ -427,7 +476,9 @@ define( function( require ) {
      * @return {string}
      */
     getReleasedAlert: function() {
-      return releasedString;
+      return StringUtils.fillIn( singleStatementPatternString, {
+        statement: releasedString
+      } );
     },
 
     /**
@@ -778,9 +829,90 @@ define( function( require ) {
      * @return {string}
      */
     getInitialChargePickupDescription: function() {
-      return StringUtils.fillIn( balloonPicksUpChargesPatternString, {
+      var description;
+      var shownCharges = this.showChargesProperty.get();
+
+      var picksUpCharges = StringUtils.fillIn( balloonPicksUpChargesPatternString, {
         balloon: this.accessibleLabel
       } );
+
+      if ( shownCharges === 'all' ) {
+        description = StringUtils.fillIn( singleStatementPatternString, {
+          statement: picksUpCharges
+        } );
+      }
+      else if ( shownCharges === 'diff' ) {    
+        description = StringUtils.fillIn( balloonPicksUpChargesDiffPatternString, {
+          pickUp: picksUpCharges
+        } );
+      }
+
+      return description;
+    },
+
+    /**
+     * Get the alert description for when a charge is picked up off of the sweater. Dependent
+     * on charge view, whether the balloon has picked up charges already since moving on to the
+     * sweater, and the number of charges that the balloon has picked up.
+     * 
+     * @param  {boolean} firstPickup [description]
+     * @return {string}             [description]
+     */
+    getChargePickupDescription: function( firstPickup ) {
+      var description;
+      var shownCharges = this.showChargesProperty.get();
+
+      assert && assert( shownCharges !== 'none', 'there is no pickup alert for view "none"' );
+
+      var newCharge = this.balloonModel.chargeProperty.get();
+      var oldCharge = this.chargeOnPickupDescription;
+      var newRange = BalloonsAndStaticElectricityDescriber.getDescribedChargeRange( newCharge );
+      var oldRange = BalloonsAndStaticElectricityDescriber.getDescribedChargeRange( oldCharge );
+
+      // if this is the first charge picked up after moving onto sweater, generate
+      // a special description to announce that charges have been transfered
+      if ( firstPickup ) {
+        description = this.getInitialChargePickupDescription();
+      }
+      else if ( newRange.equals( oldRange ) ) {
+
+        // both views start with this description, something like
+        // 'Balloon picks up more negative charges.'
+        var picksUpCharges = StringUtils.fillIn( balloonPicksUpMoreChargesPatternString, {
+          balloon: this.accessibleLabel
+        } );
+
+        if ( shownCharges === 'all' ) {
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: picksUpCharges
+          } );
+        }
+        else if ( shownCharges === 'diff' ) {
+          description = StringUtils.fillIn( balloonPicksUpMoreChargesDiffPatternString, {
+            pickUp: picksUpCharges
+          } );
+        }
+      }
+      else {
+
+        // if we have entered a new described range since the previous charge alert,
+        // we will generate a special description that mentions the relative charges
+        var sweaterCharge = this.model.sweater.chargeProperty.get();
+
+        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+        var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
+
+        description = StringUtils.fillIn( balloonSweaterRelativeChargesPattnerString, {
+          balloon: relativeBalloonCharge,
+          sweater: relativeSweaterCharge
+        } );
+      }
+
+      // update the charge for this generated description
+      this.chargeOnPickupDescription = newCharge;
+
+      assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
+      return description;
     }
   } );
 } );

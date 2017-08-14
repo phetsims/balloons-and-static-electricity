@@ -119,7 +119,14 @@ define( function( require ) {
 
     this.timeSinceReleaseAlert = 0;
 
-    this.chargeOnEnter = 0;
+    // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
+    // balloon, will be set to true every time the balloon enters or leaves the sweater
+    this.alertFirstPickup = false;
+
+    // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
+    // pickup alert, every time the balloon moves, this is reset (only wnat to anounce charges
+    // when balloon moves)
+    this.alertNextPickup = false;
 
     // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
@@ -220,13 +227,19 @@ define( function( require ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
 
-      // a11y - first time we pick up charges on sweater, anounce a unique alert like
-      // "Balloon picks up charges from sweater."
-      if ( self.alertFirstPickup ) {
-        var firstPickupAlert = self.describer.getInitialChargePickupDescription();
-        UtteranceQueue.addToBack( firstPickupAlert );
+      // a11y - charge change alerts are only read if charges are visible
+      if ( globalModel.showChargesProperty.get() !== 'none' ) {
 
+        // the first charge pickup and subsequent pickups (behind a refresh rate)
+        // should be alerted
+        if ( self.alertNextPickup || self.alertFirstPickup ) {
+          var alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
+          UtteranceQueue.addToBack( alert );
+        }
+
+        // reset flags
         self.alertFirstPickup = false;
+        self.alertNextPickup = false;
       }
     } );
 
@@ -309,84 +322,90 @@ define( function( require ) {
               //--------------------------------------------------------------------------
               // The remaining alerts should only be alerted once every DESCRIPTION_REFRESH_RATE
               //--------------------------------------------------------------------------
-              var dragAlert;
-              if ( self.model.onSweater() ) {
+              if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-                // if we are dragging on the sweater, get an alert that describes movement and charge pickup
+                var dragAlert;
+                if ( self.model.onSweater() ) {
 
-              }
-              else if ( self.model.touchingWall() ) {
+                  // if we are dragging on the sweater, get an alert that describes movement and charge pickup
 
-                // if we are dragging along the wall, get an alert that describes the movement and
-                // behavior of charges
-                dragAlert = self.describer.getWallRubbingDescription();
-              }
-              else {
+                }
+                else if ( self.model.touchingWall() ) {
 
-                // we are being dragged through the play area
-                // while moving slowly, we will add indications that we are very close to objects
-                var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
-                if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
+                  // if we are dragging along the wall, get an alert that describes the movement and
+                  // behavior of charges
+                  dragAlert = self.describer.getWallRubbingDescription();
+                }
+                else {
 
-                  // if we become "very close" to the sweater while moving slowly, announce that immediately
-                  if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
-                    if ( self.model.isNearSweater ) {
-                      dragAlert = veryCloseToSweaterString;
-                      // UtteranceQueue.addToBack( veryCloseToSweaterString );
+                  // we are being dragged through the play area
+                  // while moving slowly, we will add indications that we are very close to objects
+                  var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
+                  if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
+
+                    // if we become "very close" to the sweater while moving slowly, announce that immediately
+                    if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
+                      if ( self.model.isNearSweater ) {
+                        dragAlert = veryCloseToSweaterString;
+                        // UtteranceQueue.addToBack( veryCloseToSweaterString );
+                      }
+                    }
+
+                    // if we become "very close" to the wall while moving slowly, announce that immediately
+                    if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
+                      if ( self.model.isNearWall ) {
+                        dragAlert = veryCloseToWallString;
+                        // UtteranceQueue.addToBack( veryCloseToWallString );
+                      }
+                    }
+
+                    // if we become "very close" to the right of the play area while moving slowly, announce that immediately
+                    if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
+                      if ( self.model.isNearRightEdge ) {
+                        dragAlert = veryCloseToRightEdgeString;
+                      }
                     }
                   }
 
-                  // if we become "very close" to the wall while moving slowly, announce that immediately
-                  if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
-                    if ( self.model.isNearWall ) {
-                      dragAlert = veryCloseToWallString;
-                      // UtteranceQueue.addToBack( veryCloseToWallString );
-                    }
+                  var progressThroughRegion = self.model.getProgressThroughRegion();
+                  var notDiagonal = !self.model.movingDiagonally();
+                  if ( progressThroughRegion <= 0.50 && notDiagonal ) {
+
+                    // we are less than 50 percent through the current play area region and we are moving horizontally,
+                    // so announce our current location
+                    var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
+                    dragAlert = new Utterance( draggingDescription, {
+                      typeId: 'locationAlert'
+                    } );
                   }
+                  else if ( progressThroughRegion > 0.50 && notDiagonal ) {
 
-                  // if we become "very close" to the right of the play area while moving slowly, announce that immediately
-                  if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
-                    if ( self.model.isNearRightEdge ) {
-                      dragAlert = veryCloseToRightEdgeString;
-                    }
+                    // we are greater than 50 percent through the play area region and moving horizontally so
+                    // announce an indication that we are moving closer to the object
+                    var progressDescription = self.describer.getPlayAreaDragProgressDescription();
+                    dragAlert = new Utterance( progressDescription, {
+                      typeId: 'progressAlert',
+                      predicate: function() {
+
+                        // only announce a progress update if the balloon has not reached the sweater or wall
+                        var onSweater = self.model.onSweater();
+                        var touchingWall = self.model.touchingWall();
+                        return !onSweater && !touchingWall;
+                      }
+                    } );
                   }
                 }
 
-                var progressThroughRegion = self.model.getProgressThroughRegion();
-                var notDiagonal = !self.model.movingDiagonally();
-                if ( progressThroughRegion <= 0.50 && notDiagonal ) {
 
-                  // we are less than 50 percent through the current play area region and we are moving horizontally,
-                  // so announce our current location
-                  var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
-                  dragAlert = new Utterance( draggingDescription, {
-                    typeId: 'locationAlert'
-                  } );
-                }
-                else if ( progressThroughRegion > 0.50 && notDiagonal ) {
+                dragAlert && UtteranceQueue.addToBack( dragAlert );
+   
+                // reset timers and flags
+                self.timeSincePositionAlert = 0;
+                self.regionChangeHandled = true;
 
-                  // we are greater than 50 percent through the play area region and moving horizontally so
-                  // announce an indication that we are moving closer to the object
-                  var progressDescription = self.describer.getPlayAreaDragProgressDescription();
-                  dragAlert = new Utterance( progressDescription, {
-                    typeId: 'progressAlert',
-                    predicate: function() {
-
-                      // only announce a progress update if the balloon has not reached the sweater or wall
-                      var onSweater = self.model.onSweater();
-                      var touchingWall = self.model.touchingWall();
-                      return !onSweater && !touchingWall;
-                    }
-                  } );
-                }
-              }
-
-
-              dragAlert && UtteranceQueue.addToBack( dragAlert );
- 
-              // reset timer
-              self.timeSincePositionAlert = 0;
-              self.regionChangeHandled = true;                
+                // we should also announce the next charge pickup
+                self.alertNextPickup = true;
+              }               
             }
           }
         }

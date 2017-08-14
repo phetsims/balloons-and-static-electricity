@@ -14,6 +14,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Range = require( 'DOT/Range' );
+  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
@@ -31,6 +32,8 @@ define( function( require ) {
   var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var sweaterNoChargesShownString = BASEA11yStrings.sweaterNoChargesShownString;
+  var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString;
+  var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString;
 
   // constants - ranges to describe charges in the sweater
   var SWEATER_DESCRIPTION_MAP = {
@@ -56,7 +59,14 @@ define( function( require ) {
     } 
   };
   
-  function SweaterDescriber( sweaterModel ) {
+  /**
+   * Manages all descriptions relating to the sweater.
+   * 
+   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {Sweater} sweaterModel
+   */
+  function SweaterDescriber( model, sweaterModel ) {
+    this.model = model;
     this.sweaterModel = sweaterModel;
   }
 
@@ -135,6 +145,46 @@ define( function( require ) {
         location: sweaterLocationString,
         charge: chargeString
       } );
+    }
+  }, {
+
+    /**
+     * Get a description of the relative charge of the sweater, including the label. Dependent on
+     * what charges are visible in the view. Will produce something like
+     *
+     * "Sweater has several more positive charges than negative charges." or
+     * "Sweater has positive net charge, showing several positive charges."
+     * 
+     * @param  {number} charge
+     * @param  {string} shownCharges
+     * @return {string} 
+     */
+    getRelativeChargeDescriptionWithLabel: function( charge, shownCharges ) {
+      var description;
+
+      // the relative charge on the sweater, something like 'several' or 'many'
+      var relative = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( charge );
+
+      if ( shownCharges === 'all' ) {
+        var relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
+          charge: relative
+        } );
+
+        description = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
+          relativeCharge: relativeChargeString
+        } );
+      }
+      else if ( shownCharges === 'diff' ) {
+        var showingString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
+          charge: relative
+        } );
+
+        description = StringUtils.fillIn( sweaterHasNetChargeShowingPatternString, {
+          showing: showingString
+        } );
+      }
+
+      return description;
     }
   } );
 } );
