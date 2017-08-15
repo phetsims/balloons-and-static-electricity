@@ -91,6 +91,7 @@ define( function( require ) {
     aFewString: 'a few',
     severalString: 'several',
     manyString: 'many',
+    allString: 'all',
 
     // wall charge descriptions
     atWallString: 'At wall.',
@@ -373,7 +374,11 @@ define( function( require ) {
     balloonPicksUpMoreChargesPatternString: '{{balloon}} picks up more negative charges',
     balloonPicksUpMoreChargesDiffPatternString: '{{pickUp}}. Same increase of positive charges on sweater.',
 
-    balloonSweaterRelativeChargesPattnerString: '{{balloon}}. {{sweater}}.',
+    balloonSweaterRelativeChargesPatternString: '{{balloon}}. {{sweater}}.',
+
+    // when the last charge is picked up, we announce no charges remaining and then the
+    // balloon charge
+    lastChargePickedUpPatternString: '{{sweater}}. {{balloon}}.',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings

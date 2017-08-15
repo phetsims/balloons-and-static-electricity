@@ -14,6 +14,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Property = require( 'AXON/Property' );
@@ -229,11 +230,18 @@ define( function( require ) {
 
       // a11y - charge change alerts are only read if charges are visible
       if ( globalModel.showChargesProperty.get() !== 'none' ) {
+        var alert;
 
         // the first charge pickup and subsequent pickups (behind a refresh rate)
         // should be alerted
         if ( self.alertNextPickup || self.alertFirstPickup ) {
-          var alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
+          alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
+          UtteranceQueue.addToBack( alert );
+        }
+
+        // always announce pickup of the last charge
+        if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
+          alert = self.describer.getLastChargePickupDescription();
           UtteranceQueue.addToBack( alert );
         }
 

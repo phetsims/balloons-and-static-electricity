@@ -16,6 +16,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
 
   // strings
   var sweaterLocationString = BASEA11yStrings.sweaterLocationString;
@@ -23,6 +24,7 @@ define( function( require ) {
   var aFewString = BASEA11yStrings.aFewString;
   var severalString = BASEA11yStrings.severalString;
   var manyString = BASEA11yStrings.manyString;
+  var allString = BASEA11yStrings.allString;
   var positiveString = BASEA11yStrings.positiveString;
   var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPatternString;
   var sweaterRelativeChargeAllPatternString = BASEA11yStrings.sweaterRelativeChargeAllPatternString;
@@ -55,7 +57,7 @@ define( function( require ) {
     },
     MAX_RANGE: {
       range: new Range( 57, 57 ),
-      description: ''
+      description: allString
     } 
   };
   
@@ -163,7 +165,8 @@ define( function( require ) {
       var description;
 
       // the relative charge on the sweater, something like 'several' or 'many'
-      var relative = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( charge );
+      var absCharge = Math.abs( charge );
+      var relative = SweaterDescriber.getRelativeChargeDescription( absCharge );
 
       if ( shownCharges === 'all' ) {
         var relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
@@ -185,6 +188,45 @@ define( function( require ) {
       }
 
       return description;
+    },
+
+    /**
+     * Get the relative charge on the sweater.  Usually just returns the relative description
+     * from BalloonsAndStaticElectricity, but if all charges are gone, the sweater uses a special
+     * word to indicate this.
+     *
+     * @param {number} charge
+     * @return {string}
+     */
+    getRelativeChargeDescription: function( charge ) {
+
+      if ( charge === BASEConstants.MAX_BALLOON_CHARGE ) {
+        return allString;        
+      }
+      else {
+        return BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( charge );
+      }
+    },
+
+    /**
+     * Get an alert describing the sweater when it runs out of charges.  Dependent on the
+     * charge visibility.
+     * 
+     * @param  {string} shownCharges
+     * @return {string}
+     */
+    getNoMoreChargesAlert: function( charge, shownCharges ) {
+      var alert;
+      if ( shownCharges === 'all' ) {
+        alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
+          relativeCharge: sweaterNoMoreChargesString          
+        } );
+      }
+      else if ( shownCharges === 'diff' ) {
+        alert = SweaterDescriber.getRelativeChargeDescriptionWithLabel( charge, shownCharges );
+      }
+
+      return alert;
     }
   } );
 } );

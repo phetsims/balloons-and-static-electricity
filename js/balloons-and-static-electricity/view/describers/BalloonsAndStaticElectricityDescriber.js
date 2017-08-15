@@ -187,14 +187,17 @@ define( function( require ) {
      * @return {string}
      */
     getRelativeChargeDescription: function( charge ) {
-      assert && assert( charge >= 0, 'map only works for positive values.' );
+
+      // the description is mapped to the absolute value of charge
+      var absCharge = Math.abs( charge );
+
       var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
 
       var description;
 
       for ( var i = 0; i < keys.length; i++ ) {
         var value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
-        if ( value.range.contains( charge ) ) {
+        if ( value.range.contains( absCharge ) ) {
           description = value.description;
           break;
         }

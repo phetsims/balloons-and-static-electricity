@@ -14,7 +14,8 @@ define( function( require ) {
 
   var BASEConstants = {
     backgroundColorProperty: new Property( '#9ddcf8' ),
-    msScaleFactor: 1000 // to convert seconds to miliseconds, used throughout the view
+    msScaleFactor: 1000, // to convert seconds to miliseconds, used throughout the view
+    MAX_BALLOON_CHARGE: 57 // max number of charges the balloon can have
   };
 
   balloonsAndStaticElectricity.register( 'BASEConstants', BASEConstants );

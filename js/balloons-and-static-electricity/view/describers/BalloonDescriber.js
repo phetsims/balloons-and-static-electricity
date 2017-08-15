@@ -105,8 +105,9 @@ define( function( require ) {
   var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString;
   var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString;
   var balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPatternString;
-  var balloonSweaterRelativeChargesPattnerString = BASEA11yStrings.balloonSweaterRelativeChargesPattnerString;
+  var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString;
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
+  var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -893,8 +894,8 @@ define( function( require ) {
      * on charge view, whether the balloon has picked up charges already since moving on to the
      * sweater, and the number of charges that the balloon has picked up.
      * 
-     * @param  {boolean} firstPickup [description]
-     * @return {string}             [description]
+     * @param  {boolean} firstPickup - special behavior if the first charge pickup since landing on sweater
+     * @return {string}
      */
     getChargePickupDescription: function( firstPickup ) {
       var description;
@@ -940,7 +941,7 @@ define( function( require ) {
         var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
         var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
 
-        description = StringUtils.fillIn( balloonSweaterRelativeChargesPattnerString, {
+        description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
           balloon: relativeBalloonCharge,
           sweater: relativeSweaterCharge
         } );
@@ -951,6 +952,25 @@ define( function( require ) {
 
       assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
       return description;
+    },
+
+    /**
+     * Get the description when the balloon has picked up the last charge on the sweater.
+     * Dependent on the charge view.
+     * 
+     * @return {string}
+     */
+    getLastChargePickupDescription: function() {
+      var shownCharges = this.showChargesProperty.get();
+      var charge = this.balloonModel.chargeProperty.get();
+
+      var sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );
+      var balloonChargeString = this.getRelativeChargeDescriptionWithLabel();
+
+      return StringUtils.fillIn( lastChargePickedUpPatternString, {
+        sweater: sweaterChargeString,
+        balloon: balloonChargeString
+      } );
     }
   } );
 } );
