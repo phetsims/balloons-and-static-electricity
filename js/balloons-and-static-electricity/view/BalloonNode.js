@@ -273,6 +273,9 @@ define( function( require ) {
                   alert = self.describer.getInitialReleaseDescription( location, oldLocation );
                   UtteranceQueue.addToBack( alert );
                 }
+
+                // reset timer for release alert
+                self.timeSinceReleaseAlert = 0;
               }
             }
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
@@ -285,7 +288,7 @@ define( function( require ) {
               self.timeSinceReleaseAlert = 0;
             }
             else if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
-                 self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
+                      self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
 
               // immediately announce that we are touching something and describe
               // the attractive state with punctuation
