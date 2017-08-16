@@ -39,27 +39,28 @@ define( function( require ) {
     } );
 
     // @public (read-only)
-    this.x = x;
+    this.x = x; // the left location of the wall
     this.numX = 3; // number of columns with charges
     this.numY = 18; // number of rows with charges
 
-    this.dx = Math.round( 80 / this.numX + 2 );
+    // @private {number} - scaling factors for calculating positions for induced charge
+    this.dx = Math.round( width / this.numX + 2 );
     this.dy = height / this.numY;
-    this.width = width;
-    this.height = height;
 
+    // @private {array.<PointChargeModel>}
     this.plusCharges = [];
-    this.minusCharges = [];
-
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
+
+    // @private {array.<MovablePointChargeModel>}
+    this.minusCharges = [];
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
 
     for ( var i = 0; i < this.numX; i++ ) {
       for ( var k = 0; k < this.numY; k++ ) {
+
         //plus
         var position = this.calculatePosition( i, k );
         var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
-
         this.plusCharges.push( plusCharge );
 
         //minus
