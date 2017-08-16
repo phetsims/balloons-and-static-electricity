@@ -973,7 +973,6 @@ define( function( require ) {
       if ( !this.centerInSweaterChargedArea() ) {
 
         var rightBound = model.bounds.maxX;
-        // var rightBound = model.wall.isVisibleProperty.get() ? model.bounds.maxX : model.bounds.maxX + model.wallWidth;
         var force = this.getTotalForce();
         var newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
         var newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
