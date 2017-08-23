@@ -528,6 +528,7 @@ define( function( require ) {
       accessibleHidden: true,
       pickable: false,
       ariaRole: 'application',
+      accessibleLabel: accessibleLabelString,
       focusHighlight: dragHighlightNode
     } );
     this.addChild( accessibleDragNode );
