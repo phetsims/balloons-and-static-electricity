@@ -22,9 +22,6 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  // phet-io modules
-  var phetio = require( 'ifphetio!PHET_IO/phetio' );
-
   // strings
   var sweaterLabelString = BASEA11yStrings.sweaterLabelString;
 
