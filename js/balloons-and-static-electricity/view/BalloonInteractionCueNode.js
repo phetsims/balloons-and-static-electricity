@@ -145,7 +145,7 @@ define( function( require ) {
       }
     } );
 
-    balloonNode.focusEmitter.addListener( function( focussed ) {
+    balloonNode.focusEmitter.addListener( function( focused ) {
       backgroundRectangle.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
     } );
 
