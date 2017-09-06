@@ -31,7 +31,7 @@ define( function( require ) {
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
   var NEAR_SWEATER_DISTANCE = 25;
   var VELOCITY_ARRAY_LENGTH = 5;
-  var THRESHOLD_SPEED = 0.025;
+  var THRESHOLD_SPEED = 0.0125;
   var BALLOON_WIDTH = 134;
   var BALLOON_HEIGHT = 222;
 
