@@ -125,38 +125,11 @@ define( function( require ) {
   return inherit( AccessibleSectionNode, SceneSummaryNode, {
 
     /**
-     * Get the string that describes the interaction state of the balloon on an object.  Will be one of
-     * 'sticking to', 'on', or 'touching'.  We use 'sticking to' if the balloon is charged, touching the
-     * sweater or wall, and not dragged. We use 'touching' if the balloon is just touching the sweater or wall.
-     * Otherwise, we use 'on', maybe BalloonsAndStaticElectricityDescriber.js?
-     *
-     * @private
-     * @return {string}
-     */
-    getAttractiveStateString: function( balloon ) {
-      var attractiveStateString = '';
-
-      if ( balloon.onSweater() || balloon.touchingWall() ) {
-        if ( !balloon.isDraggedProperty.get() && Math.abs( balloon.chargeProperty.get() ) > 0 ) {
-          attractiveStateString = sceneSummaryStickingToString;
-        }
-        else {
-          attractiveStateString = sceneSummaryTouchingString;
-        }
-      }
-      else {
-        attractiveStateString = sceneSummaryOnString;
-      }
-
-      return attractiveStateString;
-    },
-
-    /**
      * Get the location description of a single balloon, as well as a description of any charge that it is inducing
      * in the wall.
      *
      * TODO: Parts of this will likely be useful elswhere in the sim.
-     * TODO: Should this be in the BalloonDescriber?
+     * TODO: Replace with functions in BalloonDescriber
      * @private
      * @param  {BalloonModel} balloon
      * @param  {string} balloonLabel
