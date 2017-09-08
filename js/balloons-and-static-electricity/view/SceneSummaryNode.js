@@ -6,6 +6,9 @@
  * By breaking up the summary into a list of items, the user can find specific information about the
  * scene very quickly.
  *
+ * TODO: Most of these functions should now use BalloonDescriber/SweaterDescriber/WallDescriber, there should be no
+ * need for duplication.
+ *
  * @author Jesse Greenberg
  */
 

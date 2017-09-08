@@ -31,7 +31,6 @@ define( function( require ) {
   var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
   var balloonOnString = BASEA11yStrings.balloonOnString;
   var balloonAtString = BASEA11yStrings.balloonAtString;
-  var balloonTouchingString = BASEA11yStrings.balloonTouchingString;
   var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString;
   var balloonNoString = BASEA11yStrings.balloonNoString;
   var balloonNegativeString = BASEA11yStrings.balloonNegativeString;
@@ -301,20 +300,20 @@ define( function( require ) {
     getAttractiveStateOrProximityDescription: function() {
       var string = '';
 
-      if ( this.balloonModel.onSweater() || this.balloonModel.touchingWall() ) {
+      if ( this.balloonModel.onSweater() ) {
         if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
 
           // has charged and not dragging, balloon is sticking to the object
           string = balloonStickingToString;
         }
         else {
-          string = balloonTouchingString;
+          string = balloonOnString;
         }
       }
       else {
         string = this.getNearOrOnDescription();
       }
-
+      
       return string;
     },
 

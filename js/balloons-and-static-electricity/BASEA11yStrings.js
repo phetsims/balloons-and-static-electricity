@@ -274,7 +274,6 @@ define( function( require ) {
     balloonStickingToString: 'Sticking to',
     balloonOnString: 'On',
     balloonAtString: 'At',
-    balloonTouchingString: 'Touching',
     balloonNearString: 'Near',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
