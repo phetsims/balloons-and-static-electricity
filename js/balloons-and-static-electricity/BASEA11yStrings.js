@@ -405,6 +405,8 @@ define( function( require ) {
     removeWallLabelString: 'Remove Wall',
     addWallLabelString: 'Add Wall',
 
+    removeWallDescriptionString: 'Play with or without the wall.',
+
     balloonString: 'Balloon',
     balloonsString: 'Balloons',
     twoBalloonExperimentLabelString: 'Two-Balloon Experiment',

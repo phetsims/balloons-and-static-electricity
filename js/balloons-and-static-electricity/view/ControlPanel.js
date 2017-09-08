@@ -51,6 +51,7 @@ define( function( require ) {
   var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString;
   var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString;
   var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString;
+  var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString;
 
 
   /**
@@ -86,7 +87,11 @@ define( function( require ) {
       content: wallToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: wallButtonListener,
-      tandem: tandem.createTandem( 'wallButton' )
+      tandem: tandem.createTandem( 'wallButton' ),
+
+      // a11y
+      accessibleDescription: removeWallDescriptionString,
+      parentContainerTagName: 'div'
     } );
     this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
     this.wallButton.mouseArea = this.wallButton.bounds.eroded( 25 );
