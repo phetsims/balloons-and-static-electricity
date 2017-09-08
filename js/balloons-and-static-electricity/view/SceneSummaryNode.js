@@ -39,8 +39,6 @@ define( function( require ) {
   var objectsWithWallPatternString = BASEA11yStrings.objectsWithWallPatternString;
   var objectsNoWallPatternString = BASEA11yStrings.objectsNoWallPatternString;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
   var balloonSummaryWithInducedChargePatternString = BASEA11yStrings.balloonSummaryWithInducedChargePatternString;
   var balloonSummaryWithoutInducedChargePatternString = BASEA11yStrings.balloonSummaryWithoutInducedChargePatternString;
   var sceneSummaryStickingToString = BASEA11yStrings.sceneSummaryStickingToString;
@@ -59,7 +57,7 @@ define( function( require ) {
    * @param wallNode
    * @param {Tandem} tandem
    */
-  function SceneSummaryNode( model, wallNode, tandem ) {
+  function SceneSummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
 
     var self = this;
 
@@ -70,6 +68,9 @@ define( function( require ) {
     // pull out model elements for readability
     var yellowBalloon = model.yellowBalloon;
     var greenBalloon = model.greenBalloon;
+
+    var yellowBalloonDescriber = yellowBalloonNode.describer;
+    var greenBalloonDescriber = greenBalloonNode.describer;
 
     // @private
     this.model = model;
@@ -103,7 +104,7 @@ define( function( require ) {
     // update the descriptions which covers the location of each balloon and how they inducee charge on the wall
     var locationProperties = [ yellowBalloon.locationProperty, greenBalloon.locationProperty, greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ];
     Property.multilink( locationProperties, function( yellowBalloonLocation ) {
-        locationDescriptionNode.accessibleLabel = self.getLocationDescription( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode );
+        locationDescriptionNode.accessibleLabel = self.getLocationDescription( yellowBalloon, yellowBalloonDescriber, greenBalloon, greenBalloonDescriber, wallNode );
         inducedChargeDescriptionNode.accessibleLabel = self.getInducedChargeDescription();
       }
     );
@@ -162,7 +163,9 @@ define( function( require ) {
      * @param  {WallNode} wallNode
      * @return {string}
      */
-    getBalloonLocationDescription: function( balloon, balloonLabel, wallNode ) {
+    getBalloonLocationDescription: function( balloon, balloonDescriber, wallNode ) {
+
+      var balloonLabel = balloonDescriber.accessibleLabel;
 
       // phrase describing the location of the balloon in the play area, determined relative to center of the balloon
       // unless balloon is touching the wall or sweater, in which case the descriped point is relative to the sides
@@ -182,7 +185,8 @@ define( function( require ) {
       var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
 
       // attractive state segment, like "sticking to" or "on"
-      var attractiveStateString = this.getAttractiveStateString( balloon );
+      var attractiveStateString = balloonDescriber.getAttractiveStateOrProximityDescription();
+      attractiveStateString = attractiveStateString.toLowerCase(); // TODO: is this lower case?
 
       // description for induced charge in the wall if it is visible
       if ( this.model.wall.isVisibleProperty.get() && balloon.inducingCharge ) {
@@ -316,13 +320,13 @@ define( function( require ) {
      * @private
      * @return {string}
      */
-    getLocationDescription: function( yellowBalloon, yellowBalloonLabelString, greenBalloon, greenBalloonLabelString, wallNode ) {
+    getLocationDescription: function( yellowBalloon, yellowBalloonDescriber, greenBalloon, greenBalloonDescriber, wallNode ) {
       var description;
 
       // descriptions for each balloon, if green balloon is invisible it is skipped
-      var yellowBalloonDescription = this.getBalloonLocationDescription( yellowBalloon, yellowBalloonLabelString, wallNode );
+      var yellowBalloonDescription = this.getBalloonLocationDescription( yellowBalloon, yellowBalloonDescriber, wallNode );
       if ( greenBalloon.isVisibleProperty.get() ) {
-        var greenBalloonDescription = this.getBalloonLocationDescription( greenBalloon, greenBalloonLabelString, wallNode );
+        var greenBalloonDescription = this.getBalloonLocationDescription( greenBalloon, greenBalloonDescriber, wallNode );
         description = StringUtils.fillIn( twoBalloonLocationSummaryString, {
           yellowBalloon: yellowBalloonDescription,
           greenBalloon: greenBalloonDescription

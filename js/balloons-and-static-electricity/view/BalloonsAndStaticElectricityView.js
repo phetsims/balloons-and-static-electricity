@@ -66,9 +66,6 @@ define( function( require ) {
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     var wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
 
-    var sceneSummaryNode = new SceneSummaryNode( model, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
-    this.addChild( sceneSummaryNode );
-
     // add sonification if enabled
     if ( BalloonsAndStaticElectricityQueryParameters.sonification ) {
       this.audioView = new BalloonsAndStaticElectricityAudio( model, tandem.createTandem( 'audioView' ) );
@@ -125,6 +122,10 @@ define( function( require ) {
       tandem.createTandem( 'greenBalloonTetherNode' )
     );
 
+    // created after all other view objects so we can access each describer
+    var sceneSummaryNode = new SceneSummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
+    this.addChild( sceneSummaryNode );
+
     // combine the balloon content into single nodes so that they are easily layerable
     var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     var yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
@@ -176,6 +177,9 @@ define( function( require ) {
         greenBalloonCueNode.moveToFront();
       }
     } );
+
+    // the scene summary should be before all other children
+    this.accessibleOrder = [ sceneSummaryNode ];
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];

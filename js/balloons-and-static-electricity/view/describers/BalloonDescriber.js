@@ -313,7 +313,7 @@ define( function( require ) {
       else {
         string = this.getNearOrOnDescription();
       }
-      
+
       return string;
     },
 
