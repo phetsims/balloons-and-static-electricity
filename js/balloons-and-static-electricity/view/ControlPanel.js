@@ -52,7 +52,7 @@ define( function( require ) {
   var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString;
   var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString;
   var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString;
-
+  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescriptionString;
 
   /**
    * @constructor
@@ -204,7 +204,9 @@ define( function( require ) {
       {
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
         maskFill: BASEConstants.backgroundColorProperty,
-        accessibleLabel: twoBalloonExperimentLabelString
+        accessibleLabel: twoBalloonExperimentLabelString,
+        parentContainerTagName: 'div',
+        accessibleDescription: twoBalloonExperimentDescriptionString
       }
     );
 
@@ -277,7 +279,13 @@ define( function( require ) {
 
     var balloonsPanel = new VBox( {
       spacing: 2,
-      children: [ showSecondBalloonSelector, resetBalloonButton ]
+      children: [ showSecondBalloonSelector, resetBalloonButton ],
+
+      // a11y
+      tagName: 'div',
+      labelTagName: 'h3',
+      accessibleLabel: 'Balloon Settings',
+      prependLabels: true
     } );
 
     //Add the controls at the right, with the reset all button and the wall button
@@ -319,7 +327,7 @@ define( function( require ) {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.wallButton, showSecondBalloonSelector, resetBalloonButton, showChargesRadioButtonGroup, resetAllButton ];
+    this.accessibleOrder = [ this.wallButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
 
   }
 

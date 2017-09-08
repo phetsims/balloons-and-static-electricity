@@ -406,10 +406,11 @@ define( function( require ) {
     addWallLabelString: 'Add Wall',
 
     removeWallDescriptionString: 'Play with or without the wall.',
+    twoBalloonExperimentDescriptionString: 'Play with two balloons or just one.',
 
     balloonString: 'Balloon',
     balloonsString: 'Balloons',
-    twoBalloonExperimentLabelString: 'Two-Balloon Experiment',
+    twoBalloonExperimentLabelString: 'Two-Balloon Experiments',
     grabPatternString: 'Grab {0}',
     greenBalloonRemovedString: 'Green balloon removed from Play Area',
     greenBalloonAddedString: 'Green balloon added to Play Area',

@@ -34,7 +34,6 @@ define( function( require ) {
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
 
   // constants
@@ -97,15 +96,17 @@ define( function( require ) {
       mouseAreaXDilation: 0,
       mouseAreaYDilation: 0,
 
-      tandem: Tandem.tandemRequired()
+      cursor: 'pointer',
+
+      // tandem support
+      tandem: options.tandem,
+      phetioType: TTwoSceneSelectionNode,
+
+      // a11y
+      tagName: 'button'
     }, options );
 
-    Node.call( this, {
-      cursor: 'pointer'
-    } );
-
-    // a11y
-    this.tagName = 'button';
+    Node.call( this, options );
 
     // Emitters for the PhET-iO data stream
     this.startedCallbacksForToggledEmitter = new Emitter( { indicateCallbacks: false } );
@@ -264,12 +265,6 @@ define( function( require ) {
       this.enabledProperty.unlink( setStyles );
       this.removeAccessibleInputListener( clickListener );
     };
-
-    // tandem support
-    this.mutate( {
-      tandem: options.tandem,
-      phetioType: TTwoSceneSelectionNode
-    } );
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );

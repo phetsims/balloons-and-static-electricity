@@ -41,9 +41,6 @@ define( function( require ) {
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
   var balloonSummaryWithInducedChargePatternString = BASEA11yStrings.balloonSummaryWithInducedChargePatternString;
   var balloonSummaryWithoutInducedChargePatternString = BASEA11yStrings.balloonSummaryWithoutInducedChargePatternString;
-  var sceneSummaryStickingToString = BASEA11yStrings.sceneSummaryStickingToString;
-  var sceneSummaryOnString = BASEA11yStrings.sceneSummaryOnString;
-  var sceneSummaryTouchingString = BASEA11yStrings.sceneSummaryTouchingString;
   var twoBalloonLocationSummaryString = BASEA11yStrings.twoBalloonLocationSummaryString;
   var balloonLocationSummaryWithPositiveChargeDescription = BASEA11yStrings.balloonLocationSummaryWithPositiveChargeDescription;
   var allHaveNoNetChargeString = BASEA11yStrings.allHaveNoNetChargeString;
