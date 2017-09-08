@@ -34,6 +34,7 @@ define( function( require ) {
   var ColorConstants = require( 'SUN/ColorConstants' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
 
   // constants
@@ -99,8 +100,7 @@ define( function( require ) {
       cursor: 'pointer',
 
       // tandem support
-      tandem: options.tandem,
-      phetioType: TTwoSceneSelectionNode,
+      tandem: Tandem.tandemRequired(),
 
       // a11y
       tagName: 'button'
@@ -265,6 +265,12 @@ define( function( require ) {
       this.enabledProperty.unlink( setStyles );
       this.removeAccessibleInputListener( clickListener );
     };
+
+    // mutate with phetioTaype after listeners are instantiated so they are defined for TTwoSceneSelectionNode
+    this.mutate( {
+      phetioType: TTwoSceneSelectionNode,
+      tandem: options.tandem
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );

@@ -69,12 +69,16 @@ define( function( require ) {
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, {
       font: addRemoveFont,
-      tandem: tandem.createTandem( 'addWallText' )
+      tandem: tandem.createTandem( 'addWallText' ),
+      tagName: null,
+      accessibleLabel: null 
     } );
     var removeWallText = new MultiLineText( removeWallString, {
       font: addRemoveFont,
       center: addWallText.center,
-      tandem: tandem.createTandem( 'removeWallText' )
+      tandem: tandem.createTandem( 'removeWallText' ),
+      tagName: null,
+      accessibleLabel: null 
     } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
       maxWidth: 120,
