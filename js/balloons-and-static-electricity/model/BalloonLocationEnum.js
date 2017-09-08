@@ -55,7 +55,8 @@ define( function( require ) {
     TOP_EDGE: 'TOP_EDGE',
     BOTTOM_EDGE: 'BOTTOM_EDGE',
     AT_WALL: 'AT_WALL',
-    ON_SWEATER: 'ON_SWEATER'
+    ON_SWEATER: 'ON_SWEATER',
+    CENTER_PLAY_AREA: 'CENTER_PLAY_AREA'
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

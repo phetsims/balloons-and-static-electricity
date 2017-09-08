@@ -18,6 +18,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
+  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var Range = require( 'DOT/Range' );
   var Vector2 = require( 'DOT/Vector2' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
@@ -330,6 +331,7 @@ define( function( require ) {
       var wallVisible = this.wall.isVisibleProperty.get();
       var balloonRight = this.balloonModel.getRight();
       var wallLeft = this.wall.x;
+      var balloonInCenterPlayArea = this.balloonModel.playAreaColumnProperty.get() === BalloonLocationEnum.CENTER_PLAY_AREA;
 
       if ( this.balloonModel.nearWall() || ( balloonRight === wallLeft && !wallVisible ) ) {
 
@@ -337,7 +339,7 @@ define( function( require ) {
         // because we are near the right edge
         string = balloonNearString;
       }
-      else if ( this.balloonModel.touchingWall() ) {
+      else if ( this.balloonModel.touchingWall() || balloonInCenterPlayArea ) {
         string = balloonAtString;
       }
       else {
