@@ -14,7 +14,7 @@
  * https://github.com/phetsims/balloons-and-static-electricity/issues/213 for the discussion on this topic.
  *
  * @author Jesse Greenberg
- * @author John BLanco
+ * @author John Blanco
  */
 
 define( function( require ) {
@@ -35,7 +35,6 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -107,10 +106,6 @@ define( function( require ) {
     }, options );
 
     Node.call( this, options );
-
-    // Emitters for the PhET-iO data stream
-    this.startedCallbacksForToggledEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForToggledEmitter = new Emitter( { indicateCallbacks: false } );
 
     // @private
     this.enabledProperty = options.enabledProperty;
@@ -215,19 +210,25 @@ define( function( require ) {
       self.setAccessibleAttribute( 'aria-pressed', value === valueB );
     } );
 
+    var firedEmitter = new Emitter( {
+      phetioMessageType: 'user',
+      tandem: options.tandem.createTandem( 'firedEmitter' )
+    } );
+
     // listener that makes this node behave like a button
     var upFunction = function() {
       var newValue = property.get() === valueA ? valueB : valueA;
-      self.startedCallbacksForToggledEmitter.emit2( property.get(), newValue );
       property.set( newValue );
       setStyles( self.enabledProperty.get() );
-      self.endedCallbacksForToggledEmitter.emit();
     };
+
+    firedEmitter.addListener( upFunction );
+
     var downUpListener = new DownUpListener( {
-      up: function( event ) {
-        upFunction();
+      up: function() {
+        firedEmitter.emit();
       },
-      down: function( event ) {
+      down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
         otherButton.fill = options.pressedColor;
       }
@@ -264,13 +265,8 @@ define( function( require ) {
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
       this.removeAccessibleInputListener( clickListener );
+      firedEmitter.removeListener( upFunction );
     };
-
-    // mutate with phetioTaype after listeners are instantiated so they are defined for TTwoSceneSelectionNode
-    this.mutate( {
-      phetioType: TTwoSceneSelectionNode,
-      tandem: options.tandem
-    } );
   }
 
   balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
