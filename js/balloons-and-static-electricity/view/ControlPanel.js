@@ -64,37 +64,37 @@ define( function( require ) {
 
     // super constructor
     AccessibleSectionNode.call( this, controlPanelString );
+    var self = this;
 
     // Add/Remove wall button.
     var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, {
       font: addRemoveFont,
-      tandem: tandem.createTandem( 'addWallText' ),
-      tagName: null,
-      accessibleLabel: null 
+      tandem: tandem.createTandem( 'addWallText' )
     } );
     var removeWallText = new MultiLineText( removeWallString, {
       font: addRemoveFont,
       center: addWallText.center,
-      tandem: tandem.createTandem( 'removeWallText' ),
-      tagName: null,
-      accessibleLabel: null 
+      tandem: tandem.createTandem( 'removeWallText' )
     } );
     var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
       maxWidth: 120,
       tandem: tandem.createTandem( 'wallToggleNode' )
     } );
-    var wallButtonListener = function() { model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() ); };
 
     // @private
     this.wallButton = new RectangularPushButton( {
       content: wallToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
-      listener: wallButtonListener,
+      listener: function() {
+        model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
+        self.wallButton.accessibleLabel = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
+      },
       tandem: tandem.createTandem( 'wallButton' ),
 
       // a11y
       accessibleDescription: removeWallDescriptionString,
+      accessibleLabel: removeWallString,
       parentContainerTagName: 'div'
     } );
     this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
