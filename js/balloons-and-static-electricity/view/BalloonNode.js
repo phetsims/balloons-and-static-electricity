@@ -563,15 +563,23 @@ define( function( require ) {
     balloonImageNode.addAccessibleInputListener( {
       click: function( event ) {
 
-        // make unhidden and focusable
-        accessibleDragNode.accessibleHidden = false;
-        accessibleDragNode.focusable = true;
+        // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
+        // it up immediately again
+        if ( !releasedWithEnter ) {
 
-        // focus
-        accessibleDragNode.focus();
+          // make unhidden and focusable
+          accessibleDragNode.accessibleHidden = false;
+          accessibleDragNode.focusable = true;
 
-        // the balloon is picked up for dragging
-        model.isDraggedProperty.set( true );
+          // focus
+          accessibleDragNode.focus();
+
+          // the balloon is picked up for dragging
+          model.isDraggedProperty.set( true );
+        }
+
+        // pick up the balloon on the next click event
+        releasedWithEnter = false;
       },
       focus: function( event ) {
         self.focusEmitter.emit1( self.focused );
@@ -581,23 +589,36 @@ define( function( require ) {
       }
     } );
 
-    // when the dragable balloon is released,
+    var releaseBalloon = function() {
+      // release the balloon
+      endDragListener();
+
+      // focus the grab balloon button
+      balloonImageNode.focus();
+
+      // the draggable node should no longer be focusable
+      accessibleDragNode.focusable = false;
+      accessibleDragNode.accessibleHidden = true;
+
+      // reset the key state of the drag handler
+      self.keyboardDragHandler.reset();
+    };
+
+    // when the dragable balloon is released
+    var releasedWithEnter = false;
     accessibleDragNode.addAccessibleInputListener( {
       keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_SPACE || event.keyCode === Input.KEY_ENTER ) {
+        if ( event.keyCode === Input.KEY_ENTER ) {
+          releasedWithEnter = true;
+          releaseBalloon();
+        }
+      },
+      keyup: function( event ) {
+        if( event.keyCode === Input.KEY_SPACE ) {
 
-          // release the balloon
-          endDragListener();
-
-          // focus the grab balloon button
-          balloonImageNode.focus();
-
-          // the draggable node should no longer be focusable
-          accessibleDragNode.focusable = false;
-          accessibleDragNode.accessibleHidden = true;
-
-          // reset the key state of the drag handler
-          self.keyboardDragHandler.reset();
+          // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
+          // and trigger a click event
+          releaseBalloon();
         }
       },
       focus: function() {
