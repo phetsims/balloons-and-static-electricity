@@ -21,19 +21,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  var DownUpListener = require( 'SCENERY/input/DownUpListener' );
-  var Emitter = require( 'AXON/Emitter' );
-  var Property = require( 'AXON/Property' );
-  var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Color = require( 'SCENERY/util/Color' );
   var ColorConstants = require( 'SUN/ColorConstants' );
+  var DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  var Emitter = require( 'AXON/Emitter' );
+  var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants

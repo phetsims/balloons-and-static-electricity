@@ -9,16 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Range = require( 'DOT/Range' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
+  var Range = require( 'DOT/Range' );
+  var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [

@@ -9,14 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
   var RADIUS = PointChargeModel.RADIUS;
 

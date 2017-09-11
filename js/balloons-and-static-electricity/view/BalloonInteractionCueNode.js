@@ -14,27 +14,27 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var Shape = require( 'KITE/Shape' );
-  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var Shape = require( 'KITE/Shape' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var toGrabOrReleaseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/toGrabOrRelease' );
-  var spaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/space' );
   var aString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/a' );
-  var sString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/s' );
   var dString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/d' );
+  var spaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/space' );
+  var sString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/s' );
+  var toGrabOrReleaseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/toGrabOrRelease' );
   var wString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/w' );
 
   // constants

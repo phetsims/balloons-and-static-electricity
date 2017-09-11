@@ -10,13 +10,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var Range = require( 'DOT/Range' );
   var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Range = require( 'DOT/Range' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var sweaterLocationString = BASEA11yStrings.sweaterLocationString;

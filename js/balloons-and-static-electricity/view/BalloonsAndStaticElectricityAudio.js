@@ -10,16 +10,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   // var Sound = require( 'VIBE/Sound' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // audio - removed until PhET creates sufficient audio files
-  // var balloonDraggingUpOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-up-on-sweater' );
   // var balloonDraggingDownOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-down-on-sweater' );
-  // var chargeTransferBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/charge-transfer-beep' );
+  // var balloonDraggingUpOnSweater = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/balloon-dragging-up-on-sweater' );
   // var boundsBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/bounds-beep' );
+  // var chargeTransferBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/charge-transfer-beep' );
 
   /**
    * @param {BalloonsAndStaticElectricityModel} model

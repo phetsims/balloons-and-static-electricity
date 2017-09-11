@@ -12,12 +12,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Property = require( 'AXON/Property' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Property = require( 'AXON/Property' );
   var TVector2 = require( 'DOT/TVector2' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   // when charge displacement is larger than this, there is an appreciable induced charge

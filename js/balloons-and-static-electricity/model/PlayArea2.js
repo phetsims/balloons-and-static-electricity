@@ -7,11 +7,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var ORIGIN = new Vector2( 0, 0 );

@@ -14,32 +14,32 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var Property = require( 'AXON/Property' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Bounds2 = require( 'DOT/Bounds2' );
+  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
-  var Shape = require( 'KITE/Shape' );
-  var Emitter = require( 'AXON/Emitter' );
-  var Input = require( 'SCENERY/input/Input' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
-  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var KeyboardDragHandler = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/KeyboardDragHandler' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
-  var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var Emitter = require( 'AXON/Emitter' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Input = require( 'SCENERY/input/Input' );
+  var KeyboardDragHandler = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/KeyboardDragHandler' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
+  var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
+  var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
