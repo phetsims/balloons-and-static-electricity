@@ -9,19 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Property = require( 'AXON/Property' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
+  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var Range = require( 'DOT/Range' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Range = require( 'DOT/Range' );
-  var Shape = require( 'KITE/Shape' );
-
-  // phet-io modules
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [
@@ -97,9 +94,10 @@ define( function( require ) {
     this.height = 385;
 
     // @public {number} - charge on the sweater
-    this.chargeProperty = new Property( 0, {
+    this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
-      phetioValueType: TNumber( { type: 'Integer', range: new Range( -CHARGE_PAIR_POSITIONS.length, 0 ) } ),
+      valueType: 'Integer',
+      range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
       phetioInstanceDocumentation: 'this value is set internally by the simulation and should not be overridden'
     } );
 
