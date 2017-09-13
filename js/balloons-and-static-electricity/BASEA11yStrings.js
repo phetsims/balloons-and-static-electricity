@@ -255,7 +255,7 @@ define( function( require ) {
     wallTwoBalloonInducedChargePatternString: '{{yellowBalloon}}. {{greenBalloon}}',
     wallChargedRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.',
     wallNeutralRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.',
-    wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges.',
+    wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges', // punctuation inserted in another string pattern
 
     //------------------------------------------------------------------------
     // Balloon strings
