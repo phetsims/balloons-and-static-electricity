@@ -34,6 +34,7 @@ define( function( require ) {
   var THRESHOLD_SPEED = 0.0125;
   var BALLOON_WIDTH = 134;
   var BALLOON_HEIGHT = 222;
+  var OVERLAPS_OTHER_DISTANCE = 25; // if balloon center differences is within this amount, they overlap
 
   // collection of charge positions on the balloon, relative to the top left corners
   // charges will appear in these positions as the balloon collects electrons
@@ -277,6 +278,10 @@ define( function( require ) {
     // a label for the balloon, not the accessible label but one of BalloonColorsEnum
     // TODO: delete this, it is very confusing
     this.balloonLabel = labelString;
+
+    // @private {boolean} - a flag that indicates whether or not the balloon should move to avoid occlusion and overlap
+    // with the other balloon.  See preventOverlapWithOther()
+    this.preventOverlap = false;
 
     // neutral pair of charges
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
@@ -799,6 +804,16 @@ define( function( require ) {
         this.dragBalloon( model, dt );
       }
       else {
+
+        // if the balloon is overlapping the other balloon while on the sweater, slide it to the left a bit to avoid
+        // occlusion issues, see https://github.com/phetsims/balloons-and-static-electricity/issues/279
+        if ( this.preventOverlap ) {
+          this.locationProperty.set( this.locationProperty.get().minusXY( 5, 0 ) );
+
+          // stop moving if we no longer overlap
+          this.preventOverlap = this.isOverlappingOther();
+        }
+
         this.applyForce( dt );
 
         // increment the time since release
@@ -919,6 +934,32 @@ define( function( require ) {
 
     isTouchingLeftBoundary: function() {
       return PlayAreaMap.X_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
+    },
+
+    /**
+     * Return true if this balloon is overlapping another balloon. Calculated by checking distance between
+     * balloon centers
+     *
+     * @return {boolean}
+     */
+    isOverlappingOther: function() {
+      var overlappingOther = false;
+      if ( this.other ) {
+        var otherVisible = this.other.isVisibleProperty.get();
+        var distanceToOther = this.locationProperty.get().distance( this.other.locationProperty.get() );
+        overlappingOther = otherVisible && ( distanceToOther < OVERLAPS_OTHER_DISTANCE );
+      }
+      return overlappingOther;
+    },
+
+    /**
+     * If the balloon is on the sweater and overlapping another balloon, avoid occlusion issues by moving the balloon
+     * to the left. This updates a private flag, and the shifting is handled in step so it looks animated.
+     *
+     * @public
+     */
+    preventOverlapWithOther: function() {
+      this.preventOverlap = ( this.isOverlappingOther() && this.onSweater() );
     },
 
     /**
