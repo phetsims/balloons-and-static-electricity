@@ -109,6 +109,7 @@ define( function( require ) {
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
   var showAllWithInducedGrabbedPatternString = BASEA11yStrings.showAllWithInducedGrabbedPatternString;
+  var showAllOnSweaterGrabbedPatternString = BASEA11yStrings.showAllOnSweaterGrabbedPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -488,6 +489,17 @@ define( function( require ) {
             location: stateAndLocation,
             charge: chargeString,
             induced: inducedChargeString,
+            help: interactionCueString
+          } );
+        }
+        else if ( this.balloonModel.stickingToSweater() ) {
+          var sweaterCharge = this.model.sweater.chargeProperty.get();
+          var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, chargesShown );
+          alertString = StringUtils.fillIn( showAllOnSweaterGrabbedPatternString, {
+            grabbed: grabbedString,
+            location: stateAndLocation,
+            charge: chargeString,
+            sweaterCharge: relativeSweaterCharge,
             help: interactionCueString
           } );
         }

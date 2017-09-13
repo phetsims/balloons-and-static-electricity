@@ -356,6 +356,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     showAllGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{help}}',
     showAllWithInducedGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{help}}',
+    showAllOnSweaterGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{sweaterCharge}}. {{help}}',
     showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}',
     showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}',
 

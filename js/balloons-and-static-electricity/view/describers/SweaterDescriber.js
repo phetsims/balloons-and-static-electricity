@@ -192,7 +192,7 @@ define( function( require ) {
 
     /**
      * Get the relative charge on the sweater.  Usually just returns the relative description
-     * from BalloonsAndStaticElectricity, but if all charges are gone, the sweater uses a special
+     * from BalloonsAndStaticElectricityDescriber, but if all charges are gone, the sweater uses a special
      * word to indicate this.
      *
      * @param {number} charge
