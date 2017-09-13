@@ -1,15 +1,15 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.0-dev.2 Mon Sep 11 2017 13:51:13 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.0-dev.3 Wed Sep 13 2017 13:33:00 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "b30683a7a983f24c5b5c221fffa58db2e7c93476",
+    "sha": "020d59a7cf4587040f2ca181f652466d0234022c",
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "a299db4d9c1353612eb77f81a17c47f7f0d7c7b0",
+    "sha": "47713aff02861f762f1b71e1a83d6972066127b0",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "403c319c4ae32f8903337c8e41924a5eb618b04a",
+    "sha": "5062bacd5dc5d89474abfc70261e0ab110a9d1cc",
     "branch": "master"
   },
   "dot": {
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "905d6e43b81d20bc0d22d8d60ce8e81fe0195660",
+    "sha": "37a730c8a00f783b5cadbe2b41cc33681778cce3",
     "branch": "master"
   },
   "sherpa": {
