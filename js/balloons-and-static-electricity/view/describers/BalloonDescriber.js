@@ -108,6 +108,7 @@ define( function( require ) {
   var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString;
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
+  var showAllWithInducedGrabbedPatternString = BASEA11yStrings.showAllWithInducedGrabbedPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -454,7 +455,8 @@ define( function( require ) {
      * Get an alert that indicates that the balloon has been grabbed for dragging. Will compose
      * a description containing charge information, location information, and help for how
      * to interact with balloon. Amount of charge information will depend on charge visibility
-     * setting.
+     * setting. If the balloon is inducing charge, information about induced charge will be included.
+     * If the balloon is on the sweater, will include infomation about the charges on the sweater.
      * 
      * @return {string}
      */
@@ -476,12 +478,26 @@ define( function( require ) {
           charge: relativeChargeString
         } );
 
-        alertString = StringUtils.fillIn( showAllGrabbedPatternString, {
-          grabbed: grabbedString,
-          location: stateAndLocation,
-          charge: chargeString,
-          help: interactionCueString
-        } );
+        // if the balloon is inducing charge, that needs to be included in the description for the balloon
+        if ( this.balloonModel.inducingCharge ) {
+          var wallVisible = this.model.wall.isVisibleProperty.get();
+          var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
+            grabbed: grabbedString,
+            location: stateAndLocation,
+            charge: chargeString,
+            induced: inducedChargeString,
+            help: interactionCueString
+          } );
+        }
+        else {
+          alertString = StringUtils.fillIn( showAllGrabbedPatternString, {
+            grabbed: grabbedString,
+            location: stateAndLocation,
+            charge: chargeString,
+            help: interactionCueString
+          } );
+        }
       }
       else if ( chargesShown === 'none' ) {
         alertString = StringUtils.fillIn( showNoneGrabbedPatternString, {
