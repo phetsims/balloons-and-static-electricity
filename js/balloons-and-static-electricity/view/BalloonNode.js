@@ -37,6 +37,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -571,8 +572,11 @@ define( function( require ) {
           accessibleDragNode.accessibleHidden = false;
           accessibleDragNode.focusable = true;
 
-          // focus
-          accessibleDragNode.focus();
+          // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
+          // the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/293
+          Timer.setTimeout( function() {
+            accessibleDragNode.focus();
+          }, 100 );
 
           // the balloon is picked up for dragging
           model.isDraggedProperty.set( true );
