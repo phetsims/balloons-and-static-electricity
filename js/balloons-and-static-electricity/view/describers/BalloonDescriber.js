@@ -109,7 +109,7 @@ define( function( require ) {
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
   var showAllWithInducedGrabbedPatternString = BASEA11yStrings.showAllWithInducedGrabbedPatternString;
-  var showAllOnSweaterGrabbedPatternString = BASEA11yStrings.showAllOnSweaterGrabbedPatternString;
+  var showAllOnObjectGrabbedPatternString = BASEA11yStrings.showAllOnObjectGrabbedPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -474,6 +474,7 @@ define( function( require ) {
 
       // attractive state and location is described for every charge view
       var stateAndLocation = this.getOnLocationDescription();
+      var wallVisible = this.model.wall.isVisibleProperty.get();
 
       var relativeChargeString;
       var chargeString;
@@ -488,8 +489,8 @@ define( function( require ) {
 
         // if the balloon is inducing charge, or touching wall, the state of induced charge needs to be included in
         // the description for the balloon
+        // TODO: can we factor out and just get the string pattern conditionally - would produce one fillIn call
         if ( this.balloonModel.inducingCharge || this.balloonModel.touchingWall() ) {
-          var wallVisible = this.model.wall.isVisibleProperty.get();
           var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
           alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
             grabbed: grabbedString,
@@ -502,11 +503,21 @@ define( function( require ) {
         else if ( this.balloonModel.stickingToSweater() ) {
           var sweaterCharge = this.model.sweater.chargeProperty.get();
           var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, chargesShown );
-          alertString = StringUtils.fillIn( showAllOnSweaterGrabbedPatternString, {
+          alertString = StringUtils.fillIn( showAllOnObjectGrabbedPatternString, {
             grabbed: grabbedString,
             location: stateAndLocation,
             charge: chargeString,
-            sweaterCharge: relativeSweaterCharge,
+            objectCharge: relativeSweaterCharge,
+            help: interactionCueString
+          } );
+        }
+        else if ( this.balloonModel.inducingCharge ) {
+          var inducedChargeDescription = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          alertString = StringUtils.fillIn( showAllOnObjectGrabbedPatternString, {
+            grabbed: grabbedString,
+            location: stateAndLocation,
+            charge: chargeString,
+            objectCharge: inducedChargeDescription,
             help: interactionCueString
           } );
         }
