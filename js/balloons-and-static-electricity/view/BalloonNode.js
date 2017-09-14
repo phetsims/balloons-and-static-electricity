@@ -363,7 +363,6 @@ define( function( require ) {
                     if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
                       if ( self.model.isNearSweater ) {
                         dragAlert = veryCloseToSweaterString;
-                        // UtteranceQueue.addToBack( veryCloseToSweaterString );
                       }
                     }
 
@@ -371,7 +370,6 @@ define( function( require ) {
                     if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
                       if ( self.model.isNearWall ) {
                         dragAlert = veryCloseToWallString;
-                        // UtteranceQueue.addToBack( veryCloseToWallString );
                       }
                     }
 
@@ -411,7 +409,6 @@ define( function( require ) {
                     } );
                   }
                 }
-
 
                 dragAlert && UtteranceQueue.addToBack( dragAlert );
    
@@ -735,7 +732,10 @@ define( function( require ) {
 
       // unmute and send a custom alert, depending on where the balloon was moved to
       UtteranceQueue.muted = false;
-      UtteranceQueue.addToBack( this.describer.getJumpingDescription( center ) );
+      var utterance = new Utterance( this.describer.getJumpingDescription( center ), {
+        typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
+      } );
+      UtteranceQueue.addToBack( utterance );
     },
 
     getPositionOnSweaterDescription: function() {

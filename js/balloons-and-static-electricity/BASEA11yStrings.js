@@ -73,6 +73,13 @@ define( function( require ) {
     rightEdgeOfPlayAreaString: 'right edge of Play Area',
     lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
+    // landmark strings
+    landmarkNearSweaterString: 'sweater',
+    landmarkLeftEdgeString: 'left edge',
+    landmarkNearUpperWallString: 'upper wall',
+    landmarkNearWallString: 'wall',
+    landmarkNearLowerWallString: 'lower wall',
+
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
     stickingToWallStringPattern: 'Sticking to {0}.',
@@ -346,6 +353,7 @@ define( function( require ) {
 
     balloonAtLocationPatternString: 'At {{location}}.',
     balloonOnLocationPatternString: 'On {{location}}.',
+    balloonNewRegionPatternString: '{{nearOrAt}} {{location}}',
 
     closerToObjectPatternString: 'Closer to {{object}}.',
     topEdgeOfPlayAreaString: 'top edge of Play Area',

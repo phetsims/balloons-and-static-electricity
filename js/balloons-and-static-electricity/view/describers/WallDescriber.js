@@ -175,8 +175,7 @@ define( function( require ) {
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
 
-      var closestCharge = balloon.closestChargeInWall;
-      var location = closestCharge.locationProperty.get();
+      var location = balloon.getCenter();
       var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
 
       if ( balloon.inducingCharge ) {

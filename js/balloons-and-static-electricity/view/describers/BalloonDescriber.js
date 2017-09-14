@@ -73,7 +73,7 @@ define( function( require ) {
   var onSweaterString = BASEA11yStrings.onSweaterString;
   var offSweaterString = BASEA11yStrings.offSweaterString;  
   var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString;
-  var balloonOnLocationPatternString = BASEA11yStrings.balloonOnLocationPatternString;
+  var balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPatternString;
   var closerToObjectPatternString = BASEA11yStrings.closerToObjectPatternString;
   var sweaterString = BASEA11yStrings.sweaterString;
   var wallString = BASEA11yStrings.wallString;
@@ -324,6 +324,8 @@ define( function( require ) {
      * Get the 'near' or 'on' or 'At' description for the balloon, depending on where the balloon is.
      * This is used as part of the balloon location description, and changes depending on interaction
      * or location of balloon.
+     *
+     * NOTE: this function is probably horrible for i18n
      * 
      * @return {string}
      */
@@ -331,14 +333,18 @@ define( function( require ) {
       var string;
 
       var wallVisible = this.wall.isVisibleProperty.get();
-      var balloonRight = this.balloonModel.getRight();
-      var wallLeft = this.wall.x;
       var balloonInCenterPlayArea = this.balloonModel.playAreaColumnProperty.get() === BalloonLocationEnum.CENTER_PLAY_AREA;
 
-      if ( this.balloonModel.nearWall() || ( balloonRight === wallLeft && !wallVisible ) ) {
+      if ( this.balloonModel.nearWall() && wallVisible ) {
 
-        // use 'near' if near the wall, or at the wall location when the the wall is invisible
-        // because we are near the right edge
+        if ( wallVisible ) {
+          string = balloonNearString;
+        }
+        else {
+          string = balloonOnString;
+        }
+      }
+      else if ( this.balloonModel.nearSweater() ) {
         string = balloonNearString;
       }
       else if ( this.balloonModel.touchingWall() || balloonInCenterPlayArea ) {
@@ -412,16 +418,17 @@ define( function( require ) {
       var describedBalloonPosition;
 
       var balloonRight = this.balloonModel.getRight();
+      var wallVisible = this.model.wall.isVisibleProperty.get();
 
       // if the balloon is touching the wall (regardless of whether or not it is visible, describe
       // its right edge)
-      if ( PlayAreaMap.COLUMN_RANGES.RIGHT_EDGE.contains( balloonRight ) ) {
+      if ( PlayAreaMap.COLUMN_RANGES.RIGHT_EDGE.contains( balloonRight ) && wallVisible ) {
         describedBalloonPosition = new Vector2( balloonRight, this.balloonModel.getCenterY() ); 
       }
       else if ( this.balloonModel.onSweater() ) {
         describedBalloonPosition = this.balloonModel.getSweaterTouchingCenter();
       }
-      else if ( this.balloonModel.nearWall() ) {
+      else if ( this.balloonModel.nearWall() && wallVisible ) {
         describedBalloonPosition = new Vector2( this.wall.x, this.balloonModel.getCenterY() );
       }
       else {
@@ -714,24 +721,21 @@ define( function( require ) {
     },
 
     /**
-     * Get the dragging description while the balloon is moving through the play area being dragged.
+     * Get the dragging description while the balloon is moving through the play area being dragged and enters
+     * a new region in the play area.
      * 
      * @return {string}
      */
     getPlayAreaDragNewRegionDescription: function() {
 
-      // if in a boundary location that touches the edge of the play area, considered "On",
-      // otherwise considered "At" location
+      var nearOrAt = this.getNearOrOnDescription();
       var balloonCenter = this.balloonModel.getCenter();
-      var nearSide = PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA.contains( balloonCenter.x ) ||
-                     PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA.contains( balloonCenter.x );
-
-      var patternString = nearSide ? balloonOnLocationPatternString : balloonAtLocationPatternString;
 
       var wallVisible = this.model.wall.isVisibleProperty.get();
       var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( balloonCenter, wallVisible );
 
-      return StringUtils.fillIn( patternString, {
+      return StringUtils.fillIn( balloonNewRegionPatternString, {
+        nearOrAt: nearOrAt,
         location: locationString 
       } );
     },

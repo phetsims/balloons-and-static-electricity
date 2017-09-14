@@ -61,8 +61,19 @@ define( function( require ) {
   var severalString = BASEA11yStrings.severalString;
   var manyString = BASEA11yStrings.manyString;
 
+  var landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweaterString;
+  var landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdgeString;
+  var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWallString;
+  var landmarkNearWallString = BASEA11yStrings.landmarkNearWallString;
+  var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWallString;
+
   // constants
   var LOCATION_DESCRIPTION_MAP = {
+    AT_LEFT_EDGE: {
+      UPPER_PLAY_AREA: landmarkLeftEdgeString,
+      CENTER_PLAY_AREA: landmarkLeftEdgeString,
+      LOWER_PLAY_AREA: landmarkLeftEdgeString
+    },
     LEFT_ARM: {
       UPPER_PLAY_AREA: leftShoulderOfSweaterString,
       CENTER_PLAY_AREA: leftArmOfSweaterString,
@@ -83,10 +94,20 @@ define( function( require ) {
       CENTER_PLAY_AREA: rightArmOfSweaterString,
       LOWER_PLAY_AREA: lowerRightArmOfSweaterString
     },
+    AT_NEAR_SWEATER: {
+      UPPER_PLAY_AREA: landmarkNearSweaterString,
+      CENTER_PLAY_AREA: landmarkNearSweaterString,
+      LOWER_PLAY_AREA: landmarkNearSweaterString 
+    },
     LEFT_PLAY_AREA: {
       UPPER_PLAY_AREA: upperLeftSideOfPlayAreaString,
       CENTER_PLAY_AREA: leftSideOfPlayAreaString,
       LOWER_PLAY_AREA: lowerLeftSideOfPlayAreaString
+    },
+    AT_CENTER_PLAY_AREA: {
+      UPPER_PLAY_AREA: upperCenterOfPlayAreaString,
+      CENTER_PLAY_AREA: centerOfPlayAreaString,
+      LOWER_PLAY_AREA: lowerCenterOfPlayAreaString
     },
     CENTER_PLAY_AREA: {
       UPPER_PLAY_AREA: upperCenterOfPlayAreaString,
@@ -98,12 +119,32 @@ define( function( require ) {
       CENTER_PLAY_AREA: rightSideOfPlayAreaString,
       LOWER_PLAY_AREA: lowerRightSideOfPlayAreaString
     },
+    AT_NEAR_WALL: {
+      UPPER_PLAY_AREA: landmarkNearUpperWallString,
+      CENTER_PLAY_AREA: landmarkNearWallString,
+      LOWER_PLAY_AREA: landmarkNearLowerWallString
+    },
+    AT_WALL: {
+      UPPER_PLAY_AREA: upperWallString,
+      CENTER_PLAY_AREA: wallString,
+      LOWER_PLAY_AREA: lowerWallString
+    },
     WALL: {
       UPPER_PLAY_AREA: upperWallString,
       CENTER_PLAY_AREA: wallString,
       LOWER_PLAY_AREA: lowerWallString
     },
+    AT_NEAR_RIGHT_EDGE: {
+      UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
+      CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
+      LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
+    },
     RIGHT_EDGE: {
+      UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
+      CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
+      LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
+    },
+    AT_RIGHT_EDGE: {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
       CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
       LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
@@ -147,6 +188,7 @@ define( function( require ) {
      */
     getLocationDescription: function( location, wallVisible ) {
 
+      var landmarks = PlayAreaMap.LANDMARK_RANGES;
       var columns = PlayAreaMap.COLUMN_RANGES;
       var rows = PlayAreaMap.ROW_RANGES;
 
@@ -154,26 +196,44 @@ define( function( require ) {
       // loops
       var columnsKeys = Object.keys( columns );
       var rowKeys = Object.keys( rows );
+      var landmarkKeys = Object.keys( landmarks );
 
+      var i;
+      var currentLandmark;
       var currentColumn;
       var currentRow;
-      var i;
-      for ( i = 0; i < columnsKeys.length; i++ ) {
-        if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
-          currentColumn = columnsKeys[ i ];
+
+      for ( i = 0; i < landmarkKeys.length; i++ ) {
+        if ( landmarks[ landmarkKeys[ i ] ].contains( location.x ) ) {
+          currentLandmark = landmarkKeys[ i ];
         }
       }
 
+      // landmark takes priority - only find column if we couldn't find landmark
+      if ( !currentLandmark ) {
+        for ( i = 0; i < columnsKeys.length; i++ ) {
+          if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
+            currentColumn = columnsKeys[ i ];
+          }
+        }
+      }
       for ( i = 0; i < rowKeys.length; i++ ) {
         if ( rows[ rowKeys[ i ] ].contains( location.y ) ) {
           currentRow = rowKeys[ i ];
         }
       }
+
+      // use column or landmark, whichever was found
+      currentColumn = currentLandmark || currentColumn;
       assert && assert( currentColumn && currentRow, 'item should be in a row or column of the play area' );
 
       // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
+      // TODO: probably a better way to do this
       if ( wallVisible && currentColumn === 'RIGHT_EDGE' ) {
         currentColumn = 'WALL';
+      }
+      if ( !wallVisible && currentColumn === 'AT_WALL' || currentColumn === 'AT_NEAR_WALL' ) {
+        currentColumn = 'RIGHT_PLAY_AREA';
       }
 
       return LOCATION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];

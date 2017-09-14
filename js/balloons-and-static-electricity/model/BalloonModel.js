@@ -29,7 +29,6 @@ define( function( require ) {
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
-  var NEAR_SWEATER_DISTANCE = 25;
   var VELOCITY_ARRAY_LENGTH = 5;
   var THRESHOLD_SPEED = 0.0125;
   var BALLOON_WIDTH = 134;
@@ -381,8 +380,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     nearWall: function() {
-      var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x >= PlayAreaMap.X_LOCATIONS.AT_NEAR_WALL && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_WALL && model.wall.isVisibleProperty.get() );
+      return PlayAreaMap.LANDMARK_RANGES.AT_NEAR_WALL.contains( this.getCenter().x );
     },
 
     /**
@@ -511,16 +509,13 @@ define( function( require ) {
     },
 
     /**
-     * If the balloon is near the sweater, return true.  Considered near the sweater when
-     * within NEAR_SWEATER_DISTANCE from touching the sweater.
+     * If the balloon is near the sweater, return true.  Considered near the sweater when the center of the balloon
+     * is within the LANDMARK_RANGES.AT_NEAR_SWEATER range of the PlayAreaMap.
      * @returns {boolean}
      * @public
      */
     nearSweater: function() {
-      var minX = this.balloonsAndStaticElectricityModel.playArea.atNearSweater;
-      var maxX = minX + NEAR_SWEATER_DISTANCE;
-
-      return ( minX < this.getCenter().x && this.getCenter().x < maxX );
+      return PlayAreaMap.LANDMARK_RANGES.AT_NEAR_SWEATER.contains( this.getCenter().x );
     },
 
     /**
