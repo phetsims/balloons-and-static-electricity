@@ -43,9 +43,7 @@ define( function( require ) {
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
   var grabbedString = BASEA11yStrings.grabbedString;
   var releasedString = BASEA11yStrings.releasedString;
-  var movesToObjectPatternString = BASEA11yStrings.movesToObjectPatternString;
-  var towardsSweaterString = BASEA11yStrings.towardsSweaterString;
-  var toWallString = BASEA11yStrings.toWallString;
+  var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
   var slowlyString = BASEA11yStrings.slowlyString;
   var quicklyString = BASEA11yStrings.quicklyString;
@@ -580,13 +578,11 @@ define( function( require ) {
 
       // the balloon is moving with some initial velocity, describe that
       var velocityString = this.getVelocityString();
-      var toObjectString = this.getToObjectString( location, oldLocation );
       var directionString= this.getReleaseDirectionDescription( this.balloonModel.direction );
 
-      var description = StringUtils.fillIn( movesToObjectPatternString, {
+      var description = StringUtils.fillIn( initialMovementPatternString, {
         balloonLabel: this.accessibleLabel,
         velocity: velocityString,
-        toObject: toObjectString,
         direction: directionString
       } );
 
@@ -661,17 +657,6 @@ define( function( require ) {
       assert && assert( velocityString, 'no velocity description found' );
 
       return velocityString;
-    },
-
-    /**
-     * Get a string that describes what the balloon is moving toward, one of "to wall" or "towards sweater"
-     * 
-     * @return {string}
-     */
-    getToObjectString: function( location, oldLocation ) {
-
-      // if moving right, return moving to wall string, otherwise, moving to sweater
-      return ( location.x - oldLocation.x > 0 ) ? toWallString : towardsSweaterString;
     },
 
     /**

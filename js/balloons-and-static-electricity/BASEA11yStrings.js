@@ -301,10 +301,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon movement strings
     //--------------------------------------------------------------------------
-    movesToObjectPatternString: '{{balloonLabel}} moves {{velocity}} {{direction}} {{toObject}}.',
-
-    towardsSweaterString: 'towards sweater',
-    toWallString: 'to wall',
+    initialMovementPatternString: '{{balloonLabel}} moves {{velocity}} {{direction}}.',
 
     verySlowlyString: 'very slowly',
     slowlyString: 'slowly',
