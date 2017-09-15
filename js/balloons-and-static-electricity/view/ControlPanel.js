@@ -53,6 +53,9 @@ define( function( require ) {
   var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString;
   var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString;
   var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescriptionString;
+  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPatternString;
+  var balloonString = BASEA11yStrings.balloonString;
+  var balloonsString = BASEA11yStrings.balloonsString;
 
   /**
    * @constructor
@@ -237,6 +240,11 @@ define( function( require ) {
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
       } );
+
+      // alert to assistive technology
+      UtteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+        balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
+      } ) );
     };
     var resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
@@ -259,26 +267,6 @@ define( function( require ) {
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       resetBalloonButton.accessibleDescription = generateDescriptionString( isVisible );
       resetBalloonButton.accessibleLabel = isVisible ? resetBalloonsString : resetBalloonString;
-    } );
-
-    // no need to dispose, button exists for life of sim
-    resetBalloonButton.addAccessibleInputListener( {
-      click: function( event ) {
-        resetBalloonButtonListener();
-
-        var balloonString;
-        var bothBalloonString;
-        if ( model.greenBalloon.isVisibleProperty.get() ) {
-          balloonString = 'balloons';
-          bothBalloonString = 'Both balloons';
-        }
-        else {
-          balloonString = 'balloon';
-          bothBalloonString = 'Balloon';
-        }
-        var resetDescription = StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonString, bothBalloonString );
-        UtteranceQueue.addToFront( resetDescription );
-      }
     } );
 
     var balloonsPanel = new VBox( {

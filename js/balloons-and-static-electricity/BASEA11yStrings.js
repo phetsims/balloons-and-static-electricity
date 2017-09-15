@@ -428,6 +428,9 @@ define( function( require ) {
 
     resetAllString: 'Reset All',
 
+    // alert when the balloons are reset
+    resetBalloonsAlertPatternString: '{{balloons}} and sweater reset.',
+
     // strings for keyboard shortcuts help content
     keyboardHelpDialogString: 'Keyboard Shortcuts',
 	grabBalloonString: 'Grab/Release Balloon',
