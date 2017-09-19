@@ -448,7 +448,7 @@ define( function( require ) {
 
     // a11y - the balloon is hidden from AT when invisible, and an alert is announced to let the user know
     model.isVisibleProperty.link( function( isVisible ) {
-      self.setAccessibleHidden( !isVisible );
+      self.setAccessibleVisible( isVisible );
     } );
 
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
@@ -527,7 +527,7 @@ define( function( require ) {
     var accessibleDragNode = new Node( {
       tagName: 'div',
       focusable: false,
-      accessibleHidden: true,
+      accessibleVisible: false,
       pickable: false,
       ariaRole: 'application',
       accessibleLabel: accessibleLabelString,
@@ -570,7 +570,7 @@ define( function( require ) {
         if ( !releasedWithEnter ) {
 
           // make unhidden and focusable
-          accessibleDragNode.accessibleHidden = false;
+          accessibleDragNode.accessibleVisible = true;
           accessibleDragNode.focusable = true;
 
           // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
@@ -603,7 +603,7 @@ define( function( require ) {
 
       // the draggable node should no longer be focusable
       accessibleDragNode.focusable = false;
-      accessibleDragNode.accessibleHidden = true;
+      accessibleDragNode.accessibleVisible = false;
 
       // reset the key state of the drag handler
       self.keyboardDragHandler.reset();
@@ -634,7 +634,7 @@ define( function( require ) {
 
         // the draggable node should no longer be focusable
         accessibleDragNode.focusable = false;
-        accessibleDragNode.accessibleHidden = true;
+        accessibleDragNode.accessibleVisible = false;
 
         // reset the key state of the drag handler
         self.keyboardDragHandler.reset();
