@@ -636,9 +636,6 @@ define( function( require ) {
         accessibleDragNode.focusable = false;
         accessibleDragNode.accessibleVisible = false;
 
-        // reset the key state of the drag handler
-        self.keyboardDragHandler.reset();
-
         self.dragNodeBlurredEmitter.emit();
       }
     } );
