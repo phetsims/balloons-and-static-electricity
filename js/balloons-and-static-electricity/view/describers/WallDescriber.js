@@ -188,8 +188,8 @@ define( function( require ) {
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
 
-      var location = balloon.getCenter();
-      var chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
+      var closestChargeLocation = balloon.closestChargeInWall.locationProperty.get();
+      var chargeLocationString = BASEDescriber.getLocationDescription( closestChargeLocation, wallVisible );
 
       if ( balloon.inducingCharge ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
@@ -218,8 +218,8 @@ define( function( require ) {
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
 
-      var location = balloon.getCenter();
-      var chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
+      var closestChargeLocation = balloon.closestChargeInWall.locationProperty.get();
+      var chargeLocationString = BASEDescriber.getLocationDescription( closestChargeLocation, wallVisible );
 
       if ( balloon.inducingCharge ) {
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );

@@ -229,7 +229,7 @@ define( function( require ) {
 
       // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
       // TODO: probably a better way to do this
-      if ( wallVisible && currentColumn === 'RIGHT_EDGE' ) {
+      if ( wallVisible && ( currentColumn === 'RIGHT_EDGE' || currentColumn === 'AT_RIGHT_EDGE' ) ) {
         currentColumn = 'WALL';
       }
       if ( !wallVisible && currentColumn === 'AT_WALL' || currentColumn === 'AT_NEAR_WALL' ) {
