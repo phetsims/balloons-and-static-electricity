@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Tandem} tandem
    * @constructor
    */
-  function BalloonsAndStaticElectricityAudio( model, tandem ) {
+  function BASEAudio( model, tandem ) {
 
     // @private
     this.model = model;
@@ -57,9 +57,9 @@ define( function( require ) {
     } );
   }
 
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityAudio', BalloonsAndStaticElectricityAudio );
+  balloonsAndStaticElectricity.register( 'BASEAudio', BASEAudio );
 
-  inherit( Object, BalloonsAndStaticElectricityAudio, {
+  inherit( Object, BASEAudio, {
 
     // @public, step the audio view
     step: function( dt ) {
@@ -220,6 +220,6 @@ define( function( require ) {
     }
   } );
 
-  return BalloonsAndStaticElectricityAudio;
+  return BASEAudio;
 
 } );
