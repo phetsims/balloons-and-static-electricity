@@ -12,7 +12,7 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -32,7 +32,7 @@ define( function( require ) {
     this.addChild( text );
 
     // this should override the output to show information about keyup events
-    if ( BalloonsAndStaticElectricityQueryParameters.keyData ) {
+    if ( BASEQueryParameters.keyData ) {
       document.addEventListener( 'keyup', function( event ) {
         var outputText;
         var keyCode = event.keyCode ? event.keyCode : event.which;

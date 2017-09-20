@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -69,7 +69,7 @@ define( function( require ) {
     this.addChild( sweaterImageNode );
 
     // show the charge area
-    if ( BalloonsAndStaticElectricityQueryParameters.showSweaterChargedArea ) {
+    if ( BASEQueryParameters.showSweaterChargedArea ) {
       this.addChild( new Path( this.sweaterModel.chargedArea, {
         fill: 'rgba( 255, 255, 0, 0.5 )'
       } ) );

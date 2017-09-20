@@ -15,7 +15,7 @@ define( function( require ) {
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonsAndStaticElectricityAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityAudio' );
-  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
@@ -68,7 +68,7 @@ define( function( require ) {
     var wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
 
     // add sonification if enabled
-    if ( BalloonsAndStaticElectricityQueryParameters.sonification ) {
+    if ( BASEQueryParameters.sonification ) {
       this.audioView = new BalloonsAndStaticElectricityAudio( model, tandem.createTandem( 'audioView' ) );
     }
 
@@ -193,12 +193,12 @@ define( function( require ) {
     //--------------------------------------------------------------------------
 
     // visualise regions of the play area
-    if ( BalloonsAndStaticElectricityQueryParameters.showGrid ) {
+    if ( BASEQueryParameters.showGrid ) {
       this.addChild( new PlayAreaGridNode( this.layoutBounds, tandem.createTandem( 'playAreaGridNode' ) ) );
     }
 
     // enable the prototype screen reader
-    if ( BalloonsAndStaticElectricityQueryParameters.reader ) {
+    if ( BASEQueryParameters.reader ) {
       var cursor = new Cursor( document.body );
       var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
 

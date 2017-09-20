@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  var BalloonsAndStaticElectricityQueryParameters = QueryStringMachine.getAll( {
+  var BASEQueryParameters = QueryStringMachine.getAll( {
 
     // enables prototype screen reader
     reader: { type: 'flag' },
@@ -36,7 +36,7 @@ define( function( require ) {
     showBalloonChargeCenter: { type: 'flag' }
   } );
 
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityQueryParameters', BalloonsAndStaticElectricityQueryParameters );
+  balloonsAndStaticElectricity.register( 'BASEQueryParameters', BASEQueryParameters );
 
-  return BalloonsAndStaticElectricityQueryParameters;
+  return BASEQueryParameters;
 } );

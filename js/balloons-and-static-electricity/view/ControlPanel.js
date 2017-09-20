@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BalloonsAndStaticElectricityQueryParameters' );
+  var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -298,7 +298,7 @@ define( function( require ) {
 
     var visibilityControls;
     var controlsLeft;
-    if ( BalloonsAndStaticElectricityQueryParameters.hideChargeControls ) {
+    if ( BASEQueryParameters.hideChargeControls ) {
       visibilityControls = [ balloonsPanel ];
       controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;
     }

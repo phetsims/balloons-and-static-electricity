@@ -51,4 +51,4 @@ All objects exist for the life of the sim, and there is no need to dynamically c
 listeners added to observable Properties also exist for the lifetime of the sim.  There is no need to use the various
 memory management functions such as unlink, dispose, detach, and so on.
 
-For a list of query parameters that are specific to this simulation, see 'BalloonsAndStaticElectricityQueryParameters'.
+For a list of query parameters that are specific to this simulation, see 'BASEQueryParameters'.
