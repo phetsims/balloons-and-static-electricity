@@ -621,10 +621,10 @@ define( function( require ) {
         self.dragNodeFocusedEmitter.emit();
       },
       blur: function( event ) {
+        endDragListener();
+
         // the draggable node should no longer be focusable
         accessibleDragNode.focusable = false;
-
-
 
         self.dragNodeBlurredEmitter.emit();
       }
