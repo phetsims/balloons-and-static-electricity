@@ -563,6 +563,9 @@ define( function( require ) {
         // it up immediately again
         if ( !releasedWithEnter ) {
 
+          // make focusable
+          accessibleDragNode.focusable = true;
+
           // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
           // the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/293
           Timer.setTimeout( function() {
@@ -591,6 +594,8 @@ define( function( require ) {
       // focus the grab balloon button
       balloonImageNode.focus();
 
+      // the draggable node should no longer be focusable
+      accessibleDragNode.focusable = false;
       // reset the key state of the drag handler
       self.keyboardDragHandler.reset();
     };
@@ -616,7 +621,10 @@ define( function( require ) {
         self.dragNodeFocusedEmitter.emit();
       },
       blur: function( event ) {
-        endDragListener();
+        // the draggable node should no longer be focusable
+        accessibleDragNode.focusable = false;
+
+
 
         self.dragNodeBlurredEmitter.emit();
       }
