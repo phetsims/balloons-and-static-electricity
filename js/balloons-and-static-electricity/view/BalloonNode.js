@@ -446,11 +446,6 @@ define( function( require ) {
     // a11y
     balloonImageNode.focusHighlight = Shape.rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height );
 
-    // a11y - the balloon is hidden from AT when invisible, and an alert is announced to let the user know
-    model.isVisibleProperty.link( function( isVisible ) {
-      self.setAccessibleVisible( isVisible );
-    } );
-
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
     var updateAccessibleDescription = function() {
@@ -527,7 +522,6 @@ define( function( require ) {
     var accessibleDragNode = new Node( {
       tagName: 'div',
       focusable: false,
-      accessibleVisible: false,
       pickable: false,
       ariaRole: 'application',
       accessibleLabel: accessibleLabelString,
@@ -569,10 +563,6 @@ define( function( require ) {
         // it up immediately again
         if ( !releasedWithEnter ) {
 
-          // make unhidden and focusable
-          accessibleDragNode.accessibleVisible = true;
-          accessibleDragNode.focusable = true;
-
           // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
           // the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/293
           Timer.setTimeout( function() {
@@ -601,10 +591,6 @@ define( function( require ) {
       // focus the grab balloon button
       balloonImageNode.focus();
 
-      // the draggable node should no longer be focusable
-      accessibleDragNode.focusable = false;
-      accessibleDragNode.accessibleVisible = false;
-
       // reset the key state of the drag handler
       self.keyboardDragHandler.reset();
     };
@@ -631,10 +617,6 @@ define( function( require ) {
       },
       blur: function( event ) {
         endDragListener();
-
-        // the draggable node should no longer be focusable
-        accessibleDragNode.focusable = false;
-        accessibleDragNode.accessibleVisible = false;
 
         self.dragNodeBlurredEmitter.emit();
       }
