@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var BASEModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BASEModel' );
-  var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
+  var BASEView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEView' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEKeyboardHelpContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEKeyboardHelpContent' );
   var Screen = require( 'JOIST/Screen' );
@@ -52,7 +52,7 @@ define( function( require ) {
             balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );
         },
         function( model ) {
-          return new BalloonsAndStaticElectricityView(
+          return new BASEView(
             model,
             balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
           );

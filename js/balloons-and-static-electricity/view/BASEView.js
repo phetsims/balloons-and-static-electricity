@@ -52,7 +52,7 @@ define( function( require ) {
    * @param {BASEModel} model
    * @param {Tandem} tandem
    */
-  function BalloonsAndStaticElectricityView( model, tandem ) {
+  function BASEView( model, tandem ) {
 
     var self = this;
 
@@ -208,9 +208,9 @@ define( function( require ) {
     }
   }
 
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityView', BalloonsAndStaticElectricityView );
+  balloonsAndStaticElectricity.register( 'BASEView', BASEView );
 
-  inherit( ScreenView, BalloonsAndStaticElectricityView, {
+  inherit( ScreenView, BASEView, {
 
     /**
      * Step the view.  For acccessibility, we want to step the 'AudioView' and the the keyboard drag handlers.
@@ -226,5 +226,5 @@ define( function( require ) {
     }
   } );
 
-  return BalloonsAndStaticElectricityView;
+  return BASEView;
 } );
