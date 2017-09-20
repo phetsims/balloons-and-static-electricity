@@ -488,8 +488,21 @@ define( function( require ) {
         // if the balloon is inducing charge, or touching wall, the state of induced charge needs to be included in
         // the description for the balloon
         // TODO: can we factor out and just get the string pattern conditionally - would produce one fillIn call
-        if ( this.balloonModel.inducingCharge || this.balloonModel.touchingWall() ) {
-          var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+        var inducedChargeString;
+        if ( this.balloonModel.touchingWall() ) {
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
+            grabbed: grabbedString,
+            location: stateAndLocation,
+            charge: chargeString,
+            induced: inducedChargeString,
+            help: interactionCueString
+          } );
+        }
+        else if ( this.balloonModel.inducingCharge ) {
+
+          // if inducing charge but not touching the wall, we need induced charge to not include amount
+          inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
           alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
             grabbed: grabbedString,
             location: stateAndLocation,

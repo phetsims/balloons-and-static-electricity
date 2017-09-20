@@ -33,6 +33,7 @@ define( function( require ) {
   var manyChargePairsString = BASEA11yStrings.manyChargePairsString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString;
+  var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPatternString;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -162,12 +163,54 @@ define( function( require ) {
     },
 
     /**
+     * Get the description for induced charge when there is no induced charge. Something like
+     * "Negative charges in wall do not move."
+     *
+     * @param {string} locationString
+     * @return {string}
+     */
+    getNoChangeInChargesDescription: function( locationString ) {
+      return StringUtils.fillIn( wallNoChangeInChargesPatternString, {
+        location: locationString
+      } );
+    },
+
+    /**
+     * Get the induced charge description without the amount of induced charge. Will return something like
+     * "Negative  charges in wall move away from yellow balloon."
+     *
+     * @param {[type]} balloon [description]
+     * @param {[type]} balloon [description]
+     * @param {[type]} wallVisible [description]
+     *
+     * @return {[type]} [description]
+     */
+    getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
+      var descriptionString;
+
+      var location = balloon.getCenter();
+      var chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
+
+      if ( balloon.inducingCharge ) {
+        descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
+          wallLocation: chargeLocationString,
+          balloon: balloonLabel
+        } ); 
+      }
+      else {
+        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+      }
+
+      return descriptionString;
+    },
+
+    /**
      * Get an induced charge amount description for a balloon, based on the positions of charges in the wall.  We find the
      * closest charge to the balloon, and determine how far it has been displaced from its initial position.
      * @static
      * @public
      *
-     * @param  {Balloon} balloon
+     * @param {BalloonModel} balloon
      * @param {string} balloonLabel
      * @param {boolean} wallVisible
      * @returns {string}
@@ -179,7 +222,6 @@ define( function( require ) {
       var chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
 
       if ( balloon.inducingCharge ) {
-        chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {
@@ -189,12 +231,12 @@ define( function( require ) {
         } ); 
       }
       else {
-        descriptionString = StringUtils.fillIn( wallNoChangeInChargesPatternString, {
-          location: chargeLocationString
-        } );
+        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
       }
 
       return descriptionString;
-    }
+    },
+
+
   } );
 } );
