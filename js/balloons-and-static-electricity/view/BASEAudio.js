@@ -22,7 +22,7 @@ define( function( require ) {
   // var chargeTransferBeep = require( 'audio!BALLOONS_AND_STATIC_ELECTRICITY/charge-transfer-beep' );
 
   /**
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {BASEModel} model
    * @param {Tandem} tandem
    * @constructor
    */

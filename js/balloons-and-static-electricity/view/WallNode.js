@@ -24,7 +24,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {BASEModel} model
    * @param {Tandem} tandem
    */
   function WallNode( model, tandem ) {

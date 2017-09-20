@@ -123,7 +123,7 @@ define( function( require ) {
    * Constructor
    * @param {number} x - initial x position
    * @param {number} y - initial y position
-   * @param {BalloonsAndStaticElectricityModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
+   * @param {BASEModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
    * @param {string} labelString - label for the balloon
    * @param {Tandem} tandem
@@ -779,7 +779,7 @@ define( function( require ) {
 
     /**
      * Steps the BalloonModel.
-     * @param {BalloonsAndStaticElectricityModel} model
+     * @param {BASEModel} model
      * @param {number} dtSeconds elapsed time in seconds
      */
     step: function( model, dtSeconds ) {
@@ -821,7 +821,7 @@ define( function( require ) {
      * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
      * that indicates whether or not a charge was picked up.
      *
-     * @param  {BalloonsAndStaticElectricityModel} model
+     * @param  {BASEModel} model
      * @param  {number} dt
      * @returns {boolean} chargeFound
      */

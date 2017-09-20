@@ -67,7 +67,7 @@ define( function( require ) {
    * @param  {number} y
    * @param  {BalloonModel} model
    * @param  {Image} imgsrc - image source from the image plugin
-   * @param  {BalloonsAndStaticElectricityModel} globalModel
+   * @param  {BASEModel} globalModel
    * @param  {Tandem} tandem
    * @constructor
    */

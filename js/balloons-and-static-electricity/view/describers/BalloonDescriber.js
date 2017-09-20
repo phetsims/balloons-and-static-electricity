@@ -158,7 +158,7 @@ define( function( require ) {
   };
 
   /**
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {BASEModel} model
    * @param {WallModel} wall
    * @param {BalloonModel} balloon
    * @constructor

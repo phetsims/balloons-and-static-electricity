@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BalloonsAndStaticElectricityModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonsAndStaticElectricityModel' );
+  var BASEModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BASEModel' );
   var BalloonsAndStaticElectricityView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonsAndStaticElectricityView' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEKeyboardHelpContent = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEKeyboardHelpContent' );
@@ -46,7 +46,7 @@ define( function( require ) {
     new Sim( balloonsAndStaticElectricityTitleString, [
       new Screen(
         function() {
-          return new BalloonsAndStaticElectricityModel(
+          return new BASEModel(
             768,
             504,
             balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );

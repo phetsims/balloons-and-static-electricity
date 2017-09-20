@@ -26,12 +26,12 @@ define( function( require ) {
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   /**
-   * [BalloonsAndStaticElectricityModel description]
+   * Constructor for main model for the Balloons and Static Electricity sim. 
    * @param {number} width
    * @param {number} height
    * @param {Tandem} tandem
    */
-  function BalloonsAndStaticElectricityModel( width, height, tandem ) {
+  function BASEModel( width, height, tandem ) {
 
     // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new Property( 'all', {
@@ -91,9 +91,9 @@ define( function( require ) {
     this.reset();
   }
 
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityModel', BalloonsAndStaticElectricityModel );
+  balloonsAndStaticElectricity.register( 'BASEModel', BASEModel );
 
-  inherit( Object, BalloonsAndStaticElectricityModel, {
+  inherit( Object, BASEModel, {
 
     /**
      * Get all of the ballons in an array, for ease of iterating over them.
@@ -229,5 +229,5 @@ define( function( require ) {
     }
   } );
 
-  return BalloonsAndStaticElectricityModel;
+  return BASEModel;
 } );

@@ -59,7 +59,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {BASEModel} model
    * @param {Bounds2} layoutBounds
    * @param {Tandem} tandem
    */

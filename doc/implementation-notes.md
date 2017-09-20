@@ -6,7 +6,7 @@ This document contains notes that will be helpful to developers and future maint
 ## Model
 Start by reading the model description in https://github.com/phetsims/balloons-and-static-electricity/blob/master/doc/model.md
 
-The main model for this simulation is 'BalloonsAndStaticElectricityModel', which contains the rest of the model
+The main model for this simulation is 'BASEModel', which contains the rest of the model
 components.  This sim will have one or two balloons, a sweater, and a wall.  This compoentThis component also is responsible for keeping the balloons within the bounds of the play area.
 
 The 'BalloonModel' is responsible for all force calculations, since the Balloons are the only objects that move. The

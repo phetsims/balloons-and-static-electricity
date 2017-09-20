@@ -64,7 +64,7 @@ define( function( require ) {
   /**
    * Manages all descriptions relating to the sweater.
    * 
-   * @param {BalloonsAndStaticElectricityModel} model
+   * @param {BASEModel} model
    * @param {Sweater} sweaterModel
    */
   function SweaterDescriber( model, sweaterModel ) {
