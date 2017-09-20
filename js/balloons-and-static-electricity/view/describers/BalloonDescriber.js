@@ -17,7 +17,7 @@ define( function( require ) {
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
@@ -242,7 +242,7 @@ define( function( require ) {
         description = showingNoChargesString;
       }
       else {
-        var relativeChargesString = BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( chargeValue );
+        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
         var stringPattern;
         if ( showCharges === 'all' ) {
           stringPattern = balloonRelativeChargePatternString;
@@ -402,7 +402,7 @@ define( function( require ) {
       var describedBalloonPosition = this.getDescribedPoint();
       var wallVisible = this.wall.isVisibleProperty.get();
 
-      return BalloonsAndStaticElectricityDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
+      return BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
     },
 
     /**
@@ -728,7 +728,7 @@ define( function( require ) {
       var balloonCenter = this.balloonModel.getCenter();
 
       var wallVisible = this.model.wall.isVisibleProperty.get();
-      var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( balloonCenter, wallVisible );
+      var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
 
       return StringUtils.fillIn( balloonNewRegionPatternString, {
         nearOrAt: nearOrAt,
@@ -935,8 +935,8 @@ define( function( require ) {
 
       var newCharge = this.balloonModel.chargeProperty.get();
       var oldCharge = this.chargeOnPickupDescription;
-      var newRange = BalloonsAndStaticElectricityDescriber.getDescribedChargeRange( newCharge );
-      var oldRange = BalloonsAndStaticElectricityDescriber.getDescribedChargeRange( oldCharge );
+      var newRange = BASEDescriber.getDescribedChargeRange( newCharge );
+      var oldRange = BASEDescriber.getDescribedChargeRange( oldCharge );
 
       // if this is the first charge picked up after moving onto sweater, generate
       // a special description to announce that charges have been transfered

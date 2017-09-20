@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Range = require( 'DOT/Range' );
@@ -176,10 +176,10 @@ define( function( require ) {
       var descriptionString;
 
       var location = balloon.getCenter();
-      var chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
+      var chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
 
       if ( balloon.inducingCharge ) {
-        chargeLocationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( location, wallVisible );
+        chargeLocationString = BASEDescriber.getLocationDescription( location, wallVisible );
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {

@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -192,7 +192,7 @@ define( function( require ) {
 
     /**
      * Get the relative charge on the sweater.  Usually just returns the relative description
-     * from BalloonsAndStaticElectricityDescriber, but if all charges are gone, the sweater uses a special
+     * from BASEDescriber, but if all charges are gone, the sweater uses a special
      * word to indicate this.
      *
      * @param {number} charge
@@ -204,7 +204,7 @@ define( function( require ) {
         return allString;        
       }
       else {
-        return BalloonsAndStaticElectricityDescriber.getRelativeChargeDescription( charge );
+        return BASEDescriber.getRelativeChargeDescription( charge );
       }
     },
 

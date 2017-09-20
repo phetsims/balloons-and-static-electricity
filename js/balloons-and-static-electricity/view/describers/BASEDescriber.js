@@ -171,13 +171,13 @@ define( function( require ) {
     }
   };
 
-  function BalloonsAndStaticElectricityDescriber() {
+  function BASEDescriber() {
     // TODO: Does this really need a type? Or can it be a static Object?
   }
 
-  balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityDescriber', BalloonsAndStaticElectricityDescriber );
+  balloonsAndStaticElectricity.register( 'BASEDescriber', BASEDescriber );
 
-  return inherit( Object, BalloonsAndStaticElectricityDescriber, {}, {
+  return inherit( Object, BASEDescriber, {}, {
 
     /**
      * Get the location description for the balloon. This is not a full description, but a short

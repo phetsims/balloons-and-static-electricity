@@ -18,7 +18,7 @@ define( function( require ) {
   // modules
   var AccessibleSectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/AccessibleSectionNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BalloonsAndStaticElectricityDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonsAndStaticElectricityDescriber' );
+  var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -152,7 +152,7 @@ define( function( require ) {
         describedBalloonPosition = balloon.getCenter();
       }
       var wallVisible = this.wall.isVisibleProperty.get();
-      var locationString = BalloonsAndStaticElectricityDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
+      var locationString = BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
 
       // attractive state segment, like "sticking to" or "on"
       var attractiveStateString = balloonDescriber.getAttractiveStateOrProximityDescription();
