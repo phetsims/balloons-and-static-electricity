@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2016-2017, University of Colorado Boulder
 
 /**
  * Possible locations of the balloon in Balloons and Static Electricity.  In addition, there are more values that

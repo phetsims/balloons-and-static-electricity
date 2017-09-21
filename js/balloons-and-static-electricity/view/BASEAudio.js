@@ -1,4 +1,4 @@
-// Copyright 2002-2016, University of Colorado Boulder
+// Copyright 2016-2017, University of Colorado Boulder
 
 /**
  * Simple audio for balloons and static electricity for sounds when the balloon starts rubbing, picks up
