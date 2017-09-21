@@ -92,7 +92,6 @@ define( function( require ) {
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
   var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
-  var showAllGrabbedPatternString = BASEA11yStrings.showAllGrabbedPatternString;
   var showNoneGrabbedPatternString = BASEA11yStrings.showNoneGrabbedPatternString;
   var showDifferencesGrabbedPatternString = BASEA11yStrings.showDifferencesGrabbedPatternString;
   var interactionCueString = BASEA11yStrings.interactionCueString;
@@ -106,8 +105,7 @@ define( function( require ) {
   var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString;
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
-  var showAllWithInducedGrabbedPatternString = BASEA11yStrings.showAllWithInducedGrabbedPatternString;
-  var showAllOnObjectGrabbedPatternString = BASEA11yStrings.showAllOnObjectGrabbedPatternString;
+  var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -468,6 +466,7 @@ define( function( require ) {
      */
     getDraggedAlert: function() {
       var alertString;
+      var patternString;
       var chargesShown = this.showChargesProperty.get();
 
       // attractive state and location is described for every charge view
@@ -487,56 +486,60 @@ define( function( require ) {
 
         // if the balloon is inducing charge, or touching wall, the state of induced charge needs to be included in
         // the description for the balloon
-        // TODO: can we factor out and just get the string pattern conditionally - would produce one fillIn call
         var inducedChargeString;
-        if ( this.balloonModel.touchingWall() ) {
+        if ( this.balloonModel.touchingWall() && this.balloonModel.isCharged() ) {
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-          alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
-            grabbed: grabbedString,
+          alertString = StringUtils.fillIn( grabbedFullPatternString, {
             location: stateAndLocation,
-            charge: chargeString,
-            induced: inducedChargeString,
-            help: interactionCueString
+            balloonCharge: chargeString,
+            inducedCharge: inducedChargeString,
+            positiveCharge: wallPositiveChargesDoNotMoveString,
+            objectCharge: wallHasManyChargesString,
+            help: interactionCueString 
           } );
         }
-        else if ( this.balloonModel.inducingCharge ) {
+        else if ( this.balloonModel.touchingWall() && !this.balloonModel.isCharged() ) {
 
           // if inducing charge but not touching the wall, we need induced charge to not include amount
-          inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
-          alertString = StringUtils.fillIn( showAllWithInducedGrabbedPatternString, {
-            grabbed: grabbedString,
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'positiveCharge' ] );
+          alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
-            charge: chargeString,
-            induced: inducedChargeString,
-            help: interactionCueString
+            balloonCharge: chargeString,
+            inducedCharge: inducedChargeString,
+            objectCharge: wallHasManyChargesString,
+            help: interactionCueString 
           } );
         }
-        else if ( this.balloonModel.stickingToSweater() ) {
+        else if ( this.balloonModel.onSweater() ) {
           var sweaterCharge = this.model.sweater.chargeProperty.get();
           var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, chargesShown );
-          alertString = StringUtils.fillIn( showAllOnObjectGrabbedPatternString, {
-            grabbed: grabbedString,
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge' ] );
+
+          alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
-            charge: chargeString,
+            balloonCharge: chargeString,
             objectCharge: relativeSweaterCharge,
             help: interactionCueString
           } );
         }
         else if ( this.balloonModel.inducingCharge ) {
-          var inducedChargeDescription = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-          alertString = StringUtils.fillIn( showAllOnObjectGrabbedPatternString, {
-            grabbed: grabbedString,
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'positiveCharge', 'objectCharge' ] );
+          inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
+
+          alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
-            charge: chargeString,
-            objectCharge: inducedChargeDescription,
+            balloonCharge: chargeString,
+            inducedCharge: inducedChargeString,
             help: interactionCueString
           } );
         }
         else {
-          alertString = StringUtils.fillIn( showAllGrabbedPatternString, {
-            grabbed: grabbedString,
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge',  'objectCharge' ] );
+          alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
-            charge: chargeString,
+            balloonCharge: chargeString,
             help: interactionCueString
           } );
         }

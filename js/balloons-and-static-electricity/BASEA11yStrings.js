@@ -238,16 +238,16 @@ define( function( require ) {
     // Sweater strings
     //------------------------------------------------------------------------
     sweaterLabelString: 'Sweater',
-    sweaterLocationString: 'At left edge of Play Area',
+    sweaterLocationString: 'At left edge of Play Area.',
     sweaterDescriptionPatternString: '{{location}}. {{charge}}.',
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
-    sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
-    sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges',
-    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
+    sweaterNetChargePatternString: 'Has {{netCharge}} net charge.',
+    sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges.',
+    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges.',
     sweaterNoChargesShownString: 'no charges shown',
-    sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
+    sweaterNoMoreChargesString: 'no more negative charges, only positive charges.',
     sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
-    sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}',
+    sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}.',
 
     //------------------------------------------------------------------------
     // Wall strings
@@ -272,7 +272,7 @@ define( function( require ) {
     yellowBalloonLabelString: 'Yellow Balloon',
     grabBalloonPatternString: 'Grab {{balloon}}',
 
-    balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}',
+    balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}.',
     balloonShowAllChargesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{relativeCharge}}.',
     balloonShowNoChargesPatternString: '{{stateAndLocation}}.',
     balloonShowChargeDifferencesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
@@ -362,11 +362,17 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     showAllGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{help}}',
     showAllWithInducedGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{help}}',
+    showAllWithInducedAndPositiveChargesPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{positiveCharges}}. {{help}}',
     showAllOnObjectGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{objectCharge}}. {{help}}',
     showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}',
     showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}',
 
-    balloonRelativeChargeAllPatternString: 'Has {{charge}}',
+    showAllAtWallWithChargeGrabbbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{positiveCharges}}. {{wallCharges}}',
+
+    // this pattern contains content for all cases, we strip certain placeholders out of this string
+    grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+
+    balloonRelativeChargeAllPatternString: 'Has {{charge}}.',
     balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
     balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges',
 
@@ -456,8 +462,22 @@ define( function( require ) {
     twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
     oneBalloonTouchingWallPatternString: '{0} {1}',
     balloonTouchPointDescriptionPatternString: 'At {0} touch point, {1}',
-    chargeDescriptionPatternString: 'negative charges in wall move away from balloon {0}.  Positive charges do not move.'
+    chargeDescriptionPatternString: 'negative charges in wall move away from balloon {0}.  Positive charges do not move.',
 
+    /**
+     * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
+     *
+     * @param {string} patternString - the pattern string we want to strip placeholders out of
+     * @param {string[]} placeholders - array of strings indicating which strings to remove
+     */
+    stripPlaceholders: function( patternString, placeholders ) {
+      var newPattern = patternString;
+      for ( var i = 0; i < placeholders.length; i++ ) {
+        assert && assert( patternString.includes( placeholders[ i ] ) );
+        newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
+      }
+      return newPattern;
+    }
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
