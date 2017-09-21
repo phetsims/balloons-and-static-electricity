@@ -34,6 +34,7 @@ define( function( require ) {
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString;
   var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPatternString;
+  var wallChargePatternStringWithLabel = BASEA11yStrings.wallChargePatternStringWithLabel;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -78,8 +79,6 @@ define( function( require ) {
      */
     getWallDescription: function( yellowBalloon, greenBalloon ) {
 
-      var wallVisible = this.model.isVisibleProperty.get();
-
       // if no charges are shown, the location is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
         return StringUtils.fillIn( singleStatementPatternString, {
@@ -87,61 +86,95 @@ define( function( require ) {
         } );
       }
       else {
-        // get the description for induced charge from each balloon, only added to description if all charges shown
-        var inducedChargeString;
-        var yellowBalloonInducedChargeString;
-        var greenBalloonInducedChargeString;
-        if ( wallVisible && this.showChargesProperty.get() === 'all' ) {
-          if ( yellowBalloon.inducingCharge ) {
-            yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible );
-            inducedChargeString = yellowBalloonInducedChargeString;
-          }
-          if ( greenBalloon.inducingCharge && greenBalloon.isVisibleProperty.get() ) {
-            greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible );
-          }
-        }
-
-        // assemble the induced charge description depending on if one or both balloons are inducing charge
-        if ( yellowBalloonInducedChargeString && greenBalloonInducedChargeString ) {
-          inducedChargeString = StringUtils.fillIn( wallTwoBalloonInducedChargePatternString, {
-            yellowBalloon: yellowBalloonInducedChargeString,
-            greenBalloon: greenBalloonInducedChargeString
-          } );
-        }
-        else if ( yellowBalloonInducedChargeString ) {
-          inducedChargeString = yellowBalloonInducedChargeString;
-        }
-        else if ( greenBalloonInducedChargeString ) {
-          inducedChargeString = greenBalloonInducedChargeString;
-        }
-
-        // get the description for what charges are currently shown
-        var shownChargesString = ( this.showChargesProperty.get() === 'diff' ) ? showingNoChargesString : manyChargePairsString;
-
-        // if there is an induced charge, include it in the full charge description
-        var wallChargeString;
-        if ( inducedChargeString ) {
-          wallChargeString = StringUtils.fillIn( wallChargeWithInducedPatternString, {
-            netCharge: wallNoNetChargeString,
-            shownCharges: shownChargesString,
-            inducedCharge: inducedChargeString
-          } );
-        }
-        else {
-          wallChargeString = StringUtils.fillIn( wallChargeWithoutInducedPatternString, {
-            netCharge: wallNoNetChargeString,
-            shownCharges: shownChargesString
-          } );
-        }
+        var chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, this.model.isVisibleProperty.get(), this.showChargesProperty.get() );
 
         // assemble the whole description
         return StringUtils.fillIn( wallDescriptionPatternString, {
           location: wallLocationString, 
-          charge: wallChargeString
-        } );  
+          charge: chargeDescription
+        } ); 
       }    
     },
   }, {
+
+    /**
+     * Get the described charge in the wall, dependent on charge visibility, whether or not there is induced charge,
+     * and which balloons are visible. This portion of the description does not include any wall position information.
+     *
+     * @return {string}
+     */
+    getWallChargeDescription: function( yellowBalloon, greenBalloon, wallVisible, chargesShown )  {
+
+      var inducedChargeString;
+      var yellowBalloonInducedChargeString;
+      var greenBalloonInducedChargeString;
+
+      if ( wallVisible && chargesShown === 'all' ) {
+        if ( yellowBalloon.inducingCharge ) {
+          yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible );
+          inducedChargeString = yellowBalloonInducedChargeString;
+        }
+        if ( greenBalloon.inducingCharge && greenBalloon.isVisibleProperty.get() ) {
+          greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible );
+        }
+      }
+
+      // assemble the induced charge description depending on if one or both balloons are inducing charge
+      if ( yellowBalloonInducedChargeString && greenBalloonInducedChargeString ) {
+        inducedChargeString = StringUtils.fillIn( wallTwoBalloonInducedChargePatternString, {
+          yellowBalloon: yellowBalloonInducedChargeString,
+          greenBalloon: greenBalloonInducedChargeString
+        } );
+      }
+      else if ( yellowBalloonInducedChargeString ) {
+        inducedChargeString = yellowBalloonInducedChargeString;
+      }
+      else if ( greenBalloonInducedChargeString ) {
+        inducedChargeString = greenBalloonInducedChargeString;
+      }
+
+      // get the description for what charges are currently shown
+      var shownChargesString = ( chargesShown === 'diff' ) ? showingNoChargesString : manyChargePairsString;
+
+      // if there is an induced charge, include it in the full charge description
+      var wallChargeString;
+      if ( inducedChargeString ) {
+        wallChargeString = StringUtils.fillIn( wallChargeWithInducedPatternString, {
+          netCharge: wallNoNetChargeString,
+          shownCharges: shownChargesString,
+          inducedCharge: inducedChargeString
+        } );
+      }
+      else {
+        wallChargeString = StringUtils.fillIn( wallChargeWithoutInducedPatternString, {
+          netCharge: wallNoNetChargeString,
+          shownCharges: shownChargesString
+        } );
+      }
+
+      return wallChargeString;
+    },
+
+
+    /**
+     * Get a description of the wall charge that includes the label. Something like
+     * "Wall has no net charge, showing..."
+     *
+     * @param {BalloonModel} yellowBalloon
+     * @param {BalloonModel} greenBalloon
+     * @param {boolean} wallVisible
+     * @param {string} chargesShown
+     *
+     * @return {string}
+     */
+    getWallChargeDescriptionWithLabel: function( yellowBalloon, greenBalloon, wallVisible, chargesShown ) {
+      var description = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, wallVisible, chargesShown );
+      description = description.toLowerCase();
+
+      return StringUtils.fillIn( wallChargePatternStringWithLabel, {
+        wallCharge: description
+      } );
+    },
 
     /**
      * Get the induced charge amount description for the balloon, describing whether the charges are

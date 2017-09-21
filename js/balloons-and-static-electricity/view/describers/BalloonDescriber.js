@@ -41,7 +41,6 @@ define( function( require ) {
   var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString;
   var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString;
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
-  var grabbedString = BASEA11yStrings.grabbedString;
   var releasedString = BASEA11yStrings.releasedString;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
@@ -92,8 +91,6 @@ define( function( require ) {
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
   var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
-  var showNoneGrabbedPatternString = BASEA11yStrings.showNoneGrabbedPatternString;
-  var showDifferencesGrabbedPatternString = BASEA11yStrings.showDifferencesGrabbedPatternString;
   var interactionCueString = BASEA11yStrings.interactionCueString;
   var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString;
   var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
@@ -545,27 +542,50 @@ define( function( require ) {
         }
       }
       else if ( chargesShown === 'none' ) {
-        alertString = StringUtils.fillIn( showNoneGrabbedPatternString, {
-          grabbed: grabbedString,
+
+        // if no charges are shown, we should only hear location and help information on grab
+        patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'balloonCharge', 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
+        alertString = StringUtils.fillIn( patternString, {
           location: stateAndLocation,
-          help: interactionCueString
+          help: interactionCueString 
         } );
       }
       else if ( chargesShown === 'diff' ) {
         var netChargeString = this.getNetChargeDescription();
         relativeChargeString = this.getRelativeChargeDescription();
 
+        // grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
         var netAndRelativeString = StringUtils.fillIn( balloonNetChargeShowingPatternString, {
           netCharge: netChargeString,
           showing: relativeChargeString
         } );
 
-        alertString = StringUtils.fillIn( showDifferencesGrabbedPatternString, {
-          grabbed: grabbedString,
-          location: stateAndLocation,
-          relativeCharge: netAndRelativeString,
-          help: interactionCueString
-        } );
+        if ( this.balloonModel.touchingWall() || this.balloonModel.onSweater() ) {
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge' ] );
+
+          var objectChargeString;
+          if ( this.balloonModel.touchingWall() ) {
+            objectChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.balloonModel, this.balloonModel.other, wallVisible, chargesShown );
+          }
+          else {
+            objectChargeString = SweaterDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.chargeProperty.get(), chargesShown );
+          }
+
+          alertString = StringUtils.fillIn( patternString, {
+            location: stateAndLocation,
+            balloonCharge: netAndRelativeString,
+            objectCharge: objectChargeString,
+            help: interactionCueString
+          } );
+        }
+        else {
+          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
+          alertString = StringUtils.fillIn( patternString, {
+            location: stateAndLocation,
+            balloonCharge: netAndRelativeString,
+            help: interactionCueString
+          } );
+        }
       }
 
       assert && assert( alertString, 'No grabbed alert for charge view ' + chargesShown );
