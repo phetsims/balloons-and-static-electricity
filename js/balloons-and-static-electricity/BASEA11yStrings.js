@@ -227,7 +227,7 @@ define( function( require ) {
     //------------------------------------------------------------------------
     // Charge view strings
     //------------------------------------------------------------------------
-    showingNoChargesString: 'showing no charges',
+    showingNoChargesString: 'showing no charges.',
 
     //------------------------------------------------------------------------
     // Object strings (strings shared between all objects)
@@ -257,13 +257,13 @@ define( function( require ) {
     wallNoNetChargeString: 'Has no net charge',
     wallNoTransferOfChargeString: 'No transfer of charge',
     wallPositiveChargesDoNotMoveString: 'Positive charges do not move',
-    wallHasManyChargesString: 'Wall has many pairs of negative and positive charges',
+    wallHasManyChargesString: 'Wall has many pairs of negative and positive charges.',
     wallChargeWithoutInducedPatternString: '{{netCharge}}, {{shownCharges}}',
     wallChargeWithInducedPatternString: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}',
     wallTwoBalloonInducedChargePatternString: '{{yellowBalloon}}. {{greenBalloon}}',
     wallChargedRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.',
     wallNeutralRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.',
-    wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges', // punctuation inserted in another string pattern
+    wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges.', // punctuation inserted in another string pattern
     wallChargePatternStringWithLabel: 'Wall {{wallCharge}}',
 
     //------------------------------------------------------------------------
@@ -289,7 +289,7 @@ define( function( require ) {
     balloonNoString: 'no',
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
-    balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
+    balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
     balloonHasNegativeChargePatternString: '{{balloon}} has negative net charge, {{showing}}',
@@ -375,7 +375,7 @@ define( function( require ) {
 
     balloonRelativeChargeAllPatternString: 'Has {{charge}}.',
     balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
-    balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges',
+    balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges.',
 
     interactionCueString: 'Press W, A, S, or D key to move balloon. Space key to release.',
 
