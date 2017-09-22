@@ -58,7 +58,6 @@ define( function( require ) {
   var veryCloseToSweaterString = BASEA11yStrings.veryCloseToSweaterString;
   var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
   var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelpString;
 
   /**
@@ -300,9 +299,7 @@ define( function( require ) {
 
               // immediately announce that we are touching something and describe
               // the attractive state with punctuation
-              alert = StringUtils.fillIn( singleStatementPatternString, {
-                statement: self.describer.getAttractiveStateAndLocationDescription()
-              } );
+              alert = self.describer.getAttractiveStateAndLocationDescription();
               UtteranceQueue.addToBack( alert );
             }
           }

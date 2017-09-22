@@ -84,7 +84,7 @@ define( function( require ) {
   var balloonNearString = BASEA11yStrings.balloonNearString;
   var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
-  var stillMovingPatternString= BASEA11yStrings.stillMovingPatternString;
+  var stillMovingPatternString = BASEA11yStrings.stillMovingPatternString;
   var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString;
   var wallChargedRubbingAllPatternString = BASEA11yStrings.wallChargedRubbingAllPatternString;
   var wallNeutralRubbingAllPatternString = BASEA11yStrings.wallNeutralRubbingAllPatternString;
@@ -628,25 +628,17 @@ define( function( require ) {
     /**
      * Get a description of continuous movement of the balloon after it has been released and is
      * still moving through the play area.  Will return something like
-     * "Still moving towards sweater."
+     * "Still moving towards left."
      * 
      * @param {Vector2} location   
      * @param {Vector2} oldLocation
      * @return
      */
     getContinuousReleaseDescription: function( location, oldLocation ) {
-      var attractedObjectString;
 
-      var deltaX = location.x - oldLocation.x;
-      if ( deltaX > 0 ) {
-        attractedObjectString = wallString;
-      }
-      else {
-        attractedObjectString = sweaterString;
-      }
-
+      var  directionString = this.getReleaseDirectionDescription( this.balloonModel.direction );
       return StringUtils.fillIn( stillMovingPatternString, {
-        toObject: attractedObjectString
+        direction: directionString
       } );
     },
 
