@@ -59,6 +59,7 @@ define( function( require ) {
   var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
   var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
+  var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelpString;
 
   /**
    * Constructor for the balloon
@@ -181,8 +182,10 @@ define( function( require ) {
       pickable: false, // custom touch areas applied to parent
 
       // a11y
+      parentContainerTagName: 'div',
       tagName: 'button',
-      accessibleLabel: accessibleButtonLabel
+      accessibleLabel: accessibleButtonLabel,
+      accessibleDescription: grabBalloonHelpString
     } );
   
     // now add the balloon, so that the tether is behind it in the z order

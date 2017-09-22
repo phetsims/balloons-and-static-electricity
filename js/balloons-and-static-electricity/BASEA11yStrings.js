@@ -273,8 +273,10 @@ define( function( require ) {
     yellowBalloonLabelString: 'Yellow Balloon',
     grabBalloonPatternString: 'Grab {{balloon}}',
 
+    grabBalloonHelpString: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.',
+
     balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}.',
-    balloonShowAllChargesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{relativeCharge}}.',
+    balloonShowAllChargesPatternString: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.',
     balloonShowNoChargesPatternString: '{{stateAndLocation}}.',
     balloonShowChargeDifferencesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
     balloonDescriptionWithHelpPatternString: '{{description}} {{help}}',
