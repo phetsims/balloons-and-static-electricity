@@ -524,7 +524,8 @@ define( function( require ) {
     // A node that receives focus and handles keyboard draging
     var accessibleDragNode = new Node( {
       tagName: 'div',
-      focusable: false,
+      focusable: true,
+      accessibleVisible: false, // initially false
       pickable: false,
       ariaRole: 'application',
       accessibleLabel: accessibleLabelString,
@@ -567,7 +568,7 @@ define( function( require ) {
         if ( !releasedWithEnter ) {
 
           // make focusable
-          accessibleDragNode.focusable = true;
+          accessibleDragNode.accessibleVisible = true;
 
           // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
           // the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/293
@@ -597,8 +598,9 @@ define( function( require ) {
       // focus the grab balloon button
       balloonImageNode.focus();
 
-      // the draggable node should no longer be focusable
-      accessibleDragNode.focusable = false;
+      // the draggable node should no longer be discoverable in the parallel DOM
+      accessibleDragNode.accessibleVisible = false;
+
       // reset the key state of the drag handler
       self.keyboardDragHandler.reset();
     };
@@ -627,7 +629,7 @@ define( function( require ) {
         endDragListener();
 
         // the draggable node should no longer be focusable
-        accessibleDragNode.focusable = false;
+        accessibleDragNode.accessibleVisible = false;
 
         self.dragNodeBlurredEmitter.emit();
       }
