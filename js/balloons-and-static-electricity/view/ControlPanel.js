@@ -236,10 +236,16 @@ define( function( require ) {
       { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
     );
     var resetBalloonButtonListener = function() {
+
+      // disable other alerts until after we are finished resetting the balloons
+      UtteranceQueue.enabled = false;
+      
       model.sweater.reset();
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
       } );
+
+      UtteranceQueue.enabled = true;
 
       // alert to assistive technology
       UtteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
