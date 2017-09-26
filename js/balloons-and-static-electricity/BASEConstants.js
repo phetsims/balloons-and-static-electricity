@@ -13,7 +13,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   var BASEConstants = {
-    backgroundColorProperty: new Property( '#9ddcf8' ),
+    backgroundColorProperty: new Property( 'rgb( 151, 208, 255 )' ),
     msScaleFactor: 1000, // to convert seconds to miliseconds, used throughout the view
     MAX_BALLOON_CHARGE: 57 // max number of charges the balloon can have
   };
