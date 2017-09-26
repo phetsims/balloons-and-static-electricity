@@ -246,7 +246,7 @@ define( function( require ) {
       otherContent.opacity = contentOpacity;
     } );
 
-    // listener that is called when the button is presed with 'enter' or 'spacebar'
+    // listener that is called when the button is pressed with 'enter' or 'spacebar'
     var clickListener = { click: upFunction };
 
     // add listeners, to be disposed
