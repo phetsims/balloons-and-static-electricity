@@ -745,6 +745,37 @@ define( function( require ) {
     },
 
     /**
+     * Get a description of the balloon's dragging movement when it enters a landmark. Dependent on balloon velocity,
+     * drag velocity, and movement direction. Depending on these variables, we might not announce this alert, so
+     * this function can return null.
+     *
+     * @return {string|null}
+     */
+    getLandmarkDragDescription: function() {
+      var alert = null;
+      var playAreaColumn = this.balloonModel.playAreaColumnProperty.get();
+
+      // if moving to the right and we enter the 'near sweater' landmark, ignore
+      if ( this.balloonModel.movingRight() && playAreaColumn === 'AT_NEAR_SWEATER' ) {
+        alert = null;
+      }
+      else {
+        var nearOrAt = this.getNearOrOnDescription();
+        var balloonCenter = this.balloonModel.getCenter();
+
+        var wallVisible = this.model.wall.isVisibleProperty.get();
+        var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
+
+        alert = StringUtils.fillIn( balloonNewRegionPatternString, {
+          nearOrAt: nearOrAt,
+          location: locationString 
+        } );
+      }
+
+      return alert;
+    },
+
+    /**
      * Get the dragging description while the balloon is moving through the play area being dragged and enters
      * a new region in the play area.
      * 

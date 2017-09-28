@@ -184,6 +184,12 @@ define( function( require ) {
       useDeepEquality: true
     } );
 
+    // @public {boolean} - whether or not the balloon is on the sweater
+    this.onSweaterProperty = new Property( false );
+
+    // @public {boolean}
+    this.touchingWallProperty = new Property( false );
+
     // @private string - the current row of the play area for the balloon
     this.playAreaColumnProperty = new Property( null );
 
@@ -237,12 +243,6 @@ define( function( require ) {
 
     // @private {null|string} - the previous direction of movement for the balloon, updates when direction changes
     this.previousDirection = null;
-
-    // @private {boolean} - flag that indicates when the balloon is on or off of the sweater
-    this.isOnSweater = false;
-
-    // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
-    this.previousIsOnSweater = false;
 
     // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
     this.isStickingToSweater = false;
@@ -323,14 +323,6 @@ define( function( require ) {
         self.previousDirection = self.direction;
         self.direction = BalloonModel.getMovementDirection( location, oldLocation );
 
-        // update whether or not balloon is on sweater
-        self.previousIsOnSweater = self.isOnSweater;
-        self.isOnSweater = self.onSweater();
-
-        // update whether or not the balloon is touching the wall
-        self.previousIsTouchingWall = self.isTouchingWall;
-        self.isTouchingWall = self.touchingWall();
-
         // update whether or not the balloon is very close to the sweater
         self.previousIsNearSweater = self.isNearSweater;
         self.isNearSweater = self.nearSweater();
@@ -346,6 +338,15 @@ define( function( require ) {
         // update whether or not the balloon is sticking to the sweater
         self.previousIsStickingToSweater = self.isStickingToSweater;
         self.isStickingToSweater = self.stickingToSweater();
+
+        // update whether or not the balloon is on the sweater
+        if ( self.onSweater() !== self.onSweaterProperty.get() ) {
+          self.onSweaterProperty.set( self.onSweater() );
+        }
+
+        if ( self.touchingWall() !== self.touchingWallProperty.get() ) {
+          self.touchingWallProperty.set( self.touchingWall() );
+        }
       }
     } );
 
@@ -605,6 +606,17 @@ define( function( require ) {
       return this.direction === BalloonDirectionEnum.UP_LEFT ||
              this.direction === BalloonDirectionEnum.UP_RIGHT ||
              this.direction === BalloonDirectionEnum.DOWN_LEFT ||
+             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+    },
+
+    /**
+     * Get whether or not the balloon is s moving to the right.
+     *
+     * @return {boolean}
+     */
+    movingRight: function() {
+      return this.direction === BalloonDirectionEnum.RIGHT ||
+             this.direction === BalloonDirectionEnum.UP_RIGHT  ||
              this.direction === BalloonDirectionEnum.DOWN_RIGHT;
     },
 

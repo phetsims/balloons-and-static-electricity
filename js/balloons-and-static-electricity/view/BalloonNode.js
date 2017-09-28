@@ -15,7 +15,6 @@ define( function( require ) {
 
   // modules
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
-  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -258,6 +257,32 @@ define( function( require ) {
       }
     } );
 
+    // a11y - if we enter a landmark location, that should be announced immediately
+    model.playAreaColumnProperty.link( function( colunn ) {
+      var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
+      if ( inLandmark ) {
+        var locationDescription = self.describer.getLandmarkDragDescription();
+        locationDescription && UtteranceQueue.addToBack( locationDescription );
+      }
+    } );
+
+    // a11y - if dragged and we enter/leave the sweater announce that immediately
+    model.onSweaterProperty.link( function( onSweater ) {
+      if ( model.isDraggedProperty.get() ) {
+
+        // entering sweater, indicate that we need to alert the next charge pickup
+        self.alertFirstPickup = true;
+        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
+      }
+    } );
+
+    // a11y - if dragged and we touch the wall, announce that immediately
+    model.touchingWallProperty.link( function( touchingWall ) {
+      if ( touchingWall ) {
+        UtteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
+      }
+    } );
+
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
 
@@ -306,24 +331,6 @@ define( function( require ) {
           else {
 
             // describe how the balloon moves due to dragging
-
-            // if we enter or leave the sweater, announce that immediately
-            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
-
-              // entering sweater, indicate that we need to alert the next charge pickup
-              self.alertFirstPickup = true;
-
-              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
-              UtteranceQueue.addToBack( sweaterChangeString );
-            }
-
-            // if we hit the wall, announce that immediately
-            if ( self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
-              if ( self.model.direction === BalloonDirectionEnum.RIGHT ) {
-                var touchingWallString = self.describer.getWallRubbingDescription();
-                UtteranceQueue.addToBack( touchingWallString );                
-              }
-            }
 
             // describe the dragging at this refresh rate
             if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE || !self.regionChangeHandled ) {
