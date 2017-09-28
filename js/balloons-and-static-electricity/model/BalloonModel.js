@@ -184,6 +184,9 @@ define( function( require ) {
       useDeepEquality: true
     } );
 
+    // @public {boolean} - whether or not the balloon is on the sweater
+    this.onSweaterProperty = new Property( false );
+
     // @private string - the current row of the play area for the balloon
     this.playAreaColumnProperty = new Property( null );
 
@@ -346,6 +349,11 @@ define( function( require ) {
         // update whether or not the balloon is sticking to the sweater
         self.previousIsStickingToSweater = self.isStickingToSweater;
         self.isStickingToSweater = self.stickingToSweater();
+
+        // update whether or not the balloon is on the sweater
+        if ( self.onSweater() !== self.onSweaterProperty.get() ) {
+          self.onSweaterProperty.set( self.onSweater() );
+        }
       }
     } );
 

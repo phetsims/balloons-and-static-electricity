@@ -267,6 +267,16 @@ define( function( require ) {
       }
     } );
 
+    // a11y - if dragged and we enter/leave the sweater announce that immediately
+    model.onSweaterProperty.link( function( onSweater ) {
+      if ( model.isDraggedProperty.get() ) {
+
+        // entering sweater, indicate that we need to alert the next charge pickup
+        self.alertFirstPickup = true;
+        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
+      }
+    } );
+
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
 
@@ -315,16 +325,6 @@ define( function( require ) {
           else {
 
             // describe how the balloon moves due to dragging
-
-            // if we enter or leave the sweater, announce that immediately
-            if ( self.model.previousIsOnSweater !== self.model.isOnSweater ) {
-
-              // entering sweater, indicate that we need to alert the next charge pickup
-              self.alertFirstPickup = true;
-
-              var sweaterChangeString = self.describer.getOnSweaterString( self.model.isOnSweater );
-              UtteranceQueue.addToBack( sweaterChangeString );
-            }
 
             // if we hit the wall, announce that immediately
             if ( self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
