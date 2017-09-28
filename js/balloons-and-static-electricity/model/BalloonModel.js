@@ -187,6 +187,9 @@ define( function( require ) {
     // @public {boolean} - whether or not the balloon is on the sweater
     this.onSweaterProperty = new Property( false );
 
+    // @public {boolean}
+    this.touchingWallProperty = new Property( false );
+
     // @private string - the current row of the play area for the balloon
     this.playAreaColumnProperty = new Property( null );
 
@@ -320,10 +323,6 @@ define( function( require ) {
         self.previousDirection = self.direction;
         self.direction = BalloonModel.getMovementDirection( location, oldLocation );
 
-        // update whether or not the balloon is touching the wall
-        self.previousIsTouchingWall = self.isTouchingWall;
-        self.isTouchingWall = self.touchingWall();
-
         // update whether or not the balloon is very close to the sweater
         self.previousIsNearSweater = self.isNearSweater;
         self.isNearSweater = self.nearSweater();
@@ -343,6 +342,10 @@ define( function( require ) {
         // update whether or not the balloon is on the sweater
         if ( self.onSweater() !== self.onSweaterProperty.get() ) {
           self.onSweaterProperty.set( self.onSweater() );
+        }
+
+        if ( self.touchingWall() !== self.touchingWallProperty.get() ) {
+          self.touchingWallProperty.set( self.touchingWall() );
         }
       }
     } );
