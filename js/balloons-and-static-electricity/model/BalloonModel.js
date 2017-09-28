@@ -609,6 +609,17 @@ define( function( require ) {
     },
 
     /**
+     * Get whether or not the balloon is s moving to the right.
+     *
+     * @return {boolean}
+     */
+    movingRight: function() {
+      return this.direction === BalloonDirectionEnum.RIGHT ||
+             this.direction === BalloonDirectionEnum.UP_RIGHT  ||
+             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+    },
+
+    /**
      * Returns a proportion of this balloon's movement through a region in the play area, dependent
      * on the direction of movement.  Returns a number out of 1 (full range of the region).  If moving
      * horizontally, progress will be proportion of width.  If moving vertically, progress will be

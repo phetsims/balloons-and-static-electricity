@@ -258,6 +258,15 @@ define( function( require ) {
       }
     } );
 
+    // a11y - if we enter a landmark location, that should be announced immediately
+    model.playAreaColumnProperty.link( function( colunn ) {
+      var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
+      if ( inLandmark ) {
+        var locationDescription = self.describer.getLandmarkDragDescription();
+        locationDescription && UtteranceQueue.addToBack( locationDescription );
+      }
+    } );
+
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
 

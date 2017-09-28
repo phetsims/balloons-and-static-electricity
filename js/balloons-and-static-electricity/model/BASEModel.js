@@ -176,7 +176,7 @@ define( function( require ) {
   }, {
 
     /**
-     * Get the column of the play area for the a given location in the model.
+     * Get the column of the play area for the a given location in the model
      * 
      * @param  {Vector2} location
      * @return {string}         

@@ -18,7 +18,6 @@ define( function( require ) {
 
   // constants
   var LANDMARK_WIDTH = 20;
-  var NEAR_SWEATER_LANDMARK_LEFT_WIDTH = 60;
 
   // critical x locations for the balloon (relative to the balloon's center)
   var X_LOCATIONS = {
@@ -40,7 +39,7 @@ define( function( require ) {
 
   var LANDMARK_RANGES = {
     AT_LEFT_EDGE: new Range( X_LOCATIONS.AT_LEFT_EDGE - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_LEFT_EDGE + LANDMARK_WIDTH / 2 ),
-    AT_NEAR_SWEATER: new Range( X_LOCATIONS.AT_NEAR_SWEATER - NEAR_SWEATER_LANDMARK_LEFT_WIDTH / 2, X_LOCATIONS.AT_NEAR_SWEATER + LANDMARK_WIDTH / 2 ),
+    AT_NEAR_SWEATER: new Range( X_LOCATIONS.AT_NEAR_SWEATER - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_NEAR_SWEATER + LANDMARK_WIDTH / 2 ),
     AT_CENTER_PLAY_AREA: new Range( X_LOCATIONS.AT_CENTER_PLAY_AREA - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_CENTER_PLAY_AREA + LANDMARK_WIDTH / 2 ),
     AT_NEAR_WALL: new Range( X_LOCATIONS.AT_NEAR_WALL - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_NEAR_WALL + LANDMARK_WIDTH / 2 ),
     AT_WALL: new Range( X_LOCATIONS.AT_WALL - LANDMARK_WIDTH / 2, X_LOCATIONS.AT_WALL + LANDMARK_WIDTH / 2 ),
@@ -82,14 +81,17 @@ define( function( require ) {
      */
     getPlayAreaColumn: function( location, wallVisible ) {
       var columns = COLUMN_RANGES;
+      var landmarks = LANDMARK_RANGES;
+      var columnsAndLandmarks = _.extend( columns, landmarks );
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
       // loops
       var columnsKeys = Object.keys( columns );
+      columnsKeys = columnsKeys.concat( Object.keys( landmarks ) );
 
       var column;
       for ( var i = 0; i < columnsKeys.length; i++ ) {
-        if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
+        if ( columnsAndLandmarks[ columnsKeys[ i ] ].contains( location.x ) ) {
           column = columnsKeys[ i ];
         }
       }
@@ -125,8 +127,23 @@ define( function( require ) {
       assert && assert( row, 'item should be in a row of the play area' );
 
       return row;
-    }
+    },
 
+    inLandmarkColumn: function( location ) {
+      var landmarks = PlayAreaMap.LANDMARK_RANGES;
+
+      // loop through keys manually to prevent many closures from being created during object iteration in for loops
+      var landmarkKeys = Object.keys( landmarks );
+      var inLandmarkColumn = false;
+      for( var i = 0; i < landmarkKeys.length; i++ ) {
+        if ( landmarks[ landmarkKeys[ i ] ].contains( location.x ) ) {
+          inLandmarkColumn = true;
+          break;
+        }
+      }
+
+      return inLandmarkColumn;
+    }
   };
 
   balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );
