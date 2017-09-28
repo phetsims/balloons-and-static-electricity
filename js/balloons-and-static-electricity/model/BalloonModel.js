@@ -241,12 +241,6 @@ define( function( require ) {
     // @private {null|string} - the previous direction of movement for the balloon, updates when direction changes
     this.previousDirection = null;
 
-    // @private {boolean} - flag that indicates when the balloon is on or off of the sweater
-    this.isOnSweater = false;
-
-    // @private {boolean} - flag that tracks if the balloon was previously on the sweater when location changes
-    this.previousIsOnSweater = false;
-
     // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
     this.isStickingToSweater = false;
 
@@ -325,10 +319,6 @@ define( function( require ) {
         // update movement direction
         self.previousDirection = self.direction;
         self.direction = BalloonModel.getMovementDirection( location, oldLocation );
-
-        // update whether or not balloon is on sweater
-        self.previousIsOnSweater = self.isOnSweater;
-        self.isOnSweater = self.onSweater();
 
         // update whether or not the balloon is touching the wall
         self.previousIsTouchingWall = self.isTouchingWall;
