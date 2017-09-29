@@ -443,7 +443,7 @@ define( function( require ) {
 
     // strings for keyboard shortcuts help content
     keyboardHelpDialogString: 'Keyboard Shortcuts',
-	grabBalloonString: 'Grab/Release Balloon',
+    grabBalloonString: 'Grab/Release Balloon',
     grabDescriptionString: 'Space or Enter grabs or releases the balloon.',
     hotkeysJumpingString: 'Jump Grabbed Balloon',
     JSString: 'J plus S jumps close to sweater.',
@@ -451,13 +451,13 @@ define( function( require ) {
     JNString: 'J plus N jumps to near wall.',
     JCString: 'J plus C jumps to center of Play Area.',
     keysForDraggingAndRubbingString: 'Move Grabbed Balloon',
-	draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
-	draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
+    draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
+    draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
     addShiftString: 'Hold down Shift and press a drag key to move in smaller steps.',
-	generalNavigationString: 'General Navigation',
+    generalNavigationString: 'General Navigation',
     tabString: 'Tab key moves to next item.',
-	shiftTabString: 'Shift plus Tab moves to previous item.',
-	escString: 'Escape key closes a dialog, like this one.',
+    shiftTabString: 'Shift plus Tab moves to previous item.',
+    escString: 'Escape key closes a dialog, like this one.',
 
     // wall strings
     wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
