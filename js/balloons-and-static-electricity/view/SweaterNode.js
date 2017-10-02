@@ -26,7 +26,7 @@ define( function( require ) {
   var sweaterLabelString = BASEA11yStrings.sweaterLabelString;
 
   // images
-  var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.jpg' );
+  var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.png' );
 
   /**
    * @constructor
