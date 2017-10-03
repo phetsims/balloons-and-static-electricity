@@ -348,7 +348,7 @@ define( function( require ) {
     onSweaterString: 'On Sweater.',
     offSweaterString: 'Off sweater.',
 
-    veryCloseToSweaterString: 'Very close to sweater.',
+    landmarkVeryCloseToSweaterString: 'Very close to sweater.',
     veryCloseToWallString: 'Very close to wall.',
     veryCloseToRightEdgeString: 'Very close to right edge.',
 

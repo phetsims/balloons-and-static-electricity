@@ -132,6 +132,9 @@ define( function( require ) {
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
   var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 
+  // speed of the balloon to be considered moving slowly, determined empirically
+  var SLOW_BALLOON_SPEED = 0.08;
+
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
     VERY_SLOWLY_RANGE: {
@@ -754,24 +757,36 @@ define( function( require ) {
     getLandmarkDragDescription: function() {
       var alert = null;
       var playAreaColumn = this.balloonModel.playAreaColumnProperty.get();
+      var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
+      var balloonCenter = this.balloonModel.getCenter();
 
-      // if moving to the right and we enter the 'near sweater' landmark, ignore
+      var wallVisible = this.model.wall.isVisibleProperty.get();
+      var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
+
       if ( this.balloonModel.movingRight() && playAreaColumn === 'AT_NEAR_SWEATER' ) {
+
+        // if moving to the right and we enter the 'near sweater' landmark, ignore
         alert = null;
+      }
+      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_SWEATER' ) {
+        if ( this.balloonModel.movingLeft() && dragSpeed < SLOW_BALLOON_SPEED ) {
+
+          // if the balloon is moving slowly to the left and very close to the sweater announce that we are very near the sweater
+          alert = locationString;
+        }
+        else {
+          alert = null;
+        }
       }
       else {
         var nearOrAt = this.getNearOrOnDescription();
-        var balloonCenter = this.balloonModel.getCenter();
-
-        var wallVisible = this.model.wall.isVisibleProperty.get();
-        var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
-
         alert = StringUtils.fillIn( balloonNewRegionPatternString, {
           nearOrAt: nearOrAt,
           location: locationString 
         } );
       }
 
+      console.log( alert );
       return alert;
     },
 

@@ -49,14 +49,8 @@ define( function( require ) {
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
   var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500;
 
-  // speed of the balloon to be considered moving slowly, determined empirically
-  var SLOW_BALLOON_SPEED = 0.08;
-
   // strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString;
-  var veryCloseToSweaterString = BASEA11yStrings.veryCloseToSweaterString;
-  var veryCloseToWallString = BASEA11yStrings.veryCloseToWallString;
-  var veryCloseToRightEdgeString = BASEA11yStrings.veryCloseToRightEdgeString;
   var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelpString;
 
   /**
@@ -362,31 +356,6 @@ define( function( require ) {
                 else {
 
                   // we are being dragged through the play area
-                  // while moving slowly, we will add indications that we are very close to objects
-                  var dragSpeed = self.model.dragVelocityProperty.get().magnitude();
-                  if ( dragSpeed <= SLOW_BALLOON_SPEED && dragSpeed > 0 ) {
-
-                    // if we become "very close" to the sweater while moving slowly, announce that immediately
-                    if ( self.model.previousIsNearSweater !== self.model.isNearSweater ) {
-                      if ( self.model.isNearSweater ) {
-                        dragAlert = veryCloseToSweaterString;
-                      }
-                    }
-
-                    // if we become "very close" to the wall while moving slowly, announce that immediately
-                    if ( self.model.previousIsNearWall !== self.model.isNearWall ) {
-                      if ( self.model.isNearWall ) {
-                        dragAlert = veryCloseToWallString;
-                      }
-                    }
-
-                    // if we become "very close" to the right of the play area while moving slowly, announce that immediately
-                    if ( self.model.previousIsNearRightEdge !== self.model.isNearRightEdge ) {
-                      if ( self.model.isNearRightEdge ) {
-                        dragAlert = veryCloseToRightEdgeString;
-                      }
-                    }
-                  }
 
                   var progressThroughRegion = self.model.getProgressThroughRegion();
                   var notDiagonal = !self.model.movingDiagonally();
@@ -417,7 +386,9 @@ define( function( require ) {
                   }
                 }
 
-                dragAlert && UtteranceQueue.addToBack( dragAlert );
+                // TODO: prevent this for now
+                var test = false;
+                test && dragAlert && UtteranceQueue.addToBack( dragAlert );
    
                 // reset timers and flags
                 self.timeSincePositionAlert = 0;

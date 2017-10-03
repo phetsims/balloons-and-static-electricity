@@ -190,6 +190,9 @@ define( function( require ) {
     // @public {boolean}
     this.touchingWallProperty = new Property( false );
 
+    // @public {boolean} - whether or not the balloon is 'very close' to the sweaters
+    this.atNearSweaterProperty = new Property( false );
+
     // @private string - the current row of the play area for the balloon
     this.playAreaColumnProperty = new Property( null );
 
@@ -618,6 +621,17 @@ define( function( require ) {
       return this.direction === BalloonDirectionEnum.RIGHT ||
              this.direction === BalloonDirectionEnum.UP_RIGHT  ||
              this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+    },
+
+    /**
+     * Get whether or not the balloon is moving to the left.
+     *
+     * @return {boolean}
+     */
+    movingLeft: function() {
+      return this.direction === BalloonDirectionEnum.LEFT ||
+             this.direction === BalloonDirectionEnum.UP_LEFT ||
+             this.direction === BalloonDirectionEnum.DOWN_LEFT;
     },
 
     /**
