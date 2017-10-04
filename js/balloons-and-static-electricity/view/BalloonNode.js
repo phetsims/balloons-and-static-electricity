@@ -22,6 +22,7 @@ define( function( require ) {
   var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
+  var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
@@ -179,7 +180,7 @@ define( function( require ) {
       accessibleLabel: accessibleButtonLabel,
       accessibleDescription: grabBalloonHelpString
     } );
-  
+
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
 
@@ -389,14 +390,14 @@ define( function( require ) {
                 // TODO: prevent this for now
                 var test = false;
                 test && dragAlert && UtteranceQueue.addToBack( dragAlert );
-   
+
                 // reset timers and flags
                 self.timeSincePositionAlert = 0;
                 self.regionChangeHandled = true;
 
                 // we should also announce the next charge pickup
                 self.alertNextPickup = true;
-              }               
+              }
             }
           }
         }
@@ -422,7 +423,7 @@ define( function( require ) {
     } );
 
     // a11y
-    balloonImageNode.focusHighlight = Shape.rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height );
+    balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
 
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
@@ -487,11 +488,9 @@ define( function( require ) {
           self.jumpBalloon( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
       }
-    ] );    
+    ] );
 
-    var dragHighlightNode = new Rectangle( 0, 0, balloonImageNode.width, balloonImageNode.height, {
-      lineWidth: 3,
-      stroke: 'rgba(250,40,135,0.9)',
+    var dragHighlightNode = new FocusHighlightFromNode( balloonImageNode, {
       lineDash: [ 7, 7 ],
       tandem: tandem.createTandem( 'dragHighlightNode' )
     } );
@@ -590,7 +589,7 @@ define( function( require ) {
         }
       },
       keyup: function( event ) {
-        if( event.keyCode === Input.KEY_SPACE ) {
+        if ( event.keyCode === Input.KEY_SPACE ) {
 
           // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
           // and trigger a click event
@@ -637,7 +636,7 @@ define( function( require ) {
 
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
       var parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
-      this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) ); 
+      this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) );
       this.addChild( new Line( -500, parentToLocalChargeCenter.y, 500, parentToLocalChargeCenter.y, { stroke: 'green' } ) );
     }
   }
@@ -648,7 +647,7 @@ define( function( require ) {
 
     /**
      * Also, step the keyboard drag handler to track how long keys have been pressed down.
-     * 
+     *
      * @public
      * @param  {number} dt
      */
@@ -683,7 +682,7 @@ define( function( require ) {
      * Jump the balloon to a new location, first muting the UtteranceQueue, then updating position,
      * then clearing the queue and enabling it once more.  Finally, we will add a custom utterance
      * to the queue describing the jump interaction.
-     * 
+     *
      * @param  {Vector2} center - new center location for the balloon
      */
     jumpBalloon: function( center ) {
