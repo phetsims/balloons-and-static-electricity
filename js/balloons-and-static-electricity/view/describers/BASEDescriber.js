@@ -66,7 +66,12 @@ define( function( require ) {
   var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWallString;
   var landmarkNearWallString = BASEA11yStrings.landmarkNearWallString;
   var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWallString;
-
+  var landmarkVeryCloseToUpperWallString = BASEA11yStrings.landmarkVeryCloseToUpperWallString;
+  var landmarkVeryCloseToLowerWallString = BASEA11yStrings.landmarkVeryCloseToLowerWallString;
+  var landmarkVeryCloseToWallString = BASEA11yStrings.landmarkVeryCloseToWallString;
+  var landmarkVeryCloseToRightEdgeString = BASEA11yStrings.landmarkVeryCloseToRightEdgeString;
+  var landmarkVeryCloseToUpperRightEdgeString = BASEA11yStrings.landmarkVeryCloseToUpperRightEdgeString;
+  var landmarkVeryCloseToLowerRightEdgeString = BASEA11yStrings.landmarkVeryCloseToLowerRightEdgeString;
   var landmarkVeryCloseToSweaterString = BASEA11yStrings.landmarkVeryCloseToSweaterString;
 
   // constants
@@ -131,6 +136,11 @@ define( function( require ) {
       CENTER_PLAY_AREA: landmarkNearWallString,
       LOWER_PLAY_AREA: landmarkNearLowerWallString
     },
+    AT_VERY_CLOSE_TO_WALL: {
+      UPPER_PLAY_AREA: landmarkVeryCloseToUpperWallString,
+      CENTER_PLAY_AREA: landmarkVeryCloseToWallString,
+      LOWER_PLAY_AREA: landmarkVeryCloseToLowerWallString,
+    },
     AT_WALL: {
       UPPER_PLAY_AREA: upperWallString,
       CENTER_PLAY_AREA: wallString,
@@ -145,6 +155,11 @@ define( function( require ) {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
       CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
       LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
+    },
+    AT_VERY_CLOSE_TO_RIGHT_EDGE: {
+      UPPER_PLAY_AREA: landmarkVeryCloseToUpperRightEdgeString,
+      CENTER_PLAY_AREA: landmarkVeryCloseToRightEdgeString,
+      LOWER_PLAY_AREA: landmarkVeryCloseToLowerRightEdgeString
     },
     RIGHT_EDGE: {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
@@ -239,7 +254,7 @@ define( function( require ) {
       if ( wallVisible && ( currentColumn === 'RIGHT_EDGE' || currentColumn === 'AT_RIGHT_EDGE' ) ) {
         currentColumn = 'WALL';
       }
-      if ( !wallVisible && currentColumn === 'AT_WALL' || currentColumn === 'AT_NEAR_WALL' ) {
+      if ( !wallVisible && ( currentColumn === 'AT_WALL' || currentColumn === 'AT_NEAR_WALL' ) ) {
         currentColumn = 'RIGHT_PLAY_AREA';
       }
 

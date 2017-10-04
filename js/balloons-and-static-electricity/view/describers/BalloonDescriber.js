@@ -769,7 +769,8 @@ define( function( require ) {
         alert = null;
       }
       else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_SWEATER' ) {
-        if ( this.balloonModel.movingLeft() && dragSpeed < SLOW_BALLOON_SPEED ) {
+        var movingSlowlyLeft = this.balloonModel.movingLeft() && dragSpeed < SLOW_BALLOON_SPEED;
+        if ( movingSlowlyLeft ) {
 
           // if the balloon is moving slowly to the left and very close to the sweater announce that we are very near the sweater
           alert = locationString;
@@ -777,6 +778,26 @@ define( function( require ) {
         else {
           alert = null;
         }
+      }
+      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_WALL' ) {
+        if ( dragSpeed < SLOW_BALLOON_SPEED && wallVisible ) {
+
+          // only announce this landmark if moving slowly
+          alert = locationString;
+        }
+        else {
+          alert = null;
+        }
+      }
+      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_RIGHT_EDGE' ) {
+         if ( dragSpeed < SLOW_BALLOON_SPEED && !wallVisible ) {
+
+          // only announce this landmark if moving slowly
+          alert = locationString;
+        }
+        else {
+          alert = null;
+        } 
       }
       else {
         var nearOrAt = this.getNearOrOnDescription();
@@ -786,7 +807,6 @@ define( function( require ) {
         } );
       }
 
-      console.log( alert );
       return alert;
     },
 

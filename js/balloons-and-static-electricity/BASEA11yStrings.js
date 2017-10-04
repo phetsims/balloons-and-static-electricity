@@ -349,8 +349,13 @@ define( function( require ) {
     offSweaterString: 'Off sweater.',
 
     landmarkVeryCloseToSweaterString: 'Very close to sweater.',
-    veryCloseToWallString: 'Very close to wall.',
     veryCloseToRightEdgeString: 'Very close to right edge.',
+    landmarkVeryCloseToWallString: 'Very close to wall.',
+    landmarkVeryCloseToUpperWallString: 'Very close to upper wall.',
+    landmarkVeryCloseToLowerWallString: 'Very close to lower wall.',
+    landmarkVeryCloseToRightEdgeString: 'Very close to right edge.',
+    landmarkVeryCloseToUpperRightEdgeString: 'Very close to upper right edge.',
+    landmarkVeryCloseToLowerRightEdgeString: 'Very close to lower right edge.',
 
     balloonAtLocationPatternString: 'At {{location}}.',
     balloonOnLocationPatternString: 'On {{location}}.',
