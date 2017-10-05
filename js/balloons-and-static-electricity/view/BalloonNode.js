@@ -497,10 +497,11 @@ define( function( require ) {
     // A node that receives focus and handles keyboard draging
     var accessibleDragNode = new Node( {
       tagName: 'div',
+      parentContainerTagName: 'div',
       focusable: true,
       accessibleVisible: false, // initially false
       pickable: false,
-      ariaRole: 'application',
+      parentContainerAriaRole: 'application',
       accessibleLabel: accessibleLabelString,
       focusHighlight: dragHighlightNode
     } );
