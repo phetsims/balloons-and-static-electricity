@@ -491,8 +491,7 @@ define( function( require ) {
     ] );
 
     var dragHighlightNode = new FocusHighlightFromNode( balloonImageNode, {
-      lineDash: [ 7, 7 ],
-      tandem: tandem.createTandem( 'dragHighlightNode' )
+      lineDash: [ 7, 7 ]
     } );
 
     // A node that receives focus and handles keyboard draging
