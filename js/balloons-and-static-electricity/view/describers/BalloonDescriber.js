@@ -172,11 +172,23 @@ define( function( require ) {
     // @private - the charge on the balloon when we generate a pickup description,
     // tracked so we know how to describe the next pickup
     this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
+
+    // @private - once the balloon has been picked up, we don't need to include certain information on grab until
+    // it is reset again
+    this.balloonPickedUp = false;
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
 
   return inherit( Object, BalloonDescriber, {
+
+    /**
+     * Reset the describer, resetting flags that are required to manipulate provided descriptions.
+     * @public
+     */
+    reset: function() {
+      this.balloonPickedUp = false;
+    },
 
     /**
      * Get the description for this balloon, including information about the Balloon's location, and charge
@@ -427,18 +439,24 @@ define( function( require ) {
      * a description containing charge information, location information, and help for how
      * to interact with balloon. Amount of charge information will depend on charge visibility
      * setting. If the balloon is inducing charge, information about induced charge will be included.
-     * If the balloon is on the sweater, will include infomation about the charges on the sweater.
+     * If the balloon is on the sweater, will include infomation about the charges on the sweater. After the
+     * balloon has been picked up once, we don't need to describe help information until reset.
      * 
      * @return {string}
      */
     getDraggedAlert: function() {
       var alertString;
-      var patternString;
+      var patternString = grabbedFullPatternString;
       var chargesShown = this.showChargesProperty.get();
 
       // attractive state and location is described for every charge view
       var stateAndLocation = this.getOnLocationDescription();
       var wallVisible = this.model.wall.isVisibleProperty.get();
+
+      // the first time the balloon is picked up, we include help content
+      if ( this.balloonPickedUp ) {
+        patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'help' ] );
+      }
 
       var relativeChargeString;
       var chargeString;
@@ -456,7 +474,7 @@ define( function( require ) {
         var inducedChargeString;
         if ( this.balloonModel.touchingWall() && this.balloonModel.isCharged() ) {
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-          alertString = StringUtils.fillIn( grabbedFullPatternString, {
+          alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
             balloonCharge: chargeString,
             inducedCharge: inducedChargeString,
@@ -470,7 +488,7 @@ define( function( require ) {
           // if inducing charge but not touching the wall, we need induced charge to not include amount
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
 
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'positiveCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge' ] );
           alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
             balloonCharge: chargeString,
@@ -482,7 +500,7 @@ define( function( require ) {
         else if ( this.balloonModel.onSweater() ) {
           var sweaterCharge = this.model.sweater.chargeProperty.get();
           var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, chargesShown );
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge' ] );
 
           alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
@@ -492,7 +510,7 @@ define( function( require ) {
           } );
         }
         else if ( this.balloonModel.inducingCharge ) {
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'positiveCharge', 'objectCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge', 'objectCharge' ] );
           inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
 
           alertString = StringUtils.fillIn( patternString, {
@@ -503,7 +521,7 @@ define( function( require ) {
           } );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge',  'objectCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge',  'objectCharge' ] );
           alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
             balloonCharge: chargeString,
@@ -514,7 +532,7 @@ define( function( require ) {
       else if ( chargesShown === 'none' ) {
 
         // if no charges are shown, we should only hear location and help information on grab
-        patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'balloonCharge', 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
+        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
         alertString = StringUtils.fillIn( patternString, {
           location: stateAndLocation,
           help: interactionCueString 
@@ -524,14 +542,13 @@ define( function( require ) {
         var netChargeString = this.getNetChargeDescription();
         relativeChargeString = this.getRelativeChargeDescription();
 
-        // grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
         var netAndRelativeString = StringUtils.fillIn( balloonNetChargeShowingPatternString, {
           netCharge: netChargeString,
           showing: relativeChargeString
         } );
 
         if ( this.balloonModel.touchingWall() || this.balloonModel.onSweater() ) {
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge' ] );
 
           var objectChargeString;
           if ( this.balloonModel.touchingWall() ) {
@@ -549,7 +566,7 @@ define( function( require ) {
           } );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
           alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
             balloonCharge: netAndRelativeString,
@@ -557,6 +574,9 @@ define( function( require ) {
           } );
         }
       }
+
+      // after assembling the alert, this flag will prevent help information until reset
+      this.balloonPickedUp = true;
 
       assert && assert( alertString, 'No grabbed alert for charge view ' + chargesShown );
       return alertString;

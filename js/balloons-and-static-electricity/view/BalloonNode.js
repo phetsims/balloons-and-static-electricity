@@ -612,6 +612,9 @@ define( function( require ) {
     // when reset, reset the interaction trackers
     model.resetEmitter.addListener( function() {
       self.keyboardDragCount = 0;
+
+      // reset the describer
+      self.describer.reset();
     } );
 
     // a11y - when the balloon is picked up or released, generate and announce an alert that indicates
