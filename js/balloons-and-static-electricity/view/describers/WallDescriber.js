@@ -210,7 +210,7 @@ define( function( require ) {
 
     /**
      * Get the induced charge description without the amount of induced charge. Will return something like
-     * "Negative  charges in wall move away from yellow balloon."
+     * "Negative charges in wall move away from yellow balloon."
      *
      * @param {[type]} balloon [description]
      * @param {[type]} balloon [description]
@@ -221,9 +221,7 @@ define( function( require ) {
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
 
-      var closestChargeLocation = balloon.closestChargeInWall.locationProperty.get();
-      var chargeLocationString = BASEDescriber.getLocationDescription( closestChargeLocation, wallVisible );
-
+      var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
       if ( balloon.inducingCharge ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
           wallLocation: chargeLocationString,
@@ -250,9 +248,7 @@ define( function( require ) {
      */
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
-
-      var closestChargeLocation = balloon.closestChargeInWall.locationProperty.get();
-      var chargeLocationString = BASEDescriber.getLocationDescription( closestChargeLocation, wallVisible );
+      var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
 
       if ( balloon.inducingCharge ) {
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );

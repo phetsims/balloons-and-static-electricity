@@ -212,6 +212,7 @@ define( function( require ) {
 
       var landmarks = PlayAreaMap.LANDMARK_RANGES;
       var columns = PlayAreaMap.COLUMN_RANGES;
+      var locations = PlayAreaMap.X_LOCATIONS;
       var rows = PlayAreaMap.ROW_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -219,11 +220,20 @@ define( function( require ) {
       var columnsKeys = Object.keys( columns );
       var rowKeys = Object.keys( rows );
       var landmarkKeys = Object.keys( landmarks );
+      var locationKeys = Object.keys( locations );
 
       var i;
+      var currentLocation;
       var currentLandmark;
       var currentColumn;
       var currentRow;
+
+      // critical x locations take priority, start there
+      for ( i = 0; i < locationKeys.length; i++ ) {
+        if ( location.x === locations[ locationKeys[ i ] ] ) {
+          currentLocation = locationKeys[ i ];
+        }
+      }
 
       for ( i = 0; i < landmarkKeys.length; i++ ) {
         if ( landmarks[ landmarkKeys[ i ] ].contains( location.x ) ) {
@@ -245,8 +255,8 @@ define( function( require ) {
         }
       }
 
-      // use column or landmark, whichever was found
-      currentColumn = currentLandmark || currentColumn;
+      // use location, column, or landmark, whichever was found, prioritizing location
+      currentColumn = currentLocation || currentLandmark || currentColumn;
       assert && assert( currentColumn && currentRow, 'item should be in a row or column of the play area' );
 
       // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description

@@ -347,6 +347,7 @@ define( function( require ) {
           self.onSweaterProperty.set( self.onSweater() );
         }
 
+        // update whether or not we are touching the wall
         if ( self.touchingWall() !== self.touchingWallProperty.get() ) {
           self.touchingWallProperty.set( self.touchingWall() );
         }
@@ -541,6 +542,15 @@ define( function( require ) {
      */
     rightAtWallLocation: function() {
       return this.getRight() === this.balloonsAndStaticElectricityModel.wall.x;
+    },
+
+    /**
+     * Returns whether or not this balloon is at the right edge of the play area.
+     *
+     * @return {[type]} [description]
+     */
+    atRightEdge: function() {
+      return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
     },
 
     /**

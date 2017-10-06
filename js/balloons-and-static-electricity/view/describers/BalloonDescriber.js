@@ -24,7 +24,6 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
-  var Vector2 = require( 'DOT/Vector2' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
@@ -413,46 +412,14 @@ define( function( require ) {
     getDescribedPoint: function() {
       var describedBalloonPosition;
 
-      var balloonRight = this.balloonModel.getRight();
-      var wallVisible = this.model.wall.isVisibleProperty.get();
-
-      // if the balloon is touching the wall (regardless of whether or not it is visible, describe
-      // its right edge)
-      if ( PlayAreaMap.COLUMN_RANGES.RIGHT_EDGE.contains( balloonRight ) && wallVisible ) {
-        describedBalloonPosition = new Vector2( balloonRight, this.balloonModel.getCenterY() ); 
-      }
-      else if ( this.balloonModel.onSweater() ) {
+      if ( this.balloonModel.onSweater() ) {
         describedBalloonPosition = this.balloonModel.getSweaterTouchingCenter();
-      }
-      else if ( this.balloonModel.nearWall() && wallVisible ) {
-        describedBalloonPosition = new Vector2( this.wall.x, this.balloonModel.getCenterY() );
       }
       else {
         describedBalloonPosition = this.balloonModel.getCenter();
       }
 
       return describedBalloonPosition;
-    },
-
-    getTouchingWallDescription: function( balloon, dragging ) {
-
-      var upperLowerString;
-      var balloonLocationDescription;
-      if ( balloon.inUpperHalfOfPlayArea() ) {
-        upperLowerString = BASEA11yStrings.upperWallString;
-      }
-      else {
-        upperLowerString = BASEA11yStrings.lowerWallString;
-      }
-
-      if ( balloon.chargeProperty.get() === 0 || dragging ) {
-        balloonLocationDescription = StringUtils.format( BASEA11yStrings.touchingWallStringPattern, upperLowerString );
-      }
-      else {
-        balloonLocationDescription = StringUtils.format( BASEA11yStrings.stickingToWallStringPattern, upperLowerString );
-      }
-
-      return balloonLocationDescription;
     },
 
     /**
