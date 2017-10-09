@@ -31,9 +31,10 @@ define( function( require ) {
    * @constructor
    * @param {number} x
    * @param {number} y
-   * @param {Tandem|null} tandem, null if the item should not be instrumented
+   * @param {Tandem} tandem
+   * @param phetioState
    */
-  function PointChargeModel( x, y, tandem, phetioStateElement ) {
+  function PointChargeModel( x, y, tandem, phetioState ) {
 
     // @public (read-only) - location of this charge
     this.location = new Vector2( x, y );
@@ -42,7 +43,7 @@ define( function( require ) {
     this.movedProperty = new Property( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
       phetioValueType: TBoolean,
-      phetioStateElement: phetioStateElement
+      phetioState: phetioState
     } );
   }
 

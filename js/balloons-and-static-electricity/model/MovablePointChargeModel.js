@@ -28,16 +28,17 @@ define( function( require ) {
    * @param {number} x
    * @param {number} y
    * @param {Tandem} tandem
+   * @param {boolean} phetioState
    */
-  function MovablePointChargeModel( x, y, tandem, phetioStateElement ) {
+  function MovablePointChargeModel( x, y, tandem, phetioState ) {
 
-    PointChargeModel.call( this, x, y, tandem, phetioStateElement );
+    PointChargeModel.call( this, x, y, tandem, phetioState );
 
     // @public {Vector2} - location of the point charge
     this.locationProperty = new Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioValueType: TVector2,
-      phetioStateElement: phetioStateElement,
+      phetioState: phetioState,
       useDeepEquality: true
     } );
   }
