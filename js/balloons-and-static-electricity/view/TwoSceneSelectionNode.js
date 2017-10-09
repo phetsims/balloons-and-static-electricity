@@ -26,15 +26,16 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
-  var Emitter = require( 'AXON/Emitter' );
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -100,6 +101,7 @@ define( function( require ) {
 
       // tandem support
       tandem: Tandem.tandemRequired(),
+      phetioType: TTwoSceneSelectionNode,
 
       // a11y
       tagName: 'button'
@@ -210,23 +212,21 @@ define( function( require ) {
       self.setAccessibleAttribute( 'aria-pressed', value === valueB );
     } );
 
-    var firedEmitter = new Emitter( {
-      phetioMessageType: 'user',
-      tandem: options.tandem.createTandem( 'firedEmitter' )
-    } );
-
-    // listener that makes this node behave like a button
     var upFunction = function() {
       var newValue = property.get() === valueA ? valueB : valueA;
       property.set( newValue );
       setStyles( self.enabledProperty.get() );
     };
 
-    firedEmitter.addListener( upFunction );
-
     var downUpListener = new DownUpListener( {
       up: function() {
-        firedEmitter.emit();
+        var id = phetioEvents.start( 'user', options.tandem.id, TTwoSceneSelectionNode, 'fired', {
+          value: property.phetioValueType.toStateObject( property.get() === valueA ? valueB : valueA )
+        } );
+
+        upFunction();
+
+        phetioEvents.end( id );
       },
       down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
@@ -265,7 +265,6 @@ define( function( require ) {
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
       this.removeAccessibleInputListener( clickListener );
-      firedEmitter.removeListener( upFunction );
     };
   }
 
