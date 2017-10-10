@@ -220,13 +220,13 @@ define( function( require ) {
 
     var downUpListener = new DownUpListener( {
       up: function() {
-        var id = phetioEvents.start( 'user', options.tandem.id, TTwoSceneSelectionNode, 'fired', {
+        var id = options.tandem.isLegalAndUsable() && phetioEvents.start( 'user', options.tandem.id, TTwoSceneSelectionNode, 'fired', {
           value: property.phetioValueType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
         upFunction();
 
-        phetioEvents.end( id );
+        options.tandem.isLegalAndUsable() && phetioEvents.end( id );
       },
       down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
