@@ -104,7 +104,9 @@ define( function( require ) {
       phetioType: TTwoSceneSelectionNode,
 
       // a11y
-      tagName: 'button'
+      tagName: 'input',
+      inputType: 'checkbox',
+      labelTagName: 'label'
     }, options );
 
     Node.call( this, options );
@@ -209,7 +211,6 @@ define( function( require ) {
 
       // update the button look and its accessible pressed state
       setStyles( self.enabledProperty.get() );
-      self.setAccessibleAttribute( 'aria-pressed', value === valueB );
     } );
 
     var upFunction = function() {
