@@ -321,14 +321,6 @@ define( function( require ) {
               // reset timer
               self.timeSinceReleaseAlert = 0;
             }
-            else if ( self.model.previousIsStickingToSweater !== self.model.isStickingToSweater ||
-                      self.model.previousIsTouchingWall !== self.model.isTouchingWall ) {
-
-              // immediately announce that we are touching something and describe
-              // the attractive state with punctuation
-              alert = self.describer.getAttractiveStateAndLocationDescription();
-              UtteranceQueue.addToBack( alert );
-            }
           }
           // else {
 
@@ -343,11 +335,6 @@ define( function( require ) {
           //     if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
           //       var dragAlert;
-          //       if ( self.model.onSweater() ) {
-
-          //         // if we are dragging on the sweater, get an alert that describes movement and charge pickup
-
-          //       }
           //       else if ( self.model.touchingWall() ) {
 
           //         // if we are dragging along the wall, get an alert that describes the movement and
