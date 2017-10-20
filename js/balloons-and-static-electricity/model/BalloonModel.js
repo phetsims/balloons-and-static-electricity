@@ -199,6 +199,9 @@ define( function( require ) {
     // @private string - the current column of the play area for the balloon
     this.playAreaRowProperty = new Property( null );
 
+    // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
+    this.directionProperty = new Property( null );
+
     //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon
@@ -240,12 +243,6 @@ define( function( require ) {
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
-
-    // @private {null|string} - the direction of movement for the balloon
-    this.direction = null;
-
-    // @private {null|string} - the previous direction of movement for the balloon, updates when direction changes
-    this.previousDirection = null;
 
     // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
     this.isStickingToSweater = false;
@@ -322,9 +319,7 @@ define( function( require ) {
 
       if ( oldLocation ) {
 
-        // update movement direction
-        self.previousDirection = self.direction;
-        self.direction = BalloonModel.getMovementDirection( location, oldLocation );
+        self.directionProperty.set( BalloonModel.getMovementDirection( location, oldLocation ) );
 
         // update whether or not the balloon is very close to the sweater
         self.previousIsNearSweater = self.isNearSweater;
@@ -598,7 +593,8 @@ define( function( require ) {
      * @return {string} - "LEFT"|"RIGHT"
      */
     movingHorizontally: function() {
-      return this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.RIGHT;
+      var direction = this.directionProperty.get();
+      return direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.RIGHT;
     },
 
     /**
@@ -607,7 +603,8 @@ define( function( require ) {
      * @return {string} - "UP"|"DOWN"
      */
     movingVertically: function() {
-      return this.direction === BalloonDirectionEnum.UP || this.direction === BalloonDirectionEnum.DOWN;
+      var direction = this.directionProperty.get();
+      return direction === BalloonDirectionEnum.UP || direction === BalloonDirectionEnum.DOWN;
     },
 
     /**
@@ -616,10 +613,11 @@ define( function( require ) {
      * @return {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
      */
     movingDiagonally: function() {
-      return this.direction === BalloonDirectionEnum.UP_LEFT ||
-             this.direction === BalloonDirectionEnum.UP_RIGHT ||
-             this.direction === BalloonDirectionEnum.DOWN_LEFT ||
-             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+      var direction = this.directionProperty.get();
+      return direction === BalloonDirectionEnum.UP_LEFT ||
+             direction === BalloonDirectionEnum.UP_RIGHT ||
+             direction === BalloonDirectionEnum.DOWN_LEFT ||
+             direction === BalloonDirectionEnum.DOWN_RIGHT;
     },
 
     /**
@@ -628,9 +626,10 @@ define( function( require ) {
      * @return {boolean}
      */
     movingRight: function() {
-      return this.direction === BalloonDirectionEnum.RIGHT ||
-             this.direction === BalloonDirectionEnum.UP_RIGHT  ||
-             this.direction === BalloonDirectionEnum.DOWN_RIGHT;
+      var direction = this.directionProperty.get();
+      return direction === BalloonDirectionEnum.RIGHT ||
+             direction === BalloonDirectionEnum.UP_RIGHT  ||
+             direction === BalloonDirectionEnum.DOWN_RIGHT;
     },
 
     /**
@@ -639,9 +638,10 @@ define( function( require ) {
      * @return {boolean}
      */
     movingLeft: function() {
-      return this.direction === BalloonDirectionEnum.LEFT ||
-             this.direction === BalloonDirectionEnum.UP_LEFT ||
-             this.direction === BalloonDirectionEnum.DOWN_LEFT;
+      var direction = this.directionProperty.get();
+      return direction === BalloonDirectionEnum.LEFT ||
+             direction === BalloonDirectionEnum.UP_LEFT ||
+             direction === BalloonDirectionEnum.DOWN_LEFT;
     },
 
     /**
@@ -669,7 +669,8 @@ define( function( require ) {
       var progress = difference / range.getLength();
 
       // progress is the difference of the calculated proportion if moving to the left or up
-      if ( this.direction === BalloonDirectionEnum.LEFT || this.direction === BalloonDirectionEnum.UP ) {
+      var direction = this.directionProperty.get();
+      if ( direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.UP ) {
         progress = 1 - progress;
       }
 
@@ -1023,7 +1024,7 @@ define( function( require ) {
       else if ( playArea.bottomRow.containsPoint( balloonCenter ) ) {
         return BalloonLocationEnum.BOTTOM_EDGE;
       }
-      else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.direction === BalloonDirectionEnum.LEFT ) {
+      else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.directionProperty.get() === BalloonDirectionEnum.LEFT ) {
         // only announce that we are on the sweater if we are moving left
         return BalloonLocationEnum.ON_SWEATER;
       }

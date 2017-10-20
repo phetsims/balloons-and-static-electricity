@@ -604,7 +604,7 @@ define( function( require ) {
 
       // the balloon is moving with some initial velocity, describe that
       var velocityString = this.getVelocityString();
-      var directionString= this.getReleaseDirectionDescription( this.balloonModel.direction );
+      var directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
       var description = StringUtils.fillIn( initialMovementPatternString, {
         balloonLabel: this.accessibleLabel,
@@ -626,7 +626,7 @@ define( function( require ) {
      */
     getContinuousReleaseDescription: function( location, oldLocation ) {
 
-      var  directionString = this.getReleaseDirectionDescription( this.balloonModel.direction );
+      var  directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
       return StringUtils.fillIn( stillMovingPatternString, {
         direction: directionString
       } );
@@ -829,7 +829,7 @@ define( function( require ) {
       var centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
       var balloonCenterX = this.balloonModel.getCenterX();
       var balloonCenterY = this.balloonModel.getCenterY();
-      var balloonDirection = this.balloonModel.direction;
+      var balloonDirection = this.balloonModel.directionProperty.get();
 
       if ( balloonDirection === BalloonDirectionEnum.LEFT ) {
 

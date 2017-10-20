@@ -15,7 +15,6 @@ define( function( require ) {
 
   // modules
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
-  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -278,6 +277,14 @@ define( function( require ) {
       }
     } );
 
+    // a11y - if the direction of balloon movement changes while the balloon is grabbed, announce that immediately
+    model.directionProperty.lazyLink( function( direction ) {
+      if ( model.isDraggedProperty.get() ) {
+        var directionString = self.describer.getDraggingDirectionDescription( direction );
+        UtteranceQueue.addToBack( directionString );
+      }
+    } );
+
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
 
@@ -323,83 +330,76 @@ define( function( require ) {
               UtteranceQueue.addToBack( alert );
             }
           }
-          else {
+          // else {
 
-            // describe how the balloon moves due to dragging
+          //   // describe how the balloon moves due to dragging
 
-            // describe the dragging at this refresh rate
-            if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE || !self.regionChangeHandled ) {
+          //   // describe the dragging at this refresh rate
+          //   if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE || !self.regionChangeHandled ) {
 
-              // if we changed directions since the last description, alert the new direction
-              var balloonDirection = BalloonModel.getMovementDirection( location, oldLocation );
-              if ( self.model.previousDirection !== self.model.direction ) {
-                var directionString = self.describer.getDraggingDirectionDescription( balloonDirection );
-                UtteranceQueue.addToBack( directionString );
-              }
+          //     //--------------------------------------------------------------------------
+          //     // The remaining alerts should only be alerted once every DESCRIPTION_REFRESH_RATE
+          //     //--------------------------------------------------------------------------
+          //     if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-              //--------------------------------------------------------------------------
-              // The remaining alerts should only be alerted once every DESCRIPTION_REFRESH_RATE
-              //--------------------------------------------------------------------------
-              if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+          //       var dragAlert;
+          //       if ( self.model.onSweater() ) {
 
-                var dragAlert;
-                if ( self.model.onSweater() ) {
+          //         // if we are dragging on the sweater, get an alert that describes movement and charge pickup
 
-                  // if we are dragging on the sweater, get an alert that describes movement and charge pickup
+          //       }
+          //       else if ( self.model.touchingWall() ) {
 
-                }
-                else if ( self.model.touchingWall() ) {
+          //         // if we are dragging along the wall, get an alert that describes the movement and
+          //         // behavior of charges
+          //         dragAlert = self.describer.getWallRubbingDescription();
+          //       }
+          //       else {
 
-                  // if we are dragging along the wall, get an alert that describes the movement and
-                  // behavior of charges
-                  dragAlert = self.describer.getWallRubbingDescription();
-                }
-                else {
+          //         // we are being dragged through the play area
 
-                  // we are being dragged through the play area
+          //         var progressThroughRegion = self.model.getProgressThroughRegion();
+          //         var notDiagonal = !self.model.movingDiagonally();
+          //         if ( progressThroughRegion <= 0.50 && notDiagonal ) {
 
-                  var progressThroughRegion = self.model.getProgressThroughRegion();
-                  var notDiagonal = !self.model.movingDiagonally();
-                  if ( progressThroughRegion <= 0.50 && notDiagonal ) {
+          //           // we are less than 50 percent through the current play area region and we are moving horizontally,
+          //           // so announce our current location
+          //           var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
+          //           dragAlert = new Utterance( draggingDescription, {
+          //             typeId: 'locationAlert'
+          //           } );
+          //         }
+          //         else if ( progressThroughRegion > 0.50 && notDiagonal ) {
 
-                    // we are less than 50 percent through the current play area region and we are moving horizontally,
-                    // so announce our current location
-                    var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
-                    dragAlert = new Utterance( draggingDescription, {
-                      typeId: 'locationAlert'
-                    } );
-                  }
-                  else if ( progressThroughRegion > 0.50 && notDiagonal ) {
+          //           // we are greater than 50 percent through the play area region and moving horizontally so
+          //           // announce an indication that we are moving closer to the object
+          //           var progressDescription = self.describer.getPlayAreaDragProgressDescription();
+          //           dragAlert = new Utterance( progressDescription, {
+          //             typeId: 'progressAlert',
+          //             predicate: function() {
 
-                    // we are greater than 50 percent through the play area region and moving horizontally so
-                    // announce an indication that we are moving closer to the object
-                    var progressDescription = self.describer.getPlayAreaDragProgressDescription();
-                    dragAlert = new Utterance( progressDescription, {
-                      typeId: 'progressAlert',
-                      predicate: function() {
+          //               // only announce a progress update if the balloon has not reached the sweater or wall
+          //               var onSweater = self.model.onSweater();
+          //               var touchingWall = self.model.touchingWall();
+          //               return !onSweater && !touchingWall;
+          //             }
+          //           } );
+          //         }
+          //       }
 
-                        // only announce a progress update if the balloon has not reached the sweater or wall
-                        var onSweater = self.model.onSweater();
-                        var touchingWall = self.model.touchingWall();
-                        return !onSweater && !touchingWall;
-                      }
-                    } );
-                  }
-                }
+          //       // TODO: prevent this for now
+          //       var test = false;
+          //       test && dragAlert && UtteranceQueue.addToBack( dragAlert );
 
-                // TODO: prevent this for now
-                var test = false;
-                test && dragAlert && UtteranceQueue.addToBack( dragAlert );
+          //       // reset timers and flags
+          //       self.timeSincePositionAlert = 0;
+          //       self.regionChangeHandled = true;
 
-                // reset timers and flags
-                self.timeSincePositionAlert = 0;
-                self.regionChangeHandled = true;
-
-                // we should also announce the next charge pickup
-                self.alertNextPickup = true;
-              }
-            }
-          }
+          //       // we should also announce the next charge pickup
+          //       self.alertNextPickup = true;
+          //     }
+          //   }
+          // }
         }
       }
     } );
