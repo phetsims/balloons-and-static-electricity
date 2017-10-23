@@ -957,6 +957,17 @@ define( function( require ) {
     },
 
     /**
+     * Returns whether or not the balloon is touching the right most edge of the play area (should be impossible
+     * if the wall is invisible)
+     *
+     * @return {boolean}
+     */
+    isTouchingRightEdge: function() {
+      var balloonX = this.getCenterX();
+      return PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+    },
+
+    /**
      * Returns whether or not the balloon is touching the bottom boundary of the play area.
      * @return {boolean}
      */

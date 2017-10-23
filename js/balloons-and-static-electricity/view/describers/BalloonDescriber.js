@@ -27,6 +27,7 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
+  var atWallString = BASEA11yStrings.atWallString;
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
   var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
   var balloonOnString = BASEA11yStrings.balloonOnString;
@@ -720,7 +721,10 @@ define( function( require ) {
       else if ( this.balloonModel.isTouchingLeftBoundary() && attemptedDirection === BalloonDirectionEnum.LEFT ) {
         boundaryString = atLeftEdgeString;
       }
-      else if ( this.balloonModel.isTouchingRightBoundary() && attemptedDirection === BalloonDirectionEnum.RIGHT) {
+      else if ( this.balloonModel.touchingWall() && attemptedDirection === BalloonDirectionEnum.RIGHT ) {
+        boundaryString = atWallString;
+      }
+      else if ( this.balloonModel.isTouchingRightEdge() && attemptedDirection === BalloonDirectionEnum.RIGHT) {
         boundaryString = atRightEdgeString;
       }
       else if ( this.balloonModel.isTouchingTopBoundary() && attemptedDirection === BalloonDirectionEnum.UP ) {
