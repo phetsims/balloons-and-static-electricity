@@ -524,8 +524,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     nearRightEdge: function() {
-      var model = this.balloonsAndStaticElectricityModel;
-      return ( this.getCenter().x > PlayAreaMap.X_LOCATIONS.AT_NEAR_RIGHT_EDGE && this.getCenter().x < PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE && !model.wall.isVisibleProperty.get() );
+      return PlayAreaMap.LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.contains( this.getCenterX() );
     },
 
     /**

@@ -73,6 +73,9 @@ define( function( require ) {
   var landmarkVeryCloseToUpperRightEdgeString = BASEA11yStrings.landmarkVeryCloseToUpperRightEdgeString;
   var landmarkVeryCloseToLowerRightEdgeString = BASEA11yStrings.landmarkVeryCloseToLowerRightEdgeString;
   var landmarkVeryCloseToSweaterString = BASEA11yStrings.landmarkVeryCloseToSweaterString;
+  var landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdgeString;
+  var landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdgeString;
+  var landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdgeString;
 
   // constants
   var LOCATION_DESCRIPTION_MAP = {
@@ -152,9 +155,9 @@ define( function( require ) {
       LOWER_PLAY_AREA: lowerWallString
     },
     AT_NEAR_RIGHT_EDGE: {
-      UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
-      CENTER_PLAY_AREA: rightEdgeOfPlayAreaString,
-      LOWER_PLAY_AREA: lowerRightEdgeOfPlayAreaString
+      UPPER_PLAY_AREA: landmarkNearUpperRightEdgeString,
+      CENTER_PLAY_AREA: landmarkNearRightEdgeString,
+      LOWER_PLAY_AREA: landmarkNearLowerRightEdgeString
     },
     AT_VERY_CLOSE_TO_RIGHT_EDGE: {
       UPPER_PLAY_AREA: landmarkVeryCloseToUpperRightEdgeString,

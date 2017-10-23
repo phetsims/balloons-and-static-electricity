@@ -79,6 +79,9 @@ define( function( require ) {
     landmarkNearUpperWallString: 'upper wall',
     landmarkNearWallString: 'wall',
     landmarkNearLowerWallString: 'lower wall',
+    landmarkNearUpperRightEdgeString: 'upper right edge',
+    landmarkNearRightEdgeString: 'right edge',
+    landmarkNearLowerRightEdgeString: 'lower right edge',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',

@@ -355,6 +355,9 @@ define( function( require ) {
       else if ( this.balloonModel.nearSweater() ) {
         string = balloonNearString;
       }
+      else if ( this.balloonModel.nearRightEdge() ) {
+        string = balloonNearString;
+      }
       else if ( this.balloonModel.touchingWall() || balloonInCenterPlayArea ) {
         string = balloonAtString;
       }
