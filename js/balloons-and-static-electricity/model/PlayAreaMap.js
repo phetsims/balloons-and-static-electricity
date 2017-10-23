@@ -89,17 +89,14 @@ define( function( require ) {
      */
     getPlayAreaColumn: function( location, wallVisible ) {
       var columns = COLUMN_RANGES;
-      var landmarks = LANDMARK_RANGES;
-      var columnsAndLandmarks = _.extend( columns, landmarks );
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
       // loops
       var columnsKeys = Object.keys( columns );
-      columnsKeys = columnsKeys.concat( Object.keys( landmarks ) );
 
       var column;
       for ( var i = 0; i < columnsKeys.length; i++ ) {
-        if ( columnsAndLandmarks[ columnsKeys[ i ] ].contains( location.x ) ) {
+        if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
           column = columnsKeys[ i ];
         }
       }
@@ -111,6 +108,34 @@ define( function( require ) {
       }
 
       return column;
+    },
+
+    /**
+     * Get the landmark of the play area for the a given location in the model.
+     * 
+     * @param  {Vector2} location
+     * @return {string}         
+     */
+    getPlayAreaLandmark: function( location, wallVisible ) {
+      var landmarks = LANDMARK_RANGES;
+
+      // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
+      // loops
+      var landmarksKeys = Object.keys( landmarks );
+
+      var landmark =  null;
+      for ( var i = 0; i < landmarksKeys.length; i++ ) {
+        if ( landmarks[ landmarksKeys[ i ] ].contains( location.x ) ) {
+          landmark = landmarksKeys[ i ];
+        }
+      }
+
+      // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
+      if ( wallVisible && landmark === 'RIGHT_EDGE' ) {
+        landmark = 'WALL';
+      }
+
+      return landmark;
     },
 
     /**

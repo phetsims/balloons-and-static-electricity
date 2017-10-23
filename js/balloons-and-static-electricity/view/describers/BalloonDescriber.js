@@ -1090,6 +1090,28 @@ define( function( require ) {
         sweater: sweaterChargeString,
         balloon: balloonChargeString
       } );
+    },
+
+    /**
+     * Get an alert that describes progress of balloon movement through a single cell in the play area. This information
+     * will only be provided to a keyboard user.
+     *
+     * @return {[type]} [description]
+     */
+    getKeyboardMovementAlert: function() {
+      var alert;
+
+      // percent of progress through the region
+      var progressThroughCell = this.balloonModel.getProgressThroughRegion();
+
+      // if drag velocity fast enough, horizontal movement is steady, and distance through the grid cell is less than
+      // 60%, announce our current location in the play area
+      if ( this.balloonModel.dragVelocityProperty.get().magnitude() > SLOW_BALLOON_SPEED && progressThroughCell < 0.6 ) {
+        alert = this.getAttractiveStateAndLocationDescription();
+      }
+
+      console.log( alert );
+      return alert;
     }
   } );
 } );

@@ -253,9 +253,8 @@ define( function( require ) {
     } );
 
     // a11y - if we enter a landmark location, that should be announced immediately
-    model.playAreaColumnProperty.link( function( colunn ) {
-      var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
-      if ( inLandmark ) {
+    model.playAreaLandmarkProperty.link( function( landmark ) {
+      if ( landmark ) {
         var locationDescription = self.describer.getLandmarkDragDescription();
         locationDescription && UtteranceQueue.addToBack( locationDescription );
       }
@@ -439,6 +438,8 @@ define( function( require ) {
         // description next time we press a key
         self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
 
+        // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
+        self.describer.getKeyboardMovementAlert();
 
       },
       startDrag: function( event ) {

@@ -199,6 +199,9 @@ define( function( require ) {
     // @private string - the current column of the play area for the balloon
     this.playAreaRowProperty = new Property( null );
 
+    // @private {string|null} - if the balloon is in a landmark location, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
+    this.playAreaLandmarkProperty = new Property( null );
+
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null );
 
