@@ -705,24 +705,25 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of wich boundary the balloon is touching.
+     * Get a short description of the balloon's location at a boundary when there is an attempted drag beyond
+     * the boundary.  Will return something like "At bottom" or "At top".
      * 
      * @return {string}
      */
-    getTouchingBoundaryDescription: function() {
+    getTouchingBoundaryDescription: function( attemptedDirection ) {
       assert && assert ( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
       var boundaryString;
-      if ( this.balloonModel.isTouchingBottomBoundary() ) {
+      if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BalloonDirectionEnum.DOWN ) {
         boundaryString = atBottomString;
       }
-      else if ( this.balloonModel.isTouchingLeftBoundary() ) {
+      else if ( this.balloonModel.isTouchingLeftBoundary() && attemptedDirection === BalloonDirectionEnum.LEFT ) {
         boundaryString = atLeftEdgeString;
       }
-      else if ( this.balloonModel.isTouchingRightBoundary() ) {
+      else if ( this.balloonModel.isTouchingRightBoundary() && attemptedDirection === BalloonDirectionEnum.RIGHT) {
         boundaryString = atRightEdgeString;
       }
-      else if ( this.balloonModel.isTouchingTopBoundary() ) {
+      else if ( this.balloonModel.isTouchingTopBoundary() && attemptedDirection === BalloonDirectionEnum.UP ) {
         boundaryString = atTopString;
       }
 

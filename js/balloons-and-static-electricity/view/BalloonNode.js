@@ -15,6 +15,7 @@ define( function( require ) {
 
   // modules
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -437,12 +438,15 @@ define( function( require ) {
         // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
         // description next time we press a key
         self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
+
+
       },
       startDrag: function( event ) {
 
-        // if touching a boundary, anounce an indication of this
+        // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
-          UtteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription(), {
+          var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
+          UtteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription( attemptedDirection ), {
             typeId: 'boundaryAlert'
           } ) );
         }
@@ -709,6 +713,25 @@ define( function( require ) {
         ( KeyboardDragHandler.isRightMovementKey( keyCode ) && this.model.isTouchingRightBoundary() ) ||
         ( KeyboardDragHandler.isDownMovementKey( keyCode ) && this.model.isTouchingBottomBoundary() )
       );
+    },
+
+    getAttemptedMovementDirection: function( keyCode ) {
+      var direction;
+      if ( KeyboardDragHandler.isLeftMovementKey( keyCode ) ) {
+        direction = BalloonDirectionEnum.LEFT;
+      }
+      else if ( KeyboardDragHandler.isRightMovementKey( keyCode ) ) {
+        direction = BalloonDirectionEnum.RIGHT;
+      }
+      else if ( KeyboardDragHandler.isUpMovementKey( keyCode ) ) {
+        direction = BalloonDirectionEnum.UP;
+      }
+      else if ( KeyboardDragHandler.isDownMovementKey( keyCode ) ) {
+        direction = BalloonDirectionEnum.DOWN;
+      }
+
+      assert && assert( direction );
+      return direction;
     },
 
     getDragBounds: function() {
