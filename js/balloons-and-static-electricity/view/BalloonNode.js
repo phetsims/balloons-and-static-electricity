@@ -441,7 +441,8 @@ define( function( require ) {
         // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
         // only do this if the play area column and row hasn't changed
         var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
-        if ( !inLandmark ) {
+        var onSweater = model.onSweater();
+        if ( !inLandmark && !onSweater ) {
           UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
         }
       },
