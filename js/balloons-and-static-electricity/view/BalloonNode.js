@@ -252,9 +252,9 @@ define( function( require ) {
       }
     } );
 
-    // a11y - if we enter a landmark location, that should be announced immediately
+    // a11y - if we enter a landmark location while we are grabbed, that should be announced immediately
     model.playAreaLandmarkProperty.link( function( landmark ) {
-      if ( landmark ) {
+      if ( landmark && model.isDraggedProperty.get() ) {
         var locationDescription = self.describer.getLandmarkDragDescription();
         locationDescription && UtteranceQueue.addToBack( locationDescription );
       }
