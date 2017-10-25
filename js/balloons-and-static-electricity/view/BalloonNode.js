@@ -322,38 +322,6 @@ define( function( require ) {
               self.timeSinceReleaseAlert = 0;
             }
           }
-          // else {
-
-          //   // describe how the balloon moves due to dragging
-
-          //   // describe the dragging at this refresh rate
-          //   if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE || !self.regionChangeHandled ) {
-
-          //     //--------------------------------------------------------------------------
-          //     // The remaining alerts should only be alerted once every DESCRIPTION_REFRESH_RATE
-          //     //--------------------------------------------------------------------------
-          //     if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
-
-          //       var dragAlert;
-          //       else {
-
-          //         // we are being dragged through the play area
-
-          //       }
-
-          //       // TODO: prevent this for now
-          //       var test = false;
-          //       test && dragAlert && UtteranceQueue.addToBack( dragAlert );
-
-          //       // reset timers and flags
-          //       self.timeSincePositionAlert = 0;
-          //       self.regionChangeHandled = true;
-
-          //       // we should also announce the next charge pickup
-          //       self.alertNextPickup = true;
-          //     }
-          //   }
-          // }
         }
       }
     } );
