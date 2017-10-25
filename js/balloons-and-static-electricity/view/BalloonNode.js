@@ -439,8 +439,11 @@ define( function( require ) {
         self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
 
         // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
-        self.describer.getKeyboardMovementAlert();
-
+        // only do this if the play area column and row hasn't changed
+        var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
+        if ( !inLandmark ) {
+          UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
+        }
       },
       startDrag: function( event ) {
 

@@ -1096,21 +1096,35 @@ define( function( require ) {
      * Get an alert that describes progress of balloon movement through a single cell in the play area. This information
      * will only be provided to a keyboard user.
      *
-     * @return {[type]} [description]
+     * Will  be something like:
+     * "At center of play area." or
+     * "Closer to sweater."
+     *
+     * @return {string}
      */
     getKeyboardMovementAlert: function() {
       var alert;
 
       // percent of progress through the region
       var progressThroughCell = this.balloonModel.getProgressThroughRegion();
+      var dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude();
 
-      // if drag velocity fast enough, horizontal movement is steady, and distance through the grid cell is less than
-      // 60%, announce our current location in the play area
-      if ( this.balloonModel.dragVelocityProperty.get().magnitude() > SLOW_BALLOON_SPEED && progressThroughCell < 0.6 ) {
+      if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 ) {
+
+        // if drag velocity fast and progress through the cell is greater than 60%, announce progress towards destination
+        alert = this.getPlayAreaDragProgressDescription();
+      }
+      else if ( dragVelocity < SLOW_BALLOON_SPEED && progressThroughCell >= 0.5 ) {
+
+        // when drag velocity slow and progress through cell greater than 0.5, announce progress towards destination
+        alert = this.getPlayAreaDragProgressDescription();
+      }
+      else {
+        
+        //  just announce the current location in the play area
         alert = this.getAttractiveStateAndLocationDescription();
       }
 
-      console.log( alert );
       return alert;
     }
   } );
