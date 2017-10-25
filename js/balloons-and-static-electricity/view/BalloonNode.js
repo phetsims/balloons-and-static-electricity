@@ -260,14 +260,12 @@ define( function( require ) {
       }
     } );
 
-    // a11y - if dragged and we enter/leave the sweater announce that immediately
+    // a11y - if we enter/leave the sweater announce that immediately
     model.onSweaterProperty.link( function( onSweater ) {
-      if ( model.isDraggedProperty.get() ) {
+        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
 
         // entering sweater, indicate that we need to alert the next charge pickup
         self.alertFirstPickup = true;
-        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
-      }
     } );
 
     // a11y - if dragged and we touch the wall, announce that immediately
