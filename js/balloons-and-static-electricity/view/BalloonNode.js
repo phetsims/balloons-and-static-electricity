@@ -120,7 +120,7 @@ define( function( require ) {
     this.alertFirstPickup = false;
 
     // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
-    // pickup alert, every time the balloon moves, this is reset (only wnat to anounce charges
+    // pickup alert, every time the balloon moves, this is reset (only want to anounce charges
     // when balloon moves)
     this.alertNextPickup = false;
 
@@ -335,43 +335,10 @@ define( function( require ) {
           //     if ( self.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
           //       var dragAlert;
-          //       else if ( self.model.touchingWall() ) {
-
-          //         // if we are dragging along the wall, get an alert that describes the movement and
-          //         // behavior of charges
-          //         dragAlert = self.describer.getWallRubbingDescription();
-          //       }
           //       else {
 
           //         // we are being dragged through the play area
 
-          //         var progressThroughRegion = self.model.getProgressThroughRegion();
-          //         var notDiagonal = !self.model.movingDiagonally();
-          //         if ( progressThroughRegion <= 0.50 && notDiagonal ) {
-
-          //           // we are less than 50 percent through the current play area region and we are moving horizontally,
-          //           // so announce our current location
-          //           var draggingDescription = self.describer.getPlayAreaDragNewRegionDescription();
-          //           dragAlert = new Utterance( draggingDescription, {
-          //             typeId: 'locationAlert'
-          //           } );
-          //         }
-          //         else if ( progressThroughRegion > 0.50 && notDiagonal ) {
-
-          //           // we are greater than 50 percent through the play area region and moving horizontally so
-          //           // announce an indication that we are moving closer to the object
-          //           var progressDescription = self.describer.getPlayAreaDragProgressDescription();
-          //           dragAlert = new Utterance( progressDescription, {
-          //             typeId: 'progressAlert',
-          //             predicate: function() {
-
-          //               // only announce a progress update if the balloon has not reached the sweater or wall
-          //               var onSweater = self.model.onSweater();
-          //               var touchingWall = self.model.touchingWall();
-          //               return !onSweater && !touchingWall;
-          //             }
-          //           } );
-          //         }
           //       }
 
           //       // TODO: prevent this for now
@@ -656,6 +623,11 @@ define( function( require ) {
       // increment timer tracking time since alert description
       this.timeSincePositionAlert += dt * 1000;
 
+      // at an interval, announce pickup of negative charges
+      if ( this.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+        this.alertNextPickup = true;
+        this.timeSincePositionAlert = 0;
+      }
 
       // when the balloon is released (either from dragging or from the wall being removed), announce an
       // alert if it doesn't move within the time delay
