@@ -133,7 +133,7 @@ define( function( require ) {
   var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 
   // speed of the balloon to be considered moving slowly, determined empirically
-  var SLOW_BALLOON_SPEED = 0.08;
+  var SLOW_BALLOON_SPEED = 0.09;
 
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
@@ -750,56 +750,33 @@ define( function( require ) {
      * @return {string|null}
      */
     getLandmarkDragDescription: function() {
-      var alert = null;
-      var playAreaColumn = this.balloonModel.playAreaColumnProperty.get();
+      var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
       var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
       var balloonCenter = this.balloonModel.getCenter();
 
       var wallVisible = this.model.wall.isVisibleProperty.get();
-      var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
+      var alert = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
 
-      if ( this.balloonModel.movingRight() && playAreaColumn === 'AT_NEAR_SWEATER' ) {
+      // cases where we do not want to announce the alert
+      if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
 
         // if moving to the right and we enter the 'near sweater' landmark, ignore
         alert = null;
       }
-      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_SWEATER' ) {
+      else if ( playAreaLandmark === 'AT_VERY_CLOSE_TO_SWEATER' ) {
         var movingSlowlyLeft = this.balloonModel.movingLeft() && dragSpeed < SLOW_BALLOON_SPEED;
-        if ( movingSlowlyLeft ) {
 
-          // if the balloon is moving slowly to the left and very close to the sweater announce that we are very near the sweater
-          alert = locationString;
-        }
-        else {
+        // only announce that we are very close to the sweater when moving slowly to the left
+        if ( !movingSlowlyLeft ) {
           alert = null;
         }
       }
-      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_WALL' ) {
-        if ( dragSpeed < SLOW_BALLOON_SPEED && wallVisible ) {
+      else if ( playAreaLandmark === 'AT_VERY_CLOSE_TO_WALL' || playAreaLandmark === 'AT_VERY_CLOSE_TO_RIGHT_EDGE' ) {
 
-          // only announce this landmark if moving slowly
-          alert = locationString;
-        }
-        else {
+        // only announce that we are very close to the wall when moving slowly and when the wall is visible
+        if ( dragSpeed > SLOW_BALLOON_SPEED ) {
           alert = null;
         }
-      }
-      else if ( playAreaColumn === 'AT_VERY_CLOSE_TO_RIGHT_EDGE' ) {
-         if ( dragSpeed < SLOW_BALLOON_SPEED && !wallVisible ) {
-
-          // only announce this landmark if moving slowly
-          alert = locationString;
-        }
-        else {
-          alert = null;
-        } 
-      }
-      else {
-        var nearOrAt = this.getNearOrOnDescription();
-        alert = StringUtils.fillIn( balloonNewRegionPatternString, {
-          nearOrAt: nearOrAt,
-          location: locationString 
-        } );
       }
 
       return alert;
