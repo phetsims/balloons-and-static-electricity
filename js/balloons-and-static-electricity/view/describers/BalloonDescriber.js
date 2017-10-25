@@ -1108,23 +1108,23 @@ define( function( require ) {
       // percent of progress through the region
       var progressThroughCell = this.balloonModel.getProgressThroughRegion();
       var dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude();
+      var movingDiagonally = this.balloonModel.movingDiagonally();
 
-      if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 ) {
+      if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 && !movingDiagonally ) {
 
         // if drag velocity fast and progress through the cell is greater than 60%, announce progress towards destination
         alert = this.getPlayAreaDragProgressDescription();
       }
-      else if ( dragVelocity < SLOW_BALLOON_SPEED && progressThroughCell >= 0.5 ) {
+      else if ( dragVelocity < SLOW_BALLOON_SPEED && progressThroughCell >= 0.5 && !movingDiagonally ) {
 
         // when drag velocity slow and progress through cell greater than 0.5, announce progress towards destination
         alert = this.getPlayAreaDragProgressDescription();
       }
       else {
-        
-        //  just announce the current location in the play area
+
+        // just announce the current location in the play area
         alert = this.getAttractiveStateAndLocationDescription();
       }
-
       return alert;
     }
   } );
