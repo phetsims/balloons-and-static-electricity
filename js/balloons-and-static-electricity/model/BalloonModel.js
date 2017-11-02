@@ -35,6 +35,19 @@ define( function( require ) {
   var BALLOON_HEIGHT = 222;
   var OVERLAPS_OTHER_DISTANCE = 25; // if balloon center differences is within this amount, they overlap
 
+  // threshold for diagonal movement is +/- 15 degrees from diagonals
+  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+  
+  // map that determines if an object is, down, horizontally or along a diagonal between two points. The exact quadrant
+  // of the movement and the direction is determined by getDirection, see that function for use of this map
+  var DIRECTION_MAP = {
+    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
+    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
+  };
+
   // collection of charge positions on the balloon, relative to the top left corners
   // charges will appear in these positions as the balloon collects electrons
   var POSITIONS = [
@@ -97,20 +110,6 @@ define( function( require ) {
     [ 30, 85 ],
     [ 34, 77 ]
   ];
-
-  // threshold for diagonal movement is +/- 15 degrees from diagonals
-  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
-
-  // map that determines if the ballon is moving up, down, horizontally or along a diagonal. The exact quadrant
-  // of the movement and the direction is determined by getMovementDirection, see that function for use
-  // of this map
-  var BALLOON_DIRECTION_MAP = {
-    DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    HORIZONTAL: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP_DIAGONAL: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-    UP: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI )
-  };
 
   // determine average the Y position for the charges in the balloon
   var positionYSum = 0;
@@ -322,7 +321,8 @@ define( function( require ) {
 
       if ( oldLocation ) {
 
-        self.directionProperty.set( BalloonModel.getMovementDirection( location, oldLocation ) );
+        // the direction from the old location to the newLocation
+        self.directionProperty.set( BalloonModel.getDirection( location, oldLocation ) );
 
         // update whether or not the balloon is very close to the sweater
         self.previousIsNearSweater = self.isNearSweater;
@@ -450,42 +450,6 @@ define( function( require ) {
       var centerY = balloonLocation.y + ( ( y2 - y1 ) / 2 );
 
       return new Vector2( centerX, centerY );
-    },
-
-    /**
-     * Get a direction from the balloon center to the charge.
-     *
-     * @param  {PointChargeModel} chargeModel
-     * @returns {string}
-     */
-    getDirectionToCharge: function( chargeModel ) {
-      var difference = chargeModel.location.minus( this.getDraggingCenter() );
-
-      var diffX = difference.x;
-      var diffY = difference.y;
-
-      // direction string to be returned
-      var direction;
-      if ( diffX >= 0 && diffY >= 0 ) {
-        // charge is up and to the right
-        direction = BalloonDirectionEnum.DOWN_RIGHT;
-      }
-      else if ( diffX >= 0 && diffY < 0 ) {
-        // charge is down and to the right
-        direction = BalloonDirectionEnum.UP_RIGHT;
-      }
-      else if ( diffX < 0 && diffY >= 0 ) {
-        // charge is up and to the left
-        direction = BalloonDirectionEnum.DOWN_LEFT;
-      }
-      else if ( diffX < 0 && diffY < 0 ) {
-        // charge is down and to the lefts
-        direction = BalloonDirectionEnum.UP_LEFT;
-      }
-
-      assert && assert( direction, 'A direction must be defined' );
-      return direction;
-
     },
 
     /**
@@ -1197,42 +1161,41 @@ define( function( require ) {
     },
 
     /**
-     * Get the direction of movement for this balloon based on the angle of movement calculated
-     * between two positions, returns one of BalloonDirectionEnum. Uses Math.atan2, so the angle
-     * is mapped from 0 to +/- Math.PI.  So we determine if movement is in the top or bottom half
-     * of the unit circle and then map to the exact quadrant based on the sign of the angle.
+     * Get the direction of movement that would take you from point A to point B, returning one of BalloonDirectionEnum,
+     * LEFT, RIGHT,  UP, DOWN,  UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT. Uses Math.atan2, so the angle is mapped from
+     * 0 to +/- Math.PI.  We determine if movement is in the top or bottom half of the unit circle and then map to the
+     * exact quadrant based on the sign of the angle.
      *
-     * @param  {Vector2} location
-     * @param  {Vector2} oldLocation
+     * @param  {Vector2} pointA
+     * @param  {Vector2} pointB
      * @return {string} - one of BalloonDirectionEnum
      * @static
      */
-    getMovementDirection: function( location, oldLocation ) {
-
+    getDirection: function( pointA, pointB ) {
       var direction;
 
-      var dx = location.x - oldLocation.x;
-      var dy = location.y - oldLocation.y;
+      var dx = pointA.x - pointB.x;
+      var dy = pointA.y - pointB.y;
       var angle = Math.atan2( dx, dy );
       var absAngle = Math.abs( angle );
 
       // atan2 will map from 0 to +/- PI instead of 0 to 2 PI, so we use the sign to determine whether we
       // are moving left/right, and then use the absolute value of angle to determine up/down
-      if ( BALLOON_DIRECTION_MAP.DOWN.contains( absAngle ) ) {
+      if ( DIRECTION_MAP.DOWN.contains( absAngle ) ) {
         direction = BalloonDirectionEnum.DOWN;
       }
-      else if ( BALLOON_DIRECTION_MAP.DOWN_DIAGONAL.contains( absAngle ) ) {
+      else if ( DIRECTION_MAP.DOWN_DIAGONAL.contains( absAngle ) ) {
 
         // diagonal in the third or fourth quadrants
         direction = ( angle > 0 ) ? BalloonDirectionEnum.DOWN_RIGHT : BalloonDirectionEnum.DOWN_LEFT;
       }
-      else if ( BALLOON_DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
+      else if ( DIRECTION_MAP.HORIZONTAL.contains( absAngle ) ) {
         direction = ( angle > 0 ) ? BalloonDirectionEnum.RIGHT : BalloonDirectionEnum.LEFT;
       }
-      else if ( BALLOON_DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
+      else if ( DIRECTION_MAP.UP_DIAGONAL.contains( absAngle ) ) {
         direction = ( angle > 0 ) ? BalloonDirectionEnum.UP_RIGHT : BalloonDirectionEnum.UP_LEFT;
       }
-      else if ( BALLOON_DIRECTION_MAP.UP.contains( absAngle ) ) {
+      else if ( DIRECTION_MAP.UP.contains( absAngle ) ) {
         direction = BalloonDirectionEnum.UP;
       }
 

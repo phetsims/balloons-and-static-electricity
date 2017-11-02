@@ -17,6 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
 
   // strings
   var sweaterLocationString = BASEA11yStrings.sweaterLocationString;
@@ -36,6 +37,12 @@ define( function( require ) {
   var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
   var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString;
   var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString;
+  var moreChargesPatternString = BASEA11yStrings.moreChargesPatternString;
+  var morePairsOfChargesString = BASEA11yStrings.morePairsOfChargesString;
+  var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfChargesString;
+  var positiveNetChargeString = BASEA11yStrings.positiveNetChargeString;
+  var neutralNetChargeString = BASEA11yStrings.neutralNetChargeString;
+
 
   // constants - ranges to describe charges in the sweater
   var SWEATER_DESCRIPTION_MAP = {
@@ -227,6 +234,63 @@ define( function( require ) {
       }
 
       return alert;
+    },
+
+    /**
+     * Get a description of the net charge of the sweater, will return either
+     * "Sweater has positive net charge." or
+     * "Sweater has neutral net charge."
+     *
+     * @param {number} sweaterCharge
+     * @return {string}
+     */
+    getNetChargeDescription: function( sweaterCharge )  {
+      var relativeChargeString = ( sweaterCharge === BASEConstants.MAX_BALLOON_CHARGE ) ? neutralNetChargeString : positiveNetChargeString; 
+      return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
+        relativeCharge: relativeChargeString
+      } );
+    },
+
+    /**
+     * Get a description that includes information about where additional charges are on the sweater. This is
+     * dependent on charge visibility setting. Will return something like
+     * "More pairs of charges up and to the left". or
+     * "More pairs of hidden charges down".
+     * @public
+     *
+     * @param {BalloonModel} balloon
+     * @param {string} shownCharges
+     * @return {string}
+     */
+    getMoreChargesDescription: function( balloon, sweaterCharge, sweaterCharges, shownCharges ) {
+      assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );
+      assert && assert( shownCharges !== 'none', 'this description should not be used when no charges are shown' );
+
+      // get the next charge to describe
+      var charge;
+      for ( var i = 0; i < sweaterCharges.length; i++ ) {
+        charge = sweaterCharges[ i ];
+        if ( !charge.movedProperty.get() ) {
+          break;
+        }
+      }
+
+      // get the description of the direction to the closest charge
+      var direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
+      var directionDescription = BASEDescriber.getDirectionDescription( direction );
+
+      var moreChargesString;
+      if ( shownCharges === 'all' ) {
+        moreChargesString = morePairsOfChargesString;
+      }
+      else if ( shownCharges === 'diff' )  {
+        moreChargesString = moreHiddenPairsOfChargesString;
+      }
+
+      return StringUtils.fillIn( moreChargesPatternString, {
+        moreCharges:  moreChargesString,
+        direction: directionDescription
+      } );
     }
   } );
 } );

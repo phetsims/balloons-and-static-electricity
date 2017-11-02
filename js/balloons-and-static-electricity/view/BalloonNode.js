@@ -144,6 +144,14 @@ define( function( require ) {
       get: function() { return model.locationProperty.get(); }
     };
 
+    // called when dragging starts
+    this.chargeOnStart = model.chargeProperty.get();
+    this.dragStarted = false;
+    var startDragListener = function() {
+      self.chargeOnStart = model.chargeProperty.get();
+      self.dragStarted = true;
+    };
+
     var endDragListener = function() {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -161,6 +169,7 @@ define( function( require ) {
       allowTouchSnag: true,
       startDrag: function() {
         model.isDraggedProperty.set( true );
+        startDragListener();
       },
       endDrag: function() {
         endDragListener();
@@ -229,27 +238,25 @@ define( function( require ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
 
-      // a11y - charge change alerts are only read if charges are visible
-      if ( globalModel.showChargesProperty.get() !== 'none' ) {
-        var alert;
+      // a11y
+      var alert;
 
-        // the first charge pickup and subsequent pickups (behind a refresh rate)
-        // should be alerted
-        if ( self.alertNextPickup || self.alertFirstPickup ) {
-          alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
-          UtteranceQueue.addToBack( alert );
-        }
-
-        // always announce pickup of the last charge
-        if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
-          alert = self.describer.getLastChargePickupDescription();
-          UtteranceQueue.addToBack( alert );
-        }
-
-        // reset flags
-        self.alertFirstPickup = false;
-        self.alertNextPickup = false;
+      // the first charge pickup and subsequent pickups (behind a refresh rate)
+      // should be alerted
+      if ( self.alertNextPickup || self.alertFirstPickup ) {
+        alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
+        UtteranceQueue.addToBack( alert );
       }
+
+      // always announce pickup of the last charge
+      if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
+        alert = self.describer.getLastChargePickupDescription();
+        UtteranceQueue.addToBack( alert );
+      }
+
+      // reset flags
+      self.alertFirstPickup = false;
+      self.alertNextPickup = false;
     } );
 
     // a11y - if we enter a landmark location while we are grabbed, that should be announced immediately
@@ -380,6 +387,8 @@ define( function( require ) {
         }
       },
       startDrag: function( event ) {
+
+        startDragListener();
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
@@ -584,6 +593,7 @@ define( function( require ) {
      * @param  {number} dt
      */
     step: function( dt ) {
+      var alert;
       this.keyboardDragHandler.step( dt );
 
       // increment timer tracking time since alert description
@@ -591,8 +601,18 @@ define( function( require ) {
 
       // at an interval, announce pickup of negative charges
       if ( this.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+
+        // if we are on the sweater, dragged, and the charge is the same as when we started the drag, announce that
+        // there was no change in charges
+        var sameCharge = this.model.chargeProperty.get() === this.chargeOnStart;
+        if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.dragStarted ) {
+          alert = this.describer.getNoChargePickupDescription();
+          UtteranceQueue.addToBack( alert );
+        }
+
         this.alertNextPickup = true;
         this.timeSincePositionAlert = 0;
+        this.dragStarted = false;
       }
 
       // when the balloon is released (either from dragging or from the wall being removed), announce an
@@ -606,7 +626,7 @@ define( function( require ) {
           if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
             if ( touchingReleasePoint ) {
-              var alert = this.describer.getNoChangeReleaseDescription();
+              alert = this.describer.getNoChangeReleaseDescription();
               UtteranceQueue.addToBack( alert );
               this.initialMovementDescribed = true;
             }

@@ -18,6 +18,7 @@ define( function( require ) {
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
@@ -55,14 +56,14 @@ define( function( require ) {
   var upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDraggingString;
   var downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDraggingString;
   var downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDraggingString;
-  var upReleasedString = BASEA11yStrings.upReleasedString;
-  var leftReleasedString = BASEA11yStrings.leftReleasedString;
-  var downReleasedString = BASEA11yStrings.downReleasedString;
-  var rightReleasedString = BASEA11yStrings.rightReleasedString;
-  var upAndToTheRightReleasedString = BASEA11yStrings.upAndToTheRightReleasedString;
-  var upAndToTheLeftReleasedString = BASEA11yStrings.upAndToTheLeftReleasedString;
-  var downAndToTheRightReleasedString = BASEA11yStrings.downAndToTheRightReleasedString;
-  var downAndToTheLeftReleasedString = BASEA11yStrings.downAndToTheLeftReleasedString;
+  var upString = BASEA11yStrings.upString;
+  var leftString = BASEA11yStrings.leftString;
+  var downString = BASEA11yStrings.downString;
+  var rightString = BASEA11yStrings.rightString;
+  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
+  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
+  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
+  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
   var atLeftEdgeString = BASEA11yStrings.atLeftEdgeString;
   var atTopString = BASEA11yStrings.atTopString;
   var atBottomString = BASEA11yStrings.atBottomString;
@@ -103,6 +104,11 @@ define( function( require ) {
   var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
   var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString;
+  var noChargePickupPatternString = BASEA11yStrings.noChargePickupPatternString;
+  var noChangeInChargesString = BASEA11yStrings.noChangeInChargesString;
+  var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetChargeString;
+  var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPatternString;
+  var releaseHintString = BASEA11yStrings.releaseHintString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -119,14 +125,14 @@ define( function( require ) {
 
   // maps balloon direction to a description string for while the balloon is released
   var BALLOON_DIRECTION_RELEASE_MAP = {
-    UP: upReleasedString,
-    DOWN: downReleasedString,
-    LEFT: leftReleasedString,
-    RIGHT: rightReleasedString,
-    UP_RIGHT: upAndToTheRightReleasedString,
-    UP_LEFT: upAndToTheLeftReleasedString,
-    DOWN_RIGHT: downAndToTheRightReleasedString,
-    DOWN_LEFT: downAndToTheLeftReleasedString
+    UP: upString,
+    DOWN: downString,
+    LEFT: leftString,
+    RIGHT: rightString,
+    UP_RIGHT: upAndToTheRightString,
+    UP_LEFT: upAndToTheLeftString,
+    DOWN_RIGHT: downAndToTheRightString,
+    DOWN_LEFT: downAndToTheLeftString
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
@@ -997,16 +1003,18 @@ define( function( require ) {
       var description;
       var shownCharges = this.showChargesProperty.get();
 
-      assert && assert( shownCharges !== 'none', 'there is no pickup alert for view "none"' );
-
       var newCharge = this.balloonModel.chargeProperty.get();
       var oldCharge = this.chargeOnPickupDescription;
       var newRange = BASEDescriber.getDescribedChargeRange( newCharge );
       var oldRange = BASEDescriber.getDescribedChargeRange( oldCharge );
 
-      // if this is the first charge picked up after moving onto sweater, generate
-      // a special description to announce that charges have been transfered
-      if ( firstPickup ) {
+      if ( shownCharges === 'none' )  {
+        description = this.getAttractiveStateAndLocationDescription();
+      }
+      else if ( firstPickup ) {
+
+        // if this is the first charge picked up after moving onto sweater, generate
+        // a special description to announce that charges have been transfered
         description = this.getInitialChargePickupDescription();
       }
       else if ( newRange.equals( oldRange ) ) {
@@ -1102,6 +1110,74 @@ define( function( require ) {
         // just announce the current location in the play area
         alert = this.getAttractiveStateAndLocationDescription();
       }
+      return alert;
+    },
+
+    /**
+     * Get an alert that describes that no charges were picked up during the drag interaction. This alert is dependent
+     * on which charges are visible. Will return a string like
+     *
+     * "No change in charges. On left side of sweater. More pairs of charges down and to the right." or
+     * "No change in net charge. On left side of sweater. More hidden pairs of charges down and to the right." or
+     * "On left side of sweater".
+     *
+     * @return {string}
+     */
+    getNoChargePickupDescription: function() {
+      var alert;
+      var chargesShown = this.showChargesProperty.get();
+      
+      var balloonLocationString = this.getAttractiveStateAndLocationDescription();
+      var sweaterCharge = this.model.sweater.chargeProperty.get();
+
+      if ( chargesShown === 'none' ) {
+
+        // if no charges are shown, just describe position of balloon
+        alert = balloonLocationString;
+      }
+      else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
+
+        // there are still charges on the sweater
+        var sweaterCharges = this.model.sweater.minusCharges;
+        var moreChargesString = SweaterDescriber.getMoreChargesDescription( this.balloonModel, sweaterCharge, sweaterCharges, chargesShown );
+        var patternString = noChargePickupPatternString;
+        if ( chargesShown === 'all' ) {
+          alert = StringUtils.fillIn( noChargePickupPatternString, {
+            noChange: noChangeInChargesString,
+            balloonLocation: balloonLocationString,
+            moreChargesLocation: moreChargesString,
+          } );
+        }
+        else if ( chargesShown === 'diff' )  {
+          alert = StringUtils.fillIn( noChargePickupPatternString, {
+            noChange: noChangeInChargesString,
+            balloonLocation: balloonLocationString,
+            moreChargesLocation: moreChargesString
+          } );
+        }
+      }
+      else {
+        if ( chargesShown === 'all' ) {
+          var relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
+          var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+          alert = StringUtils.fillIn( noChargePickupHintPatternString, {
+            noChange:  noChangeInChargesString,
+            balloonLocation: balloonLocationString,
+            sweaterCharge: relativeSweaterCharge,
+            balloonCharge: relativeBalloonCharge,
+            hint: releaseHintString
+          } );
+        }
+        else if ( chargesShown === 'diff' ) {
+          patternString = BASEA11yStrings.stripPlaceholders( noChargePickupHintPatternString, [ 'sweaterCharge', 'balloonCharge' ] );
+          alert = StringUtils.fillIn( patternString, {
+            noChange: noChangeInNetChargeString,
+            balloonLocation: balloonLocationString,
+            hint: releaseHintString
+          } );
+        }
+      }
+
       return alert;
     }
   } );

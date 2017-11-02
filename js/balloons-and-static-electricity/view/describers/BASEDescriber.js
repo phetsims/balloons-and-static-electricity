@@ -80,6 +80,15 @@ define( function( require ) {
   var landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayAreaString;
   var landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayAreaString;
 
+  var upString = BASEA11yStrings.upString;
+  var leftString = BASEA11yStrings.leftString;
+  var downString = BASEA11yStrings.downString;
+  var rightString = BASEA11yStrings.rightString;
+  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
+  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
+  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
+  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
+
   // constants
   var LOCATION_DESCRIPTION_MAP = {
     AT_LEFT_EDGE: {
@@ -197,6 +206,18 @@ define( function( require ) {
       range: new Range( 40, 57 ),
       description: manyString
     }
+  };
+
+  // maps  direction to a description string
+  var DIRECTION_MAP = {
+    UP: upString,
+    DOWN: downString,
+    LEFT: leftString,
+    RIGHT: rightString,
+    UP_RIGHT: upAndToTheRightString,
+    UP_LEFT: upAndToTheLeftString,
+    DOWN_RIGHT: downAndToTheRightString,
+    DOWN_LEFT: downAndToTheLeftString
   };
 
   function BASEDescriber() {
@@ -328,6 +349,17 @@ define( function( require ) {
 
       assert && assert( range, 'no charge range found for charge ' + charge );
       return range;
+    },
+
+    /**
+     * Get a direction description from one of BalloonDirectionEnum. Something like down', or 'up and to the left'.
+     * @public
+     *
+     * @param {string} direction - one of BalloonDirectionEnum
+     * @return {string}
+     */
+    getDirectionDescription: function( direction )  {
+      return DIRECTION_MAP[ direction ];
     },
 
     RELATIVE_CHARGE_DESCRIPTION_MAP: RELATIVE_CHARGE_DESCRIPTION_MAP

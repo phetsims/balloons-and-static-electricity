@@ -175,6 +175,16 @@ define( function( require ) {
       position.isOutBounds = isOutBounds;
       return position;
     }
+  }, {
+
+        LEFT: 'LEFT',
+    RIGHT: 'RIGHT',
+    UP: 'UP',
+    DOWN: 'DOWN',
+    UP_LEFT: 'UP_LEFT',
+    UP_RIGHT: 'UP_RIGHT',
+    DOWN_LEFT: 'DOWN_LEFT',
+    DOWN_RIGHT: 'DOWN_RIGHT'
   } );
 
   return BASEModel;

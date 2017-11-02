@@ -115,6 +115,7 @@ define( function( require ) {
     slightlyString: 'slightly',
     allTheWayString: 'all the way',
     noChangeInChargesString: 'No change in charges.',
+    noChangeInNetChargeString: 'No change in net charge.',
     moveALittleBitString: 'move away from balloon a little bit',
     moveALotString: 'move away from balloon a lot',
     moveQuiteALotString: 'move away from balloon quite a lot',
@@ -140,13 +141,6 @@ define( function( require ) {
     closerToBottomString: 'Down. Closer to bottom.',
     closerToWallString: 'Right. Closer to wall.',
     closerToRightSideString: 'Right. Closer to right side of play area.',
-
-    moveUpString: 'Up.',
-    moveLeftString: 'Left.',
-    moveDownString: 'Down.',
-    moveRightString: 'Right.',
-
-    morePairsOfChargesStringPattern: 'More pairs of charges {0}.',
 
     wallRemovedString: 'Wall removed from play area.',
     wallAddedString: 'Wall added to play area.',
@@ -254,6 +248,8 @@ define( function( require ) {
     sweaterNoMoreChargesString: 'no more negative charges, only positive charges.',
     sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
     sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}.',
+    positiveNetChargeString: 'positive net charge.',
+    neutralNetChargeString: 'neutral net charge',
 
     //------------------------------------------------------------------------
     // Wall strings
@@ -325,14 +321,14 @@ define( function( require ) {
 
     // similar to dragging direction strings, but in context so not capitalized and no
     // punctuation
-    upReleasedString: 'up',
-    leftReleasedString: 'left',
-    downReleasedString: 'down',
-    rightReleasedString: 'right',
-    upAndToTheRightReleasedString: 'up and to the right',
-    upAndToTheLeftReleasedString: 'up and to the left',
-    downAndToTheRightReleasedString: 'down and to the right',
-    downAndToTheLeftReleasedString: 'down and to the left',
+    upString: 'up',
+    leftString: 'left',
+    downString: 'down',
+    rightString: 'right',
+    upAndToTheRightString: 'up and to the right',
+    upAndToTheLeftString: 'up and to the left',
+    downAndToTheRightString: 'down and to the right',
+    downAndToTheLeftString: 'down and to the left',
 
     //--------------------------------------------------------------------------
     // Balloon Dragging strings
@@ -405,6 +401,18 @@ define( function( require ) {
     // when the last charge is picked up, we announce no charges remaining and then the
     // balloon charge
     lastChargePickedUpPatternString: '{{sweater}}. {{balloon}}.',
+
+    //--------------------------------------------------------------------------
+    // Balloon rubbing strings, fail to pick up charges
+    //--------------------------------------------------------------------------
+    noChargePickupPatternString: '{{noChange}} {{balloonLocation}} {{moreChargesLocation}}',
+    noChargePickupHintPatternString: '{{noChange}} {{balloonLocation}} {{sweaterCharge}} {{balloonCharge}} {{hint}}',
+
+    releaseHintString: 'Press space to release.',
+
+    moreChargesPatternString: '{{moreCharges}} {{direction}}',
+    morePairsOfChargesString: 'More pairs of charges',
+    moreHiddenPairsOfChargesString: 'More hidden pairs of charges string',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings
