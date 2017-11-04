@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function TTwoSceneSelectionNode( selectionNode, phetioID ) {
-    assertInstanceOf( selectionNode, phet.balloonsAndStaticElectricity.TwoSceneSelectionNode );
+    assert && assertInstanceOf( selectionNode, phet.balloonsAndStaticElectricity.TwoSceneSelectionNode );
     TNode.call( this, selectionNode, phetioID );
   }
 
