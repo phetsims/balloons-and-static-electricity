@@ -274,14 +274,13 @@ define( function( require ) {
     balloonShowChargeDifferencesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
     balloonDescriptionWithHelpPatternString: '{{description}} {{help}}',
 
+    balloonLabelWithAttractiveStatePatternString: '{{balloonLabel}}, {{attractiveStateAndLocation}}',
+
     // describing the attractive state of a balloon
     balloonStickingToString: 'Sticking to',
     balloonOnString: 'On',
     balloonAtString: 'At',
     balloonNearString: 'Near',
-
-    // when sticking to objects
-    balloonStickingToPatternString: '{{balloonLabel}}, sticking to {{location}}.',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
     balloonNoString: 'no',
@@ -308,7 +307,7 @@ define( function( require ) {
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
 
-    noChangeInPositionPatternString: '{{balloonLabel}}, no change in position',
+    noChangeInPositionString: 'No change in position',
     noChangeAndLocationPatternString: '{{noChange}}. {{location}}',
 
     stillMovingPatternString: 'Still moving {{direction}}.',

@@ -79,7 +79,7 @@ define( function( require ) {
   var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
   var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
   var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
-  var noChangeInPositionPatternString = BASEA11yStrings.noChangeInPositionPatternString;
+  var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
   var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
   var nearSweaterString = BASEA11yStrings.nearSweaterString;
   var balloonNearString = BASEA11yStrings.balloonNearString;
@@ -110,6 +110,7 @@ define( function( require ) {
   var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPatternString;
   var releaseHintString = BASEA11yStrings.releaseHintString;
   var balloonStickingToPatternString = BASEA11yStrings.balloonStickingToPatternString;
+  var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -340,12 +341,19 @@ define( function( require ) {
      * This is used as part of the balloon location description, and changes depending on interaction
      * or location of balloon.
      *
+     * If the balloon is at a landmark position, bail because the landmark description includes proximity
+     * information. TODO: Come back to this.
+     *
      * NOTE: this function is probably horrible for i18n
      * 
      * @return {string}
      */
     getNearOrOnDescription: function() {
-      var string;
+      var string = '';
+
+      if ( this.balloonModel.playAreaLandmarkProperty.get() ) {
+        return string;
+      }
 
       var wallVisible = this.wall.isVisibleProperty.get();
       var balloonInCenterPlayArea = this.balloonModel.playAreaColumnProperty.get() === BalloonLocationEnum.CENTER_PLAY_AREA;
@@ -392,6 +400,17 @@ define( function( require ) {
       } );
 
       return attractiveStateAndLocationString;
+    },
+
+    getAttractiveStateAndLocationDescriptionWithLabel: function() {
+      var location = this.getAttractiveStateAndLocationDescription();
+
+      // to lower case since it is used elsewhere in the string
+      location = location.toLowerCase();
+      return StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
+        balloonLabel: this.accessibleLabel,
+        attractiveStateAndLocation: location
+      } );
     },
 
     /**
@@ -644,20 +663,15 @@ define( function( require ) {
 
     /**
      * Produces an alert when there is no change in position.  Indicates that there is no change
-     * and also reminds user where the balloon currently is.
+     * and also reminds user where the balloon currently is. Will return something like
+     * "No change in position. Yellow balloon, on left side of Play Area."
      * 
      * @return {string}
      */
     getNoChangeReleaseDescription: function() {
-
-      var noChangeString = StringUtils.fillIn( noChangeInPositionPatternString, {
-        balloonLabel: this.accessibleLabel
-      } );
-
-      var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescription();
-
+      var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
       return StringUtils.fillIn( noChangeAndLocationPatternString, {
-        noChange: noChangeString,
+        noChange: noChangeInPositionString,
         location: attractiveStateAndLocationDescription
       } );
     },
@@ -1181,9 +1195,14 @@ define( function( require ) {
       return alert;
     },
 
+    /**
+     * Get a description about how the balloon is sticking to an object, something like
+     * "Yellow balloon,  sticking to"
+     *
+     * @return {[type]} [description]
+     */
     getStickingToObjectDescription: function() {
       var balloonLocationDescription = this.getBalloonLocationDescription();
-
       return StringUtils.fillIn( balloonStickingToPatternString, {
         balloonLabel: this.accessibleLabel,
         location: balloonLocationDescription
