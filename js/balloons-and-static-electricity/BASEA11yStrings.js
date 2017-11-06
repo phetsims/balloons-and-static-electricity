@@ -34,7 +34,6 @@ define( function( require ) {
     // location strings
     balloonLocationStringPattern: 'In {0}.',
     draggingLocationStringPattern: 'At {0}.',
-    stickingToLocationPatternString: 'Sticking to {0}.',
 
     // location strings for the grid in the play area
     leftShoulderOfSweaterString: 'left shoulder of sweater',
@@ -88,9 +87,6 @@ define( function( require ) {
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
-    stickingToWallStringPattern: 'Sticking to {0}.',
-
-    stickingToSweaterString: 'Sticking to right side of sweater.',
 
     // charge descriptions
     namedBalloonChargeDescriptionPatternString: '{0} has {1} net charge, {2} more negative charges than positive charges.',
@@ -124,7 +120,6 @@ define( function( require ) {
     noMoreChargesRemainingOnSweaterString: 'No change in charges. No more charges remaining on sweater.',
 
     // release descriptions
-    balloonReleasedNoChangePatternString: 'Balloon Released. {0}',
     noChangeInPositionOrChargeString: 'No change in position.  No change in charge.',
 
     sweaterString: 'sweater',
@@ -190,7 +185,6 @@ define( function( require ) {
     inducedChargeNoAmountPatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}}',
 
     // describing the attractive state of a balloon
-    sceneSummaryStickingToString: 'sticking to',
     sceneSummaryOnString: 'on',
     sceneSummaryTouchingString: 'touching',
 
@@ -212,7 +206,6 @@ define( function( require ) {
     inPlayAreaStringPattern: 'in {0} of play area.',
     inPlayAreaNearItemStringPattern: 'in {0} of play area, {1}.',
     evenlyBetweenString: 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.',
-    stickingToWallWithChargesStringPattern: 'sticking to {0} wall. {1}',
     negativeChargesMoveStringPattern: 'Negative charges in wall move away from balloon {0}.',
 
     //------------------------------------------------------------------------
@@ -221,8 +214,6 @@ define( function( require ) {
     aLittleBitString: 'a little bit',
     aLotString: 'a lot',
     quiteALotString: 'quite a lot',
-
-    stickingToSweaterStringPattern: 'sticking to {0} of sweater.',
 
     //------------------------------------------------------------------------
     // Charge view strings
@@ -288,6 +279,9 @@ define( function( require ) {
     balloonOnString: 'On',
     balloonAtString: 'At',
     balloonNearString: 'Near',
+
+    // when sticking to objects
+    balloonStickingToPatternString: '{{balloonLabel}}, sticking to {{location}}.',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
     balloonNoString: 'no',

@@ -269,10 +269,19 @@ define( function( require ) {
 
     // a11y - if we enter/leave the sweater announce that immediately
     model.onSweaterProperty.link( function( onSweater ) {
-        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
+        // UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
 
         // entering sweater, indicate that we need to alert the next charge pickup
         self.alertFirstPickup = true;
+    } );
+
+    // a11y - when velocity hits zero when we are on the sweater, describe that we are 'sticking' to the sweater
+    model.velocityProperty.link( function( velocity ) {
+      if ( velocity.equals( Vector2.ZERO ) ) {
+        if ( model.onSweater() ) {
+          UtteranceQueue.addToBack( self.describer.getStickingToSweaterDescription() );
+        }
+      }
     } );
 
     // a11y - if dragged and we touch the wall, announce that immediately

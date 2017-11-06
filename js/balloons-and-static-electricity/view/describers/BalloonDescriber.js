@@ -109,6 +109,7 @@ define( function( require ) {
   var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetChargeString;
   var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPatternString;
   var releaseHintString = BASEA11yStrings.releaseHintString;
+  var balloonStickingToPatternString = BASEA11yStrings.balloonStickingToPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -1179,6 +1180,15 @@ define( function( require ) {
       }
 
       return alert;
+    },
+
+    getStickingToSweaterDescription: function() {
+      var balloonLocationDescription = this.getBalloonLocationDescription();
+
+      return StringUtils.fillIn( balloonStickingToPatternString, {
+        balloonLabel: this.accessibleLabel,
+        location: balloonLocationDescription
+      } );
     }
   } );
 } );
