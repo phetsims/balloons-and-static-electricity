@@ -618,7 +618,6 @@ define( function( require ) {
       var directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
       var description = StringUtils.fillIn( initialMovementPatternString, {
-        balloonLabel: this.accessibleLabel,
         velocity: velocityString,
         direction: directionString
       } );
