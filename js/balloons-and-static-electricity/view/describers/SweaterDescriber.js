@@ -33,7 +33,6 @@ define( function( require ) {
   var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreChargesString;
   var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
   var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
   var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString;
   var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString;
@@ -95,9 +94,7 @@ define( function( require ) {
 
       // if we are not showing any charges, just return the location descrption
       if ( showCharges === 'none' ) {
-        return StringUtils.fillIn( singleStatementPatternString, {
-        statement: sweaterLocationString
-        } );
+        return sweaterLocationString;
       }
 
       var relativeChargeString; // description of relative positive/negative charges

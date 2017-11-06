@@ -230,9 +230,9 @@ define( function( require ) {
     //------------------------------------------------------------------------
     sweaterLabelString: 'Sweater',
     sweaterLocationString: 'At left edge of Play Area.',
-    sweaterDescriptionPatternString: '{{location}}. {{charge}}.',
+    sweaterDescriptionPatternString: '{{location}} {{charge}}',
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
-    sweaterNetChargePatternString: 'Has {{netCharge}} net charge.',
+    sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
     sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges.',
     sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges.',
     sweaterNoChargesShownString: 'no charges shown',
