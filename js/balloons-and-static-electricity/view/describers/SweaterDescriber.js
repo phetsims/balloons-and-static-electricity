@@ -162,7 +162,8 @@ define( function( require ) {
      * what charges are visible in the view. Will produce something like
      *
      * "Sweater has several more positive charges than negative charges." or
-     * "Sweater has positive net charge, showing several positive charges."
+     * "Sweater has positive net charge, showing several positive charges." or
+     * "Sweater has no more negative charges, only positive charges."
      * 
      * @param  {number} charge
      * @param  {string} shownCharges
@@ -176,13 +177,24 @@ define( function( require ) {
       var relative = SweaterDescriber.getRelativeChargeDescription( absCharge );
 
       if ( shownCharges === 'all' ) {
-        var relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
-          charge: relative
-        } );
+        if ( absCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
 
-        description = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
-          relativeCharge: relativeChargeString
-        } );
+          // if no more charges remaining on sweater, special description like "no more negative charges, only positive"
+          description = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
+            relativeCharge: sweaterNoMoreChargesString
+          } );
+        }
+        else {
+
+          // else something like "Sweater has several more positive charges than negative charges"
+          var relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
+            charge: relative
+          } );
+
+          description = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
+            relativeCharge: relativeChargeString
+          } );
+        }
       }
       else if ( shownCharges === 'diff' ) {
         var showingString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
