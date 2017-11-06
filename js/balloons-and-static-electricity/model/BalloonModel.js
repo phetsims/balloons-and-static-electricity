@@ -511,7 +511,16 @@ define( function( require ) {
      * @return {[type]} [description]
      */
     atRightEdge: function() {
-      return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_WALL;
+    },
+
+    /**
+     * Returns whether or not this balloon is at the left edge of the play area.
+     *
+     * @return {string}
+     */
+    atLeftEdge: function() {
+      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE;
     },
 
     /**
@@ -918,7 +927,7 @@ define( function( require ) {
         return PlayAreaMap.X_LOCATIONS.AT_WALL === balloonX;
       }
       else {
-        return PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+        return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE === balloonX;
       }
     },
 
@@ -930,7 +939,7 @@ define( function( require ) {
      */
     isTouchingRightEdge: function() {
       var balloonX = this.getCenterX();
-      return PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+      return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE === balloonX;
     },
 
     /**
@@ -938,11 +947,11 @@ define( function( require ) {
      * @return {boolean}
      */
     isTouchingBottomBoundary: function() {
-      return PlayAreaMap.Y_LOCATIONS.AT_BOTTOM === this.getCenterY();
+      return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM === this.getCenterY();
     },
 
     isTouchingLeftBoundary: function() {
-      return PlayAreaMap.X_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
+      return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
     },
 
     /**
@@ -977,7 +986,7 @@ define( function( require ) {
      * @return {boolean}
      */
     isTouchingTopBoundary: function() {
-      return PlayAreaMap.Y_LOCATIONS.AT_TOP === this.getCenterY();
+      return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP === this.getCenterY();
     },
 
     /**
