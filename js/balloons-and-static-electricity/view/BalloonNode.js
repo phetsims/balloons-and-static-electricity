@@ -300,7 +300,9 @@ define( function( require ) {
     model.directionProperty.lazyLink( function( direction ) {
       if ( model.isDraggedProperty.get() ) {
         var directionString = self.describer.getDraggingDirectionDescription( direction );
-        UtteranceQueue.addToBack( directionString );
+        UtteranceQueue.addToBack( new Utterance( directionString, {
+          typeId: 'direction' // so numerous alerts relating to direction don't get triggered at once
+        } ) );
       }
     } );
 
