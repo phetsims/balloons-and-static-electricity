@@ -275,18 +275,19 @@ define( function( require ) {
         self.alertFirstPickup = true;
     } );
 
-    // a11y - when velocity hits zero when we are on the sweater, describe that we are 'sticking' to the sweater
+    // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
+    // or touching these objects
     model.velocityProperty.link( function( velocity ) {
       if ( velocity.equals( Vector2.ZERO ) ) {
-        if ( model.onSweater() ) {
-          UtteranceQueue.addToBack( self.describer.getStickingToSweaterDescription() );
+        if ( model.onSweater() || model.touchingWall() ) {
+          UtteranceQueue.addToBack( self.describer.getStickingToObjectDescription() );
         }
       }
     } );
 
     // a11y - if dragged and we touch the wall, announce that immediately
     model.touchingWallProperty.link( function( touchingWall ) {
-      if ( touchingWall ) {
+      if ( touchingWall && model.isDraggedProperty.get() ) {
         UtteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
       }
     } );

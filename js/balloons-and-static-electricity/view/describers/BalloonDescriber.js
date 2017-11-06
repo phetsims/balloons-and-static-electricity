@@ -1181,7 +1181,7 @@ define( function( require ) {
       return alert;
     },
 
-    getStickingToSweaterDescription: function() {
+    getStickingToObjectDescription: function() {
       var balloonLocationDescription = this.getBalloonLocationDescription();
 
       return StringUtils.fillIn( balloonStickingToPatternString, {

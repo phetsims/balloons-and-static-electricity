@@ -1075,8 +1075,10 @@ define( function( require ) {
           this.isStoppedProperty.set( true );
         }
 
-        this.velocityProperty.set( newVelocity );
+        // update location before velocity so that listeners associated with velocity can reference the correct
+        // location on updated velocity
         this.locationProperty.set( newLocation );
+        this.velocityProperty.set( newVelocity );
       }
       else {
         this.velocityProperty.set( new Vector2() ); // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
