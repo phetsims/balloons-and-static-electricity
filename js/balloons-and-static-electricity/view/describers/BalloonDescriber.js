@@ -182,6 +182,8 @@ define( function( require ) {
     // tracked so we know how to describe the next pickup
     this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
 
+    this.describedChargeRange = null;
+
     // @private - once the balloon has been picked up, we don't need to include certain information on grab until
     // it is reset again
     this.balloonPickedUp = false;
@@ -197,6 +199,7 @@ define( function( require ) {
      */
     reset: function() {
       this.balloonPickedUp = false;
+      this.describedChargeRange = null;
     },
 
     /**
@@ -1018,9 +1021,7 @@ define( function( require ) {
       var shownCharges = this.showChargesProperty.get();
 
       var newCharge = this.balloonModel.chargeProperty.get();
-      var oldCharge = this.chargeOnPickupDescription;
       var newRange = BASEDescriber.getDescribedChargeRange( newCharge );
-      var oldRange = BASEDescriber.getDescribedChargeRange( oldCharge );
 
       if ( shownCharges === 'none' )  {
         description = this.getAttractiveStateAndLocationDescription();
@@ -1031,7 +1032,7 @@ define( function( require ) {
         // a special description to announce that charges have been transfered
         description = this.getInitialChargePickupDescription();
       }
-      else if ( newRange.equals( oldRange ) ) {
+      else if ( this.describedChargeRange && newRange.equals( this.describedChargeRange ) ) {
 
         // both views start with this description, something like
         // 'Balloon picks up more negative charges.'
@@ -1049,6 +1050,8 @@ define( function( require ) {
             pickUp: picksUpCharges
           } );
         }
+
+        this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
       }
       else {
 
@@ -1066,7 +1069,7 @@ define( function( require ) {
       }
 
       // update the charge for this generated description
-      this.chargeOnPickupDescription = newCharge;
+      // this.chargeOnPickupDescription = newCharge;
 
       assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
       return description;
