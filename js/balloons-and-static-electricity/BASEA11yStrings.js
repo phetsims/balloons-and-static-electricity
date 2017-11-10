@@ -391,10 +391,10 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon rubbing strings, fail to pick up charges
     //--------------------------------------------------------------------------
-    noChargePickupPatternString: '{{noChange}} {{balloonLocation}} {{moreChargesLocation}}',
-    noChargePickupHintPatternString: '{{noChange}} {{balloonLocation}} {{sweaterCharge}} {{balloonCharge}} {{hint}}',
+    noChargePickupPatternString: '{{noChange}} {{balloonLocation}} {{moreChargesLocation}}.',
+    noChargePickupHintPatternString: '{{noChange}} {{balloonLocation}} {{sweaterCharge}} {{balloonCharge}}. {{hint}}.',
 
-    releaseHintString: 'Press space to release.',
+    releaseHintString: 'Press space to release',
 
     moreChargesPatternString: '{{moreCharges}} {{direction}}',
     morePairsOfChargesString: 'More pairs of charges',
