@@ -284,14 +284,13 @@ define( function( require ) {
       if ( velocity.equals( Vector2.ZERO ) ) {
         if ( model.onSweater() || model.touchingWall() ) {
           UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
-          // UtteranceQueue.addToBack( self.describer.getStickingToObjectDescription() );
         }
       }
     } );
 
-    // a11y - if dragged and we touch the wall, announce that immediately
-    model.touchingWallProperty.link( function( touchingWall ) {
-      if ( touchingWall && model.isDraggedProperty.get() ) {
+    // a11y - when the drag velocity of the balloon becomes zero while moving along the wall, describe charges
+    model.dragVelocityProperty.link( function( velocity ) {
+      if ( velocity.equals( Vector2.ZERO ) && model.touchingWall() ) {
         UtteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
       }
     } );

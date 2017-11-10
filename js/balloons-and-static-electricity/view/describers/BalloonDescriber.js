@@ -87,8 +87,6 @@ define( function( require ) {
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
   var stillMovingPatternString = BASEA11yStrings.stillMovingPatternString;
   var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString;
-  var wallChargedRubbingAllPatternString = BASEA11yStrings.wallChargedRubbingAllPatternString;
-  var wallNeutralRubbingAllPatternString = BASEA11yStrings.wallNeutralRubbingAllPatternString;
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
   var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
@@ -101,7 +99,7 @@ define( function( require ) {
   var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString;
   var balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPatternString;
   var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString;
-  var balloonHasNegativeChargePatternString = BASEA11yStrings.balloonHasNegativeChargePatternString;
+  var balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePatternString;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
   var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString;
   var noChargePickupPatternString = BASEA11yStrings.noChargePickupPatternString;
@@ -111,6 +109,7 @@ define( function( require ) {
   var releaseHintString = BASEA11yStrings.releaseHintString;
   var balloonStickingToPatternString = BASEA11yStrings.balloonStickingToPatternString;
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
+  var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -284,7 +283,8 @@ define( function( require ) {
     /**
      * Get the relative charge with the accessible label, something like
      * "Yellow balloon has a few more negative charges than positive charges." or
-     * "Yellow balloon has negative net charge, showing several negative charges."
+     * "Yellow balloon has negative net charge, showing several negative charges." or 
+     * "Yellow balloon has no net charge, showing no charges."
      *
      * Dependent on the charge view.
      * 
@@ -304,9 +304,13 @@ define( function( require ) {
         } );
       }
       else if ( chargesShown === 'diff' ) {
-        description = StringUtils.fillIn( balloonHasNegativeChargePatternString, {
-          showing: relativeCharge,
-          balloon: this.accessibleLabel
+        var balloonCharge = this.balloonModel.chargeProperty.get();
+        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonNoString; 
+
+        description = StringUtils.fillIn( balloonHasNetChargePatternString, {
+          balloon: this.accessibleLabel,
+          charge: chargeString,
+          showing: relativeCharge
         } );
       }
 
@@ -928,10 +932,21 @@ define( function( require ) {
 
     /**
      * Get a description of the balloon rubbing on the wall, including a description for the
-     * induced charge if there is any and depending on the charge view
-     * @return {[type]} [description]
+     * induced charge if there is any and depending on the charge view. Will return something like
+     *
+     * "At wall. No transfer of charge. In wall, no change in charges." or
+     * "At upper wall. No transfer of charge. Negative charges in upper wall move away from yellow balloon a lot.
+     * Positive charges do not move" or
+     * "At upper wall." or
+     * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
+     * 
+     * @return {string}
      */
     getWallRubbingDescription: function() {
+      // wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
+
+
+      var patternString = wallRubbingPatternString;
       var descriptionString;
 
       // the location string is used for all charge views
@@ -941,39 +956,45 @@ define( function( require ) {
       } );
 
       var shownCharges = this.showChargesProperty.get();
+      var wallVisible = this.wall.isVisibleProperty.get();
       if ( shownCharges === 'none' ) {
         descriptionString = atLocationString;
       }
       else if ( shownCharges === 'all' ) {
-        var wallVisible = this.wall.isVisibleProperty.get();
         var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-        var balloonChargeString = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
-          balloonLabel: this.accessibleLabel,
-          relativeCharge: this.getRelativeChargeDescription()
-        } );
-
+        // var balloonChargeString = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
+        //   balloonLabel: this.accessibleLabel,
+        //   relativeCharge: this.getRelativeChargeDescription()
+        // } );
         if ( this.balloonModel.isCharged() ) {
-          descriptionString = StringUtils.fillIn( wallChargedRubbingAllPatternString, {
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
+          descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             transfer: wallNoTransferOfChargeString,
             inducedCharge: inducedChargeString,
-            positiveCharges: wallPositiveChargesDoNotMoveString,
-            balloonCharge: balloonChargeString,
-            wallCharge: wallHasManyChargesString
+            positiveCharges: wallPositiveChargesDoNotMoveString
           } );
         }
         else {
-          descriptionString = StringUtils.fillIn( wallNeutralRubbingAllPatternString, {
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge', 'positiveCharges' ] );
+          descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             transfer: wallNoTransferOfChargeString,
-            inducedCharge: inducedChargeString,
-            balloonCharge: balloonChargeString,
-            wallCharge: wallHasManyChargesString
+            inducedCharge: inducedChargeString
           } );
         }
       }
       else {
-        return 'Placeholder for wall rubbing with charge differences view';
+        var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
+        var balloonChargeString = this.getRelativeChargeDescriptionWithLabel();
+
+        // wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
+        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'positiveCharges' ] );
+        descriptionString = StringUtils.fillIn( patternString, {
+          location: atLocationString,
+          balloonCharge: balloonChargeString,
+          wallCharge: wallChargeString
+        } );
       }
 
       return descriptionString;

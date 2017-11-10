@@ -181,8 +181,8 @@ define( function( require ) {
     twoBalloonLocationSummaryString: '{{yellowBalloon}} {{greenBalloon}}',
     balloonLocationSummaryWithPositiveChargeDescription: '{{balloonSummary}} Positive charges do not move.',
 
-    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
-    inducedChargeNoAmountPatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}}',
+    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.',
+    inducedChargeNoAmountPatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}}.',
 
     // describing the attractive state of a balloon
     sceneSummaryOnString: 'on',
@@ -248,8 +248,8 @@ define( function( require ) {
     wallDescriptionPatternString: '{{location}}. {{charge}}.',
     wallLocationString: 'At right edge of Play Area',
     wallNoNetChargeString: 'Has no net charge',
-    wallNoTransferOfChargeString: 'No transfer of charge',
-    wallPositiveChargesDoNotMoveString: 'Positive charges do not move',
+    wallNoTransferOfChargeString: 'No transfer of charge.',
+    wallPositiveChargesDoNotMoveString: 'Positive charges do not move.',
     wallHasManyChargesString: 'Wall has many pairs of negative and positive charges.',
     wallChargeWithoutInducedPatternString: '{{netCharge}}, {{shownCharges}}',
     wallChargeWithInducedPatternString: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}',
@@ -258,6 +258,8 @@ define( function( require ) {
     wallNeutralRubbingAllPatternString: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.',
     wallNoChangeInChargesPatternString: 'In {{location}}, no change in charges.', // punctuation inserted in another string pattern
     wallChargePatternStringWithLabel: 'Wall {{wallCharge}}',
+
+    wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}} {{positiveCharges}}',
 
     //------------------------------------------------------------------------
     // Balloon strings
@@ -289,6 +291,7 @@ define( function( require ) {
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
+    balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}',
     balloonHasNegativeChargePatternString: '{{balloon}} has negative net charge, {{showing}}',
 
     //--------------------------------------------------------------------------
@@ -490,6 +493,11 @@ define( function( require ) {
       for ( var i = 0; i < placeholders.length; i++ ) {
         assert && assert( patternString.includes( placeholders[ i ] ) );
         newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
+      }
+
+      // remove double spaces that might have been introduced when stripping out placeholders
+      while ( newPattern.includes( '  ' ) ) {
+        newPattern = newPattern.replace( '  ', ' ' );
       }
       return newPattern;
     }
