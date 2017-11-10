@@ -73,17 +73,17 @@ define( function( require ) {
     lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
     // landmark strings
-    landmarkNearSweaterString: 'Near sweater.',
+    landmarkNearSweaterString: 'Near sweater',
     landmarkLeftEdgeString: 'left edge',
     landmarkNearUpperWallString: 'upper wall',
-    landmarkNearWallString: 'Near wall.',
-    landmarkNearLowerWallString: 'Near lower wall.',
-    landmarkNearUpperRightEdgeString: 'Near upper right edge.',
-    landmarkNearRightEdgeString: 'Near right edge.',
-    landmarkNearLowerRightEdgeString: 'Near lower right edge.',
-    landmarkAtCenterPlayAreaString: 'At center of play area.',
-    landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area.',
-    landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area.',
+    landmarkNearWallString: 'Near wall',
+    landmarkNearLowerWallString: 'Near lower wall',
+    landmarkNearUpperRightEdgeString: 'Near upper right edge',
+    landmarkNearRightEdgeString: 'Near right edge',
+    landmarkNearLowerRightEdgeString: 'Near lower right edge',
+    landmarkAtCenterPlayAreaString: 'At center of play area',
+    landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area',
+    landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
@@ -297,8 +297,8 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon interaction strings
     //--------------------------------------------------------------------------
-    grabbedString: 'Grabbed',
-    releasedString: 'Released',
+    grabbedString: 'Grabbed.',
+    releasedString: 'Released.',
 
     //--------------------------------------------------------------------------
     // Balloon movement strings
@@ -366,16 +366,6 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
-    showAllGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{help}}',
-    showAllWithInducedGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{help}}',
-    showAllWithInducedAndPositiveChargesPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{positiveCharges}}. {{help}}',
-    showAllOnObjectGrabbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{objectCharge}}. {{help}}',
-    showNoneGrabbedPatternString: '{{grabbed}}. {{location}}. {{help}}',
-    showDifferencesGrabbedPatternString: '{{grabbed}}. {{location}}. {{relativeCharge}}. {{help}}',
-
-    showAllAtWallWithChargeGrabbbedPatternString: '{{grabbed}}. {{location}}. {{charge}}. {{induced}}. {{positiveCharges}}. {{wallCharges}}',
-
-    // this pattern contains content for all cases, we strip certain placeholders out of this string
     grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
 
     balloonRelativeChargeAllPatternString: 'Has {{charge}}.',

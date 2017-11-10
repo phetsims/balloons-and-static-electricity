@@ -784,6 +784,11 @@ define( function( require ) {
       var wallVisible = this.model.wall.isVisibleProperty.get();
       var alert = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
 
+      // add punctuation
+      alert = StringUtils.fillIn( BASEA11yStrings.singleStatementPatternString, {
+        statement: alert
+      } );
+
       // cases where we do not want to announce the alert
       if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
 
