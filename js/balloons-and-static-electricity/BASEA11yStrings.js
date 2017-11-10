@@ -73,17 +73,17 @@ define( function( require ) {
     lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
     // landmark strings
-    landmarkNearSweaterString: 'Near sweater',
+    landmarkNearSweaterString: 'Near sweater.',
     landmarkLeftEdgeString: 'left edge',
     landmarkNearUpperWallString: 'upper wall',
-    landmarkNearWallString: 'Near wall',
-    landmarkNearLowerWallString: 'Near lower wall',
-    landmarkNearUpperRightEdgeString: 'Near upper right edge',
-    landmarkNearRightEdgeString: 'Near right edge',
-    landmarkNearLowerRightEdgeString: 'Near lower right edge',
-    landmarkAtCenterPlayAreaString: 'At center of play area',
-    landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area',
-    landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area',
+    landmarkNearWallString: 'Near wall.',
+    landmarkNearLowerWallString: 'Near lower wall.',
+    landmarkNearUpperRightEdgeString: 'Near upper right edge.',
+    landmarkNearRightEdgeString: 'Near right edge.',
+    landmarkNearLowerRightEdgeString: 'Near lower right edge.',
+    landmarkAtCenterPlayAreaString: 'At center of play area.',
+    landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area.',
+    landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area.',
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
@@ -357,7 +357,7 @@ define( function( require ) {
 
     balloonAtLocationPatternString: 'At {{location}}.',
     balloonOnLocationPatternString: 'On {{location}}.',
-    balloonNewRegionPatternString: '{{nearOrAt}} {{location}}',
+    balloonNewRegionPatternString: '{{nearOrAt}} {{location}}.',
 
     closerToObjectPatternString: 'Closer to {{object}}.',
     topEdgeOfPlayAreaString: 'top edge of Play Area',
