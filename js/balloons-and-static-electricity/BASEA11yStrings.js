@@ -233,13 +233,13 @@ define( function( require ) {
     sweaterDescriptionPatternString: '{{location}} {{charge}}',
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
     sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
-    sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges.',
-    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges.',
+    sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges',
+    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
     sweaterNoChargesShownString: 'no charges shown',
-    sweaterNoMoreChargesString: 'no more negative charges, only positive charges.',
+    sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
     sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
     sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}.',
-    positiveNetChargeString: 'positive net charge.',
+    positiveNetChargeString: 'positive net charge',
     neutralNetChargeString: 'neutral net charge',
 
     //------------------------------------------------------------------------
@@ -291,14 +291,13 @@ define( function( require ) {
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
-    balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}',
-    balloonHasNegativeChargePatternString: '{{balloon}} has negative net charge, {{showing}}',
+    balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}.',
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
     //--------------------------------------------------------------------------
-    grabbedString: 'Grabbed.',
-    releasedString: 'Released.',
+    grabbedString: 'Grabbed',
+    releasedString: 'Released',
 
     //--------------------------------------------------------------------------
     // Balloon movement strings
