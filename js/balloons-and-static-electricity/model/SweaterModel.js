@@ -98,7 +98,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'chargeProperty' ),
       valueType: 'Integer',
       range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
-      phetioInstanceDocumentation: 'this value is set internally by the simulation and should not be overridden'
+      phetioReadOnly: true
     } );
 
     var self = this;

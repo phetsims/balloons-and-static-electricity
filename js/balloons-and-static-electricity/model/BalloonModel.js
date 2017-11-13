@@ -140,7 +140,7 @@ define( function( require ) {
       valueType: 'Integer',
       range: new Range( -POSITIONS.length, 0 ),
       tandem: tandem.createTandem( 'chargeProperty' ),
-      phetioInstanceDocumentation: 'this value is set internally by the simulation and should not be overridden'
+      phetioReadOnly: true
     } );
 
     // @public {Vector2}
