@@ -448,23 +448,18 @@ define( function( require ) {
     // alert when the balloons are reset
     resetBalloonsAlertPatternString: '{{balloons}} and sweater reset.',
 
-    // strings for keyboard shortcuts help content
-    keyboardHelpDialogString: 'Keyboard Shortcuts',
-    grabBalloonString: 'Grab/Release Balloon',
-    grabDescriptionString: 'Space or Enter grabs or releases the balloon.',
-    hotkeysJumpingString: 'Jump Grabbed Balloon',
-    JSString: 'J plus S jumps close to sweater.',
-    JWString: 'J plus W jumps to wall.',
-    JNString: 'J plus N jumps to near wall.',
-    JCString: 'J plus C jumps to center of Play Area.',
-    keysForDraggingAndRubbingString: 'Move Grabbed Balloon',
-    draggingDescriptionString: 'Arrow keys drag and rub grabbed balloon.',
-    draggingDescriptionWASDString: 'W, A, S, or D keys drag and rub grabbed balloon up, left, down, or right.',
-    addShiftString: 'Hold down Shift and press a drag key to move in smaller steps.',
-    generalNavigationString: 'General Navigation',
-    tabString: 'Tab key moves to next item.',
-    shiftTabString: 'Shift plus Tab moves to previous item.',
-    escString: 'Escape key closes a dialog, like this one.',
+    //--------------------------------------------------------------------------
+    // Keyboard shortcuts help content strings
+    //--------------------------------------------------------------------------
+    grabOrReleaseBalloonHeadingString: 'Grab or Release Balloon',
+    grabOrReleaseBalloonLabelString: 'Grab or release balloon:',
+    moveOrJumpGrabbedBalloonHeadingString: 'Move or Jump Grabbed Balloon',
+    moveGrabbedBalloonLabelString: 'Move grabbed balloon:',
+    moveSlowerLabelString: 'Move slower:',
+    jumpsCloseToSweaterString: 'jumps close to sweater',
+    jumpsCloseToWallString: 'jumps to wall',
+    jumpsNearWallString: 'jumps near wall',
+    jumpsToCenterString: 'jumps to center',
 
     // wall strings
     wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
