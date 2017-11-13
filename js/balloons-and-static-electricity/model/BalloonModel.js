@@ -524,6 +524,19 @@ define( function( require ) {
     },
 
     /**
+     * Returns whether or not the balloon is very close to an object in the play area. Will return true if the center
+     * is withing one of the "very close" ranges in the play area.
+     *
+     * @return {string}
+     */
+    veryCloseToObject: function() {
+      var centerX = this.getCenterX();
+      return PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_SWEATER.contains( centerX ) ||
+             PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL.contains( centerX ) ||
+             PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE.contains( centerX );
+    },
+
+    /**
      * Returns true if the balloon is touching the wall
      *
      * @returns {boolean}

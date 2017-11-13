@@ -73,15 +73,15 @@ define( function( require ) {
     lowerRightEdgeOfPlayAreaString: 'lower-right edge of Play Area',
 
     // landmark strings
-    landmarkNearSweaterString: 'Near sweater',
+    landmarkNearSweaterString: 'sweater', // 'near' added programatcially
     landmarkLeftEdgeString: 'left edge',
     landmarkNearUpperWallString: 'upper wall',
-    landmarkNearWallString: 'Near wall',
+    landmarkNearWallString: 'wall', // 'near' added programmatically
     landmarkNearLowerWallString: 'Near lower wall',
     landmarkNearUpperRightEdgeString: 'Near upper right edge',
     landmarkNearRightEdgeString: 'Near right edge',
-    landmarkNearLowerRightEdgeString: 'Near lower right edge',
-    landmarkAtCenterPlayAreaString: 'At center of play area',
+    landmarkNearLowerRightEdgeString: 'Near lower-right edge',
+    landmarkAtCenterPlayAreaString: 'center of play area',
     landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area',
     landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area',
 
@@ -345,14 +345,17 @@ define( function( require ) {
     onSweaterString: 'On Sweater.',
     offSweaterString: 'Off sweater.',
 
-    landmarkVeryCloseToSweaterString: 'Very close to sweater.',
-    veryCloseToRightEdgeString: 'Very close to right edge.',
-    landmarkVeryCloseToWallString: 'Very close to wall.',
-    landmarkVeryCloseToUpperWallString: 'Very close to upper wall.',
-    landmarkVeryCloseToLowerWallString: 'Very close to lower wall.',
-    landmarkVeryCloseToRightEdgeString: 'Very close to right edge.',
-    landmarkVeryCloseToUpperRightEdgeString: 'Very close to upper right edge.',
-    landmarkVeryCloseToLowerRightEdgeString: 'Very close to lower right edge.',
+    // 'very close to'  added programatically
+    // TODO: Can we get rid of these?
+    landmarkVeryCloseToSweaterString: 'sweater',
+    veryCloseToRightEdgeString: 'right edge',
+    landmarkVeryCloseToWallString: 'wall',
+    landmarkVeryCloseToUpperWallString: 'upper wall',
+    landmarkVeryCloseToLowerWallString: 'lower wall',
+    landmarkVeryCloseToRightEdgeString: 'right edge',
+    landmarkVeryCloseToUpperRightEdgeString: 'upper-right edge',
+    landmarkVeryCloseToLowerRightEdgeString: 'lower-right edge',
+    balloonVeryCloseToString: 'Very close to',
 
     balloonAtLocationPatternString: 'At {{location}}.',
     balloonOnLocationPatternString: 'On {{location}}.',

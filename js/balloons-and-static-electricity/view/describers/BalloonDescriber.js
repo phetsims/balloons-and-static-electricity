@@ -110,7 +110,8 @@ define( function( require ) {
   var balloonStickingToPatternString = BASEA11yStrings.balloonStickingToPatternString;
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
   var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
-
+  var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString;
+  
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
   var BALLOON_DIRECTION_DRAGGING_MAP = {
@@ -337,7 +338,7 @@ define( function( require ) {
         }
       }
       else {
-        string = this.getNearOrOnDescription();
+        string = this.getPreposition();
       }
 
       return string;
@@ -355,12 +356,8 @@ define( function( require ) {
      * 
      * @return {string}
      */
-    getNearOrOnDescription: function() {
+    getPreposition: function() {
       var string = '';
-
-      if ( this.balloonModel.playAreaLandmarkProperty.get() ) {
-        return string;
-      }
 
       var wallVisible = this.wall.isVisibleProperty.get();
       var balloonInCenterPlayArea = this.balloonModel.playAreaColumnProperty.get() === BalloonLocationEnum.CENTER_PLAY_AREA;
@@ -379,6 +376,9 @@ define( function( require ) {
       }
       else if ( this.balloonModel.nearRightEdge() ) {
         string = balloonNearString;
+      }
+      else if ( this.balloonModel.veryCloseToObject() ) {
+        string = balloonVeryCloseToString;
       }
       else if ( this.balloonModel.touchingWall() || balloonInCenterPlayArea || this.balloonModel.atLeftEdge() ) {
         string = balloonAtString;
@@ -432,7 +432,7 @@ define( function( require ) {
       var locationDescription = this.getBalloonLocationDescription();
 
       return StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
-        attractiveState: this.getNearOrOnDescription(),
+        attractiveState: this.getPreposition(),
         location: locationDescription
       } );
     },
@@ -779,15 +779,7 @@ define( function( require ) {
     getLandmarkDragDescription: function() {
       var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
       var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
-      var balloonCenter = this.balloonModel.getCenter();
-
-      var wallVisible = this.model.wall.isVisibleProperty.get();
-      var alert = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
-
-      // add punctuation
-      alert = StringUtils.fillIn( BASEA11yStrings.singleStatementPatternString, {
-        statement: alert
-      } );
+      var alert = this.getAttractiveStateAndLocationDescription();
 
       // cases where we do not want to announce the alert
       if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
@@ -822,7 +814,7 @@ define( function( require ) {
      */
     getPlayAreaDragNewRegionDescription: function() {
 
-      var nearOrAt = this.getNearOrOnDescription();
+      var nearOrAt = this.getPreposition();
       var balloonCenter = this.balloonModel.getCenter();
 
       var wallVisible = this.model.wall.isVisibleProperty.get();
