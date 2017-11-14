@@ -392,7 +392,8 @@ define( function( require ) {
 
     /**
      * Returns a string that combines the balloon's attractive state and location descriptions. Something
-     * like "On center of play area." or "Sticking to wall."
+     * like "On center of play area" or "Sticking to wall". This fragment is used in a number of different
+     * contexts, so it doesn't include punctuation at the end.
      * 
      * @return {string}
      */
@@ -677,6 +678,11 @@ define( function( require ) {
      */
     getNoChangeReleaseDescription: function() {
       var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
+
+      // wrap with a period as a single statement
+      attractiveStateAndLocationDescription = StringUtils.fillIn( singleStatementPatternString, {
+        statement: attractiveStateAndLocationDescription
+      } );
       return StringUtils.fillIn( noChangeAndLocationPatternString, {
         noChange: noChangeInPositionString,
         location: attractiveStateAndLocationDescription
@@ -780,6 +786,9 @@ define( function( require ) {
       var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
       var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
       var alert = this.getAttractiveStateAndLocationDescription();
+
+      // wrap as a single statement with punctuation
+      alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
 
       // cases where we do not want to announce the alert
       if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
@@ -900,6 +909,7 @@ define( function( require ) {
 
         // general location description for the balloon
         var locationDescription = this.getAttractiveStateAndLocationDescription();
+        locationDescription = StringUtils.fillIn( singleStatementPatternString, { statement: locationDescription } );
 
         // state variables used to generate description content
         var wallVisible = this.wall.isVisibleProperty.get();
@@ -1043,6 +1053,7 @@ define( function( require ) {
 
       if ( shownCharges === 'none' )  {
         description = this.getAttractiveStateAndLocationDescription();
+        description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
       }
       else if ( firstPickup ) {
 
@@ -1144,6 +1155,7 @@ define( function( require ) {
 
         // just announce the current location in the play area
         alert = this.getAttractiveStateAndLocationDescription();
+        alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
       }
       return alert;
     },
