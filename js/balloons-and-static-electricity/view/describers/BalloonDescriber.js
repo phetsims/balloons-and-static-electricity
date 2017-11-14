@@ -111,6 +111,7 @@ define( function( require ) {
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
   var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
   var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString;
+  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -238,10 +239,32 @@ define( function( require ) {
       } );
     },
 
+    /**
+     * Get a description of the  net charge. Will return something like
+     * "Has negative net charge." or
+     * "Has neutral net charge." 
+     *
+     * @return {string}
+     */
     getNetChargeDescription: function() {
       var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
       return StringUtils.fillIn( balloonNetChargePatternString, {
         chargeAmount: chargeAmountString
+      } );
+    },
+
+    /**
+     * Get a description of the net charge for the balloon, including the label. Will return something like
+     * "Yellow balloon has negative net charge." or
+     * "Green balloon has no net charge."
+     *
+     * @return {string}
+     */
+    getNetChargeDescriptionWithLabel: function() {
+      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
+      return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
+        chargeAmount: chargeAmountString,
+        balloon: this.accessibleLabel
       } );
     },
 
@@ -1208,7 +1231,7 @@ define( function( require ) {
         // there are no more charges remaining on the sweater
         if ( chargesShown === 'all' ) {
           var relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
-          var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+          var relativeBalloonCharge = this.getNetChargeDescriptionWithLabel();
           alert = StringUtils.fillIn( noChargePickupHintPatternString, {
             noChange:  noChangeInChargesString,
             balloonLocation: balloonLocationString,

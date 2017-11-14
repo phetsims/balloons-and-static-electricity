@@ -284,6 +284,7 @@ define( function( require ) {
     balloonNearString: 'Near',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
+    balloonNetChargePatternStringWithLabel: '{{balloon}} has {{chargeAmount}} net charge',
     balloonNoString: 'no',
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
