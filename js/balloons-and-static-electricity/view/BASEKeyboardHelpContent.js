@@ -32,6 +32,13 @@ define( function( require ) {
   var jumpsCloseToWallString = BASEA11yStrings.jumpsCloseToWallString;
   var jumpsNearWallString = BASEA11yStrings.jumpsNearWallString;
   var jumpsToCenterString = BASEA11yStrings.jumpsToCenterString;
+  var grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescriptionString;
+  var moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescriptionString;
+  var moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescriptionString;
+  var jumpsCloseToSweaterDescriptionString = BASEA11yStrings.jumpsCloseToSweaterDescriptionString;
+  var jumpsCloseToWwallDescriptionString = BASEA11yStrings.jumpsCloseToWwallDescriptionString;
+  var jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescriptionString;
+  var jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescriptionString;
   
   /**
    * Constructor.
@@ -85,7 +92,7 @@ define( function( require ) {
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContent = HelpContent.labelWithIcon( label, icons );
+    var labelWithContent = HelpContent.labelWithIcon( label, icons, { accessibleLabel: grabOrReleaseBalloonDescriptionString } );
 
     HelpContent.call( this, grabOrReleaseBalloonHeadingString, labelWithContent );
   }
@@ -111,19 +118,25 @@ define( function( require ) {
     } );
 
     var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
-    var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabel, arrowOrWasdKeysIcon );
+    var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabel, arrowOrWasdKeysIcon, {
+
+      // a11y
+      accessibleLabel: moveGrabbedBalloonDescriptionString
+    } );
 
     var arrowKeysIcon = HelpContent.arrowKeysRowIcon();
     var shiftAndArrowKeysIcon = HelpContent.shiftPlusIcon( arrowKeysIcon );
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
-    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ] );
+    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
+      accessibleLabel: moveSlowerDescriptionString
+    } );
 
     // hot key content for how to jump the balloon
-    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString);
-    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString);
-    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString);
-    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString);
+    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { accessibleLabel: jumpsCloseToSweaterDescriptionString } );
+    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { accessibleLabel: jumpsCloseToWwallDescriptionString } );
+    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { accessibleLabel: jumpsNearWallDescriptionString} );
+    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { accessibleLabel: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
     var content = new VBox( {
@@ -146,7 +159,14 @@ define( function( require ) {
    * @param {string} labelString
    * @return {HBox}
    */
-  function createJumpKeyRow( keyString, labelString ) {
+  function createJumpKeyRow( keyString, labelString, options ) {
+
+    options = _.extend( {
+
+      // so the icon comes first visually
+      labelFirst: false
+    }, options );
+
     var label = new Text( labelString, {
       font: HelpContent.DEFAULT_LABEL_FONT,
       maxWidth: 150
@@ -156,7 +176,7 @@ define( function( require ) {
     var otherKey = new TextKeyNode( keyString );
 
     var jPlusOtherKey = HelpContent.iconPlusIcon( jKey, otherKey );
-    return HelpContent.labelWithIcon( label, jPlusOtherKey, { labelFirst: false } );
+    return HelpContent.labelWithIcon( label, jPlusOtherKey, options );
   }
 
   return BASEKeyboardHelpContent;
