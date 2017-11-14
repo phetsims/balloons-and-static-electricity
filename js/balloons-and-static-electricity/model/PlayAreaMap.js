@@ -54,8 +54,8 @@ define( function( require ) {
   // at 'very close to sweater' landmark which extends to the left off the 'near sweater' landmark until we hit the sweater
   LANDMARK_RANGES.AT_VERY_CLOSE_TO_SWEATER = new Range( LANDMARK_RANGES.AT_NEAR_SWEATER.min - LANDMARK_WIDTH, LANDMARK_RANGES.AT_NEAR_SWEATER.min );
 
-  // AT 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until we hit the wall
-  LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL = new Range( LANDMARK_RANGES.AT_NEAR_WALL.max, X_LOCATIONS.AT_WALL );
+  // AT 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until just before we hit the wall
+  LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL = new Range( LANDMARK_RANGES.AT_NEAR_WALL.max, X_LOCATIONS.AT_WALL - 1 );
 
   // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until  we hit the right edge
   LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE = new Range( LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE );
