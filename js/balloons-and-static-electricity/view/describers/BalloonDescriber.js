@@ -1192,6 +1192,8 @@ define( function( require ) {
         }
       }
       else {
+
+        // there are no more charges remaining on the sweater
         if ( chargesShown === 'all' ) {
           var relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
           var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();

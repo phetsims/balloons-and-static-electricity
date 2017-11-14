@@ -254,7 +254,7 @@ define( function( require ) {
      * @return {string}
      */
     getNetChargeDescription: function( sweaterCharge )  {
-      var relativeChargeString = ( sweaterCharge === BASEConstants.MAX_BALLOON_CHARGE ) ? neutralNetChargeString : positiveNetChargeString; 
+      var relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
       return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
         relativeCharge: relativeChargeString
       } );
