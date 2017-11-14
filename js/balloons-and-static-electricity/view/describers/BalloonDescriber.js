@@ -917,9 +917,7 @@ define( function( require ) {
         else {
 
           // otherwise, only provide the location description
-          description = StringUtils.fillIn( singleStatementPatternString, {
-            statement: locationDescription
-          } );
+          description = locationDescription;
         }
       }
       return description;
