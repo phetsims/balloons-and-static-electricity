@@ -397,7 +397,7 @@ define( function( require ) {
 
     releaseHintString: 'Press space to release.',
 
-    moreChargesPatternString: '{{moreCharges}} {{direction}}',
+    moreChargesPatternString: '{{moreCharges}} {{direction}}.',
     morePairsOfChargesString: 'More pairs of charges',
     moreHiddenPairsOfChargesString: 'More hidden pairs of charges string',
 
