@@ -367,7 +367,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
-    grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+    grabbedFullPatternString: 'Grabbed. {{location}}. {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
 
     balloonRelativeChargeAllPatternString: 'Has {{charge}}.',
     balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
