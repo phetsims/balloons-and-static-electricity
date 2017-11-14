@@ -879,6 +879,8 @@ define( function( require ) {
      * Get a description of where the balloon jumped to.  Depending on where the balloon goes, there
      * could be an indication of where the balloon is in the play area, and potentially the state of
      * the induced charge in the wall.
+     *
+     * TODO: location descriptions have been isolated, is this still necessary?
      * 
      * @public
      * @param  {Vector2} center
