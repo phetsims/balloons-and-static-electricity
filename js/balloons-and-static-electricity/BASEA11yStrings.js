@@ -461,9 +461,6 @@ define( function( require ) {
     jumpsNearWallString: 'jumps near wall',
     jumpsToCenterString: 'jumps to center',
 
-    // wall strings
-    wallNeutralChargeDescriptionString: 'Wall has neutral net charge, many pairs of negative and positive charges.',
-
     twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
     oneBalloonTouchingWallPatternString: '{0} {1}',
     balloonTouchPointDescriptionPatternString: 'At {0} touch point, {1}',
