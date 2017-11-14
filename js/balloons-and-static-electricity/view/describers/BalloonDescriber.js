@@ -1220,7 +1220,7 @@ define( function( require ) {
         }
         else if ( chargesShown === 'diff' )  {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
-            noChange: noChangeInChargesString,
+            noChange: noChangeInNetChargeString,
             balloonLocation: balloonLocationString,
             moreChargesLocation: moreChargesString
           } );
