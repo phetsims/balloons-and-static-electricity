@@ -1061,7 +1061,7 @@ define( function( require ) {
         // a special description to announce that charges have been transfered
         description = this.getInitialChargePickupDescription();
       }
-      else if ( this.describedChargeRange && newRange.equals( this.describedChargeRange ) ) {
+      else if ( !this.describedChargeRange || newRange.equals( this.describedChargeRange ) ) {
 
         // both views start with this description, something like
         // 'Balloon picks up more negative charges.'
