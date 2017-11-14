@@ -461,11 +461,6 @@ define( function( require ) {
     jumpsNearWallString: 'jumps near wall',
     jumpsToCenterString: 'jumps to center',
 
-    twoBalloonsTouchingWallPatternString: '{0}. {1}. {2}.',
-    oneBalloonTouchingWallPatternString: '{0} {1}',
-    balloonTouchPointDescriptionPatternString: 'At {0} touch point, {1}',
-    chargeDescriptionPatternString: 'negative charges in wall move away from balloon {0}.  Positive charges do not move.',
-
     /**
      * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
      *
