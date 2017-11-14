@@ -397,7 +397,8 @@ define( function( require ) {
         // only do this if the play area column and row hasn't changed
         var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
         var onSweater = model.onSweater();
-        if ( !inLandmark && !onSweater ) {
+        var touchingWall = model.touchingWall();
+        if ( !inLandmark && !onSweater && !touchingWall ) {
           UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
         }
       },
