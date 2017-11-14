@@ -296,7 +296,7 @@ define( function( require ) {
       var relativeCharge = this.getRelativeChargeDescription();
       var chargesShown = this.showChargesProperty.get();
 
-      assert && assert( chargesShown !== 'none', 'relative description with label does not support' );
+      assert && assert( chargesShown !== 'none', 'relative description with label should never be read when no charges are shown' );
 
       if ( chargesShown === 'all' ) {
         description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
