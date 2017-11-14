@@ -25,20 +25,5 @@
   },
   "toGrabOrRelease": {
     "value": "to <b>Grab</b> or <b>Release</b>"
-  },
-  "space": {
-    "value": "Space"
-  },
-  "a": {
-    "value": "A"
-  },
-  "s": {
-    "value": "S"
-  },
-  "d": {
-    "value": "D"
-  },
-  "w": {
-    "value": "W"
   }
 }

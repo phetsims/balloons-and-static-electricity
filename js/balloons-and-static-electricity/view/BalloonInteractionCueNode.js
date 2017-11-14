@@ -25,17 +25,12 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
+  var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var aString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/a' );
-  var dString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/d' );
-  var spaceString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/space' );
-  var sString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/s' );
   var toGrabOrReleaseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/toGrabOrRelease' );
-  var wString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/w' );
 
   // constants
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
@@ -60,13 +55,7 @@ define( function( require ) {
     Node.call( this );
 
     // Create the help content for the space key to pick up the balloon
-    var spaceKeyNode = new TextKeyNode( spaceString, {
-      xMargin: 15,
-      minKeyWidth: 60,
-      maxKeyWidth: 70,
-      xAlign: 'center',
-      yAlign: 'center',
-    } );
+    var spaceKeyNode = new SpaceKeyNode();
 
     var spaceLabelText = new RichText( toGrabOrReleaseString, {
       font: new PhetFont( 12 )
@@ -184,19 +173,19 @@ define( function( require ) {
       var keyIcon;
       var box;
       if ( direction === 'up' ) {
-        keyIcon = new KeyNode( new Text( wString, KEY_FONT_OPTIONS ) );
+        keyIcon = new KeyNode( new Text( 'W', KEY_FONT_OPTIONS ) );
         box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'left' ) {
-        keyIcon = new KeyNode( new Text( aString, KEY_FONT_OPTIONS ) );
+        keyIcon = new KeyNode( new Text( 'A', KEY_FONT_OPTIONS ) );
         box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'right' ) {
-        keyIcon = new KeyNode( new Text( dString, KEY_FONT_OPTIONS ) );
+        keyIcon = new KeyNode( new Text( 'D', KEY_FONT_OPTIONS ) );
         box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'down' ) {
-        keyIcon = new KeyNode( new Text( sString, KEY_FONT_OPTIONS ) );
+        keyIcon = new KeyNode( new Text( 'S', KEY_FONT_OPTIONS ) );
         box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
 
