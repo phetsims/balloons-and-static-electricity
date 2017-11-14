@@ -400,7 +400,7 @@ define( function( require ) {
 
     moreChargesPatternString: '{{moreCharges}} {{direction}}.',
     morePairsOfChargesString: 'More pairs of charges',
-    moreHiddenPairsOfChargesString: 'More hidden pairs of charges string',
+    moreHiddenPairsOfChargesString: 'More hidden pairs of charges',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings
