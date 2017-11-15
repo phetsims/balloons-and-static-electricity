@@ -20,17 +20,17 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function TTwoSceneSelectionNode( selectionNode, phetioID ) {
+  function TwoSceneSelectionNodeIO( selectionNode, phetioID ) {
     assert && assertInstanceOf( selectionNode, phet.balloonsAndStaticElectricity.TwoSceneSelectionNode );
     NodeIO.call( this, selectionNode, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TTwoSceneSelectionNode', TTwoSceneSelectionNode, {}, {
+  phetioInherit( NodeIO, 'TwoSceneSelectionNodeIO', TwoSceneSelectionNodeIO, {}, {
     documentation: 'A button that toggles between two scenes',
     events: [ 'fired' ]
   } );
 
-  balloonsAndStaticElectricity.register( 'TTwoSceneSelectionNode', TTwoSceneSelectionNode );
+  balloonsAndStaticElectricity.register( 'TwoSceneSelectionNodeIO', TwoSceneSelectionNodeIO );
 
-  return TTwoSceneSelectionNode;
+  return TwoSceneSelectionNodeIO;
 } );

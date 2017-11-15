@@ -35,7 +35,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TTwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TTwoSceneSelectionNode' );
+  var TwoSceneSelectionNodeIO = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNodeIO' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -101,7 +101,7 @@ define( function( require ) {
 
       // tandem support
       tandem: Tandem.tandemRequired(),
-      phetioType: TTwoSceneSelectionNode,
+      phetioType: TwoSceneSelectionNodeIO,
 
       // a11y
       tagName: 'input',
@@ -221,7 +221,7 @@ define( function( require ) {
 
     var downUpListener = new DownUpListener( {
       up: function() {
-        var id = options.tandem.isLegalAndUsable() && phetioEvents.start( 'user', options.tandem.id, TTwoSceneSelectionNode, 'fired', {
+        var id = options.tandem.isLegalAndUsable() && phetioEvents.start( 'user', options.tandem.id, TwoSceneSelectionNodeIO, 'fired', {
           value: property.phetioType.elementType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
