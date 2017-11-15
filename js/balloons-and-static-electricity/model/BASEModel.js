@@ -20,7 +20,7 @@ define( function( require ) {
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
-  var TProperty = require( 'AXON/TProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
 
   // phet-io modules
@@ -37,7 +37,7 @@ define( function( require ) {
     // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new Property( 'all', {
       tandem: tandem.createTandem( 'showChargesProperty' ),
-      phetioType: TProperty( TString )
+      phetioType: PropertyIO( TString )
     } );
 
     // @public (read-only)

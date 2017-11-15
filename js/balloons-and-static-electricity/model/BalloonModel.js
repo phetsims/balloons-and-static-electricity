@@ -22,7 +22,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
-  var TProperty = require( 'AXON/TProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var TVector2 = require( 'DOT/TVector2' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -148,39 +148,39 @@ define( function( require ) {
     // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
     this.velocityProperty = new Property( new Vector2(), {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioType: TProperty( TVector2 ),
+      phetioType: PropertyIO( TVector2 ),
       useDeepEquality: true
     } );
 
     // @public {number}
     this.isVisibleProperty = new Property( defaultVisibility, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioType: TProperty( TBoolean )
+      phetioType: PropertyIO( TBoolean )
     } );
 
     // @public {boolean}
     this.isDraggedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isDraggedProperty' ),
-      phetioType: TProperty( TBoolean )
+      phetioType: PropertyIO( TBoolean )
     } );
 
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: TProperty( TVector2 ),
+      phetioType: PropertyIO( TVector2 ),
       useDeepEquality: true
     } );
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isStoppedProperty' ),
-      phetioType: TProperty( TBoolean )
+      phetioType: PropertyIO( TBoolean )
     } );
 
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      phetioType: TProperty( TVector2 ),
+      phetioType: PropertyIO( TVector2 ),
       useDeepEquality: true
     } );
 

@@ -15,7 +15,7 @@ define( function( require ) {
   var MovablePointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/MovablePointChargeModel' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
-  var TProperty = require( 'AXON/TProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -36,7 +36,7 @@ define( function( require ) {
     // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     this.isVisibleProperty = new Property( true, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioType: TProperty( TBoolean )
+      phetioType: PropertyIO( TBoolean )
     } );
 
     // @public (read-only)
