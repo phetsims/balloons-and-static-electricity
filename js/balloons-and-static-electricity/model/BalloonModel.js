@@ -22,6 +22,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
+  var TProperty = require( 'AXON/TProperty' );
   var TVector2 = require( 'DOT/TVector2' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -37,7 +38,7 @@ define( function( require ) {
 
   // threshold for diagonal movement is +/- 15 degrees from diagonals
   var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
-  
+
   // map that determines if an object is, down, horizontally or along a diagonal between two points. The exact quadrant
   // of the movement and the direction is determined by getDirection, see that function for use of this map
   var DIRECTION_MAP = {
@@ -147,39 +148,39 @@ define( function( require ) {
     // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
     this.velocityProperty = new Property( new Vector2(), {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioValueType: TVector2,
+      phetioType: TProperty( TVector2 ),
       useDeepEquality: true
     } );
 
     // @public {number}
     this.isVisibleProperty = new Property( defaultVisibility, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } );
 
     // @public {boolean}
     this.isDraggedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isDraggedProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } );
 
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioValueType: TVector2,
+      phetioType: TProperty( TVector2 ),
       useDeepEquality: true
     } );
 
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isStoppedProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } );
 
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      phetioValueType: TVector2,
+      phetioType: TProperty( TVector2 ),
       useDeepEquality: true
     } );
 
@@ -612,7 +613,7 @@ define( function( require ) {
     movingRight: function() {
       var direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.RIGHT ||
-             direction === BalloonDirectionEnum.UP_RIGHT  ||
+             direction === BalloonDirectionEnum.UP_RIGHT ||
              direction === BalloonDirectionEnum.DOWN_RIGHT;
     },
 
@@ -753,7 +754,7 @@ define( function( require ) {
 
       var centerY = this.getCenter().y;
       if ( this.getCenter().x > sweaterRight ) {
-      var centerX = this.locationProperty.get().x;
+        var centerX = this.locationProperty.get().x;
 
       }
       else {

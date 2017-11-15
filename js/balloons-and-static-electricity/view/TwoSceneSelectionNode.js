@@ -222,7 +222,7 @@ define( function( require ) {
     var downUpListener = new DownUpListener( {
       up: function() {
         var id = options.tandem.isLegalAndUsable() && phetioEvents.start( 'user', options.tandem.id, TTwoSceneSelectionNode, 'fired', {
-          value: property.phetioValueType.toStateObject( property.get() === valueA ? valueB : valueA )
+          value: property.phetioType.elementType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
         upFunction();

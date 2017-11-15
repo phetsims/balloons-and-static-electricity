@@ -16,6 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
+  var TProperty = require( 'AXON/TProperty' );
   var TVector2 = require( 'DOT/TVector2' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -37,7 +38,7 @@ define( function( require ) {
     // @public {Vector2} - location of the point charge
     this.locationProperty = new Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioValueType: TVector2,
+      phetioType: TProperty( TVector2 ),
       phetioState: phetioState,
       useDeepEquality: true
     } );

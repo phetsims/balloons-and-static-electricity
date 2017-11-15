@@ -16,6 +16,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var TProperty = require( 'AXON/TProperty' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -42,7 +43,7 @@ define( function( require ) {
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new Property( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
-      phetioValueType: TBoolean,
+      phetioType: TProperty( TBoolean ),
       phetioState: phetioState
     } );
   }
