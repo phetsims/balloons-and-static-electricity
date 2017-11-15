@@ -19,7 +19,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   /**
    * @constructor
@@ -36,7 +36,7 @@ define( function( require ) {
     // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     this.isVisibleProperty = new Property( true, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public (read-only)

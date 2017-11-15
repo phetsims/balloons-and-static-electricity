@@ -20,7 +20,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // constants
   var RADIUS = 8;
@@ -43,7 +43,7 @@ define( function( require ) {
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new Property( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
-      phetioType: PropertyIO( TBoolean ),
+      phetioType: PropertyIO( BooleanIO ),
       phetioState: phetioState
     } );
   }

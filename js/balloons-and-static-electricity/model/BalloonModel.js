@@ -27,7 +27,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
   var VELOCITY_ARRAY_LENGTH = 5;
@@ -155,13 +155,13 @@ define( function( require ) {
     // @public {number}
     this.isVisibleProperty = new Property( defaultVisibility, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public {boolean}
     this.isDraggedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isDraggedProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
@@ -174,7 +174,7 @@ define( function( require ) {
     // @public {boolean} - Property that tracks when the balloon has stopped moving
     this.isStoppedProperty = new Property( false, {
       tandem: tandem.createTandem( 'isStoppedProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public {Vector2} - velocity of the balloon while dragging
