@@ -111,6 +111,7 @@ define( function( require ) {
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
   var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
   var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString;
+  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -238,10 +239,32 @@ define( function( require ) {
       } );
     },
 
+    /**
+     * Get a description of the  net charge. Will return something like
+     * "Has negative net charge." or
+     * "Has neutral net charge." 
+     *
+     * @return {string}
+     */
     getNetChargeDescription: function() {
       var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
       return StringUtils.fillIn( balloonNetChargePatternString, {
         chargeAmount: chargeAmountString
+      } );
+    },
+
+    /**
+     * Get a description of the net charge for the balloon, including the label. Will return something like
+     * "Yellow balloon has negative net charge." or
+     * "Green balloon has no net charge."
+     *
+     * @return {string}
+     */
+    getNetChargeDescriptionWithLabel: function() {
+      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
+      return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
+        chargeAmount: chargeAmountString,
+        balloon: this.accessibleLabel
       } );
     },
 
@@ -296,7 +319,7 @@ define( function( require ) {
       var relativeCharge = this.getRelativeChargeDescription();
       var chargesShown = this.showChargesProperty.get();
 
-      assert && assert( chargesShown !== 'none', 'relative description with label does not support' );
+      assert && assert( chargesShown !== 'none', 'relative description with label should never be read when no charges are shown' );
 
       if ( chargesShown === 'all' ) {
         description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
@@ -392,7 +415,8 @@ define( function( require ) {
 
     /**
      * Returns a string that combines the balloon's attractive state and location descriptions. Something
-     * like "On center of play area." or "Sticking to wall."
+     * like "On center of play area" or "Sticking to wall". This fragment is used in a number of different
+     * contexts, so it doesn't include punctuation at the end.
      * 
      * @return {string}
      */
@@ -677,6 +701,11 @@ define( function( require ) {
      */
     getNoChangeReleaseDescription: function() {
       var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
+
+      // wrap with a period as a single statement
+      attractiveStateAndLocationDescription = StringUtils.fillIn( singleStatementPatternString, {
+        statement: attractiveStateAndLocationDescription
+      } );
       return StringUtils.fillIn( noChangeAndLocationPatternString, {
         noChange: noChangeInPositionString,
         location: attractiveStateAndLocationDescription
@@ -780,6 +809,9 @@ define( function( require ) {
       var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
       var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
       var alert = this.getAttractiveStateAndLocationDescription();
+
+      // wrap as a single statement with punctuation
+      alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
 
       // cases where we do not want to announce the alert
       if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
@@ -900,6 +932,7 @@ define( function( require ) {
 
         // general location description for the balloon
         var locationDescription = this.getAttractiveStateAndLocationDescription();
+        locationDescription = StringUtils.fillIn( singleStatementPatternString, { statement: locationDescription } );
 
         // state variables used to generate description content
         var wallVisible = this.wall.isVisibleProperty.get();
@@ -1043,6 +1076,7 @@ define( function( require ) {
 
       if ( shownCharges === 'none' )  {
         description = this.getAttractiveStateAndLocationDescription();
+        description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
       }
       else if ( firstPickup ) {
 
@@ -1050,7 +1084,7 @@ define( function( require ) {
         // a special description to announce that charges have been transfered
         description = this.getInitialChargePickupDescription();
       }
-      else if ( this.describedChargeRange && newRange.equals( this.describedChargeRange ) ) {
+      else if ( !this.describedChargeRange || newRange.equals( this.describedChargeRange ) ) {
 
         // both views start with this description, something like
         // 'Balloon picks up more negative charges.'
@@ -1144,6 +1178,7 @@ define( function( require ) {
 
         // just announce the current location in the play area
         alert = this.getAttractiveStateAndLocationDescription();
+        alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
       }
       return alert;
     },
@@ -1185,7 +1220,7 @@ define( function( require ) {
         }
         else if ( chargesShown === 'diff' )  {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
-            noChange: noChangeInChargesString,
+            noChange: noChangeInNetChargeString,
             balloonLocation: balloonLocationString,
             moreChargesLocation: moreChargesString
           } );
@@ -1196,7 +1231,7 @@ define( function( require ) {
         // there are no more charges remaining on the sweater
         if ( chargesShown === 'all' ) {
           var relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
-          var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+          var relativeBalloonCharge = this.getNetChargeDescriptionWithLabel();
           alert = StringUtils.fillIn( noChargePickupHintPatternString, {
             noChange:  noChangeInChargesString,
             balloonLocation: balloonLocationString,

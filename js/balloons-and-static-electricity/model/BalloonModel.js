@@ -280,10 +280,6 @@ define( function( require ) {
     // TODO: delete this, it is very confusing
     this.balloonLabel = labelString;
 
-    // @private {boolean} - a flag that indicates whether or not the balloon should move to avoid occlusion and overlap
-    // with the other balloon.  See preventOverlapWithOther()
-    this.preventOverlap = false;
-
     // neutral pair of charges
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
@@ -824,16 +820,6 @@ define( function( require ) {
         this.dragBalloon( model, dt );
       }
       else {
-
-        // if the balloon is overlapping the other balloon while on the sweater, slide it to the left a bit to avoid
-        // occlusion issues, see https://github.com/phetsims/balloons-and-static-electricity/issues/279
-        if ( this.preventOverlap ) {
-          this.locationProperty.set( this.locationProperty.get().minusXY( 5, 0 ) );
-
-          // stop moving if we no longer overlap
-          this.preventOverlap = this.isOverlappingOther();
-        }
-
         this.applyForce( dt );
 
         // increment the time since release
@@ -981,16 +967,6 @@ define( function( require ) {
         overlappingOther = otherVisible && ( distanceToOther < OVERLAPS_OTHER_DISTANCE );
       }
       return overlappingOther;
-    },
-
-    /**
-     * If the balloon is on the sweater and overlapping another balloon, avoid occlusion issues by moving the balloon
-     * to the left. This updates a private flag, and the shifting is handled in step so it looks animated.
-     *
-     * @public
-     */
-    preventOverlapWithOther: function() {
-      this.preventOverlap = ( this.isOverlappingOther() && this.onSweater() );
     },
 
     /**

@@ -156,10 +156,6 @@ define( function( require ) {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
       model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
-
-      // when done dragging, make sure that this balloon isn't on top of the other balloon when on the sweater
-      // to prevent occlusion issues
-      model.preventOverlapWithOther();
     };
 
     //When dragging, move the balloon

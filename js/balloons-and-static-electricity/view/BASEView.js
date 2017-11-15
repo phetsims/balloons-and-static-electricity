@@ -149,9 +149,6 @@ define( function( require ) {
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       self.greenBalloonNode.visible = isVisible;
       self.greenBalloonTetherNode.visible = isVisible;
-
-      // make sure that we prevent occlusion if both balloons are on the sweater
-      model.greenBalloon.preventOverlapWithOther();
     } );
 
     this.addChild( controlPanel );

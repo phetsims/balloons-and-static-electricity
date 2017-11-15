@@ -110,8 +110,8 @@ define( function( require ) {
 
     slightlyString: 'slightly',
     allTheWayString: 'all the way',
-    noChangeInChargesString: 'No change in charges.',
-    noChangeInNetChargeString: 'No change in net charge.',
+    noChangeInChargesString: 'No change in charges',
+    noChangeInNetChargeString: 'No change in net charge',
     moveALittleBitString: 'move away from balloon a little bit',
     moveALotString: 'move away from balloon a lot',
     moveQuiteALotString: 'move away from balloon quite a lot',
@@ -270,12 +270,11 @@ define( function( require ) {
 
     grabBalloonHelpString: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.',
 
-    balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}.',
+    balloonLocationAttractiveStatePatternString: '{{attractiveState}} {{location}}',
     balloonShowAllChargesPatternString: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.',
     balloonShowNoChargesPatternString: '{{stateAndLocation}}.',
     balloonShowChargeDifferencesPatternString: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
     balloonDescriptionWithHelpPatternString: '{{description}} {{help}}',
-
     balloonLabelWithAttractiveStatePatternString: '{{balloonLabel}}, {{attractiveStateAndLocation}}',
 
     // describing the attractive state of a balloon
@@ -285,6 +284,7 @@ define( function( require ) {
     balloonNearString: 'Near',
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
+    balloonNetChargePatternStringWithLabel: '{{balloon}} has {{chargeAmount}} net charge',
     balloonNoString: 'no',
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
@@ -368,7 +368,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
-    grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+    grabbedFullPatternString: 'Grabbed. {{location}}. {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
 
     balloonRelativeChargeAllPatternString: 'Has {{charge}}.',
     balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
@@ -393,14 +393,14 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Balloon rubbing strings, fail to pick up charges
     //--------------------------------------------------------------------------
-    noChargePickupPatternString: '{{noChange}} {{balloonLocation}} {{moreChargesLocation}}.',
-    noChargePickupHintPatternString: '{{noChange}} {{balloonLocation}} {{sweaterCharge}} {{balloonCharge}}. {{hint}}.',
+    noChargePickupPatternString: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}',
+    noChargePickupHintPatternString: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}}. {{balloonCharge}}. {{hint}}',
 
-    releaseHintString: 'Press space to release',
+    releaseHintString: 'Press space to release.',
 
-    moreChargesPatternString: '{{moreCharges}} {{direction}}',
+    moreChargesPatternString: '{{moreCharges}} {{direction}}.',
     morePairsOfChargesString: 'More pairs of charges',
-    moreHiddenPairsOfChargesString: 'More hidden pairs of charges string',
+    moreHiddenPairsOfChargesString: 'More hidden pairs of charges',
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings
@@ -481,6 +481,11 @@ define( function( require ) {
       for ( var i = 0; i < placeholders.length; i++ ) {
         assert && assert( patternString.includes( placeholders[ i ] ) );
         newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
+      }
+
+      // remove any punctuation that might have been introduced by stripping placeholders
+      while( newPattern.includes( ' .' ) ) {
+        newPattern = newPattern.replace( ' .', '' );
       }
 
       // remove double spaces that might have been introduced when stripping out placeholders
