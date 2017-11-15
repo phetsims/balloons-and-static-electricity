@@ -7,7 +7,7 @@
  * After the first interaction, this will be invisible.
  *
  * TODO: needs to float to stay visible in the screen view
- *
+ * 
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -17,6 +17,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var KeyNode = require( 'SCENERY_PHET/keyboard/KeyNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -25,7 +26,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -35,7 +36,7 @@ define( function( require ) {
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
   var ARROW_HEIGHT = 15; // dimensions for the arrow icons
   var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-  var KEY_FONT_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true };
+  var KEY_FONT_OPTIONS = { font: new PhetFont( 14 ) };
   var KEY_ARROW_SPACING = 2;
   var BALLOON_KEY_SPACING = 5;
   var SHADOW_WIDTH = 2;
@@ -69,7 +70,7 @@ define( function( require ) {
     var backgroundRectangle = new Rectangle( spaceKeyHBox.bounds.dilatedXY( 15, 5 ), {
       fill: 'white',
       stroke: 'black',
-      visible: false
+      visible: false 
     } );
     backgroundRectangle.addChild( spaceKeyHBox );
     this.addChild( backgroundRectangle );
@@ -172,19 +173,19 @@ define( function( require ) {
       var keyIcon;
       var box;
       if ( direction === 'up' ) {
-        keyIcon = new TextKeyNode( 'W', KEY_FONT_OPTIONS );
+        keyIcon = new KeyNode( new Text( 'W', KEY_FONT_OPTIONS ) );
         box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'left' ) {
-        keyIcon = new TextKeyNode( 'A', KEY_FONT_OPTIONS );
+        keyIcon = new KeyNode( new Text( 'A', KEY_FONT_OPTIONS ) );
         box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'right' ) {
-        keyIcon = new TextKeyNode( 'D', KEY_FONT_OPTIONS );
+        keyIcon = new KeyNode( new Text( 'D', KEY_FONT_OPTIONS ) );
         box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'down' ) {
-        keyIcon = new TextKeyNode( 'S', KEY_FONT_OPTIONS );
+        keyIcon = new KeyNode( new Text( 'S', KEY_FONT_OPTIONS ) );
         box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
 
