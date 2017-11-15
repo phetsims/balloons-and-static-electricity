@@ -34,8 +34,10 @@ define( function( require ) {
   // constants
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
   var ARROW_HEIGHT = 15; // dimensions for the arrow icons
+  var KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
+  var SPACE_KEY_WIDTH = 50; // this space key is wider than default SpaceKeyNode
   var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-  var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: 24 };
+  var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: KEY_HEIGHT };
   var KEY_ARROW_SPACING = 2;
   var BALLOON_KEY_SPACING = 8;
   var SHADOW_WIDTH = 2;
@@ -54,7 +56,7 @@ define( function( require ) {
     Node.call( this );
 
     // Create the help content for the space key to pick up the balloon
-    var spaceKeyNode = new SpaceKeyNode();
+    var spaceKeyNode = new SpaceKeyNode( { keyHeight: KEY_HEIGHT, minKeyWidth: SPACE_KEY_WIDTH } );
 
     var spaceLabelText = new RichText( toGrabOrReleaseString, {
       font: new PhetFont( 12 )
