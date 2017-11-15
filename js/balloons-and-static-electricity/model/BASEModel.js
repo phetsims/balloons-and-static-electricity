@@ -24,7 +24,7 @@ define( function( require ) {
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
 
   // phet-io modules
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   /**
    * Constructor for main model for the Balloons and Static Electricity sim. 
@@ -37,7 +37,7 @@ define( function( require ) {
     // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new Property( 'all', {
       tandem: tandem.createTandem( 'showChargesProperty' ),
-      phetioType: PropertyIO( TString )
+      phetioType: PropertyIO( StringIO )
     } );
 
     // @public (read-only)
