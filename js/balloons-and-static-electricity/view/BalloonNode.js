@@ -573,7 +573,7 @@ define( function( require ) {
     model.isDraggedProperty.lazyLink( function( isDragged ) {
       var alert;
       if ( isDragged ) {
-        alert = self.describer.getDraggedAlert();
+        alert = self.describer.getGrabbedAlert();
       }
       else {
         alert = self.describer.getReleasedAlert();

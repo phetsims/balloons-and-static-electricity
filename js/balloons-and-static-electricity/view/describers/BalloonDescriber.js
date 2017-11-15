@@ -505,7 +505,7 @@ define( function( require ) {
      * 
      * @return {string}
      */
-    getDraggedAlert: function() {
+    getGrabbedAlert: function() {
       var alertString;
       var patternString = grabbedFullPatternString;
       var chargesShown = this.showChargesProperty.get();
