@@ -21,6 +21,7 @@ define( function( require ) {
 
   // strings
   var sweaterLocationString = BASEA11yStrings.sweaterLocationString;
+  var zeroString = BASEA11yStrings.zeroString;
   var noString = BASEA11yStrings.noString;
   var aFewString = BASEA11yStrings.aFewString;
   var severalString = BASEA11yStrings.severalString;
@@ -123,7 +124,7 @@ define( function( require ) {
 
       // assemble net charge string
       netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
-        netCharge: sweaterCharge > 0 ? positiveString : noString
+        netCharge: sweaterCharge > 0 ? positiveString : zeroString
       } );
 
       // assemble the relative charge string, special cases if we are showing charge differences

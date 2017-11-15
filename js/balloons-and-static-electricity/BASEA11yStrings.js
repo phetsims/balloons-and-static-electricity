@@ -102,6 +102,7 @@ define( function( require ) {
     severalString: 'several',
     manyString: 'many',
     allString: 'all',
+    zeroString: 'zero',
 
     // wall charge descriptions
     atWallString: 'At wall.',
@@ -190,7 +191,7 @@ define( function( require ) {
     sceneSummaryTouchingString: 'touching',
 
     // scene summary charge strings
-    allHaveNoNetChargeString: 'All have no net charge',
+    allHaveNoNetChargeString: 'All have zero net charge',
     neutralBalloonChargePatternString: '{{balloon}} has a few pairs of negative and positive charges.',
     neutralSweaterChargeString: 'Sweater, many pairs of negative and positive charges.',
     neutralSweaterAndWallChargeString: 'Sweater and wall, many pairs of negative and positive charges.',
@@ -248,7 +249,7 @@ define( function( require ) {
     //------------------------------------------------------------------------
     wallDescriptionPatternString: '{{location}}. {{charge}}.',
     wallLocationString: 'At right edge of Play Area',
-    wallNoNetChargeString: 'Has no net charge',
+    wallNoNetChargeString: 'Has zero net charge',
     wallNoTransferOfChargeString: 'No transfer of charge.',
     wallPositiveChargesDoNotMoveString: 'Positive charges do not move.',
     wallHasManyChargesString: 'Wall has many pairs of negative and positive charges.',
@@ -286,7 +287,7 @@ define( function( require ) {
 
     balloonNetChargePatternString: 'Has {{chargeAmount}} net charge',
     balloonNetChargePatternStringWithLabel: '{{balloon}} has {{chargeAmount}} net charge',
-    balloonNoString: 'no',
+    balloonZeroString: 'zero',
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',

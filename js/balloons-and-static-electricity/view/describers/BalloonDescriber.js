@@ -34,7 +34,7 @@ define( function( require ) {
   var balloonOnString = BASEA11yStrings.balloonOnString;
   var balloonAtString = BASEA11yStrings.balloonAtString;
   var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString;
-  var balloonNoString = BASEA11yStrings.balloonNoString;
+  var balloonZeroString = BASEA11yStrings.balloonZeroString;
   var balloonNegativeString = BASEA11yStrings.balloonNegativeString;
   var balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePatternString;
   var balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPatternString;
@@ -247,7 +247,7 @@ define( function( require ) {
      * @return {string}
      */
     getNetChargeDescription: function() {
-      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
+      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
       return StringUtils.fillIn( balloonNetChargePatternString, {
         chargeAmount: chargeAmountString
       } );
@@ -261,7 +261,7 @@ define( function( require ) {
      * @return {string}
      */
     getNetChargeDescriptionWithLabel: function() {
-      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonNoString;
+      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
       return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
         chargeAmount: chargeAmountString,
         balloon: this.accessibleLabel
@@ -329,7 +329,7 @@ define( function( require ) {
       }
       else if ( chargesShown === 'diff' ) {
         var balloonCharge = this.balloonModel.chargeProperty.get();
-        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonNoString; 
+        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
 
         description = StringUtils.fillIn( balloonHasNetChargePatternString, {
           balloon: this.accessibleLabel,
