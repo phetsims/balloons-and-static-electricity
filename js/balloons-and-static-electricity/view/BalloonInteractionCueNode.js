@@ -7,7 +7,7 @@
  * After the first interaction, this will be invisible.
  *
  * TODO: needs to float to stay visible in the screen view
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -35,7 +35,7 @@ define( function( require ) {
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
   var ARROW_HEIGHT = 15; // dimensions for the arrow icons
   var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-  var KEY_FONT_OPTIONS = { font: new PhetFont( 20 ) };
+  var TEXT_KEY_OPTIONS = { font: new PhetFont( 20 ), forceSquareKey: true };
   var KEY_ARROW_SPACING = 2;
   var BALLOON_KEY_SPACING = 5;
   var SHADOW_WIDTH = 2;
@@ -69,7 +69,7 @@ define( function( require ) {
     var backgroundRectangle = new Rectangle( spaceKeyHBox.bounds.dilatedXY( 15, 5 ), {
       fill: 'white',
       stroke: 'black',
-      visible: false 
+      visible: false
     } );
     backgroundRectangle.addChild( spaceKeyHBox );
     this.addChild( backgroundRectangle );
@@ -172,19 +172,19 @@ define( function( require ) {
       var keyIcon;
       var box;
       if ( direction === 'up' ) {
-        keyIcon = new TextKeyNode( 'W', KEY_FONT_OPTIONS );
+        keyIcon = new TextKeyNode( 'W', TEXT_KEY_OPTIONS );
         box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'left' ) {
-        keyIcon = new TextKeyNode( 'A', KEY_FONT_OPTIONS );
+        keyIcon = new TextKeyNode( 'A', TEXT_KEY_OPTIONS );
         box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'right' ) {
-        keyIcon = new TextKeyNode( 'D', KEY_FONT_OPTIONS );
+        keyIcon = new TextKeyNode( 'D', TEXT_KEY_OPTIONS );
         box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'down' ) {
-        keyIcon = new TextKeyNode( 'S', KEY_FONT_OPTIONS );
+        keyIcon = new TextKeyNode( 'S', TEXT_KEY_OPTIONS );
         box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
 
