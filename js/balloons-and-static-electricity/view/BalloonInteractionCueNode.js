@@ -35,9 +35,9 @@ define( function( require ) {
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
   var ARROW_HEIGHT = 15; // dimensions for the arrow icons
   var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-  var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true };
+  var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: 24 };
   var KEY_ARROW_SPACING = 2;
-  var BALLOON_KEY_SPACING = 5;
+  var BALLOON_KEY_SPACING = 8;
   var SHADOW_WIDTH = 2;
   var BALLOON_GRAB_CUE_SPACING = 10;
 
