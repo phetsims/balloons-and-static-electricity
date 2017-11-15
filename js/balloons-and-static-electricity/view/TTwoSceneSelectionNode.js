@@ -12,7 +12,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   /**
    * Wrapper type for TwoSceneSelectionNode class.
@@ -22,14 +22,13 @@ define( function( require ) {
    */
   function TTwoSceneSelectionNode( selectionNode, phetioID ) {
     assert && assertInstanceOf( selectionNode, phet.balloonsAndStaticElectricity.TwoSceneSelectionNode );
-    TNode.call( this, selectionNode, phetioID );
+    NodeIO.call( this, selectionNode, phetioID );
   }
 
-  phetioInherit( TNode, 'TTwoSceneSelectionNode', TTwoSceneSelectionNode, {}, {
+  phetioInherit( NodeIO, 'TTwoSceneSelectionNode', TTwoSceneSelectionNode, {}, {
     documentation: 'A button that toggles between two scenes',
     events: [ 'fired' ]
   } );
-
 
   balloonsAndStaticElectricity.register( 'TTwoSceneSelectionNode', TTwoSceneSelectionNode );
 
