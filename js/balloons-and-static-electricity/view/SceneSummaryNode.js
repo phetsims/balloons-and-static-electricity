@@ -88,8 +88,8 @@ define( function( require ) {
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
     listNode.addChild( locationDescriptionNode );
-    listNode.addChild( chargeDescriptionNode );
-    listNode.addChild( inducedChargeDescriptionNode );
+    // listNode.addChild( chargeDescriptionNode ); TODO: Comment out for presentation on 11/15/17, these are not implemented yet
+    // listNode.addChild( inducedChargeDescriptionNode ); TODO: Comment out for presentation on 11/15/17, these are not implemented yet
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
 
