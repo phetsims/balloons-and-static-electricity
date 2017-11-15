@@ -156,7 +156,7 @@ define( function( require ) {
 
     /**
      * Get a description of the relative charge of the sweater, including the label. Dependent on
-     * what charges are visible in the view. Will produce something like
+     * what charges are visible in the view. This will form a full sentence. Will produce something like
      *
      * "Sweater has several more positive charges than negative charges." or
      * "Sweater has positive net charge, showing several positive charges." or
@@ -203,7 +203,7 @@ define( function( require ) {
         } );
       }
 
-      return description;
+      return BASEA11yStrings.fragmentToSentence( description );
     },
 
     /**

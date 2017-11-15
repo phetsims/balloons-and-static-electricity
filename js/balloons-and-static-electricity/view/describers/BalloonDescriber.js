@@ -433,15 +433,24 @@ define( function( require ) {
       return attractiveStateAndLocationString;
     },
 
+    /**
+     * Get a description about how the balloon is sticking to an object with a label. This will form a full sentence.
+     * Returns something like:
+     * Yellow balloon, sticking to right arm of sweater.
+     *
+     * @return {string} [description]
+     */
     getAttractiveStateAndLocationDescriptionWithLabel: function() {
-      var location = this.getAttractiveStateAndLocationDescription();
+      var alert;
 
       // to lower case since it is used elsewhere in the string
-      location = location.toLowerCase();
-      return StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
+      var location = this.getAttractiveStateAndLocationDescription().toLowerCase();
+      alert = StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
         balloonLabel: this.accessibleLabel,
         attractiveStateAndLocation: location
       } );
+
+      return BASEA11yStrings.fragmentToSentence( alert );
     },
 
     /**
@@ -509,10 +518,11 @@ define( function( require ) {
       var alertString;
       var patternString = grabbedFullPatternString;
       var chargesShown = this.showChargesProperty.get();
-
-      // attractive state and location is described for every charge view
-      var stateAndLocation = this.getOnLocationDescription();
       var wallVisible = this.model.wall.isVisibleProperty.get();
+
+      // attractive state and location is described for every charge view, it is a single sentence in this use cases
+      var stateAndLocation = this.getOnLocationDescription();
+      stateAndLocation = BASEA11yStrings.fragmentToSentence( stateAndLocation );
 
       // the first time the balloon is picked up, we include help content
       if ( this.balloonPickedUp ) {
@@ -525,10 +535,11 @@ define( function( require ) {
 
         relativeChargeString = this.getRelativeChargeDescription();
 
-        // format the relative charge descriptions
+        // format the relative charge descriptions, it is a single sentence in this use case
         chargeString = StringUtils.fillIn( balloonRelativeChargeAllPatternString, {
           charge: relativeChargeString
         } );
+        chargeString = BASEA11yStrings.fragmentToSentence( chargeString );
 
         // if the balloon is inducing charge, or touching wall, the state of induced charge needs to be included in
         // the description for the balloon
@@ -701,11 +712,6 @@ define( function( require ) {
      */
     getNoChangeReleaseDescription: function() {
       var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
-
-      // wrap with a period as a single statement
-      attractiveStateAndLocationDescription = StringUtils.fillIn( singleStatementPatternString, {
-        statement: attractiveStateAndLocationDescription
-      } );
       return StringUtils.fillIn( noChangeAndLocationPatternString, {
         noChange: noChangeInPositionString,
         location: attractiveStateAndLocationDescription
@@ -864,6 +870,7 @@ define( function( require ) {
      * @return {string}
      */
     getPlayAreaDragProgressDescription: function() {
+      var alert;
       var nearestObjectString;
 
       var centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
@@ -902,9 +909,11 @@ define( function( require ) {
       }
 
       assert && assert( nearestObjectString, 'no nearest object found for movement direction: ' + balloonDirection );
-      return StringUtils.fillIn( closerToObjectPatternString, {
+      alert = StringUtils.fillIn( closerToObjectPatternString, {
         object: nearestObjectString
       } );
+
+      return BASEA11yStrings.fragmentToSentence( alert );
     },
 
     /**
@@ -973,17 +982,15 @@ define( function( require ) {
      * @return {string}
      */
     getWallRubbingDescription: function() {
-      // wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
-
-
       var patternString = wallRubbingPatternString;
       var descriptionString;
 
-      // the location string is used for all charge views
+      // the location string is used for all charge views, used as a single sentence
       var locationString = this.getBalloonLocationDescription();
       var atLocationString = StringUtils.fillIn( balloonAtLocationPatternString, {
         location: locationString
       } );
+      atLocationString = BASEA11yStrings.fragmentToSentence( atLocationString );
 
       var shownCharges = this.showChargesProperty.get();
       var wallVisible = this.wall.isVisibleProperty.get();
@@ -992,10 +999,6 @@ define( function( require ) {
       }
       else if ( shownCharges === 'all' ) {
         var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-        // var balloonChargeString = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
-        //   balloonLabel: this.accessibleLabel,
-        //   relativeCharge: this.getRelativeChargeDescription()
-        // } );
         if ( this.balloonModel.isCharged() ) {
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
@@ -1202,8 +1205,8 @@ define( function( require ) {
 
       if ( chargesShown === 'none' ) {
 
-        // if no charges are shown, just describe position of balloon
-        alert = balloonLocationString;
+        // if no charges are shown, just describe position of balloon as a complete sentence
+        alert = BASEA11yStrings.fragmentToSentence( balloonLocationString );
       }
       else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
 
@@ -1255,9 +1258,9 @@ define( function( require ) {
 
     /**
      * Get a description about how the balloon is sticking to an object, something like
-     * "Yellow balloon,  sticking to"
+     * "Yellow balloon, sticking to"
      *
-     * @return {[type]} [description]
+     * @return {string}
      */
     getStickingToObjectDescription: function() {
       var balloonLocationDescription = this.getBalloonLocationDescription();

@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   var BASEA11yStrings = {
 
@@ -238,7 +239,7 @@ define( function( require ) {
     sweaterNoChargesShownString: 'no charges shown',
     sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
     sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
-    sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}.',
+    sweaterHasNetChargeShowingPatternString: 'Sweater has positive net charge, {{showing}}',
     positiveNetChargeString: 'positive net charge',
     neutralNetChargeString: 'neutral net charge',
 
@@ -291,7 +292,7 @@ define( function( require ) {
     balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
-    balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}.',
+    balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}',
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
@@ -357,22 +358,22 @@ define( function( require ) {
     landmarkVeryCloseToLowerRightEdgeString: 'lower-right edge',
     balloonVeryCloseToString: 'Very close to',
 
-    balloonAtLocationPatternString: 'At {{location}}.',
-    balloonOnLocationPatternString: 'On {{location}}.',
-    balloonNewRegionPatternString: '{{nearOrAt}} {{location}}.',
+    balloonAtLocationPatternString: 'At {{location}}',
+    balloonOnLocationPatternString: 'On {{location}}',
+    balloonNewRegionPatternString: '{{nearOrAt}} {{location}}',
 
-    closerToObjectPatternString: 'Closer to {{object}}.',
+    closerToObjectPatternString: 'Closer to {{object}}',
     topEdgeOfPlayAreaString: 'top edge of Play Area',
     bottomEdgeOfPlayAreaString: 'bottom edge of Play Area',
 
     //--------------------------------------------------------------------------
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
-    grabbedFullPatternString: 'Grabbed. {{location}}. {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+    grabbedFullPatternString: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
 
-    balloonRelativeChargeAllPatternString: 'Has {{charge}}.',
+    balloonRelativeChargeAllPatternString: 'Has {{charge}}',
     balloonNetChargeShowingPatternString: '{{netCharge}}, {{showing}}',
-    balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges.',
+    balloonRelativeChargeDifferencesPatternString: 'showing {{charge}} negative charges',
 
     interactionCueString: 'Press W, A, S, or D key to move balloon. Space key to release.',
 
@@ -384,7 +385,7 @@ define( function( require ) {
     balloonPicksUpMoreChargesPatternString: '{{balloon}} picks up more negative charges',
     balloonPicksUpMoreChargesDiffPatternString: '{{pickUp}}. Same increase of positive charges on sweater.',
 
-    balloonSweaterRelativeChargesPatternString: '{{balloon}}. {{sweater}}.',
+    balloonSweaterRelativeChargesPatternString: '{{balloon}} {{sweater}}',
 
     // when the last charge is picked up, we announce no charges remaining and then the
     // balloon charge
@@ -435,8 +436,8 @@ define( function( require ) {
     balloonsString: 'Balloons',
     twoBalloonExperimentLabelString: 'Two-Balloon Experiments',
     grabPatternString: 'Grab {0}',
-    greenBalloonRemovedString: 'Green balloon removed from Play Area',
-    greenBalloonAddedString: 'Green balloon added to Play Area',
+    greenBalloonRemovedString: 'Green balloon removed from Play Area.',
+    greenBalloonAddedString: 'Green balloon added to Play Area.',
     playAreaString: 'Play Area',
     wallLabelString: 'Wall',
     controlPanelString: 'Control Panel',
@@ -492,7 +493,26 @@ define( function( require ) {
       while ( newPattern.includes( '  ' ) ) {
         newPattern = newPattern.replace( '  ', ' ' );
       }
+
+      // remove trailing spaces
+      if ( newPattern[newPattern.length - 1] === ' ' ) {
+        newPattern = newPattern.slice( 0, -1 );
+      }
+
       return newPattern;
+    },
+
+    /**
+     * Take a sentence fragment, and turn it into a sentence by adding a period to the end. This will add consistency
+     * for string patterns. Many strings can be used on their own as a sentence, or can be embedded with other content
+     * to form a full sentence. In general, string patterns that assemble sentences will not use punctuation, but this
+     * function can be used to assemble sentences.
+     *
+     * @param {string} fragment
+     * @return {string}
+     */
+    fragmentToSentence: function( fragment ) {
+      return StringUtils.fillIn( BASEA11yStrings.singleStatementPatternString, { statement: fragment } );
     }
   };
 
