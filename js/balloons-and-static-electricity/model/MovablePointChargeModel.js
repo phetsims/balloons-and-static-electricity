@@ -17,7 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var TVector2 = require( 'DOT/TVector2' );
+  var Vector2IO = require( 'DOT/Vector2IO' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -38,7 +38,7 @@ define( function( require ) {
     // @public {Vector2} - location of the point charge
     this.locationProperty = new Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: PropertyIO( TVector2 ),
+      phetioType: PropertyIO( Vector2IO ),
       phetioState: phetioState,
       useDeepEquality: true
     } );

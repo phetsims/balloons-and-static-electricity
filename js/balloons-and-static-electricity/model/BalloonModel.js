@@ -23,7 +23,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var TVector2 = require( 'DOT/TVector2' );
+  var Vector2IO = require( 'DOT/Vector2IO' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -148,7 +148,7 @@ define( function( require ) {
     // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
     this.velocityProperty = new Property( new Vector2(), {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioType: PropertyIO( TVector2 ),
+      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
@@ -167,7 +167,7 @@ define( function( require ) {
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
     this.locationProperty = new Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: PropertyIO( TVector2 ),
+      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
@@ -180,7 +180,7 @@ define( function( require ) {
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      phetioType: PropertyIO( TVector2 ),
+      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
