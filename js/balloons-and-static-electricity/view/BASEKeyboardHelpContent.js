@@ -72,6 +72,9 @@ define( function( require ) {
       fill: 'rgb( 214, 237, 249 )',
       tandem: tandem
     } );
+
+    // the reading order for screen readers
+    this.accessibleOrder = [ balloonGrabHelpContent, moveBalloonHelpContent, generalNavigationHelpContent ];
   }
 
   balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHelpContent );
