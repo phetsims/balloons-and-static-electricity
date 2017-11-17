@@ -1087,10 +1087,25 @@ define( function( require ) {
         // a special description to announce that charges have been transfered
         description = this.getInitialChargePickupDescription();
       }
-      else if ( !this.describedChargeRange || newRange.equals( this.describedChargeRange ) ) {
+      else if ( !this.describedChargeRange || !newRange.equals( this.describedChargeRange ) ) {
 
-        // both views start with this description, something like
-        // 'Balloon picks up more negative charges.'
+        // if we have entered a new described range since the previous charge alert,
+        // we will generate a special description that mentions the relative charges
+        var sweaterCharge = this.model.sweater.chargeProperty.get();
+
+        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+        var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
+
+        description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
+          balloon: relativeBalloonCharge,
+          sweater: relativeSweaterCharge
+        } );
+        
+        this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
+      }
+      else {
+
+        // in same described range of charges, describe how balloon picks up more charges
         var picksUpCharges = StringUtils.fillIn( balloonPicksUpMoreChargesPatternString, {
           balloon: this.accessibleLabel
         } );
@@ -1107,21 +1122,7 @@ define( function( require ) {
         }
 
         this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
-      }
-      else {
-
-        // if we have entered a new described range since the previous charge alert,
-        // we will generate a special description that mentions the relative charges
-        var sweaterCharge = this.model.sweater.chargeProperty.get();
-
-        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
-        var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
-
-        description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
-          balloon: relativeBalloonCharge,
-          sweater: relativeSweaterCharge
-        } );
-      }
+      }      
 
       // update the charge for this generated description
       // this.chargeOnPickupDescription = newCharge;
