@@ -100,7 +100,7 @@ define( function( require ) {
       cursor: 'pointer',
 
       // tandem support
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       phetioType: TwoSceneSelectionNodeIO,
 
       // a11y

@@ -23,7 +23,7 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
 
-    var tandem = Tandem.createRootTandem();
+    var tandem = Tandem.rootTandem;
 
     var simOptions = {
       credits: {
