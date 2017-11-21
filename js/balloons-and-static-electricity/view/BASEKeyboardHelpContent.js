@@ -39,14 +39,12 @@ define( function( require ) {
   var jumpsCloseToWwallDescriptionString = BASEA11yStrings.jumpsCloseToWwallDescriptionString;
   var jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescriptionString;
   var jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescriptionString;
-  
+
   /**
    * Constructor.
-   *
-   * @param {Tandem} tandem
    * @constructor
    */
-  function BASEKeyboardHelpContent( tandem ) {
+  function BASEKeyboardHelpContent() {
 
     //  the groups of help content
     var balloonGrabHelpContent = new BalloonGrabHelpContent();
@@ -69,8 +67,7 @@ define( function( require ) {
 
     Panel.call( this, content, {
       stroke: null,
-      fill: 'rgb( 214, 237, 249 )',
-      tandem: tandem
+      fill: 'rgb( 214, 237, 249 )'
     } );
 
     // the reading order for screen readers
@@ -138,7 +135,7 @@ define( function( require ) {
     // hot key content for how to jump the balloon
     var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { accessibleLabel: jumpsCloseToSweaterDescriptionString } );
     var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { accessibleLabel: jumpsCloseToWwallDescriptionString } );
-    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { accessibleLabel: jumpsNearWallDescriptionString} );
+    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { accessibleLabel: jumpsNearWallDescriptionString } );
     var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { accessibleLabel: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
@@ -156,10 +153,11 @@ define( function( require ) {
   /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
    * sign, with a descriptive label. Something like
-:   * "J + S jumps close to sweater"
+   :   * "J + S jumps close to sweater"
    *
    * @param {string} keyString - the letter name that will come after 'j'
    * @param {string} labelString
+   * @param {Object} options
    * @return {HBox}
    */
   function createJumpKeyRow( keyString, labelString, options ) {
