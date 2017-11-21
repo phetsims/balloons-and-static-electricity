@@ -94,7 +94,7 @@ define( function( require ) {
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
     var labelWithContent = HelpContent.labelWithIcon( label, icons, { accessibleLabel: grabOrReleaseBalloonDescriptionString } );
 
-    HelpContent.call( this, grabOrReleaseBalloonHeadingString, labelWithContent );
+    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ] );
   }
 
   inherit( HelpContent, BalloonGrabHelpContent );
@@ -139,11 +139,7 @@ define( function( require ) {
     var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { accessibleLabel: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
-    var content = new VBox( {
-      children: [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ],
-      align: 'left',
-      spacing: HelpContent.DEFAULT_VERTICAL_ICON_SPACING
-    } );
+    var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
     HelpContent.call( this, moveOrJumpGrabbedBalloonHeadingString, content );
   }
