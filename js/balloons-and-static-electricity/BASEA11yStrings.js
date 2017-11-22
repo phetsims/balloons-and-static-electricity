@@ -165,7 +165,7 @@ define( function( require ) {
     // Scene summary strings
     //------------------------------------------------------------------------
     sceneSummaryString: 'Scene Summary',
-    openingSummaryString: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons and a check box to change conditions in the room.',
+    openingSummaryString: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons and a checkbox to change conditions in the room.',
 
     // objects for the scene summary
     roomObjectsPatternString: 'Currently, room has {{description}}.',
