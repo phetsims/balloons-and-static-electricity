@@ -78,13 +78,13 @@ define( function( require ) {
     landmarkLeftEdgeString: 'left edge',
     landmarkNearUpperWallString: 'upper wall',
     landmarkNearWallString: 'wall', // 'near' added programmatically
-    landmarkNearLowerWallString: 'Near lower wall',
-    landmarkNearUpperRightEdgeString: 'Near upper right edge',
-    landmarkNearRightEdgeString: 'Near right edge',
-    landmarkNearLowerRightEdgeString: 'Near lower-right edge',
+    landmarkNearLowerWallString: 'lower wall',
+    landmarkNearUpperRightEdgeString: 'upper right edge', // 'near' added programmatically
+    landmarkNearRightEdgeString: 'right edge', // 'near' added programmatically
+    landmarkNearLowerRightEdgeString: 'lower-right edge', // 'near' added programmatically
     landmarkAtCenterPlayAreaString: 'center of play area',
-    landmarkAtUpperCenterPlayAreaString: 'At upper-center of play area',
-    landmarkAtLowerCenterPlayAreaString: 'At lower-center of play area',
+    landmarkAtUpperCenterPlayAreaString: 'upper-center of play area', // 'At added programmatically'
+    landmarkAtLowerCenterPlayAreaString: 'lower-center of play area', // 'At added programmatically'
 
     // location strings while touching another object
     touchingWallStringPattern: 'Touching {0}.',
