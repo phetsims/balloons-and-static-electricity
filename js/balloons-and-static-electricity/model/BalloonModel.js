@@ -1038,20 +1038,26 @@ define( function( require ) {
         var newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
 
         if ( newLocation.x + this.width >= rightBound ) {
+
+          // trying to go beyond right bound
           newLocation.x = rightBound - this.width;
           newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
         if ( newLocation.y + this.height >= model.bounds.maxY ) {
+
+          // trying to go beyond bottom bound
           newLocation.y = model.bounds.maxY - this.height;
-          newVelocity.y = newVelocity > 0 ? 0 : newVelocity.y;
+          newVelocity.y = newVelocity.y > 0 ? 0 : newVelocity.y;
         }
         if ( newLocation.x <= model.bounds.minX ) {
+
+          // trying to go  beyond left bound
           newLocation.x = model.bounds.minX;
           newVelocity.x = newVelocity.x < 0 ? 0 : newVelocity.x;
         }
         if ( newLocation.y <= model.bounds.minY ) {
           newLocation.y = model.bounds.minY;
-          newVelocity.y = newVelocity < 0 ? 0 : newVelocity.y;
+          newVelocity.y = newVelocity.y < 0 ? 0 : newVelocity.y;
         }
 
         // update location before velocity so that listeners associated with velocity can reference the correct
