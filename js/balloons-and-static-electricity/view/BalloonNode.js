@@ -282,7 +282,6 @@ define( function( require ) {
     // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
     // or touching these objects
     model.velocityProperty.link( function( velocity ) {
-      console.log( velocity );
       if ( velocity.equals( Vector2.ZERO ) ) {
         if ( model.onSweater() || model.touchingWall() ) {
           UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
