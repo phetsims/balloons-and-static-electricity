@@ -66,11 +66,6 @@ define( function( require ) {
     // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
     var self = this;
     this.wall.isVisibleProperty.link( function( isVisible ) {
-      self.balloons.forEach( function( balloon ) {
-        if ( balloon.getCenter().x === self.playArea.atWall && balloon.chargeProperty.get() !== 0 ) {
-          balloon.isStoppedProperty.set( false );
-        }
-      } );
 
       // update the model bounds
       var newWidth = isVisible ? width - self.wallWidth : width;

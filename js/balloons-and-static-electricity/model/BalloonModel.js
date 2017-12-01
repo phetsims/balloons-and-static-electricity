@@ -171,12 +171,6 @@ define( function( require ) {
       useDeepEquality: true
     } );
 
-    // @public {boolean} - Property that tracks when the balloon has stopped moving
-    this.isStoppedProperty = new Property( false, {
-      tandem: tandem.createTandem( 'isStoppedProperty' ),
-      phetioType: PropertyIO( BooleanIO )
-    } );
-
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
@@ -1058,11 +1052,6 @@ define( function( require ) {
         if ( newLocation.y <= model.bounds.minY ) {
           newLocation.y = model.bounds.minY;
           newVelocity.y = newVelocity < 0 ? 0 : newVelocity.y;
-        }
-
-        // once the balloon stops moving, notify observers that it has reached a resting destination
-        if ( !this.isStoppedProperty.get() && ( this.locationProperty.get().equals( newLocation ) ) ) {
-          this.isStoppedProperty.set( true );
         }
 
         // update location before velocity so that listeners associated with velocity can reference the correct
