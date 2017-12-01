@@ -129,6 +129,11 @@ define( function( require ) {
     // the balloon is sticking to the wall
     this.initialMovementDescribed = false;
 
+    // @rivate (a11y) - whether or not we describe direction changes. Between when the balloon is
+    // released and the release is first described, we do not describe changes to direction because it is built into the
+    // release alert
+    this.describeDirection = true;
+
     var originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
@@ -291,13 +296,13 @@ define( function( require ) {
       }
     } );
 
-    // a11y - if the direction of balloon movement changes while the balloon is grabbed, announce that immediately
+    // a11y - alerts when direction changes, only describe if the balloon hasn't recently been released
     model.directionProperty.lazyLink( function( direction ) {
-      if ( model.isDraggedProperty.get() ) {
-        var directionString = self.describer.getDraggingDirectionDescription( direction );
-        UtteranceQueue.addToBack( new Utterance( directionString, {
+      if ( self.describeDirection ) {
+        var alert = self.describer.getDirectionChangedDescription();
+        UtteranceQueue.addToBack( new Utterance( alert, {
           typeId: 'direction' // so numerous alerts relating to direction don't get triggered at once
-        } ) );
+        } ) );  
       }
     } );
 
@@ -322,6 +327,9 @@ define( function( require ) {
                 if ( !location.equals( oldLocation ) ) {
                   alert = self.describer.getInitialReleaseDescription( location, oldLocation );
                   UtteranceQueue.addToBack( alert );
+
+                  // after describing initial movement, continue to describe direction changes
+                  self.describeDirection = true;
                 }
 
                 // reset timer for release alert
@@ -330,7 +338,7 @@ define( function( require ) {
             }
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
-              // get subsequent descriptions of movement ("still moving...")
+              // get subsequent descriptions of movement
               alert = self.describer.getContinuousReleaseDescription( location, oldLocation );
               UtteranceQueue.addToBack( alert );
 
@@ -573,10 +581,17 @@ define( function( require ) {
     model.isDraggedProperty.lazyLink( function( isDragged ) {
       var alert;
       if ( isDragged ) {
+
+        // if picked up again, start describing direction changes
+        self.describeDirection = true;
+
         alert = self.describer.getGrabbedAlert();
       }
       else {
         alert = self.describer.getReleasedAlert();
+
+        // dont describe direction until initial release description happens
+        self.describeDirection = false;
       }
       UtteranceQueue.addToBack( alert );
 

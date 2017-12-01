@@ -314,7 +314,10 @@ define( function( require ) {
     noChangeInPositionString: 'No change in position',
     noChangeAndLocationPatternString: '{{noChange}}. {{location}}',
 
-    stillMovingPatternString: 'Still moving {{direction}}.',
+    continuousMovementPatternString: 'Moving {{direction}}.',
+    continuousMovementWithLandmarkPatternString: '{{movementDirection}} {{landmark}}.',
+
+    nowDirectionPatternString: 'Now {{direction}}.',
 
     // similar to dragging direction strings, but in context so not capitalized and no
     // punctuation

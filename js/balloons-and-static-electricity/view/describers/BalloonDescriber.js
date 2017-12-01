@@ -85,7 +85,6 @@ define( function( require ) {
   var balloonNearString = BASEA11yStrings.balloonNearString;
   var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
-  var stillMovingPatternString = BASEA11yStrings.stillMovingPatternString;
   var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString;
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
@@ -112,6 +111,9 @@ define( function( require ) {
   var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
   var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString;
   var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
+  var continuousMovementPatternString = BASEA11yStrings.continuousMovementPatternString;
+  var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPatternString;
+  var nowDirectionPatternString = BASEA11yStrings.nowDirectionPatternString;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -688,19 +690,32 @@ define( function( require ) {
 
     /**
      * Get a description of continuous movement of the balloon after it has been released and is
-     * still moving through the play area.  Will return something like
-     * "Still moving towards left."
+     * still moving through the play area. Will return something like
+     * "Moving Left." or
+     * "Moving Left. Near wall."
      * 
      * @param {Vector2} location   
      * @param {Vector2} oldLocation
      * @return
      */
     getContinuousReleaseDescription: function( location, oldLocation ) {
+      var description;
+      var directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
-      var  directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
-      return StringUtils.fillIn( stillMovingPatternString, {
+      // describes movement and direction
+      description = StringUtils.fillIn( continuousMovementPatternString, {
         direction: directionString
       } );
+
+      // if we are in a landmark, it will be added to the continuous movement description
+      if ( this.balloonModel.playAreaLandmarkProperty.get() ) {
+        description = StringUtils.fillIn( continuousMovementWithLandmarkPatternString, {
+          movementDirection: description,
+          landmark: this.getOnLocationDescription()
+        } );
+      }
+
+      return description;
     },
 
     /**
@@ -1269,6 +1284,36 @@ define( function( require ) {
         balloonLabel: this.accessibleLabel,
         location: balloonLocationDescription
       } );
+    },
+
+    /**
+     * Get a description about the change in direction. If the balloon is grabbed, only the direction will be in the
+     * description. Otherwise, it will be an update to direction, so add "Now". Will return something like
+     *
+     * "Left." or
+     * "Now Left."
+     *
+     * @return {string}
+     */
+    getDirectionChangedDescription: function() {
+      var description;
+
+      var direction = this.balloonModel.directionProperty.get();
+      if ( this.balloonModel.isDraggedProperty.get() ) {
+
+        // when dragged, just the direction
+        description = this.getDraggingDirectionDescription( direction );
+      }
+      else {
+
+        // when not dragged, add 'Now' to direction
+        var directionString = this.getReleaseDirectionDescription( direction );
+        description = StringUtils.fillIn( nowDirectionPatternString, {
+          direction: directionString
+        } );
+      }
+
+      return description;
     }
   } );
 } );
