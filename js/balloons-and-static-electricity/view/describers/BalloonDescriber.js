@@ -114,6 +114,7 @@ define( function( require ) {
   var continuousMovementPatternString = BASEA11yStrings.continuousMovementPatternString;
   var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPatternString;
   var nowDirectionPatternString = BASEA11yStrings.nowDirectionPatternString;
+  var balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePatternString;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -1314,6 +1315,39 @@ define( function( require ) {
       }
 
       return description;
+    },
+
+    /**
+     * Get a description of the balloon when it hits the wall. If charges are shown and the balloon is inducing charge,
+     * will include induced charge information
+     * Will return something like
+     *
+     * "Green balloon, at upper wall. In upper wall, no change in charges." or
+     * "Green balloon, at wall. Negative charges in wall move away from yellow balloon a little bit."
+     *
+     * @return {string}
+     */
+    getForcedIntoWallDescription: function() {
+      var descriptionString;
+
+      // the location string is used for all charge views, used as a single sentence
+      var locationString = this.getAttractiveStateAndLocationDescriptionWithLabel();
+
+      var shownCharges = this.showChargesProperty.get();
+
+      if ( shownCharges === 'all' ) {
+        var chargeLocationString = this.getBalloonLocationDescription();
+        var noChangeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+        descriptionString = StringUtils.fillIn( balloonLocationNoChangePatternString, {
+          location: locationString,
+          noChange: noChangeString
+        } );
+      }
+      else {
+        descriptionString = locationString;
+      }
+
+      return descriptionString;
     }
   } );
 } );

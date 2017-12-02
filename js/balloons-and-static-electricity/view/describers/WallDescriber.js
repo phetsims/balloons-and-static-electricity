@@ -197,7 +197,7 @@ define( function( require ) {
 
     /**
      * Get the description for induced charge when there is no induced charge. Something like
-     * "Negative charges in wall do not move."
+     * "In wall, no change in charges."
      *
      * @param {string} locationString
      * @return {string}
@@ -237,7 +237,11 @@ define( function( require ) {
 
     /**
      * Get an induced charge amount description for a balloon, based on the positions of charges in the wall.  We find the
-     * closest charge to the balloon, and determine how far it has been displaced from its initial position.
+     * closest charge to the balloon, and determine how far it has been displaced from its initial position. Will
+     * return something like:
+     *
+     * "Negative charges in wall move away from yellow balloon a little bit."
+     * 
      * @static
      * @public
      *

@@ -283,8 +283,17 @@ define( function( require ) {
     // or touching these objects
     model.velocityProperty.link( function( velocity ) {
       if ( velocity.equals( Vector2.ZERO ) ) {
-        if ( model.onSweater() || model.touchingWall() ) {
-          UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+        if ( model.isDraggedProperty.get() ) {
+          if ( model.onSweater() || model.touchingWall() ) {
+
+            // while dragging, just attractive state and location 
+            UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+          }    
+        }
+        else if ( model.touchingWall() ) {
+
+          // if we stop along the wall after an applied force, alert that balloon is touching wall
+          UtteranceQueue.addToBack( self.describer.getForcedIntoWallDescription() );
         }
       }
     } );
