@@ -699,7 +699,7 @@ define( function( require ) {
      * @param {Vector2} oldLocation
      * @return
      */
-    getContinuousReleaseDescription: function( location, oldLocation ) {
+    getContinuousReleaseDescription: function() {
       var description;
       var directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 

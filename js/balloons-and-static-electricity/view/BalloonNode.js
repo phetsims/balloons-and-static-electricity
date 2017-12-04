@@ -261,10 +261,22 @@ define( function( require ) {
     } );
 
     // a11y - if we enter a landmark location while we are grabbed, that should be announced immediately
-    model.playAreaLandmarkProperty.link( function( landmark ) {
-      if ( landmark && model.isDraggedProperty.get() ) {
-        var locationDescription = self.describer.getLandmarkDragDescription();
-        locationDescription && UtteranceQueue.addToBack( locationDescription );
+    model.playAreaLandmarkProperty.lazyLink( function( landmark ) {
+      if ( landmark ) {
+        if ( model.isDraggedProperty.get() ) {
+
+          // if dragged, just announce landmark as we move through it
+          var locationDescription = self.describer.getLandmarkDragDescription();
+          locationDescription && UtteranceQueue.addToBack( locationDescription );    
+        }
+        else {
+
+          // if moving on its own, alert landmark with info about movement direction, and reset timer
+          var alert = self.describer.getContinuousReleaseDescription();
+          UtteranceQueue.addToBack( alert );
+
+          self.timeSinceReleaseAlert = 0;
+        }
       }
     } );
 
@@ -348,7 +360,7 @@ define( function( require ) {
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // get subsequent descriptions of movement
-              alert = self.describer.getContinuousReleaseDescription( location, oldLocation );
+              alert = self.describer.getContinuousReleaseDescription();
               UtteranceQueue.addToBack( alert );
 
               // reset timer
