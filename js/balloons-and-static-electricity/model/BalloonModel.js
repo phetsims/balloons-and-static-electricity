@@ -445,16 +445,12 @@ define( function( require ) {
 
     /**
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
-     * if its left edge is inside the right edge of the sweater bounds.
+     * if its center is in the charged area.
      *
      * @returns {type}  description
      */
     onSweater: function() {
-      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
-      if ( sweaterBounds.eroded( 0 ).intersectsBounds( this.bounds ) ) {
-        return true;
-      }
-      else { return false; }
+      return this.centerInSweaterChargedArea();
     },
 
     /**
