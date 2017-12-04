@@ -334,6 +334,9 @@ define( function( require ) {
     // a11y - alert when balloon is added to play area
     model.isVisibleProperty.lazyLink( function( isVisible ) {
       UtteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
+
+      // when the balloon visibility changes, we will start with initial movement once it becomes visible again
+      self.initialMovementDescribed = false;
     } );
 
     // link the position of this node to the model

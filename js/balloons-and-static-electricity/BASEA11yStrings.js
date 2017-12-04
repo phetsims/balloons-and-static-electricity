@@ -457,7 +457,7 @@ define( function( require ) {
     // alerts when balloons added/removed from play area
     balloonAddedPatternString: '{{balloonLabel}} added to Play Area.',
     balloonRemovedPatternString: '{{balloonLabel}} removed from Play Area.',
-    balloonAddedWithLocationPatternString: '{{balloonLabel}} added. {{location}}',
+    balloonAddedWithLocationPatternString: '{{balloonLabel}} added. {{location}}.',
     balloonAddedWhileNearYellowBalloonLocationPatternString: '{{balloonLabel}} added. {{location}}, next to yellow balloon.',
 
     //--------------------------------------------------------------------------
