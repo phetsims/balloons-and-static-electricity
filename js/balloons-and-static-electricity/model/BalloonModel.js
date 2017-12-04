@@ -34,7 +34,6 @@ define( function( require ) {
   var THRESHOLD_SPEED = 0.0125;
   var BALLOON_WIDTH = 134;
   var BALLOON_HEIGHT = 222;
-  var OVERLAPS_OTHER_DISTANCE = 25; // if balloon center differences is within this amount, they overlap
 
   // threshold for diagonal movement is +/- 15 degrees from diagonals
   var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
@@ -946,22 +945,6 @@ define( function( require ) {
 
     isTouchingLeftBoundary: function() {
       return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
-    },
-
-    /**
-     * Return true if this balloon is overlapping another balloon. Calculated by checking distance between
-     * balloon centers
-     *
-     * @return {boolean}
-     */
-    isOverlappingOther: function() {
-      var overlappingOther = false;
-      if ( this.other ) {
-        var otherVisible = this.other.isVisibleProperty.get();
-        var distanceToOther = this.locationProperty.get().distance( this.other.locationProperty.get() );
-        overlappingOther = otherVisible && ( distanceToOther < OVERLAPS_OTHER_DISTANCE );
-      }
-      return overlappingOther;
     },
 
     /**
