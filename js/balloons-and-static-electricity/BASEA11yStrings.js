@@ -458,6 +458,7 @@ define( function( require ) {
     balloonAddedPatternString: '{{balloonLabel}} added to Play Area.',
     balloonRemovedPatternString: '{{balloonLabel}} removed from Play Area.',
     balloonAddedWithLocationPatternString: '{{balloonLabel}} added. {{location}}',
+    balloonAddedWhileNearYellowBalloonLocationPatternString: '{{balloonLabel}} added. {{location}}, next to yellow balloon.',
 
     //--------------------------------------------------------------------------
     // Keyboard shortcuts help content strings

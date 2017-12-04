@@ -170,10 +170,19 @@ define( function( require ) {
       //set flag
       position.isOutBounds = isOutBounds;
       return position;
+    },
+
+    /**
+     * Get the distance between the two balloons.
+     *
+     * @return {number}
+     */
+    getDistance: function() {
+      return this.greenBalloon.getCenter().distance( this.yellowBalloon.getCenter() );
     }
   }, {
 
-        LEFT: 'LEFT',
+    LEFT: 'LEFT',
     RIGHT: 'RIGHT',
     UP: 'UP',
     DOWN: 'DOWN',

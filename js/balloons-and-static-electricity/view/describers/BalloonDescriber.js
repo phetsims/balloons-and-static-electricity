@@ -118,6 +118,7 @@ define( function( require ) {
   var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString;
   var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString;
   var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString;
+  var balloonAddedWhileNearYellowBalloonLocationPatternString = BASEA11yStrings.balloonAddedWhileNearYellowBalloonLocationPatternString;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -149,6 +150,9 @@ define( function( require ) {
 
   // speed of the balloon to be considered moving slowly, determined empirically
   var SLOW_BALLOON_SPEED = 0.09;
+
+  // when balloons are withing this distance of each other, some descriptions will reflect this
+  var NEXT_TO_BALLOON_THRESHOLD = 100;
 
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
@@ -1353,20 +1357,41 @@ define( function( require ) {
       return descriptionString;
     },
 
+    /**
+     * Get a description for when a balloon is added to the play area. Will change depending on whether balloon has been
+     * successfully moved and whether the two balloons are adjacent to each other. Will return something like
+     * "Green balloon added to play area" or
+     * "Green balloon added. Sticking to left shoulder of sweater." or
+     * "Green balloon added. On left side of play area, next to yellow balloon."
+     *
+     * @return {string}
+     */
     getVisibilityChangedDescription: function() {
       var description;
       var locationProperty = this.balloonModel.locationProperty;
       var visible = this.balloonModel.isVisibleProperty.get();
 
       if ( !visible ) {
+
+        // if removed, simply state that
         description = StringUtils.fillIn( balloonRemovedPatternString, {
-          balloonLabel: this.accessibleLabel,
+          balloonLabel: this.accessibleLabel
         } );
       }
       else {
         if ( locationProperty.get().equals( locationProperty.initialValue ) ) {
+
+          // if add at initial location, generic string
           description = StringUtils.fillIn( balloonAddedPatternString, {
             balloonLabel: this.accessibleLabel
+          } );
+        }
+        else if ( this.model.getDistance() < NEXT_TO_BALLOON_THRESHOLD ) {
+
+          // if the two balloons are next to each other
+          description = StringUtils.fillIn( balloonAddedWhileNearYellowBalloonLocationPatternString, {
+            balloonLabel: this.accessibleLabel,
+            location: this.getAttractiveStateAndLocationDescription()
           } );
         }
         else {
