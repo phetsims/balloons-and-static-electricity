@@ -331,6 +331,11 @@ define( function( require ) {
       }
     } );
 
+    // a11y - alert when balloon is added to play area
+    model.isVisibleProperty.lazyLink( function( isVisible ) {
+      UtteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
+    } );
+
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
 
@@ -513,7 +518,6 @@ define( function( require ) {
           self.initialMovementDescribed = false;
         }
       }
-
     } );
 
     // when the "Grab Balloon" button is pressed, focus the dragable node and set to dragged state

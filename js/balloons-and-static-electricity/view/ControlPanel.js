@@ -218,11 +218,6 @@ define( function( require ) {
       }
     );
 
-    model.greenBalloon.isVisibleProperty.lazyLink( function( isVisible ) {
-      var alertDescription = isVisible ? BASEA11yStrings.greenBalloonAddedString : BASEA11yStrings.greenBalloonRemovedString;
-      UtteranceQueue.addToBack( alertDescription );
-    } );
-
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new ToggleNode(
       new Text( resetBalloonsString, {

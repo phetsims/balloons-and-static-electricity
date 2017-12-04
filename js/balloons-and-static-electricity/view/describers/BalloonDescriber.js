@@ -115,6 +115,9 @@ define( function( require ) {
   var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPatternString;
   var nowDirectionPatternString = BASEA11yStrings.nowDirectionPatternString;
   var balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePatternString;
+  var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString;
+  var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString;
+  var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString;
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -1348,6 +1351,35 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    getVisibilityChangedDescription: function() {
+      var description;
+      var locationProperty = this.balloonModel.locationProperty;
+      var visible = this.balloonModel.isVisibleProperty.get();
+
+      if ( !visible ) {
+        description = StringUtils.fillIn( balloonRemovedPatternString, {
+          balloonLabel: this.accessibleLabel,
+        } );
+      }
+      else {
+        if ( locationProperty.get().equals( locationProperty.initialValue ) ) {
+          description = StringUtils.fillIn( balloonAddedPatternString, {
+            balloonLabel: this.accessibleLabel
+          } );
+        }
+        else {
+
+          // if not at initial location, include attractive state and location
+          description = StringUtils.fillIn( balloonAddedWithLocationPatternString, {
+            balloonLabel: this.accessibleLabel,
+            location: this.getAttractiveStateAndLocationDescription()
+          } );
+        }
+      }
+
+      return description;
     }
   } );
 } );

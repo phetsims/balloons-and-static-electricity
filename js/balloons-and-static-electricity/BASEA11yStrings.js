@@ -443,8 +443,6 @@ define( function( require ) {
     balloonsString: 'Balloons',
     twoBalloonExperimentLabelString: 'Two-Balloon Experiments',
     grabPatternString: 'Grab {0}',
-    greenBalloonRemovedString: 'Green balloon removed from Play Area.',
-    greenBalloonAddedString: 'Green balloon added to Play Area.',
     playAreaString: 'Play Area',
     wallLabelString: 'Wall',
     controlPanelString: 'Control Panel',
@@ -455,6 +453,11 @@ define( function( require ) {
 
     // alert when the balloons are reset
     resetBalloonsAlertPatternString: '{{balloons}} and sweater reset.',
+
+    // alerts when balloons added/removed from play area
+    balloonAddedPatternString: '{{balloonLabel}} added to Play Area.',
+    balloonRemovedPatternString: '{{balloonLabel}} removed from Play Area.',
+    balloonAddedWithLocationPatternString: '{{balloonLabel}} added. {{location}}',
 
     //--------------------------------------------------------------------------
     // Keyboard shortcuts help content strings
