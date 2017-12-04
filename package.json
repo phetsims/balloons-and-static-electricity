@@ -13,6 +13,13 @@
     "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
     "phetLibs": [
       "vibe"
-    ]
+    ],
+    "runnable": true,
+    "supportedBrands": [
+      "phet",
+      "phet-io"
+    ],
+    "accessible": true,
+    "simulation": true
   }
 }
