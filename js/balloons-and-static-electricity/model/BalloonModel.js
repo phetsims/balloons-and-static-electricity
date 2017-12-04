@@ -450,7 +450,11 @@ define( function( require ) {
      * @returns {type}  description
      */
     onSweater: function() {
-      return this.centerInSweaterChargedArea();
+      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      if ( sweaterBounds.eroded( 0 ).intersectsBounds( this.bounds ) ) {
+        return true;
+      }
+      else { return false; }
     },
 
     /**
