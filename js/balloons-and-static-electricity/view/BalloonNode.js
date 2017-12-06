@@ -26,7 +26,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
-  var KeyboardDragHandler = require( 'SCENERY_PHET/accessibility/KeyboardDragHandler' );
   var Line = require( 'SCENERY/nodes/Line' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -36,6 +35,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
+  var KeyboardDragListener = require( 'SCENERY/accessibility/listeners/KeyboardDragListener' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
@@ -416,15 +416,16 @@ define( function( require ) {
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
-    this.keyboardDragHandler = new KeyboardDragHandler( model.locationProperty, {
+    this.keyboardDragHandler = new KeyboardDragListener( {
       dragBounds: this.getDragBounds(),
+      locationProperty: model.locationProperty,
       shiftKeyMultiplier: 0.25,
-      onDrag: function() {
+      drag: function() {
         if ( self.keyboardDragCount === 0 ) {
           self.keyboardDragCount++;
         }
       },
-      endDrag: function( event ) {
+      end: function( event ) {
 
         // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
         // description next time we press a key
@@ -439,7 +440,7 @@ define( function( require ) {
           UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
         }
       },
-      startDrag: function( event ) {
+      start: function( event ) {
 
         startDragListener();
 
@@ -730,25 +731,25 @@ define( function( require ) {
      */
     attemptToMoveBeyondBoundary: function( keyCode ) {
       return (
-        ( KeyboardDragHandler.isLeftMovementKey( keyCode ) && this.model.isTouchingLeftBoundary() ) ||
-        ( KeyboardDragHandler.isUpMovementKey( keyCode ) && this.model.isTouchingTopBoundary() ) ||
-        ( KeyboardDragHandler.isRightMovementKey( keyCode ) && this.model.isTouchingRightBoundary() ) ||
-        ( KeyboardDragHandler.isDownMovementKey( keyCode ) && this.model.isTouchingBottomBoundary() )
+        ( KeyboardDragListener.isLeftMovementKey( keyCode ) && this.model.isTouchingLeftBoundary() ) ||
+        ( KeyboardDragListener.isUpMovementKey( keyCode ) && this.model.isTouchingTopBoundary() ) ||
+        ( KeyboardDragListener.isRightMovementKey( keyCode ) && this.model.isTouchingRightBoundary() ) ||
+        ( KeyboardDragListener.isDownMovementKey( keyCode ) && this.model.isTouchingBottomBoundary() )
       );
     },
 
     getAttemptedMovementDirection: function( keyCode ) {
       var direction;
-      if ( KeyboardDragHandler.isLeftMovementKey( keyCode ) ) {
+      if ( KeyboardDragListener.isLeftMovementKey( keyCode ) ) {
         direction = BalloonDirectionEnum.LEFT;
       }
-      else if ( KeyboardDragHandler.isRightMovementKey( keyCode ) ) {
+      else if ( KeyboardDragListener.isRightMovementKey( keyCode ) ) {
         direction = BalloonDirectionEnum.RIGHT;
       }
-      else if ( KeyboardDragHandler.isUpMovementKey( keyCode ) ) {
+      else if ( KeyboardDragListener.isUpMovementKey( keyCode ) ) {
         direction = BalloonDirectionEnum.UP;
       }
-      else if ( KeyboardDragHandler.isDownMovementKey( keyCode ) ) {
+      else if ( KeyboardDragListener.isDownMovementKey( keyCode ) ) {
         direction = BalloonDirectionEnum.DOWN;
       }
 
