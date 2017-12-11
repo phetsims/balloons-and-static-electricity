@@ -25,7 +25,7 @@ define( function( require ) {
   var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Input = require( 'SCENERY/input/Input' );
+  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var Line = require( 'SCENERY/nodes/Line' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
@@ -457,25 +457,25 @@ define( function( require ) {
     // jump to the wall on 'J + W'
     this.keyboardDragHandler.addHotkeyGroups( [
       {
-        keys: [ Input.KEY_J, Input.KEY_W ],
+        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_W ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_LOCATIONS.AT_WALL, model.getCenterY() ) );
         }
       },
       {
-        keys: [ Input.KEY_J, Input.KEY_S ],
+        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_S ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
         }
       },
       {
-        keys: [ Input.KEY_J, Input.KEY_N ],
+        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_N ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_WALL, model.getCenterY() ) );
         }
       },
       {
-        keys: [ Input.KEY_J, Input.KEY_C ],
+        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_C ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
@@ -574,13 +574,13 @@ define( function( require ) {
     var releasedWithEnter = false;
     accessibleDragNode.addAccessibleInputListener( {
       keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_ENTER ) {
+        if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
           releasedWithEnter = true;
           releaseBalloon();
         }
       },
       keyup: function( event ) {
-        if ( event.keyCode === Input.KEY_SPACE ) {
+        if ( event.keyCode === KeyboardUtil.KEY_SPACE ) {
 
           // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
           // and trigger a click event
