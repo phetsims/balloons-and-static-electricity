@@ -208,6 +208,7 @@ define( function( require ) {
     this.closestChargeInWall = null;
 
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall, determined by
+    // finding the closest charge to the balloon in the wall and calculating its displacement
     this.inducingCharge = false;
 
     // @private (a11y) - the amount of time that has passed since balloon has been released
