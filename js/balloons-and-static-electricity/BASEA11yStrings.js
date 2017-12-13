@@ -320,7 +320,7 @@ define( function( require ) {
     nowDirectionPatternString: 'Now {{direction}}.',
 
     // when balloon hits wall and there is a change in charges
-    balloonLocationNoChangePatternString: '{{location}} {{noChange}}',
+    balloonLocationNoChangePatternString: '{{location}} {{inducedCharge}}',
 
     // similar to dragging direction strings, but in context so not capitalized and no
     // punctuation

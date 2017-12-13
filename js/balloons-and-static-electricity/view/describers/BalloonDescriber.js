@@ -1346,10 +1346,17 @@ define( function( require ) {
 
       if ( shownCharges === 'all' ) {
         var chargeLocationString = this.getBalloonLocationDescription();
-        var noChangeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+
+        var chargeString
+        if ( this.balloonModel.inducingCharge ) {
+          chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get() );
+        }
+        else {
+          chargeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+        }
         descriptionString = StringUtils.fillIn( balloonLocationNoChangePatternString, {
           location: locationString,
-          noChange: noChangeString
+          inducedCharge: chargeString
         } );
       }
       else {
