@@ -44,6 +44,7 @@ define( function( require ) {
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
   var releasedString = BASEA11yStrings.releasedString;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
+  var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
   var slowlyString = BASEA11yStrings.slowlyString;
   var quicklyString = BASEA11yStrings.quicklyString;
@@ -156,8 +157,12 @@ define( function( require ) {
 
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
+    EXTREMELY_SLOWLY_STRING: {
+      range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 200 ),
+      description: extremelySlowlyString
+    },
     VERY_SLOWLY_RANGE: {
-      range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 100 ),
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 200, MAXIMUM_VELOCITY_ON_RELEASE / 100 ),
       description: verySlowlyString
     },
     SLOWLY_RANGE: {
@@ -1347,7 +1352,7 @@ define( function( require ) {
       if ( shownCharges === 'all' ) {
         var chargeLocationString = this.getBalloonLocationDescription();
 
-        var chargeString
+        var chargeString;
         if ( this.balloonModel.inducingCharge ) {
           chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get() );
         }
@@ -1414,6 +1419,17 @@ define( function( require ) {
       }
 
       return description;
+    },
+
+    /**
+     * Returns whether or now the balloon is considered to be moving 'slowly'. Used in descriptions and is empirical
+     * in nature so this is part of the describer, not the model.
+     *
+     * @return {}
+     */
+    balloonMovingSlowly: function() {
+      console.log( this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max );
+      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max;
     }
   } );
 } );

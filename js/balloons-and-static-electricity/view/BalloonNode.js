@@ -264,12 +264,14 @@ define( function( require ) {
     model.playAreaLandmarkProperty.lazyLink( function( landmark ) {
       if ( landmark ) {
         if ( !model.isDraggedProperty.get() ) {
-          
-          // if moving on its own, alert landmark with info about movement direction, and reset timer
-          var alert = self.describer.getContinuousReleaseDescription();
-          UtteranceQueue.addToBack( alert );
 
-          self.timeSinceReleaseAlert = 0;
+          // if balloon initially moving slowly, alert landmark with info about movement direction, and reset timer
+          if ( self.describeContinuedMovement ) {
+            var alert = self.describer.getContinuousReleaseDescription();
+            UtteranceQueue.addToBack( alert );
+
+            self.timeSinceReleaseAlert = 0;
+          }
         }
       }
     } );
@@ -357,6 +359,11 @@ define( function( require ) {
 
                   // after describing initial movement, continue to describe direction changes
                   self.describeDirection = true;
+
+                  // if initial release was slow, we will describe all continued movement through play area
+                  if ( self.describer.balloonMovingSlowly() ) {
+                    self.describeContinuedMovement = true;
+                  }
                 }
 
                 // reset timer for release alert
@@ -365,12 +372,16 @@ define( function( require ) {
             }
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
-              // get subsequent descriptions of movement
-              alert = self.describer.getContinuousReleaseDescription();
-              UtteranceQueue.addToBack( alert );
+              // if the balloon is moving slowly, alert a continuous movement description
+              if ( self.describeContinuedMovement ) {
 
-              // reset timer
-              self.timeSinceReleaseAlert = 0;
+                // get subsequent descriptions of movement
+                alert = self.describer.getContinuousReleaseDescription();
+                UtteranceQueue.addToBack( alert );
+
+                // reset timer
+                self.timeSinceReleaseAlert = 0;
+              }
             }
           }
         }

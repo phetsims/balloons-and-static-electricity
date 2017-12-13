@@ -306,6 +306,7 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     initialMovementPatternString: 'Moves {{velocity}} {{direction}}.',
 
+    extremelySlowlyString: 'extremely slowly',
     verySlowlyString: 'very slowly',
     slowlyString: 'slowly',
     quicklyString: 'quickly',
