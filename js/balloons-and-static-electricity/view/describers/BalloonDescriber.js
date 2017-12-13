@@ -223,6 +223,9 @@ define( function( require ) {
       var showCharges = this.showChargesProperty.get();
 
       var attractiveStateAndLocationString = this.getAttractiveStateAndLocationDescription();
+      attractiveStateAndLocationString = StringUtils.fillIn( singleStatementPatternString, {
+        statement: attractiveStateAndLocationString
+      } );
 
       if ( showCharges === 'none' ) {
         description = StringUtils.fillIn( balloonShowNoChargesPatternString, {
