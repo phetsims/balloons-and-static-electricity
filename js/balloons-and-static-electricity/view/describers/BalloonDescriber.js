@@ -1425,7 +1425,7 @@ define( function( require ) {
      * Returns whether or now the balloon is considered to be moving 'slowly'. Used in descriptions and is empirical
      * in nature so this is part of the describer, not the model.
      *
-     * @return {}
+     * @return {boolean}
      */
     balloonMovingSlowly: function() {
       console.log( this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max );
