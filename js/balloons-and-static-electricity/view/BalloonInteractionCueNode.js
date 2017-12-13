@@ -51,7 +51,7 @@ define( function( require ) {
     right: Math.PI / 2
   };
 
-  function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBounds, options ) {
+  function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBounds ) {
 
     Node.call( this );
 
@@ -89,9 +89,6 @@ define( function( require ) {
     directionKeysParent.addChild( aNode );
     directionKeysParent.addChild( sNode );
     directionKeysParent.addChild( dNode );
-
-    // layout once children and bounds have been defined
-    this.mutate( options );
 
     // add listeners to update location and visibility
     // TODO: update position when wall visibility changes as well

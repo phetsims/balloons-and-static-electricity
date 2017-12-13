@@ -59,6 +59,7 @@ define( function( require ) {
     var self = this;
 
     AccessibleSectionNode.call( this, sceneSummaryString, {
+      tandem: tandem,
       pickable: false // scene summary (and its subtree) do not need to be pickable
     } );
 
@@ -109,11 +110,6 @@ define( function( require ) {
     var chargeProperties = [ yellowBalloon.chargeProperty, greenBalloon.chargeProperty ];
     Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge ) {
       chargeDescriptionNode.accessibleLabel = self.getChargeDescription();
-    } );
-
-    // tandem support
-    this.mutate( {
-      tandem: tandem
     } );
   }
 
