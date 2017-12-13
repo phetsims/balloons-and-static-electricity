@@ -263,14 +263,8 @@ define( function( require ) {
     // a11y - if we enter a landmark location while we are grabbed, that should be announced immediately
     model.playAreaLandmarkProperty.lazyLink( function( landmark ) {
       if ( landmark ) {
-        if ( model.isDraggedProperty.get() ) {
-
-          // if dragged, just announce landmark as we move through it
-          var locationDescription = self.describer.getLandmarkDragDescription();
-          locationDescription && UtteranceQueue.addToBack( locationDescription );    
-        }
-        else {
-
+        if ( !model.isDraggedProperty.get() ) {
+          
           // if moving on its own, alert landmark with info about movement direction, and reset timer
           var alert = self.describer.getContinuousReleaseDescription();
           UtteranceQueue.addToBack( alert );
@@ -439,6 +433,12 @@ define( function( require ) {
         if ( !inLandmark && !onSweater && !touchingWall ) {
           UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
         }
+        else if ( inLandmark ) {
+
+          // just announce landmark as we move through it
+          var locationDescription = self.describer.getLandmarkDragDescription();
+          locationDescription && UtteranceQueue.addToBack( locationDescription ); 
+        }
       },
       start: function( event ) {
 
@@ -514,7 +514,7 @@ define( function( require ) {
 
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
-      self.keyboardDragHandler.dragBounds = self.getDragBounds();
+      self.keyboardDragHandler._dragBounds = self.getDragBounds();
 
       // if the f
       if ( !isVisible ) {
