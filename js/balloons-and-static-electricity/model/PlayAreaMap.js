@@ -57,8 +57,8 @@ define( function( require ) {
   // AT 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until just before we hit the wall
   LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL = new Range( LANDMARK_RANGES.AT_NEAR_WALL.max, X_LOCATIONS.AT_WALL - 1 );
 
-  // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until  we hit the right edge
-  LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE = new Range( LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE );
+  // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until just before we hit the right edge
+  LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE = new Range( LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
 
   var COLUMN_RANGES = {
     LEFT_ARM: new Range( -Number.MAX_VALUE, 138 ),
