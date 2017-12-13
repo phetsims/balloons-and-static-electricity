@@ -396,7 +396,7 @@ define( function( require ) {
 
     // when the last charge is picked up, we announce no charges remaining and then the
     // balloon charge
-    lastChargePickedUpPatternString: '{{sweater}}. {{balloon}}.',
+    lastChargePickedUpPatternString: '{{sweater}} {{balloon}}',
 
     //--------------------------------------------------------------------------
     // Balloon rubbing strings, fail to pick up charges
