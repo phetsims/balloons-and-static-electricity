@@ -414,7 +414,7 @@ define( function( require ) {
     // Balloon jumping strings
     //--------------------------------------------------------------------------
     nearSweaterString: 'Near sweater.',
-    locationAndInducedChargePatternString: '{{location}}. {{inducedCharge}}.',
+    locationAndInducedChargePatternString: '{{location}}. {{inducedCharge}}',
 
     //------------------------------------------------------------------------
     // Control panel strings

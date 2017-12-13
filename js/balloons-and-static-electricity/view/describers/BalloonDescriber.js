@@ -964,7 +964,6 @@ define( function( require ) {
 
         // general location description for the balloon
         var locationDescription = this.getAttractiveStateAndLocationDescription();
-        locationDescription = StringUtils.fillIn( singleStatementPatternString, { statement: locationDescription } );
 
         // state variables used to generate description content
         var wallVisible = this.wall.isVisibleProperty.get();
