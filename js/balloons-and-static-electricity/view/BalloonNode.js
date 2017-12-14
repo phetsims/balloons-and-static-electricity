@@ -458,8 +458,8 @@ define( function( require ) {
         }
 
         // describe the induced charge if we need to, excluding purely vertical movement
-        if ( self.describer.describeInducedChargeChange() && dragDelta.x !== 0 ) {
-          UtteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription() );
+        if ( self.describer.describeInducedChargeChange() ) {
+          UtteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription( dragDelta ) );
         }
 
         // TODO: there should be a function for this, displacementOnEnd should be private

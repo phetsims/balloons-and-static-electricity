@@ -1460,13 +1460,16 @@ define( function( require ) {
      * or return to balloon. Will return something like
      *
      * "Negative charges in upper wall begin to move away from yellow balloon." or
-     * "Negative charges in wall begin to return.
+     * "Negative charges in wall begin to return." or
+     * "Negative charges in wall move away from green balloon."
      * 
      * @return {string}
      */
-    getInducedChargeChangeDescription: function() {
+    getInducedChargeChangeDescription: function( dragDelta ) {
       var descriptionString;
       var movementString;
+
+      var wallVisible = this.wall.isVisibleProperty.get();
 
       var chargeDisplacement = this.balloonModel.chargeDisplacementProperty.get();
       var inductionDelta = chargeDisplacement - this.inducedChargeDisplacementOnEnd;
@@ -1477,34 +1480,41 @@ define( function( require ) {
 
       // describes the location of induced charge
       var chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, this.balloonModel.getCenterY() );
-      var chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, this.wall.isVisibleProperty.get() );
+      var chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
 
-      if ( deltaNormalized > 0 ) {
+      if ( dragDelta.x !== 0 ) {
+        if ( deltaNormalized > 0 ) {
 
-        // more induced charge
-        movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
+          // more induced charge
+          movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
 
-        descriptionString = StringUtils.fillIn( moreInducedChargePattnerString, {
-          location: chargeLocationString,
-          movement: movementString,
-          balloon: this.accessibleLabel
-        } );
+          descriptionString = StringUtils.fillIn( moreInducedChargePattnerString, {
+            location: chargeLocationString,
+            movement: movementString,
+            balloon: this.accessibleLabel
+          } );
 
-        // if we describe more induced charge, we must describe the return at least once
-        this.describeReturn = true;
+          // if we describe more induced charge, we must describe the return at least once
+          this.describeReturn = true;
+        }
+        else if ( deltaNormalized < 0 ) {
+
+          // less induced charge
+          movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
+
+          descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
+            location: chargeLocationString,
+            movement: movementString
+          } );
+
+          // if we describe more induced charge, we must describe the return at least once
+          this.describeReturn = false;
+        }
       }
-      else if ( deltaNormalized < 0 ) {
+      else {
 
-        // less induced charge
-        movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
-
-        descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
-          location: chargeLocationString,
-          movement: movementString
-        } );
-
-        // if we describe more induced charge, we must describe the return at least once
-        this.describeReturn = false;
+        // purely vertical motion, generic induced charge description
+        descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
       }
 
       this.previousDeltaNormalized = deltaNormalized;
