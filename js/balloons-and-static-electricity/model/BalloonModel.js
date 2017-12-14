@@ -195,6 +195,10 @@ define( function( require ) {
     // @private {string|null} - if the balloon is in a landmark location, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
     this.playAreaLandmarkProperty = new Property( null );
 
+    // @public {number} - value that correspondsd to the magnitude of displacement of wall charges during induced
+    // charge
+    this.chargeDisplacementProperty = new Property( 0 );
+
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null );
 

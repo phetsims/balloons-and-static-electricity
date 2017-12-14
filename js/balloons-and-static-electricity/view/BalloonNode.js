@@ -419,6 +419,9 @@ define( function( require ) {
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
+    // used to determine change in position during a single keyboard drag
+    var oldPosition = new Vector2( 0, 0 );
+
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
     this.keyboardDragHandler = new KeyboardDragListener( {
@@ -431,6 +434,9 @@ define( function( require ) {
         }
       },
       end: function( event ) {
+
+        // how much balloon has moved
+        var dragDelta = self.model.locationProperty.get().minus( oldPosition );
 
         // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
         // description next time we press a key
@@ -450,10 +456,20 @@ define( function( require ) {
           var locationDescription = self.describer.getLandmarkDragDescription();
           locationDescription && UtteranceQueue.addToBack( locationDescription ); 
         }
+
+        // describe the induced charge if we need to, excluding purely vertical movement
+        if ( self.describer.describeInducedChargeChange() && dragDelta.x !== 0 ) {
+          UtteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription() );
+        }
+
+        // update the desc
+        self.describer.displacementOnEnd = self.model.chargeDisplacementProperty.get();
       },
       start: function( event ) {
 
         startDragListener();
+
+        oldPosition = self.model.locationProperty.get().copy();
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {

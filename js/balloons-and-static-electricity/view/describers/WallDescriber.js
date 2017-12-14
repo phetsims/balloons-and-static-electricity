@@ -52,15 +52,24 @@ define( function( require ) {
     }
   };
 
-
-  // constants
-  function WallDescriber( model, showChargesProperty ) {
+  /**
+   * @constructor
+   *
+   * @param {BASEmodel} model
+   */
+  function WallDescriber( model ) {
 
     // @private {WallModel}
-    this.model = model;
+    this.wallModel = model.wall;
+
+    // @private {BalloonModel}
+    this.yellowBalloon = model.greenBalloon;
+
+    // @private {BalloonModel}
+    this.greenBalloon = model.greenBalloon;
 
     // @private showChargesProperty
-    this.showChargesProperty = showChargesProperty;
+    this.showChargesProperty = model.showChargesProperty;
   }
 
   balloonsAndStaticElectricity.register( 'WallDescriber', WallDescriber );
@@ -86,7 +95,7 @@ define( function( require ) {
         } );
       }
       else {
-        var chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, this.model.isVisibleProperty.get(), this.showChargesProperty.get() );
+        var chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, this.wallModel.isVisibleProperty.get(), this.showChargesProperty.get() );
 
         // assemble the whole description
         return StringUtils.fillIn( wallDescriptionPatternString, {
@@ -94,7 +103,7 @@ define( function( require ) {
           charge: chargeDescription
         } ); 
       }    
-    },
+    }
   }, {
 
     /**
@@ -268,8 +277,6 @@ define( function( require ) {
       }
 
       return descriptionString;
-    },
-
-
+    }
   } );
 } );

@@ -263,6 +263,16 @@ define( function( require ) {
 
     wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}} {{positiveCharges}}',
 
+    // description when balloon moves towards/away from wall inducing charge
+    moreInducedChargePattnerString: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',
+    lessInducedChargePatternString: 'Negative charges in {{location}} {{movement}}.',
+
+    beginToMoveAwayString: 'begin to move away',
+    moveAwayALittleMoreString: 'move away a little more',
+
+    beginToReturnString: 'begin to return',
+    returnALittleMoreString: 'return a little more',
+
     //------------------------------------------------------------------------
     // Balloon strings
     //------------------------------------------------------------------------

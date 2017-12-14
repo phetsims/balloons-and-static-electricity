@@ -34,7 +34,8 @@ define( function( require ) {
     this.model = model;
     var wallModel = model.wall;
 
-    this.wallDescriber = new WallDescriber( wallModel, model.showChargesProperty );
+    // manages a11y descriptions for the wall
+    this.wallDescriber = new WallDescriber( model );
 
     Node.call( this, {
       pickable: false,

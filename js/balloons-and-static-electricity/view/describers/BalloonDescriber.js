@@ -26,6 +26,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var atWallString = BASEA11yStrings.atWallString;
@@ -120,6 +121,13 @@ define( function( require ) {
   var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString;
   var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString;
   var balloonAddedWhileNearYellowBalloonLocationPatternString = BASEA11yStrings.balloonAddedWhileNearYellowBalloonLocationPatternString;
+  var moreInducedChargePattnerString = BASEA11yStrings.moreInducedChargePattnerString;
+  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString;
+  var beginToMoveAwayString = BASEA11yStrings.beginToMoveAwayString;
+  var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMoreString;
+  var beginToReturnString = BASEA11yStrings.beginToReturnString;
+  var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString;
+
   
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -198,11 +206,24 @@ define( function( require ) {
     // tracked so we know how to describe the next pickup
     this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
 
+    // @private - used to track previous values after an interaction so that we can accurately describe how 
+    // the model has changed
     this.describedChargeRange = null;
+    this.inducedChargeDisplacementOnEnd = 0; // updates at the end of a drag interaction
+    this.previousDeltaNormalized = 0;
+    this.describeReturn = false;
 
     // @private - once the balloon has been picked up, we don't need to include certain information on grab until
     // it is reset again
     this.balloonPickedUp = false;
+
+    // when the balloon hits the wall, reset some description flags
+    this.balloonModel.touchingWallProperty.link( function( touchingWall ) {
+      if ( touchingWall ) {
+        this.previousDeltaNormalized = 0;
+        this.describeReturn = false;
+      }
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -216,6 +237,9 @@ define( function( require ) {
     reset: function() {
       this.balloonPickedUp = false;
       this.describedChargeRange = null;
+      this.inducedChargeDisplacementOnEnd = 0;
+      this.previousDeltaNormalized = 0;
+      this.describeReturn = false;
     },
 
     /**
@@ -1428,8 +1452,79 @@ define( function( require ) {
      * @return {boolean}
      */
     balloonMovingSlowly: function() {
-      console.log( this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max );
       return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max;
+    },
+
+    /**
+     * While the balloon is being dragged, we get a description about how charges in the wall move away from balloon
+     * or return to balloon. Will return something like
+     *
+     * "Negative charges in upper wall begin to move away from yellow balloon." or
+     * "Negative charges in wall begin to return.
+     * 
+     * @return {string}
+     */
+    getInducedChargeChangeDescription: function() {
+      var descriptionString;
+      var movementString;
+
+      var chargeDisplacement = this.balloonModel.chargeDisplacementProperty.get();
+      var inductionDelta = chargeDisplacement - this.inducedChargeDisplacementOnEnd;
+      var deltaNormalized = inductionDelta / Math.abs( inductionDelta );
+
+      // whether or not induced charge has continued to grow or change in direction
+      var continuedDirection = deltaNormalized === this.previousDeltaNormalized;
+
+      // describes the location of induced charge
+      var chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, this.balloonModel.getCenterY() );
+      var chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, this.wall.isVisibleProperty.get() );
+
+      if ( deltaNormalized > 0 ) {
+
+        // more induced charge
+        movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
+
+        descriptionString = StringUtils.fillIn( moreInducedChargePattnerString, {
+          location: chargeLocationString,
+          movement: movementString,
+          balloon: this.accessibleLabel
+        } );
+
+        // if we describe more induced charge, we must describe the return at least once
+        this.describeReturn = true;
+      }
+      else if ( deltaNormalized < 0 ) {
+
+        // less induced charge
+        movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
+
+        descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
+          location: chargeLocationString,
+          movement: movementString
+        } );
+
+        // if we describe more induced charge, we must describe the return at least once
+        this.describeReturn = false;
+      }
+
+      this.previousDeltaNormalized = deltaNormalized;
+
+      return descriptionString;
+    },
+
+    /**
+     * Retrurn whether or not change in induced charge should be described for the balloon. If the balloon not on
+     * the wall and is inducing charge while all charges are visible we will always describe change. If we described
+     * that the charges moved away from the balloon, we will always describe the return of induced charges at least
+     * once.
+     *
+     * @return {string}
+     */
+    describeInducedChargeChange: function() {
+      var chargesShown = this.showChargesProperty.get();
+      return !this.balloonModel.touchingWall() &&
+             chargesShown === 'all' &&
+             ( this.balloonModel.inducingCharge || this.describeReturn );
     }
   } );
 } );

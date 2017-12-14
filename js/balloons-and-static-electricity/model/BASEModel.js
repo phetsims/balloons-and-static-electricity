@@ -78,6 +78,9 @@ define( function( require ) {
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
         balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
 
+        // set Property that tracks magnitude of charge displacement
+        balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );
+
         // update the balloon play area row and column
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() ) );
         balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter() ) );
