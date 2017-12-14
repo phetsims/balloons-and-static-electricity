@@ -462,8 +462,8 @@ define( function( require ) {
           UtteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription() );
         }
 
-        // update the desc
-        self.describer.displacementOnEnd = self.model.chargeDisplacementProperty.get();
+        // TODO: there should be a function for this, displacementOnEnd should be private
+        self.describer.inducedChargeDisplacementOnEnd = self.model.chargeDisplacementProperty.get();
       },
       start: function( event ) {
 
