@@ -153,6 +153,7 @@ define( function( require ) {
     this.chargeOnStart = model.chargeProperty.get();
     this.dragStarted = false;
     var startDragListener = function() {
+      self.describeWallRub = true;
       self.chargeOnStart = model.chargeProperty.get();
       self.dragStarted = true;
     };
@@ -310,9 +311,17 @@ define( function( require ) {
       }
     } );
 
+    model.touchingWallProperty.lazyLink( function( touchingWall ) {
+      if ( touchingWall && globalModel.showChargesProperty.get() === 'all' ) {
+        UtteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
+        self.describeWallRub = false;
+      }      
+    } );
+
     // a11y - when the drag velocity of the balloon becomes zero while moving along the wall, describe charges
+    // TODO: Should all a11y alerts go through this?
     model.dragVelocityProperty.link( function( velocity ) {
-      if ( velocity.equals( Vector2.ZERO ) && model.touchingWall() ) {
+      if ( velocity.equals( Vector2.ZERO ) && model.touchingWall() && self.describeWallRub ) {
         UtteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
       }
     } );

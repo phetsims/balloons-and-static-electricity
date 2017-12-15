@@ -262,6 +262,7 @@ define( function( require ) {
     wallChargePatternStringWithLabel: 'Wall {{wallCharge}}',
 
     wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}} {{positiveCharges}}',
+    wallRubbingWithPairsPatternSring: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.',
 
     // description when balloon moves towards/away from wall inducing charge
     moreInducedChargePattnerString: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',

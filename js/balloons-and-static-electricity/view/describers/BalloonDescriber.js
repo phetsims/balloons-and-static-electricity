@@ -127,6 +127,7 @@ define( function( require ) {
   var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMoreString;
   var beginToReturnString = BASEA11yStrings.beginToReturnString;
   var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString;
+  var wallRubbingWithPairsPatternSring = BASEA11yStrings.wallRubbingWithPairsPatternSring;
 
   
   // constants
@@ -1085,6 +1086,20 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    /**
+     * Get an alert that describes the rubbing interaction, with a reminder that the wall has many pairs of charges.
+     * Will return something like:
+     * "At upper wall. No transfer of charge. In upper wall, no change in charges. Wall has many pairs of negative
+     * and positive charges."
+     *
+     * @return {string}
+     */
+    getWallRubbingDescriptionWithChargePairs: function() {
+      return StringUtils.fillIn( wallRubbingWithPairsPatternSring, {
+        rubbingAlert: this.getWallRubbingDescription()
+      } );
     },
 
     /**
