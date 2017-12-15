@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -38,6 +39,7 @@ define( function( require ) {
   var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString;
   var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString;
   var moreChargesPatternString = BASEA11yStrings.moreChargesPatternString;
+  var moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPatternString;
   var morePairsOfChargesString = BASEA11yStrings.morePairsOfChargesString;
   var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfChargesString;
   var positiveNetChargeString = BASEA11yStrings.positiveNetChargeString;
@@ -289,6 +291,8 @@ define( function( require ) {
       var direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
       var directionDescription = BASEDescriber.getDirectionDescription( direction );
 
+      var patternString = BalloonDirectionEnum.isCardinal( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
+
       var moreChargesString;
       if ( shownCharges === 'all' ) {
         moreChargesString = morePairsOfChargesString;
@@ -297,7 +301,7 @@ define( function( require ) {
         moreChargesString = moreHiddenPairsOfChargesString;
       }
 
-      return StringUtils.fillIn( moreChargesPatternString, {
+      return StringUtils.fillIn( patternString, {
         moreCharges:  moreChargesString,
         direction: directionDescription
       } );
