@@ -370,9 +370,7 @@ define( function( require ) {
                   self.describeDirection = true;
 
                   // if initial release was slow, we will describe all continued movement through play area
-                  if ( self.describer.balloonMovingSlowly() ) {
-                    self.describeContinuedMovement = true;
-                  }
+                  self.describeContinuedMovement = self.describer.balloonMovingSlowly();
                 }
 
                 // reset timer for release alert
