@@ -624,7 +624,7 @@ define( function( require ) {
             help: interactionCueString
           } );
         }
-        else if ( this.balloonModel.inducingCharge ) {
+        else if ( this.balloonModel.inducingCharge && wallVisible) {
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge', 'objectCharge' ] );
           inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
 
