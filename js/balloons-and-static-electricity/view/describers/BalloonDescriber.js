@@ -1547,7 +1547,9 @@ define( function( require ) {
      */
     describeInducedChargeChange: function() {
       var chargesShown = this.showChargesProperty.get();
+      var wallVisible = this.wall.isVisibleProperty.get();
       return !this.balloonModel.touchingWall() &&
+             wallVisible &&
              chargesShown === 'all' &&
              ( this.balloonModel.inducingCharge || this.describeReturn );
     }
