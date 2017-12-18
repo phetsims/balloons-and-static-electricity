@@ -291,11 +291,22 @@ define( function( require ) {
       if ( wallVisible && ( currentColumn === 'RIGHT_EDGE' || currentColumn === 'AT_RIGHT_EDGE' ) ) {
         currentColumn = 'WALL';
       }
-      if ( !wallVisible && ( currentColumn === 'AT_WALL' || currentColumn === 'AT_NEAR_WALL' ) ) {
+      if ( !wallVisible && BASEDescriber.inWallColumn( currentColumn ) ) {
         currentColumn = 'RIGHT_PLAY_AREA';
       }
 
       return LOCATION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
+    },
+
+    /**
+     * Returns whether or not the column is in one of the 'wall' columns, could  be at, near, or very close to wall.
+     * @private
+     *
+     * @param {string} column - one of keys in LOCATION_DESCRIPTION_MAP
+     * @return {boolean}
+     */
+    inWallColumn: function( column ) {
+      return ( column === 'AT_WALL' || column === 'AT_NEAR_WALL' || column === 'WALL' || column === 'AT_VERY_CLOSE_TO_WALL' );
     },
 
     /**
