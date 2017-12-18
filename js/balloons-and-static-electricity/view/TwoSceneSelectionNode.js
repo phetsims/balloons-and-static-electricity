@@ -31,7 +31,6 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
