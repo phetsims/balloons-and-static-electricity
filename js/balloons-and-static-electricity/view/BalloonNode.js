@@ -303,16 +303,16 @@ define( function( require ) {
           // if we stop on the sweater, announce that we are sticking to it
           UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
         }
-        else if ( model.touchingWall() ) {
+        else {
 
-          // if we stop along the wall after an applied force, alert that balloon is touching wall
-          UtteranceQueue.addToBack( self.describer.getForcedIntoWallDescription() );
+          // if we stop along anywhere else in the play area, describe that movement has stopped
+          UtteranceQueue.addToBack( self.describer.getMovementStopsDescription() );
         }
       }
     } );
 
     model.touchingWallProperty.lazyLink( function( touchingWall ) {
-      if ( touchingWall && globalModel.showChargesProperty.get() === 'all' ) {
+      if ( touchingWall && globalModel.showChargesProperty.get() === 'all' && model.isDraggedProperty.get() ) {
         UtteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
         self.describeWallRub = false;
       }      

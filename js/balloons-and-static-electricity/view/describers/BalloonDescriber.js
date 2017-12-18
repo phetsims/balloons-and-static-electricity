@@ -1371,16 +1371,17 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the balloon when it hits the wall. If charges are shown and the balloon is inducing charge,
-     * will include induced charge information
+     * Get a description of the balloon when its independent movement stops. If charges are shown and the balloon is
+     * inducing charge, will include induced charge information.
      * Will return something like
      *
      * "Green balloon, at upper wall. In upper wall, no change in charges." or
      * "Green balloon, at wall. Negative charges in wall move away from yellow balloon a little bit."
+     * ''
      *
      * @return {string}
      */
-    getForcedIntoWallDescription: function() {
+    getMovementStopsDescription: function() {
       var descriptionString;
 
       // the location string is used for all charge views, used as a single sentence
@@ -1388,7 +1389,7 @@ define( function( require ) {
 
       var shownCharges = this.showChargesProperty.get();
 
-      if ( shownCharges === 'all' ) {
+      if ( shownCharges === 'all' && this.wall.isVisibleProperty.get() ) {
         var chargeLocationString = this.getBalloonLocationDescription();
 
         var chargeString;
