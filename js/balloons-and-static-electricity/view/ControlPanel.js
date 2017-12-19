@@ -28,7 +28,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var TwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNode' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
 
@@ -109,7 +109,7 @@ define( function( require ) {
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
-        UtteranceQueue.addToFront( alertDescription );
+        utteranceQueue.addToFront( alertDescription );
       }
     } );
 
@@ -174,7 +174,7 @@ define( function( require ) {
       }
       
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
-      UtteranceQueue.addToBack( alertString );
+      utteranceQueue.addToBack( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -234,17 +234,17 @@ define( function( require ) {
     var resetBalloonButtonListener = function() {
 
       // disable other alerts until after we are finished resetting the balloons
-      UtteranceQueue.enabled = false;
+      utteranceQueue.enabled = false;
       
       model.sweater.reset();
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
       } );
 
-      UtteranceQueue.enabled = true;
+      utteranceQueue.enabled = true;
 
       // alert to assistive technology
-      UtteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+      utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };

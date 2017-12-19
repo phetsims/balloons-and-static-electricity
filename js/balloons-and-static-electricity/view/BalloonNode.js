@@ -39,7 +39,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
@@ -247,13 +247,13 @@ define( function( require ) {
       // should be alerted
       if ( self.alertNextPickup || self.alertFirstPickup ) {
         alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
-        UtteranceQueue.addToBack( alert );
+        utteranceQueue.addToBack( alert );
       }
 
       // always announce pickup of the last charge
       if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
         alert = self.describer.getLastChargePickupDescription();
-        UtteranceQueue.addToBack( alert );
+        utteranceQueue.addToBack( alert );
       }
 
       // reset flags
@@ -269,7 +269,7 @@ define( function( require ) {
           // if balloon initially moving slowly, alert landmark with info about movement direction, and reset timer
           if ( self.describeContinuedMovement ) {
             var alert = self.describer.getContinuousReleaseDescription();
-            UtteranceQueue.addToBack( alert );
+            utteranceQueue.addToBack( alert );
 
             self.timeSinceReleaseAlert = 0;
           }
@@ -280,7 +280,7 @@ define( function( require ) {
     // a11y - if we enter/leave the sweater announce that immediately
     model.onSweaterProperty.link( function( onSweater ) {
       if ( model.isDraggedProperty.get() ) {
-        UtteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
+        utteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -295,25 +295,25 @@ define( function( require ) {
           if ( model.onSweater() || model.touchingWall() ) {
 
             // while dragging, just attractive state and location 
-            UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+            utteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
           }    
         }
         else if ( model.onSweater() ) {
 
           // if we stop on the sweater, announce that we are sticking to it
-          UtteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+          utteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
         }
         else {
 
           // if we stop along anywhere else in the play area, describe that movement has stopped
-          UtteranceQueue.addToBack( self.describer.getMovementStopsDescription() );
+          utteranceQueue.addToBack( self.describer.getMovementStopsDescription() );
         }
       }
     } );
 
     model.touchingWallProperty.lazyLink( function( touchingWall ) {
       if ( touchingWall && globalModel.showChargesProperty.get() === 'all' && model.isDraggedProperty.get() ) {
-        UtteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
+        utteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
         self.describeWallRub = false;
       }      
     } );
@@ -322,7 +322,7 @@ define( function( require ) {
     // TODO: Should all a11y alerts go through this?
     model.dragVelocityProperty.link( function( velocity ) {
       if ( velocity.equals( Vector2.ZERO ) && model.touchingWall() && self.describeWallRub ) {
-        UtteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
+        utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
       }
     } );
 
@@ -330,7 +330,7 @@ define( function( require ) {
     model.directionProperty.lazyLink( function( direction ) {
       if ( self.describeDirection ) {
         var alert = self.describer.getDirectionChangedDescription();
-        UtteranceQueue.addToBack( new Utterance( alert, {
+        utteranceQueue.addToBack( new Utterance( alert, {
           typeId: 'direction' // so numerous alerts relating to direction don't get triggered at once
         } ) );  
       }
@@ -338,7 +338,7 @@ define( function( require ) {
 
     // a11y - alert when balloon is added to play area
     model.isVisibleProperty.lazyLink( function( isVisible ) {
-      UtteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
+      utteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
 
       // when the balloon visibility changes, we will start with initial movement once it becomes visible again
       self.initialMovementDescribed = false;
@@ -364,7 +364,7 @@ define( function( require ) {
                 self.initialMovementDescribed = true;
                 if ( !location.equals( oldLocation ) ) {
                   alert = self.describer.getInitialReleaseDescription( location, oldLocation );
-                  UtteranceQueue.addToBack( alert );
+                  utteranceQueue.addToBack( alert );
 
                   // after describing initial movement, continue to describe direction changes
                   self.describeDirection = true;
@@ -384,7 +384,7 @@ define( function( require ) {
 
                 // get subsequent descriptions of movement
                 alert = self.describer.getContinuousReleaseDescription();
-                UtteranceQueue.addToBack( alert );
+                utteranceQueue.addToBack( alert );
 
                 // reset timer
                 self.timeSinceReleaseAlert = 0;
@@ -455,18 +455,18 @@ define( function( require ) {
         var onSweater = model.onSweater();
         var touchingWall = model.touchingWall();
         if ( !inLandmark && !onSweater && !touchingWall ) {
-          UtteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
+          utteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
         }
         else if ( inLandmark ) {
 
           // just announce landmark as we move through it
           var locationDescription = self.describer.getLandmarkDragDescription();
-          locationDescription && UtteranceQueue.addToBack( locationDescription ); 
+          locationDescription && utteranceQueue.addToBack( locationDescription );
         }
 
         // describe the induced charge if we need to, excluding purely vertical movement
         if ( self.describer.describeInducedChargeChange() ) {
-          UtteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription( dragDelta ) );
+          utteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription( dragDelta ) );
         }
 
         // TODO: there should be a function for this, displacementOnEnd should be private
@@ -481,7 +481,7 @@ define( function( require ) {
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
           var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
-          UtteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription( attemptedDirection ), {
+          utteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription( attemptedDirection ), {
             typeId: 'boundaryAlert'
           } ) );
         }
@@ -660,7 +660,7 @@ define( function( require ) {
         // dont describe direction until initial release description happens
         self.describeDirection = false;
       }
-      UtteranceQueue.addToBack( alert );
+      utteranceQueue.addToBack( alert );
 
       // update the location of release
       self.model.locationOnRelease = model.locationProperty.get();
@@ -701,7 +701,7 @@ define( function( require ) {
         var sameCharge = this.model.chargeProperty.get() === this.chargeOnStart;
         if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.dragStarted ) {
           alert = this.describer.getNoChargePickupDescription();
-          UtteranceQueue.addToBack( alert );
+          utteranceQueue.addToBack( alert );
         }
 
         this.alertNextPickup = true;
@@ -721,7 +721,7 @@ define( function( require ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
             if ( touchingReleasePoint ) {
               alert = this.describer.getNoChangeReleaseDescription();
-              UtteranceQueue.addToBack( alert );
+              utteranceQueue.addToBack( alert );
               this.initialMovementDescribed = true;
             }
           }
@@ -730,7 +730,7 @@ define( function( require ) {
     },
 
     /**
-     * Jump the balloon to a new location, first muting the UtteranceQueue, then updating position,
+     * Jump the balloon to a new location, first muting the utteranceQueue, then updating position,
      * then clearing the queue and enabling it once more.  Finally, we will add a custom utterance
      * to the queue describing the jump interaction.
      *
@@ -739,20 +739,20 @@ define( function( require ) {
     jumpBalloon: function( center ) {
 
       // mute the queue so that none of the normal position updates come through while jumping
-      UtteranceQueue.muted = true;
+      utteranceQueue.muted = true;
 
       // update model position
       this.model.setCenter( center );
 
       // clear the queue of utterances that collected as position changed
-      UtteranceQueue.clear();
+      utteranceQueue.clear();
 
       // unmute and send a custom alert, depending on where the balloon was moved to
-      UtteranceQueue.muted = false;
+      utteranceQueue.muted = false;
       var utterance = new Utterance( this.describer.getJumpingDescription( center ), {
         typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );
-      UtteranceQueue.addToBack( utterance );
+      utteranceQueue.addToBack( utterance );
     },
 
     getPositionOnSweaterDescription: function() {
