@@ -220,13 +220,13 @@ define( function( require ) {
 
     var downUpListener = new DownUpListener( {
       up: function() {
-        var id = options.tandem.isLegalAndUsable() && self.startEvent( 'user', 'fired', {
+        var id = options.tandem.isSuppliedAndEnabled() && self.startEvent( 'user', 'fired', {
           value: property.phetioType.elementType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
         upFunction();
 
-        options.tandem.isLegalAndUsable() && self.endEvent( id );
+        options.tandem.isSuppliedAndEnabled() && self.endEvent( id );
       },
       down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
