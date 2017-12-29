@@ -15,7 +15,7 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * Wrapper type for TwoSceneSelectionNode class.
+   * IO type for TwoSceneSelectionNode.
    * @param {TwoSceneSelectionNode} selectionNode
    * @param {string} phetioID
    * @constructor
