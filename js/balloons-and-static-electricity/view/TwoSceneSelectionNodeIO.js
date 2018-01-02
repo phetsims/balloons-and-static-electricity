@@ -1,6 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * IO type for TwoSceneSelectionNode
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
