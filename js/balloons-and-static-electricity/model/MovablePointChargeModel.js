@@ -22,7 +22,7 @@ define( function( require ) {
 
   // constants
   // when charge displacement is larger than this, there is an appreciable induced charge
-  var INDUCED_CHARGE_DISPLACEMENT_THRESHOLD = 3;
+  var FORCE_MAGNITUDE_THRESHOLD = 2;
 
   /**
    * @constructor
@@ -71,15 +71,15 @@ define( function( require ) {
     },
 
     /**
-     * If the displacement is large enough, it indicates that the containing object has an induced charge. Check agains
-     * some threshold to return a boolean representing this.
-     *
+     * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
+     * inspection.
      * @public
+     *
+     * @param {Vector2} force - force applied on this charge
      * @return {boolean}
      */
-    displacementIndicatesInducedCharge: function() {
-      var displacement = this.getDisplacement();
-      return displacement > INDUCED_CHARGE_DISPLACEMENT_THRESHOLD;
+    forceIndicatesInducedCharge: function( force ) {
+      return force.magnitude() > FORCE_MAGNITUDE_THRESHOLD;
     },
 
     /**

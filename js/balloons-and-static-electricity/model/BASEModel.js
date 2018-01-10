@@ -14,8 +14,10 @@ define( function( require ) {
   var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var PlayArea2 = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea2' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
@@ -76,7 +78,16 @@ define( function( require ) {
     this.balloons.forEach( function( balloon ) {
       balloon.locationProperty.link( function( location ) {
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
-        balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
+
+        var balloonForce = BalloonModel.getForce(
+          balloon.closestChargeInWall.locationProperty.get(),
+          balloon.getCenter(),
+          BASEConstants.COULOMBS_LAW_CONSTANT * balloon.chargeProperty.get() * PointChargeModel.CHARGE,
+          2.35
+        );
+
+        balloon.inducingCharge = balloon.closestChargeInWall.forceIndicatesInducedCharge( balloonForce );
+        // balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
 
         // set Property that tracks magnitude of charge displacement
         balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );
