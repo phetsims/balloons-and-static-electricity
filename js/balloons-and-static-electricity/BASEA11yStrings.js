@@ -504,18 +504,20 @@ define( function( require ) {
     stripPlaceholders: function( patternString, placeholders ) {
       var newPattern = patternString;
       for ( var i = 0; i < placeholders.length; i++ ) {
-        assert && assert( patternString.includes( placeholders[ i ] ) );
-        newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
+        newPattern = _.replace( newPattern, '{{' + placeholders[ i ] + '}}', '' );
+        // assert && assert( patternString.includes( placeholders[ i ] ) );
+        // newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
       }
 
       // remove any punctuation that might have been introduced by stripping placeholders
-      while( newPattern.includes( ' .' ) ) {
-        newPattern = newPattern.replace( ' .', '' );
+      while( newPattern.indexOf( ' .' ) >= 0 ) {
+        newPattern = _.replace( newPattern, ' .', '' );
+        console.log( newPattern.indexOf( ' .' ) );
       }
 
       // remove double spaces that might have been introduced when stripping out placeholders
-      while ( newPattern.includes( '  ' ) ) {
-        newPattern = newPattern.replace( '  ', ' ' );
+      while ( newPattern.indexOf( '  ' ) >= 0 ) {
+        newPattern = _.replace( newPattern, '  ', ' ' );
       }
 
       // remove trailing spaces
