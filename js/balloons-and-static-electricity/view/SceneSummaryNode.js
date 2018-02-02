@@ -31,13 +31,9 @@ define( function( require ) {
   var sceneSummaryString = BASEA11yStrings.sceneSummaryString;
   var openingSummaryString = BASEA11yStrings.openingSummaryString;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString;
-  var aBalloonString = BASEA11yStrings.aBalloonString;
-  var twoBalloonsString = BASEA11yStrings.twoBalloonsString;
   var andARemovableWallString = BASEA11yStrings.andARemovableWallString;
   var aSweaterString = BASEA11yStrings.aSweaterString;
   var andASweaterString = BASEA11yStrings.andASweaterString;
-  var objectsWithWallPatternString = BASEA11yStrings.objectsWithWallPatternString;
-  var objectsNoWallPatternString = BASEA11yStrings.objectsNoWallPatternString;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
   var balloonSummaryWithInducedChargePatternString = BASEA11yStrings.balloonSummaryWithInducedChargePatternString;
   var balloonSummaryWithoutInducedChargePatternString = BASEA11yStrings.balloonSummaryWithoutInducedChargePatternString;
@@ -48,6 +44,9 @@ define( function( require ) {
   var neutralSweaterChargeString = BASEA11yStrings.neutralSweaterChargeString;
   var neutralSweaterAndWallChargeString = BASEA11yStrings.neutralSweaterAndWallChargeString;
   var checkOutShortcutsString = JoistA11yStrings.checkOutShortcutsString;
+  var summaryObjectsString = BASEA11yStrings.summaryObjectsString;
+  var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString;
+  var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString;
 
   /**
    * @constructor
@@ -323,23 +322,19 @@ define( function( require ) {
      * @return {string}
      */
     getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
-      var sweaterString = wallVisible ? aSweaterString : andASweaterString;
-      var balloonString = balloonVisible ? twoBalloonsString : aBalloonString;
+      var placeholdersToRemove = [];
+      !wallVisible && placeholdersToRemove.push( 'wall' );
+      !balloonVisible && placeholdersToRemove.push( 'greenBalloon' );
 
-      var descriptionString;
-      if ( wallVisible ) {
-        descriptionString = StringUtils.fillIn( objectsWithWallPatternString, {
-          balloon: balloonString,
-          sweater: sweaterString,
-          wall: andARemovableWallString
-        } );
-      }
-      else {
-        descriptionString = StringUtils.fillIn( objectsNoWallPatternString, {
-          balloon: balloonString,
-          sweater: sweaterString
-        } );
-      }
+      var sweaterString = wallVisible ? aSweaterString : andASweaterString;
+
+      var patternString = BASEA11yStrings.stripPlaceholders( summaryObjectsString, placeholdersToRemove );
+      var descriptionString = StringUtils.fillIn( patternString, {
+        yellowBalloon: aYellowBalloonString,
+        greenBalloon: aGreenBalloonString,
+        sweater: sweaterString,
+        wall: andARemovableWallString
+      } );
 
       return StringUtils.fillIn( roomObjectsPatternString, {
         description: descriptionString

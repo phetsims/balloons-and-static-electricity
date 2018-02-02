@@ -164,17 +164,16 @@ define( function( require ) {
     // Scene summary strings
     //------------------------------------------------------------------------
     sceneSummaryString: 'Scene Summary',
-    openingSummaryString: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons and a checkbox to change conditions in the room.',
+    openingSummaryString: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.',
 
     // objects for the scene summary
     roomObjectsPatternString: 'Currently, room has {{description}}.',
-    aBalloonString: 'a balloon',
-    twoBalloonsString: 'two balloons',
-    andARemovableWallString: 'and a removable wall',
-    aSweaterString: 'a sweater',
+    aYellowBalloonString: 'a yellow balloon,',
+    aGreenBalloonString: 'a green balloon,',
+    aSweaterString: 'a sweater,',
     andASweaterString: 'and a sweater',
-    objectsWithWallPatternString: '{{balloon}}, {{sweater}}, {{wall}}',
-    objectsNoWallPatternString: '{{balloon}} {{sweater}}',
+    andARemovableWallString: 'and a removable wall',
+    summaryObjectsString: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}',
 
     // patterns for the balloon description in the scene summary
     balloonSummaryWithInducedChargePatternString: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}.',
