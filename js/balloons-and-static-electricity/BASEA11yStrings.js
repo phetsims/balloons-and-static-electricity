@@ -27,7 +27,6 @@ define( function( require ) {
     grabButtonNavigationCueString: 'Look for grab button to play.',
 
     grabBalloonToPlayString: 'Grab balloon to play.',
-    keyboardShortcutsHelpString: 'If needed, check out the keyboard shortcuts for this sim.',
 
     positionString: 'position',
     positionsString: 'positions',

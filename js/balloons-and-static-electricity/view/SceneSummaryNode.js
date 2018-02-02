@@ -21,6 +21,7 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -29,7 +30,6 @@ define( function( require ) {
   // strings
   var sceneSummaryString = BASEA11yStrings.sceneSummaryString;
   var openingSummaryString = BASEA11yStrings.openingSummaryString;
-  var keyboardShortcutsHelpString = BASEA11yStrings.keyboardShortcutsHelpString;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString;
   var aBalloonString = BASEA11yStrings.aBalloonString;
   var twoBalloonsString = BASEA11yStrings.twoBalloonsString;
@@ -47,6 +47,7 @@ define( function( require ) {
   var neutralBalloonChargePatternString = BASEA11yStrings.neutralBalloonChargePatternString;
   var neutralSweaterChargeString = BASEA11yStrings.neutralSweaterChargeString;
   var neutralSweaterAndWallChargeString = BASEA11yStrings.neutralSweaterAndWallChargeString;
+  var checkOutShortcutsString = JoistA11yStrings.checkOutShortcutsString;
 
   /**
    * @constructor
@@ -92,7 +93,7 @@ define( function( require ) {
     // listNode.addChild( chargeDescriptionNode ); TODO: Comment out for presentation on 11/15/17, these are not implemented yet
     // listNode.addChild( inducedChargeDescriptionNode ); TODO: Comment out for presentation on 11/15/17, these are not implemented yet
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
-    this.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHelpString } ) );
+    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
 
     // update the description that covers the visible objects in the play area
     Property.multilink( [ greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
