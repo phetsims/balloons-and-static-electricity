@@ -34,10 +34,6 @@ define( function( require ) {
   var aSweaterString = BASEA11yStrings.aSweaterString;
   var andASweaterString = BASEA11yStrings.andASweaterString;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
-  var allHaveNoNetChargeString = BASEA11yStrings.allHaveNoNetChargeString;
-  var neutralBalloonChargePatternString = BASEA11yStrings.neutralBalloonChargePatternString;
-  var neutralSweaterChargeString = BASEA11yStrings.neutralSweaterChargeString;
-  var neutralSweaterAndWallChargeString = BASEA11yStrings.neutralSweaterAndWallChargeString;
   var checkOutShortcutsString = JoistA11yStrings.checkOutShortcutsString;
   var summaryObjectsString = BASEA11yStrings.summaryObjectsString;
   var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString;
@@ -78,12 +74,12 @@ define( function( require ) {
     // list of dynamic description content that will update with the state of the simulation
     var listNode = new Node( { tagName: 'ul' } );
     var roomObjectsNode = new Node( { tagName: 'li' } );
-    var chargeDescriptionNode = new Node( { tagName: 'li' } );
+    var balloonChargeNode = new Node( { tagName: 'li' } );
 
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
-    listNode.addChild( chargeDescriptionNode );
+    listNode.addChild( balloonChargeNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
 
@@ -95,11 +91,11 @@ define( function( require ) {
     var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty ];
     Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges ) {
 
-      chargeDescriptionNode.accessibleVisible = showCharges !== 'none';
+      balloonChargeNode.accessibleVisible = showCharges !== 'none';
 
-      // when no charges are shown, the chargeDescriptionNode is hidden from assistive technology
+      // when no charges are shown, the balloonChargeNode is hidden from assistive technology
       if ( showCharges !== 'none' ) {
-        chargeDescriptionNode.accessibleLabel = self.getChargeDescription();
+        balloonChargeNode.accessibleLabel = self.getBalloonChargeDescription();
       }
     } );
   }
@@ -109,73 +105,12 @@ define( function( require ) {
   return inherit( AccessibleSectionNode, SceneSummaryNode, {
 
     /**
-     * Get the charge description for the overall state of the simulation.  Something like "All have no net charge".
-     * NOTE: Implementation on hold, waiting for implications of the two balloon case.
-     *
-     * @private
-     * @return {string}
-     */
-    getOverallChargeDescription: function() {
-      var overallDescription;
-
-      // if none of the objects have charge, use a simple summary sentence that describes this - all objects will
-      // be neutral if the sweater still has all its charges
-      if ( this.model.sweater.chargeProperty.get() === 0 ) {
-        overallDescription = allHaveNoNetChargeString;
-      }
-      else {
-        overallDescription = 'Please implement the rest of this function.';
-      }
-
-      return overallDescription;
-    },
-
-    /**
-     * Get the charge description for a single balloon.
-     * NOTE: Implementation on hold, waiting for the two-balloon case.
-     *
-     * TODO: Should this move to BalloonDescriber?
-     * @param  {BalloonModel} balloonModel
-     * @param  {string} balloonLabel
-     * @return {string}
-     */
-    getBalloonChargeDescription: function( balloonModel, balloonLabel ) {
-      var chargeDescription;
-      if ( balloonModel.chargeProperty.get() === 0 ) {
-        chargeDescription = StringUtils.fillIn( neutralBalloonChargePatternString, {
-          balloon: balloonLabel
-        } );
-      }
-      else {
-        chargeDescription = 'Please handle the other cases. Perhaps a range map would work?';
-      }
-
-      return chargeDescription;
-    },
-
-    /**
      * NOTE: charge description implementation on hold, waiting for the two balloon case.
      *
      * @return {string}
      */
     getSweaterAndWallChargeDescription: function() {
-      var chargeDescription;
-
-      // if sweater and wall have a neutral charge, they are put together in the same summary description
-      // neither will have charge if the sweater still has neutral charge
-      if ( this.model.sweater.chargeProperty.get() === 0 ) {
-        if ( this.model.wall.isVisibleProperty.get() ) {
-          chargeDescription = neutralSweaterAndWallChargeString;
-        }
-        else {
-          chargeDescription = neutralSweaterChargeString;
-        }
-      }
-      else {
-        chargeDescription = 'Please implement charged cases.';
-      }
-
-      return chargeDescription;
+      return 'Please implement.';
     },
 
     /**
@@ -183,7 +118,7 @@ define( function( require ) {
      *
      * @return {string}
      */
-    getChargeDescription: function() {
+    getBalloonChargeDescription: function() {
       var description;
 
       var yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
@@ -239,7 +174,7 @@ define( function( require ) {
      * @return {string}
      */
     getInducedChargeDescription: function() {
-      return 'Induced charge description item - <on hold>';
+      return 'Implementation required';
     }
   }, {
 
