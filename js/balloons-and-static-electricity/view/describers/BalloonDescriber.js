@@ -29,6 +29,7 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
+  var summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralChargeString;
   var atWallString = BASEA11yStrings.atWallString;
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
   var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
@@ -351,7 +352,7 @@ define( function( require ) {
      * Get the relative charge with the accessible label, something like
      * "Yellow balloon has a few more negative charges than positive charges." or
      * "Yellow balloon has negative net charge, showing several negative charges." or 
-     * "Yellow balloon has no net charge, showing no charges."
+     * "Yellow balloon has zero net charge, showing no charges."
      *
      * Dependent on the charge view.
      * 
@@ -1553,6 +1554,22 @@ define( function( require ) {
              wallVisible &&
              chargesShown === 'all' &&
              ( this.balloonModel.inducingCharge || this.describeReturn );
+    },
+
+    /**
+     * A description of the balloon's relative charge but modified slightly for the context of the scene summary.
+     *
+     * @return {string}
+     */
+    getSummaryRelativeChargeDescription: function() {
+      var chargesShown = this.showChargesProperty.get();
+
+      if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'all' ) {
+        return summaryBalloonNeutralChargeString;
+      }
+      else {
+        return this.getRelativeChargeDescription();
+      }
     }
   } );
 } );

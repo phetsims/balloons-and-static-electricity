@@ -16,6 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Range = require( 'DOT/Range' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   // play area grid strings
@@ -56,10 +57,14 @@ define( function( require ) {
   var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayAreaString;
 
   // charge strings
-  var noString = BASEA11yStrings.noString;
+  var zeroString = BASEA11yStrings.zeroString;
   var aFewString = BASEA11yStrings.aFewString;
   var severalString = BASEA11yStrings.severalString;
   var manyString = BASEA11yStrings.manyString;
+  var negativeString = BASEA11yStrings.negativeString;
+
+  var eachBalloonString = BASEA11yStrings.eachBalloonString;
+  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
 
   var landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweaterString;
   var landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdgeString;
@@ -192,7 +197,7 @@ define( function( require ) {
   var RELATIVE_CHARGE_DESCRIPTION_MAP = {
     NO_MORE_RANGE: {
       range: new Range( 0, 0 ),
-      description: noString
+      description: zeroString
     },
     A_FEW_RANGE: {
       range: new Range( 1, 15 ),
@@ -371,6 +376,22 @@ define( function( require ) {
      */
     getDirectionDescription: function( direction )  {
       return DIRECTION_MAP[ direction ];
+    },
+
+    /**
+     * Get a description of the net charge for each balloon, including the label 'Each balloon'. Will return something
+     * like
+     * "Each balloon has negative net charge." or
+     * "Each balloon has zero net charge."
+     *
+     * @return {string}
+     */
+    getNetChargeDescriptionWithLabel: function( charge ) {
+      var chargeAmountString = charge < 0 ? negativeString : zeroString;
+      return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
+        chargeAmount: chargeAmountString,
+        balloon: eachBalloonString
+      } );
     },
 
     RELATIVE_CHARGE_DESCRIPTION_MAP: RELATIVE_CHARGE_DESCRIPTION_MAP

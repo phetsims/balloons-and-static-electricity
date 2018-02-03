@@ -159,6 +159,7 @@ define( function( require ) {
     // labels
     greenBalloonString: 'Green balloon',
     yellowBalloonString: 'Yellow balloon',
+    eachBalloonString: 'Each balloon',
 
     //------------------------------------------------------------------------
     // Scene summary strings
@@ -193,6 +194,10 @@ define( function( require ) {
     neutralBalloonChargePatternString: '{{balloon}} has a few pairs of negative and positive charges.',
     neutralSweaterChargeString: 'Sweater, many pairs of negative and positive charges.',
     neutralSweaterAndWallChargeString: 'Sweater and wall, many pairs of negative and positive charges.',
+    summaryBalloonNeutralChargeString: 'a few pairs of negative and positive charges',
+    summaryBalloonChargePatternString: '{{balloonCharge}}, {{showingCharge}}.',
+    summaryEachBalloonChargePatternString: '{{yellowBalloon}} {{greenBalloon}}',
+
 
     //-----------------
     // Location Descriptions
@@ -218,7 +223,7 @@ define( function( require ) {
     //------------------------------------------------------------------------
     // Charge view strings
     //------------------------------------------------------------------------
-    showingNoChargesString: 'showing no charges.',
+    showingNoChargesString: 'showing no charges',
 
     //------------------------------------------------------------------------
     // Object strings (strings shared between all objects)
@@ -234,7 +239,7 @@ define( function( require ) {
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
     sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
     sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges.',
-    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges.',
+    sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
     sweaterNoChargesShownString: 'no charges shown',
     sweaterNoMoreChargesString: 'no more negative charges, only positive charges',
     sweaterHasRelativeChargePatternString: 'Sweater has {{relativeCharge}}',
@@ -299,7 +304,7 @@ define( function( require ) {
     balloonZeroString: 'zero',
     balloonNegativeString: 'negative',
     balloonRelativeChargePatternString: '{{amount}} more negative charges than positive charges',
-    balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges.',
+    balloonChargeDifferencesPatternString: 'showing {{amount}} negative charges',
     balloonHasRelativeChargePatternString: '{{balloonLabel}} has {{relativeCharge}}',
 
     balloonHasNetChargePatternString: '{{balloon}} has {{charge}} net charge, {{showing}}',
