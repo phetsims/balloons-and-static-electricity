@@ -114,7 +114,11 @@ define( function( require ) {
     },
 
     /**
-     * Get a description which describes the charge of balloons in the simulation.
+     * Get a description which describes the charge of balloons in the simulation. Dependent on charge values, charge
+     * visibility, and balloon visibility. Will return something like
+     * 
+     * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
+     * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
      *
      * @return {string}
      */
