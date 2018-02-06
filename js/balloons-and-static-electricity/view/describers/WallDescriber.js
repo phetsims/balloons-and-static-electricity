@@ -35,6 +35,10 @@ define( function( require ) {
   var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString;
   var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPatternString;
   var wallChargePatternStringWithLabel = BASEA11yStrings.wallChargePatternStringWithLabel;
+  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePatternString;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
+  var wallLabelString = BASEA11yStrings.wallLabelString;
+  var zeroString = BASEA11yStrings.zeroString;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -277,6 +281,27 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    /**
+     * Get a summary of charges in the wall, for the scene summary. The wall is always neutral, so only depends
+     * on which charges are visible and number of pairs in the wall.
+     *
+     * @param {string} chargesShown - one of 'none'|'all'|'diff'
+     * @return {string}
+     */
+    getSummaryChargeDescription: function( chargesShown, numberOfCharges ) {
+      var chargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfCharges );
+
+      var wallObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
+        object: wallLabelString,
+        charge: zeroString,
+      } );
+
+      return StringUtils.fillIn( summaryObjectChargePatternString, {
+        object: wallObjectString,
+        charge: chargeString
+      } );
     }
   } );
 } );

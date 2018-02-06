@@ -25,6 +25,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
+  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
   var sceneSummaryString = BASEA11yStrings.sceneSummaryString;
@@ -40,6 +42,11 @@ define( function( require ) {
   var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString;
   var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePatternString;
   var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePatternString;
+  var zeroString = BASEA11yStrings.zeroString;
+  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePatternString;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
+  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString;
+  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString;
 
   /**
    * @constructor
@@ -75,11 +82,13 @@ define( function( require ) {
     var listNode = new Node( { tagName: 'ul' } );
     var roomObjectsNode = new Node( { tagName: 'li' } );
     var balloonChargeNode = new Node( { tagName: 'li' } );
+    var sweaterWallChargeNode = new Node( { tagName: 'li' } );
 
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
     listNode.addChild( balloonChargeNode );
+    listNode.addChild( sweaterWallChargeNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
 
@@ -88,14 +97,16 @@ define( function( require ) {
       roomObjectsNode.accessibleLabel = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty ];
-    Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges ) {
+    var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) {
+      var chargesVisible = showCharges !== 'none';
+      balloonChargeNode.accessibleVisible = chargesVisible;
+      sweaterWallChargeNode.accessibleVisible = chargesVisible;
 
-      balloonChargeNode.accessibleVisible = showCharges !== 'none';
-
-      // when no charges are shown, the balloonChargeNode is hidden from assistive technology
-      if ( showCharges !== 'none' ) {
+      // update labels if charges are shown
+      if ( chargesVisible ) {
         balloonChargeNode.accessibleLabel = self.getBalloonChargeDescription();
+        sweaterWallChargeNode.accessibleLabel = self.getSweaterAndWallChargeDescription();
       }
     } );
   }
@@ -105,12 +116,53 @@ define( function( require ) {
   return inherit( AccessibleSectionNode, SceneSummaryNode, {
 
     /**
-     * NOTE: charge description implementation on hold, waiting for the two balloon case.
+     * Get a description of the sweater and wall charge. Does not include induced charge. If the sweater has neutral
+     * charge then the two objects can be described in a single statement for readability. Will return something like
+     * "Sweater and wall have zero net charge, many pairs of negative and positive charges" or
+     * "Sweater and wall have zero net charge, showing no charges" or
+     * "Sweater has positive net charge, a few more positive charges than negative charges. Wall has zero net charge, many pairs of negative and positive charges." or
+     * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several positive charges."
      *
      * @return {string}
      */
     getSweaterAndWallChargeDescription: function() {
-      return 'Please implement.';
+      var description;
+
+      var chargesShown = this.model.showChargesProperty.get();
+      var wallVisible = this.model.wall.isVisibleProperty.get();
+      var numberOfWallCharges = this.model.wall.numX * this.model.wall.numY;
+      var wallChargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfWallCharges );
+
+      // if sweater has neutral charge, describe the sweater and wall together
+      if ( this.model.sweater.chargeProperty.get() === 0 && wallVisible ) {
+        var chargedObjectsString = StringUtils.fillIn( summaryObjectsHaveChargePatternString, {
+          objects: summarySweaterAndWallString,
+          charge: zeroString,
+        } );
+
+        // both have same described charge, can be described with wallChargeString
+        description = StringUtils.fillIn( summaryObjectChargePatternString, {
+          object: chargedObjectsString,
+          charge: wallChargeString
+        } );
+      }
+      else {
+        var sweaterSummaryString = SweaterDescriber.getSummaryChargeDescription( chargesShown, this.model.sweater.chargeProperty.get() );
+
+        // if the wall is visible, it also gets its own description
+        if ( wallVisible ) {
+          var wallSummaryString = WallDescriber.getSummaryChargeDescription( chargesShown, numberOfWallCharges );
+          description = StringUtils.fillIn( summarySweaterWallPatternString, {
+            sweater: sweaterSummaryString,
+            wall: wallSummaryString
+          } );
+        }
+        else {
+          description = sweaterSummaryString;
+        }
+      }
+
+      return description;
     },
 
     /**

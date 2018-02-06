@@ -41,10 +41,15 @@ define( function( require ) {
   var moreChargesPatternString = BASEA11yStrings.moreChargesPatternString;
   var moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPatternString;
   var morePairsOfChargesString = BASEA11yStrings.morePairsOfChargesString;
+  var sweaterLabelString = BASEA11yStrings.sweaterLabelString;
   var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfChargesString;
   var positiveNetChargeString = BASEA11yStrings.positiveNetChargeString;
   var neutralNetChargeString = BASEA11yStrings.neutralNetChargeString;
-
+  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePatternString;
+  var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePatternString;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
+  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString;
+  var sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPatternString;
 
   // constants - ranges to describe charges in the sweater
   var SWEATER_DESCRIPTION_MAP = {
@@ -304,6 +309,44 @@ define( function( require ) {
       return StringUtils.fillIn( patternString, {
         moreCharges:  moreChargesString,
         direction: directionDescription
+      } );
+    },
+
+    /**
+     * Get a description of the sweater's charge for the scene summary. Will return something like 
+     * "Sweater has positive net charge, a few more positive charges than negative charges."
+     * "Sweater has positive net charge, showing a few positive charges."
+     * "Sweater has zero net charge, many pairs of positive and negative charges."
+     * "Sweater has zero net charge, showing no charges."
+     *
+     * @return {string}
+     */
+    getSummaryChargeDescription: function( chargesShown, charge ) {
+
+      // description of the sweater object, like "Sweater has zero net charge"
+      var chargeSignString = charge > 0 ? positiveString : zeroString;
+      var sweaterObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
+        object: sweaterLabelString,
+        charge: chargeSignString
+      } );
+
+      // description of the charges shown, like 'a few more positive charges than negative charges'
+      var chargeString;
+      var relativeChargeString = BASEDescriber.getRelativeChargeDescription( charge );
+      if ( chargesShown === 'all' ) {
+        chargeString = ( charge === 0 ) ?
+          StringUtils.fillIn( summaryNeutralChargesPatternString, { amount: manyString } ) :
+          StringUtils.fillIn( sweaterRelativeChargePatternString, { charge: relativeChargeString } );
+      }
+      else if ( chargesShown === 'diff' ) {
+        chargeString = ( charge === 0 ) ?
+          showingNoChargesString :
+          chargeString = StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );
+      }
+
+      return StringUtils.fillIn( summaryObjectChargePatternString, {
+        object: sweaterObjectString,
+        charge: chargeString
       } );
     }
   } );

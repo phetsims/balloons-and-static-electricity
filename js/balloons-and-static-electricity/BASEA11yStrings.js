@@ -197,7 +197,14 @@ define( function( require ) {
     summaryBalloonNeutralChargeString: 'a few pairs of negative and positive charges',
     summaryBalloonChargePatternString: '{{balloonCharge}}, {{showingCharge}}.',
     summaryEachBalloonChargePatternString: '{{yellowBalloon}} {{greenBalloon}}',
+    summarySweaterAndWallString: 'Sweater and wall',
 
+    // general charge information for the scene summary
+    summaryObjectHasChargePatternString: '{{object}} has {{charge}} net charge',
+    summaryObjectsHaveChargePatternString: '{{objects}} have {{charge}} net charge',
+    summaryNeutralChargesPatternString: '{{amount}} pairs of negative and positive charges',
+    summaryObjectChargePatternString: '{{object}}, {{charge}}.',
+    summarySweaterWallPatternString: '{{sweater}} {{wall}}',
 
     //-----------------
     // Location Descriptions
@@ -238,6 +245,8 @@ define( function( require ) {
     sweaterDescriptionPatternString: '{{location}} {{charge}}',
     sweaterChargePatternString: '{{netCharge}}, {{relativeCharge}}',
     sweaterNetChargePatternString: 'Has {{netCharge}} net charge',
+    sweaterRelativeChargePatternString: '{{charge}} more positive charges than negative charges',
+    sweaterShowingPatternString: 'showing {{charge}} positive charges',
     sweaterRelativeChargeAllPatternString: '{{charge}} more positive charges than negative charges.',
     sweaterRelativeChargeDifferencesPatternString: 'showing {{charge}} positive charges',
     sweaterNoChargesShownString: 'no charges shown',

@@ -94,6 +94,10 @@ define( function( require ) {
   var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
   var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
 
+  // charge strings
+  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
+
   // constants
   var LOCATION_DESCRIPTION_MAP = {
     AT_LEFT_EDGE: {
@@ -392,6 +396,33 @@ define( function( require ) {
         chargeAmount: chargeAmountString,
         balloon: eachBalloonString
       } );
+    },
+
+    /**
+     * Get a description for the charges shown when the object is neutral. When neutral, the object will either be
+     * showing no charges, or showing "{{many}} pairs of negative and positive charges". Will return something like
+     *
+     * "no charges shown" or
+     * "showing many pairs of positive and negative charges"
+     *
+     * @param {string} chargesShown
+     * @param {number} numberOfCharges
+     * @return {string}
+     */
+    getNeutralChargesShownDescription: function( chargesShown, numberOfCharges ) {
+      var description;
+
+      var relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
+      if ( chargesShown === 'all' )  {
+        description = StringUtils.fillIn( summaryNeutralChargesPatternString, {
+          amount: relativeCharge
+        } );
+      }
+      else {
+        description = showingNoChargesString;
+      }
+
+      return description;
     },
 
     RELATIVE_CHARGE_DESCRIPTION_MAP: RELATIVE_CHARGE_DESCRIPTION_MAP
