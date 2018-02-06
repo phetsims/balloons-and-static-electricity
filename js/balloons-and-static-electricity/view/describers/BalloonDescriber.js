@@ -589,7 +589,7 @@ define( function( require ) {
         // the description for the balloon
         var inducedChargeString;
         if ( this.balloonModel.touchingWall() && this.balloonModel.isCharged() ) {
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
           alertString = StringUtils.fillIn( patternString, {
             location: stateAndLocation,
             balloonCharge: chargeString,
@@ -602,7 +602,7 @@ define( function( require ) {
         else if ( this.balloonModel.touchingWall() && !this.balloonModel.isCharged() ) {
 
           // if inducing charge but not touching the wall, we need induced charge to not include amount
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
 
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge' ] );
           alertString = StringUtils.fillIn( patternString, {
@@ -1054,7 +1054,7 @@ define( function( require ) {
         descriptionString = atLocationString;
       }
       else if ( shownCharges === 'all' ) {
-        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
         if ( this.balloonModel.isCharged() ) {
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
@@ -1395,7 +1395,7 @@ define( function( require ) {
 
         var chargeString;
         if ( this.balloonModel.inducingChargeProperty.get() ) {
-          chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get() );
+          chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get(), true );
         }
         else {
           chargeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );

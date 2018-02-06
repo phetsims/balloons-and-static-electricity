@@ -20,6 +20,8 @@ define( function( require ) {
     //------------------------------------------------------------------------
     singleStatementPatternString: '{{statement}}.',
 
+    bothBalloonsString: 'balloons',
+
     // TODO: Can these be removed?
     balloonDescriptionPatternString: '{0} {1} {2}', // location, charge, interaction cu,
     balloonGrabbedDescriptionPatternString: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
@@ -182,7 +184,7 @@ define( function( require ) {
     twoBalloonLocationSummaryString: '{{yellowBalloon}} {{greenBalloon}}',
     balloonLocationSummaryWithPositiveChargeDescription: '{{balloonSummary}} Positive charges do not move.',
 
-    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.',
+    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
     inducedChargeNoAmountPatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}}.',
 
     // describing the attractive state of a balloon
@@ -205,6 +207,9 @@ define( function( require ) {
     summaryNeutralChargesPatternString: '{{amount}} pairs of negative and positive charges',
     summaryObjectChargePatternString: '{{object}}, {{charge}}.',
     summarySweaterWallPatternString: '{{sweater}} {{wall}}',
+
+    summarySecondBalloonInducingChargePatternString: 'from green balloon {{amount}}.',
+    summaryBothBalloonsPatternString: '{{yellowBalloon}}, {{greenBalloon}}',
 
     //-----------------
     // Location Descriptions

@@ -13,8 +13,10 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPatternString;
@@ -39,6 +41,7 @@ define( function( require ) {
   var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
   var wallLabelString = BASEA11yStrings.wallLabelString;
   var zeroString = BASEA11yStrings.zeroString;
+  var bothBalloonsString = BASEA11yStrings.bothBalloonsString;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -124,11 +127,11 @@ define( function( require ) {
 
       if ( wallVisible && chargesShown === 'all' ) {
         if ( yellowBalloon.inducingChargeProperty.get() ) {
-          yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible );
+          yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible, true );
           inducedChargeString = yellowBalloonInducedChargeString;
         }
         if ( greenBalloon.inducingChargeProperty.get() && greenBalloon.isVisibleProperty.get() ) {
-          greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible );
+          greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible, true );
         }
       }
 
@@ -261,11 +264,12 @@ define( function( require ) {
      * @param {BalloonModel} balloon
      * @param {string} balloonLabel
      * @param {boolean} wallVisible
+     * @param {boolean} includeWallLocation - if false, induced charge will just be described relative to the "Wall"
      * @returns {string}
      */
-    getInducedChargeDescription: function( balloon, balloonLabel, wallVisible ) {
+    getInducedChargeDescription: function( balloon, balloonLabel, wallVisible, includeWallLocation ) {
       var descriptionString;
-      var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
+      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, includeWallLocation );
 
       if ( balloon.inducingChargeProperty.get() ) {
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
@@ -281,6 +285,43 @@ define( function( require ) {
       }
 
       return descriptionString;
+    },
+
+    /**
+     * Get a description of both balloons. If the balloons are next to each other, this description should be used.
+     *
+     * @return {[type]} [description]
+     */
+    getCombinedInducedChargeDescription: function( balloon, wallVisible, includeWallLocation ) {
+      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, includeWallLocation );
+
+      var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
+
+      return StringUtils.fillIn( inducedChargePatternString, {
+        wallLocation: chargeLocationString,
+        balloon: bothBalloonsString,  
+        inductionAmount: inducedChargeAmount
+      } ); 
+    },
+
+    /**
+     * Gets a description of where the induced charge is located in the wall. With includeWallLocation boolean, it
+     * is possible to exclude vertical location of description and just use "Wall" generally. Will return one of
+     *
+     * "wall"
+     * "upper wall"
+     * "lower wall"
+     *
+     * @param {[type]} balloon [description]
+     * @param {[type]} includeWallLocation [description]
+     *
+     * @return {[type]} [description]
+     */
+    getInducedChargeLocationDescription: function( balloon, wallVisible, includeWallLocation ) {
+      var chargeLocationX = PlayAreaMap.X_LOCATIONS.AT_WALL;
+      var chargeLocationY = includeWallLocation ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
+      var chargeLocation = new Vector2( chargeLocationX, chargeLocationY );
+      return BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
     },
 
     /**

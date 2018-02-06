@@ -42,6 +42,9 @@ define( function( require ) {
       phetioType: PropertyIO( StringIO )
     } );
 
+    // @public {boolean} - whether or not the two balloons are considered 'next to' each other, primarily used for a11y
+    this.balloonsAdjacentProperty = new Property( false );
+
     // @public (read-only)
     this.width = width;
     this.height = height;
@@ -78,7 +81,8 @@ define( function( require ) {
     this.balloons.forEach( function( balloon ) {
       balloon.locationProperty.link( function( location ) {
 
-        // update whether or not the  balloon is inducing charge in the wall
+        // update whether or not the  balloon is inducing charge in the wall - can this be moved to a callback for the
+        // chargeDisplacementroperty?
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
         var balloonForce = BalloonModel.getForce(
           balloon.closestChargeInWall.locationProperty.get(),
@@ -91,10 +95,12 @@ define( function( require ) {
         // set Property that tracks magnitude of charge displacement
         balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );
 
+        // update whether or not the two balloons are close to each other
+        self.balloonsAdjacentProperty.set( ( self.yellowBalloon.getCenter().minus( self.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH / 2 );
+
         // update the balloon play area row and column
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() ) );
         balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter() ) );
-
         balloon.playAreaLandmarkProperty.set( PlayAreaMap.getPlayAreaLandmark( balloon.getCenter() ) );
       } );
     } ); 

@@ -47,6 +47,9 @@ define( function( require ) {
   var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
   var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString;
   var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString;
+  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString;
+  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
 
   /**
    * @constructor
@@ -109,6 +112,17 @@ define( function( require ) {
       if ( chargesVisible ) {
         balloonChargeNode.accessibleLabel = self.getBalloonChargeDescription();
         sweaterWallChargeNode.accessibleLabel = self.getSweaterAndWallChargeDescription();
+      }
+    } );
+
+    var inducedChargeProperties = [ this.yellowBalloon.locationProperty, this.greenBalloon.locationProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    Property.multilink( inducedChargeProperties, function( yellowLocation, greenLocation, greenVisible, showCharges, wallVisible ) {
+      var inducingCharge = self.yellowBalloon.inducingChargeProperty.get() || self.greenBalloon.inducingChargeProperty.get();
+      var showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
+      inducedChargeNode.accessibleVisible = showInducingItem;
+
+      if ( showInducingItem ) {
+        inducedChargeNode.accessibleLabel = self.getInducedChargeDescription();
       }
     } );
   }
@@ -225,14 +239,58 @@ define( function( require ) {
       return description;
     },
 
-    /**
-     * A description about the induced charge. Note that this is on hold until the two balloon
-     * descriptions are designed.
-     *
-     * @return {string}
-     */
     getInducedChargeDescription: function() {
-      return 'Implementation required';
+      var description;
+
+      var yellowInducing = this.yellowBalloon.inducingChargeProperty.get();
+      var greenInducing = this.greenBalloon.inducingChargeProperty.get();
+      assert && assert( greenInducing || yellowInducing );
+
+      var yellowBalloon = this.yellowBalloon;
+      var yellowBalloonDescriber = this.yellowBalloonDescriber;
+      var yellowBalloonLabel = yellowBalloonDescriber.accessibleLabel;
+
+      var greenBalloon = this.greenBalloon;
+      var greenBalloonDescriber = this.greenBalloonDescriber;
+      var greenBalloonLabel = greenBalloonDescriber.accessibleLabel;
+
+      var wallVisible = this.model.wall.isVisibleProperty.get();
+
+      var greenInducingAndVisible = greenInducing && greenBalloon.isVisibleProperty.get();
+      if ( greenInducingAndVisible && yellowInducing ) {
+
+        if ( this.model.balloonsAdjacentProperty.get() ) {
+          var combinedDescription = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, false );
+          description = StringUtils.fillIn( singleStatementPatternString, { statement: combinedDescription } );
+        }
+        else {
+          // full description for yellow balloon
+          var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
+
+          // short summary for green balloon
+          var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( greenBalloon );
+          var greenBalloonDescription = StringUtils.fillIn( summarySecondBalloonInducingChargePatternString, {
+            amount: inducedChargeAmount
+          } );
+
+          description = StringUtils.fillIn( summaryBothBalloonsPatternString, {
+            yellowBalloon: yellowBalloonDescription,
+            greenBalloon: greenBalloonDescription
+          } );
+        }
+      }
+      else {
+        var singleBalloonDescription;
+        if ( greenInducingAndVisible ) {
+          singleBalloonDescription = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, false );
+        }
+        else if ( yellowInducing ) {
+          singleBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
+        }
+        description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
+      }
+
+      return description;
     }
   }, {
 
