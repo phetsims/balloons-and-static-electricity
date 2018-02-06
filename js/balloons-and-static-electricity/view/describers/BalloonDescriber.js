@@ -625,7 +625,7 @@ define( function( require ) {
             help: interactionCueString
           } );
         }
-        else if ( this.balloonModel.inducingCharge && wallVisible) {
+        else if ( this.balloonModel.inducingChargeProperty.get() && wallVisible) {
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge', 'objectCharge' ] );
           inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
 
@@ -1001,7 +1001,7 @@ define( function( require ) {
 
         // state variables used to generate description content
         var wallVisible = this.wall.isVisibleProperty.get();
-        var inducingCharge = this.balloonModel.inducingCharge;
+        var inducingCharge = this.balloonModel.inducingChargeProperty.get();
         var showCharges = this.showChargesProperty.get();
 
         // if there is an induced charge and the charges are visible, describe induced charge
@@ -1394,7 +1394,7 @@ define( function( require ) {
         var chargeLocationString = this.getBalloonLocationDescription();
 
         var chargeString;
-        if ( this.balloonModel.inducingCharge ) {
+        if ( this.balloonModel.inducingChargeProperty.get() ) {
           chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get() );
         }
         else {
@@ -1553,7 +1553,7 @@ define( function( require ) {
       return !this.balloonModel.touchingWall() &&
              wallVisible &&
              chargesShown === 'all' &&
-             ( this.balloonModel.inducingCharge || this.describeReturn );
+             ( this.balloonModel.inducingChargeProperty.get() || this.describeReturn );
     },
 
     /**

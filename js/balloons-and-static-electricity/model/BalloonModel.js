@@ -202,6 +202,9 @@ define( function( require ) {
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null );
 
+    // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
+    this.inducingChargeProperty = new Property( false );
+
     //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon
@@ -210,10 +213,6 @@ define( function( require ) {
 
     // @public {MovablePointChargeModel} - the closest minus charge to the balloon which is in the wall
     this.closestChargeInWall = null;
-
-    // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall, determined by
-    // finding the closest charge to the balloon in the wall and calculating its displacement
-    this.inducingCharge = false;
 
     // @private (a11y) - the amount of time that has passed since balloon has been released
     this.timeSinceRelease = 0; // in ms

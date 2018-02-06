@@ -123,11 +123,11 @@ define( function( require ) {
       var greenBalloonInducedChargeString;
 
       if ( wallVisible && chargesShown === 'all' ) {
-        if ( yellowBalloon.inducingCharge ) {
+        if ( yellowBalloon.inducingChargeProperty.get() ) {
           yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible );
           inducedChargeString = yellowBalloonInducedChargeString;
         }
-        if ( greenBalloon.inducingCharge && greenBalloon.isVisibleProperty.get() ) {
+        if ( greenBalloon.inducingChargeProperty.get() && greenBalloon.isVisibleProperty.get() ) {
           greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible );
         }
       }
@@ -235,7 +235,7 @@ define( function( require ) {
       var descriptionString;
 
       var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
-      if ( balloon.inducingCharge ) {
+      if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
           wallLocation: chargeLocationString,
           balloon: balloonLabel
@@ -267,7 +267,7 @@ define( function( require ) {
       var descriptionString;
       var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
 
-      if ( balloon.inducingCharge ) {
+      if ( balloon.inducingChargeProperty.get() ) {
         var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {

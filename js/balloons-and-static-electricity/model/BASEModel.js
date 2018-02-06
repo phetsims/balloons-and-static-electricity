@@ -77,17 +77,16 @@ define( function( require ) {
     // when the balloon locations change, update the closest charge in the wall
     this.balloons.forEach( function( balloon ) {
       balloon.locationProperty.link( function( location ) {
-        balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
 
+        // update whether or not the  balloon is inducing charge in the wall
+        balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
         var balloonForce = BalloonModel.getForce(
           balloon.closestChargeInWall.locationProperty.get(),
           balloon.getCenter(),
           BASEConstants.COULOMBS_LAW_CONSTANT * balloon.chargeProperty.get() * PointChargeModel.CHARGE,
           2.35
         );
-
-        balloon.inducingCharge = balloon.closestChargeInWall.forceIndicatesInducedCharge( balloonForce );
-        // balloon.inducingCharge = balloon.closestChargeInWall.displacementIndicatesInducedCharge();
+        balloon.inducingChargeProperty.set( balloon.closestChargeInWall.forceIndicatesInducedCharge( balloonForce ) );
 
         // set Property that tracks magnitude of charge displacement
         balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );

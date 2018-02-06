@@ -83,12 +83,14 @@ define( function( require ) {
     var roomObjectsNode = new Node( { tagName: 'li' } );
     var balloonChargeNode = new Node( { tagName: 'li' } );
     var sweaterWallChargeNode = new Node( { tagName: 'li' } );
+    var inducedChargeNode = new Node( { tagName: 'li' } );
 
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
     listNode.addChild( balloonChargeNode );
     listNode.addChild( sweaterWallChargeNode );
+    listNode.addChild( inducedChargeNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
 
