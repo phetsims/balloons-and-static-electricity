@@ -94,10 +94,11 @@ define( function( require ) {
      * @return {string}
      */
     getWallDescription: function( yellowBalloon, greenBalloon ) {
+      var  description;
 
       // if no charges are shown, the location is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
-        return StringUtils.fillIn( singleStatementPatternString, {
+        description = StringUtils.fillIn( singleStatementPatternString, {
           statement: wallLocationString
         } );
       }
@@ -105,11 +106,13 @@ define( function( require ) {
         var chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, this.wallModel.isVisibleProperty.get(), this.showChargesProperty.get() );
 
         // assemble the whole description
-        return StringUtils.fillIn( wallDescriptionPatternString, {
+        description = StringUtils.fillIn( wallDescriptionPatternString, {
           location: wallLocationString, 
           charge: chargeDescription
         } ); 
-      }    
+      }
+
+      return StringUtils.fillIn( singleStatementPatternString, { statement: description } );
     }
   }, {
 
