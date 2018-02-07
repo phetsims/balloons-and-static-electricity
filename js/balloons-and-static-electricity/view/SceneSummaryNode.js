@@ -117,7 +117,10 @@ define( function( require ) {
 
     var inducedChargeProperties = [ this.yellowBalloon.locationProperty, this.greenBalloon.locationProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( inducedChargeProperties, function( yellowLocation, greenLocation, greenVisible, showCharges, wallVisible ) {
-      var inducingCharge = self.yellowBalloon.inducingChargeProperty.get() || self.greenBalloon.inducingChargeProperty.get();
+
+      // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
+      var greenInducingAndVisible = self.greenBalloon.inducingChargeProperty.get() && self.greenBalloon.isVisibleProperty.get();
+      var inducingCharge = self.yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible;
       var showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
       inducedChargeNode.accessibleVisible = showInducingItem;
 
@@ -244,7 +247,6 @@ define( function( require ) {
 
       var yellowInducing = this.yellowBalloon.inducingChargeProperty.get();
       var greenInducing = this.greenBalloon.inducingChargeProperty.get();
-      assert && assert( greenInducing || yellowInducing );
 
       var yellowBalloon = this.yellowBalloon;
       var yellowBalloonDescriber = this.yellowBalloonDescriber;
@@ -254,9 +256,11 @@ define( function( require ) {
       var greenBalloonDescriber = this.greenBalloonDescriber;
       var greenBalloonLabel = greenBalloonDescriber.accessibleLabel;
 
+      var greenInducingAndVisible = greenInducing && greenBalloon.isVisibleProperty.get();
+      assert && assert( greenInducingAndVisible || yellowInducing );
+
       var wallVisible = this.model.wall.isVisibleProperty.get();
 
-      var greenInducingAndVisible = greenInducing && greenBalloon.isVisibleProperty.get();
       if ( greenInducingAndVisible && yellowInducing ) {
 
         if ( this.model.balloonsAdjacentProperty.get() ) {
