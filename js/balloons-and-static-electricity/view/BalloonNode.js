@@ -289,7 +289,7 @@ define( function( require ) {
 
     // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
     // or touching these objects
-    model.velocityProperty.link( function( velocity ) {
+    model.velocityProperty.lazyLink( function( velocity ) {
       if ( velocity.equals( Vector2.ZERO ) ) {
         if ( model.isDraggedProperty.get() ) {
           if ( model.onSweater() || model.touchingWall() ) {
