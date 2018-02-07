@@ -773,6 +773,15 @@ define( function( require ) {
       return this.chargeProperty.get() < 0;
     },
 
+    /**
+     * Returns true if this balloon is both inducing charge and visible.
+     * @public
+     * @return {boolean}
+     */
+    inducingChargeAndVisible: function() {
+      return this.isVisibleProperty.get() && this.inducingChargeProperty.get();
+    },
+
     //reset balloon to initial state
     reset: function( notResetVisibility ) {
       //array of instantaneous velocity of balloon last 5 ticks

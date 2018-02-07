@@ -119,8 +119,7 @@ define( function( require ) {
     Property.multilink( inducedChargeProperties, function( yellowLocation, greenLocation, greenVisible, showCharges, wallVisible ) {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
-      var greenInducingAndVisible = self.greenBalloon.inducingChargeProperty.get() && self.greenBalloon.isVisibleProperty.get();
-      var inducingCharge = self.yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible;
+      var inducingCharge = self.yellowBalloon.inducingChargeAndVisible() || self.greenBalloon.inducingChargeAndVisible();
       var showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
       inducedChargeNode.accessibleVisible = showInducingItem;
 
@@ -245,9 +244,6 @@ define( function( require ) {
     getInducedChargeDescription: function() {
       var description;
 
-      var yellowInducing = this.yellowBalloon.inducingChargeProperty.get();
-      var greenInducing = this.greenBalloon.inducingChargeProperty.get();
-
       var yellowBalloon = this.yellowBalloon;
       var yellowBalloonDescriber = this.yellowBalloonDescriber;
       var yellowBalloonLabel = yellowBalloonDescriber.accessibleLabel;
@@ -256,12 +252,13 @@ define( function( require ) {
       var greenBalloonDescriber = this.greenBalloonDescriber;
       var greenBalloonLabel = greenBalloonDescriber.accessibleLabel;
 
-      var greenInducingAndVisible = greenInducing && greenBalloon.isVisibleProperty.get();
-      assert && assert( greenInducingAndVisible || yellowInducing );
+      var greenInducingChargeAndVisilbe = greenBalloon.inducingChargeAndVisible();
+      var yellowInducingChargeAndVisible = yellowBalloon.inducingChargeAndVisible();
+      assert && assert( greenInducingChargeAndVisilbe || yellowInducingChargeAndVisible );
 
       var wallVisible = this.model.wall.isVisibleProperty.get();
 
-      if ( greenInducingAndVisible && yellowInducing ) {
+      if ( greenInducingChargeAndVisilbe && yellowInducingChargeAndVisible ) {
 
         if ( this.model.balloonsAdjacentProperty.get() ) {
           var combinedDescription = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, false );
@@ -285,10 +282,10 @@ define( function( require ) {
       }
       else {
         var singleBalloonDescription;
-        if ( greenInducingAndVisible ) {
+        if ( greenInducingChargeAndVisilbe ) {
           singleBalloonDescription = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, false );
         }
-        else if ( yellowInducing ) {
+        else if ( yellowInducingChargeAndVisible ) {
           singleBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
         }
         description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
