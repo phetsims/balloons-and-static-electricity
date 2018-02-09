@@ -240,7 +240,7 @@ define( function( require ) {
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
 
-      var chargeLocationString = BASEDescriber.getLocationDescription( balloon.getCenter(), wallVisible );
+      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, true );
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
           wallLocation: chargeLocationString,
