@@ -1018,6 +1018,9 @@ define( function( require ) {
           description = locationDescription;
         }
       }
+
+      // after jumping, reset induced charge description flags
+      this.inducedChargeDisplacementOnEnd = false;
       return description;
     },
 
