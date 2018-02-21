@@ -50,6 +50,8 @@ define( function( require ) {
   var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString;
   var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
+  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString;
+  var wallPositiveChargesDoNotMoveString =  BASEA11yStrings.wallPositiveChargesDoNotMoveString;
 
   /**
    * @constructor
@@ -282,15 +284,21 @@ define( function( require ) {
         }
       }
       else {
-        var singleBalloonDescription;
+        // var singleBalloonDescription;
         if ( greenInducingChargeAndVisilbe ) {
-          singleBalloonDescription = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, false );
+          description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, false );
         }
         else if ( yellowInducingChargeAndVisible ) {
-          singleBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
+          description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
         }
-        description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
+        // description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
       }
+
+      // if all charges are shown, include information about how positive charges do not move
+      description = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
+        inducedCharge: description,
+        positiveCharge: wallPositiveChargesDoNotMoveString
+      } );
 
       return description;
     }
