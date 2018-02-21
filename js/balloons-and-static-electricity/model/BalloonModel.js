@@ -137,7 +137,7 @@ define( function( require ) {
 
     // @public {number}
     this.chargeProperty = new NumberProperty( 0, {
-      valueType: 'Integer',
+      numberType: 'Integer',
       range: new Range( -POSITIONS.length, 0 ),
       tandem: tandem.createTandem( 'chargeProperty' ),
       phetioReadOnly: true

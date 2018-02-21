@@ -96,7 +96,7 @@ define( function( require ) {
     // @public {number} - charge on the sweater
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
       phetioReadOnly: true
     } );
