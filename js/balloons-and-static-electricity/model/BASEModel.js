@@ -153,6 +153,16 @@ define( function( require ) {
       this.wall.reset();
     },
 
+    /**
+     * Return true when both balloons are visible.
+     * @public
+     *
+     * @return {boolean}
+     */
+    bothBalloonsVisible: function() {
+      return this.greenBalloon.isVisibleProperty.get() && this.yellowBalloon.isVisibleProperty.get();
+    },
+
     //check if balloon outside world borders and return it to border if outside
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
 

@@ -46,6 +46,7 @@ define( function( require ) {
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
   var releasedString = BASEA11yStrings.releasedString;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
+  var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString;
   var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
   var slowlyString = BASEA11yStrings.slowlyString;
@@ -709,8 +710,12 @@ define( function( require ) {
     },
 
     /**
-     * Generally announced right after the balloon as been released, this is read as an alert. Generates
-     * something like "Moves toward sweater."
+     * Generally announced right after the balloon as been released, this is read as an alert. Dependent on whether
+     * both balloons are visible. If they are, the label of the released balloon is read prior to the rest of the
+     * alert. Will generate something like
+     * 
+     * "Moves extremely slowly left." or 
+     * "Yellow balloon, moves slowly left."
      *
      * @param {Vector2} location - the current location of the balloon
      * @param {Vector2} oldLocation - the previous location of the balloon
@@ -722,10 +727,20 @@ define( function( require ) {
       var velocityString = this.getVelocityString();
       var directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
-      var description = StringUtils.fillIn( initialMovementPatternString, {
-        velocity: velocityString,
-        direction: directionString
-      } );
+      var description;
+      if ( this.model.bothBalloonsVisible() ) {
+        description = StringUtils.fillIn( twoBalloonInitialMovementPatternString, {
+          balloon: this.accessibleLabel,
+          velocity: velocityString,
+          direction: directionString
+        } );
+      }
+      else {
+        description = StringUtils.fillIn( initialMovementPatternString, {
+          velocity: velocityString,
+          direction: directionString
+        } ); 
+      }
 
       return description;
     },

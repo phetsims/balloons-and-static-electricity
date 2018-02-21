@@ -335,6 +335,7 @@ define( function( require ) {
     // Balloon movement strings
     //--------------------------------------------------------------------------
     initialMovementPatternString: 'Moves {{velocity}} {{direction}}.',
+    twoBalloonInitialMovementPatternString: '{{balloon}}, moves {{velocity}} {{direction}}.',
 
     extremelySlowlyString: 'extremely slowly',
     verySlowlyString: 'very slowly',
