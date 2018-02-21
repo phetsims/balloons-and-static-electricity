@@ -1004,8 +1004,13 @@ define( function( require ) {
         var inducingCharge = this.balloonModel.inducingChargeProperty.get();
         var showCharges = this.showChargesProperty.get();
 
-        // if there is an induced charge and the charges are visible, describe induced charge
-        if ( wallVisible && inducingCharge && showCharges === 'all' ) {
+        if ( this.balloonModel.touchingWallProperty.get() ) {
+
+          // if touching the wall, describe as though the balloon is hitting the wall for the first time
+          description = this.getWallRubbingDescriptionWithChargePairs();
+        }
+        else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
+          // if there is an induced charge and the charges are visible, describe induced charge summary
           var inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
           description = StringUtils.fillIn( locationAndInducedChargePatternString, {
             location: locationDescription,

@@ -184,7 +184,7 @@ define( function( require ) {
     twoBalloonLocationSummaryString: '{{yellowBalloon}} {{greenBalloon}}',
     balloonLocationSummaryWithPositiveChargeDescription: '{{balloonSummary}} Positive charges do not move.',
 
-    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}',
+    inducedChargePatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.',
     inducedChargeNoAmountPatternString: 'Negative charges in {{wallLocation}} move away from {{balloon}}.',
 
     // describing the attractive state of a balloon
