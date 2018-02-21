@@ -265,6 +265,7 @@ define( function( require ) {
           description = StringUtils.fillIn( singleStatementPatternString, { statement: combinedDescription } );
         }
         else {
+
           // full description for yellow balloon
           var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
 

@@ -42,6 +42,8 @@ define( function( require ) {
   var wallLabelString = BASEA11yStrings.wallLabelString;
   var zeroString = BASEA11yStrings.zeroString;
   var bothBalloonsString = BASEA11yStrings.bothBalloonsString;
+  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
+  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -123,6 +125,7 @@ define( function( require ) {
      * @return {string}
      */
     getWallChargeDescription: function( yellowBalloon, greenBalloon, wallVisible, chargesShown )  {
+      var descriptionString;
 
       var inducedChargeString;
       var yellowBalloonInducedChargeString;
@@ -171,7 +174,18 @@ define( function( require ) {
         } );
       }
 
-      return wallChargeString;
+      // if all charges are shown, include information about how positive charges do not move
+      if ( chargesShown === 'all' ) {
+        descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
+          inducedCharge: wallChargeString,
+          positiveCharge: wallPositiveChargesDoNotMoveString
+        } );
+      }
+      else {
+        descriptionString = wallChargeString;
+      }
+
+      return descriptionString;
     },
 
 

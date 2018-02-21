@@ -291,6 +291,8 @@ define( function( require ) {
     beginToReturnString: 'begin to return',
     returnALittleMoreString: 'return a little more',
 
+    wallInducedChargeSummaryPatternString: '{{inducedCharge}}. {{positiveCharge}}',
+
     //------------------------------------------------------------------------
     // Balloon strings
     //------------------------------------------------------------------------
