@@ -57,6 +57,7 @@ define( function( require ) {
   var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayAreaString;
 
   // charge strings
+  var noString = BASEA11yStrings.noString;
   var zeroString = BASEA11yStrings.zeroString;
   var aFewString = BASEA11yStrings.aFewString;
   var severalString = BASEA11yStrings.severalString;
@@ -201,7 +202,7 @@ define( function( require ) {
   var RELATIVE_CHARGE_DESCRIPTION_MAP = {
     NO_MORE_RANGE: {
       range: new Range( 0, 0 ),
-      description: zeroString
+      description: noString
     },
     A_FEW_RANGE: {
       range: new Range( 1, 15 ),
