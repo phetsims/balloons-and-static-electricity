@@ -85,7 +85,6 @@ define( function( require ) {
   var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
   var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
   var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
-  var noChangeInPositionString = BASEA11yStrings.noChangeInPositionString;
   var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
   var nearSweaterString = BASEA11yStrings.nearSweaterString;
   var balloonNearString = BASEA11yStrings.balloonNearString;
