@@ -350,6 +350,7 @@ define( function( require ) {
     continuousMovementWithLandmarkPatternString: '{{movementDirection}} {{landmark}}.',
 
     nowDirectionPatternString: 'Now {{direction}}.',
+    twoBalloonNowDirectionPatternString: '{{balloon}}, now {{direction}}.',
 
     // when balloon hits wall and there is a change in charges
     balloonLocationNoChangePatternString: '{{location}} {{inducedCharge}}',

@@ -48,6 +48,7 @@ define( function( require ) {
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString;
   var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString;
+  var twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPatternString;
   var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
   var slowlyString = BASEA11yStrings.slowlyString;
@@ -772,7 +773,7 @@ define( function( require ) {
           landmark: this.getOnLocationDescription()
         } );
       }
-      
+
       return description;
     },
 
@@ -1398,9 +1399,17 @@ define( function( require ) {
 
         // when not dragged, add 'Now' to direction
         var directionString = this.getReleaseDirectionDescription( direction );
-        description = StringUtils.fillIn( nowDirectionPatternString, {
-          direction: directionString
-        } );
+        if ( this.model.bothBalloonsVisible() )  {
+          description = StringUtils.fillIn( twoBalloonNowDirectionPatternString, {
+            balloon: this.accessibleLabel,
+            direction: directionString
+          } );
+        }
+        else {
+          description = StringUtils.fillIn( nowDirectionPatternString, {
+            direction: directionString
+          } );
+        }
       }
 
       return description;
