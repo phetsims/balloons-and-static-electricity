@@ -47,6 +47,7 @@ define( function( require ) {
   var releasedString = BASEA11yStrings.releasedString;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString;
+  var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString;
   var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString;
   var verySlowlyString = BASEA11yStrings.verySlowlyString;
   var slowlyString = BASEA11yStrings.slowlyString;
@@ -771,7 +772,7 @@ define( function( require ) {
           landmark: this.getOnLocationDescription()
         } );
       }
-
+      
       return description;
     },
 
@@ -783,11 +784,22 @@ define( function( require ) {
      * @return {string}
      */
     getNoChangeReleaseDescription: function() {
+      var description;
+
       var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
-      return StringUtils.fillIn( noChangeAndLocationPatternString, {
-        noChange: noChangeInPositionString,
-        location: attractiveStateAndLocationDescription
-      } );
+      if ( this.model.bothBalloonsVisible() ) {
+        description = StringUtils.fillIn( twoBalloonNoChangeAndLocationPatternString, {
+          balloon: this.accessibleLabel,
+          location: attractiveStateAndLocationDescription
+        } );
+      }
+      else {
+        description = StringUtils.fillIn( noChangeAndLocationPatternString, {
+          location: attractiveStateAndLocationDescription
+        } );
+      }
+
+      return description;
     },
 
     /**

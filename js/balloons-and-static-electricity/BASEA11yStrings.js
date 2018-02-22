@@ -343,8 +343,8 @@ define( function( require ) {
     quicklyString: 'quickly',
     veryQuicklyString: 'very quickly',
 
-    noChangeInPositionString: 'No change in position',
-    noChangeAndLocationPatternString: '{{noChange}}. {{location}}',
+    noChangeAndLocationPatternString: 'No change in position. {{location}}',
+    twoBalloonNoChangeAndLocationPatternString: '{{balloon}}, no change in position. {{location}}',
 
     continuousMovementPatternString: 'Moving {{direction}}.',
     continuousMovementWithLandmarkPatternString: '{{movementDirection}} {{landmark}}.',
