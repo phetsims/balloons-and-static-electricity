@@ -95,9 +95,14 @@ define( function( require ) {
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContent = HelpContent.labelWithIcon( label, icons, { accessibleLabel: grabOrReleaseBalloonDescriptionString } );
+    var labelWithContent = HelpContent.labelWithIcon( label, icons, {
+      a11yIconAccessibleLabel: grabOrReleaseBalloonDescriptionString,
+      a11yIconTagName: 'p'
+    } );
 
-    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ] );
+    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], {
+      a11yContentTagName: null // just a paragraph for this content, no list
+    } );
   }
 
   inherit( HelpContent, BalloonGrabHelpContent );
@@ -124,7 +129,7 @@ define( function( require ) {
     var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabel, arrowOrWasdKeysIcon, {
 
       // a11y
-      accessibleLabel: moveGrabbedBalloonDescriptionString
+      a11yIconAccessibleLabel: moveGrabbedBalloonDescriptionString
     } );
 
     var arrowKeysIcon = HelpContent.arrowKeysRowIcon();
@@ -132,14 +137,14 @@ define( function( require ) {
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
     var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
-      accessibleLabel: moveSlowerDescriptionString
+      a11yIconAccessibleLabel: moveSlowerDescriptionString
     } );
 
     // hot key content for how to jump the balloon
-    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { accessibleLabel: jumpsCloseToSweaterDescriptionString } );
-    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { accessibleLabel: jumpsCloseToWwallDescriptionString } );
-    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { accessibleLabel: jumpsNearWallDescriptionString } );
-    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { accessibleLabel: jumpstoCenterDescriptionString } );
+    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { a11yIconAccessibleLabel: jumpsCloseToSweaterDescriptionString } );
+    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { a11yIconAccessibleLabel: jumpsCloseToWwallDescriptionString } );
+    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { a11yIconAccessibleLabel: jumpsNearWallDescriptionString } );
+    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { a11yIconAccessibleLabel: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
     var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
@@ -162,9 +167,7 @@ define( function( require ) {
   function createJumpKeyRow( keyString, labelString, options ) {
 
     options = _.extend( {
-
-      // so the icon comes first visually
-      labelFirst: true
+      a11yIconAccessibleLabel: null
     }, options );
 
     var label = new Text( labelString, {

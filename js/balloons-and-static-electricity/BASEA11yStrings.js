@@ -511,10 +511,10 @@ define( function( require ) {
     grabOrReleaseBalloonDescriptionString: 'Grab or release the balloon with Space or Enter keys.',
     moveGrabbedBalloonDescriptionString: 'Move grabbed balloon up, left, down, or right with Arrow keys or with letter keys W, A, S, or D.',
     moveSlowerDescriptionString: 'Move slower with shift plus Arrow keys or Shift plus letter keys W, A, S, or D.',
-    jumpsCloseToSweaterDescriptionString: 'J plus S jumps close to sweater.',
-    jumpsCloseToWwallDescriptionString: 'J plus W jumps to wall.',
-    jumpsNearWallDescriptionString: 'J plus N jumps to near wall.',
-    jumpstoCenterDescriptionString: 'J plus C jumps to center.',
+    jumpsCloseToSweaterDescriptionString: 'Jump close to sweater with J plus S.',
+    jumpsCloseToWwallDescriptionString: 'Jump to wall with J plus W.',
+    jumpsNearWallDescriptionString: 'Jump to near wall with J plus N.',
+    jumpstoCenterDescriptionString: 'Jump to center with J plus C.',
 
     /**
      * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
