@@ -498,14 +498,14 @@ define( function( require ) {
     // Keyboard shortcuts help content strings
     //--------------------------------------------------------------------------
     grabOrReleaseBalloonHeadingString: 'Grab or Release Balloon',
-    grabOrReleaseBalloonLabelString: 'Grab or release balloon:',
+    grabOrReleaseBalloonLabelString: 'Grab or release balloon',
     moveOrJumpGrabbedBalloonHeadingString: 'Move or Jump Grabbed Balloon',
-    moveGrabbedBalloonLabelString: 'Move grabbed balloon:',
-    moveSlowerLabelString: 'Move slower:',
-    jumpsCloseToSweaterString: 'jumps close to sweater',
-    jumpsCloseToWallString: 'jumps to wall',
-    jumpsNearWallString: 'jumps near wall',
-    jumpsToCenterString: 'jumps to center',
+    moveGrabbedBalloonLabelString: 'Move grabbed balloon',
+    moveSlowerLabelString: 'Move slower',
+    jumpsCloseToSweaterString: 'Jump close to sweater',
+    jumpsCloseToWallString: 'Jump to wall',
+    jumpsNearWallString: 'Jump to near wall',
+    jumpsToCenterString: 'Jump to center',
 
     // help content strings that are invisible in the PDOM
     grabOrReleaseBalloonDescriptionString: 'Grab or release the balloon with Space or Enter keys.',

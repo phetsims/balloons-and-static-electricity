@@ -51,16 +51,19 @@ define( function( require ) {
     var generalNavigationHelpContent = new GeneralNavigationHelpContent( { withGroupContent: true } );
     var moveBalloonHelpContent = new MoveBalloonHelpContent();
 
+    // vertically align the left content groups
+    HelpContent.alignHelpContentIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
+
     // content about how to grab the balloon and general navigation are aligned to the left of the dialog
     var leftContent = new VBox( {
-      children: [ balloonGrabHelpContent, generalNavigationHelpContent ],
+      children: [ balloonGrabHelpContent, moveBalloonHelpContent ],
       align: 'left',
       spacing: 60
     } );
 
     // left aligned content, and content about how to move the grabbed balloon are horizontally aligned
     var content = new HBox( {
-      children: [ leftContent, moveBalloonHelpContent ],
+      children: [ leftContent, generalNavigationHelpContent ],
       align: 'top',
       spacing: 30
     } );
@@ -161,7 +164,7 @@ define( function( require ) {
     options = _.extend( {
 
       // so the icon comes first visually
-      labelFirst: false
+      labelFirst: true
     }, options );
 
     var label = new Text( labelString, {
