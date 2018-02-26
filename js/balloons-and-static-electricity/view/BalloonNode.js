@@ -62,10 +62,12 @@ define( function( require ) {
    * @param  {BalloonModel} model
    * @param  {Image} imgsrc - image source from the image plugin
    * @param  {BASEModel} globalModel
+   * @param {string} accessibleLabelString - the accessible label for this balloon
+   * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, tandem, options ) {
+  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, tandem, options ) {
     var self = this;
 
     // @public (a11y) - emits an event when the balloon receives focus
@@ -106,7 +108,7 @@ define( function( require ) {
     } );
 
     // a11y - a type that generates descriptions for the balloon 
-    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString );
+    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
 
     // @private (a11y) - if this time is greater than DESCRIPTION_REFRESH_RATE and the balloon
     // is moving due to an applied force, we will alert a new description, intially the refresh rate

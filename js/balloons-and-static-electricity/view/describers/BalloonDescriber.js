@@ -123,7 +123,6 @@ define( function( require ) {
   var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString;
   var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString;
   var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString;
-  var balloonAddedWhileNearYellowBalloonLocationPatternString = BASEA11yStrings.balloonAddedWhileNearYellowBalloonLocationPatternString;
   var moreInducedChargePattnerString = BASEA11yStrings.moreInducedChargePattnerString;
   var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString;
   var beginToMoveAwayString = BASEA11yStrings.beginToMoveAwayString;
@@ -132,6 +131,7 @@ define( function( require ) {
   var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString;
   var wallRubbingWithPairsPatternSring = BASEA11yStrings.wallRubbingWithPairsPatternSring;
   var noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePatternString;
+  var balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPatternString;
 
   
   // constants
@@ -165,9 +165,6 @@ define( function( require ) {
   // speed of the balloon to be considered moving slowly, determined empirically
   var SLOW_BALLOON_SPEED = 0.09;
 
-  // when balloons are withing this distance of each other, some descriptions will reflect this
-  var NEXT_TO_BALLOON_THRESHOLD = 100;
-
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
     EXTREMELY_SLOWLY_STRING: {
@@ -198,13 +195,14 @@ define( function( require ) {
    * @param {BalloonModel} balloon
    * @constructor
    */
-  function BalloonDescriber( model, wall, balloon, accessibleLabel ) {
+  function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
 
     // @private
     this.model = model;
     this.wall = wall;
     this.balloonModel = balloon;
     this.accessibleLabel = accessibleLabel;
+    this.otherAccessibleLabel = otherAccessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
 
     // @private - the charge on the balloon when we generate a pickup description,
@@ -520,15 +518,31 @@ define( function( require ) {
     /**
      * Return a phrase describing the location of the balloon in the play area.  This is usually described relative
      * to the center of the balloon, unless the balloon is touching an object, in which case it will be relative to the
-     * point where the objects are touching.
+     * point where the objects are touching.  If the balloons are both visible and next to each other, a phrase like
+     * "next to {{balloon label}}" is added. Will return someting like
+     *
+     * "center of play area" or
+     * "upper wall", or 
+     * "wall, next to Green Balloon", or 
+     * "right arm of sweater, next to Yellow Balloon"
      * 
      * @return {[type]} [description]
      */
     getBalloonLocationDescription: function() {
+      var description;
+
       var describedBalloonPosition = this.getDescribedPoint();
       var wallVisible = this.wall.isVisibleProperty.get();
+      description = BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
 
-      return BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
+      if ( this.model.getBalloonsAdjacent() ) {
+        description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
+          location: description,
+          otherBalloon: this.otherAccessibleLabel
+        } );
+      }
+
+      return description;
     },
 
     /**
@@ -1496,14 +1510,6 @@ define( function( require ) {
           // if add at initial location, generic string
           description = StringUtils.fillIn( balloonAddedPatternString, {
             balloonLabel: this.accessibleLabel
-          } );
-        }
-        else if ( this.model.getDistance() < NEXT_TO_BALLOON_THRESHOLD ) {
-
-          // if the two balloons are next to each other
-          description = StringUtils.fillIn( balloonAddedWhileNearYellowBalloonLocationPatternString, {
-            balloonLabel: this.accessibleLabel,
-            location: this.getAttractiveStateAndLocationDescription()
           } );
         }
         else {

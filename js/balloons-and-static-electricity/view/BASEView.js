@@ -100,7 +100,7 @@ define( function( require ) {
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
-    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
+    this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
       accessibleLabel: yellowBalloonLabelString
     } );
     var tetherAnchorPoint = new Vector2(
@@ -113,7 +113,7 @@ define( function( require ) {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, greenBalloonLabelString, tandem.createTandem( 'greenBalloonNode' ), {
+    this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, greenBalloonLabelString, yellowBalloonLabelString, tandem.createTandem( 'greenBalloonNode' ), {
       accessibleLabel: greenBalloonLabelString
     } );
     this.greenBalloonTetherNode = new TetherNode(

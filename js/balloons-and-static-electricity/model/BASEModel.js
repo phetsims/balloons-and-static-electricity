@@ -96,7 +96,7 @@ define( function( require ) {
         balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );
 
         // update whether or not the two balloons are close to each other
-        self.balloonsAdjacentProperty.set( ( self.yellowBalloon.getCenter().minus( self.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH / 2 );
+        self.balloonsAdjacentProperty.set( self.getBalloonsAdjacent() );
 
         // update the balloon play area row and column
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() ) );
@@ -161,6 +161,16 @@ define( function( require ) {
      */
     bothBalloonsVisible: function() {
       return this.greenBalloon.isVisibleProperty.get() && this.yellowBalloon.isVisibleProperty.get();
+    },
+
+    /**
+     * Returns true when both balloons are visible and adjacent to each other.
+     *
+     * @return {boolean}
+     */
+    getBalloonsAdjacent: function() {
+      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH / 2;
+      return balloonsAdjacent && this.bothBalloonsVisible();
     },
 
     //check if balloon outside world borders and return it to border if outside
