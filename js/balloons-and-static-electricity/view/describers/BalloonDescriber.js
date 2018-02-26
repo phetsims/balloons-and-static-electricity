@@ -131,6 +131,7 @@ define( function( require ) {
   var beginToReturnString = BASEA11yStrings.beginToReturnString;
   var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString;
   var wallRubbingWithPairsPatternSring = BASEA11yStrings.wallRubbingWithPairsPatternSring;
+  var noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePatternString;
 
   
   // constants
@@ -778,8 +779,10 @@ define( function( require ) {
 
     /**
      * Produces an alert when there is no change in position.  Indicates that there is no change
-     * and also reminds user where the balloon currently is. Will return something like
-     * "No change in position. Yellow balloon, on left side of Play Area."
+     * and also reminds user where the balloon currently is. If balloon is touching wall and all charges
+     * are visible, we include information about the induced charge in the wall. Will return something like
+     * "No change in position. Yellow balloon, on left side of Play Area." or
+     * "No change in position. Yellow Balloon, at wall. Negative charges in wall move away from yellow balloon a lot."
      * 
      * @return {string}
      */
@@ -796,6 +799,17 @@ define( function( require ) {
       else {
         description = StringUtils.fillIn( noChangeAndLocationPatternString, {
           location: attractiveStateAndLocationDescription
+        } );
+      }
+
+      // if balloon touching wall and inducing charge, include induced charge information
+      if ( this.balloonModel.touchingWallProperty.get() && this.model.showChargesProperty.get() === 'all' ) {
+        var wallVisible = this.model.wall.isVisibleProperty.get();
+        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+
+        description = StringUtils.fillIn( noChangeWithInducedChargePatternString, {
+          noChange: description,
+          inducedCharge: inducedChargeString
         } );
       }
 

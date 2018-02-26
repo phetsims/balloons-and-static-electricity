@@ -345,6 +345,7 @@ define( function( require ) {
 
     noChangeAndLocationPatternString: 'No change in position. {{location}}',
     twoBalloonNoChangeAndLocationPatternString: '{{balloon}}, no change in position. {{location}}',
+    noChangeWithInducedChargePatternString: '{{noChange}} {{inducedCharge}}',
 
     continuousMovementPatternString: 'Moving {{direction}}.',
     continuousMovementWithLandmarkPatternString: '{{movementDirection}} {{landmark}}.',
