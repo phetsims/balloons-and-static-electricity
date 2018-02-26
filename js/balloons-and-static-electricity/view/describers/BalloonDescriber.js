@@ -1117,8 +1117,52 @@ define( function( require ) {
         descriptionString = atLocationString;
       }
       else if ( shownCharges === 'all' ) {
-        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
-        if ( this.balloonModel.isCharged() ) {
+        var inducedChargeString;
+
+        // if we describe any amount of induced charge, we will also include the phrase "Positive charges do not move."
+        var includePositiveCharges = true;
+
+        // if balloons are adjacent, the resultant induced charge description is modified
+        if ( this.model.getBalloonsAdjacent() ) {
+
+          var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
+          var otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
+
+          if ( thisInducingAndVisible && otherInducingAndVisible ) {
+
+            // if both inducing charge, combine induced charge description with "both balloons"
+            inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
+          }
+          else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
+
+            // neither balloon is inducing charge, just use normal induced charge description
+            inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+
+            includePositiveCharges = false;
+          }
+          else {
+            assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
+
+            // only one balloon is inducing charge, describe whichever one is currently inducing charge
+            var inducingBalloon;
+            var balloonLabel;
+            if ( this.balloonModel.inducingChargeAndVisible() ) {
+              inducingBalloon = this.balloonModel;
+              balloonLabel = this.accessibleLabel;
+            }
+            else {
+              inducingBalloon = this.balloonModel.other;
+              balloonLabel = this.otherAccessibleLabel;
+            }
+
+            inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible, true );
+          }
+        }
+        else {
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+        }
+
+        if ( includePositiveCharges ) {
           patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
