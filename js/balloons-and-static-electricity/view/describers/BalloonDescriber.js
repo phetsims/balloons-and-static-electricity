@@ -1163,7 +1163,7 @@ define( function( require ) {
         }
 
         if ( includePositiveCharges ) {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             transfer: wallNoTransferOfChargeString,
@@ -1172,7 +1172,7 @@ define( function( require ) {
           } );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge', 'positiveCharges' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge', 'positiveCharges' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             transfer: wallNoTransferOfChargeString,
@@ -1184,13 +1184,26 @@ define( function( require ) {
         var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
         var balloonChargeString = this.getRelativeChargeDescriptionWithLabel();
 
-        // wallRubbingPatternString: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
-        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'positiveCharges' ] );
-        descriptionString = StringUtils.fillIn( patternString, {
-          location: atLocationString,
-          balloonCharge: balloonChargeString,
-          wallCharge: wallChargeString
-        } );
+        // if balloons are adjacent, the relative charge description for both balloons must be included
+        if ( this.model.getBalloonsAdjacent() ) {
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'positiveCharges' ] );
+
+          var otherBalloonChargeString = '(This is where the other balloon charge would go.)';
+          descriptionString = StringUtils.fillIn( patternString, {
+            location: atLocationString,
+            balloonCharge: balloonChargeString,
+            otherBalloonCharge: otherBalloonChargeString,
+            wallCharge: wallChargeString
+          } );
+        }
+        else {
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge', 'positiveCharges' ] );
+          descriptionString = StringUtils.fillIn( patternString, {
+            location: atLocationString,
+            balloonCharge: balloonChargeString,
+            wallCharge: wallChargeString
+          } );
+        }
       }
 
       return descriptionString;
