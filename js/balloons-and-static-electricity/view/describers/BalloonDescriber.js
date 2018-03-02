@@ -1186,13 +1186,12 @@ define( function( require ) {
 
         // if balloons are adjacent, the relative charge description for both balloons must be included
         if ( this.model.getBalloonsAdjacent() ) {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'positiveCharges' ] );
 
-          var otherBalloonChargeString = '(This is where the other balloon charge would go.)';
+          // TODO: Handle the case where we must describe both balloons.
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge', 'positiveCharges' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,
-            otherBalloonCharge: otherBalloonChargeString,
             wallCharge: wallChargeString
           } );
         }
