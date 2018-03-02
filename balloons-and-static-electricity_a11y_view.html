@@ -123,7 +123,7 @@
     <div id="intro">
       <h1>Balloons and Static Electricity A11y View: Visual and Described content side by side</h1>
       <p>
-        The accessible version of Balloons and Static Electricity is embedded in the iframe below. As you interact with the visual
+        The accessible version of Balloons and Static Electricity is embedded in the iframe. As you interact with the visual
         sim
         in the
         iframe with either a keyboard or mouse, the descriptions for the sim automatically update on the right in a
@@ -225,7 +225,6 @@
 
       // get the parent container for the parallel DOM copy and the alert content
       var copyContainer = document.getElementById( 'dom-copy-container' );
-      var politeElementContainer = document.getElementById( 'polite-element-container' );
 
       // add the copies to the outer document
       copyContainer.appendChild( pDOMCopy );
@@ -273,8 +272,8 @@
         // in the iframe from staying hidden - see https://github.com/phetsims/chipper/issues/648
         setTimeout( function() {
 
-          // This is extremely ineficient - every time the document changes, make a new copy, remove
-          // the visual dom, and add a new one
+          // This is extremely inefficient - every time the document changes, make a new copy, remove
+          // the visual DOM, and add a new one
           // TODO: Work on refining this, and only modifying the elements that change in the PDOM
           copyContainer.removeChild( pDOMCopy );
           pDOMCopy = pDOM.cloneNode( true );
@@ -318,18 +317,18 @@
               var fadeArray = childrenArray.slice( 5, childrenArray.length );
 
               for ( var i = 0; i < fadeArray.length; i++ ) {
-                var firstChild = fadeArray[ 0 ];
+                var fadeChild = fadeArray[ i ];
 
                 var fadeout = function() {
-                  firstChild.style.opacity = firstChild.style.opacity * 0.95;
+                  fadeChild.style.opacity = fadeChild.style.opacity * 0.95;
 
                   // stop animating and remove child
-                  if( listElement.contains( firstChild ) && firstChild.style.opacity < 0.1 ) {
+                  if( listElement.contains( fadeChild ) && fadeChild.style.opacity < 0.1 ) {
                     window.clearInterval( intervalId );
-                    listElement.removeChild( firstChild );
+                    listElement.removeChild( fadeChild );
                   }
                 };
-                intervalId = window.setInterval( fadeout, 20 );
+                var intervalId = window.setInterval( fadeout, 20 );
               }
             }
           } );
@@ -340,7 +339,7 @@
 
       addLiveObserver( politeElement, alertList );
 
-      // set focus to the loaded ifram
+      // set focus to the loaded iframe
       document.getElementById( 'iframe' ).focus();
     }
   } );
