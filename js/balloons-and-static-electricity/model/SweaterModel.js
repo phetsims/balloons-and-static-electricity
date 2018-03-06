@@ -20,6 +20,11 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  // a11y strings
+  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
+  var netPositiveString = BASEA11yStrings.netPositiveString;
+  var netNeutralString = BASEA11yStrings.netNeutralString;
+
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [
     new Vector2( 104, 64 ),
@@ -136,7 +141,7 @@ define( function( require ) {
         if ( slice.contains( angle ) ) {
           if ( !shapeDefiningPoints[ sliceNumber ] ||
                ( chargePairPosition.distance( self.center ) >
-                 shapeDefiningPoints[ sliceNumber ].distance( self.center )) ) {
+                 shapeDefiningPoints[ sliceNumber ].distance( self.center ) ) ) {
 
             // this point is either the first one in this slice or further out than the previous one, so use it
             shapeDefiningPoints[ sliceNumber ] = chargePairPosition;
@@ -233,10 +238,10 @@ define( function( require ) {
      */
     getChargeDescription: function() {
       if ( this.chargeProperty.get() > 0 ) {
-        return StringUtils.format( BASEA11yStrings.sweaterNetChargePatternString, BASEA11yStrings.netPositiveString );
+        return StringUtils.format( sweaterNetChargePatternString, netPositiveString );
       }
       else {
-        return StringUtils.format( BASEA11yStrings.sweaterNetChargePatternString, BASEA11yStrings.netNeutralString );
+        return StringUtils.format( sweaterNetChargePatternString, netNeutralString );
       }
     },
 
