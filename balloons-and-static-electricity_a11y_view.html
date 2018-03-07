@@ -112,7 +112,7 @@
         <iframe id="iframe" allowfullscreen title="Interact with Balloons and Static Electricity"></iframe>
       </div>
       <div id="alerts">
-        <h3>Interactive alerts</h3>
+        <h3>Activity log - The most recent Interactive Alerts.</h3>
         <div id=alert-copy-container class=alert_copy_container>
           <div id='polite-element-container'>
             <ul class='alert_copy' id='alert-list'></ul>
@@ -120,7 +120,6 @@
         </div>
       </div>
     </div>
-
 
     <!--The PDOM copy will be placed in this container, along with a section just for alerts -->
     <div class="right">
@@ -350,6 +349,7 @@
       // set focus to the loaded iframe
       document.getElementById( 'iframe' ).focus();
 
+      // Provide fake focus highlighting to the PDOM copy based on what is actually highlighted in the sim.
       var previousElement = null;
       setInterval( function() {
 
