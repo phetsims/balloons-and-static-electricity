@@ -25,9 +25,9 @@
       background: #ccc;
     }
 
-    .left{
-      position:fixed;
-      width:47%;
+    .left {
+      position: fixed;
+      width: 47%;
     }
 
     /* This class was found online as a way to preserve an iframe aspect ratio,
@@ -93,6 +93,10 @@
       background-color: #9adaa6;
       border-bottom: double 3px #000; /*or a border in dark green*/
     }
+
+    .highlight {
+      border: thick double red;
+    }
   </style>
 
 </head>
@@ -118,24 +122,25 @@
     </div>
 
 
-  <!--The PDOM copy will be placed in this container, along with a section just for alerts -->
-  <div class="right">
-    <div id="intro">
-      <h1>Balloons and Static Electricity A11y View: Visual and Described content side by side</h1>
-      <p>
-        The accessible version of Balloons and Static Electricity is embedded in the iframe. As you interact with the visual sim in
-        the iframe with either a keyboard or mouse, the descriptions for the sim automatically update on the right in a
-        copy of the sim's structured Parallel Document Object Model, or PDOM.
-      </p>
+    <!--The PDOM copy will be placed in this container, along with a section just for alerts -->
+    <div class="right">
+      <div id="intro">
+        <h1>Balloons and Static Electricity A11y View: Visual and Described content side by side</h1>
+        <p>
+          The accessible version of Balloons and Static Electricity is embedded in the iframe. As you interact with the visual sim in
+          the iframe with either a keyboard or mouse, the descriptions for the sim automatically update on the right in
+          a
+          copy of the sim's structured Parallel Document Object Model, or PDOM.
+        </p>
+      </div>
+      <h2>Balloons and Static Electricity descriptions structured in a Parallel DOM</h2>
+      <h3>Static and Dynamic Descriptions</h3>
+      <div id="dom-copy-container" class="dom_copy_container" role="presentation"></div>
     </div>
-    <h2>Balloons and Static Electricity descriptions structured in a Parallel DOM</h2>
-    <h3>Static and Dynamic Descriptions</h3>
-    <div id="dom-copy-container" class="dom_copy_container" role="presentation"></div>
-  </div>
 
-  <!--clear the blocks after the float effect-->
-  <div class="clearfix"></div>
-</div>
+    <!--clear the blocks after the float effect-->
+    <div class="clearfix"></div>
+  </div>
 
 </div>
 
@@ -300,7 +305,7 @@
       function addLiveObserver( originalElement, listElement ) {
         var liveObserver = new MutationObserver( function( mutations ) {
           mutations.forEach( function( mutation ) {
-            var alertText = mutation.target.textContent
+            var alertText = mutation.target.textContent;
 
             // update the text content of the copied element to match the element in the iframe document
             // create a list item to add to the alert list
@@ -326,7 +331,7 @@
                   fadeChild.style.opacity = fadeChild.style.opacity * 0.95;
 
                   // stop animating and remove child
-                  if( listElement.contains( fadeChild ) && fadeChild.style.opacity < 0.1 ) {
+                  if ( listElement.contains( fadeChild ) && fadeChild.style.opacity < 0.1 ) {
                     window.clearInterval( intervalId );
                     listElement.removeChild( fadeChild );
                   }
@@ -344,6 +349,16 @@
 
       // set focus to the loaded iframe
       document.getElementById( 'iframe' ).focus();
+
+      var previousElement = null;
+      setInterval( function() {
+
+        if ( previousElement ) {
+          previousElement.classList.remove( 'highlight' );
+        }
+        previousElement = document.getElementById( 'iframe' ).contentWindow.document.activeElement;
+        previousElement.classList.add( 'highlight' );
+      }, 500 );
     }
   } );
 </script>
