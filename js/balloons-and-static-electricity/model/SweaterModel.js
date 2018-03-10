@@ -21,9 +21,9 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
-  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString;
-  var netPositiveString = BASEA11yStrings.netPositiveString;
-  var netNeutralString = BASEA11yStrings.netNeutralString;
+  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString.value;
+  var netPositiveString = BASEA11yStrings.netPositiveString.value;
+  var netNeutralString = BASEA11yStrings.netNeutralString.value;
 
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [

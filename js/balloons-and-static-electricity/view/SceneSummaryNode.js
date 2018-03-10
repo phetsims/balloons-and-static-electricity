@@ -29,29 +29,29 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
-  var sceneSummaryString = BASEA11yStrings.sceneSummaryString;
-  var openingSummaryString = BASEA11yStrings.openingSummaryString;
-  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString;
-  var andARemovableWallString = BASEA11yStrings.andARemovableWallString;
-  var aSweaterString = BASEA11yStrings.aSweaterString;
-  var andASweaterString = BASEA11yStrings.andASweaterString;
-  var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString;
+  var sceneSummaryString = BASEA11yStrings.sceneSummaryString.value;
+  var openingSummaryString = BASEA11yStrings.openingSummaryString.value;
+  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString.value;
+  var andARemovableWallString = BASEA11yStrings.andARemovableWallString.value;
+  var aSweaterString = BASEA11yStrings.aSweaterString.value;
+  var andASweaterString = BASEA11yStrings.andASweaterString.value;
+  var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString.value;
   var checkOutShortcutsString = JoistA11yStrings.checkOutShortcutsString;
-  var summaryObjectsString = BASEA11yStrings.summaryObjectsString;
-  var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString;
-  var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString;
-  var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePatternString;
-  var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePatternString;
-  var zeroString = BASEA11yStrings.zeroString;
-  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePatternString;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString;
-  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString;
-  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString;
-  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString;
-  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
-  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString;
-  var wallPositiveChargesDoNotMoveString =  BASEA11yStrings.wallPositiveChargesDoNotMoveString;
+  var summaryObjectsString = BASEA11yStrings.summaryObjectsString.value;
+  var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString.value;
+  var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString.value;
+  var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePatternString.value;
+  var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePatternString.value;
+  var zeroString = BASEA11yStrings.zeroString.value;
+  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePatternString.value;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString.value;
+  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString.value;
+  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString.value;
+  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString.value;
+  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
+  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
+  var wallPositiveChargesDoNotMoveString =  BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
 
   /**
    * @constructor

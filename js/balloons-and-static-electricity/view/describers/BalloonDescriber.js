@@ -29,109 +29,108 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // strings
-  var summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralChargeString;
-  var atWallString = BASEA11yStrings.atWallString;
-  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString;
-  var balloonStickingToString = BASEA11yStrings.balloonStickingToString;
-  var balloonOnString = BASEA11yStrings.balloonOnString;
-  var balloonAtString = BASEA11yStrings.balloonAtString;
-  var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString;
-  var balloonZeroString = BASEA11yStrings.balloonZeroString;
-  var balloonNegativeString = BASEA11yStrings.balloonNegativeString;
-  var balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePatternString;
-  var balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPatternString;
-  var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePatternString;
-  var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString;
-  var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString;
-  var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString;
-  var releasedString = BASEA11yStrings.releasedString;
-  var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString;
-  var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString;
-  var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString;
-  var twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPatternString;
-  var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString;
-  var verySlowlyString = BASEA11yStrings.verySlowlyString;
-  var slowlyString = BASEA11yStrings.slowlyString;
-  var quicklyString = BASEA11yStrings.quicklyString;
-  var veryQuicklyString = BASEA11yStrings.veryQuicklyString;
-  var upDraggingString = BASEA11yStrings.upDraggingString;
-  var leftDraggingString = BASEA11yStrings.leftDraggingString;
-  var downDraggingString = BASEA11yStrings.downDraggingString;
-  var rightDraggingString = BASEA11yStrings.rightDraggingString;
-  var upAndToTheRightDraggingString = BASEA11yStrings.upAndToTheRightDraggingString;
-  var upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDraggingString;
-  var downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDraggingString;
-  var downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDraggingString;
-  var upString = BASEA11yStrings.upString;
-  var leftString = BASEA11yStrings.leftString;
-  var downString = BASEA11yStrings.downString;
-  var rightString = BASEA11yStrings.rightString;
-  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
-  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
-  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
-  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
-  var atLeftEdgeString = BASEA11yStrings.atLeftEdgeString;
-  var atTopString = BASEA11yStrings.atTopString;
-  var atBottomString = BASEA11yStrings.atBottomString;
-  var atRightEdgeString = BASEA11yStrings.atRightEdgeString;
-  var onSweaterString = BASEA11yStrings.onSweaterString;
-  var offSweaterString = BASEA11yStrings.offSweaterString;  
-  var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString;
-  var balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPatternString;
-  var closerToObjectPatternString = BASEA11yStrings.closerToObjectPatternString;
-  var sweaterString = BASEA11yStrings.sweaterString;
-  var wallString = BASEA11yStrings.wallString;
-  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString;
-  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
-  var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString;
-  var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString;
-  var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString;
-  var nearSweaterString = BASEA11yStrings.nearSweaterString;
-  var balloonNearString = BASEA11yStrings.balloonNearString;
-  var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString;
-  var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString;
-  var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString;
-  var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString;
-  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString;
-  var interactionCueString = BASEA11yStrings.interactionCueString;
-  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString;
-  var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString;
-  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
-  var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString;
-  var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString;
-  var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString;
-  var balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPatternString;
-  var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString;
-  var balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePatternString;
-  var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString;
-  var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString;
-  var noChargePickupPatternString = BASEA11yStrings.noChargePickupPatternString;
-  var noChangeInChargesString = BASEA11yStrings.noChangeInChargesString;
-  var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetChargeString;
-  var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPatternString;
-  var releaseHintString = BASEA11yStrings.releaseHintString;
-  var balloonStickingToPatternString = BASEA11yStrings.balloonStickingToPatternString;
-  var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString;
-  var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString;
-  var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString;
-  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
-  var continuousMovementPatternString = BASEA11yStrings.continuousMovementPatternString;
-  var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPatternString;
-  var nowDirectionPatternString = BASEA11yStrings.nowDirectionPatternString;
-  var balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePatternString;
-  var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString;
-  var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString;
-  var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString;
-  var moreInducedChargePattnerString = BASEA11yStrings.moreInducedChargePattnerString;
-  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString;
-  var beginToMoveAwayString = BASEA11yStrings.beginToMoveAwayString;
-  var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMoreString;
-  var beginToReturnString = BASEA11yStrings.beginToReturnString;
-  var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString;
-  var wallRubbingWithPairsPatternSring = BASEA11yStrings.wallRubbingWithPairsPatternSring;
-  var noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePatternString;
-  var balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPatternString;
+  var summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralChargeString.value;
+  var atWallString = BASEA11yStrings.atWallString.value;
+  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString.value;
+  var balloonStickingToString = BASEA11yStrings.balloonStickingToString.value;
+  var balloonOnString = BASEA11yStrings.balloonOnString.value;
+  var balloonAtString = BASEA11yStrings.balloonAtString.value;
+  var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePatternString.value;
+  var balloonZeroString = BASEA11yStrings.balloonZeroString.value;
+  var balloonNegativeString = BASEA11yStrings.balloonNegativeString.value;
+  var balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePatternString.value;
+  var balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPatternString.value;
+  var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePatternString.value;
+  var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString.value;
+  var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString.value;
+  var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString.value;
+  var releasedString = BASEA11yStrings.releasedString.value;
+  var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
+  var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString.value;
+  var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString.value;
+  var twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPatternString.value;
+  var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString.value;
+  var verySlowlyString = BASEA11yStrings.verySlowlyString.value;
+  var slowlyString = BASEA11yStrings.slowlyString.value;
+  var quicklyString = BASEA11yStrings.quicklyString.value;
+  var veryQuicklyString = BASEA11yStrings.veryQuicklyString.value;
+  var upDraggingString = BASEA11yStrings.upDraggingString.value;
+  var leftDraggingString = BASEA11yStrings.leftDraggingString.value;
+  var downDraggingString = BASEA11yStrings.downDraggingString.value;
+  var rightDraggingString = BASEA11yStrings.rightDraggingString.value;
+  var upAndToTheRightDraggingString = BASEA11yStrings.upAndToTheRightDraggingString.value;
+  var upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDraggingString.value;
+  var downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDraggingString.value;
+  var downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDraggingString.value;
+  var upString = BASEA11yStrings.upString.value;
+  var leftString = BASEA11yStrings.leftString.value;
+  var downString = BASEA11yStrings.downString.value;
+  var rightString = BASEA11yStrings.rightString.value;
+  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString.value;
+  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString.value;
+  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString.value;
+  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString.value;
+  var atLeftEdgeString = BASEA11yStrings.atLeftEdgeString.value;
+  var atTopString = BASEA11yStrings.atTopString.value;
+  var atBottomString = BASEA11yStrings.atBottomString.value;
+  var atRightEdgeString = BASEA11yStrings.atRightEdgeString.value;
+  var onSweaterString = BASEA11yStrings.onSweaterString.value;
+  var offSweaterString = BASEA11yStrings.offSweaterString.value;
+  var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPatternString.value;
+  var balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPatternString.value;
+  var closerToObjectPatternString = BASEA11yStrings.closerToObjectPatternString.value;
+  var sweaterString = BASEA11yStrings.sweaterString.value;
+  var wallString = BASEA11yStrings.wallString.value;
+  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString.value;
+  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString.value;
+  var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayAreaString.value;
+  var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayAreaString.value;
+  var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPatternString.value;
+  var nearSweaterString = BASEA11yStrings.nearSweaterString.value;
+  var balloonNearString = BASEA11yStrings.balloonNearString.value;
+  var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePatternString.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
+  var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString.value;
+  var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString.value;
+  var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString.value;
+  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
+  var interactionCueString = BASEA11yStrings.interactionCueString.value;
+  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString.value;
+  var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString.value;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
+  var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString.value;
+  var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString.value;
+  var balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPatternString.value;
+  var balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPatternString.value;
+  var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString.value;
+  var balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePatternString.value;
+  var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString.value;
+  var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString.value;
+  var noChargePickupPatternString = BASEA11yStrings.noChargePickupPatternString.value;
+  var noChangeInChargesString = BASEA11yStrings.noChangeInChargesString.value;
+  var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetChargeString.value;
+  var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPatternString.value;
+  var releaseHintString = BASEA11yStrings.releaseHintString.value;
+  var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePatternString.value;
+  var wallRubbingPatternString = BASEA11yStrings.wallRubbingPatternString.value;
+  var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseToString.value;
+  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
+  var continuousMovementPatternString = BASEA11yStrings.continuousMovementPatternString.value;
+  var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPatternString.value;
+  var nowDirectionPatternString = BASEA11yStrings.nowDirectionPatternString.value;
+  var balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePatternString.value;
+  var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString.value;
+  var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString.value;
+  var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString.value;
+  var moreInducedChargePattnerString = BASEA11yStrings.moreInducedChargePattnerString.value;
+  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString.value;
+  var beginToMoveAwayString = BASEA11yStrings.beginToMoveAwayString.value;
+  var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMoreString.value;
+  var beginToReturnString = BASEA11yStrings.beginToReturnString.value;
+  var returnALittleMoreString = BASEA11yStrings.returnALittleMoreString.value;
+  var wallRubbingWithPairsPatternSring = BASEA11yStrings.wallRubbingWithPairsPatternSring.value;
+  var noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePatternString.value;
+  var balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPatternString.value;
 
   
   // constants
@@ -1444,20 +1443,6 @@ define( function( require ) {
       }
 
       return alert;
-    },
-
-    /**
-     * Get a description about how the balloon is sticking to an object, something like
-     * "Yellow balloon, sticking to"
-     *
-     * @return {string}
-     */
-    getStickingToObjectDescription: function() {
-      var balloonLocationDescription = this.getBalloonLocationDescription();
-      return StringUtils.fillIn( balloonStickingToPatternString, {
-        balloonLabel: this.accessibleLabel,
-        location: balloonLocationDescription
-      } );
     },
 
     /**

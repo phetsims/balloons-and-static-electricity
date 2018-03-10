@@ -44,18 +44,25 @@ define( function( require ) {
   var removeWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/removeWall' );
   var resetBalloonsString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloons' );
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
-  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString;
-  var controlPanelString = BASEA11yStrings.controlPanelString;
-  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString;
-  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString;
-  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString;
-  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString;
-  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString;
-  var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString;
-  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescriptionString;
-  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPatternString;
-  var balloonString = BASEA11yStrings.balloonString;
-  var balloonsString = BASEA11yStrings.balloonsString;
+
+  // a11y strings
+  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString.value;
+  var controlPanelString = BASEA11yStrings.controlPanelString.value;
+  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString.value;
+  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString.value;
+  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString.value;
+  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString.value;
+  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString.value;
+  var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString.value;
+  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescriptionString.value;
+  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPatternString.value;
+  var balloonString = BASEA11yStrings.balloonString.value;
+  var balloonsString = BASEA11yStrings.balloonsString.value;
+  var wallAddedString = BASEA11yStrings.wallAddedString.value;
+  var wallRemovedstring = BASEA11yStrings.wallRemovedString.value;
+  var positionsString = BASEA11yStrings.positionsString.value;
+  var positionString = BASEA11yStrings.positionString.value;
+  var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPatternString.value;
 
   /**
    * @constructor
@@ -105,10 +112,9 @@ define( function( require ) {
 
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
-      // var updatedLabel = wallVisible ? BASEA11yStrings.removeWallLabelString : BASEA11yStrings.addWallLabelString;
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
-        var alertDescription = wallVisible ? BASEA11yStrings.wallAddedString : BASEA11yStrings.wallRemovedString;
+        var alertDescription = wallVisible ? wallAddedString : wallRemovedstring;
         utteranceQueue.addToFront( alertDescription );
       }
     } );
@@ -260,9 +266,9 @@ define( function( require ) {
 
     // create the accessible description for the reset balloon button
     var generateDescriptionString = function( balloonVisible ) {
-      var balloonDescriptionString = balloonVisible ? BASEA11yStrings.balloonsString : BASEA11yStrings.balloonString;
-      var positionDescriptionString = balloonVisible ? BASEA11yStrings.positionsString : BASEA11yStrings.positionString;
-      return StringUtils.format( BASEA11yStrings.resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
+      var balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
+      var positionDescriptionString = balloonVisible ? positionsString : positionString;
+      return StringUtils.format( resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
     };
 
     // update the button description when the green balloon is made visible

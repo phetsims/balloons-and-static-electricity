@@ -36,9 +36,11 @@ define( function( require ) {
 
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
-  var playAreaString = BASEA11yStrings.playAreaString;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString;
+
+  // a11y strings
+  var playAreaString = BASEA11yStrings.playAreaString.value;
+  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString.value;
+  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString.value;
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );

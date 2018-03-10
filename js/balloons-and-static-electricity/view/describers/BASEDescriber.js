@@ -20,84 +20,84 @@ define( function( require ) {
 
   // strings
   // play area grid strings
-  var leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweaterString;
-  var leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweaterString;
-  var bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweaterString;
+  var leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweaterString.value;
+  var leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweaterString.value;
+  var bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweaterString.value;
 
-  var upperLeftSideOfSweaterString = BASEA11yStrings.upperLeftSideOfSweaterString;
-  var leftSideOfSweaterString = BASEA11yStrings.leftSideOfSweaterString;
-  var lowerLeftSideOfSweaterString = BASEA11yStrings.lowerLeftSideOfSweaterString;
+  var upperLeftSideOfSweaterString = BASEA11yStrings.upperLeftSideOfSweaterString.value;
+  var leftSideOfSweaterString = BASEA11yStrings.leftSideOfSweaterString.value;
+  var lowerLeftSideOfSweaterString = BASEA11yStrings.lowerLeftSideOfSweaterString.value;
 
-  var upperRightSideOfSweaterString = BASEA11yStrings.upperRightSideOfSweaterString;
-  var rightSideOfSweaterString = BASEA11yStrings.rightSideOfSweaterString;
-  var lowerRightSideOfSweater = BASEA11yStrings.lowerRightSideOfSweater;
+  var upperRightSideOfSweaterString = BASEA11yStrings.upperRightSideOfSweaterString.value;
+  var rightSideOfSweaterString = BASEA11yStrings.rightSideOfSweaterString.value;
+  var lowerRightSideOfSweater = BASEA11yStrings.lowerRightSideOfSweater.value;
 
-  var rightShoulderOfSweaterString = BASEA11yStrings.rightShoulderOfSweaterString;
-  var rightArmOfSweaterString = BASEA11yStrings.rightArmOfSweaterString;
-  var lowerRightArmOfSweaterString = BASEA11yStrings.lowerRightArmOfSweaterString;
+  var rightShoulderOfSweaterString = BASEA11yStrings.rightShoulderOfSweaterString.value;
+  var rightArmOfSweaterString = BASEA11yStrings.rightArmOfSweaterString.value;
+  var lowerRightArmOfSweaterString = BASEA11yStrings.lowerRightArmOfSweaterString.value;
 
-  var upperLeftSideOfPlayAreaString = BASEA11yStrings.upperLeftSideOfPlayAreaString;
-  var leftSideOfPlayAreaString = BASEA11yStrings.leftSideOfPlayAreaString;
-  var lowerLeftSideOfPlayAreaString = BASEA11yStrings.lowerLeftSideOfPlayAreaString;
+  var upperLeftSideOfPlayAreaString = BASEA11yStrings.upperLeftSideOfPlayAreaString.value;
+  var leftSideOfPlayAreaString = BASEA11yStrings.leftSideOfPlayAreaString.value;
+  var lowerLeftSideOfPlayAreaString = BASEA11yStrings.lowerLeftSideOfPlayAreaString.value;
 
-  var upperCenterOfPlayAreaString = BASEA11yStrings.upperCenterOfPlayAreaString;
-  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString;
-  var lowerCenterOfPlayAreaString = BASEA11yStrings.lowerCenterOfPlayAreaString;
+  var upperCenterOfPlayAreaString = BASEA11yStrings.upperCenterOfPlayAreaString.value;
+  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayAreaString.value;
+  var lowerCenterOfPlayAreaString = BASEA11yStrings.lowerCenterOfPlayAreaString.value;
 
-  var upperRightSideOfPlayAreaString = BASEA11yStrings.upperRightSideOfPlayAreaString;
-  var rightSideOfPlayAreaString = BASEA11yStrings.rightSideOfPlayAreaString;
-  var lowerRightSideOfPlayAreaString = BASEA11yStrings.lowerRightSideOfPlayAreaString;
+  var upperRightSideOfPlayAreaString = BASEA11yStrings.upperRightSideOfPlayAreaString.value;
+  var rightSideOfPlayAreaString = BASEA11yStrings.rightSideOfPlayAreaString.value;
+  var lowerRightSideOfPlayAreaString = BASEA11yStrings.lowerRightSideOfPlayAreaString.value;
 
-  var upperWallString = BASEA11yStrings.upperWallString;
-  var wallString = BASEA11yStrings.wallString;
-  var lowerWallString = BASEA11yStrings.lowerWallString;
+  var upperWallString = BASEA11yStrings.upperWallString.value;
+  var wallString = BASEA11yStrings.wallString.value;
+  var lowerWallString = BASEA11yStrings.lowerWallString.value;
 
-  var upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayAreaString;
-  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString;
-  var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayAreaString;
-
-  // charge strings
-  var noString = BASEA11yStrings.noString;
-  var zeroString = BASEA11yStrings.zeroString;
-  var aFewString = BASEA11yStrings.aFewString;
-  var severalString = BASEA11yStrings.severalString;
-  var manyString = BASEA11yStrings.manyString;
-  var negativeString = BASEA11yStrings.negativeString;
-
-  var eachBalloonString = BASEA11yStrings.eachBalloonString;
-  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel;
-
-  var landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweaterString;
-  var landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdgeString;
-  var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWallString;
-  var landmarkNearWallString = BASEA11yStrings.landmarkNearWallString;
-  var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWallString;
-  var landmarkVeryCloseToUpperWallString = BASEA11yStrings.landmarkVeryCloseToUpperWallString;
-  var landmarkVeryCloseToLowerWallString = BASEA11yStrings.landmarkVeryCloseToLowerWallString;
-  var landmarkVeryCloseToWallString = BASEA11yStrings.landmarkVeryCloseToWallString;
-  var landmarkVeryCloseToRightEdgeString = BASEA11yStrings.landmarkVeryCloseToRightEdgeString;
-  var landmarkVeryCloseToUpperRightEdgeString = BASEA11yStrings.landmarkVeryCloseToUpperRightEdgeString;
-  var landmarkVeryCloseToLowerRightEdgeString = BASEA11yStrings.landmarkVeryCloseToLowerRightEdgeString;
-  var landmarkVeryCloseToSweaterString = BASEA11yStrings.landmarkVeryCloseToSweaterString;
-  var landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdgeString;
-  var landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdgeString;
-  var landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdgeString;
-  var landmarkAtCenterPlayAreaString = BASEA11yStrings.landmarkAtCenterPlayAreaString;
-  var landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayAreaString;
-  var landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayAreaString;
-
-  var upString = BASEA11yStrings.upString;
-  var leftString = BASEA11yStrings.leftString;
-  var downString = BASEA11yStrings.downString;
-  var rightString = BASEA11yStrings.rightString;
-  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString;
-  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString;
-  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString;
-  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString;
+  var upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayAreaString.value;
+  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayAreaString.value;
+  var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayAreaString.value;
 
   // charge strings
-  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString;
-  var showingNoChargesString = BASEA11yStrings.showingNoChargesString;
+  var noString = BASEA11yStrings.noString.value;
+  var zeroString = BASEA11yStrings.zeroString.value;
+  var aFewString = BASEA11yStrings.aFewString.value;
+  var severalString = BASEA11yStrings.severalString.value;
+  var manyString = BASEA11yStrings.manyString.value;
+  var negativeString = BASEA11yStrings.negativeString.value;
+
+  var eachBalloonString = BASEA11yStrings.eachBalloonString.value;
+  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
+
+  var landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweaterString.value;
+  var landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdgeString.value;
+  var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWallString.value;
+  var landmarkNearWallString = BASEA11yStrings.landmarkNearWallString.value;
+  var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWallString.value;
+  var landmarkVeryCloseToUpperWallString = BASEA11yStrings.landmarkVeryCloseToUpperWallString.value;
+  var landmarkVeryCloseToLowerWallString = BASEA11yStrings.landmarkVeryCloseToLowerWallString.value;
+  var landmarkVeryCloseToWallString = BASEA11yStrings.landmarkVeryCloseToWallString.value;
+  var landmarkVeryCloseToRightEdgeString = BASEA11yStrings.landmarkVeryCloseToRightEdgeString.value;
+  var landmarkVeryCloseToUpperRightEdgeString = BASEA11yStrings.landmarkVeryCloseToUpperRightEdgeString.value;
+  var landmarkVeryCloseToLowerRightEdgeString = BASEA11yStrings.landmarkVeryCloseToLowerRightEdgeString.value;
+  var landmarkVeryCloseToSweaterString = BASEA11yStrings.landmarkVeryCloseToSweaterString.value;
+  var landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdgeString.value;
+  var landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdgeString.value;
+  var landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdgeString.value;
+  var landmarkAtCenterPlayAreaString = BASEA11yStrings.landmarkAtCenterPlayAreaString.value;
+  var landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayAreaString.value;
+  var landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayAreaString.value;
+
+  var upString = BASEA11yStrings.upString.value;
+  var leftString = BASEA11yStrings.leftString.value;
+  var downString = BASEA11yStrings.downString.value;
+  var rightString = BASEA11yStrings.rightString.value;
+  var upAndToTheRightString = BASEA11yStrings.upAndToTheRightString.value;
+  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeftString.value;
+  var downAndToTheRightString = BASEA11yStrings.downAndToTheRightString.value;
+  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeftString.value;
+
+  // charge strings
+  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString.value;
+  var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
 
   // constants
   var LOCATION_DESCRIPTION_MAP = {

@@ -22,6 +22,9 @@ define( function( require ) {
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
+  // a11y strings
+  var wallLabelString = BASEA11yStrings.wallLabelString.value;
+
   /**
    * @constructor
    * @param {BASEModel} model
@@ -43,7 +46,7 @@ define( function( require ) {
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: BASEA11yStrings.wallLabelString,
+      accessibleLabel: wallLabelString,
       descriptionTagName: 'p'
     } );
 
