@@ -989,7 +989,7 @@ define( function( require ) {
         var inducingCharge = this.balloonModel.inducingChargeProperty.get();
         var showCharges = this.showChargesProperty.get();
 
-        if ( this.balloonModel.touchingWallProperty.get() ) {
+        if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none') {
 
           // if touching the wall, describe as though the balloon is hitting the wall for the first time
           description = this.getWallRubbingDescriptionWithChargePairs();
@@ -1005,7 +1005,9 @@ define( function( require ) {
         else {
 
           // otherwise, only provide the location description
-          description = locationDescription;
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: locationDescription
+          } );
         }
       }
 
