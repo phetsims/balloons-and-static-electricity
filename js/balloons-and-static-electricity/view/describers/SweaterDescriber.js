@@ -211,7 +211,7 @@ define( function( require ) {
         } );
       }
 
-      return BASEA11yStrings.fragmentToSentence( description );
+      return description;
     },
 
     /**

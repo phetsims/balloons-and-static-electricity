@@ -565,6 +565,9 @@ define( function( require ) {
       var relativeCharge = '';
       if ( chargesShown !== 'none' ) {
         relativeCharge = this.getCombinedRelativeChargeDescription();
+        relativeCharge = StringUtils.fillIn( singleStatementPatternString,  {
+          statement: relativeCharge
+        } );
       }
       else {
         patternString = BASEA11yStrings.stripPlaceholders( grabbedPatternString, [ 'balloonCharge' ] );
