@@ -344,6 +344,9 @@ define( function( require ) {
 
       // when the balloon visibility changes, we will start with initial movement once it becomes visible again
       self.initialMovementDescribed = false;
+
+      // clear location on release until balloon is picked up again
+      self.model.locationOnRelease = null;
     } );
 
     // link the position of this node to the model
@@ -654,6 +657,9 @@ define( function( require ) {
         // if picked up again, start describing direction changes
         self.describeDirection = true;
 
+        // clear location of release until balloon is released again
+        self.model.locationOnRelease = null;
+
         alert = self.describer.getGrabbedAlert();
       }
       else {
@@ -661,11 +667,11 @@ define( function( require ) {
 
         // dont describe direction until initial release description happens
         self.describeDirection = false;
+
+        // to detect if location changes due to forces after release
+        self.model.locationOnRelease = model.locationProperty.get();
       }
       utteranceQueue.addToBack( alert );
-
-      // update the location of release
-      self.model.locationOnRelease = model.locationProperty.get();
 
       // reset flags that track description content
       self.initialMovementDescribed = false;
