@@ -613,8 +613,9 @@ define( function( require ) {
         var wallVisible = this.model.wall.isVisibleProperty.get();
 
         if ( chargesShown === 'diff' ) {
-          description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, chargesShown );
 
+          // if showing charge differences, no charges are shown, so include that information
+          description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, chargesShown );
           description = StringUtils.fillIn( singleStatementPatternString, {
             statement: description
           } );
