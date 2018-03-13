@@ -1116,6 +1116,15 @@ define( function( require ) {
         var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
         var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleLabel );
 
+        // balloon charge doesn't include punctuation
+        balloonChargeString = StringUtils.fillIn( singleStatementPatternString, {
+          statement: balloonChargeString
+        } );
+
+        wallChargeString = StringUtils.fillIn( singleStatementPatternString, {
+          statement: wallChargeString
+        } );
+
         // if balloons are adjacent, the relative charge description for both balloons must be included
         if ( this.model.getBalloonsAdjacent() ) {
 
