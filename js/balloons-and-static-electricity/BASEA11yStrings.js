@@ -567,7 +567,7 @@ define( function( require ) {
     value: 'Sweater has {{relativeCharge}}',
   },
   sweaterHasNetChargeShowingPatternString: {
-    value: 'Sweater has positive net charge, {{showing}}',
+    value: 'Sweater has positive net charge, {{showing}}.',
   },
   positiveNetChargeString: {
     value: 'positive net charge',
