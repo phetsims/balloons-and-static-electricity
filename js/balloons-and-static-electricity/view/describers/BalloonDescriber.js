@@ -612,24 +612,30 @@ define( function( require ) {
       if ( inducingChargeOrTouchingWall ) {
         var wallVisible = this.model.wall.isVisibleProperty.get();
 
-        if ( this.balloonModel.inducingChargeAndVisible() && this.balloonModel.other.inducingChargeAndVisible() ) {
+        if ( chargesShown === 'diff' ) {
+          description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, chargesShown );
 
-          // both balloons inducing charge, return combined descriptions
-          description = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
-        }
-        else if ( this.balloonModel.inducingChargeAndVisible() ) {
-
-          // only one balloon inducing charge, describe this
-          description = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: description
+          } );
         }
         else {
+          if ( this.balloonModel.inducingChargeAndVisible() && this.balloonModel.other.inducingChargeAndVisible() ) {
 
-          // touching wall, not inducing charge
-          var balloonCenter = this.balloonModel.getCenter();
-          description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getLocationDescription( balloonCenter, wallVisible ) );
-        }
+            // both balloons inducing charge, return combined descriptions
+            description = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
+          }
+          else if ( this.balloonModel.inducingChargeAndVisible() ) {
 
-        if ( chargesShown === 'all' ) {
+            // only one balloon inducing charge, describe this
+            description = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+          }
+          else {
+
+            // touching wall, not inducing charge
+            var balloonCenter = this.balloonModel.getCenter();
+            description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getLocationDescription( balloonCenter, wallVisible ) );
+          }
 
           // include a statement that the wall has many pairs of positive and negative charges
           description = StringUtils.fillIn( wallInducedChargeWithManyPairsPatternString, {
