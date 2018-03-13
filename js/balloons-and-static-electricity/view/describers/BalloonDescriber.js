@@ -849,8 +849,42 @@ define( function( require ) {
       return boundaryString;
     },
 
+
+    /**
+     * Get an alert that notifies balloon has entered or left the sweater. If balloon is adjacent to other balloon,
+     * this information is included in the alert. Will return something like
+     * "On Sweater."
+     * "On sweater, next to green balloon"
+     * "Off sweater"
+     *
+     * @param {boolean} onSweater
+     * @return {string}
+     */
     getOnSweaterString: function( onSweater ) {
-     return onSweater ? onSweaterString : offSweaterString;
+      var description;
+
+      if ( onSweater ) {
+        description = onSweaterString;
+
+        if ( this.model.getBalloonsAdjacent() ) {
+          description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
+            location: description,
+            otherBalloon: this.otherAccessibleLabel
+          } );
+        }
+        else {
+
+          // add punctuation
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: description
+          } );
+        }
+      }
+      else {
+        description = offSweaterString;
+      }
+
+      return description;
     },
 
     /**

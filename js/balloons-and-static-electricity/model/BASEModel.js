@@ -169,7 +169,7 @@ define( function( require ) {
      * @return {boolean}
      */
     getBalloonsAdjacent: function() {
-      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH / 2;
+      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH;
       return balloonsAdjacent && this.bothBalloonsVisible();
     },
 

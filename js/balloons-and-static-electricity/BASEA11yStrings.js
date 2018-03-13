@@ -866,7 +866,7 @@ define( function( require ) {
   },
 
   onSweaterString: {
-    value: 'On Sweater.',
+    value: 'On Sweater',
   },
   offSweaterString: {
     value: 'Off sweater.',
