@@ -592,7 +592,7 @@ define( function( require ) {
     value: 'No transfer of charge.',
   },
   wallPositiveChargesDoNotMoveString: {
-    value: 'Positive charges do not move.',
+    value: 'Positive charges do not move',
   },
   wallHasManyChargesString: {
     value: 'Wall has many pairs of negative and positive charges.',
