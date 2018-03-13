@@ -379,8 +379,9 @@ define( function( require ) {
 
         if ( this.model.bothBalloonsVisible() ) {
 
-          // the balloon is 
-          var otherBalloonDescription = this.getRelativeChargeDescriptionWithLabel( this.otherAccessibleLabel );
+          // the balloon is
+          var chargesShown = this.showChargesProperty.get();
+          var otherBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleLabel );
 
           description = StringUtils.fillIn( combinedChargePatternString, {
             grabbedBalloon: grabbedBalloonDescription,
@@ -1674,6 +1675,64 @@ define( function( require ) {
       else {
         return this.getRelativeChargeDescription();
       }
+    }
+  }, {
+
+    //--------------------------------------------------------------------------
+    // statics
+    //--------------------------------------------------------------------------
+    
+    getRelativeChargeDescription: function( balloonModel, showCharges ) {
+      var description;
+      var chargeValue = Math.abs( balloonModel.chargeProperty.get() );
+
+      // if charge view is 'diff' and there are no charges, we simply say that there are no
+      // charges shown
+      if ( chargeValue === 0 && showCharges === 'diff' ) {
+        description = showingNoChargesString;
+      }
+      else {
+        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
+        var stringPattern;
+        if ( showCharges === 'all' ) {
+          stringPattern = balloonRelativeChargePatternString;
+        }
+        else if ( showCharges === 'diff' ) {
+          stringPattern = balloonChargeDifferencesPatternString;
+        }
+        assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
+
+        description = StringUtils.fillIn( stringPattern, {
+          amount: relativeChargesString
+        } );
+      }
+
+      return description;
+    },
+
+    getRelativeChargeDescriptionWithLabel: function( balloonModel, showCharges, label ) {
+      var description;
+      var relativeCharge = BalloonDescriber.getRelativeChargeDescription( balloonModel, showCharges );
+      assert && assert( showCharges !== 'none', 'relative description with label should never be read when no charges are shown' );
+
+      if ( showCharges === 'all' ) {
+        description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
+          balloonLabel: label,
+          relativeCharge: relativeCharge
+        } );
+      }
+      else if ( showCharges === 'diff' ) {
+        var balloonCharge = balloonModel.chargeProperty.get();
+        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
+
+        description = StringUtils.fillIn( balloonHasNetChargePatternString, {
+          balloon: label,
+          charge: chargeString,
+          showing: relativeCharge
+        } );
+      }
+
+      return description;
     }
   } );
 } );
