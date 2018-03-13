@@ -231,12 +231,6 @@ define( function( require ) {
   atWallString: {
     value: 'At wall.',
   },
-  atWallTouchPointPatternString: {
-    value: 'At touch point, negative charges in wall {0}. Positive charges do not move.  Wall has neutral net charge, many pairs of negative and positive charges.',
-  },
-  wallRubStringPattern: {
-    value: 'No transfer of charge.  At touch point, negative charges in wall {0}.  Positive charges do not move.',
-  },
   wallChargesReturnString: {
     value: 'Negative charges in wall return {0}.',
   },
@@ -407,9 +401,6 @@ define( function( require ) {
   },
   twoBalloonLocationSummaryString: {
     value: '{{yellowBalloon}} {{greenBalloon}}',
-  },
-  balloonLocationSummaryWithPositiveChargeDescription: {
-    value: '{{balloonSummary}} Positive charges do not move.',
   },
 
   inducedChargePatternString: {
@@ -659,6 +650,10 @@ define( function( require ) {
 
   wallInducedChargeSummaryPatternString: {
     value: '{{inducedCharge}}. {{positiveCharge}}',
+  },
+
+  wallInducedChargeWithManyPairsPatternString: {
+    value: '{{inducedCharge}} {{chargePairs}}'
   },
 
     //------------------------------------------------------------------------
@@ -931,7 +926,16 @@ define( function( require ) {
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
   grabbedFullPatternString: {
-    value: 'Grabbed. {{location}} {{balloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherBalloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
+  },
+
+  grabbedPatternString: {
+      // value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}',
+    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
+  },
+
+  eachBalloonChargePatternString: {
+    value: 'Each balloon has {{charge}}'
   },
 
   balloonRelativeChargeAllPatternString: {
@@ -942,6 +946,10 @@ define( function( require ) {
   },
   balloonRelativeChargeDifferencesPatternString: {
     value: 'showing {{charge}} negative charges',
+  },
+
+  combinedChargePatternString: {
+    value: '{{grabbedBalloon}}. {{otherBalloon}}'
   },
 
   interactionCueString: {

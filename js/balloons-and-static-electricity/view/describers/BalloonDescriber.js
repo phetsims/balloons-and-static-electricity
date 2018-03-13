@@ -48,6 +48,10 @@ define( function( require ) {
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString.value;
   var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString.value;
+  var combinedChargePatternString = BASEA11yStrings.combinedChargePatternString.value;
+  var wallInducedChargeWithManyPairsPatternString = BASEA11yStrings.wallInducedChargeWithManyPairsPatternString.value;
+  var grabbedPatternString = BASEA11yStrings.grabbedPatternString.value;
+  var eachBalloonString = BASEA11yStrings.eachBalloonString.value;
   var twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPatternString.value;
   var extremelySlowlyString  = BASEA11yStrings.extremelySlowlyString.value;
   var verySlowlyString = BASEA11yStrings.verySlowlyString.value;
@@ -95,8 +99,6 @@ define( function( require ) {
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString.value;
   var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
   var interactionCueString = BASEA11yStrings.interactionCueString.value;
-  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString.value;
-  var balloonNetChargeShowingPatternString = BASEA11yStrings.balloonNetChargeShowingPatternString.value;
   var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
   var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString.value;
   var balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPatternString.value;
@@ -105,7 +107,6 @@ define( function( require ) {
   var balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPatternString.value;
   var balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePatternString.value;
   var lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPatternString.value;
-  var grabbedFullPatternString = BASEA11yStrings.grabbedFullPatternString.value;
   var noChargePickupPatternString = BASEA11yStrings.noChargePickupPatternString.value;
   var noChangeInChargesString = BASEA11yStrings.noChangeInChargesString.value;
   var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetChargeString.value;
@@ -314,8 +315,10 @@ define( function( require ) {
 
     /**
      * Get a description of the relative charge of the balloon, just a segment like
-     * "several more negative charges than positive charges".  Usages will place the
-     * segment into the correct context.
+     * 
+     * "several more negative charges than positive charges".
+     * 
+     * Usages will place the segment into the correct context.
      * 
      * @return {string}
      */
@@ -349,6 +352,52 @@ define( function( require ) {
     },
 
     /**
+     * Get the combined relative charge description for each balloon. Will return something like
+     * 
+     * "Each balloon has zero net charge, showing no charges." or
+     * "Green balloon has negative net charge, showing a few negative charges. Yellow balloon has zero net charge, 
+     *   showing no charges." or
+     * "Each balloon has no more negative charges than positive charges." or
+     * "Green balloon has several more negative charges than positive  charges. Yellow balloon has several more
+     *   negative charges than positive charges." or
+     *
+     * @return {string}
+     */
+    getCombinedRelativeChargeDescription: function() {
+      assert && assert( this.balloonModel.isDraggedProperty.get() );
+      var description;
+
+      // the relative charge, used in all cases
+      var sameChargeRange = BASEDescriber.getBalloonsVisibleWithSameChargeRange( this.balloonModel, this.balloonModel.other );
+
+      // if both balloons have the same charge range, describe togethehr
+      if ( sameChargeRange ) {
+        description = this.getRelativeChargeDescriptionWithLabel( eachBalloonString );
+      }
+      else {
+        var grabbedBalloonDescription = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
+
+        if ( this.model.bothBalloonsVisible() ) {
+
+          // the balloon is 
+          var otherBalloonDescription = this.getRelativeChargeDescriptionWithLabel( this.otherAccessibleLabel );
+
+          description = StringUtils.fillIn( combinedChargePatternString, {
+            grabbedBalloon: grabbedBalloonDescription,
+            otherBalloon: otherBalloonDescription
+          } );
+        }
+        else {
+
+          // just the visible balloon
+          description = grabbedBalloonDescription;
+        }
+      }
+
+      return description;
+    },
+
+    /**
      * Get the relative charge with the accessible label, something like
      * "Yellow balloon has a few more negative charges than positive charges." or
      * "Yellow balloon has negative net charge, showing several negative charges." or 
@@ -358,7 +407,7 @@ define( function( require ) {
      * 
      * @return {string}
      */
-    getRelativeChargeDescriptionWithLabel: function() {
+    getRelativeChargeDescriptionWithLabel: function( label ) {
       var description;
       var relativeCharge = this.getRelativeChargeDescription();
       var chargesShown = this.showChargesProperty.get();
@@ -367,7 +416,7 @@ define( function( require ) {
 
       if ( chargesShown === 'all' ) {
         description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
-          balloonLabel: this.accessibleLabel,
+          balloonLabel: label,
           relativeCharge: relativeCharge
         } );
       }
@@ -376,7 +425,7 @@ define( function( require ) {
         var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
 
         description = StringUtils.fillIn( balloonHasNetChargePatternString, {
-          balloon: this.accessibleLabel,
+          balloon: label,
           charge: chargeString,
           showing: relativeCharge
         } );
@@ -575,143 +624,94 @@ define( function( require ) {
      * @return {string}
      */
     getGrabbedAlert: function() {
-      var alertString;
-      var patternString = grabbedFullPatternString;
+      var patternString = grabbedPatternString;
+
       var chargesShown = this.showChargesProperty.get();
-      var wallVisible = this.model.wall.isVisibleProperty.get();
 
       // attractive state and location is described for every charge view, it is a single sentence in this use cases
       var stateAndLocation = this.getOnLocationDescription();
       stateAndLocation = BASEA11yStrings.fragmentToSentence( stateAndLocation );
 
-      // the first time the balloon is picked up, we include help content
-      if ( this.balloonPickedUp ) {
-        patternString = BASEA11yStrings.stripPlaceholders( grabbedFullPatternString, [ 'help' ] );
+      // get a description of the relative charge of the grabbed balloon, and possibly the other relative charge
+      // of the other balloon if visible
+      var relativeCharge = '';
+      if ( chargesShown !== 'none' ) {
+        relativeCharge = this.getCombinedRelativeChargeDescription();
+      }
+      else {
+        patternString = BASEA11yStrings.stripPlaceholders( grabbedPatternString, [ 'balloonCharge' ] );
       }
 
-      var relativeChargeString;
-      var chargeString;
-      if ( chargesShown === 'all' ) {
+      var inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
+      var onSweater = this.balloonModel.onSweater();
 
-        relativeChargeString = this.getRelativeChargeDescription();
+      var otherObjectCharge = '';
+      if ( inducingChargeOrTouchingWall || onSweater && ( chargesShown !== 'none' ) ) {
+        otherObjectCharge = this.getOtherObjectChargeDescription();
+      }
+      else {
+        patternString = BASEA11yStrings.stripPlaceholders( grabbedPatternString, [ 'otherObjectCharge' ] );
+      }
 
-        // format the relative charge descriptions, it is a single sentence in this use case
-        chargeString = StringUtils.fillIn( balloonRelativeChargeAllPatternString, {
-          charge: relativeChargeString
-        } );
-        chargeString = BASEA11yStrings.fragmentToSentence( chargeString );
+      // get a description of the sweater charge or wall charge if balloon is on that object or inducing charge
 
-        // if the balloon is inducing charge, or touching wall, the state of induced charge needs to be included in
-        // the description for the balloon
-        var inducedChargeString;
-        if ( this.balloonModel.touchingWall() && this.balloonModel.isCharged() ) {
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: chargeString,
-            inducedCharge: inducedChargeString,
-            positiveCharge: wallPositiveChargesDoNotMoveString,
-            objectCharge: wallHasManyChargesString,
-            help: interactionCueString 
-          } );
+      return StringUtils.fillIn( patternString, {
+        location: stateAndLocation,
+        balloonCharge: relativeCharge,
+        otherObjectCharge: otherObjectCharge,
+        help: interactionCueString
+      } );
+    },
+
+    /**
+     * Get a description of the induced charge in the wall or the charge of the sweater. To be used by the "grab" alert
+     * when the balloon is picked up.
+     *
+     * @return {string}
+     */
+    getOtherObjectChargeDescription: function() {
+      var inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
+      var onSweater = this.balloonModel.onSweater();
+      assert && assert( onSweater || inducingChargeOrTouchingWall, 'only include this phrase when balloon is inducing charge or on sweater' );
+      var description;
+
+      var chargesShown = this.showChargesProperty.get();
+
+      // if balloon is inducing charge, describe that object
+      if ( inducingChargeOrTouchingWall ) {
+        var wallVisible = this.model.wall.isVisibleProperty.get();
+
+        if ( this.balloonModel.inducingChargeAndVisible() && this.balloonModel.other.inducingChargeAndVisible() ) {
+
+          // both balloons inducing charge, return combined descriptions
+          description = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
         }
-        else if ( this.balloonModel.touchingWall() && !this.balloonModel.isCharged() ) {
+        else if ( this.balloonModel.inducingChargeAndVisible() ) {
 
-          // if inducing charge but not touching the wall, we need induced charge to not include amount
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
-
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge' ] );
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: chargeString,
-            inducedCharge: inducedChargeString,
-            objectCharge: wallHasManyChargesString,
-            help: interactionCueString 
-          } );
-        }
-        else if ( this.balloonModel.onSweater() ) {
-          var sweaterCharge = this.model.sweater.chargeProperty.get();
-          var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, chargesShown );
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge' ] );
-
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: chargeString,
-            objectCharge: relativeSweaterCharge,
-            help: interactionCueString
-          } );
-        }
-        else if ( this.balloonModel.inducingChargeProperty.get() && wallVisible) {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'positiveCharge', 'objectCharge' ] );
-          inducedChargeString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
-
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: chargeString,
-            inducedCharge: inducedChargeString,
-            help: interactionCueString
-          } );
+          // only one balloon inducing charge, describe this
+          description = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge',  'objectCharge' ] );
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: chargeString,
-            help: interactionCueString
+
+          // touching wall, not inducing charge
+          var balloonCenter = this.balloonModel.getCenter();
+          description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getLocationDescription( balloonCenter, wallVisible ) );
+        }
+
+        if ( chargesShown === 'all' ) {
+
+          // include a statement that the wall has many pairs of positive and negative charges
+          description = StringUtils.fillIn( wallInducedChargeWithManyPairsPatternString, {
+            inducedCharge: description,
+            chargePairs: wallHasManyChargesString
           } );
         }
       }
-      else if ( chargesShown === 'none' ) {
-
-        // if no charges are shown, we should only hear location and help information on grab
-        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
-        alertString = StringUtils.fillIn( patternString, {
-          location: stateAndLocation,
-          help: interactionCueString 
-        } );
-      }
-      else if ( chargesShown === 'diff' ) {
-        var netChargeString = this.getNetChargeDescription();
-        relativeChargeString = this.getRelativeChargeDescription();
-
-        var netAndRelativeString = StringUtils.fillIn( balloonNetChargeShowingPatternString, {
-          netCharge: netChargeString,
-          showing: relativeChargeString
-        } );
-
-        if ( this.balloonModel.touchingWall() || this.balloonModel.onSweater() ) {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge' ] );
-
-          var objectChargeString;
-          if ( this.balloonModel.touchingWall() ) {
-            objectChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.balloonModel, this.balloonModel.other, wallVisible, chargesShown );
-          }
-          else {
-            objectChargeString = SweaterDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.chargeProperty.get(), chargesShown );
-          }
-
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: netAndRelativeString,
-            objectCharge: objectChargeString,
-            help: interactionCueString
-          } );
-        }
-        else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'inducedCharge', 'positiveCharge', 'objectCharge' ] );
-          alertString = StringUtils.fillIn( patternString, {
-            location: stateAndLocation,
-            balloonCharge: netAndRelativeString,
-            help: interactionCueString
-          } );
-        }
+      else if ( onSweater ) {
+        description = SweaterDescriber.getRelativeChargeDescriptionWithLabel( this.model.sweater.chargeProperty.get(), chargesShown );
       }
 
-      // after assembling the alert, this flag will prevent help information until reset
-      this.balloonPickedUp = true;
-
-      assert && assert( alertString, 'No grabbed alert for charge view ' + chargesShown );
-      return alertString;
+      return description;
     },
 
     /**
@@ -1181,7 +1181,7 @@ define( function( require ) {
       }
       else {
         var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
-        var balloonChargeString = this.getRelativeChargeDescriptionWithLabel();
+        var balloonChargeString = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
 
         // if balloons are adjacent, the relative charge description for both balloons must be included
         if ( this.model.getBalloonsAdjacent() ) {
@@ -1281,7 +1281,7 @@ define( function( require ) {
         // we will generate a special description that mentions the relative charges
         var sweaterCharge = this.model.sweater.chargeProperty.get();
 
-        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel();
+        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
         var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
 
         description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
@@ -1330,7 +1330,7 @@ define( function( require ) {
       var charge = this.balloonModel.chargeProperty.get();
 
       var sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );
-      var balloonChargeString = this.getRelativeChargeDescriptionWithLabel();
+      var balloonChargeString = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
 
       return StringUtils.fillIn( lastChargePickedUpPatternString, {
         sweater: sweaterChargeString,

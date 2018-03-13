@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -198,25 +198,52 @@ define( function( require ) {
     }
   };
 
-  // constants - ranges to describe relative charges in various objects
-  var RELATIVE_CHARGE_DESCRIPTION_MAP = {
-    NO_MORE_RANGE: {
-      range: new Range( 0, 0 ),
-      description: noString
-    },
-    A_FEW_RANGE: {
-      range: new Range( 1, 15 ),
-      description: aFewString
-    },
-    SEVERAL_RANGE: {
-      range: new Range( 15, 40 ),
-      description: severalString
-    },
-    MANY_RANGE: {
-      range: new Range( 40, 57 ),
-      description: manyString
+  /**
+   * Generate a map from physical value to accessible descripton. Each described range has a length of 
+   * valueRange / descriptionArray.length
+   *
+   * @param {[].string} descriptionArray
+   * @param {RangeWithValue} valueRange
+   * @param {Object[]} [entries] - Additional entries to add to the mapped value range, will look something like
+   *                             { description: {string}, range: {Range} }
+   *
+   * @return {Object}
+   */
+  var generateDescriptionMapWithEntries = function( descriptionArray, valueRange, entries ) {
+    entries = entries || [];
+    var map = {};
+
+    var minValue = valueRange.min;
+    for ( var i = 0; i < descriptionArray.length; i++ ) {
+
+      var nextMin = minValue + valueRange.getLength() / descriptionArray.length;
+
+      map[ i ] = {};
+      map[ i ].description = descriptionArray[ i ];
+      map[ i ].range = new Range( minValue, nextMin );
+
+      // correct for any precision issues
+      if ( i === descriptionArray.length - 1 ) {
+        map[ descriptionArray.length - 1 ].range = new Range( minValue, valueRange.max );
+      }
+
+      minValue = nextMin;
     }
+
+    if ( entries.length > 0 ) {
+      for ( var j = 0; j < entries.length; j++ ) {
+        map[ descriptionArray.length + j ] = entries[ j ];
+      }
+    }
+
+    return map;
   };
+
+  var relativeChargeStrings = [ aFewString, severalString, manyString ];
+  var RELATIVE_CHARGE_DESCRIPTION_MAP = generateDescriptionMapWithEntries( relativeChargeStrings, new Range( 1, BASEConstants.MAX_BALLOON_CHARGE ), [ {
+    range: new Range( 0, 0 ),
+    description: noString
+  } ] );
 
   // maps  direction to a description string
   var DIRECTION_MAP = {
@@ -230,13 +257,7 @@ define( function( require ) {
     DOWN_LEFT: downAndToTheLeftString
   };
 
-  function BASEDescriber() {
-    // TODO: Does this really need a type? Or can it be a static Object?
-  }
-
-  balloonsAndStaticElectricity.register( 'BASEDescriber', BASEDescriber );
-
-  return inherit( Object, BASEDescriber, {}, {
+  var BASEDescriber = {
 
     /**
      * Get the location description for the balloon. This is not a full description, but a short
@@ -332,7 +353,6 @@ define( function( require ) {
       var absCharge = Math.abs( charge );
 
       var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
-
       var description;
 
       for ( var i = 0; i < keys.length; i++ ) {
@@ -350,7 +370,7 @@ define( function( require ) {
     /**
      * For a given charge, get the described range. Useful for comparing ranges before and after
      * a charge pickup. Descriptions are generated relative to the absolute value of the charge.
-     * 
+     *
      * @param  {number} charge
      * @return {Range}
      */
@@ -370,6 +390,24 @@ define( function( require ) {
 
       assert && assert( range, 'no charge range found for charge ' + charge );
       return range;
+    },
+
+    /**
+     * Returns true if both balloons the same described charge range.
+     *
+     * @param {BalloonModel} balloonA
+     * @param {BalloonModel} balloonB
+     *
+     * @return {[type]} [description]
+     */
+    getBalloonsVisibleWithSameChargeRange: function( balloonA, balloonB ) {
+      var rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
+      var rangeB = BASEDescriber.getDescribedChargeRange( balloonB.chargeProperty.get() );
+
+      var visibleA = balloonA.isVisibleProperty.get();
+      var visibleB = balloonB.isVisibleProperty.get();
+
+      return rangeA.equals( rangeB ) && ( visibleA && visibleB );
     },
 
     /**
@@ -424,8 +462,10 @@ define( function( require ) {
       }
 
       return description;
-    },
+    }
+  };
 
-    RELATIVE_CHARGE_DESCRIPTION_MAP: RELATIVE_CHARGE_DESCRIPTION_MAP
-  } );
+  balloonsAndStaticElectricity.register( 'BASEDescriber', BASEDescriber );
+
+  return BASEDescriber;
 } );

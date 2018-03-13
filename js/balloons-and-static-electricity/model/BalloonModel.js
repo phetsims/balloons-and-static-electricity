@@ -1197,7 +1197,7 @@ define( function( require ) {
     // @static - value for Coulomb's constant used in the calculations but NOT THE ACTUAL VALUE.  It has been tweaked in
     // order to get the visual behavior that we need in the sim.
     FORCE_CONSTANT: 0.05,
-    BALLOON_WIDTH: BALLOON_WIDTH 
+    BALLOON_WIDTH: BALLOON_WIDTH
 
   } );
 

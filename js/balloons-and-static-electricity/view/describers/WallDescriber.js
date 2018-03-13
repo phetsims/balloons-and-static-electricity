@@ -181,10 +181,8 @@ define( function( require ) {
           positiveCharge: wallPositiveChargesDoNotMoveString
         } );
       }
-      else {
-        descriptionString = wallChargeString;
-      }
 
+      descriptionString = wallChargeString;
       return descriptionString;
     },
 
@@ -273,7 +271,8 @@ define( function( require ) {
      * closest charge to the balloon, and determine how far it has been displaced from its initial position. Will
      * return something like:
      *
-     * "Negative charges in wall move away from yellow balloon a little bit."
+     * "Negative charges in wall move away from yellow balloon a little bit." or
+     * "Negative charges in wall move away from yellow balloon a little bit. Positive charges do not move."
      * 
      * @static
      * @public
@@ -301,24 +300,42 @@ define( function( require ) {
         descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
       }
 
+      // if all charges are shown, include information about how positive charges do not move
+      if ( balloon.inducingChargeProperty.get() ) {
+        descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
+          inducedCharge: descriptionString,
+          positiveCharge: wallPositiveChargesDoNotMoveString
+        } );
+      }
+
       return descriptionString;
     },
 
     /**
-     * Get a description of both balloons. If the balloons are next to each other, this description should be used.
+     * Get a description of both balloons. Will return something like : TODO
      *
-     * @return {[type]} [description]
+     * @return {string}
      */
     getCombinedInducedChargeDescription: function( balloon, wallVisible, includeWallLocation ) {
+      var descriptionString;
       var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, includeWallLocation );
 
       var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
-      return StringUtils.fillIn( inducedChargePatternString, {
+      descriptionString = StringUtils.fillIn( inducedChargePatternString, {
         wallLocation: chargeLocationString,
         balloon: bothBalloonsString,  
         inductionAmount: inducedChargeAmount
       } ); 
+
+      if ( balloon.inducingChargeProperty.get() ) {
+        descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
+          inducedCharge: descriptionString,
+          positiveCharge: wallPositiveChargesDoNotMoveString
+        } );
+      }
+      
+      return descriptionString;
     },
 
     /**
