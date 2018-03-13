@@ -649,7 +649,7 @@ define( function( require ) {
   },
 
   wallInducedChargeSummaryPatternString: {
-    value: '{{inducedCharge}}. {{positiveCharge}}',
+    value: '{{inducedCharge}} {{positiveCharge}}',
   },
 
   wallInducedChargeWithManyPairsPatternString: {
