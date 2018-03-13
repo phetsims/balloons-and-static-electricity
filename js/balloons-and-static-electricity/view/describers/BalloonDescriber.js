@@ -48,6 +48,7 @@ define( function( require ) {
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString.value;
   var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString.value;
+  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString.value;
   var combinedChargePatternString = BASEA11yStrings.combinedChargePatternString.value;
   var wallInducedChargeWithManyPairsPatternString = BASEA11yStrings.wallInducedChargeWithManyPairsPatternString.value;
   var grabbedPatternString = BASEA11yStrings.grabbedPatternString.value;
@@ -351,8 +352,10 @@ define( function( require ) {
         }
         else {
 
-          // just the visible balloon
-          description = grabbedBalloonDescription;
+          // just the visible balloon, this description should not include the balloon's' label
+          description = StringUtils.fillIn( balloonRelativeChargeAllPatternString, {
+            charge: BalloonDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown )
+          } );
         }
       }
 
