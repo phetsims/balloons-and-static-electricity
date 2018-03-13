@@ -269,7 +269,7 @@ define( function( require ) {
         var netChargeDescriptionString = this.getNetChargeDescription();
 
         // balloon relative charge string, dependent on charge visibility
-        var relativeChargesString = this.getRelativeChargeDescription();
+        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( this.balloonModel.chargeProperty.get() );
 
         description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
           stateAndLocation: attractiveStateAndLocationString,
@@ -314,44 +314,6 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the relative charge of the balloon, just a segment like
-     * 
-     * "several more negative charges than positive charges".
-     * 
-     * Usages will place the segment into the correct context.
-     * 
-     * @return {string}
-     */
-    getRelativeChargeDescription: function() {
-      var description;
-      var chargeValue = Math.abs( this.balloonModel.chargeProperty.get() );
-      var showCharges = this.showChargesProperty.get();
-
-      // if charge view is 'diff' and there are no charges, we simply say that there are no
-      // charges shown
-      if ( chargeValue === 0 && showCharges === 'diff' ) {
-        description = showingNoChargesString;
-      }
-      else {
-        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
-        var stringPattern;
-        if ( showCharges === 'all' ) {
-          stringPattern = balloonRelativeChargePatternString;
-        }
-        else if ( showCharges === 'diff' ) {
-          stringPattern = balloonChargeDifferencesPatternString;
-        }
-        assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
-
-        description = StringUtils.fillIn( stringPattern, {
-          amount: relativeChargesString
-        } );
-      }
-
-      return description;
-    },
-
-    /**
      * Get the combined relative charge description for each balloon. Will return something like
      * 
      * "Each balloon has zero net charge, showing no charges." or
@@ -370,17 +332,16 @@ define( function( require ) {
       // the relative charge, used in all cases
       var sameChargeRange = BASEDescriber.getBalloonsVisibleWithSameChargeRange( this.balloonModel, this.balloonModel.other );
 
+      var chargesShown = this.showChargesProperty.get();
+
       // if both balloons have the same charge range, describe togethehr
       if ( sameChargeRange ) {
-        description = this.getRelativeChargeDescriptionWithLabel( eachBalloonString );
+        description = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, eachBalloonString );
       }
       else {
-        var grabbedBalloonDescription = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
+        var grabbedBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, this.accessibleLabel );
 
         if ( this.model.bothBalloonsVisible() ) {
-
-          // the balloon is
-          var chargesShown = this.showChargesProperty.get();
           var otherBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleLabel );
 
           description = StringUtils.fillIn( combinedChargePatternString, {
@@ -393,43 +354,6 @@ define( function( require ) {
           // just the visible balloon
           description = grabbedBalloonDescription;
         }
-      }
-
-      return description;
-    },
-
-    /**
-     * Get the relative charge with the accessible label, something like
-     * "Yellow balloon has a few more negative charges than positive charges." or
-     * "Yellow balloon has negative net charge, showing several negative charges." or 
-     * "Yellow balloon has zero net charge, showing no charges."
-     *
-     * Dependent on the charge view.
-     * 
-     * @return {string}
-     */
-    getRelativeChargeDescriptionWithLabel: function( label ) {
-      var description;
-      var relativeCharge = this.getRelativeChargeDescription();
-      var chargesShown = this.showChargesProperty.get();
-
-      assert && assert( chargesShown !== 'none', 'relative description with label should never be read when no charges are shown' );
-
-      if ( chargesShown === 'all' ) {
-        description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
-          balloonLabel: label,
-          relativeCharge: relativeCharge
-        } );
-      }
-      else if ( chargesShown === 'diff' ) {
-        var balloonCharge = this.balloonModel.chargeProperty.get();
-        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
-
-        description = StringUtils.fillIn( balloonHasNetChargePatternString, {
-          balloon: label,
-          charge: chargeString,
-          showing: relativeCharge
-        } );
       }
 
       return description;
@@ -1182,7 +1106,7 @@ define( function( require ) {
       }
       else {
         var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
-        var balloonChargeString = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
+        var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleLabel );
 
         // if balloons are adjacent, the relative charge description for both balloons must be included
         if ( this.model.getBalloonsAdjacent() ) {
@@ -1282,7 +1206,7 @@ define( function( require ) {
         // we will generate a special description that mentions the relative charges
         var sweaterCharge = this.model.sweater.chargeProperty.get();
 
-        var relativeBalloonCharge = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
+        var relativeBalloonCharge = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleLabel );
         var relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
 
         description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
@@ -1331,7 +1255,7 @@ define( function( require ) {
       var charge = this.balloonModel.chargeProperty.get();
 
       var sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );
-      var balloonChargeString = this.getRelativeChargeDescriptionWithLabel( this.accessibleLabel );
+      var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleLabel );
 
       return StringUtils.fillIn( lastChargePickedUpPatternString, {
         sweater: sweaterChargeString,
@@ -1673,7 +1597,7 @@ define( function( require ) {
         return summaryBalloonNeutralChargeString;
       }
       else {
-        return this.getRelativeChargeDescription();
+        return BASEDescriber.getRelativeChargeDescription( this.balloonModel.chargeProperty.get() );
       }
     }
   }, {
@@ -1710,6 +1634,16 @@ define( function( require ) {
       return description;
     },
 
+    /**
+     * Get the relative charge with the accessible label, something like
+     * "Yellow balloon has a few more negative charges than positive charges." or
+     * "Yellow balloon has negative net charge, showing several negative charges." or 
+     * "Yellow balloon has zero net charge, showing no charges."
+     *
+     * Dependent on the charge view.
+     * 
+     * @return {string}
+     */
     getRelativeChargeDescriptionWithLabel: function( balloonModel, showCharges, label ) {
       var description;
       var relativeCharge = BalloonDescriber.getRelativeChargeDescription( balloonModel, showCharges );
