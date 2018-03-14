@@ -73,6 +73,8 @@ define( function( require ) {
     /**
      * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
      * inspection.
+     *
+     * TODO: This should be moved to  WallModel.js
      * @public
      *
      * @param {Vector2} force - force applied on this charge
