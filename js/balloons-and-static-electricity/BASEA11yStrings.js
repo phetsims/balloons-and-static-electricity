@@ -591,9 +591,6 @@ define( function( require ) {
   wallNoTransferOfChargeString: {
     value: 'No transfer of charge.',
   },
-  wallPositiveChargesDoNotMoveString: {
-    value: 'Positive charges do not move',
-  },
   wallHasManyChargesString: {
     value: 'Wall has many pairs of negative and positive charges.',
   },
@@ -620,7 +617,7 @@ define( function( require ) {
   },
 
   wallRubbingPatternString: {
-    value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}} {{positiveCharges}}',
+    value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
   },
   wallRubbingWithPairsPatternSring: {
     value: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.',
@@ -649,7 +646,7 @@ define( function( require ) {
   },
 
   wallInducedChargeSummaryPatternString: {
-    value: '{{inducedCharge}} {{positiveCharge}}',
+    value: '{{inducedCharge}} Positive charges do not move.',
   },
 
   wallInducedChargeWithManyPairsPatternString: {
