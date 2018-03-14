@@ -753,7 +753,7 @@ define( function( require ) {
       }
 
       // if balloon touching wall and inducing charge, include induced charge information
-      if ( this.balloonModel.touchingWallProperty.get() && this.model.showChargesProperty.get() === 'all' ) {
+      if ( this.balloonModel.touchingWall() && this.model.showChargesProperty.get() === 'all' ) {
         var wallVisible = this.model.wall.isVisibleProperty.get();
 
         var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
