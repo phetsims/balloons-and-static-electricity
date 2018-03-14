@@ -241,11 +241,10 @@ define( function( require ) {
      * Get the induced charge description without the amount of induced charge. Will return something like
      * "Negative charges in wall move away from yellow balloon."
      *
-     * @param {[type]} balloon [description]
-     * @param {[type]} balloon [description]
-     * @param {[type]} wallVisible [description]
-     *
-     * @return {[type]} [description]
+     * @param {BalloonModel} balloon
+     * @param {string} balloonLabel
+     * @param {boolean} wallVisible
+     * @return {string}
      */
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
