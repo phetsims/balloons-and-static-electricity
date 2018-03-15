@@ -342,6 +342,7 @@ define( function( require ) {
      * "lower wall"
      *
      * @param {[type]} balloon [description]
+     * @param wallVisible
      * @param {[type]} includeWallLocation [description]
      *
      * @return {[type]} [description]
@@ -358,6 +359,7 @@ define( function( require ) {
      * on which charges are visible and number of pairs in the wall.
      *
      * @param {string} chargesShown - one of 'none'|'all'|'diff'
+     * @param numberOfCharges
      * @return {string}
      */
     getSummaryChargeDescription: function( chargesShown, numberOfCharges ) {
@@ -365,7 +367,7 @@ define( function( require ) {
 
       var wallObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
         object: wallLabelString,
-        charge: zeroString,
+        charge: zeroString
       } );
 
       return StringUtils.fillIn( summaryObjectChargePatternString, {
