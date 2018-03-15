@@ -56,6 +56,8 @@ define( function( require ) {
   /**
    * @constructor
    * @param {BASEModel} model
+   * @param yellowBalloonNode
+   * @param greenBalloonNode
    * @param wallNode
    * @param {Tandem} tandem
    */
@@ -97,7 +99,7 @@ define( function( require ) {
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
-    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcuts.value } ) );
+    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
 
     // update the description that covers the visible objects in the play area
     Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
