@@ -42,7 +42,6 @@ define( function( require ) {
   var wallLabelString = BASEA11yStrings.wallLabelString.value;
   var zeroString = BASEA11yStrings.zeroString.value;
   var bothBalloonsString = BASEA11yStrings.bothBalloonsString.value;
-  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
   var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
 
   // constants
@@ -177,8 +176,7 @@ define( function( require ) {
       // if all charges are shown, include information about how positive charges do not move
       if ( chargesShown === 'all' ) {
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: wallChargeString,
-          positiveCharge: wallPositiveChargesDoNotMoveString
+          inducedCharge: wallChargeString
         } );
       }
 
@@ -243,11 +241,10 @@ define( function( require ) {
      * Get the induced charge description without the amount of induced charge. Will return something like
      * "Negative charges in wall move away from yellow balloon."
      *
-     * @param {[type]} balloon [description]
-     * @param {[type]} balloon [description]
-     * @param {[type]} wallVisible [description]
-     *
-     * @return {[type]} [description]
+     * @param {BalloonModel} balloon
+     * @param {string} balloonLabel
+     * @param {boolean} wallVisible
+     * @return {string}
      */
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
@@ -303,8 +300,7 @@ define( function( require ) {
       // if all charges are shown, include information about how positive charges do not move
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: descriptionString,
-          positiveCharge: wallPositiveChargesDoNotMoveString
+          inducedCharge: descriptionString
         } );
       }
 
@@ -330,8 +326,7 @@ define( function( require ) {
 
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: descriptionString,
-          positiveCharge: wallPositiveChargesDoNotMoveString
+          inducedCharge: descriptionString
         } );
       }
       

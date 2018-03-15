@@ -19,637 +19,634 @@ define( function( require ) {
   // General utility strings
   //------------------------------------------------------------------------
   singleStatementPatternString: {
-    value: '{{statement}}.'
+    value: '{{statement}}.',
   },
 
   bothBalloonsString: {
-    value: 'balloons'
+    value: 'balloons',
   },
 
   // TODO: Can these be removed?
   balloonDescriptionPatternString: {
-    value: '{0} {1} {2}' // location, charge, interaction cu
+    value: '{0} {1} {2}', // location, charge, interaction cu,
   },
   balloonGrabbedDescriptionPatternString: {
-    value: '{0} {1} {2} {3}' // grabbed, location, charge, interaction cue
+    value: '{0} {1} {2} {3}', // grabbed, location, charge, interaction cue,
   },
   balloonDragDescriptionPatternString: {
-    value: '{0} {1} {2} {3} {4} {5}' // direction, proximity, charge,
+    value: '{0} {1} {2} {3} {4} {5}', // direction, proximity, charge, ,
   },
   grabButtonNavigationCueString: {
-    value: 'Look for grab button to play.'
+    value: 'Look for grab button to play.',
   },
 
   grabBalloonToPlayString: {
-    value: 'Grab balloon to play.'
+    value: 'Grab balloon to play.',
   },
 
   positionString: {
-    value: 'position'
+    value: 'position',
   },
   positionsString: {
-    value: 'positions'
+    value: 'positions',
   },
 
     // location strings
   balloonLocationStringPattern: {
-    value: 'In {0}.'
+    value: 'In {0}.',
   },
   draggingLocationStringPattern: {
-    value: 'At {0}.'
+    value: 'At {0}.',
   },
 
     // location strings for the grid in the play area
   leftShoulderOfSweaterString: {
-    value: 'left shoulder of sweater'
+    value: 'left shoulder of sweater',
   },
   leftArmOfSweaterString: {
-    value: 'left arm of sweater'
+    value: 'left arm of sweater',
   },
   bottomLeftEdgeOfSweaterString: {
-    value: 'lower-left arm of sweater'
+    value: 'lower-left arm of sweater',
   },
 
   upperLeftSideOfSweaterString: {
-    value: 'upper-left side of sweater'
+    value: 'upper-left side of sweater',
   },
   leftSideOfSweaterString: {
-    value: 'left side of sweater'
+    value: 'left side of sweater',
   },
   lowerLeftSideOfSweaterString: {
-    value: 'lower-left side of sweater'
+    value: 'lower-left side of sweater',
   },
 
   upperRightSideOfSweaterString: {
-    value: 'upper-right side of sweater'
+    value: 'upper-right side of sweater',
   },
   rightSideOfSweaterString: {
-    value: 'right side of sweater'
+    value: 'right side of sweater',
   },
   lowerRightSideOfSweater: {
-    value: 'lower-right side of sweater'
+    value: 'lower-right side of sweater',
   },
 
   rightShoulderOfSweaterString: {
-    value: 'right shoulder of sweater'
+    value: 'right shoulder of sweater',
   },
   rightArmOfSweaterString: {
-    value: 'right arm of sweater'
+    value: 'right arm of sweater',
   },
   lowerRightArmOfSweaterString: {
-    value: 'lower-right arm of sweater'
+    value: 'lower-right arm of sweater',
   },
 
   upperLeftSideOfPlayAreaString: {
-    value: 'upper-left side of Play Area'
+    value: 'upper-left side of Play Area',
   },
   leftSideOfPlayAreaString: {
-    value: 'left side of Play Area'
+    value: 'left side of Play Area',
   },
   lowerLeftSideOfPlayAreaString: {
-    value: 'lower-left side of Play Area'
+    value: 'lower-left side of Play Area',
   },
 
   upperCenterOfPlayAreaString: {
-    value: 'upper-center of Play Area'
+    value: 'upper-center of Play Area',
   },
   centerOfPlayAreaString: {
-    value: 'center of Play Area'
+    value: 'center of Play Area',
   },
   lowerCenterOfPlayAreaString: {
-    value: 'lower-center of Play Area'
+    value: 'lower-center of Play Area',
   },
 
   upperRightSideOfPlayAreaString: {
-    value: 'upper-right side of Play Area'
+    value: 'upper-right side of Play Area',
   },
   rightSideOfPlayAreaString: {
-    value: 'right side of Play Area'
+    value: 'right side of Play Area',
   },
   lowerRightSideOfPlayAreaString: {
-    value: 'lower-right side of Play Area'
+    value: 'lower-right side of Play Area',
   },
 
   upperWallString: {
-    value: 'upper wall'
+    value: 'upper wall',
   },
   wallString: {
-    value: 'wall'
+    value: 'wall',
   },
   lowerWallString: {
-    value: 'lower wall'
+    value: 'lower wall',
   },
 
   upperRightEdgeOfPlayAreaString: {
-    value: 'upper-right edge of Play Area'
+    value: 'upper-right edge of Play Area',
   },
   rightEdgeOfPlayAreaString: {
-    value: 'right edge of Play Area'
+    value: 'right edge of Play Area',
   },
   lowerRightEdgeOfPlayAreaString: {
-    value: 'lower-right edge of Play Area'
+    value: 'lower-right edge of Play Area',
   },
 
     // landmark strings
   landmarkNearSweaterString: {
-    value: 'sweater' // 'near' added programatciall
+    value: 'sweater', // 'near' added programatcially
   },
   landmarkLeftEdgeString: {
-    value: 'left edge'
+    value: 'left edge',
   },
   landmarkNearUpperWallString: {
-    value: 'upper wall'
+    value: 'upper wall',
   },
   landmarkNearWallString: {
-    value: 'wall' // 'near' added programmaticall
+    value: 'wall', // 'near' added programmatically
   },
   landmarkNearLowerWallString: {
-    value: 'lower wall'
+    value: 'lower wall',
   },
   landmarkNearUpperRightEdgeString: {
-    value: 'upper right edge' // 'near' added programmaticall
+    value: 'upper right edge', // 'near' added programmatically
   },
   landmarkNearRightEdgeString: {
-    value: 'right edge' // 'near' added programmaticall
+    value: 'right edge', // 'near' added programmatically
   },
   landmarkNearLowerRightEdgeString: {
-    value: 'lower-right edge' // 'near' added programmaticall
+    value: 'lower-right edge', // 'near' added programmatically
   },
   landmarkAtCenterPlayAreaString: {
-    value: 'center of play area'
+    value: 'center of play area',
   },
   landmarkAtUpperCenterPlayAreaString: {
-    value: 'upper-center of play area' // 'At added programmatically
+    value: 'upper-center of play area', // 'At added programmatically'
   },
   landmarkAtLowerCenterPlayAreaString: {
-    value: 'lower-center of play area' // 'At added programmatically
+    value: 'lower-center of play area', // 'At added programmatically'
   },
 
     // location strings while touching another object
   touchingWallStringPattern: {
-    value: 'Touching {0}.'
+    value: 'Touching {0}.',
   },
 
     // charge descriptions
   namedBalloonChargeDescriptionPatternString: {
-    value: '{0} has {1} net charge, {2} more negative charges than positive charges.'
+    value: '{0} has {1} net charge, {2} more negative charges than positive charges.',
   },
   balloonChargeStringPattern: {
-    value: 'Has {0} net charge, {1} more negative charges than positive charges.'
+    value: 'Has {0} net charge, {1} more negative charges than positive charges.',
   },
 
   neutralString: {
-    value: 'neutral'
+    value: 'neutral',
   },
   negativeString: {
-    value: 'negative'
+    value: 'negative',
   },
   positiveString: {
-    value: 'positive'
+    value: 'positive',
   },
 
   noString: {
-    value: 'no'
+    value: 'no',
   },
   aFewString: {
-    value: 'a few'
+    value: 'a few',
   },
   severalString: {
-    value: 'several'
+    value: 'several',
   },
   manyString: {
-    value: 'many'
+    value: 'many',
   },
   allString: {
-    value: 'all'
+    value: 'all',
   },
   zeroString: {
-    value: 'zero'
+    value: 'zero',
   },
 
     // wall charge descriptions
   atWallString: {
-    value: 'At wall.'
+    value: 'At wall.',
   },
   wallChargesReturnString: {
-    value: 'Negative charges in wall return {0}.'
+    value: 'Negative charges in wall return {0}.',
   },
 
   slightlyString: {
-    value: 'slightly'
+    value: 'slightly',
   },
   allTheWayString: {
-    value: 'all the way'
+    value: 'all the way',
   },
   noChangeInChargesString: {
-    value: 'No change in charges'
+    value: 'No change in charges',
   },
   noChangeInNetChargeString: {
-    value: 'No change in net charge'
+    value: 'No change in net charge',
   },
   moveALittleBitString: {
-    value: 'move away from balloon a little bit'
+    value: 'move away from balloon a little bit',
   },
   moveALotString: {
-    value: 'move away from balloon a lot'
+    value: 'move away from balloon a lot',
   },
   moveQuiteALotString: {
-    value: 'move away from balloon quite a lot'
+    value: 'move away from balloon quite a lot',
   },
   doNotMoveString: {
-    value: 'do not move'
+    value: 'do not move',
   },
 
   noMoreChargesRemainingOnSweaterString: {
-    value: 'No change in charges. No more charges remaining on sweater.'
+    value: 'No change in charges. No more charges remaining on sweater.',
   },
 
     // release descriptions
   noChangeInPositionOrChargeString: {
-    value: 'No change in position.  No change in charge.'
+    value: 'No change in position.  No change in charge.',
   },
 
   sweaterString: {
-    value: 'sweater'
+    value: 'sweater',
   },
 
     // interaction descriptions
   upTowardsTopString: {
-    value: 'Up. Towards top.'
+    value: 'Up. Towards top.',
   },
   leftTowardsSweaterString: {
-    value: 'Left. Towards sweater.'
+    value: 'Left. Towards sweater.',
   },
   downTowardsBottomString: {
-    value: 'Down. Towards bottom.'
+    value: 'Down. Towards bottom.',
   },
   rightTowardsWallString: {
-    value: 'Right. Towards wall.'
+    value: 'Right. Towards wall.',
   },
   rightTowardsRightSideOfPlayAreaString: {
-    value: 'Right. Towards right side of play area.'
+    value: 'Right. Towards right side of play area.',
   },
 
   closerToTopString: {
-    value: 'Up. Closer to top.'
+    value: 'Up. Closer to top.',
   },
   closerToSweaterString: {
-    value: 'Left. Closer to sweater.'
+    value: 'Left. Closer to sweater.',
   },
   closerToBottomString: {
-    value: 'Down. Closer to bottom.'
+    value: 'Down. Closer to bottom.',
   },
   closerToWallString: {
-    value: 'Right. Closer to wall.'
+    value: 'Right. Closer to wall.',
   },
   closerToRightSideString: {
-    value: 'Right. Closer to right side of play area.'
+    value: 'Right. Closer to right side of play area.',
   },
 
   wallRemovedString: {
-    value: 'Wall removed from play area.'
+    value: 'Wall removed from play area.',
   },
   wallAddedString: {
-    value: 'Wall added to play area.'
+    value: 'Wall added to play area.',
   },
 
     // boundary strings
   atTopOfPlayAreaString: {
-    value: 'At top.'
+    value: 'At top.',
   },
   atBottomOfPlayAreaString: {
-    value: 'At bottom.'
+    value: 'At bottom.',
   },
   leftEdgeString: {
-    value: 'At left edge.'
+    value: 'At left edge.',
   },
   rightEdgeString: {
-    value: 'At right edge.'
+    value: 'At right edge.',
   },
 
   onSweaterPatternStringString: {
-    value: 'On sweater. {0}'
+    value: 'On sweater. {0}',
   },
   picksUpNegativeChargesString: {
-    value: 'Picks up negative charges from sweater.'
+    value: 'Picks up negative charges from sweater.',
   },
   nearWallString: {
-    value: 'Near wall.'
+    value: 'Near wall.',
   },
 
   atCenterOfPlayAreaString: {
-    value: 'At center of play area.'
+    value: 'At center of play area.',
   },
   onRightSideOfPlayAreaString: {
-    value: 'On right side of play area.'
+    value: 'On right side of play area.',
   },
 
   againMoreChargesString: {
-    value: 'Again, more negative charges.'
+    value: 'Again, more negative charges.',
   },
 
     // labels
   greenBalloonString: {
-    value: 'Green balloon'
+    value: 'Green balloon',
   },
   yellowBalloonString: {
-    value: 'Yellow balloon'
+    value: 'Yellow balloon',
   },
   eachBalloonString: {
-    value: 'Each balloon'
+    value: 'Each balloon',
   },
 
     //------------------------------------------------------------------------
     // Scene summary strings
     //------------------------------------------------------------------------
   sceneSummaryString: {
-    value: 'Scene Summary'
+    value: 'Scene Summary',
   },
   openingSummaryString: {
-    value: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
+    value: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.',
   },
 
     // objects for the scene summary
   roomObjectsPatternString: {
-    value: 'Currently, room has {{description}}.'
+    value: 'Currently, room has {{description}}.',
   },
   aYellowBalloonString: {
-    value: 'a yellow balloon,'
+    value: 'a yellow balloon,',
   },
   aGreenBalloonString: {
-    value: 'a green balloon,'
+    value: 'a green balloon,',
   },
   aSweaterString: {
-    value: 'a sweater,'
+    value: 'a sweater,',
   },
   andASweaterString: {
-    value: 'and a sweater'
+    value: 'and a sweater',
   },
   andARemovableWallString: {
-    value: 'and a removable wall'
+    value: 'and a removable wall',
   },
   summaryObjectsString: {
-    value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}'
+    value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}',
   },
 
     // patterns for the balloon description in the scene summary
   balloonSummaryWithInducedChargePatternString: {
-    value: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}.'
+    value: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}.',
   },
   balloonSummaryWithoutInducedChargePatternString: {
-    value: '{{balloon}}, {{attractiveState}} {{location}}.'
+    value: '{{balloon}}, {{attractiveState}} {{location}}.',
   },
   twoBalloonLocationSummaryString: {
-    value: '{{yellowBalloon}} {{greenBalloon}}'
+    value: '{{yellowBalloon}} {{greenBalloon}}',
   },
 
   inducedChargePatternString: {
-    value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.'
+    value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.',
   },
   inducedChargeNoAmountPatternString: {
-    value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.'
+    value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.',
   },
 
     // describing the attractive state of a balloon
   sceneSummaryOnString: {
-    value: 'on'
+    value: 'on',
   },
   sceneSummaryTouchingString: {
-    value: 'touching'
+    value: 'touching',
   },
 
     // scene summary charge strings
   allHaveNoNetChargeString: {
-    value: 'All have zero net charge'
+    value: 'All have zero net charge',
   },
   neutralBalloonChargePatternString: {
-    value: '{{balloon}} has a few pairs of negative and positive charges.'
+    value: '{{balloon}} has a few pairs of negative and positive charges.',
   },
   neutralSweaterChargeString: {
-    value: 'Sweater, many pairs of negative and positive charges.'
+    value: 'Sweater, many pairs of negative and positive charges.',
   },
   neutralSweaterAndWallChargeString: {
-    value: 'Sweater and wall, many pairs of negative and positive charges.'
+    value: 'Sweater and wall, many pairs of negative and positive charges.',
   },
   summaryBalloonNeutralChargeString: {
-    value: 'a few pairs of negative and positive charges'
+    value: 'a few pairs of negative and positive charges',
   },
   summaryBalloonChargePatternString: {
-    value: '{{balloonCharge}}, {{showingCharge}}.'
+    value: '{{balloonCharge}}, {{showingCharge}}.',
   },
   summaryEachBalloonChargePatternString: {
-    value: '{{yellowBalloon}} {{greenBalloon}}'
+    value: '{{yellowBalloon}} {{greenBalloon}}',
   },
   summarySweaterAndWallString: {
-    value: 'Sweater and wall'
+    value: 'Sweater and wall',
   },
 
     // general charge information for the scene summary
   summaryObjectHasChargePatternString: {
-    value: '{{object}} has {{charge}} net charge'
+    value: '{{object}} has {{charge}} net charge',
   },
   summaryObjectsHaveChargePatternString: {
-    value: '{{objects}} have {{charge}} net charge'
+    value: '{{objects}} have {{charge}} net charge',
   },
   summaryNeutralChargesPatternString: {
-    value: '{{amount}} pairs of negative and positive charges'
+    value: '{{amount}} pairs of negative and positive charges',
   },
   summaryObjectChargePatternString: {
-    value: '{{object}}, {{charge}}.'
+    value: '{{object}}, {{charge}}.',
   },
   summarySweaterWallPatternString: {
-    value: '{{sweater}} {{wall}}'
+    value: '{{sweater}} {{wall}}',
   },
 
   summarySecondBalloonInducingChargePatternString: {
-    value: 'from green balloon {{amount}}.'
+    value: 'from green balloon {{amount}}.',
   },
   summaryBothBalloonsPatternString: {
-    value: '{{yellowBalloon}}, {{greenBalloon}}'
+    value: '{{yellowBalloon}}, {{greenBalloon}}',
   },
 
     //-----------------
     // Location Descriptions
   twoBalloonDescriptionPattern: {
-    value: '{0} {1}'
+    value: '{0} {1}',
   },
   balloonLocationDescriptionStringPattern: {
-    value: '{0}, {1}'
+    value: '{0}, {1}',
   },
   balloonInCenterPatternString: {
-    value: '{0} {1}'
+    value: '{0} {1}',
   },
 
     // TODO: are these used anywhere?
   balloonAndSweaterString: {
-    value: 'a balloon and a sweater'
+    value: 'a balloon and a sweater',
   },
   twoBalloonsAndASweater: {
-    value: 'two balloons and a sweater'
+    value: 'two balloons and a sweater',
   },
   inPlayAreaStringPattern: {
-    value: 'in {0} of play area.'
+    value: 'in {0} of play area.',
   },
   inPlayAreaNearItemStringPattern: {
-    value: 'in {0} of play area, {1}.'
+    value: 'in {0} of play area, {1}.',
   },
   evenlyBetweenString: {
-    value: 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.'
+    value: 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.',
   },
   negativeChargesMoveStringPattern: {
-    value: 'Negative charges in wall move away from balloon {0}.'
+    value: 'Negative charges in wall move away from balloon {0}.',
   },
 
     //------------------------------------------------------------------------
     // Induced charge strings
     //------------------------------------------------------------------------
   aLittleBitString: {
-    value: 'a little bit'
+    value: 'a little bit',
   },
   aLotString: {
-    value: 'a lot'
+    value: 'a lot',
   },
   quiteALotString: {
-    value: 'quite a lot'
+    value: 'quite a lot',
   },
 
     //------------------------------------------------------------------------
     // Charge view strings
     //------------------------------------------------------------------------
   showingNoChargesString: {
-    value: 'showing no charges'
+    value: 'showing no charges',
   },
 
     //------------------------------------------------------------------------
     // Object strings (strings shared between all objects)
     //------------------------------------------------------------------------
   manyChargePairsString: {
-    value: 'many pairs of positive and negative charges'
+    value: 'many pairs of positive and negative charges',
   },
 
     //------------------------------------------------------------------------
     // Sweater strings
     //------------------------------------------------------------------------
   sweaterLabelString: {
-    value: 'Sweater'
+    value: 'Sweater',
   },
   sweaterLocationString: {
-    value: 'At left edge of Play Area.'
+    value: 'At left edge of Play Area.',
   },
   sweaterDescriptionPatternString: {
-    value: '{{location}} {{charge}}'
+    value: '{{location}} {{charge}}',
   },
   sweaterChargePatternString: {
-    value: '{{netCharge}}, {{relativeCharge}}'
+    value: '{{netCharge}}, {{relativeCharge}}',
   },
   sweaterNetChargePatternString: {
-    value: 'Has {{netCharge}} net charge'
+    value: 'Has {{netCharge}} net charge',
   },
   sweaterRelativeChargePatternString: {
-    value: '{{charge}} more positive charges than negative charges'
+    value: '{{charge}} more positive charges than negative charges',
   },
   sweaterShowingPatternString: {
-    value: 'showing {{charge}} positive charges'
+    value: 'showing {{charge}} positive charges',
   },
   sweaterRelativeChargeAllPatternString: {
-    value: '{{charge}} more positive charges than negative charges.'
+    value: '{{charge}} more positive charges than negative charges.',
   },
   sweaterRelativeChargeDifferencesPatternString: {
-    value: 'showing {{charge}} positive charges'
+    value: 'showing {{charge}} positive charges',
   },
   sweaterNoChargesShownString: {
-    value: 'no charges shown'
+    value: 'no charges shown',
   },
   sweaterNoMoreChargesString: {
-    value: 'no more negative charges, only positive charges'
+    value: 'no more negative charges, only positive charges',
   },
   sweaterHasRelativeChargePatternString: {
-    value: 'Sweater has {{relativeCharge}}'
+    value: 'Sweater has {{relativeCharge}}',
   },
   sweaterHasNetChargeShowingPatternString: {
-    value: 'Sweater has positive net charge, {{showing}}.'
+    value: 'Sweater has positive net charge, {{showing}}.',
   },
   positiveNetChargeString: {
-    value: 'positive net charge'
+    value: 'positive net charge',
   },
   neutralNetChargeString: {
-    value: 'neutral net charge'
+    value: 'neutral net charge',
   },
 
     //------------------------------------------------------------------------
     // Wall strings
     //------------------------------------------------------------------------
   wallDescriptionPatternString: {
-    value: '{{location}}. {{charge}}'
+    value: '{{location}}. {{charge}}',
   },
   wallLocationString: {
-    value: 'At right edge of Play Area'
+    value: 'At right edge of Play Area',
   },
   wallNoNetChargeString: {
-    value: 'Has zero net charge'
+    value: 'Has zero net charge',
   },
   wallNoTransferOfChargeString: {
-    value: 'No transfer of charge.'
-  },
-  wallPositiveChargesDoNotMoveString: {
-    value: 'Positive charges do not move'
+    value: 'No transfer of charge.',
   },
   wallHasManyChargesString: {
-    value: 'Wall has many pairs of negative and positive charges.'
+    value: 'Wall has many pairs of negative and positive charges.',
   },
   wallChargeWithoutInducedPatternString: {
-    value: '{{netCharge}}, {{shownCharges}}'
+    value: '{{netCharge}}, {{shownCharges}}',
   },
   wallChargeWithInducedPatternString: {
-    value: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}'
+    value: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}',
   },
   wallTwoBalloonInducedChargePatternString: {
-    value: '{{yellowBalloon}}. {{greenBalloon}}'
+    value: '{{yellowBalloon}}. {{greenBalloon}}',
   },
   wallChargedRubbingAllPatternString: {
-    value: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.'
+    value: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.',
   },
   wallNeutralRubbingAllPatternString: {
-    value: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.'
+    value: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.',
   },
   wallNoChangeInChargesPatternString: {
-    value: 'In {{location}}, no change in charges.' // punctuation inserted in another string patter
+    value: 'In {{location}}, no change in charges.', // punctuation inserted in another string pattern
   },
   wallChargePatternStringWithLabel: {
-    value: 'Wall {{wallCharge}}'
+    value: 'Wall {{wallCharge}}',
   },
 
   wallRubbingPatternString: {
-    value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}} {{positiveCharges}}'
+    value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}',
   },
   wallRubbingWithPairsPatternSring: {
-    value: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.'
+    value: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.',
   },
 
     // description when balloon moves towards/away from wall inducing charge
   moreInducedChargePattnerString: {
-    value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.'
+    value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',
   },
   lessInducedChargePatternString: {
-    value: 'Negative charges in {{location}} {{movement}}.'
+    value: 'Negative charges in {{location}} {{movement}}.',
   },
 
   beginToMoveAwayString: {
-    value: 'begin to move away'
+    value: 'begin to move away',
   },
   moveAwayALittleMoreString: {
-    value: 'move away a little more'
+    value: 'move away a little more',
   },
 
   beginToReturnString: {
-    value: 'begin to return'
+    value: 'begin to return',
   },
   returnALittleMoreString: {
-    value: 'return a little more'
+    value: 'return a little more',
   },
 
   wallInducedChargeSummaryPatternString: {
-    value: '{{inducedCharge}} {{positiveCharge}}'
+    value: '{{inducedCharge}} Positive charges do not move.',
   },
 
   wallInducedChargeWithManyPairsPatternString: {
@@ -660,277 +657,277 @@ define( function( require ) {
     // Balloon strings
     //------------------------------------------------------------------------
   greenBalloonLabelString: {
-    value: 'Green Balloon'
+    value: 'Green Balloon',
   },
   yellowBalloonLabelString: {
-    value: 'Yellow Balloon'
+    value: 'Yellow Balloon',
   },
   grabBalloonPatternString: {
-    value: 'Grab {{balloon}}'
+    value: 'Grab {{balloon}}',
   },
 
   grabBalloonHelpString: {
-    value: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
+    value: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.',
   },
 
   balloonLocationAttractiveStatePatternString: {
-    value: '{{attractiveState}} {{location}}'
+    value: '{{attractiveState}} {{location}}',
   },
   balloonShowAllChargesPatternString: {
-    value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
+    value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.',
   },
   balloonShowNoChargesPatternString: {
-    value: '{{stateAndLocation}}.'
+    value: '{{stateAndLocation}}.',
   },
   balloonShowChargeDifferencesPatternString: {
-    value: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.'
+    value: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.',
   },
   balloonDescriptionWithHelpPatternString: {
-    value: '{{description}} {{help}}'
+    value: '{{description}} {{help}}',
   },
   balloonLabelWithAttractiveStatePatternString: {
-    value: '{{balloonLabel}}, {{attractiveStateAndLocation}}'
+    value: '{{balloonLabel}}, {{attractiveStateAndLocation}}',
   },
 
     // describing the attractive state of a balloon
   balloonStickingToString: {
-    value: 'Sticking to'
+    value: 'Sticking to',
   },
   balloonOnString: {
-    value: 'On'
+    value: 'On',
   },
   balloonAtString: {
-    value: 'At'
+    value: 'At',
   },
   balloonNearString: {
-    value: 'Near'
+    value: 'Near',
   },
 
   balloonNetChargePatternString: {
-    value: 'Has {{chargeAmount}} net charge'
+    value: 'Has {{chargeAmount}} net charge',
   },
   balloonNetChargePatternStringWithLabel: {
-    value: '{{balloon}} has {{chargeAmount}} net charge'
+    value: '{{balloon}} has {{chargeAmount}} net charge',
   },
   balloonZeroString: {
-    value: 'zero'
+    value: 'zero',
   },
   balloonNegativeString: {
-    value: 'negative'
+    value: 'negative',
   },
   balloonRelativeChargePatternString: {
-    value: '{{amount}} more negative charges than positive charges'
+    value: '{{amount}} more negative charges than positive charges',
   },
   balloonChargeDifferencesPatternString: {
-    value: 'showing {{amount}} negative charges'
+    value: 'showing {{amount}} negative charges',
   },
   balloonHasRelativeChargePatternString: {
-    value: '{{balloonLabel}} has {{relativeCharge}}'
+    value: '{{balloonLabel}} has {{relativeCharge}}',
   },
 
   balloonHasNetChargePatternString: {
-    value: '{{balloon}} has {{charge}} net charge, {{showing}}'
+    value: '{{balloon}} has {{charge}} net charge, {{showing}}',
   },
 
     //--------------------------------------------------------------------------
     // Balloon interaction strings
     //--------------------------------------------------------------------------
   grabbedString: {
-    value: 'Grabbed'
+    value: 'Grabbed',
   },
   releasedString: {
-    value: 'Released'
+    value: 'Released',
   },
 
     //--------------------------------------------------------------------------
     // Balloon movement strings
     //--------------------------------------------------------------------------
   initialMovementPatternString: {
-    value: 'Moves {{velocity}} {{direction}}.'
+    value: 'Moves {{velocity}} {{direction}}.',
   },
   twoBalloonInitialMovementPatternString: {
-    value: '{{balloon}}, moves {{velocity}} {{direction}}.'
+    value: '{{balloon}}, moves {{velocity}} {{direction}}.',
   },
 
   extremelySlowlyString: {
-    value: 'extremely slowly'
+    value: 'extremely slowly',
   },
   verySlowlyString: {
-    value: 'very slowly'
+    value: 'very slowly',
   },
   slowlyString: {
-    value: 'slowly'
+    value: 'slowly',
   },
   quicklyString: {
-    value: 'quickly'
+    value: 'quickly',
   },
   veryQuicklyString: {
-    value: 'very quickly'
+    value: 'very quickly',
   },
 
   noChangeAndLocationPatternString: {
-    value: 'No change in position. {{location}}'
+    value: 'No change in position. {{location}}',
   },
   twoBalloonNoChangeAndLocationPatternString: {
-    value: '{{balloon}}, no change in position. {{location}}'
+    value: '{{balloon}}, no change in position. {{location}}',
   },
   noChangeWithInducedChargePatternString: {
-    value: '{{noChange}} {{inducedCharge}}'
+    value: '{{noChange}} {{inducedCharge}}',
   },
 
   continuousMovementPatternString: {
-    value: 'Moving {{direction}}.'
+    value: 'Moving {{direction}}.',
   },
   continuousMovementWithLandmarkPatternString: {
-    value: '{{movementDirection}} {{landmark}}.'
+    value: '{{movementDirection}} {{landmark}}.',
   },
 
   nowDirectionPatternString: {
-    value: 'Now {{direction}}.'
+    value: 'Now {{direction}}.',
   },
   twoBalloonNowDirectionPatternString: {
-    value: '{{balloon}}, now {{direction}}.'
+    value: '{{balloon}}, now {{direction}}.',
   },
 
     // when balloon hits wall and there is a change in charges
   balloonLocationNoChangePatternString: {
-    value: '{{location}} {{inducedCharge}}'
+    value: '{{location}} {{inducedCharge}}',
   },
 
     // similar to dragging direction strings, but in context so not capitalized and no
     // punctuation
   upString: {
-    value: 'up'
+    value: 'up',
   },
   leftString: {
-    value: 'left'
+    value: 'left',
   },
   downString: {
-    value: 'down'
+    value: 'down',
   },
   rightString: {
-    value: 'right'
+    value: 'right',
   },
   upAndToTheRightString: {
-    value: 'up and to the right'
+    value: 'up and to the right',
   },
   upAndToTheLeftString: {
-    value: 'up and to the left'
+    value: 'up and to the left',
   },
   downAndToTheRightString: {
-    value: 'down and to the right'
+    value: 'down and to the right',
   },
   downAndToTheLeftString: {
-    value: 'down and to the left'
+    value: 'down and to the left',
   },
 
     //--------------------------------------------------------------------------
     // Balloon Dragging strings
     //--------------------------------------------------------------------------
   upDraggingString: {
-    value: 'Up.'
+    value: 'Up.',
   },
   leftDraggingString: {
-    value: 'Left.'
+    value: 'Left.',
   },
   downDraggingString: {
-    value: 'Down.'
+    value: 'Down.',
   },
   rightDraggingString: {
-    value: 'Right.'
+    value: 'Right.',
   },
   upAndToTheRightDraggingString: {
-    value: 'Up and to the right.'
+    value: 'Up and to the right.',
   },
   upAndToTheLeftDraggingString: {
-    value: 'Up and to the left.'
+    value: 'Up and to the left.',
   },
   downAndToTheRightDraggingString: {
-    value: 'Down and to the right.'
+    value: 'Down and to the right.',
   },
   downAndToTheLeftDraggingString: {
-    value: 'Down and to the left.'
+    value: 'Down and to the left.',
   },
 
   atLeftEdgeString: {
-    value: 'At left edge.'
+    value: 'At left edge.',
   },
   atTopString: {
-    value: 'At top.'
+    value: 'At top.',
   },
   atBottomString: {
-    value: 'At bottom.'
+    value: 'At bottom.',
   },
   atRightEdgeString: {
-    value: 'At right edge.'
+    value: 'At right edge.',
   },
 
   onSweaterString: {
-    value: 'On Sweater'
+    value: 'On Sweater',
   },
   offSweaterString: {
-    value: 'Off sweater.'
+    value: 'Off sweater.',
   },
 
   // 'very close to'  added programatically
   // TODO: Can we get rid of these?
   landmarkVeryCloseToSweaterString: {
-    value: 'sweater'
+    value: 'sweater',
   },
   veryCloseToRightEdgeString: {
-    value: 'right edge'
+    value: 'right edge',
   },
   landmarkVeryCloseToWallString: {
-    value: 'wall'
+    value: 'wall',
   },
   landmarkVeryCloseToUpperWallString: {
-    value: 'upper wall'
+    value: 'upper wall',
   },
   landmarkVeryCloseToLowerWallString: {
-    value: 'lower wall'
+    value: 'lower wall',
   },
   landmarkVeryCloseToRightEdgeString: {
-    value: 'right edge'
+    value: 'right edge',
   },
   landmarkVeryCloseToUpperRightEdgeString: {
-    value: 'upper-right edge'
+    value: 'upper-right edge',
   },
   landmarkVeryCloseToLowerRightEdgeString: {
-    value: 'lower-right edge'
+    value: 'lower-right edge',
   },
   balloonVeryCloseToString: {
-    value: 'Very close to'
+    value: 'Very close to',
   },
 
   balloonAtLocationPatternString: {
-    value: 'At {{location}}'
+    value: 'At {{location}}',
   },
   balloonOnLocationPatternString: {
-    value: 'On {{location}}'
+    value: 'On {{location}}',
   },
   balloonNewRegionPatternString: {
-    value: '{{nearOrAt}} {{location}}'
+    value: '{{nearOrAt}} {{location}}',
   },
 
   closerToObjectPatternString: {
-    value: 'Closer to {{object}}'
+    value: 'Closer to {{object}}',
   },
   topEdgeOfPlayAreaString: {
-    value: 'top edge of Play Area'
+    value: 'top edge of Play Area',
   },
   bottomEdgeOfPlayAreaString: {
-    value: 'bottom edge of Play Area'
+    value: 'bottom edge of Play Area',
   },
 
     //--------------------------------------------------------------------------
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
   grabbedFullPatternString: {
-    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherBalloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}'
+    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherBalloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}',
   },
 
   grabbedPatternString: {
-      // value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
+      // value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}',
     value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
   },
 
@@ -939,13 +936,13 @@ define( function( require ) {
   },
 
   balloonRelativeChargeAllPatternString: {
-    value: 'Has {{charge}}'
+    value: 'Has {{charge}}',
   },
   balloonNetChargeShowingPatternString: {
-    value: '{{netCharge}}, {{showing}}'
+    value: '{{netCharge}}, {{showing}}',
   },
   balloonRelativeChargeDifferencesPatternString: {
-    value: 'showing {{charge}} negative charges'
+    value: 'showing {{charge}} negative charges',
   },
 
   combinedChargePatternString: {
@@ -953,222 +950,222 @@ define( function( require ) {
   },
 
   interactionCueString: {
-    value: 'Press W, A, S, or D key to move balloon. Space key to release.'
+    value: 'Press W, A, S, or D key to move balloon. Space key to release.',
   },
 
     //--------------------------------------------------------------------------
     // Balloon rubbing strings
     //--------------------------------------------------------------------------
   balloonPicksUpChargesPatternString: {
-    value: '{{balloon}} picks up negative charges from sweater'
+    value: '{{balloon}} picks up negative charges from sweater',
   },
   balloonPicksUpChargesDiffPatternString: {
-    value: '{{pickUp}}. Same number of positive charges showing on sweater.'
+    value: '{{pickUp}}. Same number of positive charges showing on sweater.',
   },
   balloonPicksUpMoreChargesPatternString: {
-    value: '{{balloon}} picks up more negative charges'
+    value: '{{balloon}} picks up more negative charges',
   },
   balloonPicksUpMoreChargesDiffPatternString: {
-    value: '{{pickUp}}. Same increase of positive charges on sweater.'
+    value: '{{pickUp}}. Same increase of positive charges on sweater.',
   },
 
   balloonSweaterRelativeChargesPatternString: {
-    value: '{{balloon}} {{sweater}}'
+    value: '{{balloon}} {{sweater}}',
   },
 
     // when the last charge is picked up, we announce no charges remaining and then the
     // balloon charge
   lastChargePickedUpPatternString: {
-    value: '{{sweater}} {{balloon}}'
+    value: '{{sweater}} {{balloon}}',
   },
 
     //--------------------------------------------------------------------------
     // Balloon rubbing strings, fail to pick up charges
     //--------------------------------------------------------------------------
   noChargePickupPatternString: {
-    value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}'
+    value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}',
   },
   noChargePickupHintPatternString: {
-    value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}}. {{balloonCharge}}. {{hint}}'
+    value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}}. {{balloonCharge}}. {{hint}}',
   },
 
   releaseHintString: {
-    value: 'Press space to release.'
+    value: 'Press space to release.',
   },
 
   moreChargesPatternString: {
-    value: '{{moreCharges}} {{direction}}.'
+    value: '{{moreCharges}} {{direction}}.',
   },
   moreChargesFurtherPatternString: {
-    value: '{{moreCharges}} further {{direction}}.'
+    value: '{{moreCharges}} further {{direction}}.',
   },
   morePairsOfChargesString: {
-    value: 'More pairs of charges'
+    value: 'More pairs of charges',
   },
   moreHiddenPairsOfChargesString: {
-    value: 'More hidden pairs of charges'
+    value: 'More hidden pairs of charges',
   },
 
     //--------------------------------------------------------------------------
     // Balloon jumping strings
     //--------------------------------------------------------------------------
   nearSweaterString: {
-    value: 'Near sweater.'
+    value: 'Near sweater.',
   },
   locationAndInducedChargePatternString: {
-    value: '{{location}}. {{inducedCharge}}'
+    value: '{{location}}. {{inducedCharge}}',
   },
 
     //------------------------------------------------------------------------
     // Control panel strings
     //------------------------------------------------------------------------
   chargeSettingsDescriptionString: {
-    value: 'Choose how you see or hear charge information.'
+    value: 'Choose how you see or hear charge information.',
   },
   chargeSettingsLabelString: {
-    value: 'Charge Settings'
+    value: 'Charge Settings',
   },
   showAllChargesAlertString: {
-    value: 'No charges hidden.'
+    value: 'No charges hidden.',
   },
   shoNoChargesAlertString: {
-    value: 'All charges hidden.'
+    value: 'All charges hidden.',
   },
   showChargeDifferencesAlertString: {
-    value: 'Only unpaired charges shown.'
+    value: 'Only unpaired charges shown.',
   },
 
     // sweater charge descriptions
   netNeutralString: {
-    value: 'neutral net'
+    value: 'neutral net',
   },
   netPositiveString: {
-    value: 'positive net'
+    value: 'positive net',
   },
 
     // balloon grab cue
   balloonButtonHelpString: {
-    value: 'Look for grab button to play.'
+    value: 'Look for grab button to play.',
   },
 
     // misc labels
   removeWallLabelString: {
-    value: 'Remove Wall'
+    value: 'Remove Wall',
   },
   addWallLabelString: {
-    value: 'Add Wall'
+    value: 'Add Wall',
   },
 
   removeWallDescriptionString: {
-    value: 'Play with or without the wall.'
+    value: 'Play with or without the wall.',
   },
   twoBalloonExperimentDescriptionString: {
-    value: 'Play with two balloons or just one.'
+    value: 'Play with two balloons or just one.',
   },
 
   balloonString: {
-    value: 'Balloon'
+    value: 'Balloon',
   },
   balloonsString: {
-    value: 'Balloons'
+    value: 'Balloons',
   },
   twoBalloonExperimentLabelString: {
-    value: 'Two-Balloon Experiments'
+    value: 'Two-Balloon Experiments',
   },
   grabPatternString: {
-    value: 'Grab {0}'
+    value: 'Grab {0}',
   },
   playAreaString: {
-    value: 'Play Area'
+    value: 'Play Area',
   },
   wallLabelString: {
-    value: 'Wall'
+    value: 'Wall',
   },
   controlPanelString: {
-    value: 'Control Panel'
+    value: 'Control Panel',
   },
   wallDescriptionString: {
-    value: 'Run experiments with or without the wall.'
+    value: 'Run experiments with or without the wall.',
   },
   resetBalloonsDescriptionPatternString: {
-    value: 'Reset {0} to start {1} and an uncharged state.'
+    value: 'Reset {0} to start {1} and an uncharged state.',
   },
 
   resetAllString: {
-    value: 'Reset All'
+    value: 'Reset All',
   },
 
     // alert when the balloons are reset
   resetBalloonsAlertPatternString: {
-    value: '{{balloons}} and sweater reset.'
+    value: '{{balloons}} and sweater reset.',
   },
 
     // alerts when balloons added/removed from play area
   balloonAddedPatternString: {
-    value: '{{balloonLabel}} added to Play Area.'
+    value: '{{balloonLabel}} added to Play Area.',
   },
   balloonRemovedPatternString: {
-    value: '{{balloonLabel}} removed from Play Area.'
+    value: '{{balloonLabel}} removed from Play Area.',
   },
   balloonAddedWithLocationPatternString: {
-    value: '{{balloonLabel}} added. {{location}}.'
+    value: '{{balloonLabel}} added. {{location}}.',
   },
   balloonLocationNearOtherPatternString: {
-    value: '{{location}}, next to {{otherBalloon}}'
+    value: '{{location}}, next to {{otherBalloon}}',
   },
 
     //--------------------------------------------------------------------------
     // Keyboard shortcuts help content strings
     //--------------------------------------------------------------------------
   grabOrReleaseBalloonHeadingString: {
-    value: 'Grab or Release Balloon'
+    value: 'Grab or Release Balloon',
   },
   grabOrReleaseBalloonLabelString: {
-    value: 'Grab or release balloon'
+    value: 'Grab or release balloon',
   },
   moveOrJumpGrabbedBalloonHeadingString: {
-    value: 'Move or Jump Grabbed Balloon'
+    value: 'Move or Jump Grabbed Balloon',
   },
   moveGrabbedBalloonLabelString: {
-    value: 'Move grabbed balloon'
+    value: 'Move grabbed balloon',
   },
   moveSlowerLabelString: {
-    value: 'Move slower'
+    value: 'Move slower',
   },
   jumpsCloseToSweaterString: {
-    value: 'Jump close to sweater'
+    value: 'Jump close to sweater',
   },
   jumpsCloseToWallString: {
-    value: 'Jump to wall'
+    value: 'Jump to wall',
   },
   jumpsNearWallString: {
-    value: 'Jump to near wall'
+    value: 'Jump to near wall',
   },
   jumpsToCenterString: {
-    value: 'Jump to center'
+    value: 'Jump to center',
   },
 
     // help content strings that are invisible in the PDOM
   grabOrReleaseBalloonDescriptionString: {
-    value: 'Grab or release the balloon with Space or Enter keys.'
+    value: 'Grab or release the balloon with Space or Enter keys.',
   },
   moveGrabbedBalloonDescriptionString: {
-    value: 'Move grabbed balloon up, left, down, or right with Arrow keys or with letter keys W, A, S, or D.'
+    value: 'Move grabbed balloon up, left, down, or right with Arrow keys or with letter keys W, A, S, or D.',
   },
   moveSlowerDescriptionString: {
-    value: 'Move slower with shift plus Arrow keys or Shift plus letter keys W, A, S, or D.'
+    value: 'Move slower with shift plus Arrow keys or Shift plus letter keys W, A, S, or D.',
   },
   jumpsCloseToSweaterDescriptionString: {
-    value: 'Jump close to sweater with J plus S.'
+    value: 'Jump close to sweater with J plus S.',
   },
   jumpsCloseToWwallDescriptionString: {
-    value: 'Jump to wall with J plus W.'
+    value: 'Jump to wall with J plus W.',
   },
   jumpsNearWallDescriptionString: {
-    value: 'Jump to near wall with J plus N.'
+    value: 'Jump to near wall with J plus N.',
   },
   jumpstoCenterDescriptionString: {
-    value: 'Jump to center with J plus C.'
+    value: 'Jump to center with J plus C.',
   },
 
     /**

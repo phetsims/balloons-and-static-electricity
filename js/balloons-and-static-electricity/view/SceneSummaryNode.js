@@ -51,7 +51,6 @@ define( function( require ) {
   var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString.value;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
   var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
-  var wallPositiveChargesDoNotMoveString =  BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
 
   /**
    * @constructor
@@ -298,8 +297,7 @@ define( function( require ) {
 
       // if all charges are shown, include information about how positive charges do not move
       description = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-        inducedCharge: description,
-        positiveCharge: wallPositiveChargesDoNotMoveString
+        inducedCharge: description
       } );
 
       return description;

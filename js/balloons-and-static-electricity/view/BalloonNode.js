@@ -555,7 +555,7 @@ define( function( require ) {
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
       self.keyboardDragHandler._dragBounds = self.getDragBounds();
 
-      // if the f
+      // if the wall is removed, we need to describe changes to balloons location
       if ( !isVisible ) {
         if ( self.model.getRight() === globalModel.wall.x ) {
           self.initialMovementDescribed = false;

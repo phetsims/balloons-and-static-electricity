@@ -98,7 +98,6 @@ define( function( require ) {
   var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfChargeString.value;
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyChargesString.value;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePatternString.value;
-  var wallPositiveChargesDoNotMoveString = BASEA11yStrings.wallPositiveChargesDoNotMoveString.value;
   var interactionCueString = BASEA11yStrings.interactionCueString.value;
   var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
   var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPatternString.value;
@@ -754,9 +753,21 @@ define( function( require ) {
       }
 
       // if balloon touching wall and inducing charge, include induced charge information
-      if ( this.balloonModel.touchingWallProperty.get() && this.model.showChargesProperty.get() === 'all' ) {
+      if ( this.balloonModel.touchingWall() && this.model.showChargesProperty.get() === 'all' ) {
         var wallVisible = this.model.wall.isVisibleProperty.get();
-        var inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+
+        var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
+        var otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
+
+        var inducedChargeString;
+        if ( thisInducingAndVisible && otherInducingAndVisible && this.model.getBalloonsAdjacent() ) {
+
+          // if both inducing charge, combine induced charge description with "both balloons"
+          inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
+        }
+        else {
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+        }
 
         description = StringUtils.fillIn( noChangeWithInducedChargePatternString, {
           noChange: description,
@@ -1067,7 +1078,7 @@ define( function( require ) {
      *
      * "At wall. No transfer of charge. In wall, no change in charges." or
      * "At upper wall. No transfer of charge. Negative charges in upper wall move away from yellow balloon a lot.
-     * Positive charges do not move" or
+     * Positive charges do not move." or
      * "At upper wall." or
      * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
      * 
@@ -1092,9 +1103,6 @@ define( function( require ) {
       else if ( shownCharges === 'all' ) {
         var inducedChargeString;
 
-        // if we describe any amount of induced charge, we will also include the phrase "Positive charges do not move."
-        var includePositiveCharges = true;
-
         // if balloons are adjacent, the resultant induced charge description is modified
         if ( this.model.getBalloonsAdjacent() ) {
 
@@ -1110,8 +1118,6 @@ define( function( require ) {
 
             // neither balloon is inducing charge, just use normal induced charge description
             inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
-
-            includePositiveCharges = false;
           }
           else {
             assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
@@ -1135,23 +1141,12 @@ define( function( require ) {
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
         }
 
-        if ( includePositiveCharges ) {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
-          descriptionString = StringUtils.fillIn( patternString, {
-            location: atLocationString,
-            transfer: wallNoTransferOfChargeString,
-            inducedCharge: inducedChargeString,
-            positiveCharges: wallPositiveChargesDoNotMoveString
-          } );
-        }
-        else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge', 'positiveCharges' ] );
-          descriptionString = StringUtils.fillIn( patternString, {
-            location: atLocationString,
-            transfer: wallNoTransferOfChargeString,
-            inducedCharge: inducedChargeString
-          } );
-        }
+        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
+        descriptionString = StringUtils.fillIn( patternString, {
+          location: atLocationString,
+          transfer: wallNoTransferOfChargeString,
+          inducedCharge: inducedChargeString
+        } );
       }
       else {
         var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
@@ -1170,7 +1165,7 @@ define( function( require ) {
         if ( this.model.getBalloonsAdjacent() ) {
 
           // TODO: Handle the case where we must describe both balloons.
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge', 'positiveCharges' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,
@@ -1178,7 +1173,7 @@ define( function( require ) {
           } );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge', 'positiveCharges' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,
