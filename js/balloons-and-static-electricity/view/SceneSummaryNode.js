@@ -36,7 +36,7 @@ define( function( require ) {
   var aSweaterString = BASEA11yStrings.aSweaterString.value;
   var andASweaterString = BASEA11yStrings.andASweaterString.value;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString.value;
-  var checkOutShortcutsString = JoistA11yStrings.checkOutShortcutsString;
+  var checkOutShortcutsString = JoistA11yStrings.checkOutShortcuts.value;
   var summaryObjectsString = BASEA11yStrings.summaryObjectsString.value;
   var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString.value;
   var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString.value;
@@ -97,7 +97,7 @@ define( function( require ) {
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
     this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
-    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
+    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcuts.value } ) );
 
     // update the description that covers the visible objects in the play area
     Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
