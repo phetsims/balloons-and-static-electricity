@@ -22,7 +22,7 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // strings
+  // a11y strings
   var grabOrReleaseBalloonHeadingString = BASEA11yStrings.grabOrReleaseBalloonHeadingString.value;
   var grabOrReleaseBalloonLabelString = BASEA11yStrings.grabOrReleaseBalloonLabelString.value;
   var moveOrJumpGrabbedBalloonHeadingString = BASEA11yStrings.moveOrJumpGrabbedBalloonHeadingString.value;

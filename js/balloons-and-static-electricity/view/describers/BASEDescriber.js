@@ -18,7 +18,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
-  // strings
+  // a11y strings
   // play area grid strings
   var leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweaterString.value;
   var leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweaterString.value;

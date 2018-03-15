@@ -28,7 +28,7 @@ define( function( require ) {
   var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
-  // strings
+  // a11y strings
   var sceneSummaryString = BASEA11yStrings.sceneSummaryString.value;
   var openingSummaryString = BASEA11yStrings.openingSummaryString.value;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString.value;

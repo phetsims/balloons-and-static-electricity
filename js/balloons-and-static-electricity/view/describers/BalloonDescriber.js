@@ -28,7 +28,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
-  // strings
+  // a11y strings
   var summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralChargeString.value;
   var atWallString = BASEA11yStrings.atWallString.value;
   var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelpString.value;
