@@ -623,9 +623,9 @@ define( function( require ) {
     value: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.'
   },
 
-    // description when balloon moves towards/away from wall inducing charge
-  moreInducedChargePattnerString: {
-    value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.'
+  // description when balloon moves towards/away from wall inducing charge
+  moreInducedChargePatternString: {
+    value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',
   },
   lessInducedChargePatternString: {
     value: 'Negative charges in {{location}} {{movement}}.'

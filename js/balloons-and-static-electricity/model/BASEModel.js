@@ -92,9 +92,6 @@ define( function( require ) {
         );
         balloon.inducingChargeProperty.set( balloon.closestChargeInWall.forceIndicatesInducedCharge( balloonForce ) );
 
-        // set Property that tracks magnitude of charge displacement
-        balloon.chargeDisplacementProperty.set( balloon.closestChargeInWall.getDisplacement() );
-
         // update whether or not the two balloons are close to each other
         self.balloonsAdjacentProperty.set( self.getBalloonsAdjacent() );
 

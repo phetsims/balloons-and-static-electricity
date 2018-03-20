@@ -40,6 +40,7 @@ define( function( require ) {
   var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
@@ -469,13 +470,24 @@ define( function( require ) {
           locationDescription && utteranceQueue.addToBack( locationDescription );
         }
 
-        // describe the induced charge if we need to, excluding purely vertical movement
+        // describe the change in induced charge due to balloon movement if we need to
         if ( self.describer.describeInducedChargeChange() ) {
-          utteranceQueue.addToBack( self.describer.getInducedChargeChangeDescription( dragDelta ) );
-        }
+          if ( self.describer.describeInducedChargeChange() ) {
+            var wallVisible = globalModel.wall.isVisibleProperty.get();
 
-        // TODO: there should be a function for this, displacementOnEnd should be private
-        self.describer.inducedChargeDisplacementOnEnd = self.model.chargeDisplacementProperty.get();
+            var descriptionString;
+            if ( dragDelta.x === 0 ) {
+
+              // if there is purely vertical motion, do not include information about amount of charge displacemnet
+              descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, accessibleLabelString, wallVisible );
+            }
+            else {
+              descriptionString = self.describer.getInducedChargeChangeDescription();
+            }
+
+            utteranceQueue.addToBack( descriptionString );
+          }
+        }
       },
       start: function( event ) {
 
@@ -760,6 +772,10 @@ define( function( require ) {
         typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );
       utteranceQueue.addToBack( utterance );
+
+      // reset forces in tracked values in describer that determine description for induced charge change
+      // TODO: Put in a "jumped emitter"?
+      this.describer.resetReferenceForces();
     },
 
     getPositionOnSweaterDescription: function() {

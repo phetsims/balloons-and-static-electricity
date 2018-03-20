@@ -1,3 +1,4 @@
+
 // Copyright 2016-2017, University of Colorado Boulder
 
 /**
@@ -6,6 +7,7 @@
  * a massive file.  Used for accessibility.
  *
  * TODO: Bring up to standards, immprove documentation, delete many functions which are now unused.
+ * TODO: This file is massive. It should be substantially reduced in size.
  *
  * @author Jesse Greenberg
  */
@@ -16,6 +18,7 @@ define( function( require ) {
   // modules
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
+  var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -46,6 +49,8 @@ define( function( require ) {
   var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString.value;
   var releasedString = BASEA11yStrings.releasedString.value;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
+  var moreInducedChargePatternString = BASEA11yStrings.moreInducedChargePatternString.value;
+  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString.value;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString.value;
   var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPatternString.value;
   var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPatternString.value;
@@ -123,8 +128,6 @@ define( function( require ) {
   var balloonAddedPatternString = BASEA11yStrings.balloonAddedPatternString.value;
   var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPatternString.value;
   var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPatternString.value;
-  var moreInducedChargePattnerString = BASEA11yStrings.moreInducedChargePattnerString.value;
-  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString.value;
   var beginToMoveAwayString = BASEA11yStrings.beginToMoveAwayString.value;
   var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMoreString.value;
   var beginToReturnString = BASEA11yStrings.beginToReturnString.value;
@@ -209,6 +212,8 @@ define( function( require ) {
     // tracked so we know how to describe the next pickup
     this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
 
+    // TODO: Move a lot of these private variables to the the model?
+
     // @private - used to track previous values after an interaction so that we can accurately describe how 
     // the model has changed
     this.describedChargeRange = null;
@@ -220,12 +225,26 @@ define( function( require ) {
     // it is reset again
     this.balloonPickedUp = false;
 
+    // @private - Allows us to track the change in the balloon's induced charge
+    this.previousForceMagnitude = 0;
+
+    // @private - the previous magnitude of force delta normalized, so we can track whether induced charge increases or
+    // decreases between when a description of induced charge change is triggered
+    this.previousForceMagnitudeNormalized = 0;
+
     // when the balloon hits the wall, reset some description flags
     this.balloonModel.touchingWallProperty.link( function( touchingWall ) {
       if ( touchingWall ) {
         this.previousDeltaNormalized = 0;
         this.describeReturn = false;
       }
+    } );
+
+    // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
+    // in the wall
+    var self = this;
+    this.balloonModel.isDraggedProperty.link( function() {
+      self.resetReferenceForces();
     } );
   }
 
@@ -243,6 +262,8 @@ define( function( require ) {
       this.inducedChargeDisplacementOnEnd = 0;
       this.previousDeltaNormalized = 0;
       this.describeReturn = false;
+      this.previousForceMagnitudeNormalized = 0;
+      this.previousForceMagnitude = 0;
     },
 
     /**
@@ -1047,6 +1068,7 @@ define( function( require ) {
           description = this.getWallRubbingDescriptionWithChargePairs();
         }
         else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
+          
           // if there is an induced charge and the charges are visible, describe induced charge summary
           var inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
           description = StringUtils.fillIn( locationAndInducedChargePatternString, {
@@ -1555,70 +1577,79 @@ define( function( require ) {
     },
 
     /**
-     * While the balloon is being dragged, we get a description about how charges in the wall move away from balloon
-     * or return to balloon. Will return something like
+     * Get a description of how induced charge changes as a charged balloon moves around a wall. Every time we
+     * generate this description we store two variables for hysteresis. We track the magnitude of force so that
+     * we can determine the change in force between generations of this description. We track the normalized value
+     * of this force so that we can determine if the force increases or decreases multiple times in a row. This
+     * function will return something like
+     * "Negative charges in wall begin to move away from Yellow Balloon."
+     * "Negative charges in wall move away a little more from green balloon."
+     * "Negative charges  in wall begin to return."
+     * "Negative charges in wall return a little more."
      *
-     * "Negative charges in upper wall begin to move away from yellow balloon." or
-     * "Negative charges in wall begin to return." or
-     * "Negative charges in wall move away from green balloon."
+     * TODO: Does induced charge change need to include  summary with both balloons?
      * 
      * @return {string}
      */
-    getInducedChargeChangeDescription: function( dragDelta ) {
+    getInducedChargeChangeDescription: function() {
       var descriptionString;
-      var movementString;
 
-      var wallVisible = this.wall.isVisibleProperty.get();
+      var wallVisible = this.model.wall.isVisibleProperty.get();
 
-      var chargeDisplacement = this.balloonModel.chargeDisplacementProperty.get();
-      var inductionDelta = chargeDisplacement - this.inducedChargeDisplacementOnEnd;
-      var deltaNormalized = inductionDelta / Math.abs( inductionDelta );
+      // the force between the balloon and the closest charge to the balloon in the wall
+      var balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
+      var forceMagnitude = balloonForce.magnitude();
+   
+      // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
+      // charge in the wall
+      var forceDelta = forceMagnitude - this.previousForceMagnitude;
 
-      // whether or not induced charge has continued to grow or change in direction
-      var continuedDirection = deltaNormalized === this.previousDeltaNormalized;
+      // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
+      // wall charges in the same direction since the last time this change was described 
+      var forceDeltaNormalized = forceDelta / Math.abs( forceDelta );
+      var continuedDirection = forceDeltaNormalized === this.previousForceMagnitudeNormalized;
 
-      // describes the location of induced charge
-      var chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, this.balloonModel.getCenterY() );
+      // describes the location of induced charge in the wall
+      var balloonY = this.balloonModel.getCenterY();
+      var chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, balloonY );
       var chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
 
-      if ( dragDelta.x !== 0 ) {
-        if ( deltaNormalized > 0 ) {
+      var movementString;
+      if ( forceDelta > 0 ) {
 
-          // more induced charge
-          movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
-
-          descriptionString = StringUtils.fillIn( moreInducedChargePattnerString, {
-            location: chargeLocationString,
-            movement: movementString,
-            balloon: this.accessibleLabel
-          } );
-
-          // if we describe more induced charge, we must describe the return at least once
-          this.describeReturn = true;
-        }
-        else if ( deltaNormalized < 0 ) {
-
-          // less induced charge
-          movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
-
-          descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
-            location: chargeLocationString,
-            movement: movementString
-          } );
-
-          // if we describe more induced charge, we must describe the return at least once
-          this.describeReturn = false;
-        }
+        // if the change in force is greater than 0, the charges have moved away from the balloon, continued direction
+        // determines if this is the first time since last description that charges move in a direction
+        movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
+        descriptionString = StringUtils.fillIn( moreInducedChargePatternString, {
+          location: chargeLocationString,
+          movement: movementString,
+          balloon: this.accessibleLabel
+        } );
       }
       else {
 
-        // purely vertical motion, generic induced charge description
-        descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleLabel, wallVisible );
+        // charges  are moving back to resting position
+        movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
+        descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
+          location: chargeLocationString,
+          movement: movementString
+        } );
       }
 
-      this.previousDeltaNormalized = deltaNormalized;
+      // hysteresis so that we can change the description if the induced charge continues to increase or decrease
+      // next time
+      this.previousForceMagnitudeNormalized = forceDeltaNormalized;
+      this.previousForceMagnitude = balloonForce.magnitude();
 
       return descriptionString;
+    },
+
+    /**
+     * Reset the tracked forces that determine the next description of induced charge change.
+     */
+    resetReferenceForces: function() {
+      this.previousForceMagnitude = BalloonModel.getForceToClosestWallCharge( this.balloonModel ).magnitude();
+      this.previousForceMagnitudeNormalized = 0;
     },
 
     /**

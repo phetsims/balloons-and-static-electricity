@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
@@ -194,10 +195,6 @@ define( function( require ) {
 
     // @private {string|null} - if the balloon is in a landmark location, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
     this.playAreaLandmarkProperty = new Property( null );
-
-    // @public {number} - value that correspondsd to the magnitude of displacement of wall charges during induced
-    // charge
-    this.chargeDisplacementProperty = new Property( 0 );
 
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null );
@@ -1150,6 +1147,21 @@ define( function( require ) {
 
       // scale by the force value
       return difference.timesScalar( kqq / ( Math.pow( r, power ) ) );
+    },
+
+    /**
+     * Get the force on a balloon from the closest charge to the balloon in the wall.
+     *
+     * @param {BalloonModel} balloon
+     * @return {Vector2}
+     */
+    getForceToClosestWallCharge: function( balloon ) {
+      return BalloonModel.getForce(
+        balloon.closestChargeInWall.locationProperty.get(),
+        balloon.getCenter(),
+        BASEConstants.COULOMBS_LAW_CONSTANT * balloon.chargeProperty.get() * PointChargeModel.CHARGE,
+        2.35
+      );
     },
 
     /**
