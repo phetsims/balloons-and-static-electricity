@@ -170,7 +170,7 @@ define( function( require ) {
 
   // maps magnitude of velocity to the description
   var BALLOON_VELOCITY_MAP = {
-    EXTREMELY_SLOWLY_STRING: {
+    EXTREMELY_SLOWLY_RANGE: {
       range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 200 ),
       description: extremelySlowlyString
     },
@@ -1573,7 +1573,7 @@ define( function( require ) {
      * @return {boolean}
      */
     balloonMovingSlowly: function() {
-      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.SLOWLY_RANGE.range.max;
+      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.EXTREMELY_SLOWLY_RANGE.range.max;
     },
 
     /**
