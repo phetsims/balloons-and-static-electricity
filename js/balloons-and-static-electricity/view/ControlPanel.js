@@ -105,7 +105,7 @@ define( function( require ) {
       // a11y
       accessibleDescription: removeWallDescriptionString,
       accessibleLabel: removeWallString,
-      parentContainerTagName: 'div'
+      containerTagName: 'div'
     } );
     this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
     this.wallButton.mouseArea = this.wallButton.bounds.eroded( 25 );
@@ -159,7 +159,7 @@ define( function( require ) {
 
       // a11y
       labelTagName: 'h3',
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       prependLabels: true,
       accessibleLabel: chargeSettingsLabelString,
       accessibleDescription: chargeSettingsDescriptionString
@@ -219,7 +219,7 @@ define( function( require ) {
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
         maskFill: BASEConstants.backgroundColorProperty,
         accessibleLabel: twoBalloonExperimentLabelString,
-        parentContainerTagName: 'div',
+        containerTagName: 'div',
         accessibleDescription: twoBalloonExperimentDescriptionString
       }
     );
@@ -261,7 +261,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'resetBalloonButton' ),
 
       // a11y
-      parentContainerTagName: 'div'
+      containerTagName: 'div'
     } );
 
     // create the accessible description for the reset balloon button

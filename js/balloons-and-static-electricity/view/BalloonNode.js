@@ -83,7 +83,7 @@ define( function( require ) {
 
       // a11y - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       tagName: 'div',
       labelTagName: 'h3',
       accessibleLabel: accessibleLabelString,
@@ -189,7 +189,7 @@ define( function( require ) {
       pickable: false, // custom touch areas applied to parent
 
       // a11y
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       tagName: 'button',
       accessibleLabel: accessibleButtonLabel,
       accessibleDescription: grabBalloonHelpString
@@ -540,7 +540,7 @@ define( function( require ) {
     // A node that receives focus and handles keyboard draging
     var accessibleDragNode = new Node( {
       tagName: 'div',
-      parentContainerTagName: 'div',
+      containerTagName: 'div',
       focusable: true,
       accessibleVisible: false, // initially false
       pickable: false,
