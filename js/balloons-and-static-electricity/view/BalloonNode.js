@@ -270,7 +270,7 @@ define( function( require ) {
         if ( !model.isDraggedProperty.get() ) {
 
           // if balloon initially moving slowly, alert landmark with info about movement direction, and reset timer
-          if ( self.describeContinuedMovement ) {
+          if ( self.describer.balloonMovingSlowly() ) {
             var alert = self.describer.getContinuousReleaseDescription();
             utteranceQueue.addToBack( alert );
 
@@ -374,9 +374,6 @@ define( function( require ) {
 
                   // after describing initial movement, continue to describe direction changes
                   self.describeDirection = true;
-
-                  // if initial release was slow, we will describe all continued movement through play area
-                  self.describeContinuedMovement = self.describer.balloonMovingSlowly();
                 }
 
                 // reset timer for release alert
@@ -386,7 +383,7 @@ define( function( require ) {
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // if the balloon is moving slowly, alert a continuous movement description
-              if ( self.describeContinuedMovement ) {
+              if ( self.describer.balloonMovingSlowly() ) {
 
                 // get subsequent descriptions of movement
                 alert = self.describer.getContinuousReleaseDescription();
