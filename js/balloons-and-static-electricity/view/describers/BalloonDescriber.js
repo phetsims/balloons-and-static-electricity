@@ -1573,7 +1573,7 @@ define( function( require ) {
      * @return {boolean}
      */
     balloonMovingSlowly: function() {
-      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.EXTREMELY_SLOWLY_RANGE.range.max;
+      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max;
     },
 
     /**

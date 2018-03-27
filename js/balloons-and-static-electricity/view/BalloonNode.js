@@ -264,22 +264,6 @@ define( function( require ) {
       self.alertNextPickup = false;
     } );
 
-    // a11y - if we enter a landmark location while we are grabbed, that should be announced immediately
-    model.playAreaLandmarkProperty.lazyLink( function( landmark ) {
-      if ( landmark ) {
-        if ( !model.isDraggedProperty.get() ) {
-
-          // if balloon initially moving slowly, alert landmark with info about movement direction, and reset timer
-          if ( self.describer.balloonMovingSlowly() ) {
-            var alert = self.describer.getContinuousReleaseDescription();
-            utteranceQueue.addToBack( alert );
-
-            self.timeSinceReleaseAlert = 0;
-          }
-        }
-      }
-    } );
-
     // a11y - if we enter/leave the sweater announce that immediately
     model.onSweaterProperty.link( function( onSweater ) {
       if ( model.isDraggedProperty.get() ) {
