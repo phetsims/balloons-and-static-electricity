@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.0-dev.14 Tue Mar 27 2018 11:14:42 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.0-dev.15 Tue Mar 27 2018 18:35:27 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "cdbdfbe70bc461ecdf0a65539a5ad945b478740e",
+    "sha": "e8c572820126236e203b1e4d9254155bae613d8b",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "525dedc7031ec8e17c757410a6a800927a8d5c9b",
+    "sha": "77ed2181f4955207b91441459470c9fdfb1cdd63",
     "branch": "master"
   },
   "dot": {
@@ -25,8 +25,8 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "5c4252fc78055a41f35616e77195abb7b42bb5f0",
-    "branch": "HEAD"
+    "sha": "58c4c08cbb98b1813222e0049c8a06c2b1758538",
+    "branch": "master"
   },
   "kite": {
     "sha": "b607147875dca2c350235f96d4f5546617bc6e4b",
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "phet-io-website": {
-    "sha": "1619d1dc2bb5d1d61419c579a9c11ec481acaeed",
+    "sha": "397862e03bdaf81ad5c81b38d2f4d76b9b7c82f2",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -65,19 +65,19 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "54a2bc038314865f9ce19092f1daa9664680a2f8",
-    "branch": "HEAD"
+    "sha": "e704af93c588ab60717e7a83be028334bcab8a73",
+    "branch": "master"
   },
   "scenery-phet": {
-    "sha": "83a7fbebb8a5fe60bce5590024d0795d175f6bb0",
-    "branch": "HEAD"
+    "sha": "20edeeaf0be13bbeb5cefe70610886ac828b7dd2",
+    "branch": "master"
   },
   "sherpa": {
     "sha": "9c6ec322fc2577bbbdc588bb67765dfdb76b49a9",
     "branch": "master"
   },
   "sun": {
-    "sha": "b78fc2d2e874fc3860813dff2a0e671df8045c00",
+    "sha": "de10dff7d3e7e0c0dbcbabb507bbc8e4b71adb7e",
     "branch": "master"
   },
   "tandem": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "vibe": {
-    "sha": "142992d4b4b0c4d960909537e20484c4aa77403b",
+    "sha": "2dc20be7484680b833c4b2458a6c84633e7b7e61",
     "branch": "master"
   }
 }
