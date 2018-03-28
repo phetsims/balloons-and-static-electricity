@@ -173,13 +173,6 @@ define( function( require ) {
         } );
       }
 
-      // if all charges are shown, include information about how positive charges do not move
-      if ( chargesShown === 'all' ) {
-        descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: wallChargeString
-        } );
-      }
-
       descriptionString = wallChargeString;
       return descriptionString;
     },
