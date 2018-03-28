@@ -419,6 +419,10 @@ define( function( require ) {
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
     this.keyboardDragHandler = new KeyboardDragListener( {
+      downDelta: 0,
+      shiftDownDelta: 0,
+      dragVelocity: 300, // in view coordinates per second
+      shiftDragVelocity: 100, // in view coordinates per second
       dragBounds: this.getDragBounds(),
       locationProperty: model.locationProperty,
       shiftKeyMultiplier: 0.25,
