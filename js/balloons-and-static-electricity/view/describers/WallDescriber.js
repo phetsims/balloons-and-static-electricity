@@ -113,7 +113,7 @@ define( function( require ) {
         } ); 
       }
 
-      return StringUtils.fillIn( singleStatementPatternString, { statement: description } );
+      return description;
     }
   }, {
 

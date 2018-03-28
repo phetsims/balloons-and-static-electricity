@@ -595,7 +595,7 @@ define( function( require ) {
     value: 'Wall has many pairs of negative and positive charges.'
   },
   wallChargeWithoutInducedPatternString: {
-    value: '{{netCharge}}, {{shownCharges}}'
+    value: '{{netCharge}}, {{shownCharges}}.'
   },
   wallChargeWithInducedPatternString: {
     value: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}'
