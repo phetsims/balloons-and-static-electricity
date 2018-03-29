@@ -1,15 +1,15 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.0-dev.17 Thu Mar 29 2018 13:10:18 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.0-dev.18 Thu Mar 29 2018 14:04:21 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "3f790f7782f07780e5867b455c99543fbd1b9319",
+    "sha": "ceb3cc008b8ba055ca2c85ee8e566da449223ec5",
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "9a1c7c119b1fb503d1c4dae5307dfd56d11b7c0a",
+    "sha": "0607f73be310b2b6a38cfd054bd2c143d6e6c06a",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "29396db7c472f763cb86ecd24663355d0f67eed0",
+    "sha": "0f5df42849bb9274022a54250857541ebfa3b657",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "58c4c08cbb98b1813222e0049c8a06c2b1758538",
+    "sha": "bdace378f8cc511ce7f447eec36d65437f6199b9",
     "branch": "master"
   },
   "kite": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "1ffdd7e76955d480231be47cbb2161e2c02e8830",
+    "sha": "4bbddfaa334d16dc0126b6d2e8a15777ddca233a",
     "branch": "master"
   },
   "phet-io-website": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "f0daebe89009a96a16d8ad378f663bd14de46b3f",
+    "sha": "025cc23dd72e19a23cbb031d620c24719354d243",
     "branch": "master"
   },
   "phetcommon": {
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "c8bc9dd992d53200fe1baa246e40c2eb23dcc114",
-    "branch": "master"
+    "sha": "e704af93c588ab60717e7a83be028334bcab8a73",
+    "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "09a695aff3ee82e728caa89a7cb8d3a0965158dc",
+    "sha": "97723fc769589c1766c020304e4d512c830ed084",
     "branch": "master"
   },
   "sherpa": {
@@ -77,8 +77,8 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "f6c1e5ef001f489e41fbe26177df3ae25df686ce",
-    "branch": "panePrototype"
+    "sha": "5f39b1fe3a33b663fe51331593bc07d44c239a7f",
+    "branch": "master"
   },
   "tandem": {
     "sha": "f814766603eb4ae4005570ece1b6213b368f2bea",
