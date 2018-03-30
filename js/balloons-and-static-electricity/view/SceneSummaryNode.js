@@ -295,11 +295,6 @@ define( function( require ) {
         // description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
       }
 
-      // if all charges are shown, include information about how positive charges do not move
-      description = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-        inducedCharge: description
-      } );
-
       return description;
     }
   }, {
