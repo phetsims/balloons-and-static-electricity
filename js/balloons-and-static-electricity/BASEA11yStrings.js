@@ -680,9 +680,6 @@ define( function( require ) {
   balloonShowAllChargesPatternString: {
     value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
   },
-  balloonShowNoChargesPatternString: {
-    value: '{{stateAndLocation}}.'
-  },
   balloonShowChargeDifferencesPatternString: {
     value: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.'
   },
