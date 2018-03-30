@@ -28,7 +28,7 @@ define( function( require ) {
     options = _.extend( {
       containerTagName: 'section',
       tagName: 'div',
-      accessibleLabel: label,
+      innerContent: label,
       labelTagName: 'h2',
       prependLabels: true
     } );
