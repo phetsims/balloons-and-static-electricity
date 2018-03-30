@@ -49,8 +49,6 @@ define( function( require ) {
   var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString.value;
   var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString.value;
   var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
-  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
 
   /**
    * @constructor
@@ -264,8 +262,7 @@ define( function( require ) {
       if ( greenInducingChargeAndVisilbe && yellowInducingChargeAndVisible ) {
 
         if ( this.model.balloonsAdjacentProperty.get() ) {
-          var combinedDescription = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, false );
-          description = StringUtils.fillIn( singleStatementPatternString, { statement: combinedDescription } );
+          description = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, false );
         }
         else {
 
@@ -292,13 +289,7 @@ define( function( require ) {
         else if ( yellowInducingChargeAndVisible ) {
           description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
         }
-        // description = StringUtils.fillIn( singleStatementPatternString, { statement: singleBalloonDescription } );
       }
-
-      // if all charges are shown, include information about how positive charges do not move
-      description = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-        inducedCharge: description
-      } );
 
       return description;
     }

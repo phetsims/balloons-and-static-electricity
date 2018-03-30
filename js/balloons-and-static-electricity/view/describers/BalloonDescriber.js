@@ -46,7 +46,6 @@ define( function( require ) {
   var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePatternString.value;
   var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPatternString.value;
   var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString.value;
-  var balloonShowNoChargesPatternString = BASEA11yStrings.balloonShowNoChargesPatternString.value;
   var releasedString = BASEA11yStrings.releasedString.value;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
   var moreInducedChargePatternString = BASEA11yStrings.moreInducedChargePatternString.value;
@@ -281,16 +280,14 @@ define( function( require ) {
       } );
 
       if ( showCharges === 'none' ) {
-        description = StringUtils.fillIn( balloonShowNoChargesPatternString, {
-          stateAndLocation: attractiveStateAndLocationString
-        } );
+        description = attractiveStateAndLocationString;
       }
       else {
         // balloon net charge description
         var netChargeDescriptionString = this.getNetChargeDescription();
 
         // balloon relative charge string, dependent on charge visibility
-        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( this.balloonModel.chargeProperty.get() );
+        var relativeChargesString = BalloonDescriber.getRelativeChargeDescription( this.balloonModel, showCharges );
 
         description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
           stateAndLocation: attractiveStateAndLocationString,
@@ -1681,7 +1678,7 @@ define( function( require ) {
         return summaryBalloonNeutralChargeString;
       }
       else {
-        return BASEDescriber.getRelativeChargeDescription( this.balloonModel.chargeProperty.get() );
+        return BalloonDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
       }
     }
   }, {

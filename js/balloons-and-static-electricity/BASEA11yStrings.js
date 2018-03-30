@@ -646,7 +646,11 @@ define( function( require ) {
   },
 
   wallInducedChargeSummaryPatternString: {
-    value: '{{inducedCharge}} Positive charges do not move.'
+    value: '{{inducedCharge}} {{positiveCharges}}'
+  },
+
+  positiveChargesDoNotMoveString: {
+    value: 'Positive charges do not move.'
   },
 
   wallInducedChargeWithManyPairsPatternString: {
@@ -675,9 +679,6 @@ define( function( require ) {
   },
   balloonShowAllChargesPatternString: {
     value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
-  },
-  balloonShowNoChargesPatternString: {
-    value: '{{stateAndLocation}}.'
   },
   balloonShowChargeDifferencesPatternString: {
     value: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.'
