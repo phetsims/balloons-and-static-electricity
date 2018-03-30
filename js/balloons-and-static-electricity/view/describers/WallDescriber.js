@@ -43,6 +43,7 @@ define( function( require ) {
   var zeroString = BASEA11yStrings.zeroString.value;
   var bothBalloonsString = BASEA11yStrings.bothBalloonsString.value;
   var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
+  var positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMoveString.value;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -293,7 +294,8 @@ define( function( require ) {
       // if all charges are shown, include information about how positive charges do not move
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: descriptionString
+          inducedCharge: descriptionString,
+          positiveCharges: positiveChargesDoNotMoveString,
         } );
       }
 
@@ -319,7 +321,8 @@ define( function( require ) {
 
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
-          inducedCharge: descriptionString
+          inducedCharge: descriptionString,
+          positiveCharges: positiveChargesDoNotMoveString
         } );
       }
       
