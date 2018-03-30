@@ -1681,7 +1681,7 @@ define( function( require ) {
         return summaryBalloonNeutralChargeString;
       }
       else {
-        return BASEDescriber.getRelativeChargeDescription( this.balloonModel.chargeProperty.get() );
+        return BalloonDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
       }
     }
   }, {
