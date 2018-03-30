@@ -191,7 +191,7 @@ define( function( require ) {
       // a11y
       containerTagName: 'div',
       tagName: 'button',
-      accessibleLabel: accessibleButtonLabel,
+      innerContent: accessibleButtonLabel,
       accessibleDescription: grabBalloonHelpString
     } );
 
@@ -530,7 +530,7 @@ define( function( require ) {
       accessibleVisible: false, // initially false
       pickable: false,
       parentContainerAriaRole: 'application',
-      accessibleLabel: accessibleLabelString,
+      innerContent: accessibleLabelString,
       focusHighlight: dragHighlightNode
     } );
     this.addChild( accessibleDragNode );

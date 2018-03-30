@@ -81,7 +81,7 @@ define( function( require ) {
     this.wall = model.wall;
 
     // opening paragraph for the simulation
-    var openingSummaryNode = new Node( { tagName: 'p', accessibleLabel: openingSummaryString } );
+    var openingSummaryNode = new Node( { tagName: 'p', innerContent: openingSummaryString } );
     this.addChild( openingSummaryNode );
 
     // list of dynamic description content that will update with the state of the simulation
@@ -97,12 +97,12 @@ define( function( require ) {
     listNode.addChild( balloonChargeNode );
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
-    this.addChild( new Node( { tagName: 'p', accessibleLabel: grabBalloonToPlayString } ) );
-    this.addChild( new Node( { tagName: 'p', accessibleLabel: checkOutShortcutsString } ) );
+    this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
+    this.addChild( new Node( { tagName: 'p', innerContent: checkOutShortcutsString } ) );
 
     // update the description that covers the visible objects in the play area
     Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
-      roomObjectsNode.accessibleLabel = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
+      roomObjectsNode.innerContent = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
     var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
@@ -113,8 +113,8 @@ define( function( require ) {
 
       // update labels if charges are shown
       if ( chargesVisible ) {
-        balloonChargeNode.accessibleLabel = self.getBalloonChargeDescription();
-        sweaterWallChargeNode.accessibleLabel = self.getSweaterAndWallChargeDescription();
+        balloonChargeNode.innerContent = self.getBalloonChargeDescription();
+        sweaterWallChargeNode.innerContent = self.getSweaterAndWallChargeDescription();
       }
     } );
 
@@ -127,7 +127,7 @@ define( function( require ) {
       inducedChargeNode.accessibleVisible = showInducingItem;
 
       if ( showInducingItem ) {
-        inducedChargeNode.accessibleLabel = self.getInducedChargeDescription();
+        inducedChargeNode.innerContent = self.getInducedChargeDescription();
       }
     } );
   }

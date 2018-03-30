@@ -98,13 +98,13 @@ define( function( require ) {
       baseColor: 'rgb( 255, 200, 0 )',
       listener: function() {
         model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-        self.wallButton.accessibleLabel = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
+        self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
       },
       tandem: tandem.createTandem( 'wallButton' ),
 
       // a11y
       accessibleDescription: removeWallDescriptionString,
-      accessibleLabel: removeWallString,
+      innerContent: removeWallString,
       containerTagName: 'div'
     } );
     this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
@@ -274,7 +274,7 @@ define( function( require ) {
     // update the button description when the green balloon is made visible
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
       resetBalloonButton.accessibleDescription = generateDescriptionString( isVisible );
-      resetBalloonButton.accessibleLabel = isVisible ? resetBalloonsString : resetBalloonString;
+      resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
 
     var balloonsPanel = new VBox( {
