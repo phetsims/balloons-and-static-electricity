@@ -42,7 +42,7 @@ define( function( require ) {
       // a11y
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
-      accessibleLabel: sweaterLabelString,
+      labelContent: sweaterLabelString,
       descriptionTagName: 'p'
     } );
 

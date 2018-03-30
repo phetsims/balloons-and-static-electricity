@@ -133,7 +133,7 @@ define( function( require ) {
       property: model.showChargesProperty,
       value: 'all',
       tandemName: 'showAllChargesRadioButton',
-      accessibleLabel: balloonAppletShowAllChargesString
+      labelContent: balloonAppletShowAllChargesString
     }, {
       node: new Text(
         balloonAppletShowNoChargesString,
@@ -142,7 +142,7 @@ define( function( require ) {
       property: model.showChargesProperty,
       value: 'none',
       tandemName: 'showNoChargesRadioButton',
-      accessibleLabel: balloonAppletShowNoChargesString
+      labelContent: balloonAppletShowNoChargesString
     }, {
       node: new Text(
         balloonAppletShowChargeDifferencesString,
@@ -151,7 +151,7 @@ define( function( require ) {
       property: model.showChargesProperty,
       value: 'diff',
       tandemName: 'showChargeDifferencesRadioButton',
-      accessibleLabel: balloonAppletShowChargeDifferencesString
+      labelContent: balloonAppletShowChargeDifferencesString
     } ], {
       radius: 7,
       touchAreaXDilation: 5,
@@ -161,7 +161,7 @@ define( function( require ) {
       labelTagName: 'h3',
       containerTagName: 'div',
       prependLabels: true,
-      accessibleLabel: chargeSettingsLabelString,
+      labelContent: chargeSettingsLabelString,
       accessibleDescription: chargeSettingsDescriptionString
     } );
 
@@ -218,7 +218,7 @@ define( function( require ) {
         // TODO: (phet-io event stream) The 'fired' event for this tandem doesn't make sense with a 'value' of boolean in the parameters.
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
         maskFill: BASEConstants.backgroundColorProperty,
-        accessibleLabel: twoBalloonExperimentLabelString,
+        labelContent: twoBalloonExperimentLabelString,
         containerTagName: 'div',
         accessibleDescription: twoBalloonExperimentDescriptionString
       }
@@ -284,7 +284,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: 'Balloon Settings',
+      labelContent: 'Balloon Settings',
       prependLabels: true
     } );
 

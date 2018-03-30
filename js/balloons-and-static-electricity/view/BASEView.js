@@ -63,7 +63,7 @@ define( function( require ) {
       tandem: tandem,
 
       // a11y
-      accessibleLabel: balloonsAndStaticElectricityTitleString
+      labelContent: balloonsAndStaticElectricityTitleString
     } );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
@@ -103,7 +103,7 @@ define( function( require ) {
 
     var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
     this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
-      accessibleLabel: yellowBalloonLabelString
+      labelContent: yellowBalloonLabelString
     } );
     var tetherAnchorPoint = new Vector2(
       model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
@@ -116,7 +116,7 @@ define( function( require ) {
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
     this.greenBalloonNode = new BalloonNode( 500, 200, model.greenBalloon, balloonGreen, model, greenBalloonLabelString, yellowBalloonLabelString, tandem.createTandem( 'greenBalloonNode' ), {
-      accessibleLabel: greenBalloonLabelString
+      labelContent: greenBalloonLabelString
     } );
     this.greenBalloonTetherNode = new TetherNode(
       model.greenBalloon,

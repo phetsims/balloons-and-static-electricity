@@ -86,7 +86,7 @@ define( function( require ) {
       containerTagName: 'div',
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: accessibleLabelString,
+      labelContent: accessibleLabelString,
       prependLabels: true
     }, options );
 

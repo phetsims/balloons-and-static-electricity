@@ -46,7 +46,7 @@ define( function( require ) {
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: wallLabelString,
+      labelContent: wallLabelString,
       descriptionTagName: 'p'
     } );
 
