@@ -74,7 +74,7 @@ define( function( require ) {
       this.audioView = new BASEAudio( model, tandem.createTandem( 'audioView' ) );
     }
 
-    // create a parent container for all things in the 'play area' to structure the accessibility DOM into sections
+    // create a container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleSectionNode( playAreaString );
     this.addChild( playAreaContainerNode );
     playAreaContainerNode.addChild( sweaterNode );
