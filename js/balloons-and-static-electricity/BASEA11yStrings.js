@@ -604,7 +604,7 @@ define( function( require ) {
     value: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}'
   },
   wallTwoBalloonInducedChargePatternString: {
-    value: '{{yellowBalloon}}. {{greenBalloon}}'
+    value: '{{yellowBalloon}} {{greenBalloon}}'
   },
   wallChargedRubbingAllPatternString: {
     value: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.'
