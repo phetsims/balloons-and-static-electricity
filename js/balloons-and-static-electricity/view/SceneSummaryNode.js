@@ -267,7 +267,9 @@ define( function( require ) {
         else {
 
           // full description for yellow balloon
-          var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
+          var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
+            includeWallLocation: false
+          } );
 
           // short summary for green balloon
           var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( greenBalloon );
@@ -284,10 +286,14 @@ define( function( require ) {
       else {
         // var singleBalloonDescription;
         if ( greenInducingChargeAndVisilbe ) {
-          description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, false );
+          description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, {
+            includeWallLocation: false 
+          } );
         }
         else if ( yellowInducingChargeAndVisible ) {
-          description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, false );
+          description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
+            includeWallLocation: false 
+          } );
         }
       }
 

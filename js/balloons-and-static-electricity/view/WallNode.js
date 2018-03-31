@@ -96,11 +96,12 @@ define( function( require ) {
 
     // a11y - when the balloons change location, update the description of the induced charge in the wall
     var updateWallDescription = function() {
-      self.setAccessibleDescription( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon ) );
+      self.setAccessibleDescription( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
     };
 
     model.yellowBalloon.locationProperty.link( updateWallDescription );
     model.greenBalloon.locationProperty.link( updateWallDescription );
+    model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
   }
 

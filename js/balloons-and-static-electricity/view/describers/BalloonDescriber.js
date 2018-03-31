@@ -283,7 +283,7 @@ define( function( require ) {
         description = attractiveStateAndLocationString;
       }
       else {
-        
+
         // balloon net charge description
         var netChargeDescriptionString = this.getNetChargeDescription();
 
@@ -633,7 +633,8 @@ define( function( require ) {
         if ( chargesShown === 'diff' ) {
 
           // if showing charge differences, no charges are shown, so include that information
-          description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, chargesShown );
+          var balloonsAdjacent = this.model.getBalloonsAdjacent();
+          description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
           description = StringUtils.fillIn( singleStatementPatternString, {
             statement: description
           } );
@@ -647,7 +648,7 @@ define( function( require ) {
           else if ( this.balloonModel.inducingChargeAndVisible() ) {
 
             // only one balloon inducing charge, describe this
-            description = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+            description = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
           }
           else {
 
@@ -785,7 +786,7 @@ define( function( require ) {
           inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible, true );
         }
         else {
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
         }
 
         description = StringUtils.fillIn( noChangeWithInducedChargePatternString, {
@@ -1137,7 +1138,7 @@ define( function( require ) {
           else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
 
             // neither balloon is inducing charge, just use normal induced charge description
-            inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+            inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
           }
           else {
             assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
@@ -1154,11 +1155,11 @@ define( function( require ) {
               balloonLabel = this.otherAccessibleLabel;
             }
 
-            inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible, true );
+            inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
           }
         }
         else {
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible, true );
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
         }
 
         patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
@@ -1169,7 +1170,7 @@ define( function( require ) {
         } );
       }
       else {
-        var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, wallVisible, shownCharges );
+        var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, this.model.getBalloonsAdjacent(), wallVisible, shownCharges );
         var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleLabel );
 
         // balloon charge doesn't include punctuation
@@ -1505,7 +1506,7 @@ define( function( require ) {
 
         var chargeString;
         if ( this.balloonModel.inducingChargeProperty.get() ) {
-          chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get(), true );
+          chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, this.wall.isVisibleProperty.get() );
         }
         else {
           chargeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
