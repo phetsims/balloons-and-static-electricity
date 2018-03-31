@@ -552,7 +552,7 @@ define( function( require ) {
     value: 'showing {{charge}} positive charges'
   },
   sweaterRelativeChargeAllPatternString: {
-    value: '{{charge}} more positive charges than negative charges.'
+    value: '{{charge}} more positive charges than negative charges'
   },
   sweaterRelativeChargeDifferencesPatternString: {
     value: 'showing {{charge}} positive charges'
@@ -562,6 +562,9 @@ define( function( require ) {
   },
   sweaterNoMoreChargesString: {
     value: 'no more negative charges, only positive charges'
+  },
+  showingAllPositiveChargesString: {
+    value: 'showing all positive charges'
   },
   sweaterHasRelativeChargePatternString: {
     value: 'Sweater has {{relativeCharge}}'

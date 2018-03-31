@@ -283,6 +283,7 @@ define( function( require ) {
         description = attractiveStateAndLocationString;
       }
       else {
+        
         // balloon net charge description
         var netChargeDescriptionString = this.getNetChargeDescription();
 

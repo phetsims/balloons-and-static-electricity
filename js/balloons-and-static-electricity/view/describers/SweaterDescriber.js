@@ -17,15 +17,11 @@ define( function( require ) {
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Range = require( 'DOT/Range' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var sweaterLocationString = BASEA11yStrings.sweaterLocationString.value;
   var zeroString = BASEA11yStrings.zeroString.value;
-  var noString = BASEA11yStrings.noString.value;
-  var aFewString = BASEA11yStrings.aFewString.value;
-  var severalString = BASEA11yStrings.severalString.value;
   var manyString = BASEA11yStrings.manyString.value;
   var allString = BASEA11yStrings.allString.value;
   var positiveString = BASEA11yStrings.positiveString.value;
@@ -50,31 +46,9 @@ define( function( require ) {
   var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString.value;
   var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString.value;
   var sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPatternString.value;
+  var showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveChargesString.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
 
-  // constants - ranges to describe charges in the sweater
-  var SWEATER_DESCRIPTION_MAP = {
-    NO_MORE_RANGE: {
-      range: new Range( 0, 0 ),
-      description: noString
-    },
-    A_FEW_RANGE: {
-      range: new Range( 1, 15 ),
-      description: aFewString
-    },
-    SEVERAL_RANGE: {
-      range: new Range( 15, 40 ),
-      description: severalString
-    },
-    MANY_RANGE: {
-      range: new Range( 40, 56 ),
-      description: manyString
-    },
-    MAX_RANGE: {
-      range: new Range( 57, 57 ),
-      description: allString
-    } 
-  };
-  
   /**
    * Manages all descriptions relating to the sweater.
    * 
@@ -93,71 +67,77 @@ define( function( require ) {
     /**
      * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
      * relative proportion of positive and negative charges.  Will be dependent on what charges are visible. 
-     * "At left edge of Play Area. Has positive net charge, a few more positive charges than negative charges."
+     * "At left edge of Play Area. Has positive net charge, a few more positive charges than negative charges." or
+     * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
+     * "At left edge of Play Area. Has positive net charge, no more negative charges, only positive charges." or
+     * "At left edge of Play Area. Has positive net charge, several more positive charges than negative charges."
      *
      * @param {Property.<string>} showCharges
      * @return {string}
      */
     getSweaterDescription: function( showCharges ) {
+      var description;
 
-      // if we are not showing any charges, just return the location descrption
+      // if we are not showing any charges, just return a description for the location
       if ( showCharges === 'none' ) {
         return sweaterLocationString;
       }
 
-      var relativeChargeString; // description of relative positive/negative charges
-      var chargeAmountString; // short description of amount of charge like "a few"
-      var netChargeString;
-      var chargeString; // full description of charge
-      var visualChargePatternString; // pattern dependent on which charges are shown
-
-      // get the description for the amount of charge
+      // relative charge like "no" or "several"
       var sweaterCharge = this.sweaterModel.chargeProperty.get();
-      var descriptionKeys = Object.keys( SWEATER_DESCRIPTION_MAP );
-      for ( var i = 0; i < descriptionKeys.length; i++ ) {
-        var descriptionContent = SWEATER_DESCRIPTION_MAP[ descriptionKeys[ i ] ];
-        if ( descriptionContent.range.contains( sweaterCharge ) ) {
-          chargeAmountString = descriptionContent.description;
-        }
-      }
+      var relativeChargeString = BASEDescriber.getRelativeChargeDescription( sweaterCharge );
 
-      // get the pattern string to describe all charges or just charge differences
-      if ( showCharges === 'all' ) {
-        visualChargePatternString = sweaterRelativeChargeAllPatternString;
-      }
-      else {
-        visualChargePatternString = sweaterRelativeChargeDifferencesPatternString;
-      }
-
-      // assemble net charge string
-      netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
+      // assemble net charge string, like "Has zero net charge"
+      var netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
         netCharge: sweaterCharge > 0 ? positiveString : zeroString
       } );
 
-      // assemble the relative charge string, special cases if we are showing charge differences
-      // and charge is zero, and when there are no more charges remaining
-      if ( showCharges === 'diff' && sweaterCharge === 0 ) {
-        relativeChargeString = showingNoChargesString;
-      }
-      else if ( SWEATER_DESCRIPTION_MAP.MAX_RANGE.range.contains( sweaterCharge ) ) {
-        relativeChargeString = sweaterNoMoreChargesString;
+      var chargeString;
+      if ( showCharges === 'all' ) {
+
+        // special case - if sweater is totally out of charges, say "no more negative charges, only positive charges""
+        if ( sweaterCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
+          chargeString = sweaterNoMoreChargesString;
+        }
+        else {
+          chargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
+            charge: relativeChargeString
+          } );
+        }
       }
       else {
-        relativeChargeString = StringUtils.fillIn( visualChargePatternString, {
-          charge: chargeAmountString
-        } );
+
+        if ( sweaterCharge === 0 ) {
+
+          // special case - if sweater has neutral charge, just say "showing no charges"
+          chargeString = showingNoChargesString;
+        }
+        else if ( sweaterCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
+
+          // special case - if sweater is out of  charges, say "showing all positive charges"
+          chargeString = showingAllPositiveChargesString;
+        }
+        else {
+          chargeString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString,  {
+            charge: relativeChargeString
+          } );
+        }
       }
 
-      // assemble the full description of charge
+      // description for charge
       chargeString = StringUtils.fillIn( sweaterChargePatternString, {
         netCharge: netChargeString,
-        relativeCharge: relativeChargeString
+        relativeCharge: chargeString
       } );
 
-      // assemble the description to be returned
-      return StringUtils.fillIn( sweaterDescriptionPatternString, {
+      // full description,  without punctuation
+      description = StringUtils.fillIn( sweaterDescriptionPatternString, {
         location: sweaterLocationString,
         charge: chargeString
+      } );
+
+      return StringUtils.fillIn( singleStatementPatternString, {
+        statement: description
       } );
     }
   }, {
