@@ -103,7 +103,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'wallButton' ),
 
       // a11y
-      accessibleDescription: removeWallDescriptionString,
+      descriptionContent: removeWallDescriptionString,
       innerContent: removeWallString,
       containerTagName: 'div'
     } );
@@ -162,7 +162,7 @@ define( function( require ) {
       containerTagName: 'div',
       prependLabels: true,
       labelContent: chargeSettingsLabelString,
-      accessibleDescription: chargeSettingsDescriptionString
+      descriptionContent: chargeSettingsDescriptionString
     } );
 
     // a11y - announce an alert that describes the state of charge visibility, linked lazily
@@ -220,7 +220,7 @@ define( function( require ) {
         maskFill: BASEConstants.backgroundColorProperty,
         labelContent: twoBalloonExperimentLabelString,
         containerTagName: 'div',
-        accessibleDescription: twoBalloonExperimentDescriptionString
+        descriptionContent: twoBalloonExperimentDescriptionString
       }
     );
 
@@ -273,7 +273,7 @@ define( function( require ) {
 
     // update the button description when the green balloon is made visible
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
-      resetBalloonButton.accessibleDescription = generateDescriptionString( isVisible );
+      resetBalloonButton.descriptionContent = generateDescriptionString( isVisible );
       resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
 

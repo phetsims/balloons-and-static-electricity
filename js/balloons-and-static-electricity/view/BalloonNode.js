@@ -192,7 +192,7 @@ define( function( require ) {
       containerTagName: 'div',
       tagName: 'button',
       innerContent: accessibleButtonLabel,
-      accessibleDescription: grabBalloonHelpString
+      descriptionContent: grabBalloonHelpString
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
@@ -406,7 +406,7 @@ define( function( require ) {
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
     var updateAccessibleDescription = function() {
-      self.accessibleDescription = self.describer.getBalloonDescription( model );
+      self.descriptionContent = self.describer.getBalloonDescription( model );
     };
     model.locationProperty.link( updateAccessibleDescription );
     model.chargeProperty.link( updateAccessibleDescription );

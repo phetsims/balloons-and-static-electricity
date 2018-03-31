@@ -117,7 +117,7 @@ define( function( require ) {
     Property.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], function( showCharges, charge ) {
       updateChargesVisibilityOnSweater( charge );
 
-      self.setAccessibleDescription( sweaterDescriber.getSweaterDescription( showCharges ) );
+      self.setDescriptionContent( sweaterDescriber.getSweaterDescription( showCharges ) );
     } );
 
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
