@@ -529,7 +529,7 @@ define( function( require ) {
       focusable: true,
       accessibleVisible: false, // initially false
       pickable: false,
-      parentContainerAriaRole: 'application',
+      containerAriaRole: 'application',
       innerContent: accessibleLabelString,
       focusHighlight: dragHighlightNode
     } );
