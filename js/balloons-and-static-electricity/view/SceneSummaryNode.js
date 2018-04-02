@@ -44,11 +44,13 @@ define( function( require ) {
   var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePatternString.value;
   var zeroString = BASEA11yStrings.zeroString.value;
   var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePatternString.value;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString.value;
   var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString.value;
   var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString.value;
   var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString.value;
   var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString.value;
+  var summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPatternString.value;
+  var summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPatternString.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
 
   /**
    * @constructor
@@ -159,8 +161,10 @@ define( function( require ) {
           charge: zeroString,
         } );
 
+        var patternString = chargesShown === 'all' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
+
         // both have same described charge, can be described with wallChargeString
-        description = StringUtils.fillIn( summaryObjectChargePatternString, {
+        description = StringUtils.fillIn( patternString, {
           object: chargedObjectsString,
           charge: wallChargeString
         } );
@@ -262,13 +266,21 @@ define( function( require ) {
       if ( greenInducingChargeAndVisilbe && yellowInducingChargeAndVisible ) {
 
         if ( this.model.balloonsAdjacentProperty.get() ) {
-          description = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, false );
+          description = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, {
+            includeWallLocation: false
+          } );
+
+          // add punctuation, a period at  the end of the phrase
+          description = StringUtils.fillIn( singleStatementPatternString, {
+            statement: description
+          } );
         }
         else {
 
           // full description for yellow balloon
           var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
-            includeWallLocation: false
+            includeWallLocation: false,
+            includePositiveChargeInfo: false
           } );
 
           // short summary for green balloon
@@ -284,17 +296,23 @@ define( function( require ) {
         }
       }
       else {
-        // var singleBalloonDescription;
         if ( greenInducingChargeAndVisilbe ) {
           description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, {
-            includeWallLocation: false 
+            includeWallLocation: false,
+            // includePositiveChargeInfo: false
           } );
         }
         else if ( yellowInducingChargeAndVisible ) {
           description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
-            includeWallLocation: false 
+            includeWallLocation: false,
+            // includePositiveChargeInfo: false
           } );
         }
+
+        // add necessary punctuation
+        description = StringUtils.fillIn( singleStatementPatternString, {
+          statement: description
+        } );
       }
 
       return description;

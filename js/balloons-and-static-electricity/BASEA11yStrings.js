@@ -176,13 +176,13 @@ define( function( require ) {
     value: 'lower-right edge' // 'near' added programmatically
   },
   landmarkAtCenterPlayAreaString: {
-    value: 'center of play area'
+    value: 'center of Play Area'
   },
   landmarkAtUpperCenterPlayAreaString: {
-    value: 'upper-center of play area' // 'At added programmatically'
+    value: 'upper-center of Play Area' // 'At added programmatically'
   },
   landmarkAtLowerCenterPlayAreaString: {
-    value: 'lower-center of play area' // 'At added programmatically'
+    value: 'lower-center of Play Area' // 'At added programmatically'
   },
 
     // location strings while touching another object
@@ -287,7 +287,7 @@ define( function( require ) {
     value: 'Right. Towards wall.'
   },
   rightTowardsRightSideOfPlayAreaString: {
-    value: 'Right. Towards right side of play area.'
+    value: 'Right. Towards right side of Play Area.'
   },
 
   closerToTopString: {
@@ -303,14 +303,14 @@ define( function( require ) {
     value: 'Right. Closer to wall.'
   },
   closerToRightSideString: {
-    value: 'Right. Closer to right side of play area.'
+    value: 'Right. Closer to right side of Play Area.'
   },
 
   wallRemovedString: {
-    value: 'Wall removed from play area.'
+    value: 'Wall removed from Play Area.'
   },
   wallAddedString: {
-    value: 'Wall added to play area.'
+    value: 'Wall added to Play Area.'
   },
 
     // boundary strings
@@ -338,10 +338,10 @@ define( function( require ) {
   },
 
   atCenterOfPlayAreaString: {
-    value: 'At center of play area.'
+    value: 'At center of Play Area.'
   },
   onRightSideOfPlayAreaString: {
-    value: 'On right side of play area.'
+    value: 'On right side of Play Area.'
   },
 
   againMoreChargesString: {
@@ -404,7 +404,7 @@ define( function( require ) {
   },
 
   inducedChargePatternString: {
-    value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}.'
+    value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}'
   },
   inducedChargeNoAmountPatternString: {
     value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.'
@@ -457,15 +457,21 @@ define( function( require ) {
   summaryObjectChargePatternString: {
     value: '{{object}}, {{charge}}.'
   },
+  summaryObjectEachHasPatternString: {
+    value:'{{object}}, each has {{charge}}.'
+  },
+  summaryObjectEachPatternString: {
+    value:  '{{object}}, each {{charge}}.'
+  },
   summarySweaterWallPatternString: {
     value: '{{sweater}} {{wall}}'
   },
 
   summarySecondBalloonInducingChargePatternString: {
-    value: 'from green balloon {{amount}}.'
+    value: 'from Green Balloon {{amount}}.'
   },
   summaryBothBalloonsPatternString: {
-    value: '{{yellowBalloon}}, {{greenBalloon}}'
+    value: '{{yellowBalloon}}, {{greenBalloon}} Positive charges do not move.'
   },
 
     //-----------------
@@ -488,10 +494,10 @@ define( function( require ) {
     value: 'two balloons and a sweater'
   },
   inPlayAreaStringPattern: {
-    value: 'in {0} of play area.'
+    value: 'in {0} of Play Area.'
   },
   inPlayAreaNearItemStringPattern: {
-    value: 'in {0} of play area, {1}.'
+    value: 'in {0} of Play Area, {1}.'
   },
   evenlyBetweenString: {
     value: 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.'
@@ -500,9 +506,9 @@ define( function( require ) {
     value: 'Negative charges in wall move away from balloon {0}.'
   },
 
-    //------------------------------------------------------------------------
-    // Induced charge strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Induced charge strings
+  //------------------------------------------------------------------------
   aLittleBitString: {
     value: 'a little bit'
   },
@@ -524,7 +530,7 @@ define( function( require ) {
     // Object strings (strings shared between all objects)
     //------------------------------------------------------------------------
   manyChargePairsString: {
-    value: 'many pairs of positive and negative charges'
+    value: 'many pairs of negative and positive charges'
   },
 
     //------------------------------------------------------------------------
@@ -567,7 +573,7 @@ define( function( require ) {
     value: 'showing all positive charges'
   },
   sweaterHasRelativeChargePatternString: {
-    value: 'Sweater has {{relativeCharge}}'
+    value: 'Sweater has {{relativeCharge}}.'
   },
   sweaterHasNetChargeShowingPatternString: {
     value: 'Sweater has positive net charge, {{showing}}.'
@@ -583,7 +589,7 @@ define( function( require ) {
     // Wall strings
     //------------------------------------------------------------------------
   wallDescriptionPatternString: {
-    value: '{{location}}. {{charge}}'
+    value: '{{location}}. {{charge}}.'
   },
   wallLocationString: {
     value: 'At right edge of Play Area'
@@ -598,7 +604,7 @@ define( function( require ) {
     value: 'Wall has many pairs of negative and positive charges.'
   },
   wallChargeWithoutInducedPatternString: {
-    value: '{{netCharge}}, {{shownCharges}}.'
+    value: '{{netCharge}}, {{shownCharges}}'
   },
   wallChargeWithInducedPatternString: {
     value: '{{netCharge}}, {{shownCharges}}. {{inducedCharge}}'
@@ -613,7 +619,7 @@ define( function( require ) {
     value: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.'
   },
   wallNoChangeInChargesPatternString: {
-    value: 'In {{location}}, no change in charges.' // punctuation inserted in another string pattern
+    value: 'In {{location}}, no change in charges' // punctuation inserted in another string pattern
   },
   wallChargePatternStringWithLabel: {
     value: 'Wall {{wallCharge}}'
@@ -653,7 +659,7 @@ define( function( require ) {
   },
 
   positiveChargesDoNotMoveString: {
-    value: 'Positive charges do not move.'
+    value: 'Positive charges do not move'
   },
 
   wallInducedChargeWithManyPairsPatternString: {
@@ -935,8 +941,32 @@ define( function( require ) {
     value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
   },
 
+  grabbedNonePatternString: {
+    value: 'Grabbed. {{location}}'
+  },
+
+  grabbedChargePatternString: {
+    value: 'Grabbed. {{location}} {{charge}}'
+  },
+
+  grabbedWithOtherChargePatternString: {
+    value: '{{balloonCharge}} {{otherObjectCharge}}'
+  },
+
+  grabbedWithHelpPatternString: {
+    value: '{{grabbedAlert}} {{help}}'
+  },
+
   eachBalloonChargePatternString: {
     value: 'Each balloon has {{charge}}'
+  },
+
+  balloonHasChargePatternString: {
+    value: 'Has {{charge}}'
+  },
+
+  balloonHasChargeShowingPatternString: {
+    value: 'Has {{charge}} net charge, {{showing}}'
   },
 
   balloonRelativeChargeAllPatternString: {
@@ -954,7 +984,7 @@ define( function( require ) {
   },
 
   interactionCueString: {
-    value: 'Press W, A, S, or D key to move balloon. Space key to release.'
+    value: 'Press W, A, S, or D key to move balloon. Space to release.'
   },
 
     //--------------------------------------------------------------------------
@@ -964,7 +994,7 @@ define( function( require ) {
     value: '{{balloon}} picks up negative charges from sweater'
   },
   balloonPicksUpChargesDiffPatternString: {
-    value: '{{pickUp}}. Same number of positive charges showing on sweater.'
+    value: '{{pickUp}}. Same increase of positive charges on sweater.'
   },
   balloonPicksUpMoreChargesPatternString: {
     value: '{{balloon}} picks up more negative charges'
@@ -980,7 +1010,7 @@ define( function( require ) {
     // when the last charge is picked up, we announce no charges remaining and then the
     // balloon charge
   lastChargePickedUpPatternString: {
-    value: '{{sweater}} {{balloon}}'
+    value: '{{sweater}} {{balloon}}.'
   },
 
     //--------------------------------------------------------------------------
@@ -990,11 +1020,11 @@ define( function( require ) {
     value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}'
   },
   noChargePickupHintPatternString: {
-    value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}}. {{balloonCharge}}. {{hint}}'
+    value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
   },
 
   releaseHintString: {
-    value: 'Press space to release.'
+    value: 'Press Space to release.'
   },
 
   moreChargesPatternString: {
