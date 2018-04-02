@@ -6,7 +6,7 @@
  * is quite complicated so this distributes the description work so that BalloonNode does not become
  * a massive file.  Used for accessibility.
  *
- * TODO: Bring up to standards, immprove documentation, delete many functions which are now unused.
+ * TODO: Bring up to standards, improve documentation, delete many functions which are now unused.
  * TODO: This file is massive. It should be substantially reduced in size.
  *
  * @author Jesse Greenberg
