@@ -27,7 +27,6 @@ define( function( require ) {
   // create a wallNode for testing
   var wallNode = new WallNode( model, new Tandem() );
   
-
   QUnit.test( 'SceneSummary tests', function( assert ) {
     var summaryNode = new SceneSummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );
 
