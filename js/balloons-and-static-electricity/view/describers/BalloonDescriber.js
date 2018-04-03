@@ -1167,7 +1167,6 @@ define( function( require ) {
 
             // neither balloon is inducing charge, just use normal induced charge description
             inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-            // inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
           }
           else {
             assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
@@ -1185,13 +1184,14 @@ define( function( require ) {
             }
 
             inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
-            inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
           }
         }
         else {
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
-          inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
         }
+
+        // wrap induced charge string with punctuation
+        inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
 
         patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
         descriptionString = StringUtils.fillIn( patternString, {
@@ -1215,9 +1215,10 @@ define( function( require ) {
 
         // if balloons are adjacent, the relative charge description for both balloons must be included
         if ( this.model.getBalloonsAdjacent() ) {
+          balloonChargeString = this.getCombinedRelativeChargeDescription();
+          balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
 
-          // TODO: Handle the case where we must describe both balloons.
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'otherBalloonCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,

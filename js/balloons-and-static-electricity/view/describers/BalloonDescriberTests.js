@@ -468,4 +468,79 @@ define( function( require ) {
     expectedAlert = 'At upper wall. Yellow Balloon has negative net charge, showing several negative charges. Wall has zero net charge, showing no charges.';
     assert.equal( actualAlert, expectedAlert, 'wall rub test 5' );
   } );
+
+  QUnit.test( 'Two Balloons rubbing on wall', function( assert ) {
+    model.reset();
+
+    //--------------------------------------------------------------------------
+    // Testing all charges shown
+    //--------------------------------------------------------------------------
+    model.greenBalloon.isVisibleProperty.set( true );
+
+    // both balloons charged, all charges shown
+    model.yellowBalloon.chargeProperty.set( -10 );
+    model.greenBalloon.chargeProperty.set( -10 );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP + 1 ) );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP + 1 ) );
+    var actualAlert = balloonNode.describer.getWallRubbingDescription();
+    var expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from balloons a lot. Positive charges do not move.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 1' );
+
+    // only one balloon has charge, all charges shown - nudge the balloon so that induced Properties update
+    model.greenBalloon.chargeProperty.set( 0 );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from Yellow Balloon a little bit. Positive charges do not move.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 2' );
+
+    // grabbed balloon is neutral, and ungrabbed balloon has charges
+    model.yellowBalloon.chargeProperty.set( 0 );
+    model.greenBalloon.chargeProperty.set( -10 );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At lower wall, next to Green Balloon. No transfer of charge. Negative charges in lower wall move away from Green Balloon a little bit. Positive charges do not move.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 3' );
+
+    //--------------------------------------------------------------------------
+    // Testing charge differences
+    //--------------------------------------------------------------------------
+    model.showChargesProperty.set( 'diff' );
+
+    // both balloons charged
+    model.yellowBalloon.chargeProperty.set( -20 );
+    model.greenBalloon.chargeProperty.set( -10 );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At upper wall, next to Green Balloon. Yellow Balloon has negative net charge, showing several negative charges. Green Balloon has negative net charge, showing a few negative charges. Wall has zero net charge, showing no charges.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 4' );
+
+    // grabbed balloon is neutral, ungrabbed balloon has many charges
+    model.yellowBalloon.chargeProperty.set( 0 );
+    model.greenBalloon.chargeProperty.set( -20 );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At lower wall, next to Green Balloon. Yellow Balloon has zero net charge, showing no charges. Green Balloon has negative net charge, showing several negative charges. Wall has zero net charge, showing no charges.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 5' );
+
+    // both balloons neutral
+    model.yellowBalloon.chargeProperty.set( 0 );
+    model.greenBalloon.chargeProperty.set( 0 );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At upper wall, next to Green Balloon. Each balloon has zero net charge, showing no charges. Wall has zero net charge, showing no charges.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 6' );
+
+    // two charged balloons, each with several charges
+    model.yellowBalloon.chargeProperty.set( -20 );
+    model.greenBalloon.chargeProperty.set( -20 );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    actualAlert = balloonNode.describer.getWallRubbingDescription();
+    expectedAlert = 'At lower wall, next to Green Balloon. Each balloon has negative net charge, showing several negative charges. Wall has zero net charge, showing no charges.';
+    assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 6' );
+  } );
 } );
