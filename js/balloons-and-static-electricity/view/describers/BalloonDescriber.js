@@ -209,7 +209,7 @@ define( function( require ) {
     this.wall = wall;
     this.balloonModel = balloon;
     this.accessibleName = accessibleLabel;
-    this.otherAccessibleLabel = otherAccessibleLabel;
+    this.otherAccessibleName = otherAccessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
 
     // @private - the charge on the balloon when we generate a pickup description,
@@ -366,7 +366,7 @@ define( function( require ) {
         var grabbedBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, this.accessibleName );
 
         if ( this.model.bothBalloonsVisible() ) {
-          var otherBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleLabel );
+          var otherBalloonDescription = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleName );
 
           description = StringUtils.fillIn( combinedChargePatternString, {
             grabbedBalloon: grabbedBalloonDescription,
@@ -537,7 +537,7 @@ define( function( require ) {
       if ( this.model.getBalloonsAdjacent() ) {
         description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
           location: description,
-          otherBalloon: this.otherAccessibleLabel
+          otherBalloon: this.otherAccessibleName
         } );
       }
 
@@ -941,7 +941,7 @@ define( function( require ) {
         if ( this.model.getBalloonsAdjacent() ) {
           description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
             location: description,
-            otherBalloon: this.otherAccessibleLabel
+            otherBalloon: this.otherAccessibleName
           } );
         }
         else {
@@ -1193,7 +1193,7 @@ define( function( require ) {
             }
             else {
               inducingBalloon = this.balloonModel.other;
-              balloonLabel = this.otherAccessibleLabel;
+              balloonLabel = this.otherAccessibleName;
             }
 
             inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
