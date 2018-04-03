@@ -791,6 +791,9 @@ define( function( require ) {
   continuousMovementWithLandmarkPatternString: {
     value: '{{movementDirection}} {{landmark}}.'
   },
+  continuousMovementWithLabelPatternString: {
+    value: '{{balloonLabel}}, moving {{direction}}.'
+  },
 
   nowDirectionPatternString: {
     value: 'Now {{direction}}.'

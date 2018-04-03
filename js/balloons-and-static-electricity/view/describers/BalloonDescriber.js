@@ -48,6 +48,7 @@ define( function( require ) {
   var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPatternString.value;
   var releasedString = BASEA11yStrings.releasedString.value;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPatternString.value;
+  var continuousMovementWithLabelPatternString = BASEA11yStrings.continuousMovementWithLabelPatternString.value;
   var moreInducedChargePatternString = BASEA11yStrings.moreInducedChargePatternString.value;
   var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePatternString.value;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPatternString.value;
@@ -747,7 +748,8 @@ define( function( require ) {
 
     /**
      * Get a description of continuous movement of the balloon after it has been released and is
-     * still moving through the play area. Will return something like
+     * still moving through the play area. Label will be added for clarity if both balloons are visible.
+     * Will return something like
      * "Moving Left." or
      * "Moving Left. Near wall."
      * 
@@ -759,10 +761,18 @@ define( function( require ) {
       var description;
       var directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
-      // describes movement and direction
-      description = StringUtils.fillIn( continuousMovementPatternString, {
-        direction: directionString
-      } );
+      // describes movement and direction, including label if both balloons are visible
+      if ( this.balloonModel.other.isVisibleProperty.get() ) {
+        description = StringUtils.fillIn( continuousMovementWithLabelPatternString, {
+          balloonLabel: this.accessibleLabel,
+          direction: directionString
+        } );
+      }
+      else {
+        description = StringUtils.fillIn( continuousMovementPatternString, {
+          direction: directionString
+        } );
+      }
 
       // if we are in a landmark, it will be added to the continuous movement description
       if ( this.balloonModel.playAreaLandmarkProperty.get() ) {
