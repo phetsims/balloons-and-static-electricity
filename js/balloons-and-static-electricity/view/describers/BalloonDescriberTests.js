@@ -192,7 +192,6 @@ define( function( require ) {
                           'Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 15' );
 
-
     // grab alerts when both balloons are visible, at wall and have charge, all charges shown
     model.greenBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.chargeProperty.set( -20 );
@@ -273,6 +272,67 @@ define( function( require ) {
                           'Green Balloon has negative net charge, showing several negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 21' );
+  } );
+
+  QUnit.test( 'Grabbing balloon on sweater when both are visible', function( assert ) {
+    model.reset();
+    model.greenBalloon.isVisibleProperty.set( true );
+
+    var rightSweater = new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_SIDE_OF_SWEATER.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP );
+
+    //--------------------------------------------------------------------------
+    // All charges shown
+    //--------------------------------------------------------------------------
+
+    // both balloons have charge
+    model.yellowBalloon.chargeProperty.set( -10 );
+    model.greenBalloon.chargeProperty.set( -10 );
+    model.sweater.chargeProperty.set( 20 );
+    model.yellowBalloon.setCenter( rightSweater );
+    model.greenBalloon.setCenter( rightSweater );
+    var actualDescription = balloonNode.describer.getGrabbedAlert();
+    var expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
+                              'Each balloon has a few more negative charges than positive charges. ' +
+                              'Sweater has several more positive charges than negative charges. ' +
+                              'Press W, A, S, or D key to move balloon. Space to release.';
+    assert.equal( actualDescription, expectedDescription, 'sweater grab test 1' );
+
+    // both balloons have charge
+    model.yellowBalloon.chargeProperty.set( -10 );
+    model.greenBalloon.chargeProperty.set( -20 );
+    model.sweater.chargeProperty.set( 30 );
+    actualDescription = balloonNode.describer.getGrabbedAlert();
+    expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
+                          'Yellow Balloon has a few more negative charges than positive charges. ' +
+                          'Green Balloon has several more negative charges than positive charges. ' +
+                          'Sweater has several more positive charges than negative charges.';
+    assert.equal( actualDescription, expectedDescription, 'sweater grab test 2' );
+
+    //--------------------------------------------------------------------------
+    // Showing charge differences
+    //--------------------------------------------------------------------------
+    model.showChargesProperty.set( 'diff' );
+
+    // both balloons have charge
+    model.yellowBalloon.chargeProperty.set( -10 );
+    model.greenBalloon.chargeProperty.set( -10 );
+    model.sweater.chargeProperty.set( 20 );
+    actualDescription = balloonNode.describer.getGrabbedAlert();
+    expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
+                              'Each balloon has negative net charge, showing a few negative charges. ' +
+                              'Sweater has positive net charge, showing several positive charges.';
+    assert.equal( actualDescription, expectedDescription, 'sweater grab test 3' );
+
+    // grabbed balloon neutral, next to negatively charged balloon.
+    model.yellowBalloon.chargeProperty.set( 0 );
+    model.greenBalloon.chargeProperty.set( -20 );
+    model.sweater.chargeProperty.set( 30 );
+    actualDescription = balloonNode.describer.getGrabbedAlert();
+    expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
+                          'Yellow Balloon has zero net charge, showing no charges. ' +
+                          'Green Balloon has negative net charge, showing several negative charges. ' +
+                          'Sweater has positive net charge, showing several positive charges.';
+    assert.equal( actualDescription, expectedDescription, 'sweater grab test 4' );
   } );
 
   QUnit.test( 'Charge pick up alerts', function( assert ) {
