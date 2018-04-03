@@ -98,7 +98,6 @@ define( function( require ) {
       baseColor: 'rgb( 255, 200, 0 )',
       listener: function() {
         model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-        self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
       },
       tandem: tandem.createTandem( 'wallButton' ),
 
@@ -112,6 +111,7 @@ define( function( require ) {
 
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
+      self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? wallAddedString : wallRemovedstring;
