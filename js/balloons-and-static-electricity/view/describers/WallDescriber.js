@@ -177,7 +177,6 @@ define( function( require ) {
         }
       }
 
-
       // get the description for what charges are currently shown
       var shownChargesString = ( chargesShown === 'diff' ) ? showingNoChargesString : manyChargePairsString;
 

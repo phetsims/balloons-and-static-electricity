@@ -667,6 +667,7 @@ define( function( require ) {
 
             // both balloons inducing charge, return combined descriptions
             description = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible );
+            description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
           }
           else if ( this.balloonModel.inducingChargeAndVisible() ) {
 
