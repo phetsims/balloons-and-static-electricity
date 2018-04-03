@@ -23,6 +23,18 @@
   <p id="polite-4" aria-live="polite"></p>
 </div>
 
+<script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
+<script>
+  var doc = nlp('Please move Yellow Balloon up and to the left.')
+
+  var str = doc.verbs().out( 'normal' );
+  var str2 = doc.nouns().out( 'normal' );
+  console.log( str );
+  console.log( str2 );
+
+  // 'dinosaurs'
+</script>
+
 <script type="text/javascript">
   ( function() {
 

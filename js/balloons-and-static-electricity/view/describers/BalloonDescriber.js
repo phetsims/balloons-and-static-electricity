@@ -827,6 +827,9 @@ define( function( require ) {
           inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
         }
 
+        inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleLabel, wallVisible );
+        inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
+
         description = StringUtils.fillIn( noChangeWithInducedChargePatternString, {
           noChange: description,
           inducedCharge: inducedChargeString
