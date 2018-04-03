@@ -251,11 +251,11 @@ define( function( require ) {
 
       var yellowBalloon = this.yellowBalloon;
       var yellowBalloonDescriber = this.yellowBalloonDescriber;
-      var yellowBalloonLabel = yellowBalloonDescriber.accessibleLabel;
+      var yellowBalloonLabel = yellowBalloonDescriber.accessibleName;
 
       var greenBalloon = this.greenBalloon;
       var greenBalloonDescriber = this.greenBalloonDescriber;
-      var greenBalloonLabel = greenBalloonDescriber.accessibleLabel;
+      var greenBalloonLabel = greenBalloonDescriber.accessibleName;
 
       var greenInducingChargeAndVisilbe = greenBalloon.inducingChargeAndVisible();
       var yellowInducingChargeAndVisible = yellowBalloon.inducingChargeAndVisible();
