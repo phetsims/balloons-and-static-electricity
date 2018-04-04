@@ -180,8 +180,15 @@ define( function( require ) {
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: function() {
-        model.isDraggedProperty.set( true );
         startDragListener();
+      },
+      onDrag: function() {
+
+        // make sure the balloon is dragged - when this node is blurred, isDraggedProperty is set to false and this
+        // happens after MovableDragHandler.startDrag
+        if ( !model.isDraggedProperty.get() ) {
+          model.isDraggedProperty.set( true );
+        }
       },
       endDrag: function() {
         endDragListener();
