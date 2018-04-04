@@ -18,7 +18,6 @@ define( function( require ) {
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
@@ -117,15 +116,6 @@ define( function( require ) {
     this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
 
     this.timeSinceReleaseAlert = 0;
-
-    // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
-    // balloon, will be set to true every time the balloon enters or leaves the sweater
-    this.alertFirstPickup = false;
-
-    // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
-    // pickup alert, every time the balloon moves, this is reset (only want to anounce charges
-    // when balloon moves)
-    this.alertNextPickup = false;
 
     // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
@@ -256,36 +246,6 @@ define( function( require ) {
       for ( var i = 0; i < addedNodes.length; i++ ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
-
-      // a11y
-      var alert;
-
-      // the first charge pickup and subsequent pickups (behind a refresh rate)
-      // should be alerted
-      if ( self.alertNextPickup || self.alertFirstPickup ) {
-        alert = self.describer.getChargePickupDescription( self.alertFirstPickup );
-        utteranceQueue.addToBack( alert );
-      }
-
-      // always announce pickup of the last charge
-      if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
-        alert = self.describer.getLastChargePickupDescription();
-        utteranceQueue.addToBack( alert );
-      }
-
-      // reset flags
-      self.alertFirstPickup = false;
-      self.alertNextPickup = false;
-    } );
-
-    // a11y - if we enter/leave the sweater announce that immediately
-    model.onSweaterProperty.link( function( onSweater ) {
-      if ( model.isDraggedProperty.get() ) {
-        utteranceQueue.addToBack( self.describer.getOnSweaterString( onSweater ) );
-      }
-
-      // entering sweater, indicate that we need to alert the next charge pickup
-      self.alertFirstPickup = true;
     } );
 
     // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
@@ -747,7 +707,7 @@ define( function( require ) {
           utteranceQueue.addToBack( new Utterance( alert, { typeId: 'chargeAlert' } ) );
         }
 
-        this.alertNextPickup = true;
+        this.describer.alertNextPickup = true;
         this.timeSincePositionAlert = 0;
         this.rubAlertDirty = false;
       }
