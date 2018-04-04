@@ -85,8 +85,7 @@ define( function( require ) {
       containerTagName: 'div',
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: accessibleLabelString,
-      prependLabels: true
+      labelContent: accessibleLabelString
     }, options );
 
     // super constructor
@@ -196,7 +195,8 @@ define( function( require ) {
       containerTagName: 'div',
       tagName: 'button',
       innerContent: accessibleButtonLabel,
-      descriptionContent: grabBalloonHelpString
+      descriptionContent: grabBalloonHelpString,
+      appendDescription: true
     } );
 
     // now add the balloon, so that the tether is behind it in the z order

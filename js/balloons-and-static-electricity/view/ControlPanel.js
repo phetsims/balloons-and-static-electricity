@@ -104,7 +104,8 @@ define( function( require ) {
       // a11y
       descriptionContent: removeWallDescriptionString,
       innerContent: removeWallString,
-      containerTagName: 'div'
+      containerTagName: 'div',
+      appendDescription: true
     } );
     this.wallButton.touchArea = this.wallButton.bounds.eroded( 25 );
     this.wallButton.mouseArea = this.wallButton.bounds.eroded( 25 );
@@ -160,7 +161,6 @@ define( function( require ) {
       // a11y
       labelTagName: 'h3',
       containerTagName: 'div',
-      prependLabels: true,
       labelContent: chargeSettingsLabelString,
       descriptionContent: chargeSettingsDescriptionString
     } );
@@ -261,7 +261,8 @@ define( function( require ) {
       tandem: tandem.createTandem( 'resetBalloonButton' ),
 
       // a11y
-      containerTagName: 'div'
+      containerTagName: 'div',
+      appendDescription: true
     } );
 
     // create the accessible description for the reset balloon button
@@ -284,8 +285,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: 'Balloon Settings',
-      prependLabels: true
+      labelContent: 'Balloon Settings'
     } );
 
     //Add the controls at the right, with the reset all button and the wall button
