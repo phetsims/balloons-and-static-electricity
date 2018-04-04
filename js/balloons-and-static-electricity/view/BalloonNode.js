@@ -137,6 +137,18 @@ define( function( require ) {
     // release alert
     this.describeDirection = true;
 
+    // @private {number} when dragging ends, we update this value - used to determine how much charge was picked up
+    // in a single drag
+    this.chargeOnEnd = 0;
+
+    // @private {number} - updated when dragging stops - used to determine how much charge was picked up in a single
+    // drag
+    this.chargeOnStart = model.chargeProperty.get();
+
+    // @private {boolean} - every time we drag, mark this as dirty so we know to describe a lack of charge pick up
+    // on the sweater. Once this rub has been described, set to false
+    this.rubAlertDirty = false;
+
     var originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
@@ -152,13 +164,8 @@ define( function( require ) {
       get: function() { return model.locationProperty.get(); }
     };
 
-    // called when dragging starts
-    this.chargeOnStart = model.chargeProperty.get();
-    this.dragStarted = false;
     var startDragListener = function() {
       self.describeWallRub = true;
-      self.chargeOnStart = model.chargeProperty.get();
-      self.dragStarted = true;
     };
 
     var endDragListener = function() {
@@ -305,11 +312,82 @@ define( function( require ) {
       }      
     } );
 
+    // used to determine change in position during a single drag movement
+    var oldPosition = new Vector2( 0, 0 );
+
     // a11y - when the drag velocity of the balloon becomes zero while moving along the wall, describe charges
     // TODO: Should all a11y alerts go through this?
-    model.dragVelocityProperty.link( function( velocity ) {
-      if ( velocity.equals( Vector2.ZERO ) && model.touchingWall() && self.describeWallRub ) {
-        utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
+    model.dragVelocityProperty.lazyLink( function( velocity, previousVelocity ) {
+
+      if ( previousVelocity.equals( Vector2.ZERO ) ) {
+        self.chargeOnStart = self.model.chargeProperty.get();
+      }
+
+      // how much balloon has moved
+      var dragDelta = self.model.locationProperty.get().minus( oldPosition );
+
+      // if the drag velocity is zero, describe how the position has changed - make sure that the position has changed
+      // enough to warrant an update so that we aren't flooded with updates
+      if ( self.model.isDraggedProperty.get() ) {
+        if ( velocity.equals( Vector2.ZERO ) ) {
+          var utterance;
+
+          // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
+          // description next time we press a key
+          self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
+
+          // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
+          // only do this if the play area column and row hasn't changed
+          var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
+          var onSweater = model.onSweater();
+          var touchingWall = model.touchingWall();
+
+          if ( !inLandmark && !onSweater && !touchingWall ) {
+            utterance = self.describer.getKeyboardMovementAlert();
+            // utteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
+          }
+          else if ( inLandmark ) {
+
+            // just announce landmark as we move through it
+            utterance = self.describer.getLandmarkDragDescription();
+            // var locationDescription = self.describer.getLandmarkDragDescription();
+            // locationDescription && utteranceQueue.addToBack( locationDescription );
+          }
+          else if ( model.touchingWall() && self.describeWallRub ) {
+            utterance = self.describer.getWallRubbingDescription();
+            // utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
+          }
+
+          if ( utterance ) {
+            utteranceQueue.addToBack( new Utterance( utterance, {
+              typeId: 'movementAlelrt'
+            } ) );
+          }
+
+          // describe the change in induced charge due to balloon movement
+          if ( self.describer.describeInducedChargeChange() ) {
+            if ( self.describer.describeInducedChargeChange() ) {
+              var wallVisible = globalModel.wall.isVisibleProperty.get();
+
+              var descriptionString;
+              if ( dragDelta.x === 0 ) {
+
+                // if there is purely vertical motion, do not include information about amount of charge displacemnet
+                descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, accessibleLabelString, wallVisible );
+              }
+              else {
+                descriptionString = self.describer.getInducedChargeChangeDescription();
+              }
+
+              utteranceQueue.addToBack( new Utterance( descriptionString, { typeId: 'inducedChargeChange' } ) );
+            }
+          }
+
+          oldPosition = self.model.locationProperty.get();
+
+          self.chargeOnEnd = self.model.chargeProperty.get();
+          self.rubAlertDirty = true;
+        }
       }
     } );
 
@@ -341,7 +419,7 @@ define( function( require ) {
       self.translation = location;
 
       // everything else for a11y - compose the alert that needs to be sent to assistive technology
-      // TODO: Can all this be moved to the view step?
+      // TODO: This should most certainly be moved to step
       if ( oldLocation ) {
         if ( self.model.isVisibleProperty.get() ) {
 
@@ -413,8 +491,8 @@ define( function( require ) {
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
-    // used to determine change in position during a single keyboard drag
-    var oldPosition = new Vector2( 0, 0 );
+    // // used to determine change in position during a single drag movement
+    // var oldPosition = new Vector2( 0, 0 );
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
@@ -431,54 +509,8 @@ define( function( require ) {
           self.keyboardDragCount++;
         }
       },
-      end: function( event ) {
-
-        // how much balloon has moved
-        var dragDelta = self.model.locationProperty.get().minus( oldPosition );
-
-        // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
-        // description next time we press a key
-        self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
-
-        // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
-        // only do this if the play area column and row hasn't changed
-        var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
-        var onSweater = model.onSweater();
-        var touchingWall = model.touchingWall();
-        if ( !inLandmark && !onSweater && !touchingWall ) {
-          utteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
-        }
-        else if ( inLandmark ) {
-
-          // just announce landmark as we move through it
-          var locationDescription = self.describer.getLandmarkDragDescription();
-          locationDescription && utteranceQueue.addToBack( locationDescription );
-        }
-
-        // describe the change in induced charge due to balloon movement if we need to
-        if ( self.describer.describeInducedChargeChange() ) {
-          if ( self.describer.describeInducedChargeChange() ) {
-            var wallVisible = globalModel.wall.isVisibleProperty.get();
-
-            var descriptionString;
-            if ( dragDelta.x === 0 ) {
-
-              // if there is purely vertical motion, do not include information about amount of charge displacemnet
-              descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, accessibleLabelString, wallVisible );
-            }
-            else {
-              descriptionString = self.describer.getInducedChargeChangeDescription();
-            }
-
-            utteranceQueue.addToBack( descriptionString );
-          }
-        }
-      },
       start: function( event ) {
-
         startDragListener();
-
-        oldPosition = self.model.locationProperty.get().copy();
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
@@ -702,15 +734,15 @@ define( function( require ) {
 
         // if we are on the sweater, dragged, and the charge is the same as when we started the drag, announce that
         // there was no change in charges
-        var sameCharge = this.model.chargeProperty.get() === this.chargeOnStart;
-        if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.dragStarted ) {
+        var sameCharge = this.chargeOnStart === this.chargeOnEnd;
+        if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.rubAlertDirty ) {
           alert = this.describer.getNoChargePickupDescription();
-          utteranceQueue.addToBack( alert );
+          utteranceQueue.addToBack( new Utterance( alert, { typeId: 'chargeAlert' } ) );
         }
 
         this.alertNextPickup = true;
         this.timeSincePositionAlert = 0;
-        this.dragStarted = false;
+        this.rubAlertDirty = false;
       }
 
       // when the balloon is released (either from dragging or from the wall being removed), announce an
