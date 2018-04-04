@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.0-dev.20 Tue Apr 03 2018 15:00:02 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.0-dev.21 Wed Apr 04 2018 12:26:09 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "ecfab68009aa74fd800f08fd80b5d2e492352687",
+    "sha": "f4f3cc64fc7b9fbf01fe343b514f64ffdd0f489d",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "489c7ec58add96bd6ee8e37f29901a6f5f126cf2",
+    "sha": "bc7c5d1fa9a42e8a3bc02f7ee033325393cfc2a5",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "85b0d6375c2dd9fc3e0bbedeedc4a9f774be7a5f",
+    "sha": "2cf256a93ace4bca16a47b0d79a7eeaed9243c73",
     "branch": "master"
   },
   "kite": {
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "phet-io-website": {
-    "sha": "397862e03bdaf81ad5c81b38d2f4d76b9b7c82f2",
+    "sha": "b6c2b0f55967bcaf6cc61f55158361010567a1d3",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -65,15 +65,15 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "46f08175b74a9052ad8c9ed868528deb43dfb359",
+    "sha": "4a4afee21621982c4a0bc04b94205e2dd899a891",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "1f4973fa55cde1327f351976e7e5199e2544ee84",
+    "sha": "e68ebc03facff611666a13e6ff9ecb42168af385",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "9c6ec322fc2577bbbdc588bb67765dfdb76b49a9",
+    "sha": "bb14a03a2c51c8a9f935654048774fb8608b2214",
     "branch": "master"
   },
   "sun": {
