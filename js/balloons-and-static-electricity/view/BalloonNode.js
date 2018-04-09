@@ -121,7 +121,7 @@ define( function( require ) {
     // the balloon is sticking to the wall
     this.initialMovementDescribed = false;
 
-    // @rivate (a11y) - whether or not we describe direction changes. Between when the balloon is
+    // @private (a11y) - whether or not we describe direction changes. Between when the balloon is
     // released and the release is first described, we do not describe changes to direction because it is built into the
     // release alert
     this.describeDirection = true;
