@@ -21,12 +21,10 @@ define( function( require ) {
   singleStatementPattern: {
     value: '{{statement}}.'
   },
-  bothBalloons: {
-    value: 'balloons'
-  },
-  grabBalloonToPlay: {
-    value: 'Grab balloon to play.'
-  },
+
+  //--------------------------------------------------------------------------
+  // General labels
+  //--------------------------------------------------------------------------
   position: {
     value: 'position'
   },
@@ -34,7 +32,9 @@ define( function( require ) {
     value: 'positions'
   },
 
-  // location strings for the grid in the play area
+  //--------------------------------------------------------------------------
+  // Play Area map grid strings
+  //--------------------------------------------------------------------------
   leftShoulderOfSweater: {
     value: 'left shoulder of sweater'
   },
@@ -44,7 +44,6 @@ define( function( require ) {
   bottomLeftEdgeOfSweater: {
     value: 'lower-left arm of sweater'
   },
-
   upperLeftSideOfSweater: {
     value: 'upper-left side of sweater'
   },
@@ -54,7 +53,6 @@ define( function( require ) {
   lowerLeftSideOfSweater: {
     value: 'lower-left side of sweater'
   },
-
   upperRightSideOfSweater: {
     value: 'upper-right side of sweater'
   },
@@ -64,7 +62,6 @@ define( function( require ) {
   lowerRightSideOfSweater: {
     value: 'lower-right side of sweater'
   },
-
   rightShoulderOfSweater: {
     value: 'right shoulder of sweater'
   },
@@ -74,7 +71,6 @@ define( function( require ) {
   lowerRightArmOfSweater: {
     value: 'lower-right arm of sweater'
   },
-
   upperLeftSideOfPlayArea: {
     value: 'upper-left side of Play Area'
   },
@@ -84,7 +80,6 @@ define( function( require ) {
   lowerLeftSideOfPlayArea: {
     value: 'lower-left side of Play Area'
   },
-
   upperCenterOfPlayArea: {
     value: 'upper-center of Play Area'
   },
@@ -94,7 +89,6 @@ define( function( require ) {
   lowerCenterOfPlayArea: {
     value: 'lower-center of Play Area'
   },
-
   upperRightSideOfPlayArea: {
     value: 'upper-right side of Play Area'
   },
@@ -104,7 +98,6 @@ define( function( require ) {
   lowerRightSideOfPlayArea: {
     value: 'lower-right side of Play Area'
   },
-
   upperWall: {
     value: 'upper wall'
   },
@@ -114,7 +107,6 @@ define( function( require ) {
   lowerWall: {
     value: 'lower wall'
   },
-
   upperRightEdgeOfPlayArea: {
     value: 'upper-right edge of Play Area'
   },
@@ -125,9 +117,12 @@ define( function( require ) {
     value: 'lower-right edge of Play Area'
   },
 
-  // landmark strings
+  //--------------------------------------------------------------------------
+  // Play Area landmark strings, 'near' or  'at' added  through string patterns
+  // TODO: 'near' and 'very close' landmarks are now duplicated
+  //--------------------------------------------------------------------------  
   landmarkNearSweater: {
-    value: 'sweater' // 'near' added through string pattern
+    value: 'sweater'
   },
   landmarkLeftEdge: {
     value: 'left edge'
@@ -136,30 +131,82 @@ define( function( require ) {
     value: 'upper wall'
   },
   landmarkNearWall: {
-    value: 'wall' // 'near' added through string pattern
+    value: 'wall'
   },
   landmarkNearLowerWall: {
     value: 'lower wall'
   },
   landmarkNearUpperRightEdge: {
-    value: 'upper right edge' // 'near' added through string pattern
+    value: 'upper right edge'
   },
   landmarkNearRightEdge: {
-    value: 'right edge' // 'near' added through string pattern
+    value: 'right edge'
   },
   landmarkNearLowerRightEdge: {
-    value: 'lower-right edge' // 'near' added through string pattern
+    value: 'lower-right edge'
   },
   landmarkAtCenterPlayArea: {
     value: 'center of Play Area'
   },
   landmarkAtUpperCenterPlayArea: {
-    value: 'upper-center of Play Area' // 'At added through string pattern'
+    value: 'upper-center of Play Area'
   },
   landmarkAtLowerCenterPlayArea: {
-    value: 'lower-center of Play Area' // 'At added through string pattern'
+    value: 'lower-center of Play Area'
+  },
+  landmarkVeryCloseToSweater: {
+    value: 'sweater'
+  },
+  landmarkVeryCloseToWall: {
+    value: 'wall'
+  },
+  landmarkVeryCloseToUpperWall: {
+    value: 'upper wall'
+  },
+  landmarkVeryCloseToLowerWall: {
+    value: 'lower wall'
+  },
+  landmarkVeryCloseToRightEdge: {
+    value: 'right edge'
+  },
+  landmarkVeryCloseToUpperRightEdge: {
+    value: 'upper-right edge'
+  },
+  landmarkVeryCloseToLowerRightEdge: {
+    value: 'lower-right edge'
+  },
+  balloonVeryCloseTo: {
+    value: 'Very close to'
   },
 
+  //--------------------------------------------------------------------------
+  // Boundary or Critical location strings
+  //--------------------------------------------------------------------------
+  atLeftEdge: {
+    value: 'At left edge.'
+  },
+  atTop: {
+    value: 'At top.'
+  },
+  atBottom: {
+    value: 'At bottom.'
+  },
+  atRightEdge: {
+    value: 'At right edge.'
+  },
+  atWall: {
+    value: 'At wall.'
+  },
+  onSweater: {
+    value: 'On Sweater'
+  },
+  offSweater: {
+    value: 'Off sweater.'
+  },
+
+  //--------------------------------------------------------------------------
+  // Charge capacity strings
+  //--------------------------------------------------------------------------
   neutral: {
     value: 'neutral'
   },
@@ -189,18 +236,6 @@ define( function( require ) {
     value: 'zero'
   },
 
-  // wall charge descriptions
-  atWall: {
-    value: 'At wall.'
-  },
-
-  noChangeInCharges: {
-    value: 'No change in charges'
-  },
-  noChangeInNetCharge: {
-    value: 'No change in net charge'
-  },
-
   sweater: {
     value: 'sweater'
   },
@@ -211,11 +246,6 @@ define( function( require ) {
   },
   wallAdded: {
     value: 'Wall added to Play Area.'
-  },
-
-  // labels
-  eachBalloon: {
-    value: 'Each balloon'
   },
 
   //------------------------------------------------------------------------
@@ -247,17 +277,12 @@ define( function( require ) {
   summaryObjects: {
     value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}'
   },
-
-  // patterns for the balloon description in the scene summary
-
   inducedChargePattern: {
     value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}'
   },
   inducedChargeNoAmountPattern: {
     value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.'
   },
-
-  // scene summary charge strings
   summaryBalloonNeutralCharge: {
     value: 'a few pairs of negative and positive charges'
   },
@@ -294,6 +319,7 @@ define( function( require ) {
     value: '{{sweater}} {{wall}}'
   },
 
+  // summary phrases when both balloons are inducing charge
   summarySecondBalloonInducingChargePattern: {
     value: 'from Green Balloon {{amount}}.'
   },
@@ -376,6 +402,12 @@ define( function( require ) {
   neutralNetCharge: {
     value: 'neutral net charge'
   },
+  netNeutral: {
+    value: 'neutral net'
+  },
+  netPositive: {
+    value: 'positive net'
+  },
 
   //------------------------------------------------------------------------
   // Wall strings
@@ -410,46 +442,48 @@ define( function( require ) {
   wallChargePatternStringWithLabel: {
     value: 'Wall {{wallCharge}}'
   },
-
   wallRubbingPattern: {
     value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}'
   },
   wallRubbingWithPairsPattern: {
     value: '{{rubbingAlert}} Wall has many pairs of negative and positive charges.'
   },
+  noChangeInCharges: {
+    value: 'No change in charges'
+  },
+  noChangeInNetCharge: {
+    value: 'No change in net charge'
+  },
+  wallInducedChargeSummaryPattern: {
+    value: '{{inducedCharge}} {{positiveCharges}}'
+  },
+  wallInducedChargeWithManyPairsPattern: {
+    value: '{{inducedCharge}} {{chargePairs}}'
+  },
 
-  // description when balloon moves towards/away from wall inducing charge
+  //--------------------------------------------------------------------------
+  // Induced charge change strings
+  //--------------------------------------------------------------------------
   moreInducedChargePattern: {
     value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',
   },
   lessInducedChargePattern: {
     value: 'Negative charges in {{location}} {{movement}}.'
   },
-
   beginToMoveAway: {
     value: 'begin to move away'
   },
   moveAwayALittleMore: {
     value: 'move away a little more'
   },
-
   beginToReturn: {
     value: 'begin to return'
   },
   returnALittleMore: {
     value: 'return a little more'
   },
-
-  wallInducedChargeSummaryPattern: {
-    value: '{{inducedCharge}} {{positiveCharges}}'
-  },
-
   positiveChargesDoNotMove: {
     value: 'Positive charges do not move'
-  },
-
-  wallInducedChargeWithManyPairsPattern: {
-    value: '{{inducedCharge}} {{chargePairs}}'
   },
 
   //------------------------------------------------------------------------
@@ -464,10 +498,18 @@ define( function( require ) {
   grabBalloonPattern: {
     value: 'Grab {{balloon}}'
   },
+  eachBalloon: {
+    value: 'Each balloon'
+  },
+  bothBalloons: {
+    value: 'balloons'
+  },
+  grabBalloonToPlay: {
+    value: 'Grab balloon to play.'
+  },
   grabBalloonHelp: {
     value: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
   },
-
   balloonLocationAttractiveStatePattern: {
     value: '{{attractiveState}} {{location}}'
   },
@@ -495,6 +537,7 @@ define( function( require ) {
     value: 'Near'
   },
 
+  // balloon charge strings
   balloonNetChargePattern: {
     value: 'Has {{chargeAmount}} net charge'
   },
@@ -538,6 +581,7 @@ define( function( require ) {
     value: '{{balloon}}, moves {{velocity}} {{direction}}.'
   },
 
+  // described velocities
   extremelySlowly: {
     value: 'extremely slowly'
   },
@@ -586,35 +630,8 @@ define( function( require ) {
     value: '{{location}} {{inducedCharge}}'
   },
 
-  // similar to dragging direction strings, but in context so not capitalized and no
-  // punctuation
-  up: {
-    value: 'up'
-  },
-  left: {
-    value: 'left'
-  },
-  down: {
-    value: 'down'
-  },
-  right: {
-    value: 'right'
-  },
-  upAndToTheRight: {
-    value: 'up and to the right'
-  },
-  upAndToTheLeft: {
-    value: 'up and to the left'
-  },
-  downAndToTheRight: {
-    value: 'down and to the right'
-  },
-  downAndToTheLeft: {
-    value: 'down and to the left'
-  },
-
   //--------------------------------------------------------------------------
-  // Balloon Dragging strings
+  // Balloon Dragging strings, single statement with no other context
   //--------------------------------------------------------------------------
   upDragging: {
     value: 'Up.'
@@ -641,62 +658,39 @@ define( function( require ) {
     value: 'Down and to the left.'
   },
 
-  //--------------------------------------------------------------------------
-  // Boundary location strings
-  //--------------------------------------------------------------------------
-  atLeftEdge: {
-    value: 'At left edge.'
+  // similar to dragging direction strings, but in context so not capitalized and no punctuation
+  up: {
+    value: 'up'
   },
-  atTop: {
-    value: 'At top.'
+  left: {
+    value: 'left'
   },
-  atBottom: {
-    value: 'At bottom.'
+  down: {
+    value: 'down'
   },
-  atRightEdge: {
-    value: 'At right edge.'
+  right: {
+    value: 'right'
   },
-
-  onSweater: {
-    value: 'On Sweater'
+  upAndToTheRight: {
+    value: 'up and to the right'
   },
-  offSweater: {
-    value: 'Off sweater.'
+  upAndToTheLeft: {
+    value: 'up and to the left'
   },
-
-  // 'very close to'  added through other string patterns
-  landmarkVeryCloseToSweater: {
-    value: 'sweater'
+  downAndToTheRight: {
+    value: 'down and to the right'
   },
-  landmarkVeryCloseToWall: {
-    value: 'wall'
-  },
-  landmarkVeryCloseToUpperWall: {
-    value: 'upper wall'
-  },
-  landmarkVeryCloseToLowerWall: {
-    value: 'lower wall'
-  },
-  landmarkVeryCloseToRightEdge: {
-    value: 'right edge'
-  },
-  landmarkVeryCloseToUpperRightEdge: {
-    value: 'upper-right edge'
-  },
-  landmarkVeryCloseToLowerRightEdge: {
-    value: 'lower-right edge'
-  },
-  balloonVeryCloseTo: {
-    value: 'Very close to'
+  downAndToTheLeft: {
+    value: 'down and to the left'
   },
 
+  // dragging, specific cues when the balloon enters an important area
   balloonAtLocationPattern: {
     value: 'At {{location}}'
   },
   balloonNewRegionPattern: {
     value: '{{nearOrAt}} {{location}}'
   },
-
   closerToObjectPattern: {
     value: 'Closer to {{object}}'
   },
@@ -728,7 +722,6 @@ define( function( require ) {
   balloonHasChargeShowingPattern: {
     value: 'Has {{charge}} net charge, {{showing}}'
   },
-
   balloonRelativeChargeAllPattern: {
     value: 'Has {{charge}}'
   },
@@ -757,8 +750,6 @@ define( function( require ) {
   balloonSweaterRelativeChargesPattern: {
     value: '{{balloon}} {{sweater}}'
   },
-
-  // when the last charge is picked up, we announce no charges remaining and then the balloon charge
   lastChargePickedUpPattern: {
     value: '{{sweater}} {{balloon}}.'
   },
@@ -772,11 +763,9 @@ define( function( require ) {
   noChargePickupHintPattern: {
     value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
   },
-
   releaseHint: {
     value: 'Press Space to release.'
   },
-
   moreChargesPattern: {
     value: '{{moreCharges}} {{direction}}.'
   },
@@ -818,17 +807,8 @@ define( function( require ) {
   showChargeDifferencesAlert: {
     value: 'Only unpaired charges shown.'
   },
-
   resetBalloonsDescriptionPattern: {
     value: 'Reset {{balloons}} to start {{positions}} and an uncharged state.'
-  },
-
-  // sweater charge descriptions
-  netNeutral: {
-    value: 'neutral net'
-  },
-  netPositive: {
-    value: 'positive net'
   },
 
   // balloon grab cue
@@ -906,8 +886,6 @@ define( function( require ) {
   jumpsToCenter: {
     value: 'Jump to center'
   },
-
-  // help content strings that are invisible in the PDOM
   grabOrReleaseBalloonDescription: {
     value: 'Grab or release the balloon with Space or Enter keys.'
   },
@@ -930,51 +908,51 @@ define( function( require ) {
     value: 'Jump to center with J plus C.'
   },
 
-    /**
-     * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
-     *
-     * @param {string} patternString - the pattern string we want to strip placeholders out of
-     * @param {string[]} placeholders - array of strings indicating which strings to remove
-     */
-    stripPlaceholders: function( patternString, placeholders ) {
-      var newPattern = patternString;
-      for ( var i = 0; i < placeholders.length; i++ ) {
-        newPattern = _.replace( newPattern, '{{' + placeholders[ i ] + '}}', '' );
-        // assert && assert( patternString.includes( placeholders[ i ] ) );
-        // newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
-      }
-
-      // remove any punctuation that might have been introduced by stripping placeholders
-      while( newPattern.indexOf( ' .' ) >= 0 ) {
-        newPattern = _.replace( newPattern, ' .', '' );
-        console.log( newPattern.indexOf( ' .' ) );
-      }
-
-      // remove double spaces that might have been introduced when stripping out placeholders
-      while ( newPattern.indexOf( '  ' ) >= 0 ) {
-        newPattern = _.replace( newPattern, '  ', ' ' );
-      }
-
-      // remove trailing spaces
-      if ( newPattern[newPattern.length - 1] === ' ' ) {
-        newPattern = newPattern.slice( 0, -1 );
-      }
-
-      return newPattern;
-    },
-
-    /**
-     * Take a sentence fragment, and turn it into a sentence by adding a period to the end. This will add consistency
-     * for string patterns. Many strings can be used on their own as a sentence, or can be embedded with other content
-     * to form a full sentence. In general, string patterns that assemble sentences will not use punctuation, but this
-     * function can be used to assemble sentences.
-     *
-     * @param {string} fragment
-     * @return {string}
-     */
-    fragmentToSentence: function( fragment ) {
-      return StringUtils.fillIn( BASEA11yStrings.singleStatementPattern.value, { statement: fragment } );
+  /**
+   * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
+   *
+   * @param {string} patternString - the pattern string we want to strip placeholders out of
+   * @param {string[]} placeholders - array of strings indicating which strings to remove
+   */
+  stripPlaceholders: function( patternString, placeholders ) {
+    var newPattern = patternString;
+    for ( var i = 0; i < placeholders.length; i++ ) {
+      newPattern = _.replace( newPattern, '{{' + placeholders[ i ] + '}}', '' );
+      // assert && assert( patternString.includes( placeholders[ i ] ) );
+      // newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
     }
+
+    // remove any punctuation that might have been introduced by stripping placeholders
+    while( newPattern.indexOf( ' .' ) >= 0 ) {
+      newPattern = _.replace( newPattern, ' .', '' );
+      console.log( newPattern.indexOf( ' .' ) );
+    }
+
+    // remove double spaces that might have been introduced when stripping out placeholders
+    while ( newPattern.indexOf( '  ' ) >= 0 ) {
+      newPattern = _.replace( newPattern, '  ', ' ' );
+    }
+
+    // remove trailing spaces
+    if ( newPattern[newPattern.length - 1] === ' ' ) {
+      newPattern = newPattern.slice( 0, -1 );
+    }
+
+    return newPattern;
+  },
+
+  /**
+   * Take a sentence fragment, and turn it into a sentence by adding a period to the end. This will add consistency
+   * for string patterns. Many strings can be used on their own as a sentence, or can be embedded with other content
+   * to form a full sentence. In general, string patterns that assemble sentences will not use punctuation, but this
+   * function can be used to assemble sentences.
+   *
+   * @param {string} fragment
+   * @return {string}
+   */
+  fragmentToSentence: function( fragment ) {
+    return StringUtils.fillIn( BASEA11yStrings.singleStatementPattern.value, { statement: fragment } );
+  }
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
