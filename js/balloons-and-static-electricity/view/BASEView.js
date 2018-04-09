@@ -21,6 +21,7 @@ define( function( require ) {
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
   var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
   var Property = require( 'AXON/Property' );
@@ -38,7 +39,7 @@ define( function( require ) {
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
 
   // a11y strings
-  var playAreaString = BASEA11yStrings.playAreaString.value;
+  var playAreaString = JoistA11yStrings.playArea.value;
   var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString.value;
   var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString.value;
 

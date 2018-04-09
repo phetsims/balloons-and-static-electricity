@@ -21,29 +21,12 @@ define( function( require ) {
   singleStatementPatternString: {
     value: '{{statement}}.'
   },
-
   bothBalloonsString: {
     value: 'balloons'
   },
-
-  // TODO: Can these be removed?
-  balloonDescriptionPatternString: {
-    value: '{0} {1} {2}' // location, charge, interaction cu,
-  },
-  balloonGrabbedDescriptionPatternString: {
-    value: '{0} {1} {2} {3}' // grabbed, location, charge, interaction cue,
-  },
-  balloonDragDescriptionPatternString: {
-    value: '{0} {1} {2} {3} {4} {5}' // direction, proximity, charge, ,
-  },
-  grabButtonNavigationCueString: {
-    value: 'Look for grab button to play.'
-  },
-
   grabBalloonToPlayString: {
     value: 'Grab balloon to play.'
   },
-
   positionString: {
     value: 'position'
   },
@@ -51,15 +34,7 @@ define( function( require ) {
     value: 'positions'
   },
 
-    // location strings
-  balloonLocationStringPattern: {
-    value: 'In {0}.'
-  },
-  draggingLocationStringPattern: {
-    value: 'At {0}.'
-  },
-
-    // location strings for the grid in the play area
+  // location strings for the grid in the play area
   leftShoulderOfSweaterString: {
     value: 'left shoulder of sweater'
   },
@@ -150,9 +125,9 @@ define( function( require ) {
     value: 'lower-right edge of Play Area'
   },
 
-    // landmark strings
+  // landmark strings
   landmarkNearSweaterString: {
-    value: 'sweater' // 'near' added programatcially
+    value: 'sweater' // 'near' added through string pattern
   },
   landmarkLeftEdgeString: {
     value: 'left edge'
@@ -161,41 +136,28 @@ define( function( require ) {
     value: 'upper wall'
   },
   landmarkNearWallString: {
-    value: 'wall' // 'near' added programmatically
+    value: 'wall' // 'near' added through string pattern
   },
   landmarkNearLowerWallString: {
     value: 'lower wall'
   },
   landmarkNearUpperRightEdgeString: {
-    value: 'upper right edge' // 'near' added programmatically
+    value: 'upper right edge' // 'near' added through string pattern
   },
   landmarkNearRightEdgeString: {
-    value: 'right edge' // 'near' added programmatically
+    value: 'right edge' // 'near' added through string pattern
   },
   landmarkNearLowerRightEdgeString: {
-    value: 'lower-right edge' // 'near' added programmatically
+    value: 'lower-right edge' // 'near' added through string pattern
   },
   landmarkAtCenterPlayAreaString: {
     value: 'center of Play Area'
   },
   landmarkAtUpperCenterPlayAreaString: {
-    value: 'upper-center of Play Area' // 'At added programmatically'
+    value: 'upper-center of Play Area' // 'At added through string pattern'
   },
   landmarkAtLowerCenterPlayAreaString: {
-    value: 'lower-center of Play Area' // 'At added programmatically'
-  },
-
-    // location strings while touching another object
-  touchingWallStringPattern: {
-    value: 'Touching {0}.'
-  },
-
-    // charge descriptions
-  namedBalloonChargeDescriptionPatternString: {
-    value: '{0} has {1} net charge, {2} more negative charges than positive charges.'
-  },
-  balloonChargeStringPattern: {
-    value: 'Has {0} net charge, {1} more negative charges than positive charges.'
+    value: 'lower-center of Play Area' // 'At added through string pattern'
   },
 
   neutralString: {
@@ -227,85 +189,23 @@ define( function( require ) {
     value: 'zero'
   },
 
-    // wall charge descriptions
+  // wall charge descriptions
   atWallString: {
     value: 'At wall.'
   },
-  wallChargesReturnString: {
-    value: 'Negative charges in wall return {0}.'
-  },
 
-  slightlyString: {
-    value: 'slightly'
-  },
-  allTheWayString: {
-    value: 'all the way'
-  },
   noChangeInChargesString: {
     value: 'No change in charges'
   },
   noChangeInNetChargeString: {
     value: 'No change in net charge'
   },
-  moveALittleBitString: {
-    value: 'move away from balloon a little bit'
-  },
-  moveALotString: {
-    value: 'move away from balloon a lot'
-  },
-  moveQuiteALotString: {
-    value: 'move away from balloon quite a lot'
-  },
-  doNotMoveString: {
-    value: 'do not move'
-  },
-
-  noMoreChargesRemainingOnSweaterString: {
-    value: 'No change in charges. No more charges remaining on sweater.'
-  },
-
-    // release descriptions
-  noChangeInPositionOrChargeString: {
-    value: 'No change in position.  No change in charge.'
-  },
 
   sweaterString: {
     value: 'sweater'
   },
 
-    // interaction descriptions
-  upTowardsTopString: {
-    value: 'Up. Towards top.'
-  },
-  leftTowardsSweaterString: {
-    value: 'Left. Towards sweater.'
-  },
-  downTowardsBottomString: {
-    value: 'Down. Towards bottom.'
-  },
-  rightTowardsWallString: {
-    value: 'Right. Towards wall.'
-  },
-  rightTowardsRightSideOfPlayAreaString: {
-    value: 'Right. Towards right side of Play Area.'
-  },
-
-  closerToTopString: {
-    value: 'Up. Closer to top.'
-  },
-  closerToSweaterString: {
-    value: 'Left. Closer to sweater.'
-  },
-  closerToBottomString: {
-    value: 'Down. Closer to bottom.'
-  },
-  closerToWallString: {
-    value: 'Right. Closer to wall.'
-  },
-  closerToRightSideString: {
-    value: 'Right. Closer to right side of Play Area.'
-  },
-
+  // alerts for when wall is added or removed from play area
   wallRemovedString: {
     value: 'Wall removed from Play Area.'
   },
@@ -313,63 +213,19 @@ define( function( require ) {
     value: 'Wall added to Play Area.'
   },
 
-    // boundary strings
-  atTopOfPlayAreaString: {
-    value: 'At top.'
-  },
-  atBottomOfPlayAreaString: {
-    value: 'At bottom.'
-  },
-  leftEdgeString: {
-    value: 'At left edge.'
-  },
-  rightEdgeString: {
-    value: 'At right edge.'
-  },
-
-  onSweaterPatternStringString: {
-    value: 'On sweater. {0}'
-  },
-  picksUpNegativeChargesString: {
-    value: 'Picks up negative charges from sweater.'
-  },
-  nearWallString: {
-    value: 'Near wall.'
-  },
-
-  atCenterOfPlayAreaString: {
-    value: 'At center of Play Area.'
-  },
-  onRightSideOfPlayAreaString: {
-    value: 'On right side of Play Area.'
-  },
-
-  againMoreChargesString: {
-    value: 'Again, more negative charges.'
-  },
-
-    // labels
-  greenBalloonString: {
-    value: 'Green balloon'
-  },
-  yellowBalloonString: {
-    value: 'Yellow balloon'
-  },
+  // labels
   eachBalloonString: {
     value: 'Each balloon'
   },
 
-    //------------------------------------------------------------------------
-    // Scene summary strings
-    //------------------------------------------------------------------------
-  sceneSummaryString: {
-    value: 'Scene Summary'
-  },
+  //------------------------------------------------------------------------
+  // Scene summary strings
+  //------------------------------------------------------------------------
   openingSummaryString: {
     value: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
   },
 
-    // objects for the scene summary
+  // objects for the scene summary
   roomObjectsPatternString: {
     value: 'Currently, room has {{description}}.'
   },
@@ -392,16 +248,7 @@ define( function( require ) {
     value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}'
   },
 
-    // patterns for the balloon description in the scene summary
-  balloonSummaryWithInducedChargePatternString: {
-    value: '{{balloon}}, {{attractiveState}} {{location}}. {{inducedCharge}}.'
-  },
-  balloonSummaryWithoutInducedChargePatternString: {
-    value: '{{balloon}}, {{attractiveState}} {{location}}.'
-  },
-  twoBalloonLocationSummaryString: {
-    value: '{{yellowBalloon}} {{greenBalloon}}'
-  },
+  // patterns for the balloon description in the scene summary
 
   inducedChargePatternString: {
     value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}'
@@ -410,27 +257,7 @@ define( function( require ) {
     value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.'
   },
 
-    // describing the attractive state of a balloon
-  sceneSummaryOnString: {
-    value: 'on'
-  },
-  sceneSummaryTouchingString: {
-    value: 'touching'
-  },
-
-    // scene summary charge strings
-  allHaveNoNetChargeString: {
-    value: 'All have zero net charge'
-  },
-  neutralBalloonChargePatternString: {
-    value: '{{balloon}} has a few pairs of negative and positive charges.'
-  },
-  neutralSweaterChargeString: {
-    value: 'Sweater, many pairs of negative and positive charges.'
-  },
-  neutralSweaterAndWallChargeString: {
-    value: 'Sweater and wall, many pairs of negative and positive charges.'
-  },
+  // scene summary charge strings
   summaryBalloonNeutralChargeString: {
     value: 'a few pairs of negative and positive charges'
   },
@@ -444,7 +271,7 @@ define( function( require ) {
     value: 'Sweater and wall'
   },
 
-    // general charge information for the scene summary
+  // general charge information for the scene summary
   summaryObjectHasChargePatternString: {
     value: '{{object}} has {{charge}} net charge'
   },
@@ -474,38 +301,6 @@ define( function( require ) {
     value: '{{yellowBalloon}}, {{greenBalloon}} Positive charges do not move.'
   },
 
-    //-----------------
-    // Location Descriptions
-  twoBalloonDescriptionPattern: {
-    value: '{0} {1}'
-  },
-  balloonLocationDescriptionStringPattern: {
-    value: '{0}, {1}'
-  },
-  balloonInCenterPatternString: {
-    value: '{0} {1}'
-  },
-
-    // TODO: are these used anywhere?
-  balloonAndSweaterString: {
-    value: 'a balloon and a sweater'
-  },
-  twoBalloonsAndASweater: {
-    value: 'two balloons and a sweater'
-  },
-  inPlayAreaStringPattern: {
-    value: 'in {0} of Play Area.'
-  },
-  inPlayAreaNearItemStringPattern: {
-    value: 'in {0} of Play Area, {1}.'
-  },
-  evenlyBetweenString: {
-    value: 'Evenly between sweater and wall. Sweater is at far left. Wall is at far right.'
-  },
-  negativeChargesMoveStringPattern: {
-    value: 'Negative charges in wall move away from balloon {0}.'
-  },
-
   //------------------------------------------------------------------------
   // Induced charge strings
   //------------------------------------------------------------------------
@@ -519,23 +314,23 @@ define( function( require ) {
     value: 'quite a lot'
   },
 
-    //------------------------------------------------------------------------
-    // Charge view strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Charge view strings
+  //------------------------------------------------------------------------
   showingNoChargesString: {
     value: 'showing no charges'
   },
 
-    //------------------------------------------------------------------------
-    // Object strings (strings shared between all objects)
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Object strings (strings shared between all objects)
+  //------------------------------------------------------------------------
   manyChargePairsString: {
     value: 'many pairs of negative and positive charges'
   },
 
-    //------------------------------------------------------------------------
-    // Sweater strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Sweater strings
+  //------------------------------------------------------------------------
   sweaterLabelString: {
     value: 'Sweater'
   },
@@ -563,9 +358,6 @@ define( function( require ) {
   sweaterRelativeChargeDifferencesPatternString: {
     value: 'showing {{charge}} positive charges'
   },
-  sweaterNoChargesShownString: {
-    value: 'no charges shown'
-  },
   sweaterNoMoreChargesString: {
     value: 'no more negative charges, only positive charges'
   },
@@ -585,9 +377,9 @@ define( function( require ) {
     value: 'neutral net charge'
   },
 
-    //------------------------------------------------------------------------
-    // Wall strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Wall strings
+  //------------------------------------------------------------------------
   wallDescriptionPatternString: {
     value: '{{location}}. {{charge}}.'
   },
@@ -612,12 +404,6 @@ define( function( require ) {
   wallTwoBalloonInducedChargePatternString: {
     value: '{{yellowBalloon}} {{greenBalloon}}'
   },
-  wallChargedRubbingAllPatternString: {
-    value: '{{location}} {{transfer}}. {{inducedCharge}} {{positiveCharges}}. {{balloonCharge}} {{wallCharge}}.'
-  },
-  wallNeutralRubbingAllPatternString: {
-    value: '{{location}} {{transfer}}. {{inducedCharge}} {{balloonCharge}} {{wallCharge}}.'
-  },
   wallNoChangeInChargesPatternString: {
     value: 'In {{location}}, no change in charges' // punctuation inserted in another string pattern
   },
@@ -629,7 +415,7 @@ define( function( require ) {
     value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}'
   },
   wallRubbingWithPairsPatternSring: {
-    value: '{{rubbingAlert}} Wall has many pairs of  negative and positive charges.'
+    value: '{{rubbingAlert}} Wall has many pairs of negative and positive charges.'
   },
 
   // description when balloon moves towards/away from wall inducing charge
@@ -666,9 +452,9 @@ define( function( require ) {
     value: '{{inducedCharge}} {{chargePairs}}'
   },
 
-    //------------------------------------------------------------------------
-    // Balloon strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Balloon strings
+  //------------------------------------------------------------------------
   greenBalloonLabelString: {
     value: 'Green Balloon'
   },
@@ -678,7 +464,6 @@ define( function( require ) {
   grabBalloonPatternString: {
     value: 'Grab {{balloon}}'
   },
-
   grabBalloonHelpString: {
     value: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
   },
@@ -689,9 +474,6 @@ define( function( require ) {
   balloonShowAllChargesPatternString: {
     value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
   },
-  balloonShowChargeDifferencesPatternString: {
-    value: '{{stateAndLocation}}. {{netCharge}}, {{chargesShown}}.'
-  },
   balloonDescriptionWithHelpPatternString: {
     value: '{{description}} {{help}}'
   },
@@ -699,7 +481,7 @@ define( function( require ) {
     value: '{{balloonLabel}}, {{attractiveStateAndLocation}}'
   },
 
-    // describing the attractive state of a balloon
+  // describing the attractive state of a balloon
   balloonStickingToString: {
     value: 'Sticking to'
   },
@@ -739,19 +521,16 @@ define( function( require ) {
     value: '{{balloon}} has {{charge}} net charge, {{showing}}'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon interaction strings
-    //--------------------------------------------------------------------------
-  grabbedString: {
-    value: 'Grabbed'
-  },
+  //--------------------------------------------------------------------------
+  // Balloon interaction strings
+  //--------------------------------------------------------------------------
   releasedString: {
     value: 'Released'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon movement strings
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Balloon movement strings
+  //--------------------------------------------------------------------------
   initialMovementPatternString: {
     value: 'Moves {{velocity}} {{direction}}.'
   },
@@ -802,13 +581,13 @@ define( function( require ) {
     value: '{{balloon}}, now {{direction}}.'
   },
 
-    // when balloon hits wall and there is a change in charges
+  // when balloon hits wall and there is a change in charges
   balloonLocationNoChangePatternString: {
     value: '{{location}} {{inducedCharge}}'
   },
 
-    // similar to dragging direction strings, but in context so not capitalized and no
-    // punctuation
+  // similar to dragging direction strings, but in context so not capitalized and no
+  // punctuation
   upString: {
     value: 'up'
   },
@@ -834,9 +613,9 @@ define( function( require ) {
     value: 'down and to the left'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon Dragging strings
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Balloon Dragging strings
+  //--------------------------------------------------------------------------
   upDraggingString: {
     value: 'Up.'
   },
@@ -862,6 +641,9 @@ define( function( require ) {
     value: 'Down and to the left.'
   },
 
+  //--------------------------------------------------------------------------
+  // Boundary location strings
+  //--------------------------------------------------------------------------
   atLeftEdgeString: {
     value: 'At left edge.'
   },
@@ -882,13 +664,9 @@ define( function( require ) {
     value: 'Off sweater.'
   },
 
-  // 'very close to'  added programatically
-  // TODO: Can we get rid of these?
+  // 'very close to'  added through other string patterns
   landmarkVeryCloseToSweaterString: {
     value: 'sweater'
-  },
-  veryCloseToRightEdgeString: {
-    value: 'right edge'
   },
   landmarkVeryCloseToWallString: {
     value: 'wall'
@@ -915,9 +693,6 @@ define( function( require ) {
   balloonAtLocationPatternString: {
     value: 'At {{location}}'
   },
-  balloonOnLocationPatternString: {
-    value: 'On {{location}}'
-  },
   balloonNewRegionPatternString: {
     value: '{{nearOrAt}} {{location}}'
   },
@@ -932,42 +707,24 @@ define( function( require ) {
     value: 'bottom edge of Play Area'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon grabbing strings (when the balloon is initially picked up)
-    //--------------------------------------------------------------------------
-  grabbedFullPatternString: {
-    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherBalloonCharge}} {{inducedCharge}} {{positiveCharge}} {{objectCharge}} {{help}}'
-  },
-
-  grabbedPatternString: {
-      // value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
-    value: 'Grabbed. {{location}} {{balloonCharge}} {{otherObjectCharge}} {{help}}'
-  },
-
+  //--------------------------------------------------------------------------
+  // Balloon grabbing strings (when the balloon is initially picked up)
+  //--------------------------------------------------------------------------
   grabbedNonePatternString: {
     value: 'Grabbed. {{location}}'
   },
-
   grabbedChargePatternString: {
     value: 'Grabbed. {{location}} {{charge}}'
   },
-
   grabbedWithOtherChargePatternString: {
     value: '{{balloonCharge}} {{otherObjectCharge}}'
   },
-
   grabbedWithHelpPatternString: {
     value: '{{grabbedAlert}} {{help}}'
   },
-
-  eachBalloonChargePatternString: {
-    value: 'Each balloon has {{charge}}'
-  },
-
   balloonHasChargePatternString: {
     value: 'Has {{charge}}'
   },
-
   balloonHasChargeShowingPatternString: {
     value: 'Has {{charge}} net charge, {{showing}}'
   },
@@ -975,24 +732,16 @@ define( function( require ) {
   balloonRelativeChargeAllPatternString: {
     value: 'Has {{charge}}'
   },
-  balloonNetChargeShowingPatternString: {
-    value: '{{netCharge}}, {{showing}}'
-  },
-  balloonRelativeChargeDifferencesPatternString: {
-    value: 'showing {{charge}} negative charges'
-  },
-
   combinedChargePatternString: {
     value: '{{grabbedBalloon}}. {{otherBalloon}}'
   },
-
   interactionCueString: {
     value: 'Press W, A, S, or D key to move balloon. Space to release.'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon rubbing strings
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Balloon sweater rubbing strings
+  //--------------------------------------------------------------------------
   balloonPicksUpChargesPatternString: {
     value: '{{balloon}} picks up negative charges from sweater'
   },
@@ -1005,20 +754,18 @@ define( function( require ) {
   balloonPicksUpMoreChargesDiffPatternString: {
     value: '{{pickUp}}. Same increase of positive charges on sweater.'
   },
-
   balloonSweaterRelativeChargesPatternString: {
     value: '{{balloon}} {{sweater}}'
   },
 
-    // when the last charge is picked up, we announce no charges remaining and then the
-    // balloon charge
+  // when the last charge is picked up, we announce no charges remaining and then the balloon charge
   lastChargePickedUpPatternString: {
     value: '{{sweater}} {{balloon}}.'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon rubbing strings, fail to pick up charges
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Balloon rubbing strings, fail to pick up charges
+  //--------------------------------------------------------------------------
   noChargePickupPatternString: {
     value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}'
   },
@@ -1043,9 +790,9 @@ define( function( require ) {
     value: 'More hidden pairs of charges'
   },
 
-    //--------------------------------------------------------------------------
-    // Balloon jumping strings
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Balloon jumping strings
+  //--------------------------------------------------------------------------
   nearSweaterString: {
     value: 'Near sweater.'
   },
@@ -1053,9 +800,9 @@ define( function( require ) {
     value: '{{location}}. {{inducedCharge}}'
   },
 
-    //------------------------------------------------------------------------
-    // Control panel strings
-    //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  // Control panel strings
+  //------------------------------------------------------------------------
   chargeSettingsDescriptionString: {
     value: 'Choose how you see or hear charge information.'
   },
@@ -1072,7 +819,11 @@ define( function( require ) {
     value: 'Only unpaired charges shown.'
   },
 
-    // sweater charge descriptions
+  resetBalloonsDescriptionPatternString: {
+    value: 'Reset {{balloons}} to start {{positions}} and an uncharged state.'
+  },
+
+  // sweater charge descriptions
   netNeutralString: {
     value: 'neutral net'
   },
@@ -1080,19 +831,12 @@ define( function( require ) {
     value: 'positive net'
   },
 
-    // balloon grab cue
+  // balloon grab cue
   balloonButtonHelpString: {
     value: 'Look for grab button to play.'
   },
 
-    // misc labels
-  removeWallLabelString: {
-    value: 'Remove Wall'
-  },
-  addWallLabelString: {
-    value: 'Add Wall'
-  },
-
+  // misc labels
   removeWallDescriptionString: {
     value: 'Play with or without the wall.'
   },
@@ -1109,35 +853,16 @@ define( function( require ) {
   twoBalloonExperimentLabelString: {
     value: 'Two-Balloon Experiments'
   },
-  grabPatternString: {
-    value: 'Grab {0}'
-  },
-  playAreaString: {
-    value: 'Play Area'
-  },
   wallLabelString: {
     value: 'Wall'
   },
-  controlPanelString: {
-    value: 'Control Panel'
-  },
-  wallDescriptionString: {
-    value: 'Run experiments with or without the wall.'
-  },
-  resetBalloonsDescriptionPatternString: {
-    value: 'Reset {0} to start {1} and an uncharged state.'
-  },
 
-  resetAllString: {
-    value: 'Reset All'
-  },
-
-    // alert when the balloons are reset
+  // alert when the balloons are reset
   resetBalloonsAlertPatternString: {
     value: '{{balloons}} and sweater reset.'
   },
 
-    // alerts when balloons added/removed from play area
+  // alerts when balloons added/removed from play area
   balloonAddedPatternString: {
     value: '{{balloonLabel}} added to Play Area.'
   },
@@ -1151,9 +876,9 @@ define( function( require ) {
     value: '{{location}}, next to {{otherBalloon}}'
   },
 
-    //--------------------------------------------------------------------------
-    // Keyboard shortcuts help content strings
-    //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  // Keyboard shortcuts help content strings
+  //--------------------------------------------------------------------------
   grabOrReleaseBalloonHeadingString: {
     value: 'Grab or Release Balloon'
   },
@@ -1182,7 +907,7 @@ define( function( require ) {
     value: 'Jump to center'
   },
 
-    // help content strings that are invisible in the PDOM
+  // help content strings that are invisible in the PDOM
   grabOrReleaseBalloonDescriptionString: {
     value: 'Grab or release the balloon with Space or Enter keys.'
   },

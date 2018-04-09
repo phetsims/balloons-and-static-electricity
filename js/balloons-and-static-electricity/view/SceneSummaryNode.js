@@ -29,7 +29,7 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
-  var sceneSummaryString = BASEA11yStrings.sceneSummaryString.value;
+  var sceneSummaryString = JoistA11yStrings.sceneSummary.value;
   var openingSummaryString = BASEA11yStrings.openingSummaryString.value;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString.value;
   var andARemovableWallString = BASEA11yStrings.andARemovableWallString.value;

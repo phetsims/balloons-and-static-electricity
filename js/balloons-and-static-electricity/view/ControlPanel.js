@@ -18,6 +18,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
@@ -47,7 +48,7 @@ define( function( require ) {
 
   // a11y strings
   var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString.value;
-  var controlPanelString = BASEA11yStrings.controlPanelString.value;
+  var controlPanelString = JoistA11yStrings.controlPanel.value;
   var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString.value;
   var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString.value;
   var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString.value;
@@ -269,7 +270,10 @@ define( function( require ) {
     var generateDescriptionString = function( balloonVisible ) {
       var balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
       var positionDescriptionString = balloonVisible ? positionsString : positionString;
-      return StringUtils.format( resetBalloonsDescriptionPatternString, balloonDescriptionString, positionDescriptionString );
+      return StringUtils.fillIn( resetBalloonsDescriptionPatternString, {
+        balloons: balloonDescriptionString,
+        positions: positionDescriptionString
+      } );
     };
 
     // update the button description when the green balloon is made visible
