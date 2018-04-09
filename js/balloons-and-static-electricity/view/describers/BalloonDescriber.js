@@ -1678,8 +1678,6 @@ define( function( require ) {
      * "Negative charges  in wall begin to return."
      * "Negative charges in wall return a little more."
      *
-     * TODO: Does induced charge change need to include  summary with both balloons?
-     * 
      * @return {string}
      */
     getInducedChargeChangeDescription: function() {
