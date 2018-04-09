@@ -23,22 +23,22 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // a11y strings
-  var grabOrReleaseBalloonHeadingString = BASEA11yStrings.grabOrReleaseBalloonHeadingString.value;
-  var grabOrReleaseBalloonLabelString = BASEA11yStrings.grabOrReleaseBalloonLabelString.value;
-  var moveOrJumpGrabbedBalloonHeadingString = BASEA11yStrings.moveOrJumpGrabbedBalloonHeadingString.value;
-  var moveGrabbedBalloonLabelString = BASEA11yStrings.moveGrabbedBalloonLabelString.value;
-  var moveSlowerLabelString = BASEA11yStrings.moveSlowerLabelString.value;
-  var jumpsCloseToSweaterString = BASEA11yStrings.jumpsCloseToSweaterString.value;
-  var jumpsCloseToWallString = BASEA11yStrings.jumpsCloseToWallString.value;
-  var jumpsNearWallString = BASEA11yStrings.jumpsNearWallString.value;
-  var jumpsToCenterString = BASEA11yStrings.jumpsToCenterString.value;
-  var grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescriptionString.value;
-  var moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescriptionString.value;
-  var moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescriptionString.value;
-  var jumpsCloseToSweaterDescriptionString = BASEA11yStrings.jumpsCloseToSweaterDescriptionString.value;
-  var jumpsCloseToWwallDescriptionString = BASEA11yStrings.jumpsCloseToWwallDescriptionString.value;
-  var jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescriptionString.value;
-  var jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescriptionString.value;
+  var grabOrReleaseBalloonHeadingString = BASEA11yStrings.grabOrReleaseBalloonHeading.value;
+  var grabOrReleaseBalloonLabelString = BASEA11yStrings.grabOrReleaseBalloonLabel.value;
+  var moveOrJumpGrabbedBalloonHeadingString = BASEA11yStrings.moveOrJumpGrabbedBalloonHeading.value;
+  var moveGrabbedBalloonLabelString = BASEA11yStrings.moveGrabbedBalloonLabel.value;
+  var moveSlowerLabelString = BASEA11yStrings.moveSlowerLabel.value;
+  var jumpsCloseToSweaterString = BASEA11yStrings.jumpsCloseToSweater.value;
+  var jumpsCloseToWallString = BASEA11yStrings.jumpsCloseToWall.value;
+  var jumpsNearWallString = BASEA11yStrings.jumpsNearWall.value;
+  var jumpsToCenterString = BASEA11yStrings.jumpsToCenter.value;
+  var grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
+  var moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
+  var moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
+  var jumpsCloseToSweaterDescriptionString = BASEA11yStrings.jumpsCloseToSweaterDescription.value;
+  var jumpsCloseToWwallDescriptionString = BASEA11yStrings.jumpsCloseToWwallDescription.value;
+  var jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescription.value;
+  var jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescription.value;
 
   /**
    * Constructor.

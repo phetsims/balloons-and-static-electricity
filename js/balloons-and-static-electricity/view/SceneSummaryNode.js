@@ -30,27 +30,27 @@ define( function( require ) {
 
   // a11y strings
   var sceneSummaryString = JoistA11yStrings.sceneSummary.value;
-  var openingSummaryString = BASEA11yStrings.openingSummaryString.value;
-  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlayString.value;
-  var andARemovableWallString = BASEA11yStrings.andARemovableWallString.value;
-  var aSweaterString = BASEA11yStrings.aSweaterString.value;
-  var andASweaterString = BASEA11yStrings.andASweaterString.value;
-  var roomObjectsPatternString = BASEA11yStrings.roomObjectsPatternString.value;
+  var openingSummaryString = BASEA11yStrings.openingSummary.value;
+  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
+  var andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
+  var aSweaterString = BASEA11yStrings.aSweater.value;
+  var andASweaterString = BASEA11yStrings.andASweater.value;
+  var roomObjectsPatternString = BASEA11yStrings.roomObjectsPattern.value;
   var checkOutShortcutsString = JoistA11yStrings.checkOutShortcuts.value;
-  var summaryObjectsString = BASEA11yStrings.summaryObjectsString.value;
-  var aYellowBalloonString = BASEA11yStrings.aYellowBalloonString.value;
-  var aGreenBalloonString = BASEA11yStrings.aGreenBalloonString.value;
-  var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePatternString.value;
-  var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePatternString.value;
-  var zeroString = BASEA11yStrings.zeroString.value;
-  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePatternString.value;
-  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWallString.value;
-  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPatternString.value;
-  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePatternString.value;
-  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPatternString.value;
-  var summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPatternString.value;
-  var summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPatternString.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
+  var summaryObjectsString = BASEA11yStrings.summaryObjects.value;
+  var aYellowBalloonString = BASEA11yStrings.aYellowBalloon.value;
+  var aGreenBalloonString = BASEA11yStrings.aGreenBalloon.value;
+  var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePattern.value;
+  var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePattern.value;
+  var zeroString = BASEA11yStrings.zero.value;
+  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePattern.value;
+  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWall.value;
+  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPattern.value;
+  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePattern.value;
+  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPattern.value;
+  var summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPattern.value;
+  var summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPattern.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
   /**
    * @constructor

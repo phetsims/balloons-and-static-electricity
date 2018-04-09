@@ -47,23 +47,23 @@ define( function( require ) {
   var resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
 
   // a11y strings
-  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabelString.value;
+  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
   var controlPanelString = JoistA11yStrings.controlPanel.value;
-  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabelString.value;
-  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescriptionString.value;
-  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlertString.value;
-  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlertString.value;
-  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlertString.value;
-  var removeWallDescriptionString = BASEA11yStrings.removeWallDescriptionString.value;
-  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescriptionString.value;
-  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPatternString.value;
-  var balloonString = BASEA11yStrings.balloonString.value;
-  var balloonsString = BASEA11yStrings.balloonsString.value;
-  var wallAddedString = BASEA11yStrings.wallAddedString.value;
-  var wallRemovedstring = BASEA11yStrings.wallRemovedString.value;
-  var positionsString = BASEA11yStrings.positionsString.value;
-  var positionString = BASEA11yStrings.positionString.value;
-  var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPatternString.value;
+  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
+  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;
+  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlert.value;
+  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlert.value;
+  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlert.value;
+  var removeWallDescriptionString = BASEA11yStrings.removeWallDescription.value;
+  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescription.value;
+  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPattern.value;
+  var balloonString = BASEA11yStrings.balloon.value;
+  var balloonsString = BASEA11yStrings.balloons.value;
+  var wallAddedString = BASEA11yStrings.wallAdded.value;
+  var wallRemovedstring = BASEA11yStrings.wallRemoved.value;
+  var positionsString = BASEA11yStrings.positions.value;
+  var positionString = BASEA11yStrings.position.value;
+  var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
 
   /**
    * @constructor

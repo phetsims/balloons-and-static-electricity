@@ -40,8 +40,8 @@ define( function( require ) {
 
   // a11y strings
   var playAreaString = JoistA11yStrings.playArea.value;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString.value;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString.value;
+  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
+  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
 
   // images
   var balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );

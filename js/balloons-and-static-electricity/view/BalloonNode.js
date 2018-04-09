@@ -51,8 +51,8 @@ define( function( require ) {
   var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500;
 
   // a11y strings
-  var grabBalloonPatternString = BASEA11yStrings.grabBalloonPatternString.value;
-  var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelpString.value;
+  var grabBalloonPatternString = BASEA11yStrings.grabBalloonPattern.value;
+  var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelp.value;
 
   /**
    * Constructor for the balloon

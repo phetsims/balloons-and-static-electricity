@@ -19,31 +19,31 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
-  var wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPatternString.value;
-  var wallLocationString = BASEA11yStrings.wallLocationString.value;
-  var wallNoNetChargeString = BASEA11yStrings.wallNoNetChargeString.value;
-  var aLittleBitString = BASEA11yStrings.aLittleBitString.value;
-  var aLotString = BASEA11yStrings.aLotString.value;
-  var quiteALotString = BASEA11yStrings.quiteALotString.value;
-  var inducedChargePatternString = BASEA11yStrings.inducedChargePatternString.value;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabelString.value;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabelString.value;
-  var wallTwoBalloonInducedChargePatternString = BASEA11yStrings.wallTwoBalloonInducedChargePatternString.value;
-  var wallChargeWithoutInducedPatternString = BASEA11yStrings.wallChargeWithoutInducedPatternString.value;
-  var wallChargeWithInducedPatternString = BASEA11yStrings.wallChargeWithInducedPatternString.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
-  var manyChargePairsString = BASEA11yStrings.manyChargePairsString.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
-  var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPatternString.value;
-  var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPatternString.value;
+  var wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPattern.value;
+  var wallLocationString = BASEA11yStrings.wallLocation.value;
+  var wallNoNetChargeString = BASEA11yStrings.wallNoNetCharge.value;
+  var aLittleBitString = BASEA11yStrings.aLittleBit.value;
+  var aLotString = BASEA11yStrings.aLot.value;
+  var quiteALotString = BASEA11yStrings.quiteALot.value;
+  var inducedChargePatternString = BASEA11yStrings.inducedChargePattern.value;
+  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
+  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
+  var wallTwoBalloonInducedChargePatternString = BASEA11yStrings.wallTwoBalloonInducedChargePattern.value;
+  var wallChargeWithoutInducedPatternString = BASEA11yStrings.wallChargeWithoutInducedPattern.value;
+  var wallChargeWithInducedPatternString = BASEA11yStrings.wallChargeWithInducedPattern.value;
+  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  var manyChargePairsString = BASEA11yStrings.manyChargePairs.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPattern.value;
+  var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPattern.value;
   var wallChargePatternStringWithLabel = BASEA11yStrings.wallChargePatternStringWithLabel.value;
-  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePatternString.value;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString.value;
-  var wallLabelString = BASEA11yStrings.wallLabelString.value;
-  var zeroString = BASEA11yStrings.zeroString.value;
-  var bothBalloonsString = BASEA11yStrings.bothBalloonsString.value;
-  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPatternString.value;
-  var positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMoveString.value;
+  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
+  var wallLabelString = BASEA11yStrings.wallLabel.value;
+  var zeroString = BASEA11yStrings.zero.value;
+  var bothBalloonsString = BASEA11yStrings.bothBalloons.value;
+  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPattern.value;
+  var positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMove.value;
 
   // constants
   var INDUCED_CHARGE_DESCRIPTION_MAP = {

@@ -23,7 +23,7 @@ define( function( require ) {
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
   // a11y strings
-  var wallLabelString = BASEA11yStrings.wallLabelString.value;
+  var wallLabelString = BASEA11yStrings.wallLabel.value;
 
   /**
    * @constructor

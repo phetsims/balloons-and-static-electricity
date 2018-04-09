@@ -20,34 +20,34 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  var sweaterLocationString = BASEA11yStrings.sweaterLocationString.value;
-  var zeroString = BASEA11yStrings.zeroString.value;
-  var manyString = BASEA11yStrings.manyString.value;
-  var allString = BASEA11yStrings.allString.value;
-  var positiveString = BASEA11yStrings.positiveString.value;
-  var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPatternString.value;
-  var sweaterRelativeChargeAllPatternString = BASEA11yStrings.sweaterRelativeChargeAllPatternString.value;
-  var sweaterRelativeChargeDifferencesPatternString = BASEA11yStrings.sweaterRelativeChargeDifferencesPatternString.value;
-  var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreChargesString.value;
-  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePatternString.value;
-  var sweaterChargePatternString = BASEA11yStrings.sweaterChargePatternString.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoChargesString.value;
-  var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePatternString.value;
-  var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPatternString.value;
-  var moreChargesPatternString = BASEA11yStrings.moreChargesPatternString.value;
-  var moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPatternString.value;
-  var morePairsOfChargesString = BASEA11yStrings.morePairsOfChargesString.value;
-  var sweaterLabelString = BASEA11yStrings.sweaterLabelString.value;
-  var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfChargesString.value;
-  var positiveNetChargeString = BASEA11yStrings.positiveNetChargeString.value;
-  var neutralNetChargeString = BASEA11yStrings.neutralNetChargeString.value;
-  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePatternString.value;
-  var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePatternString.value;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePatternString.value;
-  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPatternString.value;
-  var sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPatternString.value;
-  var showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveChargesString.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPatternString.value;
+  var sweaterLocationString = BASEA11yStrings.sweaterLocation.value;
+  var zeroString = BASEA11yStrings.zero.value;
+  var manyString = BASEA11yStrings.many.value;
+  var allString = BASEA11yStrings.all.value;
+  var positiveString = BASEA11yStrings.positive.value;
+  var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPattern.value;
+  var sweaterRelativeChargeAllPatternString = BASEA11yStrings.sweaterRelativeChargeAllPattern.value;
+  var sweaterRelativeChargeDifferencesPatternString = BASEA11yStrings.sweaterRelativeChargeDifferencesPattern.value;
+  var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreCharges.value;
+  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePattern.value;
+  var sweaterChargePatternString = BASEA11yStrings.sweaterChargePattern.value;
+  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePattern.value;
+  var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPattern.value;
+  var moreChargesPatternString = BASEA11yStrings.moreChargesPattern.value;
+  var moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPattern.value;
+  var morePairsOfChargesString = BASEA11yStrings.morePairsOfCharges.value;
+  var sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
+  var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfCharges.value;
+  var positiveNetChargeString = BASEA11yStrings.positiveNetCharge.value;
+  var neutralNetChargeString = BASEA11yStrings.neutralNetCharge.value;
+  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
+  var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePattern.value;
+  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
+  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
+  var sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
+  var showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
+  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
   /**
    * Manages all descriptions relating to the sweater.

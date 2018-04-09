@@ -23,7 +23,7 @@ define( function( require ) {
   var SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
 
   // a11y strings
-  var sweaterLabelString = BASEA11yStrings.sweaterLabelString.value;
+  var sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
   // images
   var sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.png' );
