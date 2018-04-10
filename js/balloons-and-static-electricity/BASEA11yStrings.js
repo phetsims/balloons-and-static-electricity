@@ -470,9 +470,6 @@ define( function( require ) {
     lessInducedChargePattern: {
       value: 'Negative charges in {{location}} {{movement}}.'
     },
-    beginToMoveAway: {
-      value: 'begin to move away'
-    },
     moveAwayALittleMore: {
       value: 'move away a little more'
     },

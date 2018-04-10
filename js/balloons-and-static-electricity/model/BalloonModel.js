@@ -202,6 +202,10 @@ define( function( require ) {
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
     this.inducingChargeProperty = new Property( false );
 
+    // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a location in the play
+    // area without dragging or an applied force
+    this.jumping = false;
+
     //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon

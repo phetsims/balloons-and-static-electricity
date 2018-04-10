@@ -128,7 +128,6 @@ define( function( require ) {
   var balloonAddedPatternString = BASEA11yStrings.balloonAddedPattern.value;
   var balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPattern.value;
   var balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPattern.value;
-  var beginToMoveAwayString = BASEA11yStrings.beginToMoveAway.value;
   var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMore.value;
   var beginToReturnString = BASEA11yStrings.beginToReturn.value;
   var returnALittleMoreString = BASEA11yStrings.returnALittleMore.value;
@@ -250,8 +249,15 @@ define( function( require ) {
     // when the balloon hits the wall, reset some description flags
     this.balloonModel.touchingWallProperty.link( function( touchingWall ) {
       if ( touchingWall ) {
-        this.previousDeltaNormalized = 0;
-        this.describeReturn = false;
+        self.previousDeltaNormalized = 0;
+        self.describeReturn = false;
+      }
+    } );
+
+    // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
+    this.balloonModel.inducingChargeProperty.link( function( inducingCharge ) {
+      if ( !inducingCharge ) {
+        self.resetReferenceForces();
       }
     } );
 
@@ -1675,7 +1681,7 @@ define( function( require ) {
      * function will return something like
      * "Negative charges in wall begin to move away from Yellow Balloon."
      * "Negative charges in wall move away a little more from green balloon."
-     * "Negative charges  in wall begin to return."
+     * "Negative charges in wall begin to return."
      * "Negative charges in wall return a little more."
      *
      * @return {string}
@@ -1690,8 +1696,9 @@ define( function( require ) {
       var forceMagnitude = balloonForce.magnitude();
    
       // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
-      // charge in the wall
+      // charge in the wall, but there must be some change since the last description
       var forceDelta = forceMagnitude - this.previousForceMagnitude;
+      assert && assert( forceDelta !== 0, 'induced charge did not change since last description' );
 
       // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
       // wall charges in the same direction since the last time this change was described 
@@ -1705,19 +1712,24 @@ define( function( require ) {
 
       var movementString;
       if ( forceDelta > 0 ) {
+        if ( continuedDirection ) {
 
-        // if the change in force is greater than 0, the charges have moved away from the balloon, continued direction
-        // determines if this is the first time since last description that charges move in a direction
-        movementString = continuedDirection ? moveAwayALittleMoreString : beginToMoveAwayString;
-        descriptionString = StringUtils.fillIn( moreInducedChargePatternString, {
-          location: chargeLocationString,
-          movement: movementString,
-          balloon: this.accessibleName
-        } );
+          // the charges are continuing to move away from the balloon
+          descriptionString = StringUtils.fillIn( moreInducedChargePatternString, {
+            location: chargeLocationString,
+            movement: moveAwayALittleMoreString,
+            balloon: this.accessibleName
+          } );
+        }
+        else {
+
+          // first time charges are moving away from balloon, just say that charges in wall move away
+          descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );
+        }
       }
       else {
 
-        // charges  are moving back to resting position
+        // charges are moving back to resting position
         movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
         descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
           location: chargeLocationString,
@@ -1752,7 +1764,9 @@ define( function( require ) {
     describeInducedChargeChange: function() {
       var chargesShown = this.showChargesProperty.get();
       var wallVisible = this.wall.isVisibleProperty.get();
+      var jumping = this.balloonModel.jumping;
       return !this.balloonModel.touchingWall() &&
+             !jumping &&
              wallVisible &&
              chargesShown === 'all' &&
              ( this.balloonModel.inducingChargeProperty.get() || this.describeReturn );
