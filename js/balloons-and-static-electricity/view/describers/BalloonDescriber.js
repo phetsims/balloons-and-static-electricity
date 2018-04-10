@@ -1149,10 +1149,16 @@ define( function( require ) {
         var inducingCharge = this.balloonModel.inducingChargeProperty.get();
         var showCharges = this.showChargesProperty.get();
 
+        // if jumping to wall, describe as if balloon is rubbing along the wall for the first time
         if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none') {
+          if ( showCharges === 'all' ) {
 
-          // if touching the wall, describe as though the balloon is hitting the wall for the first time
-          description = this.getWallRubbingDescriptionWithChargePairs();
+            // describer pairs of charges in the wall if they are visible
+            description = this.getWallRubbingDescriptionWithChargePairs();
+          }
+          else {
+            description = this.getWallRubbingDescription();
+          }
         }
         else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
           
