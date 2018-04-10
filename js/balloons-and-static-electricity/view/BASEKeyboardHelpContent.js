@@ -58,7 +58,7 @@ define( function( require ) {
     var leftContent = new VBox( {
       children: [ balloonGrabHelpContent, moveBalloonHelpContent ],
       align: 'left',
-      spacing: 60
+      spacing: 30
     } );
 
     // left aligned content, and content about how to move the grabbed balloon are horizontally aligned
