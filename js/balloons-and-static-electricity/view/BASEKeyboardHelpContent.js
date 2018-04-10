@@ -96,8 +96,9 @@ define( function( require ) {
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
     var labelWithContent = HelpContent.labelWithIcon( label, icons, {
-      a11yIconLabelContent: grabOrReleaseBalloonDescriptionString,
-      a11yIconTagName: 'p'
+      iconOptions: {
+        innerContent: grabOrReleaseBalloonDescriptionString
+      }
     } );
 
     HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], {
@@ -127,9 +128,9 @@ define( function( require ) {
 
     var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
     var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabel, arrowOrWasdKeysIcon, {
-
-      // a11y
-      a11yIconLabelContent: moveGrabbedBalloonDescriptionString
+      iconOptions: {
+        innerContent: moveGrabbedBalloonDescriptionString
+      }
     } );
 
     var arrowKeysIcon = HelpContent.arrowKeysRowIcon();
@@ -137,14 +138,14 @@ define( function( require ) {
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
     var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
-      a11yIconLabelContent: moveSlowerDescriptionString
+      innerContent: moveSlowerDescriptionString
     } );
 
     // hot key content for how to jump the balloon
-    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { a11yIconLabelContent: jumpsCloseToSweaterDescriptionString } );
-    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { a11yIconLabelContent: jumpsCloseToWwallDescriptionString } );
-    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { a11yIconLabelContent: jumpsNearWallDescriptionString } );
-    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { a11yIconLabelContent: jumpstoCenterDescriptionString } );
+    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { innerContent: jumpsCloseToSweaterDescriptionString } );
+    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { innerContent: jumpsCloseToWwallDescriptionString } );
+    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { innerContent: jumpsNearWallDescriptionString } );
+    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { innerContent: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
     var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
@@ -161,13 +162,13 @@ define( function( require ) {
    *
    * @param {string} keyString - the letter name that will come after 'j'
    * @param {string} labelString
-   * @param {Object} options
+   * @param {Object} options - options passed to HelpContent
    * @return {HBox}
    */
   function createJumpKeyRow( keyString, labelString, options ) {
 
     options = _.extend( {
-      a11yIconLabelContent: null
+      innerContent: null
     }, options );
 
     var label = new Text( labelString, {
@@ -179,7 +180,9 @@ define( function( require ) {
     var otherKey = new TextKeyNode( keyString );
 
     var jPlusOtherKey = HelpContent.iconPlusIcon( jKey, otherKey );
-    return HelpContent.labelWithIcon( label, jPlusOtherKey, options );
+    return HelpContent.labelWithIcon( label, jPlusOtherKey, {
+      iconOptions: options
+    } );
   }
 
   return BASEKeyboardHelpContent;
