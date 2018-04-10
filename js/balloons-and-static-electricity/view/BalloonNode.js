@@ -617,10 +617,9 @@ define( function( require ) {
         }
       },
       keyup: function( event ) {
-        if ( event.keyCode === KeyboardUtil.KEY_SPACE ) {
-
-          // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
-          // and trigger a click event
+        // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
+        // and trigger a click event - escape could be added to either keyup or keydown listeners
+        if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
           releaseBalloon();
         }
       },
