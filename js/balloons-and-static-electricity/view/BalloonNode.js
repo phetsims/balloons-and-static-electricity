@@ -250,24 +250,25 @@ define( function( require ) {
 
     // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
     // or touching these objects
+    // TODO: Move more of this logic into a describer type
     model.velocityProperty.lazyLink( function( velocity ) {
       if ( velocity.equals( Vector2.ZERO ) ) {
         if ( model.isDraggedProperty.get() ) {
           if ( model.onSweater() || model.touchingWall() ) {
 
             // while dragging, just attractive state and location 
-            utteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+            utteranceQueue.addToBack( self.describer.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
           }    
         }
         else if ( model.onSweater() ) {
 
           // if we stop on the sweater, announce that we are sticking to it
-          utteranceQueue.addToBack( self.describer.getAttractiveStateAndLocationDescriptionWithLabel() );
+          utteranceQueue.addToBack( self.describer.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
         }
         else {
 
           // if we stop along anywhere else in the play area, describe that movement has stopped
-          utteranceQueue.addToBack( self.describer.getMovementStopsDescription() );
+          utteranceQueue.addToBack( self.describer.movementDescriber.getMovementStopsDescription() );
         }
       }
     } );
@@ -310,19 +311,15 @@ define( function( require ) {
             var touchingWall = model.touchingWall();
 
             if ( !inLandmark && !onSweater && !touchingWall ) {
-              utterance = self.describer.getKeyboardMovementAlert();
-              // utteranceQueue.addToBack( self.describer.getKeyboardMovementAlert() );
+              utterance = self.describer.movementDescriber.getKeyboardMovementAlert();
             }
             else if ( inLandmark ) {
 
               // just announce landmark as we move through it
-              utterance = self.describer.getLandmarkDragDescription();
-              // var locationDescription = self.describer.getLandmarkDragDescription();
-              // locationDescription && utteranceQueue.addToBack( locationDescription );
+              utterance = self.describer.movementDescriber.getLandmarkDragDescription();
             }
             else if ( model.touchingWall() && self.describeWallRub ) {
               utterance = self.describer.getWallRubbingDescription();
-              // utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
             }
 
             if ( utterance ) {
@@ -367,7 +364,7 @@ define( function( require ) {
     // a11y - alerts when direction changes, only describe if the balloon hasn't recently been released
     model.directionProperty.lazyLink( function( direction ) {
       if ( self.describeDirection ) {
-        var alert = self.describer.getDirectionChangedDescription();
+        var alert = self.describer.movementDescriber.getDirectionChangedDescription();
         utteranceQueue.addToBack( new Utterance( alert, {
           typeId: 'direction' // so numerous alerts relating to direction don't get triggered at once
         } ) );  
@@ -404,7 +401,7 @@ define( function( require ) {
                 // get the initial description of balloon movement upon release
                 self.initialMovementDescribed = true;
                 if ( !location.equals( oldLocation ) ) {
-                  alert = self.describer.getInitialReleaseDescription( location, oldLocation );
+                  alert = self.describer.movementDescriber.getInitialReleaseDescription( location, oldLocation );
                   utteranceQueue.addToBack( alert );
 
                   // after describing initial movement, continue to describe direction changes
@@ -418,10 +415,10 @@ define( function( require ) {
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // if the balloon is moving slowly, alert a continuous movement description
-              if ( self.describer.balloonMovingSlowly() ) {
+              if ( self.describer.movementDescriber.balloonMovingSlowly() ) {
 
                 // get subsequent descriptions of movement
-                alert = self.describer.getContinuousReleaseDescription();
+                alert = self.describer.movementDescriber.getContinuousReleaseDescription();
                 utteranceQueue.addToBack( alert );
 
                 // reset timer
@@ -485,7 +482,7 @@ define( function( require ) {
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
           var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
-          utteranceQueue.addToBack( new Utterance( self.describer.getTouchingBoundaryDescription( attemptedDirection ), {
+          utteranceQueue.addToBack( new Utterance( self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ), {
             typeId: 'boundaryAlert'
           } ) );
         }
@@ -658,10 +655,10 @@ define( function( require ) {
         // clear location of release until balloon is released again
         self.model.locationOnRelease = null;
 
-        alert = self.describer.getGrabbedAlert();
+        alert = self.describer.movementDescriber.getGrabbedAlert();
       }
       else {
-        alert = self.describer.getReleasedAlert();
+        alert = self.describer.movementDescriber.getReleasedAlert();
 
         // dont describe direction until initial release description happens
         self.describeDirection = false;
@@ -725,7 +722,7 @@ define( function( require ) {
           if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
             var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
             if ( touchingReleasePoint ) {
-              alert = this.describer.getNoChangeReleaseDescription();
+              alert = this.describer.movementDescriber.getNoChangeReleaseDescription();
               utteranceQueue.addToBack( alert );
               this.initialMovementDescribed = true;
             }
@@ -755,7 +752,7 @@ define( function( require ) {
 
       // unmute and send a custom alert, depending on where the balloon was moved to
       utteranceQueue.muted = false;
-      var utterance = new Utterance( this.describer.getJumpingDescription( center ), {
+      var utterance = new Utterance( this.describer.movementDescriber.getJumpingDescription( center ), {
         typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );
       utteranceQueue.addToBack( utterance );

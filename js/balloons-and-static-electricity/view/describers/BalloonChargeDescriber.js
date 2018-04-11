@@ -62,6 +62,13 @@ define( function( require ) {
     this.accessibleName = accessibleName;
     this.otherAccessibleName = otherAccessibleName;
     this.showChargesProperty = model.showChargesProperty;
+
+    // @private - Allows us to track the change in the balloon's induced charge
+    this.previousForceMagnitude = 0;
+
+    // @private - the previous magnitude of force delta normalized, so we can track whether induced charge increases or
+    // decreases between when a description of induced charge change is triggered
+    this.previousForceMagnitudeNormalized = 0;
   }
 
   balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );
@@ -304,7 +311,7 @@ define( function( require ) {
              !jumping &&
              wallVisible &&
              chargesShown === 'all' &&
-             ( this.balloonModel.inducingChargeProperty.get() || this.describeReturn );
+             ( this.balloonModel.inducingChargeProperty.get() );
     },
 
     /**
@@ -350,6 +357,15 @@ define( function( require ) {
       }
 
       return chargeDescription;
+    },
+
+    /**
+     * Reset flags that track state between descriptions.
+     * @public
+     */
+    reset: function() {
+      this.previousForceMagnitude = 0;
+      this.previousForceMagnitudeNormalized = 0;
     }
   }, {
 

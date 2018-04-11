@@ -81,30 +81,30 @@ define( function( require ) {
     model.reset();
 
     // initial grab on load
-    var actualDescription = balloonNode.describer.getGrabbedAlert();
+    var actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     var expectedDescription = 'Grabbed. At center of Play Area. Has no more negative charges than positive charges. Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 1' );
 
     // Second grab, no longer have interaction hint
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At center of Play Area. Has no more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 2' );
 
     // interaction hint returns after reset
     model.reset();
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At center of Play Area. Has no more negative charges than positive charges. Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 3' );
 
     // neutral balloon in center of play area, showing no charges
     model.showChargesProperty.set( 'none' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At center of Play Area.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 4' );
 
     // neutral balloon in center of play area, showing charge differences
     model.showChargesProperty.set( 'diff' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At center of Play Area. Has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 5' );
 
@@ -112,13 +112,13 @@ define( function( require ) {
     model.reset();
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_NEAR_SWEATER, model.yellowBalloon.getCenterY() ) );
     model.yellowBalloon.chargeProperty.set( -10 );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. Near sweater. Has a few more negative charges than positive charges. Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 6' );
 
     // In open area near sweater with negative net charge, showing charge differences
     model.showChargesProperty.set( 'diff' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. Near sweater. Has negative net charge, showing a few negative charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 7' );
 
@@ -127,7 +127,7 @@ define( function( require ) {
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_ARM.getCenter(), model.yellowBalloon.getCenterY() ) );
     model.yellowBalloon.chargeProperty.set( -10 );
     model.sweater.chargeProperty.set( -10 );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On right arm of sweater. Has a few more negative charges than positive charges. ' + 
                           'Sweater has a few more positive charges than negative charges. ' +
                           'Press W, A, S, or D key to move balloon. Space to release.';
@@ -135,14 +135,14 @@ define( function( require ) {
 
     // charged balloon on sweater, showing charge differences
     model.showChargesProperty.set( 'diff' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On right arm of sweater. Has negative net charge, showing a few negative charges. ' + 
                           'Sweater has positive net charge, showing a few positive charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 9' );
 
     // charged balloon on sweater, showing no charges
     model.showChargesProperty.set( 'none' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On right arm of sweater.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 10' );
 
@@ -150,7 +150,7 @@ define( function( require ) {
     model.reset();
     model.yellowBalloon.chargeProperty.set( -10 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall. Has a few more negative charges than positive charges. ' +
                           'Negative charges in upper wall move away from Yellow Balloon a little bit. Positive charges do not move. ' +
                           'Wall has many pairs of negative and positive charges. ' +
@@ -159,7 +159,7 @@ define( function( require ) {
 
     // charged balloon at upper wall, inducing charge in upper wall, showing charge differences
     model.showChargesProperty.set( 'diff' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall. Has negative net charge, showing a few negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 12' );
@@ -169,14 +169,14 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.reset();
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenterY() ) );
     model.showChargesProperty.set( 'all' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At wall. Has no more negative charges than positive charges. ' +
                           'In wall, no change in charges. Wall has many pairs of negative and positive charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 13' );
 
     // neutral balloon grabbed at wall, showing charge differences
     model.showChargesProperty.set( 'diff' );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At wall. Has zero net charge, showing no charges. ' +
                           'Wall has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 14' );
@@ -186,7 +186,7 @@ define( function( require ) {
     model.greenBalloon.isVisibleProperty.set( true );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenterY() ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.greenBalloon.getCenterY() ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At wall, next to Green Balloon. Each balloon has no more negative charges than positive charges. ' +
                           'In wall, no change in charges. Wall has many pairs of negative and positive charges. '  +
                           'Press W, A, S, or D key to move balloon. Space to release.';
@@ -197,7 +197,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. Each balloon has several more negative charges than positive charges. ' +
                           'Negative charges in upper wall move away from balloons quite a lot. Positive charges do not move. ' +
                           'Wall has many pairs of negative and positive charges.';
@@ -208,7 +208,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At lower wall, next to Green Balloon. Yellow Balloon has several more negative charges than positive charges. ' +
                           'Green Balloon has a few more negative charges than positive charges. ' +
                           'Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move. ' +
@@ -220,7 +220,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. Yellow Balloon has several more negative charges than positive charges. ' +
                           'Green Balloon has no more negative charges than positive charges. ' +
                           'Negative charges in upper wall move away from Yellow Balloon a lot. Positive charges do not move. ' +
@@ -233,7 +233,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( 0 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At lower wall, next to Green Balloon. Each balloon has zero net charge, showing no charges. ' +
                           'Wall has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 19' );
@@ -244,7 +244,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -10 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. ' +
                           'Each balloon has negative net charge, showing a few negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
@@ -255,7 +255,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At lower wall, next to Green Balloon. Yellow Balloon has negative net charge, showing several negative charges. ' +
                           'Green Balloon has negative net charge, showing a few negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
@@ -267,7 +267,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( 0 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. Yellow Balloon has zero net charge, showing no charges. ' +
                           'Green Balloon has negative net charge, showing several negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
@@ -290,7 +290,7 @@ define( function( require ) {
     model.sweater.chargeProperty.set( 20 );
     model.yellowBalloon.setCenter( rightSweater );
     model.greenBalloon.setCenter( rightSweater );
-    var actualDescription = balloonNode.describer.getGrabbedAlert();
+    var actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     var expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                               'Each balloon has a few more negative charges than positive charges. ' +
                               'Sweater has several more positive charges than negative charges. ' +
@@ -301,7 +301,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -10 );
     model.greenBalloon.chargeProperty.set( -20 );
     model.sweater.chargeProperty.set( 30 );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                           'Yellow Balloon has a few more negative charges than positive charges. ' +
                           'Green Balloon has several more negative charges than positive charges. ' +
@@ -317,7 +317,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -10 );
     model.greenBalloon.chargeProperty.set( -10 );
     model.sweater.chargeProperty.set( 20 );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                               'Each balloon has negative net charge, showing a few negative charges. ' +
                               'Sweater has positive net charge, showing several positive charges.';
@@ -327,7 +327,7 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( 0 );
     model.greenBalloon.chargeProperty.set( -20 );
     model.sweater.chargeProperty.set( 30 );
-    actualDescription = balloonNode.describer.getGrabbedAlert();
+    actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                           'Yellow Balloon has zero net charge, showing no charges. ' +
                           'Green Balloon has negative net charge, showing several negative charges. ' +
