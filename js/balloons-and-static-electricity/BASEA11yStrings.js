@@ -303,7 +303,10 @@ define( function( require ) {
     summarySweaterAndWall: {
       value: 'Sweater and wall'
     },
-
+    initialObjectLocations: {
+      value: 'Yellow balloon is at center of Play Area, evenly between sweater and wall. Sweater is at far left, wall at far right.'
+    },
+    
     // general charge information for the scene summary
     summaryObjectHasChargePattern: {
       value: '{{object}} has {{charge}} net charge'

@@ -54,6 +54,7 @@ define( function( require ) {
   var summaryYellowGreenSweaterPatternString = BASEA11yStrings.summaryYellowGreenSweaterPattern.value;
   var summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
   var summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
+  var initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
 
   /**
    * @constructor
@@ -90,6 +91,7 @@ define( function( require ) {
     // list of dynamic description content that will update with the state of the simulation
     var listNode = new Node( { tagName: 'ul' } );
     var roomObjectsNode = new Node( { tagName: 'li' } );
+    var objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } ); 
     var balloonChargeNode = new Node( { tagName: 'li' } );
     var sweaterWallChargeNode = new Node( { tagName: 'li' } );
     var inducedChargeNode = new Node( { tagName: 'li' } );
@@ -97,6 +99,7 @@ define( function( require ) {
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
+    listNode.addChild( objectLocationsNode );
     listNode.addChild( balloonChargeNode );
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
@@ -133,6 +136,23 @@ define( function( require ) {
         inducedChargeNode.innerContent = self.getInducedChargeDescription();
       }
     } );
+
+    // If all of the simulation objects are at their initial state, include the location summary phrase that lets the
+    // user know where objects are.
+    Property.multilink(
+      [ self.yellowBalloon.locationProperty,
+        self.greenBalloon.locationProperty,
+        self.greenBalloon.isVisibleProperty,
+        model.wall.isVisibleProperty
+      ], function( yellowLocation, greenLocation, greenVisible, wallVisible ) {
+        var initialValues = self.yellowBalloon.locationProperty.initialValue === yellowLocation &&
+                            self.greenBalloon.locationProperty.initialValue === greenLocation &&
+                            self.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
+                            model.wall.isVisibleProperty.initialValue === wallVisible;
+
+        objectLocationsNode.accessibleVisible = initialValues;
+      }
+    )
   }
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
