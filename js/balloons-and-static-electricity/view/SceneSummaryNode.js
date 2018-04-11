@@ -138,7 +138,7 @@ define( function( require ) {
     } );
 
     // If all of the simulation objects are at their initial state, include the location summary phrase that lets the
-    // user know where objects are.
+    // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
     Property.multilink(
       [ self.yellowBalloon.locationProperty,
         self.greenBalloon.locationProperty,
