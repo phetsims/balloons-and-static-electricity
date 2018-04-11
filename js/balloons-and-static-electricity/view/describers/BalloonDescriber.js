@@ -320,7 +320,9 @@ define( function( require ) {
     },
 
     /**
-     * Get the description for this balloon, including information about the Balloon's location, and charge
+     * Get the description for this balloon, including information about the Balloon's location, and charge.
+     *
+     * TODO: Rename this and provide output examples.
      * 
      * @return {string}
      */
