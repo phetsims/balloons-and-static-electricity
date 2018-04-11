@@ -443,7 +443,7 @@ define( function( require ) {
       value: 'Wall {{wallCharge}}'
     },
     wallRubbingPattern: {
-      value: '{{location}} {{balloonCharge}} {{otherBalloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}'
+      value: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}'
     },
     wallRubbingWithPairsPattern: {
       value: '{{rubbingAlert}} Wall has many pairs of negative and positive charges.'

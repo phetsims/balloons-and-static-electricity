@@ -1259,7 +1259,7 @@ define( function( require ) {
         // wrap induced charge string with punctuation
         inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
 
-        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'otherBalloonCharge', 'wallCharge' ] );
+        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
         descriptionString = StringUtils.fillIn( patternString, {
           location: atLocationString,
           transfer: wallNoTransferOfChargeString,
@@ -1284,7 +1284,7 @@ define( function( require ) {
           balloonChargeString = this.getCombinedRelativeChargeDescription();
           balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
 
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge', 'otherBalloonCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,
@@ -1292,7 +1292,7 @@ define( function( require ) {
           } );
         }
         else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'otherBalloonCharge', 'inducedCharge' ] );
+          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge' ] );
           descriptionString = StringUtils.fillIn( patternString, {
             location: atLocationString,
             balloonCharge: balloonChargeString,
