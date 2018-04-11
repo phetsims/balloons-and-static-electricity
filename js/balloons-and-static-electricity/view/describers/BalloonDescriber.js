@@ -115,6 +115,7 @@ define( function( require ) {
   var noChangeInChargesString = BASEA11yStrings.noChangeInCharges.value;
   var noChangeInNetChargeString = BASEA11yStrings.noChangeInNetCharge.value;
   var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPattern.value;
+  var nochargePickupWithObjectChargeAndHint = BASEA11yStrings.nochargePickupWithObjectChargeAndHint.value;
   var releaseHintString = BASEA11yStrings.releaseHint.value;
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePattern.value;
   var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseTo.value;
@@ -1484,7 +1485,9 @@ define( function( require ) {
      *
      * "No change in charges. On left side of sweater. More pairs of charges down and to the right." or
      * "No change in net charge. On left side of sweater. More hidden pairs of charges down and to the right." or
-     * "On left side of sweater".
+     * "On left side of sweater". or
+     * "No change in charges. On right side of sweater. Sweater has positive net charge. Yellow Balloon has negative
+     * net charge. Press space to release."
      *
      * @return {string}
      */
@@ -1505,7 +1508,6 @@ define( function( require ) {
         // there are still charges on the sweater
         var sweaterCharges = this.model.sweater.minusCharges;
         var moreChargesString = SweaterDescriber.getMoreChargesDescription( this.balloonModel, sweaterCharge, sweaterCharges, chargesShown );
-        var patternString = noChargePickupPatternString;
         if ( chargesShown === 'all' ) {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
             noChange: noChangeInChargesString,
@@ -1529,7 +1531,7 @@ define( function( require ) {
           var relativeBalloonCharge = this.getNetChargeDescriptionWithLabel();
           relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, {  statement: relativeBalloonCharge } );
 
-          alert = StringUtils.fillIn( noChargePickupHintPatternString, {
+          alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
             noChange:  noChangeInChargesString,
             balloonLocation: balloonLocationString,
             sweaterCharge: relativeSweaterCharge,
@@ -1538,8 +1540,7 @@ define( function( require ) {
           } );
         }
         else if ( chargesShown === 'diff' ) {
-          patternString = BASEA11yStrings.stripPlaceholders( noChargePickupHintPatternString, [ 'sweaterCharge', 'balloonCharge' ] );
-          alert = StringUtils.fillIn( patternString, {
+          alert = StringUtils.fillIn( noChargePickupHintPatternString, {
             noChange: noChangeInNetChargeString,
             balloonLocation: balloonLocationString,
             hint: releaseHintString

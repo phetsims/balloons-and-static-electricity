@@ -760,8 +760,11 @@ define( function( require ) {
     noChargePickupPattern: {
       value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}'
     },
-    noChargePickupHintPattern: {
+    nochargePickupWithObjectChargeAndHint: {
       value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
+    },
+    noChargePickupHintPattern: {
+      value: '{{noChange}}. {{balloonLocation}}. {{hint}}'
     },
     releaseHint: {
       value: 'Press Space to release.'
