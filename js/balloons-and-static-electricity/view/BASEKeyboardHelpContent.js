@@ -138,7 +138,9 @@ define( function( require ) {
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
     var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
-      innerContent: moveSlowerDescriptionString
+      iconsVBoxOptions: {
+        innerContent: moveSlowerDescriptionString
+      }
     } );
 
     // hot key content for how to jump the balloon
