@@ -100,7 +100,6 @@ define( function( require ) {
   var balloonNearString = BASEA11yStrings.balloonNear.value;
   var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePattern.value;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  var wallNoTransferOfChargeString = BASEA11yStrings.wallNoTransferOfCharge.value;
   var wallHasManyChargesString = BASEA11yStrings.wallHasManyCharges.value;
   var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePattern.value;
   var interactionCueString = BASEA11yStrings.interactionCue.value;
@@ -118,7 +117,6 @@ define( function( require ) {
   var noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPattern.value;
   var releaseHintString = BASEA11yStrings.releaseHint.value;
   var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePattern.value;
-  var wallRubbingPatternString = BASEA11yStrings.wallRubbingPattern.value;
   var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseTo.value;
   var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
   var continuousMovementPatternString = BASEA11yStrings.continuousMovementPattern.value;
@@ -140,6 +138,9 @@ define( function( require ) {
   var grabbedWithHelpPatternString = BASEA11yStrings.grabbedWithHelpPattern.value;
   var balloonHasChargePatternString = BASEA11yStrings.balloonHasChargePattern.value;
   var balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeShowingPattern.value;
+  var wallRubPatternString = BASEA11yStrings.wallRubPattern.value;
+  var wallRubAllPatternString = BASEA11yStrings.wallRubAllPattern.value;
+  var wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
@@ -1200,8 +1201,8 @@ define( function( require ) {
      * @return {string}
      */
     getWallRubbingDescription: function() {
-      var patternString = wallRubbingPatternString;
       var descriptionString;
+      var chargeString;
 
       // the location string is used for all charge views, used as a single sentence
       var locationString = this.getBalloonLocationDescription();
@@ -1215,90 +1216,91 @@ define( function( require ) {
       if ( shownCharges === 'none' ) {
         descriptionString = atLocationString;
       }
-      else if ( shownCharges === 'all' ) {
-        var inducedChargeString;
+      else {
+        if ( shownCharges === 'all' ) {
+          var inducedChargeString;
 
-        // if balloons are adjacent, the resultant induced charge description is modified
-        if ( this.model.getBalloonsAdjacent() ) {
+          // if balloons are adjacent, the resultant induced charge description is modified
+          if ( this.model.getBalloonsAdjacent() ) {
 
-          var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
-          var otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
+            var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
+            var otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
 
-          if ( thisInducingAndVisible && otherInducingAndVisible ) {
+            if ( thisInducingAndVisible && otherInducingAndVisible ) {
 
-            // if both inducing charge, combine induced charge description with "both balloons"
-            inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible );
-          }
-          else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
+              // if both inducing charge, combine induced charge description with "both balloons"
+              inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible );
+            }
+            else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
 
-            // neither balloon is inducing charge, just use normal induced charge description
-            inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
-          }
-          else {
-            assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
-
-            // only one balloon is inducing charge, describe whichever one is currently inducing charge
-            var inducingBalloon;
-            var balloonLabel;
-            if ( this.balloonModel.inducingChargeAndVisible() ) {
-              inducingBalloon = this.balloonModel;
-              balloonLabel = this.accessibleName;
+              // neither balloon is inducing charge, just use normal induced charge description
+              inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
             }
             else {
-              inducingBalloon = this.balloonModel.other;
-              balloonLabel = this.otherAccessibleName;
-            }
+              assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
 
-            inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
+              // only one balloon is inducing charge, describe whichever one is currently inducing charge
+              var inducingBalloon;
+              var balloonLabel;
+              if ( this.balloonModel.inducingChargeAndVisible() ) {
+                inducingBalloon = this.balloonModel;
+                balloonLabel = this.accessibleName;
+              }
+              else {
+                inducingBalloon = this.balloonModel.other;
+                balloonLabel = this.otherAccessibleName;
+              }
+
+              inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
+            }
+          }
+          else {
+            inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
+          }
+
+          // wrap induced charge string with punctuation
+          inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
+
+          chargeString = StringUtils.fillIn( wallRubAllPatternString, {
+            inducedCharge: inducedChargeString
+          } );
+        }
+        else {
+          var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, this.model.getBalloonsAdjacent(), wallVisible, shownCharges );
+          var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
+
+          // balloon charge doesn't include punctuation
+          balloonChargeString = StringUtils.fillIn( singleStatementPatternString, {
+            statement: balloonChargeString
+          } );
+
+          wallChargeString = StringUtils.fillIn( singleStatementPatternString, {
+            statement: wallChargeString
+          } );
+
+          // if balloons are adjacent, the relative charge description for both balloons must be included
+          if ( this.model.getBalloonsAdjacent() ) {
+            balloonChargeString = this.getCombinedRelativeChargeDescription();
+            balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
+
+            chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
+              balloonCharge: balloonChargeString,
+              wallCharge: wallChargeString
+            } );
+          }
+          else {
+            chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
+              balloonCharge: balloonChargeString,
+              wallCharge: wallChargeString
+            } );
           }
         }
-        else {
-          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
-        }
 
-        // wrap induced charge string with punctuation
-        inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
-
-        patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'balloonCharge', 'wallCharge' ] );
-        descriptionString = StringUtils.fillIn( patternString, {
+        // combine charge and location portions of the description for 'all' and 'diff' charge views
+        descriptionString = StringUtils.fillIn( wallRubPatternString, {
           location: atLocationString,
-          transfer: wallNoTransferOfChargeString,
-          inducedCharge: inducedChargeString
+          charge: chargeString
         } );
-      }
-      else {
-        var wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, this.model.getBalloonsAdjacent(), wallVisible, shownCharges );
-        var balloonChargeString = BalloonDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
-
-        // balloon charge doesn't include punctuation
-        balloonChargeString = StringUtils.fillIn( singleStatementPatternString, {
-          statement: balloonChargeString
-        } );
-
-        wallChargeString = StringUtils.fillIn( singleStatementPatternString, {
-          statement: wallChargeString
-        } );
-
-        // if balloons are adjacent, the relative charge description for both balloons must be included
-        if ( this.model.getBalloonsAdjacent() ) {
-          balloonChargeString = this.getCombinedRelativeChargeDescription();
-          balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
-
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge' ] );
-          descriptionString = StringUtils.fillIn( patternString, {
-            location: atLocationString,
-            balloonCharge: balloonChargeString,
-            wallCharge: wallChargeString
-          } );
-        }
-        else {
-          patternString = BASEA11yStrings.stripPlaceholders( patternString, [ 'transfer', 'inducedCharge' ] );
-          descriptionString = StringUtils.fillIn( patternString, {
-            location: atLocationString,
-            balloonCharge: balloonChargeString,
-            wallCharge: wallChargeString
-          } );
-        }
       }
 
       return descriptionString;

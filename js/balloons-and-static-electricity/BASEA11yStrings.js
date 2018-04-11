@@ -421,9 +421,6 @@ define( function( require ) {
     wallNoNetCharge: {
       value: 'Has zero net charge'
     },
-    wallNoTransferOfCharge: {
-      value: 'No transfer of charge.'
-    },
     wallHasManyCharges: {
       value: 'Wall has many pairs of negative and positive charges.'
     },
@@ -442,8 +439,14 @@ define( function( require ) {
     wallChargePatternStringWithLabel: {
       value: 'Wall {{wallCharge}}'
     },
-    wallRubbingPattern: {
-      value: '{{location}} {{balloonCharge}} {{wallCharge}} {{transfer}} {{inducedCharge}}'
+    wallRubPattern: {
+      value: '{{location}} {{charge}}'
+    },
+    wallRubAllPattern: {
+      value: 'No transfer of charge. {{inducedCharge}}'
+    },
+    wallRubDiffPattern: {
+      value: '{{balloonCharge}} {{wallCharge}}'
     },
     wallRubbingWithPairsPattern: {
       value: '{{rubbingAlert}} Wall has many pairs of negative and positive charges.'
