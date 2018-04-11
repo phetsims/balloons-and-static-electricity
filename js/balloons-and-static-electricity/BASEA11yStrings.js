@@ -250,8 +250,8 @@ define( function( require ) {
     //------------------------------------------------------------------------
     // Scene summary strings
     //------------------------------------------------------------------------
-    openingSummary: {
-      value: 'This is an interactive sim. Descriptions change as you play with it. It has a Play Area and a Control Panel. The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
+    openingSummaryPattern: {
+      value: '{{overview}} The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
     },
 
     // objects for the scene summary
@@ -306,7 +306,7 @@ define( function( require ) {
     initialObjectLocations: {
       value: 'Yellow balloon is at center of Play Area, evenly between sweater and wall. Sweater is at far left, wall at far right.'
     },
-    
+
     // general charge information for the scene summary
     summaryObjectHasChargePattern: {
       value: '{{object}} has {{charge}} net charge'

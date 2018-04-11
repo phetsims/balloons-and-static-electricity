@@ -22,6 +22,7 @@ define( function( require ) {
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -30,7 +31,6 @@ define( function( require ) {
 
   // a11y strings
   var sceneSummaryString = JoistA11yStrings.sceneSummary.value;
-  var openingSummaryString = BASEA11yStrings.openingSummary.value;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
   var andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
   var aSweaterString = BASEA11yStrings.aSweater.value;
@@ -55,6 +55,8 @@ define( function( require ) {
   var summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
   var summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
   var initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
+  var openingSummaryPatternString = BASEA11yStrings.openingSummaryPattern.value;
+  var sceneSummarySingleScreenIntro = SceneryPhetA11yStrings.sceneSummarySingleScreenIntro.value;
 
   /**
    * @constructor
@@ -85,7 +87,10 @@ define( function( require ) {
     this.wall = model.wall;
 
     // opening paragraph for the simulation
-    var openingSummaryNode = new Node( { tagName: 'p', innerContent: openingSummaryString } );
+    var openingString = StringUtils.fillIn( openingSummaryPatternString, {
+      overview: sceneSummarySingleScreenIntro
+    } );
+    var openingSummaryNode = new Node( { tagName: 'p', innerContent: openingString } );
     this.addChild( openingSummaryNode );
 
     // list of dynamic description content that will update with the state of the simulation
@@ -152,7 +157,7 @@ define( function( require ) {
 
         objectLocationsNode.accessibleVisible = initialValues;
       }
-    )
+    );
   }
 
   balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
