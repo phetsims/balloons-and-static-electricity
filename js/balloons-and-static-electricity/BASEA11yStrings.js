@@ -921,39 +921,6 @@ define( function( require ) {
     },
 
     /**
-     * Just testing to  see if this is a decent way to manipulate string patterns in this sim.
-     *
-     * @param {string} patternString - the pattern string we want to strip placeholders out of
-     * @param {string[]} placeholders - array of strings indicating which strings to remove
-     */
-    stripPlaceholders: function( patternString, placeholders ) {
-      var newPattern = patternString;
-      for ( var i = 0; i < placeholders.length; i++ ) {
-        newPattern = _.replace( newPattern, '{{' + placeholders[ i ] + '}}', '' );
-        // assert && assert( patternString.includes( placeholders[ i ] ) );
-        // newPattern = newPattern.replace( '{{' + placeholders[ i ] + '}}', '' );
-      }
-
-      // remove any punctuation that might have been introduced by stripping placeholders
-      while( newPattern.indexOf( ' .' ) >= 0 ) {
-        newPattern = _.replace( newPattern, ' .', '' );
-        console.log( newPattern.indexOf( ' .' ) );
-      }
-
-      // remove double spaces that might have been introduced when stripping out placeholders
-      while ( newPattern.indexOf( '  ' ) >= 0 ) {
-        newPattern = _.replace( newPattern, '  ', ' ' );
-      }
-
-      // remove trailing spaces
-      if ( newPattern[newPattern.length - 1] === ' ' ) {
-        newPattern = newPattern.slice( 0, -1 );
-      }
-
-      return newPattern;
-    },
-
-    /**
      * Take a sentence fragment, and turn it into a sentence by adding a period to the end. This will add consistency
      * for string patterns. Many strings can be used on their own as a sentence, or can be embedded with other content
      * to form a full sentence. In general, string patterns that assemble sentences will not use punctuation, but this
@@ -968,7 +935,7 @@ define( function( require ) {
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
-    var whiteList = [ BASEA11yStrings.stripPlaceholders, BASEA11yStrings.fragmentToSentence ];
+    var whiteList = [ BASEA11yStrings.stripPlaceholders ];
     for ( var key in BASEA11yStrings ) {
       if ( !_.includes( whiteList, BASEA11yStrings[ key ] ) ) {
         BASEA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
