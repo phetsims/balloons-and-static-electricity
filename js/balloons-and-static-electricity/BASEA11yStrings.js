@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   var BASEA11yStrings = {
 
@@ -918,19 +917,6 @@ define( function( require ) {
     },
     jumpstoCenterDescription: {
       value: 'Jump to center with J plus C.'
-    },
-
-    /**
-     * Take a sentence fragment, and turn it into a sentence by adding a period to the end. This will add consistency
-     * for string patterns. Many strings can be used on their own as a sentence, or can be embedded with other content
-     * to form a full sentence. In general, string patterns that assemble sentences will not use punctuation, but this
-     * function can be used to assemble sentences.
-     *
-     * @param {string} fragment
-     * @return {string}
-     */
-    fragmentToSentence: function( fragment ) {
-      return StringUtils.fillIn( BASEA11yStrings.singleStatementPattern.value, { statement: fragment } );
     }
   };
 
