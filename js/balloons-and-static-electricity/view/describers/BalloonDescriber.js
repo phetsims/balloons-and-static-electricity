@@ -543,7 +543,9 @@ define( function( require ) {
         attractiveStateAndLocation: location
       } );
 
-      return BASEA11yStrings.fragmentToSentence( alert );
+      return StringUtils.fillIn( singleStatementPatternString, {
+        statement: alert
+      } );
     },
 
     /**
@@ -631,7 +633,9 @@ define( function( require ) {
 
       // attractive state and location is described for every charge view, it is a single sentence in this use case
       var stateAndLocation = this.getOnLocationDescription();
-      stateAndLocation = BASEA11yStrings.fragmentToSentence( stateAndLocation );
+      stateAndLocation = StringUtils.fillIn( singleStatementPatternString, {
+        statement: stateAndLocation
+      } );
 
       // get a description of the relative charge of the grabbed balloon, and possibly the other relative charge
       // of the other balloon if visible
@@ -1117,7 +1121,9 @@ define( function( require ) {
         object: nearestObjectString
       } );
 
-      return BASEA11yStrings.fragmentToSentence( alert );
+      return StringUtils.fillIn( singleStatementPatternString, {
+        statement: alert
+      } );
     },
 
     /**
@@ -1210,7 +1216,9 @@ define( function( require ) {
       var atLocationString = StringUtils.fillIn( balloonAtLocationPatternString, {
         location: locationString
       } );
-      atLocationString = BASEA11yStrings.fragmentToSentence( atLocationString );
+      atLocationString = StringUtils.fillIn( singleStatementPatternString, {
+        statement: atLocationString
+      } );
 
       var shownCharges = this.showChargesProperty.get();
       var wallVisible = this.wall.isVisibleProperty.get();
@@ -1501,7 +1509,9 @@ define( function( require ) {
       if ( chargesShown === 'none' ) {
 
         // if no charges are shown, just describe position of balloon as a complete sentence
-        alert = BASEA11yStrings.fragmentToSentence( balloonLocationString );
+        alert = StringUtils.fillIn( singleStatementPatternString, {
+          statement: balloonLocationString
+        } );
       }
       else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
 
