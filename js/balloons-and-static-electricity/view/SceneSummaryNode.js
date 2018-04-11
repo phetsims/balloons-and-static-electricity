@@ -37,7 +37,6 @@ define( function( require ) {
   var andASweaterString = BASEA11yStrings.andASweater.value;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPattern.value;
   var checkOutShortcutsString = JoistA11yStrings.checkOutShortcuts.value;
-  var summaryObjectsString = BASEA11yStrings.summaryObjects.value;
   var aYellowBalloonString = BASEA11yStrings.aYellowBalloon.value;
   var aGreenBalloonString = BASEA11yStrings.aGreenBalloon.value;
   var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePattern.value;
@@ -51,6 +50,10 @@ define( function( require ) {
   var summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPattern.value;
   var summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPattern.value;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  var summaryYellowGreenSweaterWallPatternString = BASEA11yStrings.summaryYellowGreenSweaterWallPattern.value;
+  var summaryYellowGreenSweaterPatternString = BASEA11yStrings.summaryYellowGreenSweaterPattern.value;
+  var summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
+  var summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
 
   /**
    * @constructor
@@ -328,13 +331,15 @@ define( function( require ) {
      * @return {string}
      */
     getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
-      var placeholdersToRemove = [];
-      !wallVisible && placeholdersToRemove.push( 'wall' );
-      !balloonVisible && placeholdersToRemove.push( 'greenBalloon' );
+      var patternString;
+      if ( wallVisible ) {
+        patternString = balloonVisible ? summaryYellowGreenSweaterWallPatternString : summaryYellowSweaterWallPatternString;
+      }
+      else {
+        patternString = balloonVisible ? summaryYellowGreenSweaterPatternString : summaryYellowSweaterPatternString;
+      }
 
       var sweaterString = wallVisible ? aSweaterString : andASweaterString;
-
-      var patternString = BASEA11yStrings.stripPlaceholders( summaryObjectsString, placeholdersToRemove );
       var descriptionString = StringUtils.fillIn( patternString, {
         yellowBalloon: aYellowBalloonString,
         greenBalloon: aGreenBalloonString,

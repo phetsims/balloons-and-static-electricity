@@ -274,8 +274,17 @@ define( function( require ) {
     andARemovableWall: {
       value: 'and a removable wall'
     },
-    summaryObjects: {
+    summaryYellowGreenSweaterWallPattern: {
       value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}} {{wall}}'
+    },
+    summaryYellowGreenSweaterPattern: {
+      value: '{{yellowBalloon}} {{greenBalloon}} {{sweater}}'
+    },
+    summaryYellowSweaterWallPattern: {
+      value: '{{yellowBalloon}} {{sweater}} {{wall}}'
+    },
+    summaryYellowSweaterPattern: {
+      value: '{{yellowBalloon}} {{sweater}}'
     },
     inducedChargePattern: {
       value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}'
