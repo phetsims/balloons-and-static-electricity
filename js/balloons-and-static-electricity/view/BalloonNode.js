@@ -332,8 +332,9 @@ define( function( require ) {
             }
 
             // describe the change in induced charge due to balloon movement
-            if ( self.describer.describeInducedChargeChange() ) {
-              if ( self.describer.describeInducedChargeChange() ) {
+            // TODO: Why is this duplicated?
+            if ( self.describer.chargeDescriber.describeInducedChargeChange() ) {
+              if ( self.describer.chargeDescriber.describeInducedChargeChange() ) {
                 var wallVisible = globalModel.wall.isVisibleProperty.get();
 
                 var descriptionString;
@@ -343,7 +344,7 @@ define( function( require ) {
                   descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, accessibleLabelString, wallVisible );
                 }
                 else {
-                  descriptionString = self.describer.getInducedChargeChangeDescription();
+                  descriptionString = self.describer.chargeDescriber.getInducedChargeChangeDescription();
                 }
 
                 utteranceQueue.addToBack( new Utterance( descriptionString, { typeId: 'inducedChargeChange' } ) );
@@ -761,11 +762,7 @@ define( function( require ) {
 
       // reset forces in tracked values in describer that determine description for induced charge change
       // TODO: Put in a "jumped emitter"?
-      this.describer.resetReferenceForces();
-    },
-
-    getPositionOnSweaterDescription: function() {
-      return 'Please implement this function or delete.';
+      this.describer.chargeDescriber.resetReferenceForces();
     },
 
     /**

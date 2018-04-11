@@ -206,8 +206,8 @@ define( function( require ) {
       var yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
       var greenChargeRange = BASEDescriber.getDescribedChargeRange( this.greenBalloon.chargeProperty.get() );
 
-      var yellowRelativeCharge = this.yellowBalloonDescriber.getSummaryRelativeChargeDescription();
-      var yellowNetCharge = this.yellowBalloonDescriber.getNetChargeDescriptionWithLabel();
+      var yellowRelativeCharge = this.yellowBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
+      var yellowNetCharge = this.yellowBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
 
       if ( !this.greenBalloon.isVisibleProperty.get() ) {
         description = StringUtils.fillIn( summaryBalloonChargePatternString, {
@@ -228,8 +228,8 @@ define( function( require ) {
       else {
 
         // both balloons visible with different amounts of relative charge
-        var greenRelativeCharge = this.greenBalloonDescriber.getSummaryRelativeChargeDescription();
-        var greenNetCharge = this.greenBalloonDescriber.getNetChargeDescriptionWithLabel();
+        var greenRelativeCharge = this.greenBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
+        var greenNetCharge = this.greenBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
 
         var yellowBalloonDescription = StringUtils.fillIn( summaryBalloonChargePatternString, {
           balloonCharge: yellowNetCharge,
