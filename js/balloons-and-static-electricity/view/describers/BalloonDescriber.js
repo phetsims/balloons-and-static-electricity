@@ -29,9 +29,7 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // a11y strings
-  var balloonButtonHelpString = BASEA11yStrings.balloonButtonHelp.value;
   var balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
-  var balloonDescriptionWithHelpPatternString = BASEA11yStrings.balloonDescriptionWithHelpPattern.value;
   var balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPattern.value;
   var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
   var balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPattern.value;
@@ -194,10 +192,7 @@ define( function( require ) {
         } );
       }
 
-      return StringUtils.fillIn( balloonDescriptionWithHelpPatternString, {
-        description: description,
-        help: balloonButtonHelpString
-      } );
+      return description;
     },
 
     /**

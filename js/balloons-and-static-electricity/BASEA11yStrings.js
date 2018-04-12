@@ -519,16 +519,13 @@ define( function( require ) {
       value: 'Grab balloon to play.'
     },
     grabBalloonHelp: {
-      value: 'Get ready to move balloon. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
+      value: 'Look for grab button to play. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
     },
     balloonLocationAttractiveStatePattern: {
       value: '{{attractiveState}} {{location}}'
     },
     balloonShowAllChargesPattern: {
       value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
-    },
-    balloonDescriptionWithHelpPattern: {
-      value: '{{description}} {{help}}'
     },
     balloonLabelWithAttractiveStatePattern: {
       value: '{{balloonLabel}}, {{attractiveStateAndLocation}}'
