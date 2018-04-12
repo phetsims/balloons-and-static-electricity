@@ -873,33 +873,6 @@ define( function( require ) {
     //--------------------------------------------------------------------------
     // Keyboard shortcuts help content strings
     //--------------------------------------------------------------------------
-    grabOrReleaseBalloonHeading: {
-      value: 'Grab or Release Balloon'
-    },
-    grabOrReleaseBalloonLabel: {
-      value: 'Grab or release balloon'
-    },
-    moveOrJumpGrabbedBalloonHeading: {
-      value: 'Move or Jump Grabbed Balloon'
-    },
-    moveGrabbedBalloonLabel: {
-      value: 'Move grabbed balloon'
-    },
-    moveSlowerLabel: {
-      value: 'Move slower'
-    },
-    jumpsCloseToSweater: {
-      value: 'Jump close to sweater'
-    },
-    jumpsCloseToWall: {
-      value: 'Jump to wall'
-    },
-    jumpsNearWall: {
-      value: 'Jump to near wall'
-    },
-    jumpsToCenter: {
-      value: 'Jump to center'
-    },
     grabOrReleaseBalloonDescription: {
       value: 'Grab or release the balloon with Space or Enter keys.'
     },

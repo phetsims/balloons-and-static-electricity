@@ -22,16 +22,18 @@ define( function( require ) {
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // strings
+  var grabOrReleaseBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabOrReleaseBalloonHeading' );
+  var grabOrReleaseBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabOrReleaseBalloonLabel' );
+  var moveOrJumpGrabbedBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveOrJumpGrabbedBalloonHeading' );
+  var moveGrabbedBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveGrabbedBalloonLabel' );
+  var moveSlowerLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveSlowerLabel' );
+  var jumpsCloseToSweaterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsCloseToSweater' );
+  var jumpsCloseToWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsCloseToWall' );
+  var jumpsNearWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsNearWall' );
+  var jumpsToCenterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsToCenter' );
+
   // a11y strings
-  var grabOrReleaseBalloonHeadingString = BASEA11yStrings.grabOrReleaseBalloonHeading.value;
-  var grabOrReleaseBalloonLabelString = BASEA11yStrings.grabOrReleaseBalloonLabel.value;
-  var moveOrJumpGrabbedBalloonHeadingString = BASEA11yStrings.moveOrJumpGrabbedBalloonHeading.value;
-  var moveGrabbedBalloonLabelString = BASEA11yStrings.moveGrabbedBalloonLabel.value;
-  var moveSlowerLabelString = BASEA11yStrings.moveSlowerLabel.value;
-  var jumpsCloseToSweaterString = BASEA11yStrings.jumpsCloseToSweater.value;
-  var jumpsCloseToWallString = BASEA11yStrings.jumpsCloseToWall.value;
-  var jumpsNearWallString = BASEA11yStrings.jumpsNearWall.value;
-  var jumpsToCenterString = BASEA11yStrings.jumpsToCenter.value;
   var grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
   var moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
   var moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
