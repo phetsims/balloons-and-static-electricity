@@ -72,7 +72,8 @@ define( function( require ) {
 
     Panel.call( this, content, {
       stroke: null,
-      fill: 'rgb( 214, 237, 249 )'
+      fill: 'rgb( 214, 237, 249 )',
+      maxWidth: 700 // i18n, about the width of the screen
     } );
 
     // the reading order for screen readers
