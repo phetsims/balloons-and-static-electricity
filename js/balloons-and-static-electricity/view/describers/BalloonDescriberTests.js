@@ -34,14 +34,14 @@ define( function( require ) {
 
     // on load
     var actualDescription = balloonNode.descriptionContent;
-    var expectedDescription = 'At center of Play Area. Has zero net charge, no more negative charges than positive charges. Look for grab button to play.';
+    var expectedDescription = 'At center of Play Area. Has zero net charge, no more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // balloon at upper wall with several more negative charges than positive, all charges shown
     model.yellowBalloon.chargeProperty.set( -30 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_TOP ) );
     actualDescription = balloonNode.descriptionContent;
-    expectedDescription = 'At upper wall. Has negative net charge, several more negative charges than positive charges. Look for grab button to play.';
+    expectedDescription = 'At upper wall. Has negative net charge, several more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // balloon neutral on upper right arm of sweater with max charge, all charges shown
@@ -49,7 +49,7 @@ define( function( require ) {
     model.sweater.chargeProperty.set( BASEConstants.MAX_BALLOON_CHARGE );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_ARM.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     actualDescription = balloonNode.descriptionContent;
-    expectedDescription = 'On right shoulder of sweater. Has zero net charge, no more negative charges than positive charges. Look for grab button to play.';
+    expectedDescription = 'On right shoulder of sweater. Has zero net charge, no more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // showing no charges, only location should be described
@@ -58,21 +58,21 @@ define( function( require ) {
     model.yellowBalloon.chargeProperty.set( -15 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
     actualDescription = balloonNode.descriptionContent;
-    expectedDescription = 'At lower wall. Look for grab button to play.';
+    expectedDescription = 'At lower wall.';
     assert.equal( actualDescription, expectedDescription );
 
     // neutral balloon in center of play area, showing charge differences
     model.reset();
     model.showChargesProperty.set( 'diff' );
     actualDescription = balloonNode.descriptionContent;
-    expectedDescription = 'At center of Play Area. Has zero net charge, showing no charges. Look for grab button to play.';
+    expectedDescription = 'At center of Play Area. Has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // Sticking to upper-left side of sweater with negative charge, showing charge differences
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.COLUMN_RANGES.LEFT_SIDE_OF_SWEATER.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.yellowBalloon.chargeProperty.set( -30 );
     actualDescription = balloonNode.descriptionContent;
-    expectedDescription = 'Sticking to upper-left side of sweater. Has negative net charge, showing several negative charges. Look for grab button to play.';
+    expectedDescription = 'Sticking to upper-left side of sweater. Has negative net charge, showing several negative charges.';
     assert.equal( actualDescription, expectedDescription );
   } );
 
