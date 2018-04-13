@@ -105,7 +105,6 @@ define( function( require ) {
       // a11y
       tagName: 'input',
       inputType: 'checkbox',
-      labelTagName: 'label',
       appendDescription: true
     }, options );
 
