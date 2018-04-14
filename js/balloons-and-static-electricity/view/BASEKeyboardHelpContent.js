@@ -100,7 +100,8 @@ define( function( require ) {
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
     var labelWithContent = HelpContent.labelWithIcon( label, icons, {
       iconOptions: {
-        innerContent: grabOrReleaseBalloonDescriptionString
+        tagName: 'p', // it is the only item so it is a p rather than an li
+        innerContent: grabOrReleaseBalloonDescriptionString,
       }
     } );
 
