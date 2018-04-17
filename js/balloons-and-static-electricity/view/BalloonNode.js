@@ -36,7 +36,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Timer = require( 'PHET_CORE/Timer' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
@@ -137,6 +136,10 @@ define( function( require ) {
     // @private {boolean} - every time we drag, mark this as dirty so we know to describe a lack of charge pick up
     // on the sweater. Once this rub has been described, set to false
     this.rubAlertDirty = false;
+
+    // @private {boolean} - When moving to the front, this node will be blurred because the DOM is being reordered. In
+    // this case, we want to prevent behavior of the blur listeners that release the balloon
+    this.movingToFront = false;
 
     var originalChargesNode = new Node( {
       pickable: false,
@@ -566,15 +569,8 @@ define( function( require ) {
         // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
         // it up immediately again
         if ( !releasedWithEnter ) {
-
-          // make focusable
           accessibleDragNode.accessibleVisible = true;
-
-          // focus, but behind a short delay so that JAWS correctly enters 'forms' mode when picking up
-          // the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/293
-          Timer.setTimeout( function() {
-            accessibleDragNode.focus();
-          }, 100 );
+          accessibleDragNode.focus();
 
           // the balloon is picked up for dragging
           model.isDraggedProperty.set( true );
@@ -625,12 +621,15 @@ define( function( require ) {
         self.dragNodeFocusedEmitter.emit();
       },
       blur: function( event ) {
-        endDragListener();
+        if ( !self.movingToFront ) {
+          endDragListener();
 
-        // the draggable node should no longer be focusable
-        accessibleDragNode.accessibleVisible = false;
+          // the draggable node should no longer be focusable
+          accessibleDragNode.accessibleVisible = false;
 
-        self.dragNodeBlurredEmitter.emit();
+          self.dragNodeBlurredEmitter.emit();
+
+        }
       }
     } );
 
