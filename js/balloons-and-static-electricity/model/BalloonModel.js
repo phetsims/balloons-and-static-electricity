@@ -204,6 +204,12 @@ define( function( require ) {
 
     //------------------------------------------------
     
+    // @private - array of instantaneous velocity of balloon last 5 ticks
+    // then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
+    // TODO: Why is a property assigned to the array?
+    this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
+    this.xVelocityArray.counter = 0;
+    
     // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a location in the play
     // area without dragging or an applied force
     this.jumping = false;
@@ -585,8 +591,7 @@ define( function( require ) {
     },
 
     /**
-     * Returns whether or not this balloon has any charge.  Just a helper function to avoid directly
-     * getting the Property value everywhere.
+     * Returns whether or not this balloon has any charge. Just a helper function for convenience and readability.
      * @public
      * @return {boolean}
      */
@@ -605,20 +610,23 @@ define( function( require ) {
       return this.isVisibleProperty.get() && this.inducingChargeProperty.get();
     },
 
-    //reset balloon to initial state
+    /**
+     * Reset balloons to initial position and uncharged state. By default, this will also reset visibility.
+     *
+     * @param {boolean} notResetVisibility - if true, visibility will NOT be reset
+     */
     reset: function( notResetVisibility ) {
-      //array of instantaneous velocity of balloon last 5 ticks
-      //then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
       this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.xVelocityArray.counter = 0;
       assert && assert( this.xVelocityArray.length = VELOCITY_ARRAY_LENGTH, 'velocity array incorrectly initialized' );
+
       this.yVelocityArray = [ 0, 0, 0, 0, 0 ];
       this.yVelocityArray.counter = 0;
       assert && assert( this.yVelocityArray.length = VELOCITY_ARRAY_LENGTH, 'velocity array incorrectly initialized' );
+
       this.chargeProperty.reset();
       this.velocityProperty.reset();
       this.locationProperty.reset();
-
       if ( !notResetVisibility ) {
         this.isVisibleProperty.reset();
       }
