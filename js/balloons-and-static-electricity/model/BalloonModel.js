@@ -112,7 +112,7 @@ define( function( require ) {
     [ 34, 77 ]
   ];
 
-  // determine average the Y position for the charges in the balloon
+  // determine average Y position for the charges in the balloon
   var positionYSum = 0;
   for ( var i = 0; i < POSITIONS.length; i++ ) {
     positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
@@ -181,16 +181,16 @@ define( function( require ) {
     // @public {boolean} - whether or not the balloon is on the sweater
     this.onSweaterProperty = new Property( false );
 
-    // @public {boolean}
+    // @public {boolean} - whether or not the balloon is touching the wall
     this.touchingWallProperty = new Property( false );
 
-    // @public {boolean} - whether or not the balloon is 'very close' to the sweaters
+    // @public {boolean} - whether or not the balloon is 'very close' to the sweater
     this.atNearSweaterProperty = new Property( false );
 
-    // @private string - the current row of the play area for the balloon
+    // @private string - the current column of the play area the balloon is in
     this.playAreaColumnProperty = new Property( null );
 
-    // @private string - the current column of the play area for the balloon
+    // @private string - the current row of the play area that the balloon is in
     this.playAreaRowProperty = new Property( null );
 
     // @private {string|null} - if the balloon is in a landmark location, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
@@ -202,11 +202,11 @@ define( function( require ) {
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
     this.inducingChargeProperty = new Property( false );
 
+    //------------------------------------------------
+    
     // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a location in the play
     // area without dragging or an applied force
     this.jumping = false;
-
-    //------------------------------------------------
 
     // @public (read-only) dimensions of the balloon
     this.width = BALLOON_WIDTH;
@@ -215,15 +215,15 @@ define( function( require ) {
     // @public {MovablePointChargeModel} - the closest minus charge to the balloon which is in the wall
     this.closestChargeInWall = null;
 
-    // @private (a11y) - the amount of time that has passed since balloon has been released
+    // @public - the amount of time that has passed since balloon has been released
     this.timeSinceRelease = 0; // in ms
 
     // @public (read-only) - the old location of the balloon, used throughout the model and view to calculate
     // changes in position
     this.oldLocation = this.locationProperty.get().copy();
 
-    // @private (a11y) {Vector2|null} - copy of the balloon position when balloon is released, null until
-    // the balloon is  during user interaction
+    // @private {Vector2|null} - copy of the balloon position when balloon is released, null until there is some
+    // interaction with the balloon
     this.locationOnRelease = null;
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
@@ -236,9 +236,6 @@ define( function( require ) {
 
     // @public - will emit an event when the balloon is reset
     this.resetEmitter = new Emitter();
-
-    // @public - will emit when the user has completed an interaction with the balloon
-    this.interactionEndEmitter = new Emitter();
 
     this.initialLocation = this.locationProperty.initialValue;
     this.plusCharges = [];
