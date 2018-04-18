@@ -248,11 +248,11 @@ define( function( require ) {
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( function( entry ) {
-      //plus
+
       var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
       self.plusCharges.push( plusCharge );
 
-      //minus
+      // minus charges at same location of positive charge, shifted down and to the right by charge radius
       var minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
@@ -262,9 +262,8 @@ define( function( require ) {
       self.minusCharges.push( minusCharge );
     } );
 
-    //charges that we can get from sweater
+    // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( function( entry ) {
-      //minus
       var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
       self.minusCharges.push( minusCharge );
     } );
