@@ -314,58 +314,11 @@ define( function( require ) {
 
     /**
      * Return true if the balloon is near the wall without touching it, and the wall is visible.
-     *
+     * @public
      * @returns {boolean}
      */
     nearWall: function() {
       return PlayAreaMap.LANDMARK_RANGES.AT_NEAR_WALL.contains( this.getCenter().x );
-    },
-
-    /**
-     * findClosestCharge - description
-     *
-     * @returns {type}  description
-     */
-    getClosestCharge: function() {
-
-      // find the closest charge to the balloon that has not yet been picked up
-      var sweater = this.balloonsAndStaticElectricityModel.sweater;
-
-      // the closest charge is described relative to the center of this rectangle
-      // which is what is used to pick up charges
-      var balloonLocation = this.locationProperty.get();
-      var x1 = balloonLocation.x - 5;
-      var x2 = balloonLocation.x + 50;
-      var y1 = balloonLocation.y - 10;
-      var y2 = balloonLocation.y + this.height + 10;
-      var centerX = ( x1 + x2 ) / 2;
-      var centerY = ( y1 + y2 ) / 2;
-
-      // loop through the charges to find the next closest one
-      var difference = new Vector2( 0, 0 ); // allocated once to avoid burden to memory
-      var minDistance = Number.POSITIVE_INFINITY;
-      var closestCharge;
-      for ( var i = 0; i < sweater.minusCharges.length; i++ ) {
-
-        var charge = sweater.minusCharges[ i ];
-
-        // if the charge has been moved already, skip it
-        if ( charge.movedProperty.get() ) {
-          continue;
-        }
-
-        var distX = charge.location.x - centerX;
-        var distY = charge.location.y - centerY;
-        difference.setXY( distX, distY );
-
-        if ( difference.magnitude() < minDistance ) {
-          minDistance = difference.magnitude();
-          closestCharge = charge;
-        }
-      }
-
-      assert && assert( closestCharge, 'Tried to find closest charge when no more charges remain on sweater.' );
-      return closestCharge;
     },
 
     /**
