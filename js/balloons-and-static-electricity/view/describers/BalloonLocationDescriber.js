@@ -830,7 +830,7 @@ define( function( require ) {
       return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max;
     },
 
-        /**
+    /**
      * Get an alert that indicates that the balloon has been grabbed for dragging. Will compose
      * a description containing charge information, location information, and help for how
      * to interact with balloon. Amount of charge information will depend on charge visibility

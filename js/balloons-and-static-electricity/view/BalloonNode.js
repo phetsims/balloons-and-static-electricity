@@ -796,7 +796,7 @@ define( function( require ) {
     },
 
     getDragBounds: function() {
-      var modelBounds = this.globalModel.bounds;
+      var modelBounds = this.globalModel.playAreaBounds;
       var balloonWidth = this.model.width;
       var balloonHeight = this.model.height;
       return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );

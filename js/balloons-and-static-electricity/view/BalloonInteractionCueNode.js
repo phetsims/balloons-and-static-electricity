@@ -98,7 +98,7 @@ define( function( require ) {
       var maxX;
       var centerXBoundary;
       if ( model.wall.isVisibleProperty.get() ) {
-        maxX = model.bounds.width;
+        maxX = model.playAreaBounds.width;
         centerXBoundary = PlayAreaMap.X_LOCATIONS.AT_WALL;
       }
       else {

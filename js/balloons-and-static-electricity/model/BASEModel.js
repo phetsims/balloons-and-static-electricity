@@ -54,7 +54,7 @@ define( function( require ) {
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
     // @public
-    this.bounds = new Bounds2( 0, 0, width - this.wallWidth, height );
+    this.playAreaBounds = new Bounds2( 0, 0, width - this.wallWidth, height );
 
     this.yellowBalloon = new BalloonModel( 440, 100, this, true, tandem.createTandem( 'yellowBalloon' ) );
     this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
@@ -70,7 +70,7 @@ define( function( require ) {
 
       // update the model bounds
       var newWidth = isVisible ? width - self.wallWidth : width;
-      self.bounds.setMaxX( newWidth );
+      self.playAreaBounds.setMaxX( newWidth );
     } );
 
     // when the balloon locations change, update the closest charge in the wall
@@ -173,7 +173,7 @@ define( function( require ) {
       var isOutBounds = false;
 
       // if wall visible, right bound will be smaller by width of wall
-      var rightBound = this.bounds.width;
+      var rightBound = this.playAreaBounds.width;
 
       //if more than maxRight position - set maxRight position
       if ( position.x + objWidth > rightBound ) {

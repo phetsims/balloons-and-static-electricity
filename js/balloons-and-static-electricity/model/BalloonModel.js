@@ -376,7 +376,7 @@ define( function( require ) {
      * @return {boolean}
      */
     rightAtWallLocation: function() {
-      this.this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+      this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
     },
 
     /**
@@ -811,7 +811,7 @@ define( function( require ) {
       var model = this.balloonsAndStaticElectricityModel;
       if ( !this.centerInSweaterChargedArea() ) {
 
-        var rightBound = model.bounds.maxX;
+        var rightBound = model.playAreaBounds.maxX;
         var force = this.getTotalForce();
         var newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
         var newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
@@ -822,20 +822,20 @@ define( function( require ) {
           newLocation.x = rightBound - this.width;
           newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
-        if ( newLocation.y + this.height >= model.bounds.maxY ) {
+        if ( newLocation.y + this.height >= model.playAreaBounds.maxY ) {
 
           // trying to go beyond bottom bound
-          newLocation.y = model.bounds.maxY - this.height;
+          newLocation.y = model.playAreaBounds.maxY - this.height;
           newVelocity.y = newVelocity.y > 0 ? 0 : newVelocity.y;
         }
-        if ( newLocation.x <= model.bounds.minX ) {
+        if ( newLocation.x <= model.playAreaBounds.minX ) {
 
           // trying to go  beyond left bound
-          newLocation.x = model.bounds.minX;
+          newLocation.x = model.playAreaBounds.minX;
           newVelocity.x = newVelocity.x < 0 ? 0 : newVelocity.x;
         }
-        if ( newLocation.y <= model.bounds.minY ) {
-          newLocation.y = model.bounds.minY;
+        if ( newLocation.y <= model.playAreaBounds.minY ) {
+          newLocation.y = model.playAreaBounds.minY;
           newVelocity.y = newVelocity.y < 0 ? 0 : newVelocity.y;
         }
 
