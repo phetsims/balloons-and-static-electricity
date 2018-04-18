@@ -322,25 +322,6 @@ define( function( require ) {
     },
 
     /**
-     * Center of a rectangular area that defines the bounds of the balloon
-     * that must drag acrosss the sweater to pick up a charge.
-     *
-     * @returns {Vector2}
-     */
-    getDraggingCenter: function() {
-      var balloonLocation = this.locationProperty.get();
-      var x1 = balloonLocation.x - 5;
-      var x2 = balloonLocation.x + 50;
-      var y1 = balloonLocation.y - 10;
-      var y2 = balloonLocation.y + this.height + 10;
-
-      var centerX = balloonLocation.x + ( ( x2 - x1 ) / 2 );
-      var centerY = balloonLocation.y + ( ( y2 - y1 ) / 2 );
-
-      return new Vector2( centerX, centerY );
-    },
-
-    /**
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
      * if its center is in the charged area.
      *
