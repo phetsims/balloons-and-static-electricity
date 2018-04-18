@@ -351,7 +351,6 @@ define( function( require ) {
               }
             }
 
-            oldPosition = self.model.locationProperty.get();
             self.chargeOnEnd = self.model.chargeProperty.get();
             self.rubAlertDirty = true;
           }
@@ -360,6 +359,9 @@ define( function( require ) {
           if ( self.model.jumping ) {
             self.model.jumping = false;
           }
+
+          // update the position since the previous end of drag
+          oldPosition = self.model.locationProperty.get();
         }
       }
     } );
