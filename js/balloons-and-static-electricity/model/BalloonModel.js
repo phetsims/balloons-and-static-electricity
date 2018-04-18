@@ -406,7 +406,7 @@ define( function( require ) {
     },
 
     /**
-     * Returns true if the balloon is touching the wall
+     * Returns true if the balloon is touching the wall.
      *
      * @returns {boolean}
      */
@@ -414,16 +414,6 @@ define( function( require ) {
       var atWall = this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
       var wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
       return ( atWall && wallVisible );
-    },
-
-    /**
-     * Returns true if the balloon is currently sticking to the wall. The balloon is sticking to the wall
-     * when it is charged, touching the wall, and not being dragged.
-     * @public
-     * @return {boolean}
-     */
-    stickingToWall: function() {
-      return ( this.chargeProperty.get() > 0 ) && this.touchingWall() && !this.isDraggedProperty.get();
     },
 
     /**
