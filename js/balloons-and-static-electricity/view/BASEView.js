@@ -15,7 +15,6 @@ define( function( require ) {
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  var BASEAudio = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEAudio' );
   var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
@@ -69,11 +68,6 @@ define( function( require ) {
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     var wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
-
-    // add sonification if enabled
-    if ( BASEQueryParameters.sonification ) {
-      this.audioView = new BASEAudio( model, tandem.createTandem( 'audioView' ) );
-    }
 
     // create a container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleSectionNode( playAreaString );

@@ -23,9 +23,6 @@ define( function( require ) {
     // showGrid - show the description grid, the grid that breaks up the play area into regions for location descriptions
     showGrid: { type: 'flag' },
 
-    // template sonification to get a feel for how this might work uses strategies very similar to john-travoltage
-    sonification: { type: 'flag' },
-
     // hide the radio button group responsible for toggling visibility of charges in the view
     hideChargeControls: { type: 'flag' },
 
