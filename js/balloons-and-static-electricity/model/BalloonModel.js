@@ -244,30 +244,6 @@ define( function( require ) {
     // @private {BASEMdodel}
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
-    // @private {boolean} - flag that indicates when the balloon is very near to the sweater
-    this.isNearSweater = false;
-
-    // @private {boolean} - flag that tracks if the balloon was previously very near to the sweater
-    this.previousIsNearSweater = false;
-
-    // @private {boolean} - flag that tracks if the balloon is very near to the wall
-    this.isNearWall = false;
-
-    // @private {boolean} - flag that tracks if the the balloon was previously very near the wall when position changes
-    this.previousIsNearWall = false;
-
-    // @public {read-only} - flag that tracks whether or not the balloon is touching the wall
-    this.isTouchingWall = false;
-
-    // @public {read-only} - flag that tracks whether or not the balloon was previously touching the wall when location chanves
-    this.previousIsTouchingWall = false;
-
-    // @private {boolean} - flag that tracks if the balloon is very near to the right edge
-    this.isNearRightEdge = false;
-
-    // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
-    this.previousIsNearRightEdge = false;
-
     // neutral pair of charges
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
     var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
@@ -307,22 +283,6 @@ define( function( require ) {
 
         // the direction from the old location to the newLocation
         self.directionProperty.set( BalloonModel.getDirection( location, oldLocation ) );
-
-        // update whether or not the balloon is very close to the sweater
-        self.previousIsNearSweater = self.isNearSweater;
-        self.isNearSweater = self.nearSweater();
-
-        // update whether or not balloon is very close to the wall
-        self.previousIsNearWall = self.isNearWall;
-        self.isNearWall = self.nearWall();
-
-        // update whether or not balloon is very close to the right edge of the play area
-        self.previousIsNearRightEdge = self.isNearRightEdge;
-        self.isNearRightEdge = self.nearRightEdge();
-
-        // update whether or not the balloon is sticking to the sweater
-        self.previousIsStickingToSweater = self.isStickingToSweater;
-        self.isStickingToSweater = self.stickingToSweater();
 
         // update whether or not the balloon is on the sweater
         if ( self.onSweater() !== self.onSweaterProperty.get() ) {
