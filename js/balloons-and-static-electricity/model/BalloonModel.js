@@ -417,15 +417,6 @@ define( function( require ) {
     },
 
     /**
-     * Get the distance from the center of this balloon to the wall.  Note that distances are all in ScreenView
-     * coordinates for this simulation
-     * @returns {number}
-     */
-    getDistanceToWall: function() {
-      return this.getCenter().x - this.balloonsAndStaticElectricityModel.playArea.atWall;
-    },
-
-    /**
      * Returns true if the balloon is moving horizontally, left or right.
      * @public
      * @return {string} - "LEFT"|"RIGHT"
