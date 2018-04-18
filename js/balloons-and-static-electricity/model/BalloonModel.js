@@ -801,39 +801,6 @@ define( function( require ) {
     },
 
     /**
-     * Get the object that the balloon is touching.  If the balloon is in free space, return null.
-     *
-     * @returns {string}
-     */
-    getBoundaryObject: function() {
-      var playArea = this.balloonsAndStaticElectricityModel.playArea;
-      var balloonCenter = this.getCenter();
-      var centerX = balloonCenter.x;
-      if ( !this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() && centerX === playArea.atRightEdgeOfPlayArea ) {
-        return BalloonLocationEnum.RIGHT_EDGE;
-      }
-      else if ( playArea.leftColumn.containsPoint( balloonCenter ) ) {
-        return BalloonLocationEnum.LEFT_EDGE;
-      }
-      else if ( playArea.topRow.containsPoint( balloonCenter ) ) {
-        return BalloonLocationEnum.TOP_EDGE;
-      }
-      else if ( playArea.bottomRow.containsPoint( balloonCenter ) ) {
-        return BalloonLocationEnum.BOTTOM_EDGE;
-      }
-      else if ( playArea.rightArmColumn.containsPoint( balloonCenter ) && this.directionProperty.get() === BalloonDirectionEnum.LEFT ) {
-        // only announce that we are on the sweater if we are moving left
-        return BalloonLocationEnum.ON_SWEATER;
-      }
-      else if ( playArea.atWall === centerX && this.balloonsAndStaticElectricityModel.wall.isVisible ) {
-        return BalloonLocationEnum.AT_WALL;
-      }
-      else {
-        return null;
-      }
-    },
-
-    /**
      * get a bounding rectangle
      * @returns {Bounds2}
      * @private
