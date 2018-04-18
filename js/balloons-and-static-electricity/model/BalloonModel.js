@@ -683,7 +683,7 @@ define( function( require ) {
       var vx = ( this.locationProperty.get().x - this.oldLocation.x ) / dt;
       var vy = ( this.locationProperty.get().y - this.oldLocation.y ) / dt;
 
-      //calculate average velocity
+      // calculate average velocity
       this.xVelocityArray[ this.xVelocityArray.counter++ ] = vx * vx;
       this.xVelocityArray.counter %= VELOCITY_ARRAY_LENGTH;
       this.yVelocityArray[ this.yVelocityArray.counter++ ] = vy * vy;

@@ -60,6 +60,7 @@ define( function( require ) {
   // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until just before we hit the right edge
   LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE = new Range( LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
 
+  // ranges that define columns in the play area
   var COLUMN_RANGES = {
     LEFT_ARM: new Range( -Number.MAX_VALUE, 138 ),
     LEFT_SIDE_OF_SWEATER: new Range( 138, 203 ),
@@ -71,6 +72,7 @@ define( function( require ) {
     RIGHT_EDGE: new Range( 676, Number.MAX_VALUE )
   };
 
+  // ranges that define the rows of the play area
   var ROW_RANGES = {
     UPPER_PLAY_AREA: new Range( -Number.MAX_VALUE, 172 ),
     CENTER_PLAY_AREA: new Range( 172, 326 ),
