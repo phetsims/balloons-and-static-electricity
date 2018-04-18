@@ -324,8 +324,8 @@ define( function( require ) {
     /**
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
      * if its center is in the charged area.
-     *
-     * @returns {type}  description
+     * @public
+     * @returns {type}
      */
     onSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
@@ -336,7 +336,7 @@ define( function( require ) {
     },
 
     /**
-     * returns whether or not the center of the balloon is within the charged area of the sweater
+     * Returns whether or not the center of the balloon is within the charged area of the sweater.
      * @public
      * @returns {boolean}
      */
@@ -371,7 +371,7 @@ define( function( require ) {
      * @return {boolean}
      */
     rightAtWallLocation: function() {
-      return this.getRight() === this.balloonsAndStaticElectricityModel.wall.x;
+      this.this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
     },
 
     /**
