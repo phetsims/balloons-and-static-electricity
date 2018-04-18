@@ -17,7 +17,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  var PlayArea2 = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayArea2' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -50,8 +49,6 @@ define( function( require ) {
 
     // @public {read-only}
     this.wallWidth = 80;
-
-    this.playArea = new PlayArea2( width, height, tandem.createTandem( 'playArea' ) );
 
     // @public (read-only) - Model of the sweater, position empirically determined to match design
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
