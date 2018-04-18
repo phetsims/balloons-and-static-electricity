@@ -801,20 +801,6 @@ define( function( require ) {
     },
 
     /**
-     * get a bounding rectangle
-     * @returns {Bounds2}
-     * @private
-     */
-    getBounds: function() {
-      return new Bounds2(
-        this.locationProperty.get().x,
-        this.locationProperty.get().y,
-        this.locationProperty.get().x + this.width,
-        this.locationProperty.get().y + this.height
-      );
-    },
-
-    /**
      * Apply a force on this balloon, and move it to new coordinates.  Also updates the velocity.
      * @private
      *
@@ -860,7 +846,9 @@ define( function( require ) {
         this.velocityProperty.set( newVelocity );
       }
       else {
-        this.velocityProperty.set( new Vector2() ); // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
+        
+        // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
+        this.velocityProperty.set( new Vector2() );
       }
     },
 

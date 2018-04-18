@@ -106,7 +106,7 @@ define( function( require ) {
         centerXBoundary = PlayAreaMap.X_LOCATIONS.AT_RIGHT_EDGE;
       }
 
-      var balloonBounds = balloonModel.getBounds();
+      var balloonBounds = balloonModel.bounds;
       var balloonCenter = balloonModel.getCenter();
 
       // position the 'grab' cue - make sure it is totally in the play area
