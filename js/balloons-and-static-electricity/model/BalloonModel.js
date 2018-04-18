@@ -377,7 +377,7 @@ define( function( require ) {
     /**
      * Returns whether or not this balloon is at the right edge of the play area.
      *
-     * @return {[type]} [description]
+     * @return {boolean}
      */
     atRightEdge: function() {
       return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_WALL;
@@ -411,7 +411,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     touchingWall: function() {
-      var atWall = this.getCenter().x === this.balloonsAndStaticElectricityModel.playArea.atWall;
+      var atWall = this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
       var wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
       return ( atWall && wallVisible );
     },
