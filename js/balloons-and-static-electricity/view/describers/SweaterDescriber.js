@@ -276,7 +276,7 @@ define( function( require ) {
       var direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
       var directionDescription = BASEDescriber.getDirectionDescription( direction );
 
-      var patternString = BalloonDirectionEnum.isCardinal( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
+      var patternString = BalloonDirectionEnum.isRelativeDirection( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
 
       var moreChargesString;
       if ( shownCharges === 'all' ) {

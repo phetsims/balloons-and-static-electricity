@@ -22,7 +22,13 @@ define( function( require ) {
     DOWN_LEFT: 'DOWN_LEFT',
     DOWN_RIGHT: 'DOWN_RIGHT',
 
-    isCardinal: function( direction ) {
+    /**
+     * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
+     *
+     * @param {string} direction - one of BalloonDirectionEnum
+     * @return {Boolean}
+     */
+    isRelativeDirection: function( direction ) {
       return direction === BalloonDirectionEnum.LEFT ||
              direction === BalloonDirectionEnum.RIGHT ||
              direction === BalloonDirectionEnum.UP ||
