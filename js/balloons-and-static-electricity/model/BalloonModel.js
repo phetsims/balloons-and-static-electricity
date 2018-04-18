@@ -313,15 +313,6 @@ define( function( require ) {
   inherit( Object, BalloonModel, {
 
     /**
-     * If the balloon is in the upper half of the play area, return true.
-     *
-     * @returns {boolean}
-     */
-    inUpperHalfOfPlayArea: function() {
-      return this.getCenter().y < this.balloonsAndStaticElectricityModel.playArea.lowerRow.top;
-    },
-
-    /**
      * Return true if the balloon is near the wall without touching it, and the wall is visible.
      *
      * @returns {boolean}
