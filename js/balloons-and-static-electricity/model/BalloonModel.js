@@ -509,11 +509,9 @@ define( function( require ) {
 
     /**
      * Set the center location of the balloon. Sets the location Property but with an offset to account
-     * for the balloon dimenstions.
+     * for the balloon dimensions.
      *
-     * @param {number} x
-     * @param {number} y
-     * @public
+     * @param {Vector2} center
      */
     setCenter: function( center ) {
       this.locationProperty.set( new Vector2(
@@ -523,7 +521,7 @@ define( function( require ) {
     },
 
     /**
-     * Get the center location of the balloon
+     * Get the center location of the balloon.
      * @public
      * @returns {Vector2}
      */
@@ -568,16 +566,6 @@ define( function( require ) {
     getChargeCenter: function() {
       var centerX = this.getCenter().x;
       var centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
-      return new Vector2( centerX, centerY );
-    },
-
-    /**
-     * Get the position of the touch point of the balloon on the wall.
-     * @type {Vector2}
-     */
-    getWallTouchingCenter: function() {
-      var centerX = this.locationProperty.get().x + this.width;
-      var centerY = this.getCenter().y;
       return new Vector2( centerX, centerY );
     },
 
