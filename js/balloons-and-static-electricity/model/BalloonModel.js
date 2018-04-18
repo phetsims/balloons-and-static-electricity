@@ -237,7 +237,6 @@ define( function( require ) {
     // @public - will emit an event when the balloon is reset
     this.resetEmitter = new Emitter();
 
-    this.initialLocation = this.locationProperty.initialValue;
     this.plusCharges = [];
     this.minusCharges = [];
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
