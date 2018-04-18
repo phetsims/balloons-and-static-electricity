@@ -244,12 +244,6 @@ define( function( require ) {
     // @private {BASEMdodel}
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
-    // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
-    this.isStickingToSweater = false;
-
-    // @public {boolean} - flag that indicates if the balloon was previously sticking to the sweater on location change
-    this.previousIsStickingToSweater = false;
-
     // @private {boolean} - flag that indicates when the balloon is very near to the sweater
     this.isNearSweater = false;
 
