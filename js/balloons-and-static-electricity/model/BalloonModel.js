@@ -275,6 +275,9 @@ define( function( require ) {
       this.locationProperty.get().x + this.width,
       this.locationProperty.get().y + this.height
     );
+
+    // when position changes, update bounds of balloon in play area, direction of movement, and whether or not the
+    // the balloon is touching an object - no need to dispose as balloons exist for life of sim
     this.locationProperty.link( function( location, oldLocation ) {
       self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
 
@@ -295,10 +298,8 @@ define( function( require ) {
       }
     } );
 
-    // when the balloon is released, reset the timer
+    // when the balloon is released, reset the timer that indicates when balloon was released
     this.isDraggedProperty.link( function( isDragged ) {
-
-      // reset time since release to 0
       if ( !isDragged ) {
         self.timeSinceRelease = 0;
       }
