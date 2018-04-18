@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BalloonColorsEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonColorsEnum' );
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -60,8 +59,8 @@ define( function( require ) {
     // @public
     this.bounds = new Bounds2( 0, 0, width - this.wallWidth, height );
 
-    this.yellowBalloon = new BalloonModel( 440, 100, this, true, BalloonColorsEnum.YELLOW, tandem.createTandem( 'yellowBalloon' ) );
-    this.greenBalloon = new BalloonModel( 380, 130, this, false, BalloonColorsEnum.GREEN, tandem.createTandem( 'greenBalloon' ) );
+    this.yellowBalloon = new BalloonModel( 440, 100, this, true, tandem.createTandem( 'yellowBalloon' ) );
+    this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
 

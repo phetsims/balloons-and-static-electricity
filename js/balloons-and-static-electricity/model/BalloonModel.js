@@ -129,7 +129,7 @@ define( function( require ) {
    * @param {Tandem} tandem
    * @constructor
    */
-  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, labelString, tandem ) {
+  function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, tandem ) {
 
     var self = this;
 
@@ -274,10 +274,6 @@ define( function( require ) {
 
     // @private {boolean} - flag that tracks if the the balloon was previously very near the right edge when position changes
     this.previousIsNearRightEdge = false;
-
-    // a label for the balloon, not the accessible label but one of BalloonColorsEnum
-    // TODO: delete this, it is very confusing
-    this.balloonLabel = labelString;
 
     // neutral pair of charges
     var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
