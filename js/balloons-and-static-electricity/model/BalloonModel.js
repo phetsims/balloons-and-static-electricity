@@ -417,15 +417,6 @@ define( function( require ) {
     },
 
     /**
-     * Returns true if the balloon is sticking to the sweater.  Balloon is sticking to the sweater when
-     * the balloon center is in the sweater charged area and the balloon has charges.
-     * @return {boolean}
-     */
-    stickingToSweater: function() {
-      return ( this.chargeProperty.get() < 0 && this.centerInSweaterChargedArea() );
-    },
-
-    /**
      * Get the distance from the center of this balloon to the wall.  Note that distances are all in ScreenView
      * coordinates for this simulation
      * @returns {number}
