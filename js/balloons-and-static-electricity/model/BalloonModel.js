@@ -268,7 +268,7 @@ define( function( require ) {
       self.minusCharges.push( minusCharge );
     } );
 
-    // model bounds, updated when position changes
+    // @public (read-only) model bounds, updated when position changes
     this.bounds = new Bounds2(
       this.locationProperty.get().x,
       this.locationProperty.get().y,
