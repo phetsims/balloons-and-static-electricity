@@ -237,9 +237,12 @@ define( function( require ) {
     // @public - will emit an event when the balloon is reset
     this.resetEmitter = new Emitter();
 
+    // @public {Array.<PointChargeModel>}
     this.plusCharges = [];
     this.minusCharges = [];
-    this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel; // @private
+
+    // @private {BASEMdodel}
+    this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // @private {boolean} - flag that indicates if the balloon is sticking to the sweater
     this.isStickingToSweater = false;
