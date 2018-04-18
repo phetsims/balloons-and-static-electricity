@@ -571,29 +571,17 @@ define( function( require ) {
 
     /**
      * Get the position of the left touch point of the balloon against the sweater. If the balloon center is to the
-     * right of the sweater, use  the left edge of the balloon. Otherwise, use the balloon center. This is necessary
-     * so that when the balloon is on the right edge of the sweater, it isn't described  as in the left side of the
-     * play area.
+     * right of the sweater edge, use  the left edge of the balloon. Otherwise, use the balloon center. This is
+     * necessary so that when the balloon is on the right edge of the sweater, it isn't described as in the left side
+     * of the play area.
      *
-     * TODO: consider a different approach so that this function  isn't necessary.  It requires developer knowledeg
-     * of the sim layout.
      * @return {Vector2}
      */
     getSweaterTouchingCenter: function() {
-
       var sweater = this.balloonsAndStaticElectricityModel.sweater;
-      var sweaterRight = sweater.x + sweater.width;
-
-      var centerY = this.getCenter().y;
-      if ( this.getCenter().x > sweaterRight ) {
-        var centerX = this.locationProperty.get().x;
-
-      }
-      else {
-        centerX = this.getCenter().x;
-      }
-
-      return new Vector2( centerX, centerY );
+      var centerX = ( this.getCenter().x > sweater.bounds.right ) ? this.bounds.left : this.getCenterX();
+      
+      return new Vector2( centerX, this.getCenterY() );
     },
 
     /**
