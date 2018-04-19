@@ -584,7 +584,14 @@ define( function( require ) {
      */
     getSweaterTouchingCenter: function() {
       var sweater = this.balloonsAndStaticElectricityModel.sweater;
-      var centerX = ( this.getCenter().x > sweater.bounds.right ) ? this.bounds.left : this.getCenterX();
+      var sweaterRight = sweater.x + sweater.width;
+
+      if ( this.getCenter().x > sweaterRight ) {
+        var centerX = this.locationProperty.get().x;
+      }
+      else {
+        centerX = this.getCenter().x;
+      }
       
       return new Vector2( centerX, this.getCenterY() );
     },

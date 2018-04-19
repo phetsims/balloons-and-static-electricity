@@ -118,7 +118,7 @@ define( function( require ) {
     this.left = new Vector2( self.x, self.y + self.height / 2 );
 
     // @public {Bounds2} bounds containing the sweater
-    this.bounds = new Bounds2( this.x, this.y, this.x + this.width, this.y + this.height );
+    this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
 
     // @private {Shape} create an approximate shape of the charged area of the sweater based on the position of the
     // charges. This is used for accurate detection of when the balloons are over the charged area, see
