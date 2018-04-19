@@ -6,8 +6,6 @@
  * arrow and letter keys will appear to indicate that the user can use WASD or arrow keys to move it around the play area.
  * After the first interaction, this will be invisible.
  *
- * TODO: needs to float to stay visible in the screen view
- *
  * @author Jesse Greenberg
  */
 define( function( require ) {
