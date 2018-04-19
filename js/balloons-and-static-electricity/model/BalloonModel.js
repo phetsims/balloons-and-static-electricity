@@ -334,7 +334,7 @@ define( function( require ) {
      */
     onSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
-      if ( sweaterBounds.eroded( 0 ).intersectsBounds( this.bounds ) ) {
+      if ( sweaterBounds.intersectsBounds( this.bounds ) ) {
         return true;
       }
       else { return false; }
