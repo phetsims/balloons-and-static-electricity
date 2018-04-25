@@ -16,7 +16,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Panel = require( 'SUN/Panel' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
@@ -64,15 +63,10 @@ define( function( require ) {
     } );
 
     // left aligned content, and content about how to move the grabbed balloon are horizontally aligned
-    var content = new HBox( {
+    HBox.call( this, {
       children: [ leftContent, generalNavigationHelpContent ],
       align: 'top',
-      spacing: 30
-    } );
-
-    Panel.call( this, content, {
-      stroke: null,
-      fill: 'rgb( 214, 237, 249 )',
+      spacing: 30,
       maxWidth: 700 // i18n, about the width of the screen
     } );
 
@@ -82,7 +76,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHelpContent );
 
-  inherit( Panel, BASEKeyboardHelpContent );
+  inherit( HBox, BASEKeyboardHelpContent );
 
   /**
    * Help content for how to grab and release the balloon.
