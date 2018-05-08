@@ -60,7 +60,7 @@ define( function( require ) {
   var balloonString = BASEA11yStrings.balloon.value;
   var balloonsString = BASEA11yStrings.balloons.value;
   var wallAddedString = BASEA11yStrings.wallAdded.value;
-  var wallRemovedstring = BASEA11yStrings.wallRemoved.value;
+  var wallRemovedString = BASEA11yStrings.wallRemoved.value;
   var positionsString = BASEA11yStrings.positions.value;
   var positionString = BASEA11yStrings.position.value;
   var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
@@ -116,7 +116,7 @@ define( function( require ) {
       self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
-        var alertDescription = wallVisible ? wallAddedString : wallRemovedstring;
+        var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
         utteranceQueue.addToFront( alertDescription );
       }
     } );
