@@ -27,7 +27,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
+  var BooleanToggleNode = require( 'SUN/BooleanToggleNode' );
   var TwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNode' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -88,7 +88,7 @@ define( function( require ) {
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
     } );
-    var wallToggleNode = new ToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
+    var wallToggleNode = new BooleanToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
       maxWidth: 120,
       tandem: tandem.createTandem( 'wallToggleNode' )
     } );
@@ -227,7 +227,7 @@ define( function( require ) {
     );
 
     // 'Reset Balloons' button
-    var resetBalloonToggleNode = new ToggleNode(
+    var resetBalloonToggleNode = new BooleanToggleNode(
       new Text( resetBalloonsString, {
         font: new PhetFont( 15 ),
         tandem: tandem.createTandem( 'resetBalloonsText' )
