@@ -186,7 +186,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
 
-  inherit( Object, SweaterModel, {
+  return inherit( Object, SweaterModel, {
 
     //is balloon over minus charge on sweater?
 
@@ -253,5 +253,4 @@ define( function( require ) {
       this.chargeProperty.set( 0 );
     }
   } );
-  return SweaterModel;
 } );
