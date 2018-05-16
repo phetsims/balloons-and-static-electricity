@@ -134,7 +134,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'WallModel', WallModel );
 
-  inherit( Object, WallModel, {
+  return inherit( Object, WallModel, {
 
     // Reset the entire model
     reset: function() {
@@ -180,5 +180,4 @@ define( function( require ) {
       return closestCharge;
     }
   } );
-  return WallModel;
 } );
