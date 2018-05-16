@@ -150,15 +150,6 @@ define( function( require ) {
 
     this.addChild( controlPanel );
 
-    //A black rectangle that vertically 'extends' the navbar from joist, see #54
-    this.addChild( new Rectangle( 0, 0, 3000, this.layoutBounds.height, {
-      fill: 'black',
-      x: -1000,
-      y: this.layoutBounds.height,
-      pickable: false,
-      tandem: tandem.createTandem( 'navBarExtension' )
-    } ) );
-
     // interaction cues layered on top of everything
     this.addChild( yellowBalloonCueNode );
     this.addChild( greenBalloonCueNode );
