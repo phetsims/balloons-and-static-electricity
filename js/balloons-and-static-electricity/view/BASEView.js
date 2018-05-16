@@ -213,6 +213,38 @@ define( function( require ) {
 
       // step the audio
       this.audioView && this.audioView.step( dt );
+    },
+
+    /**
+     * Custom layout function for this view. It is most natural for this simulation for the view to
+     * be held on the bottom of the navigation bar so that the balloon's tether and wall are always cut
+     * off by the navigation bar, see #77.
+     *
+     * @param {number} width
+     * @param {number} height
+     */
+    layout: function( width, height ) {
+      this.resetTransform();
+
+      var scale = this.getLayoutScale( width, height );
+      this.setScaleMagnitude( scale );
+
+      var dx = 0;
+      var offsetY = 0;
+
+      // Move to bottom vertically (custom for this sim)
+      if ( scale === width / this.layoutBounds.width ) {
+        offsetY = ( height / scale - this.layoutBounds.height );
+      }
+
+      // center horizontally (default behavior for ScreenView)
+      else if ( scale === height / this.layoutBounds.height ) {
+        dx = ( width - this.layoutBounds.width * scale ) / 2 / scale;
+      }
+      this.translate( dx, offsetY );
+
+      // update the visible bounds of the screen view
+      this.visibleBoundsProperty.set( new Bounds2( -dx, -offsetY, width / scale - dx, height / scale - offsetY ) );
     }
   } );
 
