@@ -67,7 +67,7 @@ define( function( require ) {
     } );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
-    var wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
+    var wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
     // create a container for all things in the 'play area' to structure the accessibility DOM into sections
     var playAreaContainerNode = new AccessibleSectionNode( playAreaString );
@@ -102,7 +102,7 @@ define( function( require ) {
     } );
     var tetherAnchorPoint = new Vector2(
       model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
-      this.layoutBounds.height + 50 // slightly below bottom of frame, amount was empirically determined
+      this.layoutBounds.height
     );
     this.yellowBalloonTetherNode = new TetherNode(
       model.yellowBalloon,

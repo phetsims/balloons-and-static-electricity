@@ -30,7 +30,7 @@ define( function( require ) {
    * @param {BASEModel} model
    * @param {Tandem} tandem
    */
-  function WallNode( model, tandem ) {
+  function WallNode( model, layoutHeight, tandem ) {
     var self = this;
 
     // @private
@@ -54,6 +54,10 @@ define( function( require ) {
 
     // add the background
     this.wallNode = new Image( wallImage, { tandem: tandem.createTandem( 'wallNode' ) } );
+
+    // scale down the image vertically, so that it is as tall as the simulations layout height
+    this.wallNode.scale( 1, layoutHeight / this.wallNode.height );
+
     this.addChild( this.wallNode );
 
     var plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
