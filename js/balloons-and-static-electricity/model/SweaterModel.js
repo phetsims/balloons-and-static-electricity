@@ -200,21 +200,15 @@ define( function( require ) {
     checkAndTransferCharges: function( balloon ) {
       var self = this;
 
-      // determine the bounds of the balloon for overlap testing - this is adjusted a
-      var balloonLocation = balloon.locationProperty.get();
-      var balloonShape = Shape.ellipse(
-        balloonLocation.x + balloon.width / 2,
-        balloonLocation.y + balloon.height / 2,
-        balloon.width / 2,
-        balloon.height / 2
-      );
-
       // track whether or not at least once charge was moved
       var chargeMoved = false;
 
       // check each minus charge to see whether it should be moved to the balloon
       this.minusCharges.forEach( function( minusCharge ) {
-        if ( !minusCharge.movedProperty.get() && balloonShape.containsPoint( minusCharge.location ) ) {
+
+        // used too check if an eliptical shape contains the charge, but reverted to checking the balloon's
+        // rectangular bounds, which is faster and sufficient for this simulation, see #409
+        if ( !minusCharge.movedProperty.get() && balloon.bounds.containsPoint( minusCharge.location ) ) {
           self.moveChargeTo( minusCharge, balloon );
           chargeMoved = true;
         }
