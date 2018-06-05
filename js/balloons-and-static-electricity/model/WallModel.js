@@ -43,6 +43,8 @@ define( function( require ) {
     this.x = x; // the left location of the wall
     this.numX = 3; // number of columns with charges
     this.numY = 18; // number of rows with charges
+    this.width = width;
+    this.height = height;
 
     // @private {number} - scaling factors for calculating positions for induced charge
     this.dx = Math.round( width / this.numX + 2 );

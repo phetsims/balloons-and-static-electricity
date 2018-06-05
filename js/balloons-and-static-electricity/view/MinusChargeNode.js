@@ -53,9 +53,14 @@ define( function( require ) {
    * @param {Vector2} location
    * @param {Tandem} tandem
    */
-  function MinusChargeNode( location, tandem ) {
+  function MinusChargeNode( location, tandem, options ) {
 
-    Node.call( this, { pickable: false, tandem: tandem } );
+    options = _.extend( {
+      pickable: false,
+      tandem: tandem 
+    }, options );
+
+    Node.call( this, options );
 
     this.translate( location.x - RADIUS, location.y - RADIUS );
 

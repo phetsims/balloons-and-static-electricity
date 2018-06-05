@@ -13,11 +13,11 @@ define( function( require ) {
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
+  var MinusChargesCanvasNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargesCanvasNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
-  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
   // images
   var wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
@@ -58,12 +58,7 @@ define( function( require ) {
     this.addChild( this.wallNode );
 
     var plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
-    var minusChargesNode = new Node( {
-      layerSplit: true,
-      tandem: tandem.createTandem( 'minusChargesNode' )
-    } );
     plusChargesNode.translate( -wallModel.x, 0 );
-    minusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
     var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
@@ -71,18 +66,11 @@ define( function( require ) {
       var plusChargeNode = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
       plusChargesNode.addChild( plusChargeNode );
     } );
-
-    //draw minusCharges on the wall
-    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
-    wallModel.minusCharges.forEach( function( entry ) {
-      var minusChargeNode = new MinusChargeNode( entry.location, minusChargeNodesTandemGroup.createNextTandem() );
-      entry.locationProperty.link( function updateLocation( location ) {
-        minusChargeNode.setTranslation( location.x + PointChargeModel.RADIUS, location.y + PointChargeModel.RADIUS );
-      } );
-      minusChargesNode.addChild( minusChargeNode );
-    } );
-
     this.addChild( plusChargesNode );
+    
+    // the minus charges on the wall - with Canvas for performance, see #409
+    var wallBounds = new Bounds2( 0, 0, wallModel.width, wallModel.height );
+    var minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
     this.addChild( minusChargesNode );
 
     wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
@@ -100,10 +88,15 @@ define( function( require ) {
       self.setDescriptionContent( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
     };
 
+    // a11y - attach listeners to update descriptions of the wall, no need to dispose
     model.yellowBalloon.locationProperty.link( updateWallDescription );
     model.greenBalloon.locationProperty.link( updateWallDescription );
     model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
+
+    // update minus charges indicating induced charge when balloons move
+    model.yellowBalloon.locationProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
+    model.greenBalloon.locationProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );
