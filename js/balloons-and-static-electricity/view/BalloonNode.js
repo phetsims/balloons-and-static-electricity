@@ -280,7 +280,7 @@ define( function( require ) {
       if ( touchingWall && globalModel.showChargesProperty.get() === 'all' && model.isDraggedProperty.get() ) {
         utteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
         self.describeWallRub = false;
-      }      
+      }
     } );
 
     // used to determine change in position during a single drag movement
@@ -556,11 +556,10 @@ define( function( require ) {
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
       self.keyboardDragHandler._dragBounds = self.getDragBounds();
 
-      // if the wall is removed, we need to describe changes to balloons location
-      if ( !isVisible ) {
-        if ( self.model.getRight() === globalModel.wall.x ) {
-          self.initialMovementDescribed = false;
-        }
+      // if the wall is removed while a neutral balloon is touching the wall, we will need to describe the balloon's
+      // lack of movement
+      if ( !isVisible && self.model.rightAtWallLocation() && !self.model.isCharged() ) {
+        self.initialMovementDescribed = false;
       }
     } );
 

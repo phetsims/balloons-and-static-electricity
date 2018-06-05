@@ -376,7 +376,7 @@ define( function( require ) {
      * @return {boolean}
      */
     rightAtWallLocation: function() {
-      this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+      return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
     },
 
     /**
