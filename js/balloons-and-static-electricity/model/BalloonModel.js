@@ -380,6 +380,16 @@ define( function( require ) {
     },
 
     /**
+     * Returns true if balloon right is beyond the left of the wall, regardless of whether the wall is visible. Useful
+     * for describing behavior when the wall is added and removed.
+     *
+     * @return {boolean}
+     */
+    beyondWallLeft: function() {
+      return this.getCenterX() >= PlayAreaMap.X_LOCATIONS.AT_WALL;
+    },
+
+    /**
      * Returns whether or not this balloon is at the right edge of the play area.
      *
      * @return {boolean}

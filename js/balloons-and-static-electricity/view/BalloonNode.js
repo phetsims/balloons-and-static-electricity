@@ -281,6 +281,11 @@ define( function( require ) {
         utteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
         self.describeWallRub = false;
       }
+      else if ( touchingWall && self.model.beyondWallLeft() ) {
+        
+        // wall has been added, also announce balloon touching wall
+        utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
+      }
     } );
 
     // used to determine change in position during a single drag movement
