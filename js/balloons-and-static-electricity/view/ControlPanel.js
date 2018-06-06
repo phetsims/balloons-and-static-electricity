@@ -117,7 +117,7 @@ define( function( require ) {
 
       if ( !model.anyChargedBalloonTouchingWall() ) {
         var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-        utteranceQueue.addToFront( alertDescription );
+        utteranceQueue.addToBack( alertDescription );
       }
     } );
 
