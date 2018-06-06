@@ -560,6 +560,7 @@ define( function( require ) {
       // response just like a release
       if ( !isVisible && self.model.rightAtWallLocation() ) {
         self.initialMovementDescribed = false;
+        self.model.locationOnRelease = self.model.locationProperty.get();
       }
     } );
 
