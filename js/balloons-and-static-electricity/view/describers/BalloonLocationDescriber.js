@@ -819,15 +819,16 @@ define( function( require ) {
     },
 
     /**
-     * Returns whether or now the balloon is considered to be moving 'slowly'. Used in descriptions and is empirical
-     * in nature so this is part of the describer, not the model.
-     *
-     * TODO: Move to the model anyway?
+     * Returns true if the balloon is moving slow enough to warrant continuous movement descriptions, but fast enough
+     * for the movement to be observable. This is to prevent this alert from firing indefinitely if the balloon has
+     * some arbitrary velocity.
      *
      * @return {boolean}
      */
-    balloonMovingSlowly: function() {
-      return this.balloonModel.velocityProperty.get().magnitude() < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max;
+    balloonMovingAtContinousDescriptionVelocity: function() {
+      var velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude();
+      return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
+             velocityMagnitude > 0.0005; // value chosen empirically, see #413
     },
 
     /**

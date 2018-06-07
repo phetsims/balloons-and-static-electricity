@@ -425,7 +425,7 @@ define( function( require ) {
             else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
               // if the balloon is moving slowly, alert a continuous movement description
-              if ( self.describer.movementDescriber.balloonMovingSlowly() ) {
+              if ( self.describer.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
 
                 // get subsequent descriptions of movement
                 alert = self.describer.movementDescriber.getContinuousReleaseDescription();
