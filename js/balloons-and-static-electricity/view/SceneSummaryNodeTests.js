@@ -25,7 +25,7 @@ define( function( require ) {
   var view = new BASEView( model, new Tandem() );
 
   // create a wallNode for testing
-  var wallNode = new WallNode( model, new Tandem() );
+  var wallNode = new WallNode( model, view.layoutBounds, new Tandem() );
   
   QUnit.test( 'SceneSummary tests', function( assert ) {
     var summaryNode = new SceneSummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );

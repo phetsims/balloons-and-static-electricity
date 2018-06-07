@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var BASEModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BASEModel' );
+  var BASEView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEView' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
@@ -21,11 +22,12 @@ define( function( require ) {
 
   // create model and view for testing
   var model = new BASEModel( 768, 504, new Tandem() );
+  var view = new BASEView( model, new Tandem() );
 
   QUnit.test( 'WallDescriber tests', function( assert ) {
 
     // create a view
-    var wallNode = new WallNode( model, new Tandem() );
+    var wallNode = new WallNode( model, view.layoutBounds, new Tandem() );
 
     // on page load
     var actualDescription = wallNode.descriptionContent;
