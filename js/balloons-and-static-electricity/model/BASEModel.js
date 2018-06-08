@@ -23,7 +23,7 @@ define( function( require ) {
   var SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
 
-  // phet-io modules
+  // ifphetio
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   /**
