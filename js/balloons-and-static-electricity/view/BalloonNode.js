@@ -32,22 +32,15 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
-  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
-
-  var DESCRIPTION_REFRESH_RATE = 2000; // in ms
-  var RELEASE_DESCRIPTION_REFRESH_RATE = 5000; // in ms
-  var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
-  var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500;
 
   // a11y strings
   var grabBalloonPatternString = BASEA11yStrings.grabBalloonPattern.value;
@@ -111,31 +104,31 @@ define( function( require ) {
     // @private (a11y) - if this time is greater than DESCRIPTION_REFRESH_RATE and the balloon
     // is moving due to an applied force, we will alert a new description, intially the refresh rate
     // so that the first movement is described
-    this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
+    // this.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE; // in ms
 
-    this.timeSinceReleaseAlert = 0;
+    // this.timeSinceReleaseAlert = 0;
 
     // @public (a11y) - a flag that tracks if the initial movmement of the balloon after release has
-    // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
+    // been described. Gets reset whenever the balloon is picked up, made visible, and when the wall is removed while
     // the balloon is sticking to the wall
-    this.initialMovementDescribed = false;
+    // this.initialMovementDescribed = false;
 
     // @private (a11y) - whether or not we describe direction changes. Between when the balloon is
     // released and the release is first described, we do not describe changes to direction because it is built into the
     // release alert
-    this.describeDirection = true;
+    // this.describeDirection = true;
 
     // @private {number} when dragging ends, we update this value - used to determine how much charge was picked up
     // in a single drag
-    this.chargeOnEnd = 0;
+    // this.chargeOnEnd = 0;
 
     // @private {number} - updated when dragging stops - used to determine how much charge was picked up in a single
     // drag
-    this.chargeOnStart = model.chargeProperty.get();
+    // this.chargeOnStart = model.chargeProperty.get();
 
     // @private {boolean} - every time we drag, mark this as dirty so we know to describe a lack of charge pick up
     // on the sweater. Once this rub has been described, set to false
-    this.rubAlertDirty = false;
+    // this.rubAlertDirty = false;
 
     // @private {boolean} - When moving to the front, this node will be blurred because the DOM is being reordered. In
     // this case, we want to prevent behavior of the blur listeners that release the balloon
@@ -251,146 +244,23 @@ define( function( require ) {
       }
     } );
 
-    // a11y - when velocity hits zero when we are on the sweater or wall, describe that we are sticking
-    // or touching these objects
-    // TODO: Move more of this logic into a describer type
-    model.velocityProperty.lazyLink( function( velocity ) {
-      if ( velocity.equals( Vector2.ZERO ) ) {
-        if ( model.isDraggedProperty.get() ) {
-          if ( model.onSweater() || model.touchingWall() ) {
+    // model.touchingWallProperty.lazyLink( function( touchingWall ) {
+    //   if ( touchingWall && globalModel.showChargesProperty.get() === 'all' && model.isDraggedProperty.get() ) {
+    //     utteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
+    //     self.describeWallRub = false;
+    //   }
+    // } );
 
-            // while dragging, just attractive state and location 
-            utteranceQueue.addToBack( self.describer.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
-          }    
-        }
-        else if ( model.onSweater() ) {
+    // // a11y - alert when balloon is added to play area
+    // model.isVisibleProperty.lazyLink( function( isVisible ) {
+    //   utteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
 
-          // if we stop on the sweater, announce that we are sticking to it
-          utteranceQueue.addToBack( self.describer.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
-        }
-        else {
+    //   // when the balloon visibility changes, we will start with initial movement once it becomes visible again
+    //   self.initialMovementDescribed = false;
 
-          // if we stop along anywhere else in the play area, describe that movement has stopped
-          utteranceQueue.addToBack( self.describer.movementDescriber.getMovementStopsDescription() );
-        }
-      }
-    } );
-
-    model.touchingWallProperty.lazyLink( function( touchingWall ) {
-      if ( touchingWall && globalModel.showChargesProperty.get() === 'all' && model.isDraggedProperty.get() ) {
-        utteranceQueue.addToBack( self.describer.getWallRubbingDescriptionWithChargePairs() );
-        self.describeWallRub = false;
-      }
-      else if ( touchingWall && self.model.beyondWallLeft() ) {
-        
-        // wall has been added, also announce balloon touching wall
-        utteranceQueue.addToBack( self.describer.getWallRubbingDescription() );
-      }
-    } );
-
-    // used to determine change in position during a single drag movement
-    var oldPosition = new Vector2( 0, 0 );
-
-    // a11y - when the drag velocity of the balloon becomes zero while moving along the wall, describe charges
-    // TODO: Should all a11y alerts go through this?
-    model.dragVelocityProperty.lazyLink( function( velocity, previousVelocity ) {
-
-      if ( previousVelocity.equals( Vector2.ZERO ) ) {
-        self.chargeOnStart = self.model.chargeProperty.get();
-      }
-
-      // how much balloon has moved
-      var dragDelta = self.model.locationProperty.get().minus( oldPosition );
-
-      // if the drag velocity is zero, describe how the position has changed
-      if ( self.model.isDraggedProperty.get() ) {
-        if ( velocity.equals( Vector2.ZERO ) ) {
-          if ( !self.model.jumping ) {
-            var utterance;
-
-            // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new
-            // description next time we press a key
-            self.timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
-
-            // when keyboard drag ends, provide some extra information about the balloon's movement through the play area
-            // only do this if the play area column and row hasn't changed
-            var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
-            var onSweater = model.onSweater();
-            var touchingWall = model.touchingWall();
-
-            if ( !inLandmark && !onSweater && !touchingWall ) {
-              utterance = self.describer.movementDescriber.getKeyboardMovementAlert();
-            }
-            else if ( inLandmark ) {
-
-              // just announce landmark as we move through it
-              utterance = self.describer.movementDescriber.getLandmarkDragDescription();
-            }
-            else if ( model.touchingWall() && self.describeWallRub ) {
-              utterance = self.describer.getWallRubbingDescription();
-            }
-
-            if ( utterance ) {
-              utteranceQueue.addToBack( new Utterance( utterance, {
-                typeId: 'movementAlelrt'
-              } ) );
-            }
-
-            // describe the change in induced charge due to balloon movement
-            // TODO: Why is this duplicated?
-            if ( self.describer.chargeDescriber.describeInducedChargeChange() ) {
-              if ( self.describer.chargeDescriber.describeInducedChargeChange() ) {
-                var wallVisible = globalModel.wall.isVisibleProperty.get();
-
-                var descriptionString;
-                if ( dragDelta.x === 0 ) {
-
-                  // if there is purely vertical motion, do not include information about amount of charge displacement
-                  descriptionString = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, accessibleLabelString, wallVisible );
-                }
-                else {
-                  descriptionString = self.describer.chargeDescriber.getInducedChargeChangeDescription();
-                }
-
-                utteranceQueue.addToBack( new Utterance( descriptionString, { typeId: 'inducedChargeChange' } ) );
-              }
-            }
-
-            self.chargeOnEnd = self.model.chargeProperty.get();
-            self.rubAlertDirty = true;
-          }
-
-          // if velocity is zero after a jump, we just completed a jump interaction
-          if ( self.model.jumping ) {
-            self.model.jumping = false;
-          }
-
-          // update the position since the previous end of drag
-          oldPosition = self.model.locationProperty.get();
-        }
-      }
-    } );
-
-    // a11y - alerts when direction changes, only describe if the balloon hasn't recently been released
-    model.directionProperty.lazyLink( function( direction ) {
-      if ( self.describeDirection ) {
-        var alert = self.describer.movementDescriber.getDirectionChangedDescription();
-        utteranceQueue.addToBack( new Utterance( alert, {
-          typeId: 'direction' // so numerous alerts relating to direction don't get triggered at once
-        } ) );  
-      }
-    } );
-
-    // a11y - alert when balloon is added to play area
-    model.isVisibleProperty.lazyLink( function( isVisible ) {
-      utteranceQueue.addToBack( self.describer.getVisibilityChangedDescription() );
-
-      // when the balloon visibility changes, we will start with initial movement once it becomes visible again
-      self.initialMovementDescribed = false;
-
-      // clear location on release until balloon is picked up again
-      self.model.locationOnRelease = null;
-    } );
+    //   // clear location on release until balloon is picked up again
+    //   self.model.locationOnRelease = null;
+    // } );
 
     // link the position of this node to the model
     model.locationProperty.link( function updateLocation( location, oldLocation ) {
@@ -400,44 +270,44 @@ define( function( require ) {
 
       // everything else for a11y - compose the alert that needs to be sent to assistive technology
       // TODO: This should most certainly be moved to step
-      if ( oldLocation ) {
-        if ( self.model.isVisibleProperty.get() ) {
+      // if ( oldLocation ) {
+      //   if ( self.model.isVisibleProperty.get() ) {
 
-          var alert;
-          if ( !self.model.isDraggedProperty.get() ) {
-            if ( !self.initialMovementDescribed ) {
-              if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+      //     var alert;
+      //     if ( !self.model.isDraggedProperty.get() ) {
+      //       if ( !self.initialMovementDescribed ) {
+      //         if ( self.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
 
-                // get the initial description of balloon movement upon release
-                self.initialMovementDescribed = true;
-                if ( !location.equals( oldLocation ) ) {
-                  alert = self.describer.movementDescriber.getInitialReleaseDescription( location, oldLocation );
-                  utteranceQueue.addToBack( alert );
+      //           // get the initial description of balloon movement upon release
+      //           self.initialMovementDescribed = true;
+      //           if ( !location.equals( oldLocation ) ) {
+      //             alert = self.describer.movementDescriber.getInitialReleaseDescription( location, oldLocation );
+      //             utteranceQueue.addToBack( alert );
 
-                  // after describing initial movement, continue to describe direction changes
-                  self.describeDirection = true;
-                }
+      //             // after describing initial movement, continue to describe direction changes
+      //             self.describeDirection = true;
+      //           }
 
-                // reset timer for release alert
-                self.timeSinceReleaseAlert = 0;
-              }
-            }
-            else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
+      //           // reset timer for release alert
+      //           self.timeSinceReleaseAlert = 0;
+      //         }
+      //       }
+      //       else if ( self.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
-              // if the balloon is moving slowly, alert a continuous movement description
-              if ( self.describer.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
+      //         // if the balloon is moving slowly, alert a continuous movement description
+      //         if ( self.describer.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
 
-                // get subsequent descriptions of movement
-                alert = self.describer.movementDescriber.getContinuousReleaseDescription();
-                utteranceQueue.addToBack( alert );
+      //           // get subsequent descriptions of movement
+      //           alert = self.describer.movementDescriber.getContinuousReleaseDescription();
+      //           utteranceQueue.addToBack( alert );
 
-                // reset timer
-                self.timeSinceReleaseAlert = 0;
-              }
-            }
-          }
-        }
-      }
+      //           // reset timer
+      //           self.timeSinceReleaseAlert = 0;
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
     } );
 
     //show charges based on showCharges property
@@ -451,11 +321,6 @@ define( function( require ) {
         originalChargesNode.visible = visiblity;
         addedChargesNode.visible = visiblity;
       }
-    } );
-
-    // when the balloon changes region in the paly area, we need to handle changes to description
-    Property.multilink( [ model.playAreaRowProperty, model.playAreaColumnProperty ], function( row, column ) {
-      self.regionChangeHandled = false;
     } );
 
     // a11y
@@ -561,12 +426,12 @@ define( function( require ) {
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
       self.keyboardDragHandler._dragBounds = self.getDragBounds();
 
-      // if the wall is removed while a balloon is touching the wall, we will need to describe how the balloon
-      // response just like a release
-      if ( !isVisible && self.model.rightAtWallLocation() ) {
-        self.initialMovementDescribed = false;
-        self.model.locationOnRelease = self.model.locationProperty.get();
-      }
+      // // if the wall is removed while a balloon is touching the wall, we will need to describe how the balloon
+      // // response just like a release
+      // if ( !isVisible && self.model.rightAtWallLocation() ) {
+      //   self.initialMovementDescribed = false;
+      //   self.model.locationOnRelease = self.model.locationProperty.get();
+      // }
     } );
 
     // when the "Grab Balloon" button is pressed, focus the dragable node and set to dragged state
@@ -648,35 +513,35 @@ define( function( require ) {
       self.describer.reset();
     } );
 
-    // a11y - when the balloon is picked up or released, generate and announce an alert that indicates
-    // the interaction and the balloons state.  Linked lazilly since we don't want these alerts on 
-    // sim startup
-    model.isDraggedProperty.lazyLink( function( isDragged ) {
-      var alert;
-      if ( isDragged ) {
+    // // a11y - when the balloon is picked up or released, generate and announce an alert that indicates
+    // // the interaction and the balloons state.  Linked lazilly since we don't want these alerts on 
+    // // sim startup
+    // model.isDraggedProperty.lazyLink( function( isDragged ) {
+    //   var alert;
+    //   if ( isDragged ) {
 
-        // if picked up again, start describing direction changes
-        self.describeDirection = true;
+    //     // if picked up again, start describing direction changes
+    //     self.describeDirection = true;
 
-        // clear location of release until balloon is released again
-        self.model.locationOnRelease = null;
+    //     // clear location of release until balloon is released again
+    //     self.model.locationOnRelease = null;
 
-        alert = self.describer.movementDescriber.getGrabbedAlert();
-      }
-      else {
-        alert = self.describer.movementDescriber.getReleasedAlert();
+    //     alert = self.describer.movementDescriber.getGrabbedAlert();
+    //   }
+    //   else {
+    //     alert = self.describer.movementDescriber.getReleasedAlert();
 
-        // dont describe direction until initial release description happens
-        self.describeDirection = false;
+    //     // dont describe direction until initial release description happens
+    //     self.describeDirection = false;
 
-        // to detect if location changes due to forces after release
-        self.model.locationOnRelease = model.locationProperty.get();
-      }
-      utteranceQueue.addToBack( alert );
+    //     // to detect if location changes due to forces after release
+    //     self.model.locationOnRelease = model.locationProperty.get();
+    //   }
+    //   utteranceQueue.addToBack( alert );
 
-      // reset flags that track description content
-      self.initialMovementDescribed = false;
-    } );
+    //   // reset flags that track description content
+    //   self.initialMovementDescribed = false;
+    // } );
 
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
       var parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
@@ -696,45 +561,50 @@ define( function( require ) {
      * @param  {number} dt
      */
     step: function( dt ) {
-      var alert;
+
+      // step the balloon describer driving descriptions for this BalloonNode
+      this.describer.step( dt );
+
+
+      // var alert;
 
       // increment timer tracking time since alert description
-      this.timeSincePositionAlert += dt * 1000;
+      // this.timeSincePositionAlert += dt * 1000;
 
       // at an interval, announce pickup of negative charges
-      if ( this.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+      // if ( this.timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
 
-        // if we are on the sweater, dragged, and the charge is the same as when we started the drag, announce that
-        // there was no change in charges
-        var sameCharge = this.chargeOnStart === this.chargeOnEnd;
-        if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.rubAlertDirty ) {
-          alert = this.describer.getNoChargePickupDescription();
-          utteranceQueue.addToBack( new Utterance( alert, { typeId: 'chargeAlert' } ) );
-        }
+      //   // if we are on the sweater, dragged, and the charge is the same as when we started the drag, announce that
+      //   // there was no change in charges
+      //   var sameCharge = this.chargeOnStart === this.chargeOnEnd;
+      //   if ( this.model.isDraggedProperty.get() && this.model.onSweater() && sameCharge && this.rubAlertDirty ) {
+      //     alert = this.describer.getNoChargePickupDescription();
+      //     utteranceQueue.addToBack( new Utterance( alert, { typeId: 'chargeAlert' } ) );
+      //   }
 
-        this.describer.alertNextPickup = true;
-        this.timeSincePositionAlert = 0;
-        this.rubAlertDirty = false;
-      }
+      //   this.describer.alertNextPickup = true;
+      //   this.timeSincePositionAlert = 0;
+      //   this.rubAlertDirty = false;
+      // }
 
       // when the balloon is released (either from dragging or from the wall being removed), announce an
       // alert if it doesn't move within the time delay
-      if ( !this.model.isDraggedProperty.get() ) {
+      // if ( !this.model.isDraggedProperty.get() ) {
 
-        // if released, increment the timer for release
-        this.timeSinceReleaseAlert += dt * 1000;
+      //   // if released, increment the timer for release
+      //   this.timeSinceReleaseAlert += dt * 1000;
 
-        if ( !this.initialMovementDescribed && this.model.locationOnRelease ) {
-          if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
-            var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
-            if ( touchingReleasePoint ) {
-              alert = this.describer.movementDescriber.getNoChangeReleaseDescription();
-              utteranceQueue.addToBack( alert );
-              this.initialMovementDescribed = true;
-            }
-          }
-        }
-      }
+      //   if ( !this.initialMovementDescribed && this.model.locationOnRelease ) {
+      //     if ( this.model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
+      //       var touchingReleasePoint = this.model.locationProperty.get().equals( this.model.locationOnRelease );
+      //       if ( touchingReleasePoint ) {
+      //         alert = this.describer.movementDescriber.getNoChangeReleaseDescription();
+      //         utteranceQueue.addToBack( alert );
+      //         this.initialMovementDescribed = true;
+      //       }
+      //     }
+      //   }
+      // }
     },
 
     /**
@@ -748,7 +618,7 @@ define( function( require ) {
       this.model.jumping = true;
 
       // mute the queue so that none of the normal position updates come through while jumping
-      utteranceQueue.muted = true;
+      // utteranceQueue.muted = true;
 
       // release balloon so that the jump is not associated with velocity
       this.model.setCenter( center );
@@ -756,8 +626,7 @@ define( function( require ) {
       // clear the queue of utterances that collected as position changed
       utteranceQueue.clear();
 
-      // unmute and send a custom alert, depending on where the balloon was moved to
-      utteranceQueue.muted = false;
+      // Send a custom alert, depending on where the balloon was moved to
       var utterance = new Utterance( this.describer.movementDescriber.getJumpingDescription( center ), {
         typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );

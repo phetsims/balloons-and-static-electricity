@@ -627,6 +627,25 @@ define( function( require ) {
     },
 
     /**
+     * Whether this balloon is inducing charge in the wall. For the balloon to be inducing charge in the wall, this
+     * balloon must be visible, the wall must be visible, and the force between wall and balloon must be large enough.
+     *
+     * @return {boolean}
+     */
+    inducingCharge: function( wallVisible ) {
+
+      // if there is no charge close to the balloon, immediately return false
+      if ( !this.closestChargeInWall ) {
+        return false;
+      }
+
+      // otherwise, wall and balloon must be visible, and force must be large enough
+      var balloonForce = BalloonModel.getForceToClosestWallCharge( this );
+      var forceLargeEnough = this.closestChargeInWall.forceIndicatesInducedCharge( balloonForce );
+      return wallVisible && this.isVisibleProperty.get() && forceLargeEnough;
+    },
+
+    /**
      * Reset balloons to initial position and uncharged state. By default, this will also reset visibility.
      *
      * @param {boolean} notResetVisibility - if true, visibility will NOT be reset

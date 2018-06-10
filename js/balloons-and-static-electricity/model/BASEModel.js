@@ -13,10 +13,8 @@ define( function( require ) {
   // modules
   var BalloonModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonModel' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -73,20 +71,13 @@ define( function( require ) {
       self.playAreaBounds.setMaxX( newWidth );
     } );
 
-    // when the balloon locations change, update the closest charge in the wall
     this.balloons.forEach( function( balloon ) {
+
+      // when the balloon locations change, update the closest charge in the wall
       balloon.locationProperty.link( function( location ) {
 
-        // update whether or not the  balloon is inducing charge in the wall - can this be moved to a callback for the
-        // chargeDisplacementroperty?
+        // find the closest charge in the wall
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
-        var balloonForce = BalloonModel.getForce(
-          balloon.closestChargeInWall.locationProperty.get(),
-          balloon.getCenter(),
-          BASEConstants.COULOMBS_LAW_CONSTANT * balloon.chargeProperty.get() * PointChargeModel.CHARGE,
-          2.35
-        );
-        balloon.inducingChargeProperty.set( balloon.closestChargeInWall.forceIndicatesInducedCharge( balloonForce ) );
 
         // update whether or not the two balloons are close to each other
         self.balloonsAdjacentProperty.set( self.getBalloonsAdjacent() );
@@ -95,6 +86,16 @@ define( function( require ) {
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), self.wall.isVisibleProperty.get() ) );
         balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter() ) );
         balloon.playAreaLandmarkProperty.set( PlayAreaMap.getPlayAreaLandmark( balloon.getCenter() ) );
+      } );
+
+      // when wall visibility changes, update the Properties indicating induced charge and which charges are visible
+      self.wall.isVisibleProperty.link( function( isVisible ) {
+        balloon.touchingWallProperty.set( balloon.touchingWall() );
+      } );
+
+      // update whether the balloon is currently inducing charge in the wall
+      Property.multilink( [ self.wall.isVisibleProperty, balloon.locationProperty ], function( wallVisible, location ) {
+        balloon.inducingChargeProperty.set( balloon.inducingCharge( wallVisible ) );
       } );
     } ); 
 
