@@ -171,8 +171,8 @@ define( function( require ) {
         utteranceQueue.addToBack( alert );
       }
 
-      // always announce pickup of the last charge
-      if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE ) {
+      // announce pickup of last charge, as long as charges are visible
+      if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
         alert = self.getLastChargePickupDescription();
         utteranceQueue.addToBack( alert );
       }
@@ -211,6 +211,27 @@ define( function( require ) {
       this.movementDescriber.reset();
       this.chargeDescriber.reset();
       this.describedChargeRange = null;
+
+      // reset all variables tracking previous descriptions
+      this._describedVelocity = this.balloonModel.velocityProperty.get();
+      this._describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
+      this._describedLocation = this.balloonModel.locationProperty.get();
+      this._describedDirection = this.balloonModel.directionProperty.get();
+      this._describedVisible = this.balloonModel.isVisibleProperty.get();
+      this._describedTouchingWall = this.balloonModel.touchingWallProperty.get();
+      this._describedIsDragged = this.balloonModel.isDraggedProperty.get();
+      this._describedWallVisible = this.wall.isVisibleProperty.get();
+
+      this._oldDragLocation = this.balloonModel.locationProperty.get().copy();
+      this._dragDelta = new Vector2( 0, 0 );
+      this._chargeOnStartDrag = this.balloonModel.chargeProperty.get();
+      this._chargeOnEndDrag = this.balloonModel.chargeProperty.get();
+      this._timeSincePositionAlert = 0;
+      this._rubAlertDirty = false;
+      this._describeDirection = true;
+      this._describeWallRub = false;
+      this._initialMovementDescribed = true;
+      this._timeSinceReleaseAlert = 0;
     },
 
     /**
