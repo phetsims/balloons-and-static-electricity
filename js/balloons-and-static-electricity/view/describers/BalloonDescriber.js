@@ -879,9 +879,10 @@ define( function( require ) {
               // after describing initial movement, continue to describe direction changes
               this._describeDirection = true;
             }
-            else {
+            else if ( nextVisible === this._describedVisible ) {
 
-              // the balloon was released, but there was no movement
+              // the balloon was released, but there was no movement - but don't describe this when the balloon
+              // is first added to the play area
               utterance = this.movementDescriber.getNoChangeReleaseDescription();
               utteranceQueue.addToBack( utterance );
             }
@@ -904,6 +905,8 @@ define( function( require ) {
       }
 
       // announce any alert related to lack of movement directly after balloon release
+      // TODO: We may still need this, there is an elusive bug where the balloon is sometimes described as "not moving",
+      // start here if you see that again
       // if ( !model.isDraggedProperty.get() ) {
 
       //   // only announce this immediately after balloon is released
