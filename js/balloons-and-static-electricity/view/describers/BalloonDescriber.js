@@ -693,7 +693,7 @@ define( function( require ) {
 
             // if we stop along anywhere else in the play area, describe that movement has stopped
             // special case: if the balloon is touching the wall for the first time, don't describe this because
-            // the section of this function  observing that state will describe this
+            // the section of this function observing that state will describe this
             if ( nextTouchingWall === this._describedTouchingWall ) {
               utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
             }
