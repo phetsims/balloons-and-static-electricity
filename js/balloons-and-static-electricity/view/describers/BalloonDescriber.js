@@ -772,6 +772,7 @@ define( function( require ) {
             }
 
             // describe the change in induced charge due to balloon dragging
+            console.log( this.chargeDescriber.describeInducedChargeChange()  );
             if ( this.chargeDescriber.describeInducedChargeChange() ) {
               utterance = '';
               var wallVisible = this.wall.isVisibleProperty.get();
@@ -780,7 +781,7 @@ define( function( require ) {
               if ( dragDelta.x === 0 ) {
                 utterance = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, this.accessibleName, wallVisible );
               }
-              else {
+              else if ( !model.touchingWall() ) {
                 utterance = this.chargeDescriber.getInducedChargeChangeDescription();
               }
 

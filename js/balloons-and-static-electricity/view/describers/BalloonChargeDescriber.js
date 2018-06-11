@@ -307,8 +307,7 @@ define( function( require ) {
       var chargesShown = this.showChargesProperty.get();
       var wallVisible = this.wall.isVisibleProperty.get();
       var jumping = this.balloonModel.jumping;
-      return !this.balloonModel.touchingWall() &&
-             !jumping &&
+      return !jumping &&
              wallVisible &&
              chargesShown === 'all' &&
              ( this.balloonModel.inducingChargeProperty.get() );
