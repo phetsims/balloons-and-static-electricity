@@ -235,9 +235,10 @@ define( function( require ) {
     },
 
     /**
-     * Get the description for this balloon, including information about the Balloon's location, and charge.
-     *
-     * TODO: Rename this and provide output examples.
+     * Get the description for the balloon, the content that can be read by an assistive device in the Parallel DOM.
+     * Dependent on location, charge, and charge visibility. Will return something like:
+     * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
+     * "At center of play area, next to green balloon."
      * 
      * @return {string}
      */
