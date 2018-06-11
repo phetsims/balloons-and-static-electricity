@@ -38,8 +38,9 @@ define( function( require ) {
   // threshold for diagonal movement is +/- 15 degrees from diagonals
   var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
-  // map that determines if an object is, down, horizontally or along a diagonal between two points. The exact quadrant
-  // of the movement and the direction is determined by getDirection, see that function for use of this map
+  // map that determines if the balloon is moving up, down, horizontally or along a diagonal between two points. The
+  // exact quadrant of the movement and the direction is determined by getDirection, see that function for use of this
+  // map
   var DIRECTION_MAP = {
     DOWN: new Range( 0, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN_DIAGONAL: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -111,7 +112,8 @@ define( function( require ) {
     [ 34, 77 ]
   ];
 
-  // determine average Y position for the charges in the balloon
+  // determine average Y position for the charges in the balloon, used to calculate the average vertical location of
+  // the visual charge center
   var positionYSum = 0;
   for ( var i = 0; i < POSITIONS.length; i++ ) {
     positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
@@ -124,7 +126,6 @@ define( function( require ) {
    * @param {number} y - initial y position
    * @param {BASEModel} balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param {boolean} defaultVisibility - is the balloon visible by default?
-   * @param {string} labelString - label for the balloon
    * @param {Tandem} tandem
    * @constructor
    */
