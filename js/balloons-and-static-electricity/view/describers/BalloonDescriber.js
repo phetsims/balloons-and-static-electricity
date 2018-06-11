@@ -56,7 +56,7 @@ define( function( require ) {
   var wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
 
   // constants
-  var DESCRIPTION_REFRESH_RATE = 2000; // in ms
+  var CHARGE_DESCRIPTION_REFRESH_RATE = 2000; // in ms
 
   // in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
@@ -125,8 +125,8 @@ define( function( require ) {
     // @private - used to determine how much charge is picked up in a single drag action
     this._chargeOnEndDrag = balloon.chargeProperty.get();
 
-    // @private - time since an alert related to a position change has been announced
-    this._timeSincePositionAlert = 0;
+    // @private - time since an alert related to charge pickup has been announced
+    this._timeSinceChargeAlert = 0;
 
     // @private {boolean} - every time we drag, mark this as true so we know to describe a lack of charge pick up
     // on the sweater. Once this rub has been described, set to false
@@ -240,7 +240,7 @@ define( function( require ) {
       this._dragDelta = new Vector2( 0, 0 );
       this._chargeOnStartDrag = this.balloonModel.chargeProperty.get();
       this._chargeOnEndDrag = this.balloonModel.chargeProperty.get();
-      this._timeSincePositionAlert = 0;
+      this._timeSinceChargeAlert = 0;
       this._rubAlertDirty = false;
       this._describeDirection = true;
       this._describeWallRub = false;
@@ -684,7 +684,7 @@ define( function( require ) {
       var nextWallVisible = this.wall.isVisibleProperty.get();
 
       // update timers that determine the next time certain alerts should be announced
-      this._timeSincePositionAlert += dt * 1000;
+      this._timeSinceChargeAlert += dt * 1000;
       if ( !model.isDraggedProperty.get() ) { this._timeSinceReleaseAlert += dt * 1000; }
 
       // alerts that might stem from changes to balloon velocity (independent movement)
@@ -736,7 +736,7 @@ define( function( require ) {
 
             // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new description next
             // time we move the balloon
-            this._timeSincePositionAlert = DESCRIPTION_REFRESH_RATE;
+            this._timeSinceChargeAlert = CHARGE_DESCRIPTION_REFRESH_RATE;
 
             // if in the play area, information about movement through the play area
             var inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
@@ -897,7 +897,7 @@ define( function( require ) {
       }
 
       // announce any alert related to charge pickup (or lack of charge pickup) of the balloon
-      if ( this._timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
+      if ( this._timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
         if ( this._chargeOnStartDrag === this._chargeOnEndDrag ) {
           if ( this._rubAlertDirty ) {
             if ( nextIsDragged &&  model.onSweater() ) {
@@ -908,7 +908,7 @@ define( function( require ) {
         }
 
         this.alertNextPickup = true;
-        this._timeSincePositionAlert = 0;
+        this._timeSinceChargeAlert = 0;
         this._rubAlertDirty = false;
       }
 
