@@ -108,6 +108,7 @@ define( function( require ) {
 
     var self = this;
 
+    // @public
     this.x = x;
     this.y = y;
 
@@ -187,8 +188,6 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
 
   return inherit( Object, SweaterModel, {
-
-    //is balloon over minus charge on sweater?
 
     /**
      * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
