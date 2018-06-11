@@ -772,7 +772,6 @@ define( function( require ) {
             }
 
             // describe the change in induced charge due to balloon dragging
-            console.log( this.chargeDescriber.describeInducedChargeChange()  );
             if ( this.chargeDescriber.describeInducedChargeChange() ) {
               utterance = '';
               var wallVisible = this.wall.isVisibleProperty.get();
