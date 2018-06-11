@@ -797,9 +797,6 @@ define( function( require ) {
 
         // when the balloon visibility changes, we will start with initial movement once it becomes visible again
         this._initialMovementDescribed = false;
-
-        // clear location on release until balloon is picked up again
-        model.locationOnRelease = null;
       }
 
       // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
@@ -829,18 +826,12 @@ define( function( require ) {
 
           // we have been picked up - start describing changes to direction
           this._describeDirection = true;
-
-          // clear location of release until balloon is picked up again
-          model.locationOnRelease = null;
         }
         else {
           utterance = this.movementDescriber.getReleasedAlert();
 
           // don't describe direction until initial release description happens
           this._describeDirection = false;
-
-          // to detect if location changes due to forces after release
-          model.locationOnRelease = model.locationProperty.get();
         }
 
         utteranceQueue.addToBack( utterance );
@@ -857,7 +848,6 @@ define( function( require ) {
         // responds, just like a release
         if ( !nextWallVisible && this._describedTouchingWall ) {
           this._initialMovementDescribed = false;
-          model.locationOnRelease = model.locationProperty.get();
         }
       }
 
@@ -871,20 +861,22 @@ define( function( require ) {
             this._initialMovementDescribed = true;
 
             // get the initial alert describing balloon release
-            if ( !this._describedLocation.equals( nextLocation ) ) {
+            if ( !nextVelocity.equals( Vector2.ZERO ) ) {
 
-              utterance = this.movementDescriber.getInitialReleaseDescription( nextLocation, this._describedLocation );
+              utterance = this.movementDescriber.getInitialReleaseDescription();
               utteranceQueue.addToBack( utterance );
 
               // after describing initial movement, continue to describe direction changes
               this._describeDirection = true;
             }
-            else if ( nextVisible === this._describedVisible ) {
+            else if ( nextVelocity.equals( Vector2.ZERO ) ) {
 
-              // the balloon was released, but there was no movement - but don't describe this when the balloon
-              // is first added to the play area
-              utterance = this.movementDescriber.getNoChangeReleaseDescription();
-              utteranceQueue.addToBack( utterance );
+              // describe that the balloon was released and there was no resulting movement - but don't describe this
+              // when the balloon is first added to the play area
+              if ( nextVisible === this._describedVisible ) {
+                utterance = this.movementDescriber.getNoChangeReleaseDescription();
+                utteranceQueue.addToBack( utterance );
+              }
             }
 
             // reset timer for release alert

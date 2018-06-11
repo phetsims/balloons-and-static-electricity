@@ -227,10 +227,6 @@ define( function( require ) {
     // changes in position
     this.oldLocation = this.locationProperty.get().copy();
 
-    // @private {Vector2|null} - copy of the balloon position when balloon is released, null until there is some
-    // interaction with the balloon
-    this.locationOnRelease = null;
-
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],
@@ -877,6 +873,11 @@ define( function( require ) {
 
         // update location before velocity so that listeners associated with velocity can reference the correct
         // location on updated velocity
+        if ( this.isCharged() ) {
+          if ( newLocation.equals( this.locationProperty.get() ) ) {
+            // debugger;
+          }
+        }
         this.locationProperty.set( newLocation );
         this.velocityProperty.set( newVelocity );
       }
