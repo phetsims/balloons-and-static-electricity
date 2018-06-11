@@ -53,9 +53,10 @@ define( function( require ) {
 
     // @public
     this.playAreaBounds = new Bounds2( 0, 0, width - this.wallWidth, height );
-
     this.yellowBalloon = new BalloonModel( 440, 100, this, true, tandem.createTandem( 'yellowBalloon' ) );
     this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
+
+    // assign 'other' balloon references
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
 
