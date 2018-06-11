@@ -149,6 +149,10 @@ define( function( require ) {
     // continuous independent movement like "Moving left...Moving left...Moving left...", and so on
     this._timeSinceReleaseAlert = 0;
 
+    // @private {boolean} - flag that will prevent the firing of the "no movement" alert, set to true with toggling
+    // balloon visibility as a special case;
+    this._preventNoMovementAlert = false;
+
     // when the balloon hits the wall, reset some description flags
     this.balloonModel.touchingWallProperty.link( function( touchingWall ) {
       if ( touchingWall ) {
@@ -182,6 +186,14 @@ define( function( require ) {
       // reset flags
       self.alertFirstPickup = false;
       self.alertNextPickup = false;
+    } );
+
+    // when visibility changes, generate the alert and be sure to describe initial movement the next time the 
+    // balloon is released or added to the play area
+    balloon.isVisibleProperty.lazyLink( function( isVisible ) {
+      utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
+      self._initialMovementDescribed = false;
+      self._preventNoMovementAlert = true;
     } );
 
     // a11y - if we enter/leave the sweater announce that immediately
@@ -669,7 +681,6 @@ define( function( require ) {
      */
     step: function( dt ) {
 
-
       // for readability
       var utterance = '';
       var model = this.balloonModel;
@@ -791,13 +802,13 @@ define( function( require ) {
         }
       }
 
-      // describe updates to visibility
-      if ( this._describedVisible !== nextVisible ) {
-        utteranceQueue.addToBack( this.getVisibilityChangedDescription() );
+      // // describe updates to visibility
+      // if ( this._describedVisible !== nextVisible ) {
+      //   utteranceQueue.addToBack( this.getVisibilityChangedDescription() );
 
-        // when the balloon visibility changes, we will start with initial movement once it becomes visible again
-        this._initialMovementDescribed = false;
-      }
+      //   // when the balloon visibility changes, we will start with initial movement once it becomes visible again
+      //   this._initialMovementDescribed = false;
+      // }
 
       // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
       // currently touching the balloon since the jump will generate a unique alert
@@ -873,10 +884,11 @@ define( function( require ) {
 
               // describe that the balloon was released and there was no resulting movement - but don't describe this
               // when the balloon is first added to the play area
-              if ( nextVisible === this._describedVisible ) {
+              if ( !this._preventNoMovementAlert ) {
                 utterance = this.movementDescriber.getNoChangeReleaseDescription();
                 utteranceQueue.addToBack( utterance );
               }
+              this._preventNoMovementAlert = false;
             }
 
             // reset timer for release alert
