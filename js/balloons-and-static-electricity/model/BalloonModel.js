@@ -203,7 +203,6 @@ define( function( require ) {
     
     // @private - array of instantaneous velocity of balloon last 5 ticks
     // then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
-    // TODO: Why is a property assigned to the array?
     this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
     this.xVelocityArray.counter = 0;
     
