@@ -72,6 +72,7 @@ define( function( require ) {
       self.playAreaBounds.setMaxX( newWidth );
     } );
 
+    // add listeners to each balloon
     this.balloons.forEach( function( balloon ) {
 
       // when the balloon locations change, update the closest charge in the wall
@@ -161,7 +162,15 @@ define( function( require ) {
       return balloonsAdjacent && this.bothBalloonsVisible();
     },
 
-    //check if balloon outside world borders and return it to border if outside
+    /**
+     * Check if a balloon is outside world borders and return it to border if outside.
+     *
+     * @param {Vector2} position
+     * @param {number} objWidth - width of balloon
+     * @param {number} objHeight - height of balloon
+     *
+     * @return {[type]} [description]
+     */
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
 
       //flag to check if we outside borders
