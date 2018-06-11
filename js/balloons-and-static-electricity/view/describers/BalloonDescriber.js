@@ -108,7 +108,6 @@ define( function( require ) {
     this._describedVelocity = balloon.velocityProperty.get();
     this._describedDragVelocity = balloon.dragVelocityProperty.get();
     this._describedLocation = balloon.locationProperty.get();
-    this._describedDirection = balloon.directionProperty.get();
     this._describedVisible = balloon.isVisibleProperty.get();
     this._describedTouchingWall = balloon.touchingWallProperty.get();
     this._describedIsDragged = balloon.isDraggedProperty.get();
@@ -200,6 +199,19 @@ define( function( require ) {
     this.balloonModel.isDraggedProperty.link( function() {
       self.chargeDescriber.resetReferenceForces();
     } );
+
+    // when the balloon changes directions during dragging, announce this immediately, unless we are "jumping" the
+    // balloon to a new place in the play area.
+    this.balloonModel.directionProperty.lazyLink( function( direction ) {
+      if ( !self.balloonModel.jumping ) {
+        if ( self._describeDirection ) {
+
+          // assigned an ID so that user doesn't get flooded with direction changes when using a pointer type inputs
+          var utterance = self.movementDescriber.getDirectionChangedDescription();
+          utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'direction' } ) );  
+        }
+      }
+    } ); 
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -219,7 +231,6 @@ define( function( require ) {
       this._describedVelocity = this.balloonModel.velocityProperty.get();
       this._describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
       this._describedLocation = this.balloonModel.locationProperty.get();
-      this._describedDirection = this.balloonModel.directionProperty.get();
       this._describedVisible = this.balloonModel.isVisibleProperty.get();
       this._describedTouchingWall = this.balloonModel.touchingWallProperty.get();
       this._describedIsDragged = this.balloonModel.isDraggedProperty.get();
@@ -651,6 +662,9 @@ define( function( require ) {
      * functions, it is easier to manage here. The sacrifice is that we have to track values we care about before and
      * after each step.
      *
+     * Adding each of these in the step function also lets us directly control the order of these alerts. This is
+     * better than having Property listeners that might get called in an undesirable order.
+     *
      * @public
      */
     step: function( dt ) {
@@ -664,7 +678,6 @@ define( function( require ) {
       var nextVelocity = model.velocityProperty.get();
       var nextDragVelocity = model.dragVelocityProperty.get();
       var nextLocation = model.locationProperty.get();
-      var nextDirection = model.directionProperty.get();
       var nextVisible = model.isVisibleProperty.get();
       var nextTouchingWall = model.touchingWallProperty.get();
       var nextIsDragged = model.isDraggedProperty.get();
@@ -775,18 +788,6 @@ define( function( require ) {
 
           // update the old dragging location for next time, copy so we can compare by value
           this._oldDragLocation = nextLocation.copy();
-        }
-      }
-
-      // describe changes to direction if necessary, assigned an ID so that user doesn't get flooded
-      // with direction changes when using a pointer type input - don't describe direction changes if we are currently
-      // jumping the balloon
-      if ( this._describedDirection !== nextDirection ) {
-        if ( !model.jumping ) {
-          if ( this._describeDirection ) {
-            utterance = this.movementDescriber.getDirectionChangedDescription();
-            utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'direction' } ) );  
-          }
         }
       }
 
@@ -915,7 +916,6 @@ define( function( require ) {
       this._describedVelocity = nextVelocity;
       this._describedDragVelocity = nextDragVelocity;
       this._describedLocation = nextLocation;
-      this._describedDirection = nextDirection;
       this._describedVisible = nextVisible;
       this._describedTouchingWall = nextTouchingWall;
       this._describedIsDragged = nextIsDragged;
