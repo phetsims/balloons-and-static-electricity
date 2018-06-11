@@ -136,7 +136,7 @@ define( function( require ) {
     //------------------------------------------------
     // Properties
 
-    // @public {number}
+    // @public {number} - charge on the balloon, range goes from negative values to 0.
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       range: new Range( -POSITIONS.length, 0 ),
@@ -152,7 +152,7 @@ define( function( require ) {
       useDeepEquality: true
     } );
 
-    // @public {number}
+    // @public {boolean}
     this.isVisibleProperty = new Property( defaultVisibility, {
       tandem: tandem.createTandem( 'isVisibleProperty' ),
       phetioType: PropertyIO( BooleanIO )
@@ -183,9 +183,6 @@ define( function( require ) {
 
     // @public {boolean} - whether or not the balloon is touching the wall
     this.touchingWallProperty = new Property( false );
-
-    // @public {boolean} - whether or not the balloon is 'very close' to the sweater
-    this.atNearSweaterProperty = new Property( false );
 
     // @private string - the current column of the play area the balloon is in
     this.playAreaColumnProperty = new Property( null );
