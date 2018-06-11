@@ -769,7 +769,6 @@ define( function( require ) {
           }
 
           // if velocity has just become zero after a jump, we just completed a jumping interaction
-          // TODO: Perhaps move this to the model
           if ( model.jumping ) {
             model.jumping = false;
           }
