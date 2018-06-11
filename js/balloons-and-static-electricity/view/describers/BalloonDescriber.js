@@ -670,7 +670,7 @@ define( function( require ) {
       var nextIsDragged = model.isDraggedProperty.get();
       var nextWallVisible = this.wall.isVisibleProperty.get();
 
-      // update timers that determine
+      // update timers that determine the next time certain alerts should be announced
       this._timeSincePositionAlert += dt * 1000;
       if ( !model.isDraggedProperty.get() ) { this._timeSinceReleaseAlert += dt * 1000; }
 
