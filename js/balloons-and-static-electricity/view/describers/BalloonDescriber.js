@@ -896,30 +896,6 @@ define( function( require ) {
         }
       }
 
-      // announce any alert related to lack of movement directly after balloon release
-      // TODO: We may still need this, there is an elusive bug where the balloon is sometimes described as "not moving",
-      // start here if you see that again
-      // if ( !model.isDraggedProperty.get() ) {
-
-      //   // only announce this immediately after balloon is released
-      //   if ( !this._initialMovementDescribed ) {
-      //     if ( model.locationOnRelease ) {
-
-      //       // allow a small delay to determine if some force is acting on the balloon
-      //       if ( model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT ) {
-
-      //         // check to see if the balloon has moved since it was released
-      //         var touchingReleasePoint = model.locationProperty.get().equals( model.locationOnRelease );
-      //         if ( touchingReleasePoint ) {
-      //           utterance = this.movementDescriber.getNoChangeReleaseDescription();
-      //           utteranceQueue.addToBack( utterance );
-      //           this._initialMovementDescribed = true;
-      //         }
-      //       }
-      //     }
-      //   }
-      // } 
-
       // announce any alert related to charge pickup (or lack of charge pickup) of the balloon
       if ( this._timeSincePositionAlert > DESCRIPTION_REFRESH_RATE ) {
         if ( this._chargeOnStartDrag === this._chargeOnEndDrag ) {
