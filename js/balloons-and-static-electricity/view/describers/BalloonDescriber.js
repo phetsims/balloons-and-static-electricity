@@ -802,14 +802,6 @@ define( function( require ) {
         }
       }
 
-      // // describe updates to visibility
-      // if ( this._describedVisible !== nextVisible ) {
-      //   utteranceQueue.addToBack( this.getVisibilityChangedDescription() );
-
-      //   // when the balloon visibility changes, we will start with initial movement once it becomes visible again
-      //   this._initialMovementDescribed = false;
-      // }
-
       // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
       // currently touching the balloon since the jump will generate a unique alert
       if ( this._describedTouchingWall !== nextTouchingWall ) {
