@@ -125,13 +125,6 @@ define( function( require ) {
       } );
     },
 
-    anyChargedBalloonTouchingWall: function() {
-      var chargedYellowTouchingWall = this.yellowBalloon.touchingWall() && this.yellowBalloon.chargeProperty.get() < 0;
-      var chargedGreenTouchingWall = this.greenBalloon.touchingWall() && this.greenBalloon.chargeProperty.get() < 0;
-
-      return chargedYellowTouchingWall || chargedGreenTouchingWall;
-    },
-
     // Reset the entire model
     reset: function() {
 
