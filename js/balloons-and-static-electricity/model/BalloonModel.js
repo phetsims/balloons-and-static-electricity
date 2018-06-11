@@ -217,8 +217,8 @@ define( function( require ) {
     // @public {MovablePointChargeModel} - the closest minus charge to the balloon which is in the wall
     this.closestChargeInWall = null;
 
-    // @public - the amount of time that has passed since balloon has been released
-    this.timeSinceRelease = 0; // in ms
+    // @public {number} - in ms, the amount of time that has passed since balloon has been released
+    this.timeSinceRelease = 0;
 
     // @public (read-only) - the old location of the balloon, used throughout the model and view to calculate
     // changes in position
@@ -370,16 +370,6 @@ define( function( require ) {
      */
     rightAtWallLocation: function() {
       return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
-    },
-
-    /**
-     * Returns true if balloon right is beyond the left of the wall, regardless of whether the wall is visible. Useful
-     * for describing behavior when the wall is added and removed.
-     *
-     * @return {boolean}
-     */
-    beyondWallLeft: function() {
-      return this.getCenterX() >= PlayAreaMap.X_LOCATIONS.AT_WALL;
     },
 
     /**
@@ -579,9 +569,7 @@ define( function( require ) {
 
     /**
      * Get the position of the left touch point of the balloon against the sweater. If the balloon center is to the
-     * right of the sweater edge, use  the left edge of the balloon. Otherwise, use the balloon center. This is
-     * necessary so that when the balloon is on the right edge of the sweater, it isn't described as in the left side
-     * of the play area.
+     * right of the sweater edge, use  the left edge of the balloon. Otherwise, use the balloon center.
      *
      * @return {Vector2}
      */
@@ -611,7 +599,7 @@ define( function( require ) {
     },
 
     /**
-     * Returns true if this balloon is both inducing charge and visible.
+     * Returns true if this balloon is both inducing charge and visible. Helper function for readability.
      * @public
      * @return {boolean}
      */
@@ -751,22 +739,6 @@ define( function( require ) {
         this.getCenter(),
         -BalloonModel.FORCE_CONSTANT * sweaterModel.chargeProperty.get() * this.chargeProperty.get()
       );
-    },
-
-    /**
-     * Get the name of the object that the balloon is currently attracted to.
-     * @public
-     *
-     * @returns {string}
-     */
-    getAttractedDirection: function() {
-      var force = this.getTotalForce();
-      if ( force.x > 0 ) {
-        return BalloonDirectionEnum.RIGHT;
-      }
-      else {
-        return BalloonDirectionEnum.LEFT;
-      }
     },
 
     /**
