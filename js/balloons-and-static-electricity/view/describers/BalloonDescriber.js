@@ -344,11 +344,9 @@ define( function( require ) {
 
     /**
      * The first time the balloon picks up charges from the sweater after leaving the play
-     * area, we get an initial alert like "Yellow Balloon picks up negative charges
-     * from sweater.".
+     * area, we get an initial alert like
+     * "Yellow Balloon picks up negative charges from sweater."
      *
-     * TODO: This is only used in one place, can it be removed and added directly to getChargePickupDescription?
-     * 
      * @return {string}
      */
     getInitialChargePickupDescription: function() {
