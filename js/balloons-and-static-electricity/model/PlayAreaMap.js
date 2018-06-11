@@ -1,10 +1,14 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * A map of the 2D play area for this simulation.  The play area includes anywhere that the Balloons can move about, so it
- * contains the entire bounds of the model.  This map is used for accessibility to generate descriptions about where
- * the balloons are as they move about the play area.  There are also critical landmarks that describe where
- * the balloon is.
+ * A map of the 2D play area for this simulation.  The play area includes anywhere that the Balloons can move about,
+ * so it contains the entire bounds of the model.  This map is used for accessibility to generate descriptions about
+ * where the balloons are as they move around the play area.
+ * 
+ * The map is composed of regions and critical landmarks. For the regions, the map has columns and rows that are
+ * broken up into ranges. Each intersection of a column and row creates a described region in the play area.
+ *
+ * The X_LOCATION define critical places in the play area and the landmarks are slim columns around these.
  * 
  * @author Jesse Greenberg
  */
@@ -17,6 +21,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
 
   // constants
+  // when within this width of an X_LOCATION, balloon is considered in a landmark
   var LANDMARK_WIDTH = 20;
   var HALF_LANDMARK_WIDTH = LANDMARK_WIDTH / 2;
 
@@ -44,6 +49,7 @@ define( function( require ) {
     AT_BOTTOM: 393,
   };
 
+  // landmark ranges that surround critical x locations, but more are added below that depend on these ranges
   var LANDMARK_RANGES = {
     AT_NEAR_SWEATER: new Range( X_LOCATIONS.AT_NEAR_SWEATER - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_NEAR_SWEATER + HALF_LANDMARK_WIDTH ),
     AT_CENTER_PLAY_AREA: new Range( X_LOCATIONS.AT_CENTER_PLAY_AREA - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_CENTER_PLAY_AREA + HALF_LANDMARK_WIDTH ),
@@ -171,6 +177,13 @@ define( function( require ) {
       return row;
     },
 
+    /**
+     * Returns true if the location is determined to be in one of the landmark columns. These are the ranges
+     * that surround critical x locations.
+     *
+     * @param {Vector2s} location
+     * @return {boolean}
+     */
     inLandmarkColumn: function( location ) {
       var landmarks = PlayAreaMap.LANDMARK_RANGES;
 
