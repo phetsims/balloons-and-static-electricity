@@ -614,7 +614,7 @@ define( function( require ) {
 
       if ( !visible ) {
 
-        // if removed, simply state that
+        // if removed, simply notify removal
         description = StringUtils.fillIn( balloonRemovedPatternString, {
           balloonLabel: this.accessibleName
         } );
