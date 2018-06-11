@@ -299,15 +299,12 @@ define( function( require ) {
      * "wall, next to Green Balloon", or 
      * "right arm of sweater, next to Yellow Balloon"
      * 
-     * @return {[type]} [description]
+     * @return {string}
      */
     getBalloonLocationDescription: function() {
-      var description;
+      var description = this.getLocationDescriptionWithoutOverlap();
 
-      var describedBalloonPosition = this.getDescribedPoint();
-      var wallVisible = this.wall.isVisibleProperty.get();
-      description = BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
-
+      // include information about how balloons are adjacent if necessary
       if ( this.model.getBalloonsAdjacent() ) {
         description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
           location: description,
@@ -316,6 +313,22 @@ define( function( require ) {
       }
 
       return description;
+    },
+
+    /**
+     * Get the description for the location of the balloon, without the extra phrase "next to {{other}} balloon" in
+     * the case that the two balloons are adjacent/overlap. Will return something like
+     * "center of play area" or
+     * "upper wall" or
+     *
+     * any of the other location descriptions for the PlayAreaMap.
+     *
+     * @return {string}
+     */
+    getLocationDescriptionWithoutOverlap: function() {
+      var describedBalloonPosition = this.getDescribedPoint();
+      var wallVisible = this.wall.isVisibleProperty.get();
+      return BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
     },
 
     /**
@@ -796,7 +809,9 @@ define( function( require ) {
       var shownCharges = this.model.showChargesProperty.get();
 
       if ( shownCharges === 'all' && this.wall.isVisibleProperty.get() ) {
-        var chargeLocationString = this.getBalloonLocationDescription();
+
+        // don't include information about adjacency to other balloon in this location  description
+        var chargeLocationString = this.getLocationDescriptionWithoutOverlap();
 
         var chargeString;
         if ( this.balloonModel.inducingChargeProperty.get() ) {

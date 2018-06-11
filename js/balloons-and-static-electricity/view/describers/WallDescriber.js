@@ -302,7 +302,6 @@ define( function( require ) {
      * @returns {string}
      */
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible, options ) {
-
       options = _.extend( {
         includeWallLocation: true, // include location in the wall?
         includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
