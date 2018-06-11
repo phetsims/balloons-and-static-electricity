@@ -57,9 +57,12 @@ define( function( require ) {
 
   // constants
   var DESCRIPTION_REFRESH_RATE = 2000; // in ms
+
+  // in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
   var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
-  var RELEASE_DESCRIPTION_REFRESH_RATE = 5000; // in ms
-  // var RELEASE_DESCRIPTION_TIME_DELAY_NO_MOVEMENT = 500; // NOTE: We may still need this?
+
+  // in ms, time between alerts that tell user balloon continues to move due to force
+  var RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
 
   /**
    * @param {BASEModel} model
@@ -641,13 +644,14 @@ define( function( require ) {
     },
 
     /**
-     * Main place driving updates to descriptions of the balloon. Ordering of balloon alerts that describe
-     * interactions between balloons and other objects needs to be managed here. Separated out accross multiple
-     * listeners we didn't have the desired control, so this controls all ordering.
+     * Step the describer, driving all alerts that describe interactions with the balloon and its independent
+     * movement. It also describes lack of movement or interaction, which requires polling. Rather than implement
+     * portions of this with polling and other portions with Property observers, it was more straight forward
+     * to implement everything in this step function. The alternative distributed the implementation across several
+     * functions, it is easier to manage here. The sacrifice is that we have to track values we care about before and
+     * after each step.
      *
-     * TODO: Separate into step functions, this function is almost 300 lines!
-     *
-     * @return {}
+     * @public
      */
     step: function( dt ) {
 
@@ -666,7 +670,7 @@ define( function( require ) {
       var nextIsDragged = model.isDraggedProperty.get();
       var nextWallVisible = this.wall.isVisibleProperty.get();
 
-      // update timers
+      // update timers that determine
       this._timeSincePositionAlert += dt * 1000;
       if ( !model.isDraggedProperty.get() ) { this._timeSinceReleaseAlert += dt * 1000; }
 
