@@ -842,7 +842,6 @@ define( function( require ) {
       }
 
       // any balloon specific alerts that might come from changes to wall visibility
-      // TODO: Can this be moved into the 'touching' wall check?
       if ( this._describedWallVisible !== nextWallVisible ) {
 
         // if the wall is removed while a balloon is touching the wall, we will need to describe how the balloon
