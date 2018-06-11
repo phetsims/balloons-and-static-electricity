@@ -338,9 +338,6 @@ define( function( require ) {
         this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
       }      
 
-      // update the charge for this generated description
-      // this.chargeOnPickupDescription = newCharge;
-
       assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
       return description;
     },
