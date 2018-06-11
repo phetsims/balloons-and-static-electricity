@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
-  var BalloonLocationEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonLocationEnum' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -201,7 +200,7 @@ define( function( require ) {
       var string = '';
 
       var wallVisible = this.wall.isVisibleProperty.get();
-      var balloonInCenterPlayArea = this.balloonModel.playAreaColumnProperty.get() === BalloonLocationEnum.CENTER_PLAY_AREA;
+      var balloonInCenterPlayArea = PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA.contains( this.balloonModel.getCenterX() );
 
       if ( this.balloonModel.nearWall() && wallVisible ) {
 
