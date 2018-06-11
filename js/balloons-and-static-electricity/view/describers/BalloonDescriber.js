@@ -814,7 +814,9 @@ define( function( require ) {
             else {
 
               // generates a description of how the balloon interacts with the wall
-              utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+              if ( nextVisible ) {
+                utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+              }
             }
           }
         }

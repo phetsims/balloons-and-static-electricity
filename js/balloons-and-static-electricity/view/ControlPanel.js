@@ -115,10 +115,8 @@ define( function( require ) {
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
       self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
-      if ( !model.anyChargedBalloonTouchingWall() ) {
-        var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
+      var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
         utteranceQueue.addToBack( alertDescription );
-      }
     } );
 
     // Radio buttons related to charges
