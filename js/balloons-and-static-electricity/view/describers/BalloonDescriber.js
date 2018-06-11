@@ -87,10 +87,6 @@ define( function( require ) {
     // @private - manages descriptions about the  balloon related to balloon movement and location
     this.movementDescriber = new  BalloonLocationDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
 
-    // @private - the charge on the balloon when we generate a pickup description,
-    // tracked so we know how to describe the next pickup
-    this.chargeOnPickupDescription = this.balloonModel.chargeProperty.get();
-
     // @private - used to track previous values after an interaction so that we can accurately describe how 
     // the model has changed
     this.describedChargeRange = null;
