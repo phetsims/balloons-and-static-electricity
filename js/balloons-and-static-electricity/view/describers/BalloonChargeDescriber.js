@@ -1,8 +1,9 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * Generates descriptions related to the balloon's charge, which is highly dependent on which charges are visible
- * in the sim, the value of BASEModel.showChargesProperty.
+ * Generates descriptions about to the balloon's charge, which is dependent on which charges are visible
+ * in the sim and the value of BASEModel.showChargesProperty.
+ * 
  * @author Jesse Greenberg
  */
 
@@ -50,8 +51,8 @@ define( function( require ) {
    * @constructor
    * @param {BASEModel} model
    * @param {BalloonModel} balloonModel
-   * @param {string} accessibleName
-   * @param {string} otherAccessibleName
+   * @param {string} accessibleName - the accessible name for this balloon
+   * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
    */
   function BalloonChargeDescriber( model, balloonModel, accessibleName, otherAccessibleName ) {
 
@@ -63,11 +64,13 @@ define( function( require ) {
     this.otherAccessibleName = otherAccessibleName;
     this.showChargesProperty = model.showChargesProperty;
 
-    // @private - Allows us to track the change in the balloon's induced charge
+    // @private - Allows us to track the change in the balloon's induced charge, useful for describing how the charges
+    // move towards or away their resting positions
     this.previousForceMagnitude = 0;
 
-    // @private - the previous magnitude of force delta normalized, so we can track whether induced charge increases or
-    // decreases between when a description of induced charge change is triggered
+    // @private - The previous magnitude of force delta normalized, so we can track whether induced charge increases or
+    // decreases between when a description of induced charge change is triggered. Useful for describing how induced
+    // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
     this.previousForceMagnitudeNormalized = 0;
   }
 
@@ -296,7 +299,7 @@ define( function( require ) {
     },
 
     /**
-     * Retrurn whether or not change in induced charge should be described for the balloon. If the balloon not on
+     * Return whether or not change in induced charge should be described for the balloon. If the balloon not on
      * the wall and is inducing charge while all charges are visible we will always describe change. If we described
      * that the charges moved away from the balloon, we will always describe the return of induced charges at least
      * once.
@@ -372,6 +375,17 @@ define( function( require ) {
     // statics
     //--------------------------------------------------------------------------
     
+    /**
+     * Get the relative charge description of a balloon, will return something like
+     * "no more negative charges than positive charges" or
+     * "several more negative charges than positive charges" or
+     * "showing several negative charges"
+     *
+     * @param {BalloonModel} balloonModel
+     * @param {string} showCharges - one of 'all', 'none, 'diff'
+     *
+     * @return {string}
+     */
     getRelativeChargeDescription: function( balloonModel, showCharges ) {
       var description;
       var chargeValue = Math.abs( balloonModel.chargeProperty.get() );
