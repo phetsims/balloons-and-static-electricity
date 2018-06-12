@@ -55,6 +55,7 @@ define( function( require ) {
    * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
    */
   function BalloonChargeDescriber( model, balloonModel, accessibleName, otherAccessibleName ) {
+    var self = this;
 
     // @private
     this.model = model;
@@ -72,6 +73,20 @@ define( function( require ) {
     // decreases between when a description of induced charge change is triggered. Useful for describing how induced
     // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
     this.previousForceMagnitudeNormalized = 0;
+
+    // listeners, no need to unlink
+    // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
+    balloonModel.inducingChargeProperty.link( function( inducingCharge ) {
+      if ( !inducingCharge ) {
+        self.resetReferenceForces();
+      }
+    } );
+
+    // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
+    // in the wall
+    balloonModel.isDraggedProperty.link( function() {
+      self.resetReferenceForces();
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );

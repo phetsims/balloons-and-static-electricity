@@ -56,10 +56,12 @@ define( function( require ) {
   var wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
 
   // constants
-  var CHARGE_DESCRIPTION_REFRESH_RATE = 2000; // in ms
 
   // in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
-  var RELEASE_DESCRIPTION_TIME_DELAY = 25; // in ms
+  var RELEASE_DESCRIPTION_TIME_DELAY = 25;
+
+  // in ms, limits frequency of charge pickup alerts
+  var CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
 
   // in ms, time between alerts that tell user balloon continues to move due to force
   var RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
@@ -68,6 +70,8 @@ define( function( require ) {
    * @param {BASEModel} model
    * @param {WallModel} wall
    * @param {BalloonModel} balloon
+   * @param {string} accessibleLabel - accessible name for the balloon being described
+   * @param {string} otherAccessibleLabel - accessible name for the other balloon being described
    * @constructor
    */
   function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
@@ -100,7 +104,7 @@ define( function( require ) {
     // when balloon moves)
     this.alertNextPickup = false;
 
-    // @private - variables tracking state and how it changes between description steps
+    // @private - variables tracking state and how it changes between description steps, see step() below
     this.describedVelocity = balloon.velocityProperty.get();
     this.describedDragVelocity = balloon.dragVelocityProperty.get();
     this.describedLocation = balloon.locationProperty.get();
@@ -156,13 +160,6 @@ define( function( require ) {
       }
     } );
 
-    // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
-    this.balloonModel.inducingChargeProperty.link( function( inducingCharge ) {
-      if ( !inducingCharge ) {
-        self.chargeDescriber.resetReferenceForces();
-      }
-    } );
-
     // announce alerts related to charge change
     balloon.chargeProperty.link( function updateCharge( chargeVal ) {
       var alert;
@@ -201,13 +198,7 @@ define( function( require ) {
       // entering sweater, indicate that we need to alert the next charge pickup
       self.alertFirstPickup = true;
     } );
-
-    // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
-    // in the wall
-    this.balloonModel.isDraggedProperty.link( function() {
-      self.chargeDescriber.resetReferenceForces();
-    } );
-
+    
     // when the balloon changes directions during dragging, announce this immediately, unless we are "jumping" the
     // balloon to a new place in the play area.
     this.balloonModel.directionProperty.lazyLink( function( direction ) {
