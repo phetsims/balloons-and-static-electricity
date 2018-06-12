@@ -151,15 +151,8 @@ define( function( require ) {
     this.timeSinceReleaseAlert = 0;
 
     // @private {boolean} - flag that will prevent the firing of the "no movement" alert, set to true with toggling
-    // balloon visibility as a special case;
+    // balloon visibility as a special case so we don't trigger this alert when added to the play area
     this.preventNoMovementAlert = false;
-
-    // when the balloon hits the wall, reset some description flags
-    this.balloonModel.touchingWallProperty.link( function( touchingWall ) {
-      if ( touchingWall ) {
-        self.previousDeltaNormalized = 0;
-      }
-    } );
 
     // announce alerts related to charge change
     balloon.chargeProperty.link( function updateCharge( chargeVal ) {
