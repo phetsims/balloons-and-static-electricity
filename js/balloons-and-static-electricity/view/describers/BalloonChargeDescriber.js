@@ -82,6 +82,11 @@ define( function( require ) {
       }
     } );
 
+    // when the balloon touches the wall, values that help describe change in charges
+    balloonModel.touchingWallProperty.link( function() {
+      self.resetReferenceForces();
+    } );
+
     // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
     // in the wall
     balloonModel.isDraggedProperty.link( function() {
