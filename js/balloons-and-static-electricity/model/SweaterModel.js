@@ -10,20 +10,13 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Range = require( 'DOT/Range' );
   var Shape = require( 'KITE/Shape' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Vector2 = require( 'DOT/Vector2' );
-
-  // a11y strings
-  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePattern.value;
-  var netPositiveString = BASEA11yStrings.netPositive.value;
-  var netNeutralString = BASEA11yStrings.netNeutral.value;
 
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
   var CHARGE_PAIR_POSITIONS = [
@@ -182,6 +175,7 @@ define( function( require ) {
       );
       self.minusCharges.push( minusCharge );
     } );
+
     this.reset();
   }
 
@@ -193,6 +187,7 @@ define( function( require ) {
      * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
      * charges from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved.
      *
+     * @public
      * @param  {BalloonModel} balloon
      * @returns {boolean} chargeMoved - was a charge moved to the balloon?
      */
@@ -216,7 +211,14 @@ define( function( require ) {
       return chargeMoved;
     },
 
-    //charge from sweater to balloon
+    /**
+     * Move a charge from sweater to balloon. Done by updating charge Properties, this sim doesn't actually
+     * transfer charges from one object to another.
+     *
+     * @public
+     * @param {PointChargeModel} charge
+     * @param {BalloonModel}
+     */
     moveChargeTo: function( charge, balloon ) {
       charge.movedProperty.set( true );
       balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
@@ -224,21 +226,10 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the sweater's charge for accessibility
+     * Reset the SweaterModel.
      *
-     * @accessibility
-     * @returns {string}
+     * @public
      */
-    getChargeDescription: function() {
-      if ( this.chargeProperty.get() > 0 ) {
-        return StringUtils.format( sweaterNetChargePatternString, netPositiveString );
-      }
-      else {
-        return StringUtils.format( sweaterNetChargePatternString, netNeutralString );
-      }
-    },
-
-    // Reset the entire model
     reset: function() {
       this.minusCharges.forEach( function( entry ) {
         entry.movedProperty.set( false );
