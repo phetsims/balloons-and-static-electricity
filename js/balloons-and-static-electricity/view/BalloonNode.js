@@ -120,10 +120,6 @@ define( function( require ) {
       get: function() { return model.locationProperty.get(); }
     };
 
-    var startDragListener = function() {
-      self.describeWallRub = true;
-    };
-
     var endDragListener = function() {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -135,9 +131,6 @@ define( function( require ) {
 
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
-      startDrag: function() {
-        startDragListener();
-      },
       onDrag: function() {
 
         // make sure the balloon is dragged - when this node is blurred, isDraggedProperty is set to false and this
@@ -262,7 +255,6 @@ define( function( require ) {
         }
       },
       start: function( event ) {
-        startDragListener();
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {

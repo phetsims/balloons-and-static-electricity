@@ -96,12 +96,13 @@ define( function( require ) {
     this.describedChargeRange = null;
 
     // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
-    // balloon, will be set to true every time the balloon enters or leaves the sweater
+    // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
+    // "Balloon picks up negative charges from sweater"
     this.alertFirstPickup = false;
 
     // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
-    // pickup alert, every time the balloon moves, this is reset (only want to anounce charges
-    // when balloon moves)
+    // pickup alert, every time interval of CHARGE_DESCRIPTION_REFRESH_RATE, this is set to true so we don't
+    // alert every time the balloon picks up a charges.
     this.alertNextPickup = false;
 
     // @private - variables tracking state and how it changes between description steps, see step() below
@@ -113,7 +114,7 @@ define( function( require ) {
     this.describedIsDragged = balloon.isDraggedProperty.get();
     this.describedWallVisible = wall.isVisibleProperty.get();
 
-    // @private - used to determine change in position during a single drag movement, copy so we can compare by value
+    // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
     this.oldDragLocation = balloon.locationProperty.get().copy();
 
     // @private - monitors position delta in a single drag
@@ -133,10 +134,10 @@ define( function( require ) {
     this.rubAlertDirty = false;
 
     // @private {boolean} - whether or not we describe direction changes. After certain interactions we do not want
-    // to describe the direction, or the direction is implicit in another alert
+    // to describe the direction, or the direction is included implicitly in another alert
     this.describeDirection = true;
 
-    // @private {boolean} - flag that indicates that user actions have lead to it  being time for a "wall rub" to be
+    // @private {boolean} - flag that indicates that user actions have lead to it being time for a "wall rub" to be
     // described
     this.describeWallRub = false;
 
@@ -198,7 +199,7 @@ define( function( require ) {
       // entering sweater, indicate that we need to alert the next charge pickup
       self.alertFirstPickup = true;
     } );
-    
+
     // when the balloon changes directions during dragging, announce this immediately, unless we are "jumping" the
     // balloon to a new place in the play area.
     this.balloonModel.directionProperty.lazyLink( function( direction ) {
@@ -715,9 +716,11 @@ define( function( require ) {
       // alerts that might come from changes to balloon drag velocity
       if ( !nextDragVelocity.equals( this.describedDragVelocity ) ) {
 
-        // if we start from zero, we are initiating a drag - update the charge on start for this case
+        // if we start from zero, we are initiating a drag - update the charge on start for this case and start
+        // describing wall rubs
         if ( this.describedDragVelocity.equals( Vector2.ZERO ) ) {
           this.chargeOnStartDrag = model.chargeProperty.get();
+          this.describeWallRub = true;
         }
 
         // if the drag velocity is zero, describe how the position has changed since the last drag - this is preferable
@@ -767,7 +770,7 @@ define( function( require ) {
               if ( dragDelta.x === 0 ) {
                 utterance = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, this.accessibleName, wallVisible );
               }
-              else if ( !model.touchingWall() ) {
+              else {
                 utterance = this.chargeDescriber.getInducedChargeChangeDescription();
               }
 
