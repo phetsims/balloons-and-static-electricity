@@ -479,7 +479,7 @@ define( function( require ) {
     // Induced charge change strings
     //--------------------------------------------------------------------------
     moreInducedChargePattern: {
-      value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.',
+      value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.'
     },
     lessInducedChargePattern: {
       value: 'Negative charges in {{location}} {{movement}}.'

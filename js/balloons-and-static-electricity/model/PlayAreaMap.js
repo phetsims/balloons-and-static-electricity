@@ -31,7 +31,7 @@ define( function( require ) {
     AT_CENTER_PLAY_AREA: 507,
     AT_NEAR_WALL: 596,
     AT_WALL: 621,
-    AT_NEAR_RIGHT_EDGE: 676,
+    AT_NEAR_RIGHT_EDGE: 676
   };
 
   // critical y locations for the balloon (relative to the balloon's center)
@@ -46,7 +46,7 @@ define( function( require ) {
 
   var Y_BOUNDARY_LOCATIONS = {
     AT_TOP: 111,
-    AT_BOTTOM: 393,
+    AT_BOTTOM: 393
   };
 
   // landmark ranges that surround critical x locations, but more are added below that depend on these ranges

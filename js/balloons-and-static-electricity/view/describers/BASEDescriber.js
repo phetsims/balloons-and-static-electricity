@@ -164,7 +164,7 @@ define( function( require ) {
     AT_VERY_CLOSE_TO_WALL: {
       UPPER_PLAY_AREA: landmarkVeryCloseToUpperWallString,
       CENTER_PLAY_AREA: landmarkVeryCloseToWallString,
-      LOWER_PLAY_AREA: landmarkVeryCloseToLowerWallString,
+      LOWER_PLAY_AREA: landmarkVeryCloseToLowerWallString
     },
     AT_WALL: {
       UPPER_PLAY_AREA: upperWallString,

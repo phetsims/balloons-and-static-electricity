@@ -95,7 +95,7 @@ define( function( require ) {
     var labelWithContent = HelpContent.labelWithIcon( label, icons, {
       iconOptions: {
         tagName: 'p', // it is the only item so it is a p rather than an li
-        innerContent: grabOrReleaseBalloonDescriptionString,
+        innerContent: grabOrReleaseBalloonDescriptionString
       }
     } );
 

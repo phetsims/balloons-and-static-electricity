@@ -186,7 +186,7 @@ define( function( require ) {
       if ( this.model.sweater.chargeProperty.get() === 0 && wallVisible ) {
         var chargedObjectsString = StringUtils.fillIn( summaryObjectsHaveChargePatternString, {
           objects: summarySweaterAndWallString,
-          charge: zeroString,
+          charge: zeroString
         } );
 
         var patternString = chargesShown === 'all' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
@@ -326,13 +326,13 @@ define( function( require ) {
       else {
         if ( greenInducingChargeAndVisilbe ) {
           description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, {
-            includeWallLocation: false,
+            includeWallLocation: false
             // includePositiveChargeInfo: false
           } );
         }
         else if ( yellowInducingChargeAndVisible ) {
           description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
-            includeWallLocation: false,
+            includeWallLocation: false
             // includePositiveChargeInfo: false
           } );
         }

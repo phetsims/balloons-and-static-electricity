@@ -185,7 +185,7 @@ define( function( require ) {
       if ( ( yellowBalloon.inducingChargeProperty.get() || greenBalloon.inducingChargeAndVisible() ) && chargesShown === 'all' && wallVisible ) {
         inducedChargeString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
           inducedCharge: inducedChargeString,
-          positiveCharges: positiveChargesDoNotMoveString,
+          positiveCharges: positiveChargesDoNotMoveString
         } );
 
         wallChargeString = StringUtils.fillIn( wallChargeWithInducedPatternString, {
@@ -333,7 +333,7 @@ define( function( require ) {
 
         descriptionString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
           inducedCharge: descriptionString,
-          positiveCharges: positiveChargesDoNotMoveString,
+          positiveCharges: positiveChargesDoNotMoveString
         } );
       }
 
