@@ -1,8 +1,8 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Model of a wall.
- * Wall have electrons which can change position under force from balloons
+ * Model of a wall. Wall have electrons which can change position under force from balloons.
+ * 
  * @author Vasily Shakhov (Mlearner)
  */
 define( function( require ) {
@@ -148,7 +148,14 @@ define( function( require ) {
       } );
     },
 
-    //function to place charges on wall's grid
+    /**
+     * Function that will place charges on wall's grid.
+     *
+     * @param {number} i - column number
+     * @param {number} k - row number
+     *
+     * @return {Array.<number>} - an array containing the x and y values for the charge
+     */
     calculatePosition: function( i, k ) {
       var y0 = i % 2 === 0 ? this.dy / 2 : 1;
       return [ i * this.dx + PointChargeModel.RADIUS + 1, k * this.dy + y0 ];
