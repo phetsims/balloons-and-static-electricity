@@ -52,39 +52,58 @@ define( function( require ) {
   };
 
   // landmark ranges that surround critical x locations, but more are added below that depend on these ranges
-  var LANDMARK_RANGES = {
-    AT_NEAR_SWEATER: new Range( X_LOCATIONS.AT_NEAR_SWEATER - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_NEAR_SWEATER + HALF_LANDMARK_WIDTH ),
-    AT_CENTER_PLAY_AREA: new Range( X_LOCATIONS.AT_CENTER_PLAY_AREA - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_CENTER_PLAY_AREA + HALF_LANDMARK_WIDTH ),
-    AT_NEAR_WALL: new Range( X_LOCATIONS.AT_NEAR_WALL - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_NEAR_WALL + HALF_LANDMARK_WIDTH ),
-    AT_NEAR_RIGHT_EDGE: new Range( X_LOCATIONS.AT_NEAR_RIGHT_EDGE - HALF_LANDMARK_WIDTH, X_LOCATIONS.AT_NEAR_RIGHT_EDGE + HALF_LANDMARK_WIDTH )
-  };
+  var atNearSweaterRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_SWEATER );
+  var atCenterPlayAreaRange = createLandmarkRange( X_LOCATIONS.AT_CENTER_PLAY_AREA );
+  var atNearWallRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_WALL );
+  var atNearRightEdgeRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_RIGHT_EDGE );
 
+  // special ranges with slightly different widths, but that behave just like a landmark in the play area
   // at 'very close to sweater' landmark which extends to the left off the 'near sweater' landmark until we hit the sweater
-  LANDMARK_RANGES.AT_VERY_CLOSE_TO_SWEATER = new Range( LANDMARK_RANGES.AT_NEAR_SWEATER.min - LANDMARK_WIDTH, LANDMARK_RANGES.AT_NEAR_SWEATER.min );
+  var atVeryCloseToSweaterRange = new Range( atNearSweaterRange.min - LANDMARK_WIDTH, atNearSweaterRange.min );
 
-  // AT 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until just before we hit the wall
-  LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL = new Range( LANDMARK_RANGES.AT_NEAR_WALL.max, X_LOCATIONS.AT_WALL - 1 );
+  // at 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until just before we hit the wall
+  var atVeryCloseToWallRange = new Range( atNearWallRange.max, X_LOCATIONS.AT_WALL - 1 );
 
   // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until just before we hit the right edge
-  LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE = new Range( LANDMARK_RANGES.AT_NEAR_RIGHT_EDGE.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
-
-  // ranges that define columns in the play area
-  var COLUMN_RANGES = {
-    LEFT_ARM: new Range( -Number.MAX_VALUE, 138 ),
-    LEFT_SIDE_OF_SWEATER: new Range( 138, 203 ),
-    RIGHT_SIDE_OF_SWEATER: new Range( 203, 270 ),
-    RIGHT_ARM: new Range( 270, 335 ),
-    LEFT_PLAY_AREA: new Range( 335, 467 ),
-    CENTER_PLAY_AREA: new Range( 467, 544 ),
-    RIGHT_PLAY_AREA: new Range( 544, 676 ),
-    RIGHT_EDGE: new Range( 676, Number.MAX_VALUE )
+  var atVeryCloseToRightEdgeRange = new Range( atNearRightEdgeRange.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
+  var LANDMARK_RANGES = {
+    AT_NEAR_SWEATER: atNearSweaterRange,
+    AT_CENTER_PLAY_AREA: atCenterPlayAreaRange,
+    AT_NEAR_WALL: atNearWallRange,
+    AT_NEAR_RIGHT_EDGE: atNearRightEdgeRange,
+    AT_VERY_CLOSE_TO_SWEATER: atVeryCloseToSweaterRange,
+    AT_VERY_CLOSE_TO_WALL: atVeryCloseToWallRange,
+    AT_VERY_CLOSE_TO_RIGHT_EDGE: atVeryCloseToRightEdgeRange
   };
 
-  // ranges that define the rows of the play area
+  // ranges that define columns in the play area, exact widths chosen by inspection to match mockup provided in #222
+  var leftArmRange = createNextRange( 138 );
+  var leftSideOfSweaterRange = createNextRange( 65, leftArmRange );
+  var rightSideOfSweaterRange = createNextRange( 67, leftSideOfSweaterRange );
+  var rightArmRange = createNextRange( 65, rightSideOfSweaterRange );
+  var leftPlayAreaRange = createNextRange( 132, rightArmRange );
+  var centerPlayAreaRange = createNextRange( 77, leftPlayAreaRange );
+  var rightPlayAreaRange = createNextRange( 132, centerPlayAreaRange );
+  var rightEdgeRange = createNextRange( 500, rightPlayAreaRange ); // extends far beyond the play area bounds
+  var COLUMN_RANGES = {
+    LEFT_ARM: leftArmRange,
+    LEFT_SIDE_OF_SWEATER: leftSideOfSweaterRange,
+    RIGHT_SIDE_OF_SWEATER: rightSideOfSweaterRange,
+    RIGHT_ARM: rightArmRange,
+    LEFT_PLAY_AREA: leftPlayAreaRange,
+    CENTER_PLAY_AREA: centerPlayAreaRange,
+    RIGHT_PLAY_AREA: rightPlayAreaRange,
+    RIGHT_EDGE: rightEdgeRange
+  };
+
+  // ranges that define the rows of the play area, exact heights chosen by inspection to match mockup in #222
+  var upperPlayAreaRange = createNextRange( 172 );
+  var centerPlayAreaRowRange = createNextRange( 154, upperPlayAreaRange );
+  var lowerPlayAreaRange = createNextRange( 500, centerPlayAreaRowRange );
   var ROW_RANGES = {
-    UPPER_PLAY_AREA: new Range( -Number.MAX_VALUE, 172 ),
-    CENTER_PLAY_AREA: new Range( 172, 326 ),
-    LOWER_PLAY_AREA: new Range( 326, Number.MAX_VALUE )
+    UPPER_PLAY_AREA: upperPlayAreaRange,
+    CENTER_PLAY_AREA: centerPlayAreaRowRange,
+    LOWER_PLAY_AREA: lowerPlayAreaRange
   };
 
   var PlayAreaMap = {
@@ -204,6 +223,32 @@ define( function( require ) {
   };
 
   balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );
+
+  /**
+   * Create a range of the play area, optionally taking a previous range. If provided, the range that is returned will
+   * start from the max value of the previous range.
+   *
+   * @param {number} width - desired width of the next range
+   * @param {Range} [previousRange] - if provided, next range will start from max of this range
+   *
+   * @return {Range}
+   */
+  function createNextRange( width, previousRange ) {
+    var min = previousRange ? previousRange.max : 0;
+    return new Range( min, min + width );
+  }
+
+  /**
+   * Create a range in the play area that signifies a landmark. A landmark is a specific location in the Play Area
+   * that is critical and has more important information. It is generally more narrow than the larger regions of the
+   * PlayArea that define how the balloon's location should be described.
+   *
+   * @param {number} xLocation - center of the landmark
+   * @return {Range}
+   */
+  function createLandmarkRange( xLocation ) {
+    return new Range( xLocation - HALF_LANDMARK_WIDTH, xLocation + HALF_LANDMARK_WIDTH );
+  }
 
   return PlayAreaMap;
 } );
