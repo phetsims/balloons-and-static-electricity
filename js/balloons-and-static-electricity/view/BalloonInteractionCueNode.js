@@ -147,6 +147,14 @@ define( function( require ) {
   balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
 
   return inherit( Node, BalloonInteractionCueNode, {
+
+    /**
+     * Create a node that looks like a keyboard letter key next to an arrow indicating the direction the balloon
+     * would move if that key is pressed.
+     *
+     * @param {string} direction - 'up'|'down'|'left'|'right'
+     * @return {Node}
+     */
     createMovementKeyNode: function( direction ) {
 
       // create the arrow icon
@@ -161,7 +169,7 @@ define( function( require ) {
         rotation: DIRECTION_ANGLES[ direction ]
       } );
 
-      // determine direction dependent variables
+      // create the letter key nodes and place in the correct layout box
       var keyIcon;
       var box;
       if ( direction === 'up' ) {
