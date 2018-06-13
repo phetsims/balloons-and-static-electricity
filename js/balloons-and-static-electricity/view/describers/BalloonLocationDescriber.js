@@ -159,11 +159,6 @@ define( function( require ) {
     this.balloonDescriber = balloonDescriber;
     this.accessibleName = accessibleName;
     this.otherAccessibleName = otherAccessibleName;
-
-    // @private - once the balloon has been picked up, we don't need to include certain information on grab until
-    // it is reset again
-    // TODO: Something like this is used elsewhere, isolate in model
-    this.balloonPickedUp = false;
   }
 
   balloonsAndStaticElectricity.register( 'BalloonLocationDescriber', BalloonLocationDescriber );
@@ -910,15 +905,12 @@ define( function( require ) {
       }
 
       // if this is the first time picking up the balloon, include help content
-      if ( !this.balloonPickedUp ) {
+      if ( !this.balloonModel.successfulPickUp ) {
         description = StringUtils.fillIn( grabbedWithHelpPatternString, {
           grabbedAlert: description,
-          help: interactionCueString
+          help: interactionCueString  
         } );
       }
-
-      // signify that the balloon has been picked up, don't include help conteent again
-      this.balloonPickedUp = true;
 
       return description;
     },
@@ -994,14 +986,6 @@ define( function( require ) {
       // after jumping, reset induced charge description flags
       this.inducedChargeDisplacementOnEnd = false;
       return description;
-    },
-
-    /**
-     * Reset the flag that indicates whether or not the balloon has been successfully picked up.
-     * @public
-     */
-    reset: function() {
-      this.balloonPickedUp = false;
     }
   } );
 } );

@@ -55,11 +55,7 @@ define( function( require ) {
 
     // Create the help content for the space key to pick up the balloon
     var spaceKeyNode = new SpaceKeyNode( { keyHeight: KEY_HEIGHT, minKeyWidth: SPACE_KEY_WIDTH } );
-
-    var spaceLabelText = new RichText( toGrabOrReleaseString, {
-      font: new PhetFont( 12 )
-    } );
-
+    var spaceLabelText = new RichText( toGrabOrReleaseString, { font: new PhetFont( 12 ) } );
     var spaceKeyHBox = new HBox( {
       children: [ spaceKeyNode, spaceLabelText ],
       spacing: 10

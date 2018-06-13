@@ -210,6 +210,10 @@ define( function( require ) {
     // area without dragging or an applied force
     this.jumping = false;
 
+    // @public {boolean} - flag that indicates whether the balloon has successfully been picked up since the last
+    // reset of the model
+    this.successfulPickUp = false;
+
     // @public (read-only) dimensions of the balloon
     this.width = BALLOON_WIDTH;
     this.height = BALLOON_HEIGHT;
@@ -647,6 +651,8 @@ define( function( require ) {
         this.isVisibleProperty.reset();
       }
       this.isDraggedProperty.reset();
+
+      this.successfulPickUp = false;
 
       // broadcast a message when we are reset
       this.resetEmitter.emit();

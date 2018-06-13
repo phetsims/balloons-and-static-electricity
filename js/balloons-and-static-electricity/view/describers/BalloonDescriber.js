@@ -240,7 +240,6 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.movementDescriber.reset();
       this.chargeDescriber.reset();
       this.describedChargeRange = null;
 
@@ -834,8 +833,9 @@ define( function( require ) {
         if ( nextIsDragged ) {
           utterance = this.movementDescriber.getGrabbedAlert();
 
-          // we have been picked up - start describing changes to direction
+          // we have been picked up successfully
           this.describeDirection = true;
+          model.successfulPickUp = true;
         }
         else {
           utterance = this.movementDescriber.getReleasedAlert();
