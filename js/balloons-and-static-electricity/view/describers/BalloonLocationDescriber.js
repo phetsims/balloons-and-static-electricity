@@ -440,14 +440,6 @@ define( function( require ) {
         // if moving to the right and we enter the 'near sweater' landmark, ignore
         alert = null;
       }
-      else if ( playAreaLandmark === 'AT_VERY_CLOSE_TO_SWEATER' ) {
-        var movingSlowlyLeft = this.balloonModel.movingLeft() && dragSpeed < SLOW_BALLOON_SPEED;
-
-        // only announce that we are very close to the sweater when moving slowly to the left
-        if ( !movingSlowlyLeft ) {
-          alert = null;
-        }
-      }
       else if ( playAreaLandmark === 'AT_VERY_CLOSE_TO_WALL' || playAreaLandmark === 'AT_VERY_CLOSE_TO_RIGHT_EDGE' ) {
 
         // only announce that we are very close to the wall when moving slowly and when the wall is visible
