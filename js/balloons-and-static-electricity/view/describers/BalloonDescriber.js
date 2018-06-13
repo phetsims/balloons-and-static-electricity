@@ -204,7 +204,24 @@ define( function( require ) {
           utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'direction' } ) );  
         }
       }
-    } ); 
+    } );
+
+    // when drag velocity starts from zero, or hits zero, update charge counts on start/end drag so we can determine
+    // how much charge has been picked up in a single interaction
+    this.balloonModel.dragVelocityProperty.link( function( velocity, oldVelocity ) {
+      if ( oldVelocity ) {
+        if ( oldVelocity.equals( Vector2.ZERO ) ) {
+
+          // we just started dragging
+          self.chargeOnStartDrag = balloon.chargeProperty.get();
+        }
+        else if ( velocity.equals( Vector2.ZERO ) ) {
+
+          // we just finished a drag interaction
+          self.chargeOnEndDrag = balloon.chargeProperty.get();
+        }
+      }
+    } );
   }
 
   balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
@@ -712,7 +729,6 @@ define( function( require ) {
         // if we start from zero, we are initiating a drag - update the charge on start for this case and start
         // describing wall rubs
         if ( this.describedDragVelocity.equals( Vector2.ZERO ) ) {
-          this.chargeOnStartDrag = model.chargeProperty.get();
           this.describeWallRub = true;
         }
 
@@ -771,7 +787,6 @@ define( function( require ) {
             }
 
             // update flags that indicate which alerts should come next
-            this.chargeOnEndDrag = model.chargeProperty.get();
             this.rubAlertDirty = true;
           }
 
@@ -888,7 +903,7 @@ define( function( require ) {
       if ( this.timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
         if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
           if ( this.rubAlertDirty ) {
-            if ( nextIsDragged &&  model.onSweater() ) {
+            if ( nextIsDragged && model.onSweater() ) {
               utterance = this.getNoChargePickupDescription();
               utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'chargeAlert' } ) );
             }
