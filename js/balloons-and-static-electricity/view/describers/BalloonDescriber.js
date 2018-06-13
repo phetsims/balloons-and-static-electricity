@@ -2,9 +2,20 @@
 // Copyright 2016-2017, University of Colorado Boulder
 
 /**
- * This type allows for determining descriptions for the balloon.  Describing the location of the balloon
- * is quite complicated so this distributes the description work so that BalloonNode does not become
- * a massive file.  Used for accessibility.
+ * Manages accessibility descriptions for a balloon in this simulation. Is responsible for functions that
+ * generate descriptions, as well as adding updating descriptive content and announcing alerts when model Properties
+ * change.
+ *
+ * Some alerts require polling because they have to be announced after a lack of property change after some interaction.
+ * For instance, after a balloon is released, if it doesn't move due to an applied force we need to alert that there
+ * was no movement. So BalloonDecriber manages the before/after values necessary to accomplish this. Property observers
+ * are used where possible, but for alerts that need to be timed around those that use polling, it is more
+ * straight forward to have those use polling as well.
+ *
+ * This file is quite large. It distributes some logic into additional files (BalloonLocationDescriber,
+ * BalloonChargeDescriber) that describe particular aspects of a balloon. Further abstraction doesn't feel helpful
+ * as it all pertains to general balloon description, so I decided to keep the remaining functions in this file for
+ * easy discoverability.
  *
  * @author Jesse Greenberg
  */
@@ -53,7 +64,6 @@ define( function( require ) {
   var wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
 
   // constants
-
   // in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
   var RELEASE_DESCRIPTION_TIME_DELAY = 25;
 
@@ -912,7 +922,7 @@ define( function( require ) {
         this.rubAlertDirty = false;
       }
 
-      // update variables tracking hysteresis
+      // update variables for next step
       this.describedVelocity = nextVelocity;
       this.describedDragVelocity = nextDragVelocity;
       this.describedLocation = nextLocation;
