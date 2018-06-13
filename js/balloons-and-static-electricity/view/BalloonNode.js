@@ -80,6 +80,9 @@ define( function( require ) {
       labelContent: accessibleLabelString
     }, options );
 
+    assert && assert( !options.tandem, 'required param' );
+    options.tandem = tandem;
+
     // super constructor
     Node.call( this, options );
 
@@ -220,7 +223,7 @@ define( function( require ) {
         addedChargesNode.visible = true;
       }
       else {
-        var visiblity = (value === 'all');
+        var visiblity = ( value === 'all' );
         originalChargesNode.visible = visiblity;
         addedChargesNode.visible = visiblity;
       }
@@ -298,8 +301,11 @@ define( function( require ) {
       lineDash: [ 7, 7 ]
     } );
 
-    // A node that receives focus and handles keyboard draging
+    // A node that receives focus and handles keyboard dragging
     var accessibleDragNode = new Node( {
+      tandem: tandem.createTandem( 'accessibleDragNode' ),
+
+      // a11y
       tagName: 'div',
       containerTagName: 'div',
       focusable: true,
