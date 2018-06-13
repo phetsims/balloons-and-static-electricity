@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  require( 'SCENERY/util/Trail' ); // TODO: Trail not added to scenery namespace for these tests??
+  require( 'SCENERY/util/Trail' ); // Why isn't Trail added to scenery namespace for these tests??
   require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SceneSummaryNodeTests' );
   require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriberTests' );
   require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriberTests' );
