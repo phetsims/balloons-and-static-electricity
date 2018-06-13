@@ -8,7 +8,8 @@
  * The map is composed of regions and critical landmarks. For the regions, the map has columns and rows that are
  * broken up into ranges. Each intersection of a column and row creates a described region in the play area.
  *
- * The X_LOCATION define critical places in the play area and the landmarks are slim columns around these.
+ * The X_LOCATIONS define critical places in the play area and the landmarks are slim columns around these, with
+ * width LANDMARK_WIDTH.
  * 
  * @author Jesse Greenberg
  */
@@ -36,7 +37,8 @@ define( function( require ) {
 
   // critical y locations for the balloon (relative to the balloon's center)
   var Y_LOCATIONS = {
-    AT_BOTTOM: 393
+    AT_BOTTOM: 393,
+    AT_CENTER_PLAY_AREA: 249
   };
 
   var X_BOUNDARY_LOCATIONS = {
