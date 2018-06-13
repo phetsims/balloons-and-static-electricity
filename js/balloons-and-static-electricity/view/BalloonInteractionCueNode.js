@@ -19,6 +19,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
@@ -84,14 +85,14 @@ define( function( require ) {
     directionKeysParent.addChild( sNode );
     directionKeysParent.addChild( dNode );
 
-    // add listeners to update location and visibility
-    // TODO: update position when wall visibility changes as well
-    balloonModel.locationProperty.link( function( location ) {
+    // add listeners to update location and visibility of nodes when location changes and when the wall is made
+    // visible/invisible
+    Property.multilink( [ balloonModel.locationProperty, model.wall.isVisibleProperty ], function( location, visible ) {
 
       // get the max x locations depending on if the wall is visible
       var maxX;
       var centerXBoundary;
-      if ( model.wall.isVisibleProperty.get() ) {
+      if ( visible ) {
         maxX = model.playAreaBounds.width;
         centerXBoundary = PlayAreaMap.X_LOCATIONS.AT_WALL;
       }
@@ -126,22 +127,23 @@ define( function( require ) {
       }
     } );
 
+    // when focused, make "grab" cue visible, unless there was a successful drag
     balloonNode.focusEmitter.addListener( function( focused ) {
       backgroundRectangle.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
     } );
 
-    balloonNode.blurEmitter.addListener( function( blurred ) {
-      backgroundRectangle.visible = false;
-    } );
-
+    // when dragged, make movement cues visible, unless there was a successful drag
     balloonNode.dragNodeFocusedEmitter.addListener( function() {
       directionKeysParent.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
     } );
 
+    // when blurred, none of this help content should be visible
+    balloonNode.blurEmitter.addListener( function( blurred ) {
+      backgroundRectangle.visible = false;
+    } );
     balloonNode.dragNodeBlurredEmitter.addListener( function() {
       directionKeysParent.visible = false;
     } );
-
   }
 
   balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
