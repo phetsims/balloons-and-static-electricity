@@ -113,7 +113,7 @@ define( function( require ) {
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
   var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 
-  // speed of the balloon to be considered moving slowly, determined empirically
+  // speed of the balloon to be considered moving slowly, determined empirically so that descriptions sound nice
   var SLOW_BALLOON_SPEED = 0.09;
 
   // maps magnitude of velocity to the description
@@ -139,8 +139,20 @@ define( function( require ) {
       description: veryQuicklyString
     }
   };
+
+  /**
+   * @constructor
+   *
+   * @param {BalloonDescriber} balloonDescriber - manages all balloon descriptions
+   * @param {BASEModel} model
+   * @param {BalloonModel} balloonModel
+   * @param {string} accessibleName - accessible name for this balloon being described
+   * @param {string} otherAccessibleName - reference to the other balloon being described
+   */
   function BalloonLocationDescriber( balloonDescriber, model, balloonModel, accessibleName, otherAccessibleName ) {
 
+
+    // @private - for use in instance functions
     this.model = model;
     this.wall = model.wall;
     this.balloonModel = balloonModel;
@@ -254,7 +266,7 @@ define( function( require ) {
      * Returns something like:
      * Yellow balloon, sticking to right arm of sweater.
      *
-     * @return {string} [description]
+     * @return {string}
      */
     getAttractiveStateAndLocationDescriptionWithLabel: function() {
       var alert;
@@ -531,9 +543,7 @@ define( function( require ) {
      * "Moving Left." or
      * "Moving Left. Near wall."
      * 
-     * @param {Vector2} location   
-     * @param {Vector2} oldLocation
-     * @return
+     * @return {string}
      */
     getContinuousReleaseDescription: function() {
       var description;
@@ -928,8 +938,6 @@ define( function( require ) {
      * could be an indication of where the balloon is in the play area, and potentially the state of
      * the induced charge in the wall.
      *
-     * TODO: location descriptions have been isolated, is this still necessary?
-     * 
      * @public
      * @param  {Vector2} center
      * @return {string}
