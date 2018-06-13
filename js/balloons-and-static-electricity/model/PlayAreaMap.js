@@ -41,11 +41,13 @@ define( function( require ) {
     AT_CENTER_PLAY_AREA: 249
   };
 
+  // horizontal boundary locations, the left and right edges
   var X_BOUNDARY_LOCATIONS = {
     AT_LEFT_EDGE: 67,
     AT_RIGHT_EDGE: 701
   };
 
+  // vertical boundary locations, the top and bottom edges
   var Y_BOUNDARY_LOCATIONS = {
     AT_TOP: 111,
     AT_BOTTOM: 393
