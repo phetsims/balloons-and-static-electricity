@@ -833,9 +833,8 @@ define( function( require ) {
         if ( nextIsDragged ) {
           utterance = this.movementDescriber.getGrabbedAlert();
 
-          // we have been picked up successfully
+          // we have been picked up successfully, start describing direction
           this.describeDirection = true;
-          model.successfulPickUp = true;
         }
         else {
           utterance = this.movementDescriber.getReleasedAlert();

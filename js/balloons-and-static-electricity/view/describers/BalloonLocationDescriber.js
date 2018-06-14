@@ -912,6 +912,8 @@ define( function( require ) {
         } );
       }
 
+      this.balloonModel.successfulPickUp = true;
+
       return description;
     },
 
