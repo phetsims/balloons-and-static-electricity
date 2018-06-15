@@ -370,8 +370,8 @@ define( function( require ) {
       // the draggable node should no longer be discoverable in the parallel DOM
       accessibleDragNode.accessibleVisible = false;
 
-      // reset the key state of the drag handler
-      self.keyboardDragHandler.reset();
+      // reset the key state of the drag handler by interrupting the drag
+      self.keyboardDragHandler.interrupt();
     };
 
     // when the dragable balloon is released
