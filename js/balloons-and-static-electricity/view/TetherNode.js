@@ -4,7 +4,7 @@
  * A node that looks like a tether that holds the balloon to the ground. The use of the word 'string' has been avoided
  * in the name and the documentation for (hopefully) obvious reasons.
  *
- @author John Blanco
+ * @author John Blanco
  */
 define( function( require ) {
   'use strict';
