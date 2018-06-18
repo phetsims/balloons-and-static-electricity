@@ -123,6 +123,10 @@ define( function( require ) {
       get: function() { return model.locationProperty.get(); }
     };
 
+    /**
+     * Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting
+     * velocities.
+     */
     var endDragListener = function() {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -374,9 +378,11 @@ define( function( require ) {
       self.keyboardDragHandler.interrupt();
     };
 
-    // when the dragable balloon is released
     var releasedWithEnter = false;
     accessibleDragNode.addAccessibleInputListener( {
+
+      // release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
+      // we don't immediately catch the 'click' event while the enter key is down on the button
       keydown: function( event ) {
         if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
           releasedWithEnter = true;
@@ -384,6 +390,7 @@ define( function( require ) {
         }
       },
       keyup: function( event ) {
+
         // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
         if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
@@ -401,7 +408,6 @@ define( function( require ) {
           accessibleDragNode.accessibleVisible = false;
 
           self.dragNodeBlurredEmitter.emit();
-
         }
       }
     } );
