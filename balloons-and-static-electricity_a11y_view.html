@@ -175,13 +175,43 @@
   noPostMessage && ( simulationQueryString += 'postMessageOnLoad&postMessageOnError&' );
   noAccessibility && ( simulationQueryString += 'accessibility' );
 
+  var repo = 'balloons-and-static-electricity';
+  var withSuffix = repo + '_en_phet.html' + simulationQueryString;
+  var withoutSuffix = repo + '_en.html' + simulationQueryString;
+
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function() {
+    if ( httpRequest.readyState === 4 ) {
+      if ( httpRequest.status === 200 ) {
+
+        // success without suffix, go ahead and set the src
+        document.getElementById( 'iframe' ).setAttribute( 'src', withoutSuffix );
+      }
+      else if ( httpRequest === 404 ){
+
+        // file without suffix didn't exist, try with the brand suffix
+        document.getElementById( 'iframe' ).setAttribute( 'src', withSuffix );
+      }
+    }
+  };
+  httpRequest.open( 'GET', withoutSuffix );
+  httpRequest.send();
+
+  // // support multiple dev sites, which will might change the brand suffix
+  // try {
+  //   document.getElementById( 'iframe' ).setAttribute( 'src', '{{PHET_REPOSITORY}}_en.html' + simulationQueryString );
+  // }
+  // catch( error ) {
+  //   console.log( error );
+  //   document.getElementById( 'iframe' ).setAttribute( 'src', '{{PHET_REPOSITORY}}_en_phet.html' + simulationQueryString );
+  // }
 
   // support multiple dev sites
-  var onDevSite = [ 'bayes.colorado.edu', 'phet-dev.colorado.edu', 'www.colorado.edu' ].indexOf( window.location.hostname ) >= 0;
+  // var onDevSite = [ 'bayes.colorado.edu', 'phet-dev.colorado.edu', 'www.colorado.edu' ].indexOf( window.location.hostname ) >= 0;
 
-  var brandSuffix = onDevSite ? '_phet' : '';   // add brand name for dev deploys
+  // var brandSuffix = onDevSite ? '_phet' : '';   // add brand name for dev deploys
 
-  document.getElementById( 'iframe' ).setAttribute( 'src', 'balloons-and-static-electricity_en' + brandSuffix + '.html' + simulationQueryString );
+  // document.getElementById( 'iframe' ).setAttribute( 'src', '{{PHET_REPOSITORY}}_en' + brandSuffix + '.html' + simulationQueryString );
 </script>
 
 <script type="application/javascript">
