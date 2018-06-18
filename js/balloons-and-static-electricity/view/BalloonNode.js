@@ -364,7 +364,12 @@ define( function( require ) {
       }
     } );
 
-    var releaseBalloon = function() {
+    /**
+     * Release the balloon after an accessible interaction, resetting  model Properties, returning focus
+     * to the "grab" button, and hiding the draggable balloon.
+     */
+    var a11yReleaseBalloon = function() {
+
       // release the balloon
       endDragListener();
 
@@ -386,7 +391,7 @@ define( function( require ) {
       keydown: function( event ) {
         if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
           releasedWithEnter = true;
-          releaseBalloon();
+          a11yReleaseBalloon();
         }
       },
       keyup: function( event ) {
@@ -394,13 +399,17 @@ define( function( require ) {
         // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
         if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-          releaseBalloon();
+          a11yReleaseBalloon();
         }
       },
       focus: function() {
         self.dragNodeFocusedEmitter.emit();
       },
       blur: function( event ) {
+
+        // This node will be blurred when moving to front, so only end dragging when focus moves elsewhere due
+        // to user interaction. No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are
+        // interrupted on blur
         if ( !self.movingToFront ) {
           endDragListener();
 
