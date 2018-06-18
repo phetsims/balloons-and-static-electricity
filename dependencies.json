@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.0-dev.27 Thu Jun 14 2018 16:13:26 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.0-dev.28 Mon Jun 18 2018 14:05:25 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "42aa76300cae308103bf14bb906306f87eb3332f",
+    "sha": "2024bdf1d47a786e845b9eabb4e2122cc8575fc7",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "a674320a74f7a985244bc7a6665f8c8227f51ce0",
+    "sha": "efc3a779dd787bc15b91bbed2e498340fc6596ad",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "f4b2119e4b76403d0b95acf927d609958364378d",
+    "sha": "c53e39ce170ff14fc23a51eac3da96cedb987994",
     "branch": "master"
   },
   "kite": {
@@ -45,7 +45,7 @@
     "branch": "master"
   },
   "phet-io-wrapper-hookes-law-energy": {
-    "sha": "317e8176089c7400170bd9bf39e176a47d529163",
+    "sha": "e4ebc3ff6ab38cc03051d8040c203a2162246328",
     "branch": "master"
   },
   "phet-io-wrapper-lab-book": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "d790afe03b22974501b9c026de03de5edfa0a680",
+    "sha": "82cd26b099d2d26e6809b8eb3231da620a4c3e16",
     "branch": "master"
   },
   "phetcommon": {
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "bf7961bfb7af85f7cea8d02fda3207ed0d9ba194",
+    "sha": "68d9e7a36cd9b8af34971133b1a771be8962d1a3",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "9ee579ab33d7fc526d2623950d34c85278f870f3",
+    "sha": "40fbe8f7797b3dd8f5f4bd42a01dc0ce511a65d0",
     "branch": "master"
   },
   "sherpa": {
@@ -77,11 +77,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "9c9b23fc927a1ebfa305124f3dfb3b4ac32316f1",
+    "sha": "15326f5fd9f9d67c72558123f6f8af576611bb17",
     "branch": "master"
   },
   "tandem": {
-    "sha": "f0b55e49fc9f4c0c22bb7b857711c586e2ab595e",
+    "sha": "54bde3644a1fa3c850cade8ebf1435f61c8735c9",
     "branch": "master"
   },
   "vibe": {
