@@ -18,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -67,7 +67,7 @@ define( function( require ) {
       children: [ leftContent, generalNavigationHelpContent ],
       align: 'top',
       spacing: 30,
-      maxWidth: 700 // i18n, about the width of the screen
+      maxWidth: 625 // i18n, about the width of the screen
     } );
 
     // the reading order for screen readers
@@ -176,8 +176,8 @@ define( function( require ) {
       maxWidth: 150
     } );
 
-    var jKey = new TextKeyNode( 'J' );
-    var otherKey = new TextKeyNode( keyString );
+    var jKey = new LetterKeyNode( 'J' );
+    var otherKey = new LetterKeyNode( keyString );
 
     var jPlusOtherKey = HelpContent.iconPlusIcon( jKey, otherKey );
     return HelpContent.labelWithIcon( label, jPlusOtherKey, {

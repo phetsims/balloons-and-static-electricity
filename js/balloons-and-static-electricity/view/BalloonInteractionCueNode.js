@@ -24,7 +24,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
-  var TextKeyNode = require( 'SCENERY_PHET/keyboard/TextKeyNode' );
+  var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -175,19 +175,19 @@ define( function( require ) {
       var keyIcon;
       var box;
       if ( direction === 'up' ) {
-        keyIcon = new TextKeyNode( 'W', TEXT_KEY_OPTIONS );
+        keyIcon = new LetterKeyNode( 'W', TEXT_KEY_OPTIONS );
         box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'left' ) {
-        keyIcon = new TextKeyNode( 'A', TEXT_KEY_OPTIONS );
+        keyIcon = new LetterKeyNode( 'A', TEXT_KEY_OPTIONS );
         box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'right' ) {
-        keyIcon = new TextKeyNode( 'D', TEXT_KEY_OPTIONS );
+        keyIcon = new LetterKeyNode( 'D', TEXT_KEY_OPTIONS );
         box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
       else if ( direction === 'down' ) {
-        keyIcon = new TextKeyNode( 'S', TEXT_KEY_OPTIONS );
+        keyIcon = new LetterKeyNode( 'S', TEXT_KEY_OPTIONS );
         box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
       }
 
