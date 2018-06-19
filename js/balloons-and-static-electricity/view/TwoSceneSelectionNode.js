@@ -234,6 +234,11 @@ define( function( require ) {
       }
     } );
 
+    // considered "checked" for accessibility when node B is selected
+    var propertyListener = function( value ) {
+      self.setAccessibleChecked( value === valueB );
+    };
+
     // listener that highlights the unselected button when mouse is over local bounds
     var highlightListener = new HighlightListener( function( target, highlight ) {
       var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
@@ -253,6 +258,7 @@ define( function( require ) {
     this.addInputListener( downUpListener );
     this.addInputListener( highlightListener );
     this.enabledProperty.link( setStyles );
+    property.link( propertyListener );
     this.addAccessibleInputListener( clickListener );
 
     // set mouse and touch areas
@@ -264,6 +270,7 @@ define( function( require ) {
       this.removeInputListener( downUpListener );
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
+      property.unlink( propertyListener );
       this.removeAccessibleInputListener( clickListener );
     };
   }
