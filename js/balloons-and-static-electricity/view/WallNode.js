@@ -68,8 +68,9 @@ define( function( require ) {
     } );
     this.addChild( plusChargesNode );
     
-    // the minus charges on the wall - with Canvas for performance, see #409
-    var wallBounds = new Bounds2( 0, 0, wallModel.width, wallModel.height );
+    // the minus charges on the wall - with Canvas for performance, bounds widened so that charges are fully
+    // visible in wider layouts, see #409
+    var wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
     var minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
     this.addChild( minusChargesNode );
 
