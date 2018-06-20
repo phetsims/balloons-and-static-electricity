@@ -96,7 +96,6 @@ define( function( require ) {
 
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
-    var balloonsNode = new Node( { tandem: tandem.createTandem( 'balloonsNode' ) } ); // TODO: Why this container?
     this.yellowBalloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
       labelContent: yellowBalloonLabelString
     } );
@@ -132,15 +131,8 @@ define( function( require ) {
     var yellowBalloonCueNode = new BalloonInteractionCueNode( model, model.yellowBalloon, this.yellowBalloonNode, this.layoutBounds );
     var greenBalloonCueNode = new BalloonInteractionCueNode( model, model.greenBalloon, this.greenBalloonNode, this.layoutBounds );
 
-    // children specified in this order for layering purposes
-    balloonsNode.children = [
-      greenBalloonLayerNode,
-      yellowBalloonLayerNode
-    ];
-    playAreaContainerNode.addChild( balloonsNode );
-
-    // the yellow balloon should come first in keyboard navigation order
-    balloonsNode.accessibleOrder = [ this.yellowBalloonNode, this.greenBalloonNode ];
+    playAreaContainerNode.addChild( yellowBalloonLayerNode );
+    playAreaContainerNode.addChild( greenBalloonLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
@@ -176,7 +168,7 @@ define( function( require ) {
     this.accessibleOrder = [ sceneSummaryNode ];
 
     // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ sweaterNode, balloonsNode, wallNode ];
+    playAreaContainerNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
 
     //--------------------------------------------------------------------------
     // debugging
