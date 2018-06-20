@@ -472,7 +472,6 @@ define( function( require ) {
       utteranceQueue.addToBack( utterance );
 
       // reset forces in tracked values in describer that determine description for induced charge change
-      // TODO: Put in a "jumped emitter"?
       this.describer.chargeDescriber.resetReferenceForces();
     },
 
