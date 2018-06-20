@@ -62,10 +62,10 @@ define( function( require ) {
   function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, tandem, options ) {
     var self = this;
 
-    // @public (a11y) - emits an event when the balloon receives focus
-    // TODO: should Accessibility.js emit events for such things?
-    this.focusEmitter = new Emitter();
-    this.blurEmitter = new Emitter();
+    // @public (a11y) - emits events when the accessible grab button and the draggable element
+    // receive or lose keyboard focus
+    this.grabButtonFocusedEmitter = new Emitter();
+    this.grabButtonBlurredEmitter = new Emitter();
     this.dragNodeFocusedEmitter = new Emitter();
     this.dragNodeBlurredEmitter = new Emitter();
 
@@ -324,12 +324,12 @@ define( function( require ) {
     // add the keyboard drag handler to the node that will handle this
     accessibleDragNode.addAccessibleInputListener( this.keyboardDragHandler );
 
-    // add a listener that emits events when accessible drag node is blurred and focused
-    accessibleDragNode.addAccessibleInputListener( {
-      focus: function() {
+    // emit an event when the draggable node receives or loses focus
+    accessibleDragNode.focusChangedEmitter.addListener( function( isFocused ) {
+      if ( isFocused ) {
         self.dragNodeFocusedEmitter.emit();
-      },
-      blur: function() {
+      }
+      else {
         self.dragNodeBlurredEmitter.emit();
       }
     } );
@@ -355,12 +355,16 @@ define( function( require ) {
 
         // pick up the balloon on the next click event
         releasedWithEnter = false;
-      },
-      focus: function( event ) {
-        self.focusEmitter.emit1( self.focused );
-      },
-      blur: function( event ) {
-        self.blurEmitter.emit();
+      }
+    } );
+
+    // emit events when focus changes on the grab button
+    balloonImageNode.focusChangedEmitter.addListener( function( isFocused ) {
+      if ( isFocused ) {
+        self.grabButtonFocusedEmitter.emit();
+      }
+      else {
+        self.grabButtonBlurredEmitter.emit();
       }
     } );
 
@@ -402,9 +406,6 @@ define( function( require ) {
           a11yReleaseBalloon();
         }
       },
-      focus: function() {
-        self.dragNodeFocusedEmitter.emit();
-      },
       blur: function( event ) {
 
         // This node will be blurred when moving to front, so only end dragging when focus moves elsewhere due
@@ -415,8 +416,6 @@ define( function( require ) {
 
           // the draggable node should no longer be focusable
           accessibleDragNode.accessibleVisible = false;
-
-          self.dragNodeBlurredEmitter.emit();
         }
       }
     } );

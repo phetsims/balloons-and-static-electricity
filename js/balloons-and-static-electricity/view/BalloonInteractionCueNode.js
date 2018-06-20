@@ -128,7 +128,7 @@ define( function( require ) {
     } );
 
     // when focused, make "grab" cue visible, unless there was a successful drag
-    balloonNode.focusEmitter.addListener( function( focused ) {
+    balloonNode.grabButtonFocusedEmitter.addListener( function() {
       backgroundRectangle.visible = ( balloonNode.keyboardDragCount < CUE_REPEATS );
     } );
 
@@ -138,7 +138,7 @@ define( function( require ) {
     } );
 
     // when blurred, none of this help content should be visible
-    balloonNode.blurEmitter.addListener( function( blurred ) {
+    balloonNode.grabButtonBlurredEmitter.addListener( function() {
       backgroundRectangle.visible = false;
     } );
     balloonNode.dragNodeBlurredEmitter.addListener( function() {
