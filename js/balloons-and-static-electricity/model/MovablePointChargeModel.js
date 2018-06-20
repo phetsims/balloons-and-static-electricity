@@ -20,10 +20,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Vector2IO = require( 'DOT/Vector2IO' );
 
-  // constants
-  // when charge displacement is larger than this, there is an appreciable induced charge
-  var FORCE_MAGNITUDE_THRESHOLD = 2;
-
   /**
    * @constructor
    * @param {number} x
@@ -68,20 +64,6 @@ define( function( require ) {
       var displacement = this.locationProperty.get().distance( initialPosition );
 
       return displacement;
-    },
-
-    /**
-     * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
-     * inspection.
-     *
-     * TODO: This should be moved to  WallModel.js
-     * @public
-     *
-     * @param {Vector2} force - force applied on this charge
-     * @return {boolean}
-     */
-    forceIndicatesInducedCharge: function( force ) {
-      return force.magnitude() > FORCE_MAGNITUDE_THRESHOLD;
     },
 
     /**

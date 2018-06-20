@@ -626,7 +626,7 @@ define( function( require ) {
 
       // otherwise, wall and balloon must be visible, and force must be large enough
       var balloonForce = BalloonModel.getForceToClosestWallCharge( this );
-      var forceLargeEnough = this.closestChargeInWall.forceIndicatesInducedCharge( balloonForce );
+      var forceLargeEnough = this.balloonsAndStaticElectricityModel.wall.forceIndicatesInducedCharge( balloonForce );
       return wallVisible && this.isVisibleProperty.get() && forceLargeEnough;
     },
 

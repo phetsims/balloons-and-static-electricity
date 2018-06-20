@@ -21,6 +21,10 @@ define( function( require ) {
   // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
+  // constants
+  // when charge displacement is larger than this, there is an appreciable induced charge
+  var FORCE_MAGNITUDE_THRESHOLD = 2;
+
   /**
    * @constructor
    * @param {number} x
@@ -187,6 +191,18 @@ define( function( require ) {
       assert && assert( charge, 'Unable to find charge closest to balloon' );
 
       return closestCharge;
-    }
+    },
+
+    /**
+     * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
+     * inspection.
+     * @public
+     *
+     * @param {Vector2} force - force applied on this charge
+     * @return {boolean}
+     */
+    forceIndicatesInducedCharge: function( force ) {
+      return force.magnitude() > FORCE_MAGNITUDE_THRESHOLD;
+    },
   } );
 } );
