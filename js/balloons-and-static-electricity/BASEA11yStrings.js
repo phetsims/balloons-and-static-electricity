@@ -118,7 +118,6 @@ define( function( require ) {
 
     //--------------------------------------------------------------------------
     // Play Area landmark strings, 'near' or  'at' added  through string patterns
-    // TODO: 'near' and 'very close' landmarks are now duplicated
     //--------------------------------------------------------------------------  
     landmarkNearSweater: {
       value: 'sweater'
@@ -152,27 +151,6 @@ define( function( require ) {
     },
     landmarkAtLowerCenterPlayArea: {
       value: 'lower-center of Play Area'
-    },
-    landmarkVeryCloseToSweater: {
-      value: 'sweater'
-    },
-    landmarkVeryCloseToWall: {
-      value: 'wall'
-    },
-    landmarkVeryCloseToUpperWall: {
-      value: 'upper wall'
-    },
-    landmarkVeryCloseToLowerWall: {
-      value: 'lower wall'
-    },
-    landmarkVeryCloseToRightEdge: {
-      value: 'right edge'
-    },
-    landmarkVeryCloseToUpperRightEdge: {
-      value: 'upper-right edge'
-    },
-    landmarkVeryCloseToLowerRightEdge: {
-      value: 'lower-right edge'
     },
     balloonVeryCloseTo: {
       value: 'Very close to'

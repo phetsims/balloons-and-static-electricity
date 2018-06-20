@@ -72,13 +72,6 @@ define( function( require ) {
   var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWall.value;
   var landmarkNearWallString = BASEA11yStrings.landmarkNearWall.value;
   var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWall.value;
-  var landmarkVeryCloseToUpperWallString = BASEA11yStrings.landmarkVeryCloseToUpperWall.value;
-  var landmarkVeryCloseToLowerWallString = BASEA11yStrings.landmarkVeryCloseToLowerWall.value;
-  var landmarkVeryCloseToWallString = BASEA11yStrings.landmarkVeryCloseToWall.value;
-  var landmarkVeryCloseToRightEdgeString = BASEA11yStrings.landmarkVeryCloseToRightEdge.value;
-  var landmarkVeryCloseToUpperRightEdgeString = BASEA11yStrings.landmarkVeryCloseToUpperRightEdge.value;
-  var landmarkVeryCloseToLowerRightEdgeString = BASEA11yStrings.landmarkVeryCloseToLowerRightEdge.value;
-  var landmarkVeryCloseToSweaterString = BASEA11yStrings.landmarkVeryCloseToSweater.value;
   var landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdge.value;
   var landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdge.value;
   var landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdge.value;
@@ -127,9 +120,9 @@ define( function( require ) {
       LOWER_PLAY_AREA: lowerRightArmOfSweaterString
     },
     AT_VERY_CLOSE_TO_SWEATER: {
-      UPPER_PLAY_AREA: landmarkVeryCloseToSweaterString,
-      CENTER_PLAY_AREA: landmarkVeryCloseToSweaterString,
-      LOWER_PLAY_AREA: landmarkVeryCloseToSweaterString      
+      UPPER_PLAY_AREA: landmarkNearSweaterString,
+      CENTER_PLAY_AREA: landmarkNearSweaterString,
+      LOWER_PLAY_AREA: landmarkNearSweaterString      
     },
     AT_NEAR_SWEATER: {
       UPPER_PLAY_AREA: landmarkNearSweaterString,
@@ -162,9 +155,9 @@ define( function( require ) {
       LOWER_PLAY_AREA: landmarkNearLowerWallString
     },
     AT_VERY_CLOSE_TO_WALL: {
-      UPPER_PLAY_AREA: landmarkVeryCloseToUpperWallString,
-      CENTER_PLAY_AREA: landmarkVeryCloseToWallString,
-      LOWER_PLAY_AREA: landmarkVeryCloseToLowerWallString
+      UPPER_PLAY_AREA: landmarkNearUpperWallString,
+      CENTER_PLAY_AREA: landmarkNearWallString,
+      LOWER_PLAY_AREA: landmarkNearLowerWallString
     },
     AT_WALL: {
       UPPER_PLAY_AREA: upperWallString,
@@ -182,9 +175,9 @@ define( function( require ) {
       LOWER_PLAY_AREA: landmarkNearLowerRightEdgeString
     },
     AT_VERY_CLOSE_TO_RIGHT_EDGE: {
-      UPPER_PLAY_AREA: landmarkVeryCloseToUpperRightEdgeString,
-      CENTER_PLAY_AREA: landmarkVeryCloseToRightEdgeString,
-      LOWER_PLAY_AREA: landmarkVeryCloseToLowerRightEdgeString
+      UPPER_PLAY_AREA: landmarkNearUpperRightEdgeString,
+      CENTER_PLAY_AREA: landmarkNearRightEdgeString,
+      LOWER_PLAY_AREA: landmarkNearLowerRightEdgeString
     },
     RIGHT_EDGE: {
       UPPER_PLAY_AREA: upperRightEdgeOfPlayAreaString,
