@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
@@ -34,7 +33,6 @@ define( function( require ) {
    * @param {[object]} options
    */
   function MinusChargesCanvasNode( wallX, wallBounds, charges, options ) {
-    var self = this;
 
     // @private {Array.<MovablePointChargeNode>}
     this.charges = charges;
@@ -42,15 +40,8 @@ define( function( require ) {
     // @private {number}
     this.wallX = wallX;
 
-    // @private - created asynchronously by toImage
-    this.chargeImageNode = null;
-
-    // convert to image to be drawn by canvas
-    chargeNode.toImage( function( image, x, y ) {
-
-      //Scale back down so the image will be the desired size
-      self.chargeImageNode = new Image( image );
-    } );
+    // @private - created synchronously so that it can be drawn immediately in paintCanvas
+    this.chargeImageNode = chargeNode.rasterized( { wrap: false } );
 
     CanvasNode.call( this, options );
     this.setCanvasBounds( wallBounds );
