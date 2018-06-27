@@ -274,6 +274,15 @@ define( function( require ) {
       return description;
     },
 
+    /**
+     * Get the description for induced charge of a balloon/balloons on the wall. Will return something like
+     * 
+     * "Negative charges in wall move away from Yellow Balloon a lot. Positive charges do not move." or
+     * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
+     * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
+     *
+     * @return {string}
+     */
     getInducedChargeDescription: function() {
       var description;
 
