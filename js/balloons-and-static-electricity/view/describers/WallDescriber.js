@@ -377,7 +377,6 @@ define( function( require ) {
         } );
       }
 
-      console.log( descriptionString );
       return descriptionString;
     },
 
