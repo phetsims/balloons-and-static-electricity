@@ -327,7 +327,6 @@ define( function( require ) {
         if ( greenInducingChargeAndVisilbe ) {
           description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, {
             includeWallLocation: false
-            // includePositiveChargeInfo: false
           } );
         }
         else if ( yellowInducingChargeAndVisible ) {
