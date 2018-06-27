@@ -147,8 +147,6 @@ define( function( require ) {
     this.addChild( greenBalloonCueNode );
 
     // when one of the balloons is picked up, move its content and cue nodes to front
-    // TODO: When a node is moved to the front of the scene graph, the DOM is reordered and the node will be blurred.
-    // Sim code prevents the blur listeners from firing at this time, but is there a better way to  do this?
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
       if ( yellowDragged ) {
         yellowBalloonLayerNode.moveToFront();
