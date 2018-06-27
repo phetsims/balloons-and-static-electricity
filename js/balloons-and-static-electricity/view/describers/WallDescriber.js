@@ -341,7 +341,10 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of both balloons. Will return something like : TODO
+     * Get a description of both balloons. Will return something like 
+     * 
+     * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
+     * "Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move."
      *
      * @return {string}
      */
@@ -374,6 +377,7 @@ define( function( require ) {
         } );
       }
 
+      console.log( descriptionString );
       return descriptionString;
     },
 
