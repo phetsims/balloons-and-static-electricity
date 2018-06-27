@@ -217,7 +217,6 @@ define( function( require ) {
         // TODO: (phet-io event stream) The 'fired' event for this tandem doesn't make sense with a 'value' of boolean in the parameters.
         tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
         maskFill: BASEConstants.backgroundColorProperty,
-        // labelContent: twoBalloonExperimentLabelString,
         ariaLabel: twoBalloonExperimentLabelString,
         containerTagName: 'div',
         descriptionContent: twoBalloonExperimentDescriptionString
