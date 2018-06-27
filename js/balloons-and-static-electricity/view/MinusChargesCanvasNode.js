@@ -22,7 +22,8 @@ define( function( require ) {
   var scale = 3.0;
   var chargeNode = null;
 
-  // This is to prevent an instrumented phet-io instance from being created outside of a constructor, see https://github.com/phetsims/phet-io-wrappers/issues/97
+  // This is to prevent an instrumented phet-io instance from being created outside of a constructor,
+  // see https://github.com/phetsims/phet-io-wrappers/issues/97
   var getChargeNode = function() {
     if ( !chargeNode ) {
       chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.rootTandem.createTandem( 'chargeNode' ), {
