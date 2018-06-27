@@ -169,8 +169,10 @@ define( function( require ) {
      * charge then the two objects can be described in a single statement for readability. Will return something like
      * "Sweater and wall have zero net charge, many pairs of negative and positive charges" or
      * "Sweater and wall have zero net charge, showing no charges" or
-     * "Sweater has positive net charge, a few more positive charges than negative charges. Wall has zero net charge, many pairs of negative and positive charges." or
-     * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several positive charges."
+     * "Sweater has positive net charge, a few more positive charges than negative charges. Wall has zero net charge,
+     *   many pairs of negative and positive charges." or
+     * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
+     *   positive charges."
      *
      * @return {string}
      */
