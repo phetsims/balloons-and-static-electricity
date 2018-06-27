@@ -104,10 +104,6 @@ define( function( require ) {
     // a11y - a type that generates descriptions for the balloon 
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
 
-    // @private {boolean} - When moving to the front, this node will be blurred because the DOM is being reordered. In
-    // this case, we want to prevent behavior of the blur listeners that release the balloon
-    this.movingToFront = false;
-
     var originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
@@ -408,15 +404,11 @@ define( function( require ) {
       },
       blur: function( event ) {
 
-        // This node will be blurred when moving to front, so only end dragging when focus moves elsewhere due
-        // to user interaction. No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are
-        // interrupted on blur
-        if ( !self.movingToFront ) {
-          endDragListener();
+        // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are interrupted on blur
+        endDragListener();
 
-          // the draggable node should no longer be focusable
-          accessibleDragNode.accessibleVisible = false;
-        }
+        // the draggable node should no longer be focusable
+        accessibleDragNode.accessibleVisible = false;
       }
     } );
 

@@ -151,16 +151,12 @@ define( function( require ) {
     // Sim code prevents the blur listeners from firing at this time, but is there a better way to  do this?
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
       if ( yellowDragged ) {
-        self.yellowBalloonNode.movingToFront = true;
         yellowBalloonLayerNode.moveToFront();
         yellowBalloonCueNode.moveToFront();
-        self.yellowBalloonNode.movingToFront = false;
       }
       else if ( greenDragged ) {
-        self.greenBalloonNode.movingToFront = true;
         greenBalloonLayerNode.moveToFront();
         greenBalloonCueNode.moveToFront();
-        self.greenBalloonNode.movingToFront = false;
       }
     } );
 
