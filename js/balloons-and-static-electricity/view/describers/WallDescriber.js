@@ -122,8 +122,6 @@ define( function( require ) {
      * Get the described charge in the wall, dependent on charge visibility, whether or not there is induced charge,
      * and which balloons are visible. This portion of the description does not include any wall position information.
      *
-     * TODO: logic for this function really needs to be cleaned up.
-     *
      * @return {string}
      */
     getWallChargeDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown )  {
