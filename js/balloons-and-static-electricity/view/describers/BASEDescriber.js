@@ -310,8 +310,7 @@ define( function( require ) {
       currentColumn = currentLocation || currentLandmark || currentColumn;
       assert && assert( currentColumn && currentRow, 'item should be in a row or column of the play area' );
 
-      // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
-      // TODO: probably a better way to do this
+      // the wall and the right edge of the play area overlap, so if the wall is visible chose that description
       if ( wallVisible && ( currentColumn === 'RIGHT_EDGE' || currentColumn === 'AT_RIGHT_EDGE' ) ) {
         currentColumn = 'WALL';
       }
