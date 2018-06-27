@@ -133,23 +133,27 @@ define( function( require ) {
       var yellowBalloonInducedChargeString;
       var greenBalloonInducedChargeString;
 
+      var yellowInducingAndvisible = yellowBalloon.inducingChargeAndVisible();
+      var greenInducingAndVisible = greenBalloon.inducingChargeAndVisible();
+
+      // if all charges are shown, and a balloon is inducing charge, generate the description for induced charge which
+      // can change depending on whether balloons are adjacent or whether both balloons are inducing at the same time
       if ( wallVisible && chargesShown === 'all' ) {
-        if ( yellowBalloon.inducingChargeAndVisible() ) {
+        if ( yellowInducingAndvisible ) {
           yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible, {
             includePositiveChargeInfo: false
           } );
           inducedChargeString = yellowBalloonInducedChargeString;
         }
-        if ( greenBalloon.inducingChargeAndVisible() ) {
+        if ( greenInducingAndVisible ) {
           greenBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabelString, wallVisible, {
             includePositiveChargeInfo: false
           } );
         }
 
-        // assemble the induced charge description depending on if one or both balloons are inducing charge
-        if ( yellowBalloon.inducingChargeAndVisible() && greenBalloon.inducingChargeAndVisible() ) {
-
-          // if balloons are adjacent, combine the inducedCharge description
+        // if both are adjacent and visible, we can combine the induced charge description into a single
+        // statement to reduce verbosity
+        if ( yellowInducingAndvisible && greenInducingAndVisible ) {
           if ( balloonsAdjacent ) {
             inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, {
               includePositiveChargeInfo: false
@@ -162,11 +166,11 @@ define( function( require ) {
             } );
           }
         }
-        else if ( yellowBalloon.inducingChargeAndVisible() || greenBalloon.inducingChargeAndVisible() ) {
-          if ( yellowBalloon.inducingChargeAndVisible() ) {
+        else if ( yellowInducingAndvisible || greenInducingAndVisible ) {
+          if ( yellowInducingAndvisible ) {
             inducedChargeString = yellowBalloonInducedChargeString;
           }
-          else if ( greenBalloon.inducingChargeAndVisible() ) {
+          else if ( greenInducingAndVisible ) {
             inducedChargeString = greenBalloonInducedChargeString;
           }
 
@@ -182,7 +186,7 @@ define( function( require ) {
 
       // if there is an induced charge, include it in the full charge description
       var wallChargeString;
-      if ( ( yellowBalloon.inducingChargeProperty.get() || greenBalloon.inducingChargeAndVisible() ) && chargesShown === 'all' && wallVisible ) {
+      if ( ( yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible ) && chargesShown === 'all' && wallVisible ) {
         inducedChargeString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
           inducedCharge: inducedChargeString,
           positiveCharges: positiveChargesDoNotMoveString
