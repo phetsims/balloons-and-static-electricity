@@ -2,7 +2,7 @@
 
 /**
  * A canvas node for minus charges in the wall. This was added as a performance enhancement for #409.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( function( require ) {
@@ -20,9 +20,17 @@ define( function( require ) {
   // Node converted to image to be drawn in canvas - scale up the node, then back down when converting to image so it
   // doesn't look fuzzy
   var scale = 3.0;
-  var chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), new Tandem().createTandem( 'chargeNode' ), {
-    scale: scale
-  } );
+  var chargeNode = null;
+
+  // This is to prevent an instrumented phet-io instance from being created outside of a constructor, see https://github.com/phetsims/phet-io-wrappers/issues/97
+  var getChargeNode = function() {
+    if ( !chargeNode ) {
+      chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.rootTandem.createTandem( 'chargeNode' ), {
+        scale: scale
+      } );
+    }
+    return chargeNode;
+  };
 
   /**
    * @constructor
@@ -41,7 +49,7 @@ define( function( require ) {
     this.wallX = wallX;
 
     // @private - created synchronously so that it can be drawn immediately in paintCanvas
-    this.chargeImageNode = chargeNode.rasterized( { wrap: false } );
+    this.chargeImageNode = getChargeNode().rasterized( { wrap: false } );
 
     CanvasNode.call( this, options );
     this.setCanvasBounds( wallBounds );

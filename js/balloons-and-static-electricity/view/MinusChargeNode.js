@@ -52,12 +52,13 @@ define( function( require ) {
    * @constructor
    * @param {Vector2} location
    * @param {Tandem} tandem
+   * @param {Object} [options]
    */
   function MinusChargeNode( location, tandem, options ) {
 
     options = _.extend( {
       pickable: false,
-      tandem: tandem 
+      tandem: tandem
     }, options );
 
     Node.call( this, options );
