@@ -346,8 +346,6 @@ define( function( require ) {
     assert.equal( actualAlert, expectedAlert, 'charge pick up 1' );
 
     // first time  balloon hits sweater and picks up negative charges, showing charge differences
-    // TODO: it is not clear if this phrase should include "from sweater", see
-    // https://github.com/phetsims/balloons-and-static-electricity/issues/380
     model.showChargesProperty.set( 'diff' );
     actualAlert = balloonNode.describer.getChargePickupDescription( true );
     expectedAlert = 'Yellow Balloon picks up negative charges from sweater. Same increase of positive charges on sweater.';
