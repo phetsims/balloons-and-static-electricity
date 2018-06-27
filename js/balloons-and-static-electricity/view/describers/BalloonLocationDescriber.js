@@ -196,10 +196,7 @@ define( function( require ) {
      * This is used as part of the balloon location description, and changes depending on interaction
      * or location of balloon.
      *
-     * If the balloon is at a landmark position, bail because the landmark description includes proximity
-     * information. TODO: Come back to this.
-     *
-     * NOTE: this function is probably horrible for i18n
+     * NOTE: This function is undoubtedly horrible for i18n.
      * 
      * @return {string}
      */
@@ -207,7 +204,6 @@ define( function( require ) {
       var string = '';
 
       var wallVisible = this.wall.isVisibleProperty.get();
-      var balloonInCenterPlayArea = PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA.contains( this.balloonModel.getCenterX() );
 
       if ( this.balloonModel.nearWall() && wallVisible ) {
 
@@ -227,7 +223,7 @@ define( function( require ) {
       else if ( this.balloonModel.veryCloseToObject() ) {
         string = balloonVeryCloseToString;
       }
-      else if ( this.balloonModel.touchingWall() || balloonInCenterPlayArea || this.balloonModel.atLeftEdge() ) {
+      else if ( this.balloonModel.touchingWall() || this.balloonModel.inCenterPlayArea() || this.balloonModel.atLeftEdge() ) {
         string = balloonAtString;
       }
       else {

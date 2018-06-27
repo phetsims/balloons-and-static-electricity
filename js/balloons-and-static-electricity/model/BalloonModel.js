@@ -395,6 +395,16 @@ define( function( require ) {
     },
 
     /**
+     * Returns whether or not this balloon is in the center of the play area horizontally. Does not consider vertical
+     * location.
+     *
+     * @return {boolean}
+     */
+    inCenterPlayArea: function() {
+      return PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA.contains( this.getCenterX() );
+    },
+
+    /**
      * Returns whether or not the balloon is very close to an object in the play area. Will return true if the center
      * is withing one of the "very close" ranges in the play area.
      *
