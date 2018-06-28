@@ -27,10 +27,10 @@ define( function( require ) {
   var moveOrJumpGrabbedBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveOrJumpGrabbedBalloonHeading' );
   var moveGrabbedBalloonLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveGrabbedBalloonLabel' );
   var moveSlowerLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/moveSlowerLabel' );
-  var jumpsCloseToSweaterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsCloseToSweater' );
-  var jumpsCloseToWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsCloseToWall' );
-  var jumpsNearWallString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsNearWall' );
-  var jumpsToCenterString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpsToCenter' );
+  var jumpCloseToSweaterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpCloseToSweaterLabel' );
+  var jumpCloseToWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpCloseToWallLabel' );
+  var jumpNearWallLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpNearWallLabel' );
+  var jumpToCenterLabelString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/jumpToCenterLabel' );
 
   // a11y strings
   var grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
@@ -142,10 +142,10 @@ define( function( require ) {
     } );
 
     // hot key content for how to jump the balloon
-    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpsCloseToSweaterString, { innerContent: jumpsCloseToSweaterDescriptionString } );
-    var jumpToWallRow = createJumpKeyRow( 'W', jumpsCloseToWallString, { innerContent: jumpsCloseToWwallDescriptionString } );
-    var jumpNearWallRow = createJumpKeyRow( 'N', jumpsNearWallString, { innerContent: jumpsNearWallDescriptionString } );
-    var jumpToCenterRow = createJumpKeyRow( 'C', jumpsToCenterString, { innerContent: jumpstoCenterDescriptionString } );
+    var jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, { innerContent: jumpsCloseToSweaterDescriptionString } );
+    var jumpToWallRow = createJumpKeyRow( 'W', jumpCloseToWallLabelString, { innerContent: jumpsCloseToWwallDescriptionString } );
+    var jumpNearWallRow = createJumpKeyRow( 'N', jumpNearWallLabelString, { innerContent: jumpsNearWallDescriptionString } );
+    var jumpToCenterRow = createJumpKeyRow( 'C', jumpToCenterLabelString, { innerContent: jumpstoCenterDescriptionString } );
 
     // all content contained in a left aligned vbox
     var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];

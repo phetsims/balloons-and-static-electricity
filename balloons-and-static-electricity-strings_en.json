@@ -41,16 +41,16 @@
   "moveSlowerLabel": {
     "value": "Move slower"
   },
-  "jumpsCloseToSweater": {
+  "jumpCloseToSweaterLabel": {
     "value": "Jump close to sweater"
   },
-  "jumpsCloseToWall": {
+  "jumpCloseToWallLabel": {
     "value": "Jump to wall"
   },
-  "jumpsNearWall": {
+  "jumpNearWallLabel": {
     "value": "Jump to near wall"
   },
-  "jumpsToCenter": {
+  "jumpToCenterLabel": {
     "value": "Jump to center"
   }
 }
