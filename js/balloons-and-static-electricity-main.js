@@ -30,7 +30,8 @@ define( function( require ) {
         leadDesign: 'Noah Podolefsky & Sam Reid',
         softwareDevelopment: 'Sam Reid, John Blanco',
         team: 'Wendy Adams, Ariel Paul, Kathy Perkins, Trish Loeblein',
-        qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan, Oliver Orejola, Benjamin Roberts, Bryan Yoelin',
+        qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan, Liam Mulhall, Oliver Orejola, ' +
+                          'Benjamin Roberts, Jacob Romero, Bryan Yoelin',
         graphicArts: 'Sharon Siman-Tov',
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       },
