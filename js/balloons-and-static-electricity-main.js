@@ -28,8 +28,8 @@ define( function( require ) {
     var simOptions = {
       credits: {
         leadDesign: 'Noah Podolefsky & Sam Reid',
-        softwareDevelopment: 'Sam Reid, John Blanco',
-        team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily Moore, Ariel Paul, Kathy Perkins, Taliesin Smith',
+        softwareDevelopment: 'Sam Reid, John Blanco, Jesse Greenberg',
+        team: 'Wendy Adams, Trish Loeblein, Emily Moore, Ariel Paul, Kathy Perkins, Taliesin Smith',
         qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan, Liam Mulhall, Oliver Orejola, ' +
                           'Benjamin Roberts, Jacob Romero, Bryan Yoelin',
         graphicArts: 'Sharon Siman-Tov',
