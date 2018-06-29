@@ -29,7 +29,7 @@ define( function( require ) {
       credits: {
         leadDesign: 'Noah Podolefsky & Sam Reid',
         softwareDevelopment: 'Sam Reid, John Blanco',
-        team: 'Wendy Adams, Ariel Paul, Kathy Perkins, Trish Loeblein',
+        team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily Moore, Ariel Paul, Kathy Perkins, Taliesin Smith',
         qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan, Liam Mulhall, Oliver Orejola, ' +
                           'Benjamin Roberts, Jacob Romero, Bryan Yoelin',
         graphicArts: 'Sharon Siman-Tov',
