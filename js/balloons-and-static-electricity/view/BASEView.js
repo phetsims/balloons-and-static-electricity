@@ -34,9 +34,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
 
-  // strings
-  var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
-
   // a11y strings
   var playAreaString = JoistA11yStrings.playArea.value;
   var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
@@ -60,10 +57,7 @@ define( function( require ) {
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem,
-
-      // a11y
-      labelContent: balloonsAndStaticElectricityTitleString
+      tandem: tandem
     } );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
