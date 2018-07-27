@@ -220,13 +220,13 @@ define( function( require ) {
 
     var downUpListener = new DownUpListener( {
       up: function() {
-        options.tandem.isSuppliedAndEnabled() && self.startEvent( 'user', 'fired', {
+        options.tandem.isSuppliedAndEnabled() && self.phetioStartEvent( 'user', 'fired', {
           value: property.phetioType.elementType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
         upFunction();
 
-        options.tandem.isSuppliedAndEnabled() && self.endEvent();
+        options.tandem.isSuppliedAndEnabled() && self.phetioEndEvent();
       },
       down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
