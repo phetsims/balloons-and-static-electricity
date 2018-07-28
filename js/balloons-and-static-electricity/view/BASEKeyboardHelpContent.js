@@ -130,11 +130,7 @@ define( function( require ) {
     var shiftAndArrowKeysIcon = HelpContent.shiftPlusIcon( arrowKeysIcon );
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
-    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
-      iconsVBoxOptions: {
-        innerContent: moveSlowerDescriptionString
-      }
-    } );
+    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
     // hot key content for how to jump the balloon
     var jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
