@@ -1,91 +1,95 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.1 Fri Jun 29 2018 13:08:57 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.2 Tue Jul 31 2018 10:36:13 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
-    "branch": "HEAD"
+    "branch": "master"
   },
   "axon": {
-    "sha": "f0522e7c5c5be5b13831c5cbfcf1e946f056f89e",
-    "branch": "HEAD"
+    "sha": "5f7c0993ae3a1de4cfb97798f901329ec9c43b65",
+    "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "1f6b47730053b4561ccc7e3b86ea213224771ede",
+    "sha": "45e250949c51e1b2ce347775686b81f1b80f71ae",
     "branch": "master"
   },
   "brand": {
     "sha": "89d28f6309a83eb51b6c1fc0130e76ad7935f09e",
-    "branch": "HEAD"
+    "branch": "master"
   },
   "chipper": {
-    "sha": "e8946524bc63ab3395cb983411615c81b96640b8",
-    "branch": "HEAD"
+    "sha": "70c2d4b0cb0cb0cb457190e3ca889c406b663686",
+    "branch": "master"
   },
   "dot": {
-    "sha": "6482f8c917d807a530287306dc61c580492d6c25",
-    "branch": "HEAD"
+    "sha": "54f7fb7dbf72fc243b13ab1185f0d2cc8672792e",
+    "branch": "master"
   },
   "joist": {
-    "sha": "22e437d5195edca1d63d1d59365a0e01c086422d",
-    "branch": "HEAD"
+    "sha": "5e48cb4d26d011125b6c92afa4b4420119e7bc6d",
+    "branch": "master"
   },
   "kite": {
-    "sha": "a1086efcd29afb8d166e71d983bf760b5ff9f415",
-    "branch": "HEAD"
+    "sha": "6bd3398c5ba5235db52b947ad5decbe22b0cfb5f",
+    "branch": "master"
   },
   "phet-core": {
-    "sha": "17326041c79a22c64889de325d6d686a7d135ff0",
-    "branch": "HEAD"
+    "sha": "9c242cdc6a08a1e47d70586fc256dd674db59add",
+    "branch": "master"
   },
   "phet-io": {
-    "sha": "3ea0727aad1b63b1882b6445649fe7ebba7a5eda",
-    "branch": "HEAD"
+    "sha": "04d1754d3b2ccbafe166a5caa4d021a6fd966f8a",
+    "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
-    "sha": "537086164a1436619416e26771f057f85f4db626",
-    "branch": "HEAD"
+    "sha": "f666b06e42bf66ac5309292299b8e3869c863f3f",
+    "branch": "master"
   },
   "phet-io-wrapper-hookes-law-energy": {
-    "sha": "8a546a3296a72e769d4c574e21d30e7a349037f3",
-    "branch": "HEAD"
+    "sha": "b3ca28bf95da20730885751e2af16cd11b592341",
+    "branch": "master"
   },
   "phet-io-wrapper-lab-book": {
-    "sha": "1527afd6b3351994af48514b6253e2b817e4f428",
-    "branch": "HEAD"
+    "sha": "4144509af06bcc55b0caaa4f15b620d9114eceac",
+    "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "8d814eab83d4944935aa5ca0b97f62c1353ea5c6",
-    "branch": "HEAD"
+    "sha": "fb20f67689fea38acebf8c852ec9be86d09c317f",
+    "branch": "master"
   },
   "phetcommon": {
-    "sha": "6ec8cd890b154f1f58b45112efd51a0b037e0451",
-    "branch": "HEAD"
+    "sha": "04bc12ce20b0f73221c8e6fcc9fa84aa8f536e39",
+    "branch": "master"
   },
   "query-string-machine": {
-    "sha": "4182612f037373368ba5d81642d5215ce77d714f",
-    "branch": "HEAD"
+    "sha": "4178d27a4a676a93c5b0ba62e2559b232a8dad35",
+    "branch": "master"
   },
   "scenery": {
-    "sha": "88cb642e73ac032f386df8538eb3b441d33abb2e",
-    "branch": "HEAD"
+    "sha": "cb7019fac5f40558322d49d5e12c65f6cf38780a",
+    "branch": "master"
   },
   "scenery-phet": {
-    "sha": "4a1f662ef4338e7c9bce3e59ea6ee98cb27b5fa1",
-    "branch": "HEAD"
+    "sha": "bdfe7c1cbc5ef283150e6d5e51c9d908721d95f9",
+    "branch": "master"
   },
   "sherpa": {
-    "sha": "88c3b82889155b4263692db6a3cb746fdf018b01",
-    "branch": "HEAD"
+    "sha": "79fb5b8c6f27048495f6ee7bb113221319a22407",
+    "branch": "master"
   },
   "sun": {
-    "sha": "7579e8fa952edfddd958ab4becb79b9aa17ea0a3",
-    "branch": "HEAD"
+    "sha": "81670b4f55c52be2543c1062f9ed95f98948433a",
+    "branch": "master"
+  },
+  "tambo": {
+    "sha": "931072746c05d510518d9848e828abec5365a4cf",
+    "branch": "master"
   },
   "tandem": {
-    "sha": "8461b6f3bb1921d6c460baee650aefcdc464b969",
-    "branch": "HEAD"
+    "sha": "dbedaa8e6fc55df8689a7bbededb2d6921ffb33d",
+    "branch": "master"
   },
   "vibe": {
-    "sha": "1c92302b6049577c83c932da042b7040590445c6",
-    "branch": "HEAD"
+    "sha": "960a83efd577749b8f3539a86f98563d03017e51",
+    "branch": "master"
   }
 }
