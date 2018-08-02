@@ -101,6 +101,7 @@ define( function( require ) {
       // tandem support
       tandem: Tandem.required,
       phetioType: TwoSceneSelectionNodeIO,
+      phetioEventType: 'user',
 
       // a11y
       tagName: 'input',
@@ -220,7 +221,7 @@ define( function( require ) {
 
     var downUpListener = new DownUpListener( {
       up: function() {
-        options.tandem.isSuppliedAndEnabled() && self.phetioStartEvent( 'user', 'fired', {
+        options.tandem.isSuppliedAndEnabled() && self.phetioStartEvent( 'fired', {
           value: property.phetioType.elementType.toStateObject( property.get() === valueA ? valueB : valueA )
         } );
 
