@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.2 Thu Aug 09 2018 20:22:32 GMT-0600 (MDT)",
+  "comment": "# balloons-and-static-electricity 1.4.2 Thu Aug 09 2018 23:18:51 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "ad17c386525f2a313ea082ea5c9e6e16bf7dbda4",
+    "sha": "9aea6a901a9739521b3cecbd944720e3a75947ed",
     "branch": "1.4"
   },
   "brand": {
@@ -17,8 +17,8 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "e8946524bc63ab3395cb983411615c81b96640b8",
-    "branch": "HEAD"
+    "sha": "a51a4b7abce1e8fdd4fca91857ace8034c35ee1a",
+    "branch": "balloons-and-static-electricity-1.4"
   },
   "dot": {
     "sha": "6482f8c917d807a530287306dc61c580492d6c25",
@@ -57,8 +57,8 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "6ec8cd890b154f1f58b45112efd51a0b037e0451",
-    "branch": "HEAD"
+    "sha": "4240b535202d7b559fe6b234370ebe5ef6eefa20",
+    "branch": "balloons-and-static-electricity-1.4"
   },
   "query-string-machine": {
     "sha": "4182612f037373368ba5d81642d5215ce77d714f",
@@ -66,7 +66,7 @@
   },
   "scenery": {
     "sha": "ef317d7a631e37f4cbd9b4532301edaa388efb6d",
-    "branch": "balloons-and-static-electricity-1.4"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "4a1f662ef4338e7c9bce3e59ea6ee98cb27b5fa1",
