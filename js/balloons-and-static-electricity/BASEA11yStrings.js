@@ -228,8 +228,8 @@ define( function( require ) {
     //------------------------------------------------------------------------
     // Scene summary strings
     //------------------------------------------------------------------------
-    openingSummaryPattern: {
-      value: '{{overview}} The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
+    simOpening: {
+      value: 'The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
     },
 
     // objects for the scene summary

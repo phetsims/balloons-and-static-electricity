@@ -13,13 +13,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -27,13 +24,11 @@ define( function( require ) {
   var WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
-  var sceneSummaryString = JoistA11yStrings.sceneSummary.value;
   var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
   var andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
   var aSweaterString = BASEA11yStrings.aSweater.value;
   var andASweaterString = BASEA11yStrings.andASweater.value;
   var roomObjectsPatternString = BASEA11yStrings.roomObjectsPattern.value;
-  var checkOutShortcutsString = JoistA11yStrings.checkOutShortcuts.value;
   var aYellowBalloonString = BASEA11yStrings.aYellowBalloon.value;
   var aGreenBalloonString = BASEA11yStrings.aGreenBalloon.value;
   var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePattern.value;
@@ -52,8 +47,7 @@ define( function( require ) {
   var summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
   var summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
   var initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
-  var openingSummaryPatternString = BASEA11yStrings.openingSummaryPattern.value;
-  var sceneSummarySingleScreenIntro = SceneryPhetA11yStrings.sceneSummarySingleScreenIntro.value;
+  var simOpeningString = BASEA11yStrings.simOpening.value;
 
   /**
    * @constructor
@@ -63,13 +57,12 @@ define( function( require ) {
    * @param wallNode
    * @param {Tandem} tandem
    */
-  function SceneSummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
+  function BASESummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
 
     var self = this;
 
-    AccessibleSectionNode.call( this, sceneSummaryString, {
-      tandem: tandem,
-      pickable: false // scene summary (and its subtree) do not need to be pickable
+    Node.call( this, {
+      tandem: tandem
     } );
 
     // pull out model elements for readability
@@ -84,10 +77,7 @@ define( function( require ) {
     this.wall = model.wall;
 
     // opening paragraph for the simulation
-    var openingString = StringUtils.fillIn( openingSummaryPatternString, {
-      overview: sceneSummarySingleScreenIntro
-    } );
-    var openingSummaryNode = new Node( { tagName: 'p', innerContent: openingString } );
+    var openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
     this.addChild( openingSummaryNode );
 
     // list of dynamic description content that will update with the state of the simulation
@@ -106,11 +96,10 @@ define( function( require ) {
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
     this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
-    this.addChild( new Node( { tagName: 'p', innerContent: checkOutShortcutsString } ) );
 
     // update the description that covers the visible objects in the play area
     Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
-      roomObjectsNode.innerContent = SceneSummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
+      roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
     var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
@@ -157,9 +146,9 @@ define( function( require ) {
     );
   }
 
-  balloonsAndStaticElectricity.register( 'SceneSummaryNode', SceneSummaryNode );
+  balloonsAndStaticElectricity.register( 'BASESummaryNode', BASESummaryNode );
 
-  return inherit( AccessibleSectionNode, SceneSummaryNode, {
+  return inherit( Node, BASESummaryNode, {
 
     /**
      * Get a description of the sweater and wall charge. Does not include induced charge. If the sweater has neutral

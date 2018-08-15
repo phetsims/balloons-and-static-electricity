@@ -27,7 +27,7 @@ define( function( require ) {
   var Reader = require( 'SCENERY/accessibility/reader/Reader' );
   var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ReaderDisplayNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SceneSummaryNode' );
+  var BASESummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   var TetherNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TetherNode' );
@@ -57,7 +57,11 @@ define( function( require ) {
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem
+      tandem: tandem,
+
+      // a11y - use the built in screen summary, this option should be removed entirely once
+      // https://github.com/phetsims/scenery-phet/issues/393 is completed
+      addScreenSummaryNode: true
     } );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
@@ -114,8 +118,8 @@ define( function( require ) {
     );
 
     // created after all other view objects so we can access each describer
-    var sceneSummaryNode = new SceneSummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
-    this.addChild( sceneSummaryNode );
+    var screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
+    this.screenSummaryNode.addChild( screenSummaryNode );
 
     // combine the balloon content into single nodes so that they are easily layerable
     var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
@@ -153,7 +157,7 @@ define( function( require ) {
     } );
 
     // the scene summary should be before all other children
-    this.accessibleOrder = [ sceneSummaryNode ];
+    // this.accessibleOrder = [ sceneSummaryNode ];
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];

@@ -13,12 +13,12 @@ define( function( require ) {
   var BASEModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BASEModel' );
   var BASEView = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEView' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
-  var SceneSummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SceneSummaryNode' );
+  var BASESummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNode' );
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  QUnit.module( 'SceneSummaryNodeTests' );
+  QUnit.module( 'BASESummaryNode' );
 
   // create model and view for testing
   var model = new BASEModel( 768, 504, new Tandem() );
@@ -28,33 +28,33 @@ define( function( require ) {
   var wallNode = new WallNode( model, view.layoutBounds, new Tandem() );
   
   QUnit.test( 'SceneSummary tests', function( assert ) {
-    var summaryNode = new SceneSummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );
+    var summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );
 
     // verify first item in scene summary, description of items in the room
     model.reset();
 
     // on load, yellow balloon, sweater, and removable wall
     var expectedFirstItem = 'Currently, room has a yellow balloon, a sweater, and a removable wall.';
-    var actualFirstItem = SceneSummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
+    var actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem, 'first summary item incorrect on load' );
 
     // yellow balloon and sweater
     model.wall.isVisibleProperty.set( false );
     expectedFirstItem = 'Currently, room has a yellow balloon, and a sweater.';
-    actualFirstItem = SceneSummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
+    actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem );
 
     // everything visible
     model.wall.isVisibleProperty.set( true );
     model.greenBalloon.isVisibleProperty.set( true );
     expectedFirstItem = 'Currently, room has a yellow balloon, a green balloon, a sweater, and a removable wall.';
-    actualFirstItem = SceneSummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
+    actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem );
 
     // yellow balloon, green balloon, and sweater
     model.wall.isVisibleProperty.set( false );
     expectedFirstItem = 'Currently, room has a yellow balloon, a green balloon, and a sweater.';
-    actualFirstItem = SceneSummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
+    actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem );
 
     // second item in scene summary, balloon charge information
