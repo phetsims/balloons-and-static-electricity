@@ -153,7 +153,6 @@ define( function( require ) {
       tandemName: 'showChargeDifferencesRadioButton',
       labelContent: balloonAppletShowChargeDifferencesString
     } ], {
-      radius: 7,
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
