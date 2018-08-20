@@ -118,7 +118,7 @@ define( function( require ) {
     );
 
     // created after all other view objects so we can access each describer
-    var screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'sceneSummaryNode' ) );
+    var screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'screenSummaryNode' ) );
     this.screenSummaryNode.addChild( screenSummaryNode );
 
     // combine the balloon content into single nodes so that they are easily layerable
@@ -155,9 +155,6 @@ define( function( require ) {
         greenBalloonCueNode.moveToFront();
       }
     } );
-
-    // the scene summary should be before all other children
-    // this.accessibleOrder = [ sceneSummaryNode ];
 
     // set the accessible order: sweater, balloons wall
     playAreaContainerNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
