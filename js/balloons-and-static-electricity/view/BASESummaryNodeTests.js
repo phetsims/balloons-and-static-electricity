@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Tests for scene summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but
+ * Tests for summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but
  * available for screen reader users.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -27,10 +27,10 @@ define( function( require ) {
   // create a wallNode for testing
   var wallNode = new WallNode( model, view.layoutBounds, new Tandem() );
   
-  QUnit.test( 'SceneSummary tests', function( assert ) {
+  QUnit.test( 'Summary tests', function( assert ) {
     var summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );
 
-    // verify first item in scene summary, description of items in the room
+    // verify first item in summary, description of items in the room
     model.reset();
 
     // on load, yellow balloon, sweater, and removable wall
@@ -57,7 +57,7 @@ define( function( require ) {
     actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem );
 
-    // second item in scene summary, balloon charge information
+    // second item in summary, balloon charge information
     model.reset();
 
     // on load
@@ -107,7 +107,7 @@ define( function( require ) {
     actualSecondItem = summaryNode.getBalloonChargeDescription();
     assert.equal( actualSecondItem, expectedSecondItem );
 
-    // verify third item in scene summary, with sweater and wall charge informations
+    // verify third item in summary, with sweater and wall charge informations
     model.reset();
 
     // on load
@@ -143,7 +143,7 @@ define( function( require ) {
     actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
     assert.equal( actualThirdItem, expectedThirdItem );
 
-    // the last scene summary item, verify induced charge
+    // the last summary item, verify induced charge
     model.reset();
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenter().y ) );
