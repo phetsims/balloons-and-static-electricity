@@ -226,13 +226,13 @@ define( function( require ) {
     },
 
     //------------------------------------------------------------------------
-    // Scene summary strings
+    // screen summary strings
     //------------------------------------------------------------------------
     simOpening: {
       value: 'The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
     },
 
-    // objects for the scene summary
+    // objects for the screen summary
     roomObjectsPattern: {
       value: 'Currently, room has {{description}}.'
     },
@@ -285,7 +285,7 @@ define( function( require ) {
       value: 'Yellow balloon is at center of Play Area, evenly between sweater and wall. Sweater is at far left, wall at far right.'
     },
 
-    // general charge information for the scene summary
+    // general charge information for the screen summary
     summaryObjectHasChargePattern: {
       value: '{{object}} has {{charge}} net charge'
     },

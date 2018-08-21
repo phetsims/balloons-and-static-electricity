@@ -338,7 +338,7 @@ define( function( require ) {
     },
 
     /**
-     * A description of the balloon's relative charge but modified slightly for the context of the scene summary.
+     * A description of the balloon's relative charge but modified slightly for the context of the screen summary.
      *
      * @return {string}
      */

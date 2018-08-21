@@ -404,7 +404,7 @@ define( function( require ) {
     },
 
     /**
-     * Get a summary of charges in the wall, for the scene summary. The wall is always neutral, so only depends
+     * Get a summary of charges in the wall, for the screen summary. The wall is always neutral, so only depends
      * on which charges are visible and number of pairs in the wall.
      *
      * @param {string} chargesShown - one of 'none'|'all'|'diff'

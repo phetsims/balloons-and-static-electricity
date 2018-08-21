@@ -293,7 +293,7 @@ define( function( require ) {
     },
 
     /**
-     * Get a description of the sweater's charge for the scene summary. Will return something like 
+     * Get a description of the sweater's charge for the screen summary. Will return something like 
      * "Sweater has positive net charge, a few more positive charges than negative charges."
      * "Sweater has positive net charge, showing a few positive charges."
      * "Sweater has zero net charge, many pairs of positive and negative charges."

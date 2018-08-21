@@ -1,7 +1,7 @@
 // Copyright 2016-2017, University of Colorado Boulder
 
 /**
- * Scene summary for this sim.  The scene summary is composed of a dynamic list of descriptions
+ * screen summary for this sim.  The screen summary is composed of a dynamic list of descriptions
  * for parts of the play area and control panel.  This content will only ever be seen by a screen reader.
  * By breaking up the summary into a list of items, the user can find specific information about the
  * scene very quickly.

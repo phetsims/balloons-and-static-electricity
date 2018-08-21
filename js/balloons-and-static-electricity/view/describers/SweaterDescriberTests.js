@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Tests for scene summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but
+ * Tests for screen summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but
  * available for screen reader users.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
