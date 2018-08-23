@@ -2,7 +2,7 @@
 
 /**
  * Creates a scene selection switch for two scenes.  The visual is styled similar to radio
- * buttons, but clicking anywhere within the bounds of the the switch will change the value,
+ * buttons, but clicking anywhere within the bounds of the switch will change the value,
  * which makes the interaction different from a radio group.
  *
  * Therefore, this is a single button styled like two buttons.  It uses custom input listeners

@@ -184,7 +184,7 @@ define( function( require ) {
   inherit( ScreenView, BASEView, {
 
     /**
-     * Step the view.  For acccessibility, we want to step the 'AudioView' and the the keyboard drag handlers.
+     * Step the view.  For acccessibility, we want to step the 'AudioView' and the keyboard drag handlers.
      * @param number} dt 
      * @public
      */
