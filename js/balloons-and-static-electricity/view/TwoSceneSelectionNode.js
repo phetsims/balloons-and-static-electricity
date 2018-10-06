@@ -26,6 +26,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  var Emitter = require( 'AXON/Emitter' );
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
@@ -34,7 +35,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TwoSceneSelectionNodeIO = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNodeIO' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );
@@ -100,8 +100,6 @@ define( function( require ) {
 
       // tandem support
       tandem: Tandem.required,
-      phetioType: TwoSceneSelectionNodeIO,
-      phetioEventType: 'user',
 
       // a11y
       tagName: 'input',
@@ -219,13 +217,16 @@ define( function( require ) {
       setStyles( self.enabledProperty.get() );
     };
 
+    // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
+    var firedEmitter = new Emitter( {
+      tandem: options.tandem.createTandem( 'firedEmitter' ),
+      phetioEventType: 'user'
+    } );
+    firedEmitter.addListener( upFunction );
+
     var downUpListener = new DownUpListener( {
       up: function() {
-        self.phetioStartEvent( 'fired' );
-
-        upFunction();
-
-        self.phetioEndEvent();
+        firedEmitter.emit();
       },
       down: function() {
         var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
