@@ -263,7 +263,7 @@ define( function( require ) {
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
           var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
           utteranceQueue.addToBack( new Utterance( self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ), {
-            typeId: 'boundaryAlert'
+            uniqueGroupId: 'boundaryAlert'
           } ) );
         }
       }
@@ -459,7 +459,7 @@ define( function( require ) {
 
       // Send a custom alert, depending on where the balloon was moved to
       var utterance = new Utterance( this.describer.movementDescriber.getJumpingDescription( center ), {
-        typeId: 'jumpingDescription' // prevent a spam of these jumping alerts
+        uniqueGroupId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );
       utteranceQueue.addToBack( utterance );
 

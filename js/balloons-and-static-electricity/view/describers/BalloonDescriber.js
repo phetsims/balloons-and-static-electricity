@@ -208,7 +208,7 @@ define( function( require ) {
 
           // assigned an ID so that user doesn't get flooded with direction changes when using a pointer type inputs
           var utterance = self.movementDescriber.getDirectionChangedDescription();
-          utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'direction' } ) );  
+          utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'direction' } ) );  
         }
       }
     } );
@@ -773,7 +773,7 @@ define( function( require ) {
             if ( utterance ) {
 
               // assign an id so that we only announce the most recent alert in the utteranceQueue
-              utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'movementAlert' } ) );
+              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'movementAlert' } ) );
             }
 
             // describe the change in induced charge due to balloon dragging
@@ -789,7 +789,7 @@ define( function( require ) {
                 utterance = this.chargeDescriber.getInducedChargeChangeDescription();
               }
 
-              utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'inducedChargeChange' } ) );
+              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'inducedChargeChange' } ) );
             }
 
             // update flags that indicate which alerts should come next
@@ -911,7 +911,7 @@ define( function( require ) {
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
               utterance = this.getNoChargePickupDescription();
-              utteranceQueue.addToBack( new Utterance( utterance, { typeId: 'chargeAlert' } ) );
+              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'chargeAlert' } ) );
             }
           }
         }
