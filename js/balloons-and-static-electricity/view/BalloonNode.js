@@ -262,7 +262,8 @@ define( function( require ) {
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
           var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
-          utteranceQueue.addToBack( new Utterance( self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ), {
+          utteranceQueue.addToBack( new Utterance( {
+            alert: self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ),
             uniqueGroupId: 'boundaryAlert'
           } ) );
         }
@@ -458,7 +459,8 @@ define( function( require ) {
       utteranceQueue.clear();
 
       // Send a custom alert, depending on where the balloon was moved to
-      var utterance = new Utterance( this.describer.movementDescriber.getJumpingDescription( center ), {
+      var utterance = new Utterance( {
+        alert: this.describer.movementDescriber.getJumpingDescription( center ),
         uniqueGroupId: 'jumpingDescription' // prevent a spam of these jumping alerts
       } );
       utteranceQueue.addToBack( utterance );

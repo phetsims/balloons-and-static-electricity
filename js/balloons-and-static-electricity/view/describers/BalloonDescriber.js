@@ -1,4 +1,3 @@
-
 // Copyright 2016-2017, University of Colorado Boulder
 
 /**
@@ -96,7 +95,7 @@ define( function( require ) {
     this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
 
     // @private - manages descriptions about the  balloon related to balloon movement and location
-    this.movementDescriber = new  BalloonLocationDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
+    this.movementDescriber = new BalloonLocationDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
 
     // @private - used to track previous values after an interaction so that we can accurately describe how 
     // the model has changed
@@ -208,7 +207,7 @@ define( function( require ) {
 
           // assigned an ID so that user doesn't get flooded with direction changes when using a pointer type inputs
           var utterance = self.movementDescriber.getDirectionChangedDescription();
-          utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'direction' } ) );  
+          utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'direction' } ) );
         }
       }
     } );
@@ -269,7 +268,7 @@ define( function( require ) {
      * Dependent on location, charge, and charge visibility. Will return something like:
      * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
      * "At center of play area, next to green balloon."
-     * 
+     *
      * @return {string}
      */
     getBalloonDescription: function() {
@@ -306,7 +305,7 @@ define( function( require ) {
      * Get the alert description for when a charge is picked up off of the sweater. Dependent
      * on charge view, whether the balloon has picked up charges already since moving on to the
      * sweater, and the number of charges that the balloon has picked up.
-     * 
+     *
      * @param  {boolean} firstPickup - special behavior if the first charge pickup since landing on sweater
      * @return {string}
      */
@@ -317,7 +316,7 @@ define( function( require ) {
       var newCharge = this.balloonModel.chargeProperty.get();
       var newRange = BASEDescriber.getDescribedChargeRange( newCharge );
 
-      if ( shownCharges === 'none' )  {
+      if ( shownCharges === 'none' ) {
         description = this.movementDescriber.getAttractiveStateAndLocationDescription();
         description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
       }
@@ -344,7 +343,7 @@ define( function( require ) {
           balloon: relativeBalloonCharge,
           sweater: relativeSweaterCharge
         } );
-        
+
         this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
       }
       else {
@@ -366,7 +365,7 @@ define( function( require ) {
         }
 
         this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
-      }      
+      }
 
       assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
       return description;
@@ -392,7 +391,7 @@ define( function( require ) {
           statement: picksUpCharges
         } );
       }
-      else if ( shownCharges === 'diff' ) {    
+      else if ( shownCharges === 'diff' ) {
         description = StringUtils.fillIn( balloonPicksUpChargesDiffPatternString, {
           pickUp: picksUpCharges
         } );
@@ -416,7 +415,7 @@ define( function( require ) {
     getNoChargePickupDescription: function() {
       var alert;
       var chargesShown = this.showChargesProperty.get();
-      
+
       var balloonLocationString = this.movementDescriber.getAttractiveStateAndLocationDescription();
       var sweaterCharge = this.model.sweater.chargeProperty.get();
 
@@ -439,7 +438,7 @@ define( function( require ) {
             moreChargesLocation: moreChargesString
           } );
         }
-        else if ( chargesShown === 'diff' )  {
+        else if ( chargesShown === 'diff' ) {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
             noChange: noChangeInNetChargeString,
             balloonLocation: balloonLocationString,
@@ -453,10 +452,10 @@ define( function( require ) {
         if ( chargesShown === 'all' ) {
           var relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
           var relativeBalloonCharge = this.chargeDescriber.getNetChargeDescriptionWithLabel();
-          relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, {  statement: relativeBalloonCharge } );
+          relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, { statement: relativeBalloonCharge } );
 
           alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
-            noChange:  noChangeInChargesString,
+            noChange: noChangeInChargesString,
             balloonLocation: balloonLocationString,
             sweaterCharge: relativeSweaterCharge,
             balloonCharge: relativeBalloonCharge,
@@ -484,7 +483,7 @@ define( function( require ) {
      * Positive charges do not move." or
      * "At upper wall." or
      * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
-     * 
+     *
      * @return {string}
      */
     getWallRubbingDescription: function() {
@@ -612,7 +611,7 @@ define( function( require ) {
     /**
      * Get the description when the balloon has picked up the last charge on the sweater.
      * Dependent on the charge view.
-     * 
+     *
      * @return {string}
      */
     getLastChargePickupDescription: function() {
@@ -710,7 +709,7 @@ define( function( require ) {
 
               // while dragging, just attractive state and location 
               utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
-            }    
+            }
           }
           else if ( model.onSweater() ) {
 
@@ -773,7 +772,7 @@ define( function( require ) {
             if ( utterance ) {
 
               // assign an id so that we only announce the most recent alert in the utteranceQueue
-              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'movementAlert' } ) );
+              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'movementAlert' } ) );
             }
 
             // describe the change in induced charge due to balloon dragging
@@ -789,7 +788,7 @@ define( function( require ) {
                 utterance = this.chargeDescriber.getInducedChargeChangeDescription();
               }
 
-              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'inducedChargeChange' } ) );
+              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'inducedChargeChange' } ) );
             }
 
             // update flags that indicate which alerts should come next
@@ -911,7 +910,7 @@ define( function( require ) {
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
               utterance = this.getNoChargePickupDescription();
-              utteranceQueue.addToBack( new Utterance( utterance, { uniqueGroupId: 'chargeAlert' } ) );
+              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'chargeAlert' } ) );
             }
           }
         }
