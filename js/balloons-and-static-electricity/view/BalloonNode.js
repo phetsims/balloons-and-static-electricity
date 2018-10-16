@@ -336,7 +336,7 @@ define( function( require ) {
       self.keyboardDragHandler._dragBounds = self.getDragBounds();
     } );
 
-    // when the "Grab Balloon" button is pressed, focus the dragable node and set to dragged state
+    // when the "Grab Balloon" button is pressed, focus the draggable node and set to dragged state
     balloonImageNode.addAccessibleInputListener( {
       click: function( event ) {
 
