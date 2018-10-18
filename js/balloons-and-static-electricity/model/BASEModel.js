@@ -22,7 +22,7 @@ define( function( require ) {
   var WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
 
   // ifphetio
-  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
 
   /**
    * Constructor for main model for the Balloons and Static Electricity sim. 

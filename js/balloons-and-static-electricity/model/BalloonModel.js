@@ -27,7 +27,7 @@ define( function( require ) {
   var Vector2IO = require( 'DOT/Vector2IO' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
 
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
   var VELOCITY_ARRAY_LENGTH = 5;
