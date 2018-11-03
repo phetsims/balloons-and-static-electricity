@@ -21,20 +21,14 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
-  var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
+  var SpaceToGrabReleaseNode = require( 'SCENERY_PHET/accessibility/nodes/SpaceToGrabReleaseNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-
-  // strings
-  var toGrabOrReleaseString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/toGrabOrRelease' );
 
   // constants
   var CUE_REPEATS = 1; // number of times successful drag should happen before the cue is no longer necessary
   var ARROW_HEIGHT = 15; // dimensions for the arrow icons
   var KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
-  var SPACE_KEY_WIDTH = 50; // this space key is wider than default SpaceKeyNode
   var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
   var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: KEY_HEIGHT };
   var KEY_ARROW_SPACING = 2;
@@ -54,21 +48,7 @@ define( function( require ) {
 
     Node.call( this );
 
-    // Create the help content for the space key to pick up the balloon
-    var spaceKeyNode = new SpaceKeyNode( { keyHeight: KEY_HEIGHT, minKeyWidth: SPACE_KEY_WIDTH } );
-    var spaceLabelText = new RichText( toGrabOrReleaseString, { font: new PhetFont( 12 ) } );
-    var spaceKeyHBox = new HBox( {
-      children: [ spaceKeyNode, spaceLabelText ],
-      spacing: 10
-    } );
-
-    // rectangle containing the content, not visible until focused the first time
-    var backgroundRectangle = new Rectangle( spaceKeyHBox.bounds.dilatedXY( 15, 5 ), {
-      fill: 'white',
-      stroke: 'black',
-      visible: false
-    } );
-    backgroundRectangle.addChild( spaceKeyHBox );
+    var backgroundRectangle = new SpaceToGrabReleaseNode( { visible: false } );
     this.addChild( backgroundRectangle );
 
     // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
