@@ -1,4 +1,4 @@
-{
+ {
   "balloons-and-static-electricity.title": {
     "value": "Balloons and Static Electricity"
   },
@@ -25,9 +25,6 @@
   },
   "grabOrReleaseBalloonHeading": {
     "value": "Grab or Release Balloon"
-  },
-  "toGrabOrRelease": {
-    "value": "to <b>Grab</b> or <b>Release</b>"
   },
   "grabOrReleaseBalloonLabel": {
     "value": "Grab or release balloon"
