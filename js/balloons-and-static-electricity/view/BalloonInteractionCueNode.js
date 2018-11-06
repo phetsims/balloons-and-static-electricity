@@ -22,7 +22,7 @@ define( function( require ) {
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var SpaceToGrabReleaseNode = require( 'SCENERY_PHET/accessibility/nodes/SpaceToGrabReleaseNode' );
+  var GrabReleaseCueNode = require( 'SCENERY_PHET/accessibility/nodes/GrabReleaseCueNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
@@ -48,7 +48,7 @@ define( function( require ) {
 
     Node.call( this );
 
-    var backgroundRectangle = new SpaceToGrabReleaseNode( { visible: false } );
+    var backgroundRectangle = new GrabReleaseCueNode( { visible: false } );
     this.addChild( backgroundRectangle );
 
     // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
