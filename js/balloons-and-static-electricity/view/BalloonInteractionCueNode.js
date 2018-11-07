@@ -44,6 +44,13 @@ define( function( require ) {
     right: Math.PI / 2
   };
 
+  /**
+   * @constructor
+   * @param {BASEModel} model
+   * @param {BalloonModel} balloonModel
+   * @param {BalloonNode} balloonNode 
+   * @param {Bounds2} layoutBounds
+   */
   function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBounds ) {
 
     Node.call( this );
