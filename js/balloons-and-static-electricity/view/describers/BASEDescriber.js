@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * Manages descriptions for the entire simulation Balloons and Static Electricity.  Has functions that put together

@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * A node that provides an interaction cue for interacting with the balloon in Balloons and Static Electricity.

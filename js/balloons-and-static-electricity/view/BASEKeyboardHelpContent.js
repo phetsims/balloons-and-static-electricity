@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2015-2018, University of Colorado Boulder
 
 /**
  * Content for the "Keyboard Shortcuts" dialog that can be brought up from the sim navigation bar.

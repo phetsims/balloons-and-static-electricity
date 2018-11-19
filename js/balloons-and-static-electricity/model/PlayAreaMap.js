@@ -1,4 +1,4 @@
-// Copyright 2017, University of Colorado Boulder
+// Copyright 2017-2018, University of Colorado Boulder
 
 /**
  * A map of the 2D play area for this simulation.  The play area includes anywhere that the Balloons can move about,
