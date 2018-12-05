@@ -260,8 +260,8 @@ define( function( require ) {
       start: function( event ) {
 
         // if already touching a boundary when dragging starts, announce an indication of this
-        if ( self.attemptToMoveBeyondBoundary( event.keyCode ) ) {
-          var attemptedDirection = self.getAttemptedMovementDirection( event.keyCode );
+        if ( self.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
+          var attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );
           utteranceQueue.addToBack( new Utterance( {
             alert: self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ),
             uniqueGroupId: 'boundaryAlert'
