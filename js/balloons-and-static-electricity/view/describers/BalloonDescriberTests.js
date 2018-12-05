@@ -293,6 +293,7 @@ define( function( require ) {
     model.sweater.chargeProperty.set( 20 );
     model.yellowBalloon.setCenter( rightSweater );
     model.greenBalloon.setCenter( rightSweater );
+    model.yellowBalloon.isDraggedProperty.set( true );
     var actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     var expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                               'Each balloon has a few more negative charges than positive charges. ' +
@@ -513,6 +514,7 @@ define( function( require ) {
     model.greenBalloon.chargeProperty.set( -10 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
+    model.yellowBalloon.isDraggedProperty.set( true );
     actualAlert = balloonNode.describer.getWallRubbingDescription();
     expectedAlert = 'At upper wall, next to Green Balloon. Yellow Balloon has negative net charge, showing several negative charges. Green Balloon has negative net charge, showing a few negative charges. Wall has zero net charge, showing no charges.';
     assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 4' );
