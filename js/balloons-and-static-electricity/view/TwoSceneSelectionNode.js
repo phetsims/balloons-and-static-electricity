@@ -259,7 +259,7 @@ define( function( require ) {
     this.addInputListener( highlightListener );
     this.enabledProperty.link( setStyles );
     property.link( propertyListener );
-    this.addAccessibleInputListener( clickListener );
+    this.addInputListener( clickListener );
 
     // set mouse and touch areas
     this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
@@ -271,7 +271,7 @@ define( function( require ) {
       this.removeInputListener( highlightListener );
       this.enabledProperty.unlink( setStyles );
       property.unlink( propertyListener );
-      this.removeAccessibleInputListener( clickListener );
+      this.removeInputListener( clickListener );
     };
   }
 

@@ -319,7 +319,7 @@ define( function( require ) {
     this.addChild( accessibleDragNode );
 
     // add the keyboard drag handler to the node that will handle this
-    accessibleDragNode.addAccessibleInputListener( this.keyboardDragHandler );
+    accessibleDragNode.addInputListener( this.keyboardDragHandler );
 
     // emit an event when the draggable node receives or loses focus
     accessibleDragNode.focusChangedEmitter.addListener( function( isFocused ) {
@@ -337,7 +337,7 @@ define( function( require ) {
     } );
 
     // when the "Grab Balloon" button is pressed, focus the draggable node and set to dragged state
-    balloonImageNode.addAccessibleInputListener( {
+    balloonImageNode.addInputListener( {
       click: function( event ) {
 
         // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
@@ -385,7 +385,7 @@ define( function( require ) {
     };
 
     var releasedWithEnter = false;
-    accessibleDragNode.addAccessibleInputListener( {
+    accessibleDragNode.addInputListener( {
 
       // release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
       // we don't immediately catch the 'click' event while the enter key is down on the button
