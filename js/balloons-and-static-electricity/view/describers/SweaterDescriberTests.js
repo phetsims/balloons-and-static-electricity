@@ -18,10 +18,10 @@ define( function( require ) {
   QUnit.module( 'SweaterDescriberTests' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, new Tandem() );
+  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  var sweaterNode = new SweaterNode( model, new Tandem() );
+  var sweaterNode = new SweaterNode( model, Tandem.rootTandem.createTandem( 'sweaterNode' ) );
   
   QUnit.test( 'SweaterDescriber tests', function( assert ) {
 

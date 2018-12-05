@@ -21,14 +21,14 @@ define( function( require ) {
   QUnit.module( 'BASESummaryNode' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, new Tandem() );
-  var view = new BASEView( model, new Tandem() );
+  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
+  var view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
 
   // create a wallNode for testing
-  var wallNode = new WallNode( model, view.layoutBounds, new Tandem() );
+  var wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
   
   QUnit.test( 'Summary tests', function( assert ) {
-    var summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, new Tandem() );
+    var summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.rootTandem.createTandem( 'summaryNode' ) );
 
     // verify first item in summary, description of items in the room
     model.reset();

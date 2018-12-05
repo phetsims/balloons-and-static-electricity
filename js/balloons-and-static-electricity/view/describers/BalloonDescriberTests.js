@@ -22,10 +22,10 @@ define( function( require ) {
   QUnit.module( 'BalloonDescriberTests' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, new Tandem() );
+  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  var balloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', new Tandem(), {
+  var balloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', Tandem.rootTandem.createTandem( 'balloonNode' ), {
     labelContent: 'Yellow Balloon'
   } );
 
