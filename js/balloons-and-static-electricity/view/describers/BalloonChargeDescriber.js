@@ -141,7 +141,7 @@ define( function( require ) {
      * @return {string}
      */
     getCombinedRelativeChargeDescription: function() {
-      assert && assert( this.balloonModel.isDraggedProperty.get(), 'function assumes balloon is grabbed' );
+      assert && assert( this.balloonModel.isDraggedProperty.get(), 'alert should only be generated if balloon is grabbed' );
       var description;
 
       // the relative charge, used in all cases
