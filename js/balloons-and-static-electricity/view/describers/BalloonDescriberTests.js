@@ -126,7 +126,8 @@ define( function( require ) {
     model.reset();
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_ARM.getCenter(), model.yellowBalloon.getCenterY() ) );
     model.yellowBalloon.chargeProperty.set( -10 );
-    model.sweater.chargeProperty.set( -10 );
+    model.sweater.chargeProperty.set( 10 );
+
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On right arm of sweater. Has a few more negative charges than positive charges. ' + 
                           'Sweater has a few more positive charges than negative charges. ' +
