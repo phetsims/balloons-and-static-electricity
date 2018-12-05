@@ -390,7 +390,7 @@ define( function( require ) {
       // release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
       // we don't immediately catch the 'click' event while the enter key is down on the button
       keydown: function( event ) {
-        if ( event.keyCode === KeyboardUtil.KEY_ENTER ) {
+        if ( event.domEvent.keyCode === KeyboardUtil.KEY_ENTER ) {
           releasedWithEnter = true;
           a11yReleaseBalloon();
         }
@@ -399,7 +399,7 @@ define( function( require ) {
 
         // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        if ( event.keyCode === KeyboardUtil.KEY_SPACE || event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
+        if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
           a11yReleaseBalloon();
         }
       },
