@@ -403,7 +403,7 @@ define( function( require ) {
           a11yReleaseBalloon();
         }
       },
-      blur: function( event ) {
+      blur: function() {
 
         // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are interrupted on blur
         endDragListener();
