@@ -183,10 +183,12 @@ define( function( require ) {
     assert.equal( actualDescription, expectedDescription, 'grab alert test 14' );
 
     // grab alerts when both balloons are visible, at wall, and neutral, all charges shown
+    
     model.reset();
     model.greenBalloon.isVisibleProperty.set( true );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenterY() ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.greenBalloon.getCenterY() ) );
+    model.yellowBalloon.isDraggedProperty.set( true );
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At wall, next to Green Balloon. Each balloon has no more negative charges than positive charges. ' +
                           'In wall, no change in charges. Wall has many pairs of negative and positive charges. '  +
