@@ -229,7 +229,7 @@ define( function( require ) {
     // screen summary strings
     //------------------------------------------------------------------------
     simOpening: {
-      value: 'The Play Area is a small room. The Control Panel has buttons, a checkbox, and radio buttons to change conditions in the room.'
+      value: 'The Play Area is a small room. The Control Area has buttons, a checkbox, and radio buttons to change conditions in the room.'
     },
 
     // objects for the screen summary

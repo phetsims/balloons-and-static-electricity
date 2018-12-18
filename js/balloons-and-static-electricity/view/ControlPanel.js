@@ -48,7 +48,7 @@ define( function( require ) {
 
   // a11y strings
   var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
-  var controlPanelString = JoistA11yStrings.controlPanel.value;
+  var controlAreaString = JoistA11yStrings.controlArea.value;
   var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
   var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;
   var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlert.value;
@@ -74,7 +74,7 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds, tandem ) {
 
     // super constructor
-    AccessibleSectionNode.call( this, controlPanelString );
+    AccessibleSectionNode.call( this, controlAreaString );
     var self = this;
 
     // Add/Remove wall button.
