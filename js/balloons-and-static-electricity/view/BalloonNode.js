@@ -59,15 +59,8 @@ define( function( require ) {
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( x, y, model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, tandem, options ) {
+  function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, tandem, options ) {
     var self = this;
-
-    // @public (a11y) - emits events when the accessible grab button and the draggable element
-    // receive or lose keyboard focus
-    this.grabButtonFocusedEmitter = new Emitter();
-    this.grabButtonBlurredEmitter = new Emitter();
-    this.dragNodeFocusedEmitter = new Emitter();
-    this.dragNodeBlurredEmitter = new Emitter();
 
     options = _.extend( {
       cursor: 'pointer',
@@ -85,9 +78,6 @@ define( function( require ) {
 
     // super constructor
     Node.call( this, options );
-
-    this.x = x;
-    this.y = y;
 
     // @private
     this.model = model;
