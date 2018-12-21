@@ -11,7 +11,6 @@ define( function( require ) {
 
   // modules
   var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
-  var BalloonInteractionCueNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonInteractionCueNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -94,7 +93,7 @@ define( function( require ) {
 
     var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
-    this.yellowBalloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, tandem.createTandem( 'yellowBalloonNode' ), {
+    this.yellowBalloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, this.layoutBounds, tandem.createTandem( 'yellowBalloonNode' ), {
       labelContent: yellowBalloonLabelString
     } );
     var tetherAnchorPoint = new Vector2(
@@ -107,7 +106,7 @@ define( function( require ) {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode( model.greenBalloon, balloonGreen, model, greenBalloonLabelString, yellowBalloonLabelString, tandem.createTandem( 'greenBalloonNode' ), {
+    this.greenBalloonNode = new BalloonNode( model.greenBalloon, balloonGreen, model, greenBalloonLabelString, yellowBalloonLabelString, this.layoutBounds, tandem.createTandem( 'greenBalloonNode' ), {
       labelContent: greenBalloonLabelString
     } );
     this.greenBalloonTetherNode = new TetherNode(
@@ -124,11 +123,6 @@ define( function( require ) {
     // combine the balloon content into single nodes so that they are easily layerable
     var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     var yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-
-    // a11y - a node that provides some information when this node receives focus for the first time
-    var yellowBalloonCueNode = new BalloonInteractionCueNode( model, model.yellowBalloon, this.yellowBalloonNode, this.layoutBounds );
-    var greenBalloonCueNode = new BalloonInteractionCueNode( model, model.greenBalloon, this.greenBalloonNode, this.layoutBounds );
-
     playAreaContainerNode.addChild( yellowBalloonLayerNode );
     playAreaContainerNode.addChild( greenBalloonLayerNode );
 
@@ -140,19 +134,13 @@ define( function( require ) {
 
     this.addChild( controlPanel );
 
-    // interaction cues layered on top of everything
-    this.addChild( yellowBalloonCueNode );
-    this.addChild( greenBalloonCueNode );
-
     // when one of the balloons is picked up, move its content and cue nodes to front
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
       if ( yellowDragged ) {
         yellowBalloonLayerNode.moveToFront();
-        yellowBalloonCueNode.moveToFront();
       }
       else if ( greenDragged ) {
         greenBalloonLayerNode.moveToFront();
-        greenBalloonCueNode.moveToFront();
       }
     } );
 

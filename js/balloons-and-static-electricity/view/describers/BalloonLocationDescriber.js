@@ -1,10 +1,12 @@
 // Copyright 2016-2018, University of Colorado Boulder
 
 /**
- * Type Documentation
+ * Manages all descriptions related to the balloon's location. This file is quite large, but further separation felt
+ * forced so I decided to keep all in this file. Used by BalloonDescriber, which manages descriptions from the other
+ * describers.
+ *
  * @author Jesse Greenberg
  */
-
 define( function( require ) {
   'use strict';
 
@@ -25,7 +27,6 @@ define( function( require ) {
   var balloonOnString = BASEA11yStrings.balloonOn.value;
   var balloonAtString = BASEA11yStrings.balloonAt.value;
   var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePattern.value;
-  var releasedString = BASEA11yStrings.released.value;
   var initialMovementPatternString = BASEA11yStrings.initialMovementPattern.value;
   var continuousMovementWithLabelPatternString = BASEA11yStrings.continuousMovementWithLabelPattern.value;
   var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPattern.value;
@@ -911,16 +912,6 @@ define( function( require ) {
       this.balloonModel.successfulPickUp = true;
 
       return description;
-    },
-
-    /**
-     * Get an alert that indicates that the balloon has been released.
-     * @return {string}
-     */
-    getReleasedAlert: function() {
-      return StringUtils.fillIn( singleStatementPatternString, {
-        statement: releasedString
-      } );
     },
 
     /**

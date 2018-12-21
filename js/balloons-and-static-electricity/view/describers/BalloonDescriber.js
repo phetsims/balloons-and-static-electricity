@@ -831,18 +831,16 @@ define( function( require ) {
 
         if ( nextIsDragged ) {
           utterance = this.movementDescriber.getGrabbedAlert();
+          utteranceQueue.addToBack( utterance );
 
           // we have been picked up successfully, start describing direction
           this.describeDirection = true;
         }
         else {
-          utterance = this.movementDescriber.getReleasedAlert();
 
           // don't describe direction until initial release description happens
           this.describeDirection = false;
         }
-
-        utteranceQueue.addToBack( utterance );
 
         // reset flags that track description content
         this.initialMovementDescribed = false;

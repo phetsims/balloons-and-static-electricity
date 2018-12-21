@@ -16,12 +16,13 @@ define( function( require ) {
   // modules
   var BalloonDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriber' );
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
+  var BalloonInteractionCueNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonInteractionCueNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Emitter = require( 'AXON/Emitter' );
   var FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
+  var GrabDragInteraction = require( 'SCENERY_PHET/accessibility/GrabDragInteraction' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var KeyboardDragListener = require( 'SCENERY_PHET/accessibility/listeners/KeyboardDragListener' );
@@ -34,7 +35,6 @@ define( function( require ) {
   var PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -43,7 +43,6 @@ define( function( require ) {
   var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   // a11y strings
-  var grabBalloonPatternString = BASEA11yStrings.grabBalloonPattern.value;
   var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelp.value;
 
   /**
@@ -56,10 +55,11 @@ define( function( require ) {
    * @param  {BASEModel} globalModel
    * @param {string} accessibleLabelString - the accessible label for this balloon
    * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
+   * @param {Bounds2} layoutBounds - layout bounds of the ScreenView containing this node
    * @param  {Tandem} tandem
    * @constructor
    */
-  function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, tandem, options ) {
+  function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
     var self = this;
 
     options = _.extend( {
@@ -82,14 +82,6 @@ define( function( require ) {
     // @private
     this.model = model;
     this.globalModel = globalModel;
-
-    // @public (a11y, read-only) - increments when there is a successful drag interaction with the keyboard,
-    // used by the BalloonInteractionCueNode
-    this.keyboardDragCount = 0;
-
-    var accessibleButtonLabel = StringUtils.fillIn( grabBalloonPatternString, {
-      balloon: accessibleLabelString
-    } );
 
     // a11y - a type that generates descriptions for the balloon 
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
@@ -142,14 +134,7 @@ define( function( require ) {
 
     var balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
-      pickable: false, // custom touch areas applied to parent
-
-      // a11y
-      containerTagName: 'div',
-      tagName: 'button',
-      innerContent: accessibleButtonLabel,
-      descriptionContent: grabBalloonHelpString,
-      appendDescription: true
+      pickable: false // custom touch areas applied to parent
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
@@ -242,11 +227,6 @@ define( function( require ) {
       dragBounds: this.getDragBounds(),
       locationProperty: model.locationProperty,
       shiftKeyMultiplier: 0.25,
-      drag: function() {
-        if ( self.keyboardDragCount === 0 ) {
-          self.keyboardDragCount++;
-        }
-      },
       start: function( event ) {
 
         // if already touching a boundary when dragging starts, announce an indication of this
@@ -258,6 +238,45 @@ define( function( require ) {
           } ) );
         }
       }
+    } );
+
+    // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
+    // a keyboard
+    var interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
+    interactionCueNode.center = balloonImageNode.center;
+
+    // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
+    // content for the interaction is underneath this node
+    var grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
+      thingToGrab: accessibleLabelString,
+      dragCueNode: interactionCueNode,
+
+      grabCueOptions: {
+        centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
+      },
+      
+      grabbableOptions: {
+        descriptionContent: grabBalloonHelpString,
+        appendDescription: true
+      },
+
+      onGrab: function() {
+        model.isDraggedProperty.set( true );
+      },
+
+      onRelease: function() {
+        endDragListener();
+
+        // reset the key state of the drag handler by interrupting the drag
+        self.keyboardDragHandler.interrupt();
+      },
+
+      // hides the interactionCueNode cue if this returns true
+      successfulDrag: function() {
+        return !model.locationProperty.get().equals( model.locationProperty.initialValue );
+      },
+
+      listenersForDrag: [ this.keyboardDragHandler ]
     } );
 
     // jump to the wall on 'J + W'
@@ -288,127 +307,14 @@ define( function( require ) {
       }
     ] );
 
-    var dragHighlightNode = new FocusHighlightFromNode( balloonImageNode, {
-      lineDash: [ 7, 7 ]
-    } );
-
-    // A node that receives focus and handles keyboard dragging
-    var accessibleDragNode = new Node( {
-      tandem: tandem.createTandem( 'accessibleDragNode' ),
-
-      // a11y
-      tagName: 'div',
-      containerTagName: 'div',
-      focusable: true,
-      accessibleVisible: false, // initially false
-      pickable: false,
-      containerAriaRole: 'application',
-      innerContent: accessibleLabelString,
-      focusHighlight: dragHighlightNode
-    } );
-    this.addChild( accessibleDragNode );
-
-    // add the keyboard drag handler to the node that will handle this
-    accessibleDragNode.addInputListener( this.keyboardDragHandler );
-
-    // emit an event when the draggable node receives or loses focus
-    accessibleDragNode.focusChangedEmitter.addListener( function( isFocused ) {
-      if ( isFocused ) {
-        self.dragNodeFocusedEmitter.emit();
-      }
-      else {
-        self.dragNodeBlurredEmitter.emit();
-      }
-    } );
-
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( function( isVisible ) {
       self.keyboardDragHandler._dragBounds = self.getDragBounds();
     } );
 
-    // when the "Grab Balloon" button is pressed, focus the draggable node and set to dragged state
-    balloonImageNode.addInputListener( {
-      click: function( event ) {
-
-        // if the balloon was released on enter, don't pick it up again until the next click event so we don't pick
-        // it up immediately again
-        if ( !releasedWithEnter ) {
-          accessibleDragNode.accessibleVisible = true;
-          accessibleDragNode.focus();
-
-          // the balloon is picked up for dragging
-          model.isDraggedProperty.set( true );
-        }
-
-        // pick up the balloon on the next click event
-        releasedWithEnter = false;
-      }
-    } );
-
-    // emit events when focus changes on the grab button
-    balloonImageNode.focusChangedEmitter.addListener( function( isFocused ) {
-      if ( isFocused ) {
-        self.grabButtonFocusedEmitter.emit();
-      }
-      else {
-        self.grabButtonBlurredEmitter.emit();
-      }
-    } );
-
-    /**
-     * Release the balloon after an accessible interaction, resetting  model Properties, returning focus
-     * to the "grab" button, and hiding the draggable balloon.
-     */
-    var a11yReleaseBalloon = function() {
-
-      // release the balloon
-      endDragListener();
-
-      // focus the grab balloon button
-      balloonImageNode.focus();
-
-      // the draggable node should no longer be discoverable in the parallel DOM
-      accessibleDragNode.accessibleVisible = false;
-
-      // reset the key state of the drag handler by interrupting the drag
-      self.keyboardDragHandler.interrupt();
-    };
-
-    var releasedWithEnter = false;
-    accessibleDragNode.addInputListener( {
-
-      // release the balloon on 'enter' key, tracking that we have released the balloon with this key so that
-      // we don't immediately catch the 'click' event while the enter key is down on the button
-      keydown: function( event ) {
-        if ( event.domEvent.keyCode === KeyboardUtil.KEY_ENTER ) {
-          releasedWithEnter = true;
-          a11yReleaseBalloon();
-        }
-      },
-      keyup: function( event ) {
-
-        // release  on keyup of spacebar so that we don't pick up the balloon again when we release the spacebar
-        // and trigger a click event - escape could be added to either keyup or keydown listeners
-        if ( event.domEvent.keyCode === KeyboardUtil.KEY_SPACE || event.domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
-          a11yReleaseBalloon();
-        }
-      },
-      blur: function() {
-
-        // No need to interrupt the KeyboardDragHandler, accessibilityInputListeners are interrupted on blur
-        endDragListener();
-
-        // the draggable node should no longer be focusable
-        accessibleDragNode.accessibleVisible = false;
-      }
-    } );
-
-    // when reset, reset the interaction trackers
     model.resetEmitter.addListener( function() {
-      self.keyboardDragCount = 0;
-
-      // reset the describer
       self.describer.reset();
+      grabDragInteraction.reset();
     } );
 
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
