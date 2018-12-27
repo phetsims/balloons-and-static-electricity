@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -55,7 +56,7 @@ define( function( require ) {
 
     Node.call( this, { pickable: false, tandem: tandem } );
 
-    this.translate( location.x, location.y );
+    this.translate( location.x + BASEConstants.IMAGE_PADDING, location.y + BASEConstants.IMAGE_PADDING );
 
     this.addChild( sharedPlusChargeNode );
   }

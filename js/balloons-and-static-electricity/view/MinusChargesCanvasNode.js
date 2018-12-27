@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -79,8 +80,8 @@ define( function( require ) {
         var charge = this.charges[ i ];
         var chargePosition = charge.locationProperty.get();
 
-        var xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS ) * scale );
-        var yPosition = ( chargePosition.y + PointChargeModel.RADIUS ) * scale;
+        var xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale );
+        var yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale;
 
         // render particle
         context.drawImage( this.chargeImageNode.image, xPosition, yPosition );
