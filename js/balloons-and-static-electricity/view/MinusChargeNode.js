@@ -39,7 +39,6 @@ define( function( require ) {
       } )
     ]
   } );
-  icon.translate( icon.width / 2, icon.height / 2 );
   var sharedMinusChargeNode = icon.rasterized( { resolution: scale } );
 
   /**
@@ -57,7 +56,7 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    this.translate( location.x - RADIUS, location.y - RADIUS );
+    this.translate( location.x, location.y );
 
     this.addChild( sharedMinusChargeNode );
   }

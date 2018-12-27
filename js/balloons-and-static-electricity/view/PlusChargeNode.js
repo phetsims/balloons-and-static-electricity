@@ -44,7 +44,6 @@ define( function( require ) {
       } )
     ]
   } );
-  icon.translate( icon.width / 2, icon.height / 2 );
   var sharedPlusChargeNode = icon.rasterized( { resolution: scale } );
 
   /**
@@ -56,7 +55,7 @@ define( function( require ) {
 
     Node.call( this, { pickable: false, tandem: tandem } );
 
-    this.translate( location.x - RADIUS, location.y - RADIUS );
+    this.translate( location.x, location.y );
 
     this.addChild( sharedPlusChargeNode );
   }
