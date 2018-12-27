@@ -13,6 +13,7 @@ define( function( require ) {
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BASEModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BASEModel' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -22,10 +23,11 @@ define( function( require ) {
   QUnit.module( 'BalloonDescriberTests' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
+  var layoutBounds = new Bounds2( 0, 0, 768, 504 );
+  var model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.rootTandem.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  var balloonNode = new BalloonNode( 400, 200, model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', Tandem.rootTandem.createTandem( 'balloonNode' ), {
+  var balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.rootTandem.createTandem( 'balloonNode' ), {
     labelContent: 'Yellow Balloon'
   } );
 
