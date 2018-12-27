@@ -21,7 +21,10 @@ define( function( require ) {
     // in view coordinates, to match the layout of charge images before using node.rasterized(), because
     // node.toImage() automatically added some padding, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/434
-    IMAGE_PADDING: 1
+    IMAGE_PADDING: 1,
+
+    // scale for image charges so they look less pixelated after being rasterized
+    IMAGE_SCALE: 2
   };
 
   balloonsAndStaticElectricity.register( 'BASEConstants', BASEConstants );

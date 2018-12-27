@@ -20,8 +20,6 @@ define( function( require ) {
 
   var RADIUS = PointChargeModel.RADIUS;
 
-  //Scale up before rasterization so it won't be too pixellated/fuzzy
-  var scale = 2; // TODO: factor out: MinusChargeNode also has one
   const icon = new Node( {
     children: [
       new Circle( RADIUS, {
@@ -45,7 +43,7 @@ define( function( require ) {
       } )
     ]
   } );
-  var sharedPlusChargeNode = icon.rasterized( { resolution: scale } );
+  var sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
   /**
    * @constructor
