@@ -248,7 +248,7 @@ define( function( require ) {
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
     var grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
-      thingToGrab: accessibleLabelString,
+      objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
 
       grabCueOptions: {
