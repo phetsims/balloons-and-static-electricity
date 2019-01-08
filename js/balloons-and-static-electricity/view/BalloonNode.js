@@ -367,7 +367,7 @@ define( function( require ) {
 
     /**
      * Determine if the user attempted to move beyond the play area bounds with the keyboard.
-     * @return {[type]} [description]
+     * @returns {[type]} [description]
      */
     attemptToMoveBeyondBoundary: function( keyCode ) {
       return (

@@ -156,7 +156,7 @@ define( function( require ) {
      * @param {number} i - column number
      * @param {number} k - row number
      *
-     * @return {Array.<number>} - an array containing the x and y values for the charge
+     * @returns {Array.<number>} - an array containing the x and y values for the charge
      */
     calculatePosition: function( i, k ) {
       var y0 = i % 2 === 0 ? this.dy / 2 : 1;
@@ -166,8 +166,8 @@ define( function( require ) {
     /**
      * Get the minus charge that is the closest in the wall to the balloon, relative to the charge's initial
      * position.
-     * 
-     * @return {MovablePointChargeModel}
+     *
+     * @returns {MovablePointChargeModel}
      */
     getClosestChargeToBalloon: function( balloon ) {
       var minusCharges = this.minusCharges;
@@ -197,7 +197,7 @@ define( function( require ) {
      * @public
      *
      * @param {Vector2} force - force applied on this charge
-     * @return {boolean}
+     * @returns {boolean}
      */
     forceIndicatesInducedCharge: function( force ) {
       return force.magnitude() > FORCE_MAGNITUDE_THRESHOLD;

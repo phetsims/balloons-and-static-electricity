@@ -73,7 +73,7 @@ define( function( require ) {
      * "At left edge of Play Area. Has positive net charge, several more positive charges than negative charges."
      *
      * @param {Property.<string>} showCharges
-     * @return {string}
+     * @returns {string}
      */
     getSweaterDescription: function( showCharges ) {
       var description;
@@ -152,7 +152,7 @@ define( function( require ) {
      * 
      * @param  {number} charge
      * @param  {string} shownCharges
-     * @return {string} 
+     * @returns {string} 
      */
     getRelativeChargeDescriptionWithLabel: function( charge, shownCharges ) {
       var description;
@@ -200,7 +200,7 @@ define( function( require ) {
      * word to indicate this.
      *
      * @param {number} charge
-     * @return {string}
+     * @returns {string}
      */
     getRelativeChargeDescription: function( charge ) {
 
@@ -217,7 +217,7 @@ define( function( require ) {
      * charge visibility.
      * 
      * @param  {string} shownCharges
-     * @return {string}
+     * @returns {string}
      */
     getNoMoreChargesAlert: function( charge, shownCharges ) {
       var alert;
@@ -239,7 +239,7 @@ define( function( require ) {
      * "Sweater has neutral net charge."
      *
      * @param {number} sweaterCharge
-     * @return {string}
+     * @returns {string}
      */
     getNetChargeDescription: function( sweaterCharge )  {
       var relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
@@ -257,7 +257,7 @@ define( function( require ) {
      *
      * @param {BalloonModel} balloon
      * @param {string} shownCharges
-     * @return {string}
+     * @returns {string}
      */
     getMoreChargesDescription: function( balloon, sweaterCharge, sweaterCharges, shownCharges ) {
       assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );
@@ -299,7 +299,7 @@ define( function( require ) {
      * "Sweater has zero net charge, many pairs of positive and negative charges."
      * "Sweater has zero net charge, showing no charges."
      *
-     * @return {string}
+     * @returns {string}
      */
     getSummaryChargeDescription: function( chargesShown, charge ) {
 

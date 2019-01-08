@@ -160,7 +160,7 @@ define( function( require ) {
      * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
      *   positive charges."
      *
-     * @return {string}
+     * @returns {string}
      */
     getSweaterAndWallChargeDescription: function() {
       var description;
@@ -211,7 +211,7 @@ define( function( require ) {
      * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
      * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
      *
-     * @return {string}
+     * @returns {string}
      */
     getBalloonChargeDescription: function() {
       var description;
@@ -269,7 +269,7 @@ define( function( require ) {
      * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
      * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
      *
-     * @return {string}
+     * @returns {string}
      */
     getInducedChargeDescription: function() {
       var description;
@@ -348,7 +348,7 @@ define( function( require ) {
      * @private
      * @param  {Property.<boolean>} balloonVisible
      * @param  {Property.<boolean>} wallVisible
-     * @return {string}
+     * @returns {string}
      */
     getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
       var patternString;

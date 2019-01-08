@@ -374,7 +374,7 @@ define( function( require ) {
      * balloon or wall visibility.  Useful for checking whether the balloon is at the wall location
      * when the wall is removed.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     rightAtWallLocation: function() {
       return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
@@ -383,7 +383,7 @@ define( function( require ) {
     /**
      * Returns whether or not this balloon is at the right edge of the play area.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     atRightEdge: function() {
       return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_WALL;
@@ -392,7 +392,7 @@ define( function( require ) {
     /**
      * Returns whether or not this balloon is at the left edge of the play area.
      *
-     * @return {string}
+     * @returns {string}
      */
     atLeftEdge: function() {
       return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE;
@@ -402,7 +402,7 @@ define( function( require ) {
      * Returns whether or not this balloon is in the center of the play area horizontally. Does not consider vertical
      * location.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     inCenterPlayArea: function() {
       return PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA.contains( this.getCenterX() );
@@ -412,7 +412,7 @@ define( function( require ) {
      * Returns whether or not the balloon is very close to an object in the play area. Will return true if the center
      * is withing one of the "very close" ranges in the play area.
      *
-     * @return {string}
+     * @returns {string}
      */
     veryCloseToObject: function() {
       var centerX = this.getCenterX();
@@ -435,7 +435,7 @@ define( function( require ) {
     /**
      * Returns true if the balloon is moving horizontally, left or right.
      * @public
-     * @return {string} - "LEFT"|"RIGHT"
+     * @returns {string} - "LEFT"|"RIGHT"
      */
     movingHorizontally: function() {
       var direction = this.directionProperty.get();
@@ -445,7 +445,7 @@ define( function( require ) {
     /**
      * Returns true if the balloon is movingv vertically, up or down
      * @public
-     * @return {string} - "UP"|"DOWN"
+     * @returns {string} - "UP"|"DOWN"
      */
     movingVertically: function() {
       var direction = this.directionProperty.get();
@@ -455,7 +455,7 @@ define( function( require ) {
     /**
      * Returns true if the balloon is moving horizontally, left or right.
      * @public
-     * @return {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
+     * @returns {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
      */
     movingDiagonally: function() {
       var direction = this.directionProperty.get();
@@ -468,7 +468,7 @@ define( function( require ) {
     /**
      * Get whether or not the balloon is s moving to the right.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     movingRight: function() {
       var direction = this.directionProperty.get();
@@ -480,7 +480,7 @@ define( function( require ) {
     /**
      * Get whether or not the balloon is moving to the left.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     movingLeft: function() {
       var direction = this.directionProperty.get();
@@ -495,7 +495,7 @@ define( function( require ) {
      * horizontally, progress will be proportion of width.  If moving vertically, progress will be
      * a proportion of the height.
      *
-     * @return {number}
+     * @returns {number}
      */
     getProgressThroughRegion: function() {
 
@@ -547,7 +547,7 @@ define( function( require ) {
 
     /**
      * Get the vertical center of the balloon model.
-     * @return {number}
+     * @returns {number}
      */
     getCenterY: function() {
       return this.locationProperty.get().y + this.height / 2;
@@ -555,7 +555,7 @@ define( function( require ) {
 
     /**
      * Get the horizontal center location of the balloon.
-     * @return {number}
+     * @returns {number}
      */
     getCenterX: function() {
       return this.locationProperty.get().x + this.width / 2;
@@ -564,7 +564,7 @@ define( function( require ) {
     /**
      * Get the right edge of the balloon.
      *
-     * @return {number}
+     * @returns {number}
      */
     getRight: function() {
       return this.locationProperty.get().x + this.width;
@@ -577,7 +577,7 @@ define( function( require ) {
      * balloon plus the average y position of the charges.
      *
      * @public
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getChargeCenter: function() {
       var centerX = this.getCenter().x;
@@ -589,7 +589,7 @@ define( function( require ) {
      * Get the position of the left touch point of the balloon against the sweater. If the balloon center is to the
      * right of the sweater edge, use  the left edge of the balloon. Otherwise, use the balloon center.
      *
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getSweaterTouchingCenter: function() {
       var sweater = this.balloonsAndStaticElectricityModel.sweater;
@@ -608,7 +608,7 @@ define( function( require ) {
     /**
      * Returns whether or not this balloon has any charge. Just a helper function for convenience and readability.
      * @public
-     * @return {boolean}
+     * @returns {boolean}
      */
     isCharged: function() {
 
@@ -619,7 +619,7 @@ define( function( require ) {
     /**
      * Returns true if this balloon is both inducing charge and visible. Helper function for readability.
      * @public
-     * @return {boolean}
+     * @returns {boolean}
      */
     inducingChargeAndVisible: function() {
       return this.isVisibleProperty.get() && this.inducingChargeProperty.get();
@@ -629,7 +629,7 @@ define( function( require ) {
      * Whether this balloon is inducing charge in the wall. For the balloon to be inducing charge in the wall, this
      * balloon must be visible, the wall must be visible, and the force between wall and balloon must be large enough.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     inducingCharge: function( wallVisible ) {
 
@@ -764,7 +764,7 @@ define( function( require ) {
     /**
      * Returns whether or not the balloon is touching the boundary of the play area, including the bottom, left
      * and top edges, or the right edge or wall depending on wall visibility.
-     * @return {string}
+     * @returns {string}
      */
     isTouchingBoundary: function() {
       return this.isTouchingRightBoundary() || this.isTouchingLeftBoundary() ||
@@ -776,7 +776,7 @@ define( function( require ) {
      * is visible, this will be the location where the balloon is touching the wall, otherwise it will
      * be the location where the balloon is touching the right edge of the play area.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     isTouchingRightBoundary: function() {
       var balloonX = this.getCenter().x;
@@ -792,7 +792,7 @@ define( function( require ) {
      * Returns whether or not the balloon is touching the right most edge of the play area (should be impossible
      * if the wall is invisible)
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     isTouchingRightEdge: function() {
       var balloonX = this.getCenterX();
@@ -801,7 +801,7 @@ define( function( require ) {
 
     /**
      * Returns whether or not the balloon is touching the bottom boundary of the play area.
-     * @return {boolean}
+     * @returns {boolean}
      */
     isTouchingBottomBoundary: function() {
       return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM === this.getCenterY();
@@ -814,7 +814,7 @@ define( function( require ) {
     /**
      * Returns whether or not the balloon is touching the top boundary of the play area.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     isTouchingTopBoundary: function() {
       return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP === this.getCenterY();
@@ -967,7 +967,7 @@ define( function( require ) {
      * Get the force on a balloon from the closest charge to the balloon in the wall.
      *
      * @param {BalloonModel} balloon
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getForceToClosestWallCharge: function( balloon ) {
       return BalloonModel.getForce(
@@ -985,7 +985,7 @@ define( function( require ) {
      *
      * @param  {Vector2} pointA
      * @param  {Vector2} pointB
-     * @return {string} - one of BalloonDirectionEnum
+     * @returns {string} - one of BalloonDirectionEnum
      * @static
      */
     getDirection: function( pointA, pointB ) {

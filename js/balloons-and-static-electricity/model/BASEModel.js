@@ -144,7 +144,7 @@ define( function( require ) {
      * Return true when both balloons are visible.
      * @public
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     bothBalloonsVisible: function() {
       return this.greenBalloon.isVisibleProperty.get() && this.yellowBalloon.isVisibleProperty.get();
@@ -153,7 +153,7 @@ define( function( require ) {
     /**
      * Returns true when both balloons are visible and adjacent to each other.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     getBalloonsAdjacent: function() {
       var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH;
@@ -167,7 +167,7 @@ define( function( require ) {
      * @param {number} objWidth - width of balloon
      * @param {number} objHeight - height of balloon
      *
-     * @return {[type]} [description]
+     * @returns {[type]} [description]
      */
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
 
@@ -209,7 +209,7 @@ define( function( require ) {
     /**
      * Get the distance between the two balloons.
      *
-     * @return {number}
+     * @returns {number}
      */
     getDistance: function() {
       return this.greenBalloon.getCenter().distance( this.yellowBalloon.getCenter() );

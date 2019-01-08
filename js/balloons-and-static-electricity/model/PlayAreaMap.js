@@ -126,7 +126,7 @@ define( function( require ) {
      * Get the column of the play area for the a given location in the model, including landmark locations.
      * 
      * @param  {Vector2} location
-     * @return {string}         
+     * @returns {string}
      */
     getPlayAreaColumn: function( location, wallVisible ) {
       var columns = COLUMN_RANGES;
@@ -155,7 +155,7 @@ define( function( require ) {
      * Get the landmark of the play area for the a given location in the model.
      * 
      * @param  {Vector2} location
-     * @return {string}         
+     * @returns {string}
      */
     getPlayAreaLandmark: function( location, wallVisible ) {
       var landmarks = LANDMARK_RANGES;
@@ -182,8 +182,8 @@ define( function( require ) {
     /**
      * Get a row in the play area that contains the location in the model.
      * 
-     * @param  {Vector2} location 
-     * @return {strint}
+     * @param  {Vector2} location
+     * @returns {strint}
      */
     getPlayAreaRow: function( location ) {
       var rows = PlayAreaMap.ROW_RANGES;
@@ -208,7 +208,7 @@ define( function( require ) {
      * that surround critical x locations.
      *
      * @param {Vector2s} location
-     * @return {boolean}
+     * @returns {boolean}
      */
     inLandmarkColumn: function( location ) {
       var landmarks = PlayAreaMap.LANDMARK_RANGES;
@@ -236,7 +236,7 @@ define( function( require ) {
    * @param {number} width - desired width of the next range
    * @param {Range} [previousRange] - if provided, next range will start from max of this range
    *
-   * @return {Range}
+   * @returns {Range}
    */
   function createNextRange( width, previousRange ) {
     var min = previousRange ? previousRange.max : 0;
@@ -249,7 +249,7 @@ define( function( require ) {
    * PlayArea that define how the balloon's location should be described.
    *
    * @param {number} xLocation - center of the landmark
-   * @return {Range}
+   * @returns {Range}
    */
   function createLandmarkRange( xLocation ) {
     return new Range( xLocation - HALF_LANDMARK_WIDTH, xLocation + HALF_LANDMARK_WIDTH );

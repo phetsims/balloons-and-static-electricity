@@ -101,7 +101,7 @@ define( function( require ) {
      * would move if that key is pressed.
      *
      * @param {string} direction - 'up'|'down'|'left'|'right'
-     * @return {Node}
+     * @returns {Node}
      */
     createMovementKeyNode: function( direction ) {
 

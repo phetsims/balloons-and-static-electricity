@@ -154,7 +154,7 @@ define( function( require ) {
    * @param {string} keyString - the letter name that will come after 'j'
    * @param {string} labelString
    * @param {string} innerContent
-   * @return {HBox}
+   * @returns {HBox}
    */
   function createJumpKeyRow( keyString, labelString, innerContent ) {
 

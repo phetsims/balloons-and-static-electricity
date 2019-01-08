@@ -104,7 +104,7 @@ define( function( require ) {
      * "Has negative net charge." or
      * "Has neutral net charge." 
      *
-     * @return {string}
+     * @returns {string}
      */
     getNetChargeDescription: function() {
       var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
@@ -118,7 +118,7 @@ define( function( require ) {
      * "Yellow balloon has negative net charge." or
      * "Green balloon has no net charge."
      *
-     * @return {string}
+     * @returns {string}
      */
     getNetChargeDescriptionWithLabel: function() {
       var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
@@ -138,7 +138,7 @@ define( function( require ) {
      * "Green balloon has several more negative charges than positive  charges. Yellow balloon has several more
      *   negative charges than positive charges." or
      *
-     * @return {string}
+     * @returns {string}
      */
     getCombinedRelativeChargeDescription: function() {
       assert && assert( this.balloonModel.isDraggedProperty.get(), 'alert should only be generated if balloon is grabbed' );
@@ -180,7 +180,7 @@ define( function( require ) {
      * Get a description of the induced charge in the wall or the charge of the sweater. To be used by the "grab" alert
      * when the balloon is picked up.
      *
-     * @return {string}
+     * @returns {string}
      */
     getOtherObjectChargeDescription: function() {
       var inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
@@ -249,7 +249,7 @@ define( function( require ) {
      * "Negative charges in wall begin to return."
      * "Negative charges in wall return a little more."
      *
-     * @return {string}
+     * @returns {string}
      */
     getInducedChargeChangeDescription: function() {
       var descriptionString;
@@ -324,7 +324,7 @@ define( function( require ) {
      * that the charges moved away from the balloon, we will always describe the return of induced charges at least
      * once.
      *
-     * @return {string}
+     * @returns {string}
      */
     describeInducedChargeChange: function() {
       var chargesShown = this.showChargesProperty.get();
@@ -340,7 +340,7 @@ define( function( require ) {
     /**
      * A description of the balloon's relative charge but modified slightly for the context of the screen summary.
      *
-     * @return {string}
+     * @returns {string}
      */
     getSummaryRelativeChargeDescription: function() {
       var chargesShown = this.showChargesProperty.get();
@@ -359,7 +359,7 @@ define( function( require ) {
      * "Has zero net charge, showing no charges." or 
      * "Has zero net charge, many pairs of positive and negative charges"
      *
-     * @return {string}
+     * @returns {string}
      */
     getHasRelativeChargeDescription: function() {
       var balloonCharge = this.balloonModel.chargeProperty.get();
@@ -405,7 +405,7 @@ define( function( require ) {
      * @param {BalloonModel} balloonModel
      * @param {string} showCharges - one of 'all', 'none, 'diff'
      *
-     * @return {string}
+     * @returns {string}
      */
     getRelativeChargeDescription: function( balloonModel, showCharges ) {
       var description;
@@ -442,8 +442,8 @@ define( function( require ) {
      * "Yellow balloon has zero net charge, showing no charges."
      *
      * Dependent on the charge view.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getRelativeChargeDescriptionWithLabel: function( balloonModel, showCharges, label ) {
       var description;

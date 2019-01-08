@@ -57,7 +57,7 @@ define( function( require ) {
     /**
      * Get the displacement of the charge from its initial position. Useful as a measure of the induced charge.
      *
-     * @return {Vector2}
+     * @returns {Vector2}
      */
     getDisplacement: function() {
       var initialPosition = this.locationProperty.initialValue;

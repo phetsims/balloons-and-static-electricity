@@ -93,7 +93,7 @@ define( function( require ) {
      * @public
      * @param  {BalloonModel} yellowBalloon
      * @param  {BalloonModel} greenBalloon
-     * @return {string}
+     * @returns {string}
      */
     getWallDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent ) {
       var  description;
@@ -122,7 +122,7 @@ define( function( require ) {
      * Get the described charge in the wall, dependent on charge visibility, whether or not there is induced charge,
      * and which balloons are visible. This portion of the description does not include any wall position information.
      *
-     * @return {string}
+     * @returns {string}
      */
     getWallChargeDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown )  {
       var descriptionString;
@@ -217,7 +217,7 @@ define( function( require ) {
      * @param {boolean} wallVisible
      * @param {string} chargesShown
      *
-     * @return {string}
+     * @returns {string}
      */
     getWallChargeDescriptionWithLabel: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown ) {
       var description = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
@@ -232,7 +232,7 @@ define( function( require ) {
      * Get the induced charge amount description for the balloon, describing whether the charges are
      * "a little bit" displaced and so on.
      * @param  {BalloonModel} balloon
-     * @return {string}
+     * @returns {string}
      */
     getInducedChargeAmountDescription: function( balloon ) {
 
@@ -252,7 +252,7 @@ define( function( require ) {
      * "In wall, no change in charges."
      *
      * @param {string} locationString
-     * @return {string}
+     * @returns {string}
      */
     getNoChangeInChargesDescription: function( locationString ) {
       return StringUtils.fillIn( wallNoChangeInChargesPatternString, {
@@ -267,7 +267,7 @@ define( function( require ) {
      * @param {BalloonModel} balloon
      * @param {string} balloonLabel
      * @param {boolean} wallVisible
-     * @return {string}
+     * @returns {string}
      */
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       var descriptionString;
@@ -348,7 +348,7 @@ define( function( require ) {
      * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
      * "Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move."
      *
-     * @return {string}
+     * @returns {string}
      */
     getCombinedInducedChargeDescription: function( balloon, wallVisible, options ) {
 
@@ -394,7 +394,7 @@ define( function( require ) {
      * @param wallVisible
      * @param {[type]} includeWallLocation [description]
      *
-     * @return {[type]} [description]
+     * @returns {[type]} [description]
      */
     getInducedChargeLocationDescription: function( balloon, wallVisible, includeWallLocation ) {
       var chargeLocationX = PlayAreaMap.X_LOCATIONS.AT_WALL;
@@ -409,7 +409,7 @@ define( function( require ) {
      *
      * @param {string} chargesShown - one of 'none'|'all'|'diff'
      * @param numberOfCharges
-     * @return {string}
+     * @returns {string}
      */
     getSummaryChargeDescription: function( chargesShown, numberOfCharges ) {
       var chargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfCharges );

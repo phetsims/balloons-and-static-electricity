@@ -200,7 +200,7 @@ define( function( require ) {
    * @param {Object[]} [entries] - Additional entries to add to the mapped value range, will look something like
    *                             { description: {string}, range: {Range} }
    *
-   * @return {Object}
+   * @returns {Object}
    */
   var generateDescriptionMapWithEntries = function( descriptionArray, valueRange, entries ) {
     entries = entries || [];
@@ -257,7 +257,7 @@ define( function( require ) {
      * descsription. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
      * 
      * @param {Vector2} location - location of the balloon, relative to its center
-     * @return {string}
+     * @returns {string}
      */
     getLocationDescription: function( location, wallVisible ) {
 
@@ -326,7 +326,7 @@ define( function( require ) {
      * @private
      *
      * @param {string} column - one of keys in LOCATION_DESCRIPTION_MAP
-     * @return {boolean}
+     * @returns {boolean}
      */
     inWallColumn: function( column ) {
       return ( column === 'AT_WALL' || column === 'AT_NEAR_WALL' || column === 'WALL' || column === 'AT_VERY_CLOSE_TO_WALL' );
@@ -337,7 +337,7 @@ define( function( require ) {
      * string patterns
      * 
      * @param  {number} charge
-     * @return {string}
+     * @returns {string}
      */
     getRelativeChargeDescription: function( charge ) {
 
@@ -364,7 +364,7 @@ define( function( require ) {
      * a charge pickup. Descriptions are generated relative to the absolute value of the charge.
      *
      * @param  {number} charge
-     * @return {Range}
+     * @returns {Range}
      */
     getDescribedChargeRange: function( charge ) {
 
@@ -390,7 +390,7 @@ define( function( require ) {
      * @param {BalloonModel} balloonA
      * @param {BalloonModel} balloonB
      *
-     * @return {[type]} [description]
+     * @returns {[type]} [description]
      */
     getBalloonsVisibleWithSameChargeRange: function( balloonA, balloonB ) {
       var rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
@@ -407,7 +407,7 @@ define( function( require ) {
      * @public
      *
      * @param {string} direction - one of BalloonDirectionEnum
-     * @return {string}
+     * @returns {string}
      */
     getDirectionDescription: function( direction )  {
       return DIRECTION_MAP[ direction ];
@@ -419,7 +419,7 @@ define( function( require ) {
      * "Each balloon has negative net charge." or
      * "Each balloon has zero net charge."
      *
-     * @return {string}
+     * @returns {string}
      */
     getNetChargeDescriptionWithLabel: function( charge ) {
       var chargeAmountString = charge < 0 ? negativeString : zeroString;
@@ -438,7 +438,7 @@ define( function( require ) {
      *
      * @param {string} chargesShown
      * @param {number} numberOfCharges
-     * @return {string}
+     * @returns {string}
      */
     getNeutralChargesShownDescription: function( chargesShown, numberOfCharges ) {
       var description;

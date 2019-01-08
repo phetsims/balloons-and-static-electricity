@@ -169,8 +169,8 @@ define( function( require ) {
     /**
      * Get a description that describes the attractive state or proximity of the balloon, such as
      * "On...", "sticking to...", "Near..." and so on.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getAttractiveStateOrProximityDescription: function() {
       var string = '';
@@ -198,8 +198,8 @@ define( function( require ) {
      * or location of balloon.
      *
      * NOTE: This function is undoubtedly horrible for i18n.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getPreposition: function() {
       var string = '';
@@ -238,8 +238,8 @@ define( function( require ) {
      * Returns a string that combines the balloon's attractive state and location descriptions. Something
      * like "On center of play area" or "Sticking to wall". This fragment is used in a number of different
      * contexts, so it doesn't include punctuation at the end.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getAttractiveStateAndLocationDescription: function() {
       var locationDescriptionString = this.getBalloonLocationDescription();
@@ -258,7 +258,7 @@ define( function( require ) {
      * Returns something like:
      * Yellow balloon, sticking to right arm of sweater.
      *
-     * @return {string}
+     * @returns {string}
      */
     getAttractiveStateAndLocationDescriptionWithLabel: function() {
       var alert;
@@ -279,8 +279,8 @@ define( function( require ) {
      * Get a description of the balloon being "on" an item in the play area. Instead of getting
      * the attractive state of the balloon (like 'touching' or 'sticking' or 'near'), simply say
      * 'on' wherever the balloon is.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getOnLocationDescription: function() {
 
@@ -302,8 +302,8 @@ define( function( require ) {
      * "upper wall", or 
      * "wall, next to Green Balloon", or 
      * "right arm of sweater, next to Yellow Balloon"
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getBalloonLocationDescription: function() {
       var description = this.getLocationDescriptionWithoutOverlap();
@@ -327,7 +327,7 @@ define( function( require ) {
      *
      * any of the other location descriptions for the PlayAreaMap.
      *
-     * @return {string}
+     * @returns {string}
      */
     getLocationDescriptionWithoutOverlap: function() {
       var describedBalloonPosition = this.getDescribedPoint();
@@ -339,8 +339,8 @@ define( function( require ) {
      * Get the point on the balloon that should be described. Generally, this is the balloon center.  If the balloon
      * is touching the sweater or the wall, the point of touching should be described.  If near the wall, the described
      * point is the edge of the wall to accomplish a description like "Yellow balloon, Near upper wall".
-     * 
-     * @return {Vector2}
+     *
+     * @returns {Vector2}
      */
     getDescribedPoint: function() {
       var describedBalloonPosition;
@@ -359,8 +359,8 @@ define( function( require ) {
     /**
      * Get a short description of the balloon's location at a boundary when there is an attempted drag beyond
      * the boundary.  Will return something like "At bottom" or "At top".
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getTouchingBoundaryDescription: function( attemptedDirection ) {
       assert && assert ( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
@@ -394,7 +394,7 @@ define( function( require ) {
      * "Off sweater"
      *
      * @param {boolean} onSweater
-     * @return {string}
+     * @returns {string}
      */
     getOnSweaterString: function( onSweater ) {
       var description;
@@ -428,7 +428,7 @@ define( function( require ) {
      * drag velocity, and movement direction. Depending on these variables, we might not announce this alert, so
      * this function can return null.
      *
-     * @return {string|null}
+     * @returns {string|null}
      */
     getLandmarkDragDescription: function() {
       var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
@@ -463,7 +463,7 @@ define( function( require ) {
      * "At center of play area." or
      * "Closer to sweater."
      *
-     * @return {string}
+     * @returns {string}
      */
     getKeyboardMovementAlert: function() {
       var alert;
@@ -502,7 +502,7 @@ define( function( require ) {
      *
      * @param {Vector2} location - the current location of the balloon
      * @param {Vector2} oldLocation - the previous location of the balloon
-     * @return {string}
+     * @returns {string}
      */
     getInitialReleaseDescription: function( location, oldLocation ) {
 
@@ -534,8 +534,8 @@ define( function( require ) {
      * Will return something like
      * "Moving Left." or
      * "Moving Left. Near wall."
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getContinuousReleaseDescription: function() {
       var description;
@@ -571,8 +571,8 @@ define( function( require ) {
      * are visible, we include information about the induced charge in the wall. Will return something like
      * "No change in position. Yellow balloon, on left side of Play Area." or
      * "No change in position. Yellow Balloon, at wall. Negative charges in wall move away from yellow balloon a lot."
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getNoChangeReleaseDescription: function() {
       var description;
@@ -623,7 +623,7 @@ define( function( require ) {
      * Get a description of velocity for this balloon, one of "very slowly", "slowly", "quickly", "very quickly"
      * 
      * @private
-     * @return {string}
+     * @returns {string}
      */
     getVelocityString: function() {
       var velocityString;
@@ -649,7 +649,7 @@ define( function( require ) {
      * is one of BalloonDirectionEnum.
      *
      * @param {string} direction - one of BalloonDirectionEnum
-     * @return {string}
+     * @returns {string}
      */
     getDraggingDirectionDescription: function( direction ) {
       var movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
@@ -674,8 +674,8 @@ define( function( require ) {
     /**
      * Get the dragging description while the balloon is moving through the play area being dragged and enters
      * a new region in the play area.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getPlayAreaDragNewRegionDescription: function() {
 
@@ -693,8 +693,8 @@ define( function( require ) {
 
     /**
      * Get a progress string toward the sweater, wall, top edge, bottom edge, or center of play area.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getPlayAreaDragProgressDescription: function() {
       var alert;
@@ -752,7 +752,7 @@ define( function( require ) {
      * "Left." or
      * "Now Left."
      *
-     * @return {string}
+     * @returns {string}
      */
     getDirectionChangedDescription: function() {
       var description;
@@ -792,7 +792,7 @@ define( function( require ) {
      * "Green balloon, at wall. Negative charges in wall move away from yellow balloon a little bit."
      * ''
      *
-     * @return {string}
+     * @returns {string}
      */
     getMovementStopsDescription: function() {
       var descriptionString;
@@ -831,7 +831,7 @@ define( function( require ) {
      * for the movement to be observable. This is to prevent this alert from firing indefinitely if the balloon has
      * some arbitrary velocity.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     balloonMovingAtContinousDescriptionVelocity: function() {
       var velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude();
@@ -846,8 +846,8 @@ define( function( require ) {
      * setting. If the balloon is inducing charge, information about induced charge will be included.
      * If the balloon is on the sweater, will include infomation about the charges on the sweater. After the
      * balloon has been picked up once, we don't need to describe help information until reset.
-     * 
-     * @return {string}
+     *
+     * @returns {string}
      */
     getGrabbedAlert: function() {
       var description;
@@ -921,7 +921,7 @@ define( function( require ) {
      *
      * @public
      * @param  {Vector2} center
-     * @return {string}
+     * @returns {string}
      */
     getJumpingDescription: function( center ) {
       var description = '';

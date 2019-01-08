@@ -26,7 +26,7 @@ define( function( require ) {
      * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
      *
      * @param {string} direction - one of BalloonDirectionEnum
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     isRelativeDirection: function( direction ) {
       return direction === BalloonDirectionEnum.LEFT ||

@@ -269,7 +269,7 @@ define( function( require ) {
      * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
      * "At center of play area, next to green balloon."
      *
-     * @return {string}
+     * @returns {string}
      */
     getBalloonDescription: function() {
       var description;
@@ -307,7 +307,7 @@ define( function( require ) {
      * sweater, and the number of charges that the balloon has picked up.
      *
      * @param  {boolean} firstPickup - special behavior if the first charge pickup since landing on sweater
-     * @return {string}
+     * @returns {string}
      */
     getChargePickupDescription: function( firstPickup ) {
       var description;
@@ -376,7 +376,7 @@ define( function( require ) {
      * area, we get an initial alert like
      * "Yellow Balloon picks up negative charges from sweater."
      *
-     * @return {string}
+     * @returns {string}
      */
     getInitialChargePickupDescription: function() {
       var description;
@@ -410,7 +410,7 @@ define( function( require ) {
      * "No change in charges. On right side of sweater. Sweater has positive net charge. Yellow Balloon has negative
      * net charge. Press space to release."
      *
-     * @return {string}
+     * @returns {string}
      */
     getNoChargePickupDescription: function() {
       var alert;
@@ -484,7 +484,7 @@ define( function( require ) {
      * "At upper wall." or
      * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
      *
-     * @return {string}
+     * @returns {string}
      */
     getWallRubbingDescription: function() {
       var descriptionString;
@@ -600,7 +600,7 @@ define( function( require ) {
      * "At upper wall. No transfer of charge. In upper wall, no change in charges. Wall has many pairs of negative
      * and positive charges."
      *
-     * @return {string}
+     * @returns {string}
      */
     getWallRubbingDescriptionWithChargePairs: function() {
       return StringUtils.fillIn( wallRubbingWithPairsPattern, {
@@ -612,7 +612,7 @@ define( function( require ) {
      * Get the description when the balloon has picked up the last charge on the sweater.
      * Dependent on the charge view.
      *
-     * @return {string}
+     * @returns {string}
      */
     getLastChargePickupDescription: function() {
       var shownCharges = this.showChargesProperty.get();
@@ -634,7 +634,7 @@ define( function( require ) {
      * "Green balloon added. Sticking to left shoulder of sweater." or
      * "Green balloon added. On left side of play area, next to yellow balloon."
      *
-     * @return {string}
+     * @returns {string}
      */
     getVisibilityChangedDescription: function() {
       var description;
