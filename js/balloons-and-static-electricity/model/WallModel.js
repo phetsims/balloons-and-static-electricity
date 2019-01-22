@@ -17,6 +17,7 @@ define( function( require ) {
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
+  var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -49,7 +50,7 @@ define( function( require ) {
     this.height = height;
 
     // @private {number} - scaling factors for calculating positions for induced charge
-    this.dx = Math.round( width / this.numX + 2 );
+    this.dx = Util.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
 
     // @private {array.<PointChargeModel>}
