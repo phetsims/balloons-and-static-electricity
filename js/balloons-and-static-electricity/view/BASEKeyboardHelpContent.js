@@ -66,8 +66,7 @@ define( function( require ) {
     HBox.call( this, {
       children: [ leftContent, generalNavigationHelpContent ],
       align: 'top',
-      spacing: 30,
-      maxWidth: 625 // i18n, about the width of the screen
+      spacing: 20
     } );
 
     // the reading order for screen readers
