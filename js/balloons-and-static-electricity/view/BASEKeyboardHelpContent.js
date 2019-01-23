@@ -85,8 +85,7 @@ define( function( require ) {
   function BalloonGrabHelpContent() {
 
     var label = new Text( grabOrReleaseBalloonLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: 225
+      font: HelpContent.DEFAULT_LABEL_FONT
     } );
 
     var spaceKeyNode = new SpaceKeyNode();
@@ -113,14 +112,12 @@ define( function( require ) {
 
     // label for the first row
     var moveGrabbedBalloonLabel = new Text( moveGrabbedBalloonLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: 225
+      font: HelpContent.DEFAULT_LABEL_FONT
     } );
 
     // label for second row
     var moveSlowerLabel = new Text( moveSlowerLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: 225
+      font: HelpContent.DEFAULT_LABEL_FONT
     } );
 
     var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
@@ -159,8 +156,7 @@ define( function( require ) {
   function createJumpKeyRow( keyString, labelString, innerContent ) {
 
     var label = new Text( labelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: 150
+      font: HelpContent.DEFAULT_LABEL_FONT
     } );
 
     var jKey = new LetterKeyNode( 'J' );
