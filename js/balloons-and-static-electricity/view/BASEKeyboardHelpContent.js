@@ -41,6 +41,12 @@ define( function( require ) {
   var jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescription.value;
   var jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescription.value;
 
+  // constants
+  // the english strings are shorter for the balloon help content, so we restrict that content width for i18n more
+  // so that the whole content will fit in dev bounds 
+  var BALLOON_CONTENT_MAX_WIDTH = 130;
+  var GENERAL_CONTENT_MAX_WIDTH = 160;
+
   /**
    * Constructor.
    * @constructor
@@ -48,9 +54,16 @@ define( function( require ) {
   function BASEKeyboardHelpContent() {
 
     //  the groups of help content
-    var balloonGrabHelpContent = new BalloonGrabHelpContent();
-    var generalNavigationHelpContent = new GeneralNavigationHelpContent( { withGroupContent: true } );
-    var moveBalloonHelpContent = new MoveBalloonHelpContent();
+    var balloonGrabHelpContent = new BalloonGrabHelpContent( {
+      baseLabelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+    } );
+    var generalNavigationHelpContent = new GeneralNavigationHelpContent( {
+      withGroupContent: true,
+      baseLabelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
+    } );
+    var moveBalloonHelpContent = new MoveBalloonHelpContent( {
+      baseLabelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+    } );
 
     // vertically align the left content groups
     HelpContent.alignHelpContentIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
@@ -81,7 +94,7 @@ define( function( require ) {
    * Help content for how to grab and release the balloon.
    * @constructor
    */
-  function BalloonGrabHelpContent() {
+  function BalloonGrabHelpContent( options ) {
 
     var label = new Text( grabOrReleaseBalloonLabelString, {
       font: HelpContent.DEFAULT_LABEL_FONT
@@ -96,9 +109,9 @@ define( function( require ) {
       }
     } );
 
-    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], {
+    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], _.extend( {
       a11yContentTagName: null // just a paragraph for this content, no list
-    } );
+    }, options ) );
   }
 
   inherit( HelpContent, BalloonGrabHelpContent );
@@ -107,7 +120,7 @@ define( function( require ) {
    * Help content for how to move the balloon or use hot keys to make the balloon jump to locations.
    * @constructor
    */
-  function MoveBalloonHelpContent() {
+  function MoveBalloonHelpContent( options ) {
 
     // label for the first row
     var moveGrabbedBalloonLabel = new Text( moveGrabbedBalloonLabelString, {
@@ -137,7 +150,7 @@ define( function( require ) {
     // all content contained in a left aligned vbox
     var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
-    HelpContent.call( this, moveOrJumpGrabbedBalloonHeadingString, content );
+    HelpContent.call( this, moveOrJumpGrabbedBalloonHeadingString, content, options );
   }
 
   inherit( HelpContent, MoveBalloonHelpContent );
