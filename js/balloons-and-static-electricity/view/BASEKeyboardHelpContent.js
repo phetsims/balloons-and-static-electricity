@@ -95,15 +95,10 @@ define( function( require ) {
    * @constructor
    */
   function BalloonGrabHelpContent( options ) {
-
-    var label = new Text( grabOrReleaseBalloonLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT
-    } );
-
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContent = HelpContent.labelWithIcon( label, icons, grabOrReleaseBalloonDescriptionString, {
+    var labelWithContent = HelpContent.labelWithIcon( grabOrReleaseBalloonLabelString, icons, grabOrReleaseBalloonDescriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
@@ -122,18 +117,13 @@ define( function( require ) {
    */
   function MoveBalloonHelpContent( options ) {
 
-    // label for the first row
-    var moveGrabbedBalloonLabel = new Text( moveGrabbedBalloonLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT
-    } );
-
     // label for second row
     var moveSlowerLabel = new Text( moveSlowerLabelString, {
       font: HelpContent.DEFAULT_LABEL_FONT
     } );
 
     var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
-    var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabel, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
+    var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
     var arrowKeysIcon = HelpContent.arrowKeysRowIcon();
     var shiftAndArrowKeysIcon = HelpContent.shiftPlusIcon( arrowKeysIcon );
@@ -167,15 +157,11 @@ define( function( require ) {
    */
   function createJumpKeyRow( keyString, labelString, innerContent ) {
 
-    var label = new Text( labelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT
-    } );
-
     var jKey = new LetterKeyNode( 'J' );
     var otherKey = new LetterKeyNode( keyString );
 
     var jPlusOtherKey = HelpContent.iconPlusIcon( jKey, otherKey );
-    return HelpContent.labelWithIcon( label, jPlusOtherKey, innerContent );
+    return HelpContent.labelWithIcon( labelString, jPlusOtherKey, innerContent );
   }
 
   return BASEKeyboardHelpContent;
