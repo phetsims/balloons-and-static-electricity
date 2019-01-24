@@ -55,14 +55,14 @@ define( function( require ) {
 
     //  the groups of help content
     var balloonGrabHelpContent = new BalloonGrabHelpContent( {
-      baseLabelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+      labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
     var generalNavigationHelpContent = new GeneralNavigationHelpContent( {
       withGroupContent: true,
-      baseLabelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
+      labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
     var moveBalloonHelpContent = new MoveBalloonHelpContent( {
-      baseLabelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+      labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
 
     // vertically align the left content groups
