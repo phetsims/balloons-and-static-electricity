@@ -18,7 +18,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -117,11 +116,6 @@ define( function( require ) {
    */
   function MoveBalloonHelpContent( options ) {
 
-    // label for second row
-    var moveSlowerLabel = new Text( moveSlowerLabelString, {
-      font: HelpContent.DEFAULT_LABEL_FONT
-    } );
-
     var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
     var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
@@ -129,7 +123,7 @@ define( function( require ) {
     var shiftAndArrowKeysIcon = HelpContent.shiftPlusIcon( arrowKeysIcon );
     var wasdRowIcon = HelpContent.wasdRowIcon();
     var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
-    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabel, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
+    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
     // hot key content for how to jump the balloon
     var jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
