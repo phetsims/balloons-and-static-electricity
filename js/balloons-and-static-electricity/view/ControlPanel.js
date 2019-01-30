@@ -65,6 +65,9 @@ define( function( require ) {
   var positionString = BASEA11yStrings.position.value;
   var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
 
+  // constants
+  var BOTTOM_CONTROL_SPACING = 10;
+
   /**
    * @constructor
    * @param {BASEModel} model
@@ -302,8 +305,9 @@ define( function( require ) {
       children: [ resetAllButton, this.wallButton ]
     } );
 
+    // more than other controls so the reset button touch area doesn't overlap the nav bar
+    controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
     controls.right = layoutBounds.maxX - 2;
-    controls.bottom = layoutBounds.maxY - 4;
 
     var visibilityControls;
     var controlsLeft;
@@ -324,7 +328,7 @@ define( function( require ) {
       children: visibilityControls,
       align: 'bottom',
       left: controlsLeft,
-      bottom: layoutBounds.maxY - 4
+      bottom: layoutBounds.maxY - BOTTOM_CONTROL_SPACING
     } ) );
     this.addChild( controls );
 
