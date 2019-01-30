@@ -67,6 +67,7 @@ define( function( require ) {
 
   // constants
   var BOTTOM_CONTROL_SPACING = 10;
+  var CONTROLS_FONT = new PhetFont( 15 );
 
   /**
    * @constructor
@@ -81,13 +82,12 @@ define( function( require ) {
     var self = this;
 
     // Add/Remove wall button.
-    var addRemoveFont = new PhetFont( 18 );
     var addWallText = new MultiLineText( addWallString, {
-      font: addRemoveFont,
+      font: CONTROLS_FONT,
       tandem: tandem.createTandem( 'addWallText' )
     } );
     var removeWallText = new MultiLineText( removeWallString, {
-      font: addRemoveFont,
+      font: CONTROLS_FONT,
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
     } );
@@ -123,9 +123,8 @@ define( function( require ) {
     } );
 
     // Radio buttons related to charges
-    var radioButtonFont = new PhetFont( { size: 15, tandem: tandem.createTandem( 'radioButtonFont' ) } );
     var RADIO_BUTTON_TEXT_OPTIONS = {
-      font: radioButtonFont,
+      font: CONTROLS_FONT,
       maxWidth: 200
     };
     var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
@@ -228,11 +227,11 @@ define( function( require ) {
     // 'Reset Balloons' button
     var resetBalloonToggleNode = new BooleanToggleNode(
       new Text( resetBalloonsString, {
-        font: new PhetFont( 15 ),
+        font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonsText' )
       } ),
       new Text( resetBalloonString, {
-        font: new PhetFont( 15 ),
+        font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonText' )
       } ),
       model.greenBalloon.isVisibleProperty,
@@ -300,14 +299,14 @@ define( function( require ) {
     } );
 
     var controls = new HBox( {
-      spacing: 16,
+      spacing: 14,
       align: 'bottom',
       children: [ resetAllButton, this.wallButton ]
     } );
 
     // more than other controls so the reset button touch area doesn't overlap the nav bar
     controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
-    controls.right = layoutBounds.maxX - 2;
+    controls.right = layoutBounds.maxX - 4.5;// so "Remove Wall" button looks centered with wall
 
     var visibilityControls;
     var controlsLeft;
