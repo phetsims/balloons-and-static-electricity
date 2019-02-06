@@ -122,7 +122,7 @@ define( function( require ) {
 
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
     // due to the fact that the movedProperty state could get loaded before the chargeProperty state.
-    ( phet.phetIo && phet.phetIo.phetioEngine.setStateEmitter ) && phet.phetIo.phetioEngine.setStateEmitter.addListener( function() {
+    ( phet.phetIo && phet.phetIo.phetioEngine.phetioStateEngine.setStateEmitter ) && phet.phetIo.phetioEngine.phetioStateEngine.setStateEmitter.addListener( function() {
       updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
     } );
   }
