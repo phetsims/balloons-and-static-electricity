@@ -14,7 +14,7 @@ define( function( require ) {
   var BalloonDirectionEnum = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/BalloonDirectionEnum' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -157,15 +157,13 @@ define( function( require ) {
     } );
 
     // @public {boolean}
-    this.isVisibleProperty = new Property( defaultVisibility, {
-      tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioType: PropertyIO( BooleanIO )
+    this.isVisibleProperty = new BooleanProperty( defaultVisibility, {
+      tandem: tandem.createTandem( 'isVisibleProperty' )
     } );
 
     // @public {boolean}
-    this.isDraggedProperty = new Property( false, {
-      tandem: tandem.createTandem( 'isDraggedProperty' ),
-      phetioType: PropertyIO( BooleanIO )
+    this.isDraggedProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'isDraggedProperty' )
     } );
 
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon

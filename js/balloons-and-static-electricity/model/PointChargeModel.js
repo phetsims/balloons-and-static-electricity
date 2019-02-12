@@ -14,10 +14,8 @@ define( function( require ) {
 
   // modules
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -39,9 +37,8 @@ define( function( require ) {
     this.location = new Vector2( x, y );
 
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
-    this.movedProperty = new Property( false, {
+    this.movedProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
-      phetioType: PropertyIO( BooleanIO ),
       phetioState: phetioState
     } );
   }
