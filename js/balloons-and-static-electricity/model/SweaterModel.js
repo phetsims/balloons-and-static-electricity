@@ -126,7 +126,7 @@ define( function( require ) {
       shapeDefiningPoints.push( self.center.copy() );
       var slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
       CHARGE_PAIR_POSITIONS.forEach( function( chargePairPosition ) {
-        var angle = chargePairPosition.minus( self.center ).angle();
+        var angle = chargePairPosition.minus( self.center ).angle;
 
         // convert negative angles
         if ( angle < 0 ) {
