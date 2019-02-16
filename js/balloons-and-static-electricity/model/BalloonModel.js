@@ -149,8 +149,8 @@ define( function( require ) {
     } );
 
     // @public {Vector2}
-    // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
-    this.velocityProperty = new Property( new Vector2(), {
+    // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
+    this.velocityProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'velocityProperty' ),
       phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
@@ -869,9 +869,9 @@ define( function( require ) {
         this.velocityProperty.set( newVelocity );
       }
       else {
-        
-        // use new Vector2() instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
-        this.velocityProperty.set( new Vector2() );
+
+        // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
+        this.velocityProperty.set( new Vector2( 0, 0 ) );
       }
     },
 
