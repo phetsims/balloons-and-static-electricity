@@ -432,7 +432,7 @@ define( function( require ) {
      */
     getLandmarkDragDescription: function() {
       var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
-      var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude();
+      var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
       var alert = this.getAttractiveStateAndLocationDescription();
 
       // wrap as a single statement with punctuation
@@ -470,7 +470,7 @@ define( function( require ) {
 
       // percent of progress through the region
       var progressThroughCell = this.balloonModel.getProgressThroughRegion();
-      var dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude();
+      var dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude;
       var movingDiagonally = this.balloonModel.movingDiagonally();
 
       if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 && !movingDiagonally ) {
@@ -633,7 +633,7 @@ define( function( require ) {
       var keys = Object.keys( BALLOON_VELOCITY_MAP );
       for ( var i = 0; i < keys.length; i++ ) {
         var entry = BALLOON_VELOCITY_MAP[ keys[ i ] ];
-        if ( entry.range.contains( balloonVelocity.magnitude() ) ) {
+        if ( entry.range.contains( balloonVelocity.magnitude ) ) {
           velocityString = entry.description;
           break;
         }
@@ -834,7 +834,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     balloonMovingAtContinousDescriptionVelocity: function() {
-      var velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude();
+      var velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
       return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
              velocityMagnitude > 0.0005; // value chosen empirically, see #413
     },

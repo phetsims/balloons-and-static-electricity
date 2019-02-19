@@ -901,7 +901,7 @@ define( function( require ) {
       var sumOfForces = force.plus( other );
 
       // Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
-      var mag = sumOfForces.magnitude();
+      var mag = sumOfForces.magnitude;
       var max = 1E-2;
       if ( mag > max ) {
         sumOfForces.normalize();
@@ -947,7 +947,7 @@ define( function( require ) {
 
       // calculate a vector from one point to the other
       var difference = p1.minus( p2 );
-      var r = difference.magnitude();
+      var r = difference.magnitude;
 
       // if the points are right on top of one another, return an attraction value of zero
       if ( r === 0 ) {

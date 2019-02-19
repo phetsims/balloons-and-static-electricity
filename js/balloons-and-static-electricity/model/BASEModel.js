@@ -156,7 +156,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     getBalloonsAdjacent: function() {
-      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude() ) < BalloonModel.BALLOON_WIDTH;
+      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude ) < BalloonModel.BALLOON_WIDTH;
       return balloonsAdjacent && this.bothBalloonsVisible();
     },
 

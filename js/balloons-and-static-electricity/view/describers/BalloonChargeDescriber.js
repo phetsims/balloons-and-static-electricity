@@ -258,7 +258,7 @@ define( function( require ) {
 
       // the force between the balloon and the closest charge to the balloon in the wall
       var balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
-      var forceMagnitude = balloonForce.magnitude();
+      var forceMagnitude = balloonForce.magnitude;
    
       // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
       // charge in the wall, but there must be some change since the last description
@@ -305,7 +305,7 @@ define( function( require ) {
       // hysteresis so that we can change the description if the induced charge continues to increase or decrease
       // next time
       this.previousForceMagnitudeNormalized = forceDeltaNormalized;
-      this.previousForceMagnitude = balloonForce.magnitude();
+      this.previousForceMagnitude = balloonForce.magnitude;
 
       return descriptionString;
     },
@@ -314,7 +314,7 @@ define( function( require ) {
      * Reset the tracked forces that determine the next description of induced charge change.
      */
     resetReferenceForces: function() {
-      this.previousForceMagnitude = BalloonModel.getForceToClosestWallCharge( this.balloonModel ).magnitude();
+      this.previousForceMagnitude = BalloonModel.getForceToClosestWallCharge( this.balloonModel ).magnitude;
       this.previousForceMagnitudeNormalized = 0;
     },
 

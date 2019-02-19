@@ -198,7 +198,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     forceIndicatesInducedCharge: function( force ) {
-      return force.magnitude() > FORCE_MAGNITUDE_THRESHOLD;
+      return force.magnitude > FORCE_MAGNITUDE_THRESHOLD;
     }
   } );
 } );
