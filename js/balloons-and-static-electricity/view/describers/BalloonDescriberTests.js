@@ -41,7 +41,7 @@ define( function( require ) {
 
     // balloon at upper wall with several more negative charges than positive, all charges shown
     model.yellowBalloon.chargeProperty.set( -30 );
-    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_TOP ) );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     actualDescription = balloonNode.descriptionContent;
     expectedDescription = 'At upper wall. Has negative net charge, several more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription );

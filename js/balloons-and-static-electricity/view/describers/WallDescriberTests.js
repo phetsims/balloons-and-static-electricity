@@ -35,7 +35,7 @@ define( function( require ) {
     assert.equal( actualDescription, expectedDescription );
 
     // yellow balloon neutral at wall, all charges shown
-    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_TOP ) );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
     actualDescription = wallNode.descriptionContent;
     expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges.';
     assert.equal( actualDescription, expectedDescription );
