@@ -25,7 +25,7 @@ define( function( require ) {
   var GrabDragInteraction = require( 'SCENERY_PHET/accessibility/GrabDragInteraction' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var KeyboardDragListener = require( 'SCENERY_PHET/accessibility/listeners/KeyboardDragListener' );
+  var KeyboardDragListener = require( 'SCENERY/listeners/KeyboardDragListener' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var Line = require( 'SCENERY/nodes/Line' );
   var MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
