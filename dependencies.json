@@ -1,19 +1,19 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.5 Fri Feb 22 2019 12:48:08 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.6 Tue Feb 26 2019 12:32:26 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "master"
   },
   "axon": {
-    "sha": "7d9fd00ca019c71b64167f2e6618ce7c66926ea9",
+    "sha": "0c948f8648feba750fa4cbfa199949e89d945ce0",
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "6d7d5589891aca045fd67649e72eb88c1922cc33",
+    "sha": "d1160202e3bff0e00f0ebffeee38f388b43e2d9c",
     "branch": "master"
   },
   "brand": {
-    "sha": "df790422b9249fc19d7b77a0afecdeb4b28cc7cc",
+    "sha": "eab5236cde285d9ad689fbc335ebcc7ab0a14bfa",
     "branch": "master"
   },
   "chipper": {
@@ -21,11 +21,11 @@
     "branch": "master"
   },
   "dot": {
-    "sha": "8ba572728a79be7d6fc94c507d7421d8ed8e0a5a",
+    "sha": "58893d511ecad53896f99c11c3aadaa50ae0c45f",
     "branch": "master"
   },
   "joist": {
-    "sha": "f3416f36c2d1d171a60b8aa4ddf4c30a34b6a225",
+    "sha": "a4bf07303439a0d3a026f803768dde538fe33df3",
     "branch": "master"
   },
   "kite": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "a3ed9c1c17a5aac4d82e55d96b0a782e8489f5d8",
+    "sha": "a7f3be20ce1e91ff99e36dad4b541503330d0cdd",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -65,19 +65,19 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "940b43d1dc448cebb1b8308958ac260953a353a9",
+    "sha": "ecfc62f97398601d78ef7c65c893b5efc036f581",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "0e711ba7353b61f85283df4bf09840419cb66211",
+    "sha": "2ce31891fa92ec880fd04076c1e3f9e45a1d65e9",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "fc0a6550b822807237b50132f49271222af6f262",
+    "sha": "a49bce18d68b9cfe660f43645afdb08387f1fcff",
     "branch": "master"
   },
   "sun": {
-    "sha": "eb1e32bce0caa3c7c75e24656c43837b536a4087",
+    "sha": "b832426f28be049b5c749ed6c05d7290de1c1553",
     "branch": "master"
   },
   "tambo": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "64c3f8050dcd17777c2e4492bbbdcfc2fb599abb",
+    "sha": "f3f8b8380edf7a506b767837b493c35b86e55d54",
     "branch": "master"
   },
   "vibe": {
