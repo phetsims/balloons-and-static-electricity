@@ -15,10 +15,8 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * @constructor
@@ -32,9 +30,8 @@ define( function( require ) {
     PointChargeModel.call( this, x, y, tandem, phetioState );
 
     // @public {Vector2} - location of the point charge
-    this.locationProperty = new Property( this.location, {
+    this.locationProperty = new Vector2Property( this.location, {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: PropertyIO( Vector2IO ),
       phetioState: phetioState,
       useDeepEquality: true
     } );

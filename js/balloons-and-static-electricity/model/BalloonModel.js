@@ -22,10 +22,9 @@ define( function( require ) {
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Range = require( 'DOT/Range' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
   var VELOCITY_ARRAY_LENGTH = 5;
@@ -40,7 +39,7 @@ define( function( require ) {
   var DIRECTION_MAP = {
     UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-    RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD  ),
+    RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
 
     // atan2 wraps around PI, so we will use absolute value in checks    
     LEFT: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI ),
@@ -150,9 +149,8 @@ define( function( require ) {
 
     // @public {Vector2}
     // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
-    this.velocityProperty = new Property( new Vector2( 0, 0 ), {
+    this.velocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
@@ -167,16 +165,14 @@ define( function( require ) {
     } );
 
     // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
-    this.locationProperty = new Property( new Vector2( x, y ), {
+    this.locationProperty = new Vector2Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
     // @public {Vector2} - velocity of the balloon while dragging
-    this.dragVelocityProperty = new Property( new Vector2( 0, 0 ), {
+    this.dragVelocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      phetioType: PropertyIO( Vector2IO ),
       useDeepEquality: true
     } );
 
@@ -202,12 +198,12 @@ define( function( require ) {
     this.inducingChargeProperty = new Property( false );
 
     //------------------------------------------------
-    
+
     // @private - array of instantaneous velocity of balloon last 5 ticks
     // then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
     this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
     this.xVelocityArray.counter = 0;
-    
+
     // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a location in the play
     // area without dragging or an applied force
     this.jumping = false;
@@ -599,7 +595,7 @@ define( function( require ) {
       else {
         centerX = this.getCenter().x;
       }
-      
+
       return new Vector2( centerX, this.getCenterY() );
     },
 
