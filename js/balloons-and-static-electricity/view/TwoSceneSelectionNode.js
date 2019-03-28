@@ -35,6 +35,7 @@ define( function( require ) {
   var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var SunConstants = require( 'SUN/SunConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
@@ -76,7 +77,7 @@ define( function( require ) {
       deselectedContentOpacity: 0.6,
       overButtonOpacity: 0.8,
       overContentOpacity: 0.8,
-      disabledOpacity: 0.3,
+      disabledOpacity: SunConstants.DISABLED_OPACITY,
 
       selectedStroke: 'black',
       deselectedStroke: new Color( 50, 50, 50 ),
