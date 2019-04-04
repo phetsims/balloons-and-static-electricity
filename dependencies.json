@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.5-rc.2 Fri Mar 29 2019 12:52:36 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.5 Thu Apr 04 2019 09:33:05 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "1a8b32d9bb6692bef68b1d0cce6e9ad9ef770280",
+    "sha": "52581151feff18a47fca2afdf2995be69bdcf25e",
     "branch": "1.4"
   },
   "brand": {
