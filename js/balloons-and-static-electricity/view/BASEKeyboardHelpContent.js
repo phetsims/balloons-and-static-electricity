@@ -14,8 +14,8 @@ define( function( require ) {
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   var SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -65,7 +65,7 @@ define( function( require ) {
     } );
 
     // vertically align the left content groups
-    HelpContent.alignHelpContentIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
+    KeyboardHelpSection.alignHelpContentIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
 
     // content about how to grab the balloon and general navigation are aligned to the left of the dialog
     var leftContent = new VBox( {
@@ -96,19 +96,19 @@ define( function( require ) {
   function BalloonGrabHelpContent( options ) {
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
-    var icons = HelpContent.iconOrIcon( spaceKeyNode, enterKeyNode );
-    var labelWithContent = HelpContent.labelWithIcon( grabOrReleaseBalloonLabelString, icons, grabOrReleaseBalloonDescriptionString, {
+    var icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
+    var labelWithContent = KeyboardHelpSection.labelWithIcon( grabOrReleaseBalloonLabelString, icons, grabOrReleaseBalloonDescriptionString, {
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than an li
       }
     } );
 
-    HelpContent.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], _.extend( {
+    KeyboardHelpSection.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], _.extend( {
       a11yContentTagName: null // just a paragraph for this content, no list
     }, options ) );
   }
 
-  inherit( HelpContent, BalloonGrabHelpContent );
+  inherit( KeyboardHelpSection, BalloonGrabHelpContent );
 
   /**
    * Help content for how to move the balloon or use hot keys to make the balloon jump to locations.
@@ -116,14 +116,14 @@ define( function( require ) {
    */
   function MoveBalloonHelpContent( options ) {
 
-    var arrowOrWasdKeysIcon = HelpContent.arrowOrWasdKeysRowIcon();
-    var labelWithContent = HelpContent.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
+    var arrowOrWasdKeysIcon = KeyboardHelpSection.arrowOrWasdKeysRowIcon();
+    var labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
-    var arrowKeysIcon = HelpContent.arrowKeysRowIcon();
-    var shiftAndArrowKeysIcon = HelpContent.shiftPlusIcon( arrowKeysIcon );
-    var wasdRowIcon = HelpContent.wasdRowIcon();
-    var shiftAndWasdRowIcon = HelpContent.shiftPlusIcon( wasdRowIcon );
-    var labelWithIconList = HelpContent.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
+    var arrowKeysIcon = KeyboardHelpSection.arrowKeysRowIcon();
+    var shiftAndArrowKeysIcon = KeyboardHelpSection.shiftPlusIcon( arrowKeysIcon );
+    var wasdRowIcon = KeyboardHelpSection.wasdRowIcon();
+    var shiftAndWasdRowIcon = KeyboardHelpSection.shiftPlusIcon( wasdRowIcon );
+    var labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
     // hot key content for how to jump the balloon
     var jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
@@ -134,10 +134,10 @@ define( function( require ) {
     // all content contained in a left aligned vbox
     var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
-    HelpContent.call( this, moveOrJumpGrabbedBalloonHeadingString, content, options );
+    KeyboardHelpSection.call( this, moveOrJumpGrabbedBalloonHeadingString, content, options );
   }
 
-  inherit( HelpContent, MoveBalloonHelpContent );
+  inherit( KeyboardHelpSection, MoveBalloonHelpContent );
 
   /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
@@ -154,8 +154,8 @@ define( function( require ) {
     var jKey = new LetterKeyNode( 'J' );
     var otherKey = new LetterKeyNode( keyString );
 
-    var jPlusOtherKey = HelpContent.iconPlusIcon( jKey, otherKey );
-    return HelpContent.labelWithIcon( labelString, jPlusOtherKey, innerContent );
+    var jPlusOtherKey = KeyboardHelpSection.iconPlusIcon( jKey, otherKey );
+    return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, innerContent );
   }
 
   return BASEKeyboardHelpContent;
