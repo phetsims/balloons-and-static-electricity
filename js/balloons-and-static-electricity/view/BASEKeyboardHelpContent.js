@@ -12,7 +12,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
-  var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
+  var GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
@@ -56,7 +56,7 @@ define( function( require ) {
     var balloonGrabHelpContent = new BalloonGrabHelpContent( {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
-    var generalNavigationHelpContent = new GeneralNavigationHelpContent( {
+    var generalNavigationHelpContent = new GeneralKeyboardHelpSection( {
       withGroupContent: true,
       labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
