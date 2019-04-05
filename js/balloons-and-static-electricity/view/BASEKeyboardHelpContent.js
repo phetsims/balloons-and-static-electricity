@@ -52,37 +52,37 @@ define( function( require ) {
    */
   function BASEKeyboardHelpContent() {
 
-    //  the groups of help content
-    var balloonGrabHelpContent = new BalloonGrabHelpContent( {
+    //  the sections of help content
+    var balloonGrabHelpSection = new BalloonGrabHelpSection( {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
-    var generalNavigationHelpContent = new GeneralKeyboardHelpSection( {
+    var generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
       withGroupContent: true,
       labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
-    var moveBalloonHelpContent = new MoveBalloonHelpContent( {
+    var moveBalloonHelpSection = new MoveBalloonHelpSection( {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
 
     // vertically align the left content groups
-    KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
+    KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpSection, moveBalloonHelpSection ] );
 
     // content about how to grab the balloon and general navigation are aligned to the left of the dialog
     var leftContent = new VBox( {
-      children: [ balloonGrabHelpContent, moveBalloonHelpContent ],
+      children: [ balloonGrabHelpSection, moveBalloonHelpSection ],
       align: 'left',
       spacing: 30
     } );
 
     // left aligned content, and content about how to move the grabbed balloon are horizontally aligned
     HBox.call( this, {
-      children: [ leftContent, generalNavigationHelpContent ],
+      children: [ leftContent, generalNavigationHelpSection ],
       align: 'top',
       spacing: 20
     } );
 
     // the reading order for screen readers
-    this.accessibleOrder = [ balloonGrabHelpContent, moveBalloonHelpContent, generalNavigationHelpContent ];
+    this.accessibleOrder = [ balloonGrabHelpSection, moveBalloonHelpSection, generalNavigationHelpSection ];
   }
 
   balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHelpContent );
@@ -90,10 +90,10 @@ define( function( require ) {
   inherit( HBox, BASEKeyboardHelpContent );
 
   /**
-   * Help content for how to grab and release the balloon.
+   * Help section for how to grab and release the balloon.
    * @constructor
    */
-  function BalloonGrabHelpContent( options ) {
+  function BalloonGrabHelpSection( options ) {
     var spaceKeyNode = new SpaceKeyNode();
     var enterKeyNode = new EnterKeyNode();
     var icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
@@ -104,17 +104,17 @@ define( function( require ) {
     } );
 
     KeyboardHelpSection.call( this, grabOrReleaseBalloonHeadingString, [ labelWithContent ], _.extend( {
-      a11yContentTagName: null // just a paragraph for this content, no list
+      a11yContentTagName: null // just a paragraph for this section, no list
     }, options ) );
   }
 
-  inherit( KeyboardHelpSection, BalloonGrabHelpContent );
+  inherit( KeyboardHelpSection, BalloonGrabHelpSection );
 
   /**
-   * Help content for how to move the balloon or use hot keys to make the balloon jump to locations.
+   * Help section for how to move the balloon or use hot keys to make the balloon jump to locations.
    * @constructor
    */
-  function MoveBalloonHelpContent( options ) {
+  function MoveBalloonHelpSection( options ) {
 
     var arrowOrWasdKeysIcon = KeyboardHelpSection.arrowOrWasdKeysRowIcon();
     var labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
@@ -137,7 +137,7 @@ define( function( require ) {
     KeyboardHelpSection.call( this, moveOrJumpGrabbedBalloonHeadingString, content, options );
   }
 
-  inherit( KeyboardHelpSection, MoveBalloonHelpContent );
+  inherit( KeyboardHelpSection, MoveBalloonHelpSection );
 
   /**
    * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
