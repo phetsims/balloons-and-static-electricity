@@ -64,17 +64,17 @@ define( function( require ) {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
 
-    // vertically align the left content groups
+    // vertically align the left sections
     KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpSection, moveBalloonHelpSection ] );
 
-    // content about how to grab the balloon and general navigation are aligned to the left of the dialog
+    // sections for how to grab the balloon and general navigation are aligned to the left of the dialog
     var leftContent = new VBox( {
       children: [ balloonGrabHelpSection, moveBalloonHelpSection ],
       align: 'left',
       spacing: 30
     } );
 
-    // left aligned content, and content about how to move the grabbed balloon are horizontally aligned
+    // left aligned sections, and section about how to move the grabbed balloon are horizontally aligned
     HBox.call( this, {
       children: [ leftContent, generalNavigationHelpSection ],
       align: 'top',
@@ -125,16 +125,16 @@ define( function( require ) {
     var shiftAndWasdRowIcon = KeyboardHelpSection.shiftPlusIcon( wasdRowIcon );
     var labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
-    // hot key content for how to jump the balloon
+    // hot key rows for how to jump the balloon
     var jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
     var jumpToWallRow = createJumpKeyRow( 'W', jumpCloseToWallLabelString, jumpsCloseToWwallDescriptionString );
     var jumpNearWallRow = createJumpKeyRow( 'N', jumpNearWallLabelString, jumpsNearWallDescriptionString );
     var jumpToCenterRow = createJumpKeyRow( 'C', jumpToCenterLabelString, jumpstoCenterDescriptionString );
 
-    // all content contained in a left aligned vbox
-    var content = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
+    // all rows contained in a left aligned vbox
+    var rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
-    KeyboardHelpSection.call( this, moveOrJumpGrabbedBalloonHeadingString, content, options );
+    KeyboardHelpSection.call( this, moveOrJumpGrabbedBalloonHeadingString, rows, options );
   }
 
   inherit( KeyboardHelpSection, MoveBalloonHelpSection );
