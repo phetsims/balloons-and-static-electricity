@@ -65,7 +65,7 @@ define( function( require ) {
     } );
 
     // vertically align the left content groups
-    KeyboardHelpSection.alignHelpContentIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
+    KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpContent, moveBalloonHelpContent ] );
 
     // content about how to grab the balloon and general navigation are aligned to the left of the dialog
     var leftContent = new VBox( {
