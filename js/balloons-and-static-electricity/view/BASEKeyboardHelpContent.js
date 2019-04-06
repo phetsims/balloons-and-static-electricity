@@ -13,10 +13,10 @@ define( require => {
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
+  const TwoColumnKeyboardHelpContent = require( 'SCENERY_PHET/keyboard/help/TwoColumnKeyboardHelpContent' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -49,7 +49,7 @@ define( require => {
    * Constructor.
    * @constructor
    */
-  class BASEKeyboardHelpContent extends HBox {
+  class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     constructor() {
 
       //  the sections of help content
@@ -75,9 +75,7 @@ define( require => {
       } );
 
       // left aligned sections, and section about how to move the grabbed balloon are horizontally aligned
-      super( {
-        children: [ leftContent, generalNavigationHelpSection ],
-        align: 'top',
+      super( leftContent, generalNavigationHelpSection, {
         spacing: 20
       } );
 
