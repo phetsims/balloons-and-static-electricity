@@ -86,6 +86,9 @@ define( function( require ) {
     // a11y - a type that generates descriptions for the balloon 
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
 
+    // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
+    this.jumpingUtterance = new Utterance();
+
     var originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
@@ -219,6 +222,7 @@ define( function( require ) {
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
+    const boundaryUtterance = new Utterance();
     this.keyboardDragHandler = new KeyboardDragListener( {
       downDelta: 0,
       shiftDownDelta: 0,
@@ -231,11 +235,9 @@ define( function( require ) {
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
-          var attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );
-          utteranceQueue.addToBack( new Utterance( {
-            alert: self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection ),
-            uniqueGroupId: 'boundaryAlert'
-          } ) );
+          const attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );  
+          boundaryUtterance.alert = self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
+          utteranceQueue.addToBack( boundaryUtterance );
         }
       }
     } );
@@ -355,11 +357,8 @@ define( function( require ) {
       utteranceQueue.clear();
 
       // Send a custom alert, depending on where the balloon was moved to
-      var utterance = new Utterance( {
-        alert: this.describer.movementDescriber.getJumpingDescription( center ),
-        uniqueGroupId: 'jumpingDescription' // prevent a spam of these jumping alerts
-      } );
-      utteranceQueue.addToBack( utterance );
+      this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
+      utteranceQueue.addToBack( this.jumpingUtterance );
 
       // reset forces in tracked values in describer that determine description for induced charge change
       this.describer.chargeDescriber.resetReferenceForces();

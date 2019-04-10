@@ -120,6 +120,13 @@ define( function( require ) {
     this.describedIsDragged = balloon.isDraggedProperty.get();
     this.describedWallVisible = wall.isVisibleProperty.get();
 
+    // @private {Utterance} - utterances to be sent to the queue, by default they won't spam
+    // the user if they hit the queue to frequently
+    this.directionUtterance = new Utterance();
+    this.movementUtterance = new Utterance();
+    this.inducedChargeChangeUtterance = new Utterance();
+    this.chargeUtterance = new Utterance();
+
     // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
     this.oldDragLocation = balloon.locationProperty.get().copy();
 
@@ -204,10 +211,8 @@ define( function( require ) {
     this.balloonModel.directionProperty.lazyLink( function( direction ) {
       if ( !self.balloonModel.jumping ) {
         if ( self.describeDirection ) {
-
-          // assigned an ID so that user doesn't get flooded with direction changes when using a pointer type inputs
-          var utterance = self.movementDescriber.getDirectionChangedDescription();
-          utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'direction' } ) );
+          self.directionUtterance.alert = self.movementDescriber.getDirectionChangedDescription();
+          utteranceQueue.addToBack( self.directionUtterance );
         }
       }
     } );
@@ -772,7 +777,8 @@ define( function( require ) {
             if ( utterance ) {
 
               // assign an id so that we only announce the most recent alert in the utteranceQueue
-              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'movementAlert' } ) );
+              this.movementUtterance.alert = utterance;
+              utteranceQueue.addToBack( this.movementUtterance );
             }
 
             // describe the change in induced charge due to balloon dragging
@@ -788,7 +794,8 @@ define( function( require ) {
                 utterance = this.chargeDescriber.getInducedChargeChangeDescription();
               }
 
-              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'inducedChargeChange' } ) );
+              this.inducedChargeChangeUtterance.alert = utterance;
+              utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
             }
 
             // update flags that indicate which alerts should come next
@@ -907,8 +914,8 @@ define( function( require ) {
         if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
-              utterance = this.getNoChargePickupDescription();
-              utteranceQueue.addToBack( new Utterance( { alert: utterance, uniqueGroupId: 'chargeAlert' } ) );
+              this.chargeUtterance.alert = this.getNoChargePickupDescription();
+              utteranceQueue.addToBack( this.chargeUtterance );
             }
           }
         }
