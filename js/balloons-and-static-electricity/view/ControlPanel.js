@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -81,7 +82,7 @@ define( function( require ) {
     AccessibleSectionNode.call( this, controlAreaString );
     var self = this;
 
-    // Add/Remove wall button.
+    // content for Add/Remove wall button.
     var addWallText = new MultiLineText( addWallString, {
       font: CONTROLS_FONT,
       tandem: tandem.createTandem( 'addWallText' )
@@ -91,14 +92,9 @@ define( function( require ) {
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
     } );
-    var wallToggleNode = new BooleanToggleNode( removeWallText, addWallText, model.wall.isVisibleProperty, {
-      maxWidth: 120,
-      tandem: tandem.createTandem( 'wallToggleNode' )
-    } );
 
     // @private
-    this.wallButton = new RectangularPushButton( {
-      content: wallToggleNode,
+    this.wallButton = new BooleanRectangularToggleButton( removeWallText, addWallText, model.wall.isVisibleProperty, {
       baseColor: 'rgb( 255, 200, 0 )',
       listener: function() {
         model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
@@ -108,7 +104,6 @@ define( function( require ) {
       // a11y
       descriptionContent: removeWallDescriptionString,
       innerContent: removeWallString,
-      containerTagName: 'div',
       appendDescription: true
     } );
 
