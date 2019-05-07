@@ -20528,7 +20528,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioTypeName": "ActionIO.<DOMEventIO>"
     },
     "balloonsAndStaticElectricity.general.focusProperty": {
-      "phetioDocumentation": "",
+      "phetioDocumentation": "Stores the focus for the simulation. This is not updated based on mouse or touch input, only keyboard and other alternative inputs.",
       "phetioEventType": "model",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
