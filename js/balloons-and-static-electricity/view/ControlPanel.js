@@ -120,12 +120,11 @@ define( function( require ) {
       font: CONTROLS_FONT,
       maxWidth: 200
     };
-    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
+    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
       node: new Text(
         balloonAppletShowAllChargesString,
         _.extend( { tandem: tandem.createTandem( 'allCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
-      property: model.showChargesProperty,
       value: 'all',
       tandemName: 'showAllChargesRadioButton',
       labelContent: balloonAppletShowAllChargesString
@@ -134,7 +133,6 @@ define( function( require ) {
         balloonAppletShowNoChargesString,
         _.extend( { tandem: tandem.createTandem( 'noCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
-      property: model.showChargesProperty,
       value: 'none',
       tandemName: 'showNoChargesRadioButton',
       labelContent: balloonAppletShowNoChargesString
@@ -143,7 +141,6 @@ define( function( require ) {
         balloonAppletShowChargeDifferencesString,
         _.extend( { tandem: tandem.createTandem( 'differentialCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
-      property: model.showChargesProperty,
       value: 'diff',
       tandemName: 'showChargeDifferencesRadioButton',
       labelContent: balloonAppletShowChargeDifferencesString
