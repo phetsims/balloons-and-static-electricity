@@ -5105,7 +5105,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetAllButton.pressListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetAllButton.pressListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5116,7 +5116,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetAllButton.pressListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetAllButton.pressListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5193,7 +5193,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetBalloonButton.pressListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetBalloonButton.pressListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5204,7 +5204,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetBalloonButton.pressListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetBalloonButton.pressListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5446,7 +5446,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5457,7 +5457,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5534,7 +5534,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5545,7 +5545,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5622,7 +5622,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5633,7 +5633,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5919,7 +5919,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.wallButton.pressListener.pressedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.wallButton.pressListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -5930,7 +5930,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.wallButton.pressListener.releasedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.wallButton.pressListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -8669,33 +8669,33 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ObjectIO"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.dragEndedAction": {
-      "phetioDocumentation": "",
-      "phetioEventType": "model",
-      "phetioFeatured": false,
-      "phetioHighFrequency": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": false,
-      "phetioStudioControl": true,
-      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
-    },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.dragStartedAction": {
-      "phetioDocumentation": "",
-      "phetioEventType": "model",
-      "phetioFeatured": false,
-      "phetioHighFrequency": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": false,
-      "phetioStudioControl": true,
-      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
-    },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.draggedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.dragAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
       "phetioHighFrequency": true,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.dragEndAction": {
+      "phetioDocumentation": "",
+      "phetioEventType": "model",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.greenBalloonNode.dragHandler.dragStartAction": {
+      "phetioDocumentation": "",
+      "phetioEventType": "model",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
       "phetioState": false,
@@ -19625,33 +19625,33 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ObjectIO"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.dragEndedAction": {
-      "phetioDocumentation": "",
-      "phetioEventType": "model",
-      "phetioFeatured": false,
-      "phetioHighFrequency": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": false,
-      "phetioStudioControl": true,
-      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
-    },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.dragStartedAction": {
-      "phetioDocumentation": "",
-      "phetioEventType": "model",
-      "phetioFeatured": false,
-      "phetioHighFrequency": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": false,
-      "phetioStudioControl": true,
-      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
-    },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.draggedAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.dragAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
       "phetioHighFrequency": true,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.dragEndAction": {
+      "phetioDocumentation": "",
+      "phetioEventType": "model",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.yellowBalloonNode.dragHandler.dragStartAction": {
+      "phetioDocumentation": "",
+      "phetioEventType": "model",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
       "phetioState": false,
@@ -20219,7 +20219,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.general.barrierRectangle.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.general.barrierRectangle.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20230,7 +20230,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.general.barrierRectangle.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.general.barrierRectangle.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20417,7 +20417,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.penCanceledAction": {
+    "balloonsAndStaticElectricity.general.controller.input.penCancelAction": {
       "phetioDocumentation": "Emits when a pen is canceled",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20428,7 +20428,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.penEndedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.penEndAction": {
       "phetioDocumentation": "Emits when a pen is lifted",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20439,7 +20439,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.penMovedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.penMoveAction": {
       "phetioDocumentation": "Emits when a pen is moved",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20450,7 +20450,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.penStartedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.penStartAction": {
       "phetioDocumentation": "Emits when a pen touches the screen",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20461,7 +20461,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.touchCanceledAction": {
+    "balloonsAndStaticElectricity.general.controller.input.touchCancelAction": {
       "phetioDocumentation": "Emits when a touch is canceled",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20472,7 +20472,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.touchEndedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.touchEndAction": {
       "phetioDocumentation": "Emits when a touch ends",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20483,7 +20483,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.touchMovedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.touchMoveAction": {
       "phetioDocumentation": "Emits when a touch moves",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20494,7 +20494,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.touchStartedAction": {
+    "balloonsAndStaticElectricity.general.controller.input.touchStartAction": {
       "phetioDocumentation": "Emits when a touch begins",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20516,7 +20516,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<>"
     },
-    "balloonsAndStaticElectricity.general.controller.input.wheelScrolledAction": {
+    "balloonsAndStaticElectricity.general.controller.input.wheelScrollAction": {
       "phetioDocumentation": "Emits when the mouse wheel scrolls",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20549,7 +20549,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PhetioCommandProcessorIO"
     },
-    "balloonsAndStaticElectricity.general.resizedAction": {
+    "balloonsAndStaticElectricity.general.resizeAction": {
       "phetioDocumentation": "Executes when the sim is resized",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -20648,7 +20648,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "balloonsAndStaticElectricity.navigationBar.a11yButtonsHBox.keyboardHelpButton.pressListener.pressedAction": {
+    "balloonsAndStaticElectricity.navigationBar.a11yButtonsHBox.keyboardHelpButton.pressListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20659,7 +20659,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.navigationBar.a11yButtonsHBox.keyboardHelpButton.pressListener.releasedAction": {
+    "balloonsAndStaticElectricity.navigationBar.a11yButtonsHBox.keyboardHelpButton.pressListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20747,7 +20747,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20758,7 +20758,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20824,7 +20824,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.pressedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20835,7 +20835,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.releasedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20890,7 +20890,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.pressListener.pressedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.pressListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -20901,7 +20901,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "balloonsAndStaticElectricity.navigationBar.phetButton.pressListener.releasedAction": {
+    "balloonsAndStaticElectricity.navigationBar.phetButton.pressListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
