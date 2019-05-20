@@ -17,7 +17,6 @@ define( require => {
   const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const TwoColumnKeyboardHelpContent = require( 'SCENERY_PHET/keyboard/help/TwoColumnKeyboardHelpContent' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
   const grabOrReleaseBalloonHeadingString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/grabOrReleaseBalloonHeading' );
@@ -67,16 +66,9 @@ define( require => {
       // vertically align the left sections
       KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpSection, moveBalloonHelpSection ] );
 
-      // sections for how to grab the balloon and general navigation are aligned to the left of the dialog
-      const leftContent = new VBox( {
-        children: [ balloonGrabHelpSection, moveBalloonHelpSection ],
-        align: 'left',
-        spacing: 30
-      } );
-
       // left aligned sections, and section about how to move the grabbed balloon are horizontally aligned
-      super( leftContent, generalNavigationHelpSection, {
-        spacing: 20
+      super( [ balloonGrabHelpSection, moveBalloonHelpSection ], [ generalNavigationHelpSection ], {
+        columnSpacing: 20
       } );
 
       // the reading order for screen readers
