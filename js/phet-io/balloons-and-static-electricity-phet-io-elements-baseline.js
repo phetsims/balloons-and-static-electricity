@@ -20934,6 +20934,17 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO>"
     },
+    "balloonsAndStaticElectricity.general.utteranceQueue": {
+      "phetioDocumentation": "",
+      "phetioEventType": "model",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "UtteranceQueueIO"
+    },
     "balloonsAndStaticElectricity.global.chargeNode": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
@@ -20977,17 +20988,6 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioState": true,
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
-    },
-    "balloonsAndStaticElectricity.global.utteranceQueue": {
-      "phetioDocumentation": "",
-      "phetioEventType": "model",
-      "phetioFeatured": false,
-      "phetioHighFrequency": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": false,
-      "phetioStudioControl": true,
-      "phetioTypeName": "UtteranceQueueIO"
     },
     "phetioEngine": {
       "phetioDocumentation": "Central point for PhET-iO interoperability",
