@@ -27,12 +27,12 @@ define( function( require ) {
   var ColorConstants = require( 'SUN/ColorConstants' );
   var DownUpListener = require( 'SCENERY/input/DownUpListener' );
   var Emitter = require( 'AXON/Emitter' );
+  var EventType = require( 'TANDEM/EventType' );
   var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var SunConstants = require( 'SUN/SunConstants' );
@@ -222,7 +222,7 @@ define( function( require ) {
     // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
     var firedEmitter = new Emitter( {
       tandem: options.tandem.createTandem( 'firedEmitter' ),
-      phetioEventType: PhetioObject.EventType.USER
+      phetioEventType: EventType.USER
     } );
     firedEmitter.addListener( upFunction );
 
