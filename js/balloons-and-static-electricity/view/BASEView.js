@@ -56,11 +56,7 @@ define( function( require ) {
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem,
-
-      // a11y - use the built in screen summary, this option should be removed entirely once
-      // https://github.com/phetsims/scenery-phet/issues/393 is completed
-      addScreenSummaryNode: true
+      tandem: tandem
     } );
 
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
@@ -118,7 +114,7 @@ define( function( require ) {
 
     // created after all other view objects so we can access each describer
     var screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'screenSummaryNode' ) );
-    this.screenSummaryNode.addChild( screenSummaryNode );
+    this.setScreenSummaryContent( screenSummaryNode );
 
     // combine the balloon content into single nodes so that they are easily layerable
     var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
