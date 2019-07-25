@@ -18,14 +18,11 @@ define( function( require ) {
   var BASESummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
-  var Cursor = require( 'SCENERY/accessibility/reader/Cursor' );
   var inherit = require( 'PHET_CORE/inherit' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
   var Property = require( 'AXON/Property' );
-  var Reader = require( 'SCENERY/accessibility/reader/Reader' );
-  var ReaderDisplayNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ReaderDisplayNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
@@ -150,16 +147,6 @@ define( function( require ) {
     // visualise regions of the play area
     if ( BASEQueryParameters.showGrid ) {
       this.addChild( new PlayAreaGridNode( this.layoutBounds, tandem.createTandem( 'playAreaGridNode' ) ) );
-    }
-
-    // enable the prototype screen reader
-    if ( BASEQueryParameters.reader ) {
-      var cursor = new Cursor( document.body );
-      var readerDisplayBounds = new Bounds2( 10, 0, this.layoutBounds.width - 20, 50 );
-
-      var reader = new Reader( cursor );
-      var display = new ReaderDisplayNode( reader, readerDisplayBounds );
-      this.addChild( display );
     }
   }
 

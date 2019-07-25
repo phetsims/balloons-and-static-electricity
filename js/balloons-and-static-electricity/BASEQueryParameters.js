@@ -14,9 +14,6 @@ define( function( require ) {
 
   var BASEQueryParameters = QueryStringMachine.getAll( {
 
-    // enables prototype screen reader
-    reader: { type: 'flag' },
-
     // keyData - must be used with reader, shows key information instead of reader output, useful for debugging
     keyData: { type: 'flag' },
 
