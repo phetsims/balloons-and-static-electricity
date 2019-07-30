@@ -14,7 +14,6 @@ define( require => {
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
-  const LetterKeyNode = require( 'SCENERY_PHET/keyboard/LetterKeyNode' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const TwoColumnKeyboardHelpContent = require( 'SCENERY_PHET/keyboard/help/TwoColumnKeyboardHelpContent' );
 
@@ -122,10 +121,10 @@ define( require => {
       const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
       // hot key rows for how to jump the balloon
-      const jumpToSweaterRow = createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
-      const jumpToWallRow = createJumpKeyRow( 'W', jumpCloseToWallLabelString, jumpsCloseToWwallDescriptionString );
-      const jumpNearWallRow = createJumpKeyRow( 'N', jumpNearWallLabelString, jumpsNearWallDescriptionString );
-      const jumpToCenterRow = createJumpKeyRow( 'C', jumpToCenterLabelString, jumpstoCenterDescriptionString );
+      const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
+      const jumpToWallRow = KeyboardHelpSection.createJumpKeyRow( 'W', jumpCloseToWallLabelString, jumpsCloseToWwallDescriptionString );
+      const jumpNearWallRow = KeyboardHelpSection.createJumpKeyRow( 'N', jumpNearWallLabelString, jumpsNearWallDescriptionString );
+      const jumpToCenterRow = KeyboardHelpSection.createJumpKeyRow( 'C', jumpToCenterLabelString, jumpstoCenterDescriptionString );
 
       // all rows contained in a left aligned vbox
       const rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
@@ -133,25 +132,6 @@ define( require => {
       super( moveOrJumpGrabbedBalloonHeadingString, rows, options );
     }
   }
-
-  /**
-   * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
-   * sign, with a descriptive label. Something like
-   :   * "J + S jumps close to sweater"
-   *
-   * @param {string} keyString - the letter name that will come after 'j'
-   * @param {string} labelString
-   * @param {string} innerContent
-   * @returns {HBox}
-   */
-  const createJumpKeyRow = ( keyString, labelString, innerContent ) => {
-
-    const jKey = new LetterKeyNode( 'J' );
-    const otherKey = new LetterKeyNode( keyString );
-
-    const jPlusOtherKey = KeyboardHelpSection.iconPlusIcon( jKey, otherKey );
-    return KeyboardHelpSection.labelWithIcon( labelString, jPlusOtherKey, innerContent );
-  };
 
   return BASEKeyboardHelpContent;
 } );
