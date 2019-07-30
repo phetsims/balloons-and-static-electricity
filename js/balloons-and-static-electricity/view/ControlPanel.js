@@ -11,7 +11,6 @@ define( function( require ) {
 
   // modules
   const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
-  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -20,7 +19,6 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
@@ -49,7 +47,6 @@ define( function( require ) {
 
   // a11y strings
   var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
-  var controlAreaString = JoistA11yStrings.controlArea.value;
   var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
   var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;
   var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlert.value;
@@ -79,7 +76,7 @@ define( function( require ) {
   function ControlPanel( model, layoutBounds, tandem ) {
 
     // super constructor
-    AccessibleSectionNode.call( this, controlAreaString );
+    Node.call( this );
     var self = this;
 
     // content for Add/Remove wall button.
@@ -168,7 +165,7 @@ define( function( require ) {
       else if ( value === 'diff' ) {
         alertString = showChargeDifferencesAlertString;
       }
-      
+
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
       utteranceQueue.addToBack( alertString );
     } );
@@ -231,7 +228,7 @@ define( function( require ) {
 
       // disable other alerts until after we are finished resetting the balloons
       utteranceQueue.enabled = false;
-      
+
       model.sweater.reset();
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
@@ -327,7 +324,7 @@ define( function( require ) {
 
   balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
 
-  inherit( AccessibleSectionNode, ControlPanel );
+  inherit( Node, ControlPanel );
 
   return ControlPanel;
 } );

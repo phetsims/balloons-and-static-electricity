@@ -10,7 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
@@ -19,7 +18,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
   var Property = require( 'AXON/Property' );
@@ -31,7 +29,6 @@ define( function( require ) {
   var WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
 
   // a11y strings
-  var playAreaString = JoistA11yStrings.playArea.value;
   var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
   var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
 
@@ -59,11 +56,8 @@ define( function( require ) {
     var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     var wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
-    // create a container for all things in the 'play area' to structure the accessibility DOM into sections
-    var playAreaContainerNode = new AccessibleSectionNode( playAreaString );
-    this.addChild( playAreaContainerNode );
-    playAreaContainerNode.addChild( sweaterNode );
-    playAreaContainerNode.addChild( wallNode );
+    this.playAreaNode.addChild( sweaterNode );
+    this.playAreaNode.addChild( wallNode );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
     this.addChild( new Rectangle(
@@ -116,8 +110,8 @@ define( function( require ) {
     // combine the balloon content into single nodes so that they are easily layerable
     var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     var yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-    playAreaContainerNode.addChild( yellowBalloonLayerNode );
-    playAreaContainerNode.addChild( greenBalloonLayerNode );
+    this.playAreaNode.addChild( yellowBalloonLayerNode );
+    this.playAreaNode.addChild( greenBalloonLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
@@ -125,7 +119,7 @@ define( function( require ) {
       self.greenBalloonTetherNode.visible = isVisible;
     } );
 
-    this.addChild( controlPanel );
+    this.controlAreaNode.addChild( controlPanel );
 
     // when one of the balloons is picked up, move its content and cue nodes to front
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
@@ -138,7 +132,7 @@ define( function( require ) {
     } );
 
     // set the accessible order: sweater, balloons wall
-    playAreaContainerNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
+    this.playAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
 
     //--------------------------------------------------------------------------
     // debugging
@@ -156,7 +150,7 @@ define( function( require ) {
 
     /**
      * Step the view.  For acccessibility, we want to step the 'AudioView' and the keyboard drag handlers.
-     * @param number} dt 
+     * @param number} dt
      * @public
      */
     step: function( dt ) {
