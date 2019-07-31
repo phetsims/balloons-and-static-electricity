@@ -42,8 +42,7 @@ define( function( require ) {
       // a11y
       tagName: 'div', // sweater is just a div
       labelTagName: 'h3', // label is identified as a heading of level 3
-      labelContent: sweaterLabelString,
-      descriptionTagName: 'p'
+      labelContent: sweaterLabelString
     } );
 
     this.plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );

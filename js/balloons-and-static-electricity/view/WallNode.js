@@ -46,8 +46,7 @@ define( function( require ) {
       // accessibility options
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: wallLabelString,
-      descriptionTagName: 'p'
+      labelContent: wallLabelString
     } );
 
     this.translate( wallModel.x, 0 );
@@ -67,7 +66,7 @@ define( function( require ) {
       plusChargesNode.addChild( plusChargeNode );
     } );
     this.addChild( plusChargesNode );
-    
+
     // the minus charges on the wall - with Canvas for performance, bounds widened so that charges are fully
     // visible in wider layouts, see #409
     var wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
