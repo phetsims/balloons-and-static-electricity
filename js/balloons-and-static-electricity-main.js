@@ -18,6 +18,10 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // modules used by wrappers
+  require( 'TAMBO/sound-generators/SoundClip' );
+  require( 'TAMBO/phetAudioContext' );
+
   // strings
   var balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
 

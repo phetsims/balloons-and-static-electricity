@@ -22,7 +22,12 @@
       "adapted-from-phet"
     ],
     "accessible": true,
-    "simulation": true
+    "simulation": true,
+    "phet-io": {
+      "wrappers": [
+        "phet-io-wrapper-balloons-and-static-electricity-sonification"
+      ]
+    }
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
