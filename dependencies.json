@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.4.10 Mon Aug 05 2019 14:37:15 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.4.10 Mon Aug 19 2019 12:42:04 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "08ffec74275e7ff8e9a3058e1695b796c3cc47f8",
+    "sha": "3bed83305befaa6c2091a2a9816be708010338fc",
     "branch": "1.4"
   },
   "brand": {
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "74d4de8aa3df3a985429103a4fc741eccb8c926e",
-    "branch": "HEAD"
+    "sha": "7731110bae58461a046cb3e0c217580fe0f6a6ba",
+    "branch": "balloons-and-static-electricity-1.4"
   },
   "kite": {
     "sha": "a1086efcd29afb8d166e71d983bf760b5ff9f415",
@@ -61,8 +61,8 @@
     "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "4a1f662ef4338e7c9bce3e59ea6ee98cb27b5fa1",
-    "branch": "HEAD"
+    "sha": "931fc53caac7b57007134bb3ec55f125bd23dec7",
+    "branch": "balloons-and-static-electricity-1.4"
   },
   "sherpa": {
     "sha": "88c3b82889155b4263692db6a3cb746fdf018b01",
