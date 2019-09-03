@@ -41,7 +41,7 @@ define( function( require ) {
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
 
-    // atan2 wraps around PI, so we will use absolute value in checks    
+    // atan2 wraps around PI, so we will use absolute value in checks
     LEFT: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI ),
 
     UP_LEFT: new Range( -3 * Math.PI - DIAGONAL_MOVEMENT_THRESHOLD, -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -177,10 +177,14 @@ define( function( require ) {
     } );
 
     // @public {boolean} - whether or not the balloon is on the sweater
-    this.onSweaterProperty = new Property( false );
+    this.onSweaterProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'onSweaterProperty' )
+    } );
 
     // @public {boolean} - whether or not the balloon is touching the wall
-    this.touchingWallProperty = new Property( false );
+    this.touchingWallProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'touchingWallProperty' )
+    } );
 
     // @private string - the current column of the play area the balloon is in
     this.playAreaColumnProperty = new Property( null );
@@ -192,10 +196,14 @@ define( function( require ) {
     this.playAreaLandmarkProperty = new Property( null );
 
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
-    this.directionProperty = new Property( null );
+    this.directionProperty = new Property( null, {
+      tandem: tandem.createTandem( 'directionProperty' )
+    } );
 
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
-    this.inducingChargeProperty = new Property( false );
+    this.inducingChargeProperty = new Property( false, {
+      tandem: tandem.createTandem( 'inducingChargeProperty' )
+    } );
 
     //------------------------------------------------
 
@@ -325,7 +333,7 @@ define( function( require ) {
      * Determine if the balloon is on the sweater.  The balloon is considered to be rubbing on the sweater
      * if its center is in the charged area.
      * @public
-     * @returns {type}
+     * @returns {boolean}
      */
     onSweater: function() {
       var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
