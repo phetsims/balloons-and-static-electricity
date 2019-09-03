@@ -383,6 +383,31 @@ window.phet.phetio.phetioTypes = assert &&
       "supertype": "ParametricTypeImplIO.<NullableIO.<FocusIO>, NullableIO.<NullableIO.<FocusIO>>, VoidIO>",
       "typeName": "FunctionIO.(NullableIO.<FocusIO>,NullableIO.<NullableIO.<FocusIO>>)=>VoidIO"
     },
+    "FunctionIO.(NullableIO.<StringIO>)=>VoidIO": {
+      "documentation": "Wrapper for the built-in JS function type.<br><strong>Arguments:</strong> NullableIO.<StringIO><br><strong>Return Type:</strong> VoidIO",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>",
+        "VoidIO"
+      ],
+      "supertype": "ParametricTypeImplIO.<NullableIO.<StringIO>, VoidIO>",
+      "typeName": "FunctionIO.(NullableIO.<StringIO>)=>VoidIO"
+    },
+    "FunctionIO.(NullableIO.<StringIO>,NullableIO.<NullableIO.<StringIO>>)=>VoidIO": {
+      "documentation": "Wrapper for the built-in JS function type.<br><strong>Arguments:</strong> NullableIO.<StringIO>, NullableIO.<NullableIO.<StringIO>><br><strong>Return Type:</strong> VoidIO",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>",
+        "NullableIO.<NullableIO.<StringIO>>",
+        "VoidIO"
+      ],
+      "supertype": "ParametricTypeImplIO.<NullableIO.<StringIO>, NullableIO.<NullableIO.<StringIO>>, VoidIO>",
+      "typeName": "FunctionIO.(NullableIO.<StringIO>,NullableIO.<NullableIO.<StringIO>>)=>VoidIO"
+    },
     "FunctionIO.(NumberIO)=>VoidIO": {
       "documentation": "Wrapper for the built-in JS function type.<br><strong>Arguments:</strong> NumberIO<br><strong>Return Type:</strong> VoidIO",
       "events": [],
@@ -567,6 +592,17 @@ window.phet.phetio.phetioTypes = assert &&
       ],
       "supertype": "ParametricTypeImplIO.<NullableIO.<FocusIO>>",
       "typeName": "NullableIO.<NullableIO.<FocusIO>>"
+    },
+    "NullableIO.<NullableIO.<StringIO>>": {
+      "documentation": "A wrapper to wrap another IOType, adding support for null.",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>"
+      ],
+      "supertype": "ParametricTypeImplIO.<NullableIO.<StringIO>>",
+      "typeName": "NullableIO.<NullableIO.<StringIO>>"
     },
     "NullableIO.<NumberIO>": {
       "documentation": "A wrapper to wrap another IOType, adding support for null.",
@@ -788,6 +824,42 @@ window.phet.phetio.phetioTypes = assert &&
       ],
       "supertype": "ObjectIO",
       "typeName": "ParametricTypeImplIO.<NullableIO.<FocusIO>>"
+    },
+    "ParametricTypeImplIO.<NullableIO.<StringIO>, NullableIO.<NullableIO.<StringIO>>, VoidIO>": {
+      "documentation": "A Type that has parameters",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>",
+        "NullableIO.<NullableIO.<StringIO>>",
+        "VoidIO"
+      ],
+      "supertype": "ObjectIO",
+      "typeName": "ParametricTypeImplIO.<NullableIO.<StringIO>, NullableIO.<NullableIO.<StringIO>>, VoidIO>"
+    },
+    "ParametricTypeImplIO.<NullableIO.<StringIO>, VoidIO>": {
+      "documentation": "A Type that has parameters",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>",
+        "VoidIO"
+      ],
+      "supertype": "ObjectIO",
+      "typeName": "ParametricTypeImplIO.<NullableIO.<StringIO>, VoidIO>"
+    },
+    "ParametricTypeImplIO.<NullableIO.<StringIO>>": {
+      "documentation": "A Type that has parameters",
+      "events": [],
+      "methodOrder": [],
+      "methods": {},
+      "parameterTypes": [
+        "NullableIO.<StringIO>"
+      ],
+      "supertype": "ObjectIO",
+      "typeName": "ParametricTypeImplIO.<NullableIO.<StringIO>>"
     },
     "ParametricTypeImplIO.<NumberIO, NullableIO.<NumberIO>, VoidIO>": {
       "documentation": "A Type that has parameters",
@@ -1375,6 +1447,57 @@ window.phet.phetio.phetioTypes = assert &&
       ],
       "supertype": "ParametricTypeImplIO.<NullableIO.<FocusIO>>",
       "typeName": "PropertyIO.<NullableIO.<FocusIO>>"
+    },
+    "PropertyIO.<NullableIO.<StringIO>>": {
+      "documentation": "Observable values that send out notifications when the value changes. This differs from the traditional listener pattern in that added listeners also receive a callback with the current value when the listeners are registered. This is a widely-used pattern in PhET-iO simulations.",
+      "events": [
+        "changed"
+      ],
+      "methodOrder": [
+        "link",
+        "lazyLink"
+      ],
+      "methods": {
+        "getValue": {
+          "documentation": "Gets the current value.",
+          "parameterTypes": [],
+          "returnType": "NullableIO.<StringIO>"
+        },
+        "lazyLink": {
+          "documentation": "Adds a listener which will be called when the value changes. This method is like \"link\", but without the current-value callback on registration. The listener takes two arguments, the new value and the previous value.",
+          "parameterTypes": [
+            "FunctionIO.(NullableIO.<StringIO>,NullableIO.<NullableIO.<StringIO>>)=>VoidIO"
+          ],
+          "returnType": "VoidIO"
+        },
+        "link": {
+          "documentation": "Adds a listener which will be called when the value changes. On registration, the listener is also called with the current value. The listener takes two arguments, the new value and the previous value.",
+          "parameterTypes": [
+            "FunctionIO.(NullableIO.<StringIO>,NullableIO.<NullableIO.<StringIO>>)=>VoidIO"
+          ],
+          "returnType": "VoidIO"
+        },
+        "setValue": {
+          "documentation": "Sets the value of the property. If the value differs from the previous value, listeners are notified with the new value.",
+          "invocableForReadOnlyElements": false,
+          "parameterTypes": [
+            "NullableIO.<StringIO>"
+          ],
+          "returnType": "VoidIO"
+        },
+        "unlink": {
+          "documentation": "Removes a listener.",
+          "parameterTypes": [
+            "FunctionIO.(NullableIO.<StringIO>)=>VoidIO"
+          ],
+          "returnType": "VoidIO"
+        }
+      },
+      "parameterTypes": [
+        "NullableIO.<StringIO>"
+      ],
+      "supertype": "ParametricTypeImplIO.<NullableIO.<StringIO>>",
+      "typeName": "PropertyIO.<NullableIO.<StringIO>>"
     },
     "PropertyIO.<NumberIO>": {
       "documentation": "Observable values that send out notifications when the value changes. This differs from the traditional listener pattern in that added listeners also receive a callback with the current value when the listeners are registered. This is a widely-used pattern in PhET-iO simulations.",

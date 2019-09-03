@@ -15,6 +15,7 @@ define( function( require ) {
   var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   var BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,6 +23,8 @@ define( function( require ) {
   var PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   var PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   var Property = require( 'AXON/Property' );
+  var NullableIO = require( 'TANDEM/types/NullableIO' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Range = require( 'DOT/Range' );
   var Vector2 = require( 'DOT/Vector2' );
   var Vector2Property = require( 'DOT/Vector2Property' );
@@ -197,11 +200,12 @@ define( function( require ) {
 
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null, {
-      tandem: tandem.createTandem( 'directionProperty' )
+      tandem: tandem.createTandem( 'directionProperty' ),
+      phetioType: PropertyIO( NullableIO( StringIO ) )
     } );
 
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
-    this.inducingChargeProperty = new Property( false, {
+    this.inducingChargeProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'inducingChargeProperty' )
     } );
 

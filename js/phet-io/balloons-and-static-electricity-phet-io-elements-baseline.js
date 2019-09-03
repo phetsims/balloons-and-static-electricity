@@ -25,6 +25,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "NumberPropertyIO"
     },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.directionProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<NullableIO.<StringIO>>"
+    },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.dragVelocityProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
@@ -36,6 +48,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioState": true,
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<Vector2IO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.inducingChargeProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.isDraggedProperty": {
       "phetioDocumentation": "",
@@ -817,6 +841,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.onSweaterProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
+    },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.plusCharges~0.movedProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
@@ -862,6 +898,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioPlayback": false,
       "phetioReadOnly": false,
       "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.greenBalloon.touchingWallProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
@@ -4237,6 +4285,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "NumberPropertyIO"
     },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.directionProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<NullableIO.<StringIO>>"
+    },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.dragVelocityProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
@@ -4248,6 +4308,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioState": true,
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<Vector2IO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.inducingChargeProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.isDraggedProperty": {
       "phetioDocumentation": "",
@@ -5029,6 +5101,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.onSweaterProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
+    },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.plusCharges~0.movedProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
@@ -5074,6 +5158,18 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioPlayback": false,
       "phetioReadOnly": false,
       "phetioState": false,
+      "phetioStudioControl": true,
+      "phetioTypeName": "PropertyIO.<BooleanIO>"
+    },
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityModel.yellowBalloon.touchingWallProperty": {
+      "phetioDocumentation": "",
+      "phetioDynamicElement": false,
+      "phetioEventType": "MODEL",
+      "phetioFeatured": false,
+      "phetioHighFrequency": false,
+      "phetioPlayback": false,
+      "phetioReadOnly": false,
+      "phetioState": true,
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
