@@ -5603,7 +5603,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioReadOnly": false,
       "phetioState": false,
       "phetioStudioControl": true,
-      "phetioTypeName": "NodeIO"
+      "phetioTypeName": "ResetAllButtonIO"
     },
     "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.resetAllButton.enabledProperty": {
       "phetioDocumentation": "When disabled, the button is grayed out and cannot be pressed",
