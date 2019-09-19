@@ -46,26 +46,26 @@ define( require => {
   const resetBalloonString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/resetBalloon' );
 
   // a11y strings
-  var twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
-  var chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
-  var chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;
-  var showAllChargesAlertString = BASEA11yStrings.showAllChargesAlert.value;
-  var shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlert.value;
-  var showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlert.value;
-  var removeWallDescriptionString = BASEA11yStrings.removeWallDescription.value;
-  var twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescription.value;
-  var resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPattern.value;
-  var balloonString = BASEA11yStrings.balloon.value;
-  var balloonsString = BASEA11yStrings.balloons.value;
-  var wallAddedString = BASEA11yStrings.wallAdded.value;
-  var wallRemovedString = BASEA11yStrings.wallRemoved.value;
-  var positionsString = BASEA11yStrings.positions.value;
-  var positionString = BASEA11yStrings.position.value;
-  var resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
+  const twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
+  const chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
+  const chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;
+  const showAllChargesAlertString = BASEA11yStrings.showAllChargesAlert.value;
+  const shoNoChargesAlertString = BASEA11yStrings.shoNoChargesAlert.value;
+  const showChargeDifferencesAlertString = BASEA11yStrings.showChargeDifferencesAlert.value;
+  const removeWallDescriptionString = BASEA11yStrings.removeWallDescription.value;
+  const twoBalloonExperimentDescriptionString = BASEA11yStrings.twoBalloonExperimentDescription.value;
+  const resetBalloonsAlertPatternString = BASEA11yStrings.resetBalloonsAlertPattern.value;
+  const balloonString = BASEA11yStrings.balloon.value;
+  const balloonsString = BASEA11yStrings.balloons.value;
+  const wallAddedString = BASEA11yStrings.wallAdded.value;
+  const wallRemovedString = BASEA11yStrings.wallRemoved.value;
+  const positionsString = BASEA11yStrings.positions.value;
+  const positionString = BASEA11yStrings.position.value;
+  const resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
 
   // constants
-  var BOTTOM_CONTROL_SPACING = 10;
-  var CONTROLS_FONT = new PhetFont( 15 );
+  const BOTTOM_CONTROL_SPACING = 10;
+  const CONTROLS_FONT = new PhetFont( 15 );
 
   /**
    * @constructor
@@ -77,14 +77,14 @@ define( require => {
 
     // super constructor
     Node.call( this );
-    var self = this;
+    const self = this;
 
     // content for Add/Remove wall button.
-    var addWallText = new MultiLineText( addWallString, {
+    const addWallText = new MultiLineText( addWallString, {
       font: CONTROLS_FONT,
       tandem: tandem.createTandem( 'addWallText' )
     } );
-    var removeWallText = new MultiLineText( removeWallString, {
+    const removeWallText = new MultiLineText( removeWallString, {
       font: CONTROLS_FONT,
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
@@ -108,16 +108,16 @@ define( require => {
     model.wall.isVisibleProperty.lazyLink( function( wallVisible ) {
       self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
-      var alertDescription = wallVisible ? wallAddedString : wallRemovedString;
+      const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
         utteranceQueue.addToBack( alertDescription );
     } );
 
     // Radio buttons related to charges
-    var RADIO_BUTTON_TEXT_OPTIONS = {
+    const RADIO_BUTTON_TEXT_OPTIONS = {
       font: CONTROLS_FONT,
       maxWidth: 200
     };
-    var showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
+    const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
       node: new Text(
         balloonAppletShowAllChargesString,
         _.extend( { tandem: tandem.createTandem( 'allCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
@@ -155,7 +155,7 @@ define( require => {
     // a11y - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
     model.showChargesProperty.lazyLink( function( value ) {
-      var alertString;
+      let alertString;
       if ( value === 'all' ) {
         alertString = showAllChargesAlertString;
       }
@@ -171,10 +171,10 @@ define( require => {
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
-    var scale = 0.14;
-    var yellowBalloonImage = new Image( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
-    var twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
-    var twoBalloonIcon = new Node( {
+    const scale = 0.14;
+    const yellowBalloonImage = new Image( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    const twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
+    const twoBalloonIcon = new Node( {
       children: [
         new Image( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
@@ -183,8 +183,8 @@ define( require => {
       tandem: twoBalloonIconTandem
     } );
 
-    var oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
-    var oneBalloonIcon = new Node( {
+    const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
+    const oneBalloonIcon = new Node( {
       children: [
         new Image( balloonYellow, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
@@ -195,7 +195,7 @@ define( require => {
       tandem: oneBalloonIconTandem
     } );
 
-    var showSecondBalloonSelector = new TwoSceneSelectionNode(
+    const showSecondBalloonSelector = new TwoSceneSelectionNode(
       model.greenBalloon.isVisibleProperty,
       false,
       true,
@@ -212,7 +212,7 @@ define( require => {
     );
 
     // 'Reset Balloons' button
-    var resetBalloonToggleNode = new BooleanToggleNode(
+    const resetBalloonToggleNode = new BooleanToggleNode(
       new Text( resetBalloonsString, {
         font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonsText' )
@@ -224,7 +224,7 @@ define( require => {
       model.greenBalloon.isVisibleProperty,
       { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
     );
-    var resetBalloonButtonListener = function() {
+    const resetBalloonButtonListener = function() {
 
       // disable other alerts until after we are finished resetting the balloons
       utteranceQueue.enabled = false;
@@ -241,7 +241,7 @@ define( require => {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };
-    var resetBalloonButton = new RectangularPushButton( {
+    const resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
@@ -253,9 +253,9 @@ define( require => {
     } );
 
     // create the accessible description for the reset balloon button
-    var generateDescriptionString = function( balloonVisible ) {
-      var balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
-      var positionDescriptionString = balloonVisible ? positionsString : positionString;
+    const generateDescriptionString = function( balloonVisible ) {
+      const balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
+      const positionDescriptionString = balloonVisible ? positionsString : positionString;
       return StringUtils.fillIn( resetBalloonsDescriptionPatternString, {
         balloons: balloonDescriptionString,
         positions: positionDescriptionString
@@ -268,7 +268,7 @@ define( require => {
       resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
 
-    var balloonsPanel = new VBox( {
+    const balloonsPanel = new VBox( {
       spacing: 2,
       children: [ showSecondBalloonSelector, resetBalloonButton ],
 
@@ -279,13 +279,13 @@ define( require => {
     } );
 
     //Add the controls at the right, with the reset all button and the wall button
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: model.reset.bind( model ),
       scale: 0.96,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    var controls = new HBox( {
+    const controls = new HBox( {
       spacing: 14,
       align: 'bottom',
       children: [ resetAllButton, this.wallButton ]
@@ -295,8 +295,8 @@ define( require => {
     controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
     controls.right = layoutBounds.maxX - 4.5;// so "Remove Wall" button looks centered with wall
 
-    var visibilityControls;
-    var controlsLeft;
+    let visibilityControls;
+    let controlsLeft;
     if ( BASEQueryParameters.hideChargeControls ) {
       visibilityControls = [ balloonsPanel ];
       controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;

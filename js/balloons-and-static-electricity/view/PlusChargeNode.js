@@ -18,7 +18,7 @@ define( require => {
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
-  var RADIUS = PointChargeModel.RADIUS;
+  const RADIUS = PointChargeModel.RADIUS;
 
   const icon = new Node( {
     children: [
@@ -43,7 +43,7 @@ define( require => {
       } )
     ]
   } );
-  var sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
+  const sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
   /**
    * @constructor

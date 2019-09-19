@@ -21,17 +21,17 @@ define( require => {
   QUnit.module( 'WallDescriberTests' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
-  var view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
+  const model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
+  const view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
 
   QUnit.test( 'WallDescriber tests', function( assert ) {
 
     // create a view
-    var wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
+    const wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
 
     // on page load
-    var actualDescription = wallNode.descriptionContent;
-    var expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges.';
+    let actualDescription = wallNode.descriptionContent;
+    let expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // yellow balloon neutral at wall, all charges shown

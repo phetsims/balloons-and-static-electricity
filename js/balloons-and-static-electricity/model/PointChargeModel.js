@@ -19,10 +19,10 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
-  var RADIUS = 8;
+  const RADIUS = 8;
 
   //1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
-  var CHARGE = -1.754;
+  const CHARGE = -1.754;
 
   /**
    * @constructor

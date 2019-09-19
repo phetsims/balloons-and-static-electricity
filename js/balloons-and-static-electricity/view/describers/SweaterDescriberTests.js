@@ -18,16 +18,16 @@ define( require => {
   QUnit.module( 'SweaterDescriberTests' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
+  const model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  var sweaterNode = new SweaterNode( model, Tandem.rootTandem.createTandem( 'sweaterNode' ) );
+  const sweaterNode = new SweaterNode( model, Tandem.rootTandem.createTandem( 'sweaterNode' ) );
   
   QUnit.test( 'SweaterDescriber tests', function( assert ) {
 
     // on load
-    var actualDescription = sweaterNode.descriptionContent;
-    var expectedDescription = 'At left edge of Play Area. Has zero net charge, no more positive charges than negative charges.';
+    let actualDescription = sweaterNode.descriptionContent;
+    let expectedDescription = 'At left edge of Play Area. Has zero net charge, no more positive charges than negative charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // all charges shown, several positive charges

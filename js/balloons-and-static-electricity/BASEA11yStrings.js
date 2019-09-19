@@ -12,7 +12,7 @@ define( require => {
 
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  var BASEA11yStrings = {
+  const BASEA11yStrings = {
 
     //------------------------------------------------------------------------
     // General utility strings
@@ -872,7 +872,7 @@ define( require => {
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
-    for ( var key in BASEA11yStrings ) {
+    for ( const key in BASEA11yStrings ) {
       BASEA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
     }
   }

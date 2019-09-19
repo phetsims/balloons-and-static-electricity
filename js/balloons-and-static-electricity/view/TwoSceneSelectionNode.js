@@ -39,7 +39,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var DEFAULT_FILL = new Color( 'white' );
+  const DEFAULT_FILL = new Color( 'white' );
 
   /**
    * @constructor
@@ -115,20 +115,20 @@ define( require => {
     this.enabledProperty = options.enabledProperty;
 
     // place the nodes in an align group so that the two buttons will have identical sizing
-    var buttonAlignGroup = new AlignGroup();
-    var aBox = buttonAlignGroup.createBox( nodeA );
-    var bBox = buttonAlignGroup.createBox( nodeB );
+    const buttonAlignGroup = new AlignGroup();
+    const aBox = buttonAlignGroup.createBox( nodeA );
+    const bBox = buttonAlignGroup.createBox( nodeB );
 
     // use a path so that the line width can be updated
-    var xMargin = options.buttonContentXMargin;
-    var yMargin = options.buttonContentYMargin;
-    var cornerRadius = options.cornerRadius;
+    const xMargin = options.buttonContentXMargin;
+    const yMargin = options.buttonContentYMargin;
+    const cornerRadius = options.cornerRadius;
 
-    var aButton = new Node();
-    var bButton = new Node();
+    const aButton = new Node();
+    const bButton = new Node();
 
     // aBox.bounds === bBox.bounds since we are using AlignGroup
-    var rectShape = Shape.roundRect(
+    const rectShape = Shape.roundRect(
       -xMargin,
       -yMargin,
       aBox.width + 2 * xMargin,
@@ -136,8 +136,8 @@ define( require => {
       cornerRadius,
       cornerRadius
     );
-    var aButtonPath = new Path( rectShape );
-    var bButtonPath = new Path( rectShape );
+    const aButtonPath = new Path( rectShape );
+    const bButtonPath = new Path( rectShape );
 
     // if there should be a mask, add before the buttons
     if ( options.maskFill ) {
@@ -152,7 +152,7 @@ define( require => {
     aButtonPath.addChild( aBox );
     bButtonPath.addChild( bBox );
 
-    var buttonBox = new LayoutBox( {
+    const buttonBox = new LayoutBox( {
       spacing: options.spacing,
       orientation: options.orientation,
       align: options.align,
@@ -163,13 +163,13 @@ define( require => {
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
     // depending on whether or not the button is enabled
-    var self = this;
-    var setStyles = function( enabled ) {
+    const self = this;
+    const setStyles = function( enabled ) {
 
-      var selectedButton;
-      var deselectedButton;
-      var selectedContent;
-      var deselectedContent;
+      let selectedButton;
+      let deselectedButton;
+      let selectedContent;
+      let deselectedContent;
 
       if ( property.get() === valueA ) {
         selectedButton = aButtonPath;
@@ -213,48 +213,48 @@ define( require => {
       setStyles( self.enabledProperty.get() );
     } );
 
-    var upFunction = function() {
-      var newValue = property.get() === valueA ? valueB : valueA;
+    const upFunction = function() {
+      const newValue = property.get() === valueA ? valueB : valueA;
       property.set( newValue );
       setStyles( self.enabledProperty.get() );
     };
 
     // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
-    var firedEmitter = new Emitter( {
+    const firedEmitter = new Emitter( {
       tandem: options.tandem.createTandem( 'firedEmitter' ),
       phetioEventType: EventType.USER
     } );
     firedEmitter.addListener( upFunction );
 
-    var downUpListener = new DownUpListener( {
+    const downUpListener = new DownUpListener( {
       up: function() {
         firedEmitter.emit();
       },
       down: function() {
-        var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
+        const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
         otherButton.fill = options.pressedColor;
       }
     } );
 
     // considered "checked" for accessibility when node B is selected
-    var propertyListener = function( value ) {
+    const propertyListener = function( value ) {
       self.setAccessibleChecked( value === valueB );
     };
 
     // listener that highlights the unselected button when mouse is over local bounds
-    var highlightListener = new HighlightListener( function( target, highlight ) {
-      var otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
-      var otherContent = property.get() === valueA ? nodeB : nodeA;
+    const highlightListener = new HighlightListener( function( target, highlight ) {
+      const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
+      const otherContent = property.get() === valueA ? nodeB : nodeA;
 
-      var buttonOpacity = highlight ? options.overButtonOpacity : options.deselectedButtonOpacity;
-      var contentOpacity = highlight ? options.overContentOpacity : options.deselectedContentOpacity;
+      const buttonOpacity = highlight ? options.overButtonOpacity : options.deselectedButtonOpacity;
+      const contentOpacity = highlight ? options.overContentOpacity : options.deselectedContentOpacity;
 
       otherButton.opacity = buttonOpacity;
       otherContent.opacity = contentOpacity;
     } );
 
     // listener that is called when the button is pressed with 'enter' or 'spacebar'
-    var clickListener = { click: upFunction };
+    const clickListener = { click: upFunction };
 
     // add listeners, to be disposed
     this.addInputListener( downUpListener );

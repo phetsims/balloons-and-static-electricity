@@ -23,11 +23,11 @@ define( require => {
   QUnit.module( 'BalloonDescriberTests' );
 
   // create model and view for testing
-  var layoutBounds = new Bounds2( 0, 0, 768, 504 );
-  var model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.rootTandem.createTandem( 'model' ) );
+  const layoutBounds = new Bounds2( 0, 0, 768, 504 );
+  const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.rootTandem.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  var balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.rootTandem.createTandem( 'balloonNode' ), {
+  const balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.rootTandem.createTandem( 'balloonNode' ), {
     labelContent: 'Yellow Balloon'
   } );
 
@@ -35,8 +35,8 @@ define( require => {
     model.reset();
 
     // on load
-    var actualDescription = balloonNode.descriptionContent;
-    var expectedDescription = 'At center of Play Area. Has zero net charge, no more negative charges than positive charges.';
+    let actualDescription = balloonNode.descriptionContent;
+    let expectedDescription = 'At center of Play Area. Has zero net charge, no more negative charges than positive charges.';
     assert.equal( actualDescription, expectedDescription );
 
     // balloon at upper wall with several more negative charges than positive, all charges shown
@@ -83,8 +83,8 @@ define( require => {
     model.reset();
 
     // initial grab on load
-    var actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
-    var expectedDescription = 'Grabbed. At center of Play Area. Has no more negative charges than positive charges. Press W, A, S, or D key to move balloon. Space to release.';
+    let actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
+    let expectedDescription = 'Grabbed. At center of Play Area. Has no more negative charges than positive charges. Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 1' );
 
     // Second grab, no longer have interaction hint
@@ -283,7 +283,7 @@ define( require => {
     model.reset();
     model.greenBalloon.isVisibleProperty.set( true );
 
-    var rightSweater = new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_SIDE_OF_SWEATER.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP );
+    const rightSweater = new Vector2( PlayAreaMap.COLUMN_RANGES.RIGHT_SIDE_OF_SWEATER.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP );
 
     //--------------------------------------------------------------------------
     // All charges shown
@@ -296,8 +296,8 @@ define( require => {
     model.yellowBalloon.setCenter( rightSweater );
     model.greenBalloon.setCenter( rightSweater );
     model.yellowBalloon.isDraggedProperty.set( true );
-    var actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
-    var expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
+    let actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
+    let expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
                               'Each balloon has a few more negative charges than positive charges. ' +
                               'Sweater has several more positive charges than negative charges. ' +
                               'Press W, A, S, or D key to move balloon. Space to release.';
@@ -347,8 +347,8 @@ define( require => {
     // first time balloon hits sweater and picks up negative charges
     model.yellowBalloon.chargeProperty.set( -1 );
     model.sweater.chargeProperty.set( 1 );
-    var actualAlert = balloonNode.describer.getChargePickupDescription( true );
-    var expectedAlert = 'Yellow Balloon picks up negative charges from sweater.';
+    let actualAlert = balloonNode.describer.getChargePickupDescription( true );
+    let expectedAlert = 'Yellow Balloon picks up negative charges from sweater.';
     assert.equal( actualAlert, expectedAlert, 'charge pick up 1' );
 
     // first time  balloon hits sweater and picks up negative charges, showing charge differences
@@ -397,8 +397,8 @@ define( require => {
 
     // move the balloon to the sweater  without picking up charges
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.COLUMN_RANGES.LEFT_SIDE_OF_SWEATER.getCenter(), PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    var actualAlert = balloonNode.describer.getNoChargePickupDescription();
-    var expectedAlert = 'No change in charges. On upper-left side of sweater. More pairs of charges up and to the left.';
+    let actualAlert = balloonNode.describer.getNoChargePickupDescription();
+    let expectedAlert = 'No change in charges. On upper-left side of sweater. More pairs of charges up and to the left.';
     assert.equal( actualAlert, expectedAlert, 'no pick up 1' );
 
     // same balloon on sweater but didn't pick up charges
@@ -442,8 +442,8 @@ define( require => {
 
     // neutral balloon rubbing along wall, all charges shown
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    var actualAlert = balloonNode.describer.getWallRubbingDescription();
-    var expectedAlert = 'At upper wall. No transfer of charge. In upper wall, no change in charges.';
+    let actualAlert = balloonNode.describer.getWallRubbingDescription();
+    let expectedAlert = 'At upper wall. No transfer of charge. In upper wall, no change in charges.';
     assert.equal( actualAlert, expectedAlert, 'wall rub test 1' );
 
     // charged balloon rubbing along upper wall, all charges shown
@@ -486,8 +486,8 @@ define( require => {
     model.greenBalloon.chargeProperty.set( -10 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP + 1 ) );
     model.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP + 1 ) );
-    var actualAlert = balloonNode.describer.getWallRubbingDescription();
-    var expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from balloons a lot. Positive charges do not move.';
+    let actualAlert = balloonNode.describer.getWallRubbingDescription();
+    let expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from balloons a lot. Positive charges do not move.';
     assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 1' );
 
     // only one balloon has charge, all charges shown - nudge the balloon so that induced Properties update

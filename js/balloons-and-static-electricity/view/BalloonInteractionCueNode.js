@@ -23,16 +23,16 @@ define( require => {
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var ARROW_HEIGHT = 15; // dimensions for the arrow icons
-  var KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
-  var ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-  var TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: KEY_HEIGHT };
-  var KEY_ARROW_SPACING = 2;
-  var BALLOON_KEY_SPACING = 8;
-  var SHADOW_WIDTH = 2;
+  const ARROW_HEIGHT = 15; // dimensions for the arrow icons
+  const KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
+  const ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
+  const TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: KEY_HEIGHT };
+  const KEY_ARROW_SPACING = 2;
+  const BALLOON_KEY_SPACING = 8;
+  const SHADOW_WIDTH = 2;
 
   // possible directions or the directional cues
-  var DIRECTION_ANGLES = {
+  const DIRECTION_ANGLES = {
     up: 0,
     down: Math.PI,
     left: -Math.PI / 2,
@@ -51,13 +51,13 @@ define( require => {
     Node.call( this );
 
     // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
-    var directionKeysParent = new Node();
+    const directionKeysParent = new Node();
     this.addChild( directionKeysParent );
 
-    var wNode = this.createMovementKeyNode( 'up' );
-    var aNode = this.createMovementKeyNode( 'left' );
-    var sNode = this.createMovementKeyNode( 'down' );
-    var dNode = this.createMovementKeyNode( 'right' );
+    const wNode = this.createMovementKeyNode( 'up' );
+    const aNode = this.createMovementKeyNode( 'left' );
+    const sNode = this.createMovementKeyNode( 'down' );
+    const dNode = this.createMovementKeyNode( 'right' );
 
     directionKeysParent.addChild( wNode );
     directionKeysParent.addChild( aNode );
@@ -69,7 +69,7 @@ define( require => {
     Property.multilink( [ balloonModel.locationProperty, model.wall.isVisibleProperty ], function( location, visible ) {
 
       // get the max x locations depending on if the wall is visible
-      var centerXRightBoundary;
+      let centerXRightBoundary;
       if ( visible ) {
         centerXRightBoundary = PlayAreaMap.X_LOCATIONS.AT_WALL;
       }
@@ -77,7 +77,7 @@ define( require => {
         centerXRightBoundary = PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE;
       }
 
-      var balloonCenter = balloonModel.getCenter();
+      const balloonCenter = balloonModel.getCenter();
       aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE;
       sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM;
       dNode.visible = balloonCenter.x !== centerXRightBoundary;
@@ -85,7 +85,7 @@ define( require => {
     } );
 
     // place the direction cues relative to the balloon bounds
-    var balloonBounds = balloonModel.bounds;
+    const balloonBounds = balloonModel.bounds;
     wNode.centerBottom = balloonBounds.getCenterTop().plusXY( 0, -BALLOON_KEY_SPACING );
     aNode.rightCenter = balloonBounds.getLeftCenter().plusXY( -BALLOON_KEY_SPACING, 0 );
     sNode.centerTop = balloonBounds.getCenterBottom().plusXY( 0, BALLOON_KEY_SPACING + SHADOW_WIDTH );
@@ -106,9 +106,9 @@ define( require => {
     createMovementKeyNode: function( direction ) {
 
       // create the arrow icon
-      var arrowShape = new Shape();
+      const arrowShape = new Shape();
       arrowShape.moveTo( ARROW_HEIGHT / 2, 0 ).lineTo( ARROW_HEIGHT, ARROW_WIDTH ).lineTo( 0, ARROW_WIDTH ).close();
-      var arrowIcon = new Path( arrowShape, {
+      const arrowIcon = new Path( arrowShape, {
         fill: 'white',
         stroke: 'black',
         lineJoin: 'bevel',
@@ -118,8 +118,8 @@ define( require => {
       } );
 
       // create the letter key nodes and place in the correct layout box
-      var keyIcon;
-      var box;
+      let keyIcon;
+      let box;
       if ( direction === 'up' ) {
         keyIcon = new LetterKeyNode( 'W', TEXT_KEY_OPTIONS );
         box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );

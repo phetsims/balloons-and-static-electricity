@@ -20,34 +20,34 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  var sweaterLocationString = BASEA11yStrings.sweaterLocation.value;
-  var zeroString = BASEA11yStrings.zero.value;
-  var manyString = BASEA11yStrings.many.value;
-  var allString = BASEA11yStrings.all.value;
-  var positiveString = BASEA11yStrings.positive.value;
-  var sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPattern.value;
-  var sweaterRelativeChargeAllPatternString = BASEA11yStrings.sweaterRelativeChargeAllPattern.value;
-  var sweaterRelativeChargeDifferencesPatternString = BASEA11yStrings.sweaterRelativeChargeDifferencesPattern.value;
-  var sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreCharges.value;
-  var sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePattern.value;
-  var sweaterChargePatternString = BASEA11yStrings.sweaterChargePattern.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
-  var sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePattern.value;
-  var sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPattern.value;
-  var moreChargesPatternString = BASEA11yStrings.moreChargesPattern.value;
-  var moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPattern.value;
-  var morePairsOfChargesString = BASEA11yStrings.morePairsOfCharges.value;
-  var sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
-  var moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfCharges.value;
-  var positiveNetChargeString = BASEA11yStrings.positiveNetCharge.value;
-  var neutralNetChargeString = BASEA11yStrings.neutralNetCharge.value;
-  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
-  var sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePattern.value;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
-  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
-  var sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
-  var showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  const sweaterLocationString = BASEA11yStrings.sweaterLocation.value;
+  const zeroString = BASEA11yStrings.zero.value;
+  const manyString = BASEA11yStrings.many.value;
+  const allString = BASEA11yStrings.all.value;
+  const positiveString = BASEA11yStrings.positive.value;
+  const sweaterDescriptionPatternString = BASEA11yStrings.sweaterDescriptionPattern.value;
+  const sweaterRelativeChargeAllPatternString = BASEA11yStrings.sweaterRelativeChargeAllPattern.value;
+  const sweaterRelativeChargeDifferencesPatternString = BASEA11yStrings.sweaterRelativeChargeDifferencesPattern.value;
+  const sweaterNoMoreChargesString = BASEA11yStrings.sweaterNoMoreCharges.value;
+  const sweaterNetChargePatternString = BASEA11yStrings.sweaterNetChargePattern.value;
+  const sweaterChargePatternString = BASEA11yStrings.sweaterChargePattern.value;
+  const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  const sweaterHasRelativeChargePatternString = BASEA11yStrings.sweaterHasRelativeChargePattern.value;
+  const sweaterHasNetChargeShowingPatternString = BASEA11yStrings.sweaterHasNetChargeShowingPattern.value;
+  const moreChargesPatternString = BASEA11yStrings.moreChargesPattern.value;
+  const moreChargesFurtherPatternString = BASEA11yStrings.moreChargesFurtherPattern.value;
+  const morePairsOfChargesString = BASEA11yStrings.morePairsOfCharges.value;
+  const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
+  const moreHiddenPairsOfChargesString = BASEA11yStrings.moreHiddenPairsOfCharges.value;
+  const positiveNetChargeString = BASEA11yStrings.positiveNetCharge.value;
+  const neutralNetChargeString = BASEA11yStrings.neutralNetCharge.value;
+  const summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
+  const sweaterRelativeChargePatternString = BASEA11yStrings.sweaterRelativeChargePattern.value;
+  const summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
+  const summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
+  const sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
+  const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
+  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
   /**
    * Manages all descriptions relating to the sweater.
@@ -76,7 +76,7 @@ define( require => {
      * @returns {string}
      */
     getSweaterDescription: function( showCharges ) {
-      var description;
+      let description;
 
       // if we are not showing any charges, just return a description for the location
       if ( showCharges === 'none' ) {
@@ -84,15 +84,15 @@ define( require => {
       }
 
       // relative charge like "no" or "several"
-      var sweaterCharge = this.sweaterModel.chargeProperty.get();
-      var relativeChargeString = BASEDescriber.getRelativeChargeDescription( sweaterCharge );
+      const sweaterCharge = this.sweaterModel.chargeProperty.get();
+      const relativeChargeString = BASEDescriber.getRelativeChargeDescription( sweaterCharge );
 
       // assemble net charge string, like "Has zero net charge"
-      var netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
+      const netChargeString = StringUtils.fillIn( sweaterNetChargePatternString, {
         netCharge: sweaterCharge > 0 ? positiveString : zeroString
       } );
 
-      var chargeString;
+      let chargeString;
       if ( showCharges === 'all' ) {
 
         // special case - if sweater is totally out of charges, say "no more negative charges, only positive charges""
@@ -155,11 +155,11 @@ define( require => {
      * @returns {string} 
      */
     getRelativeChargeDescriptionWithLabel: function( charge, shownCharges ) {
-      var description;
+      let description;
 
       // the relative charge on the sweater, something like 'several' or 'many'
-      var absCharge = Math.abs( charge );
-      var relative = SweaterDescriber.getRelativeChargeDescription( absCharge );
+      const absCharge = Math.abs( charge );
+      const relative = SweaterDescriber.getRelativeChargeDescription( absCharge );
 
       if ( shownCharges === 'all' ) {
         if ( absCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
@@ -172,7 +172,7 @@ define( require => {
         else {
 
           // else something like "Sweater has several more positive charges than negative charges"
-          var relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
+          const relativeChargeString = StringUtils.fillIn( sweaterRelativeChargeAllPatternString, {
             charge: relative
           } );
 
@@ -182,7 +182,7 @@ define( require => {
         }
       }
       else if ( shownCharges === 'diff' ) {
-        var showingString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
+        const showingString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
           charge: relative
         } );
 
@@ -220,7 +220,7 @@ define( require => {
      * @returns {string}
      */
     getNoMoreChargesAlert: function( charge, shownCharges ) {
-      var alert;
+      let alert;
       if ( shownCharges === 'all' ) {
         alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
           relativeCharge: sweaterNoMoreChargesString          
@@ -242,7 +242,7 @@ define( require => {
      * @returns {string}
      */
     getNetChargeDescription: function( sweaterCharge )  {
-      var relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
+      const relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
       return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
         relativeCharge: relativeChargeString
       } );
@@ -264,8 +264,8 @@ define( require => {
       assert && assert( shownCharges !== 'none', 'this description should not be used when no charges are shown' );
 
       // get the next charge to describe
-      var charge;
-      for ( var i = 0; i < sweaterCharges.length; i++ ) {
+      let charge;
+      for ( let i = 0; i < sweaterCharges.length; i++ ) {
         charge = sweaterCharges[ i ];
         if ( !charge.movedProperty.get() ) {
           break;
@@ -273,12 +273,12 @@ define( require => {
       }
 
       // get the description of the direction to the closest charge
-      var direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
-      var directionDescription = BASEDescriber.getDirectionDescription( direction );
+      const direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
+      const directionDescription = BASEDescriber.getDirectionDescription( direction );
 
-      var patternString = BalloonDirectionEnum.isRelativeDirection( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
+      const patternString = BalloonDirectionEnum.isRelativeDirection( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
 
-      var moreChargesString;
+      let moreChargesString;
       if ( shownCharges === 'all' ) {
         moreChargesString = morePairsOfChargesString;
       }
@@ -304,15 +304,15 @@ define( require => {
     getSummaryChargeDescription: function( chargesShown, charge ) {
 
       // description of the sweater object, like "Sweater has zero net charge"
-      var chargeSignString = charge > 0 ? positiveString : zeroString;
-      var sweaterObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
+      const chargeSignString = charge > 0 ? positiveString : zeroString;
+      const sweaterObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
         object: sweaterLabelString,
         charge: chargeSignString
       } );
 
       // description of the charges shown, like 'a few more positive charges than negative charges'
-      var chargeString;
-      var relativeChargeString = BASEDescriber.getRelativeChargeDescription( charge );
+      let chargeString;
+      const relativeChargeString = BASEDescriber.getRelativeChargeDescription( charge );
       if ( chargesShown === 'all' ) {
         chargeString = ( charge === 0 ) ?
           StringUtils.fillIn( summaryNeutralChargesPatternString, { amount: manyString } ) :

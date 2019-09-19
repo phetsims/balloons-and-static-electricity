@@ -24,30 +24,30 @@ define( require => {
   const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
-  var grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
-  var andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
-  var aSweaterString = BASEA11yStrings.aSweater.value;
-  var andASweaterString = BASEA11yStrings.andASweater.value;
-  var roomObjectsPatternString = BASEA11yStrings.roomObjectsPattern.value;
-  var aYellowBalloonString = BASEA11yStrings.aYellowBalloon.value;
-  var aGreenBalloonString = BASEA11yStrings.aGreenBalloon.value;
-  var summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePattern.value;
-  var summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePattern.value;
-  var zeroString = BASEA11yStrings.zero.value;
-  var summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePattern.value;
-  var summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWall.value;
-  var summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPattern.value;
-  var summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePattern.value;
-  var summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPattern.value;
-  var summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPattern.value;
-  var summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPattern.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  var summaryYellowGreenSweaterWallPatternString = BASEA11yStrings.summaryYellowGreenSweaterWallPattern.value;
-  var summaryYellowGreenSweaterPatternString = BASEA11yStrings.summaryYellowGreenSweaterPattern.value;
-  var summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
-  var summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
-  var initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
-  var simOpeningString = BASEA11yStrings.simOpening.value;
+  const grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
+  const andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
+  const aSweaterString = BASEA11yStrings.aSweater.value;
+  const andASweaterString = BASEA11yStrings.andASweater.value;
+  const roomObjectsPatternString = BASEA11yStrings.roomObjectsPattern.value;
+  const aYellowBalloonString = BASEA11yStrings.aYellowBalloon.value;
+  const aGreenBalloonString = BASEA11yStrings.aGreenBalloon.value;
+  const summaryBalloonChargePatternString = BASEA11yStrings.summaryBalloonChargePattern.value;
+  const summaryEachBalloonChargePatternString = BASEA11yStrings.summaryEachBalloonChargePattern.value;
+  const zeroString = BASEA11yStrings.zero.value;
+  const summaryObjectsHaveChargePatternString = BASEA11yStrings.summaryObjectsHaveChargePattern.value;
+  const summarySweaterAndWallString = BASEA11yStrings.summarySweaterAndWall.value;
+  const summarySweaterWallPatternString = BASEA11yStrings.summarySweaterWallPattern.value;
+  const summarySecondBalloonInducingChargePatternString = BASEA11yStrings.summarySecondBalloonInducingChargePattern.value;
+  const summaryBothBalloonsPatternString = BASEA11yStrings.summaryBothBalloonsPattern.value;
+  const summaryObjectEachHasPatternString = BASEA11yStrings.summaryObjectEachHasPattern.value;
+  const summaryObjectEachPatternString = BASEA11yStrings.summaryObjectEachPattern.value;
+  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  const summaryYellowGreenSweaterWallPatternString = BASEA11yStrings.summaryYellowGreenSweaterWallPattern.value;
+  const summaryYellowGreenSweaterPatternString = BASEA11yStrings.summaryYellowGreenSweaterPattern.value;
+  const summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
+  const summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
+  const initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
+  const simOpeningString = BASEA11yStrings.simOpening.value;
 
   /**
    * @constructor
@@ -59,7 +59,7 @@ define( require => {
    */
   function BASESummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
 
-    var self = this;
+    const self = this;
 
     Node.call( this, {
       tandem: tandem
@@ -77,16 +77,16 @@ define( require => {
     this.wall = model.wall;
 
     // opening paragraph for the simulation
-    var openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
+    const openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
     this.addChild( openingSummaryNode );
 
     // list of dynamic description content that will update with the state of the simulation
-    var listNode = new Node( { tagName: 'ul' } );
-    var roomObjectsNode = new Node( { tagName: 'li' } );
-    var objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } ); 
-    var balloonChargeNode = new Node( { tagName: 'li' } );
-    var sweaterWallChargeNode = new Node( { tagName: 'li' } );
-    var inducedChargeNode = new Node( { tagName: 'li' } );
+    const listNode = new Node( { tagName: 'ul' } );
+    const roomObjectsNode = new Node( { tagName: 'li' } );
+    const objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } ); 
+    const balloonChargeNode = new Node( { tagName: 'li' } );
+    const sweaterWallChargeNode = new Node( { tagName: 'li' } );
+    const inducedChargeNode = new Node( { tagName: 'li' } );
 
     // structure the accessible content
     this.addChild( listNode );
@@ -102,9 +102,9 @@ define( require => {
       roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    var chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) {
-      var chargesVisible = showCharges !== 'none';
+      const chargesVisible = showCharges !== 'none';
       balloonChargeNode.accessibleVisible = chargesVisible;
       sweaterWallChargeNode.accessibleVisible = chargesVisible;
 
@@ -115,12 +115,12 @@ define( require => {
       }
     } );
 
-    var inducedChargeProperties = [ this.yellowBalloon.locationProperty, this.greenBalloon.locationProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    const inducedChargeProperties = [ this.yellowBalloon.locationProperty, this.greenBalloon.locationProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( inducedChargeProperties, function( yellowLocation, greenLocation, greenVisible, showCharges, wallVisible ) {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
-      var inducingCharge = self.yellowBalloon.inducingChargeAndVisible() || self.greenBalloon.inducingChargeAndVisible();
-      var showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
+      const inducingCharge = self.yellowBalloon.inducingChargeAndVisible() || self.greenBalloon.inducingChargeAndVisible();
+      const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
       inducedChargeNode.accessibleVisible = showInducingItem;
 
       if ( showInducingItem ) {
@@ -136,7 +136,7 @@ define( require => {
         self.greenBalloon.isVisibleProperty,
         model.wall.isVisibleProperty
       ], function( yellowLocation, greenLocation, greenVisible, wallVisible ) {
-        var initialValues = self.yellowBalloon.locationProperty.initialValue === yellowLocation &&
+        const initialValues = self.yellowBalloon.locationProperty.initialValue === yellowLocation &&
                             self.greenBalloon.locationProperty.initialValue === greenLocation &&
                             self.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
                             model.wall.isVisibleProperty.initialValue === wallVisible;
@@ -163,21 +163,21 @@ define( require => {
      * @returns {string}
      */
     getSweaterAndWallChargeDescription: function() {
-      var description;
+      let description;
 
-      var chargesShown = this.model.showChargesProperty.get();
-      var wallVisible = this.model.wall.isVisibleProperty.get();
-      var numberOfWallCharges = this.model.wall.numX * this.model.wall.numY;
-      var wallChargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfWallCharges );
+      const chargesShown = this.model.showChargesProperty.get();
+      const wallVisible = this.model.wall.isVisibleProperty.get();
+      const numberOfWallCharges = this.model.wall.numX * this.model.wall.numY;
+      const wallChargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfWallCharges );
 
       // if sweater has neutral charge, describe the sweater and wall together
       if ( this.model.sweater.chargeProperty.get() === 0 && wallVisible ) {
-        var chargedObjectsString = StringUtils.fillIn( summaryObjectsHaveChargePatternString, {
+        const chargedObjectsString = StringUtils.fillIn( summaryObjectsHaveChargePatternString, {
           objects: summarySweaterAndWallString,
           charge: zeroString
         } );
 
-        var patternString = chargesShown === 'all' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
+        const patternString = chargesShown === 'all' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
 
         // both have same described charge, can be described with wallChargeString
         description = StringUtils.fillIn( patternString, {
@@ -186,11 +186,11 @@ define( require => {
         } );
       }
       else {
-        var sweaterSummaryString = SweaterDescriber.getSummaryChargeDescription( chargesShown, this.model.sweater.chargeProperty.get() );
+        const sweaterSummaryString = SweaterDescriber.getSummaryChargeDescription( chargesShown, this.model.sweater.chargeProperty.get() );
 
         // if the wall is visible, it also gets its own description
         if ( wallVisible ) {
-          var wallSummaryString = WallDescriber.getSummaryChargeDescription( chargesShown, numberOfWallCharges );
+          const wallSummaryString = WallDescriber.getSummaryChargeDescription( chargesShown, numberOfWallCharges );
           description = StringUtils.fillIn( summarySweaterWallPatternString, {
             sweater: sweaterSummaryString,
             wall: wallSummaryString
@@ -214,13 +214,13 @@ define( require => {
      * @returns {string}
      */
     getBalloonChargeDescription: function() {
-      var description;
+      let description;
 
-      var yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
-      var greenChargeRange = BASEDescriber.getDescribedChargeRange( this.greenBalloon.chargeProperty.get() );
+      const yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
+      const greenChargeRange = BASEDescriber.getDescribedChargeRange( this.greenBalloon.chargeProperty.get() );
 
-      var yellowRelativeCharge = this.yellowBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
-      var yellowNetCharge = this.yellowBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
+      const yellowRelativeCharge = this.yellowBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
+      const yellowNetCharge = this.yellowBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
 
       if ( !this.greenBalloon.isVisibleProperty.get() ) {
         description = StringUtils.fillIn( summaryBalloonChargePatternString, {
@@ -231,7 +231,7 @@ define( require => {
       else if ( this.greenBalloon.isVisibleProperty.get() && yellowChargeRange.equals( greenChargeRange ) ) {
 
         // both balloons visible have the same charge, describe charge together
-        var eachNetCharge = BASEDescriber.getNetChargeDescriptionWithLabel( this.yellowBalloon.chargeProperty.get() );
+        const eachNetCharge = BASEDescriber.getNetChargeDescriptionWithLabel( this.yellowBalloon.chargeProperty.get() );
 
         description = StringUtils.fillIn( summaryBalloonChargePatternString, {
           balloonCharge: eachNetCharge,
@@ -241,14 +241,14 @@ define( require => {
       else {
 
         // both balloons visible with different amounts of relative charge
-        var greenRelativeCharge = this.greenBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
-        var greenNetCharge = this.greenBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
+        const greenRelativeCharge = this.greenBalloonDescriber.chargeDescriber.getSummaryRelativeChargeDescription();
+        const greenNetCharge = this.greenBalloonDescriber.chargeDescriber.getNetChargeDescriptionWithLabel();
 
-        var yellowBalloonDescription = StringUtils.fillIn( summaryBalloonChargePatternString, {
+        const yellowBalloonDescription = StringUtils.fillIn( summaryBalloonChargePatternString, {
           balloonCharge: yellowNetCharge,
           showingCharge: yellowRelativeCharge
         } );
-        var greenBalloonDescription = StringUtils.fillIn( summaryBalloonChargePatternString, {
+        const greenBalloonDescription = StringUtils.fillIn( summaryBalloonChargePatternString, {
           balloonCharge: greenNetCharge,
           showingCharge: greenRelativeCharge
         } );
@@ -272,21 +272,21 @@ define( require => {
      * @returns {string}
      */
     getInducedChargeDescription: function() {
-      var description;
+      let description;
 
-      var yellowBalloon = this.yellowBalloon;
-      var yellowBalloonDescriber = this.yellowBalloonDescriber;
-      var yellowBalloonLabel = yellowBalloonDescriber.accessibleName;
+      const yellowBalloon = this.yellowBalloon;
+      const yellowBalloonDescriber = this.yellowBalloonDescriber;
+      const yellowBalloonLabel = yellowBalloonDescriber.accessibleName;
 
-      var greenBalloon = this.greenBalloon;
-      var greenBalloonDescriber = this.greenBalloonDescriber;
-      var greenBalloonLabel = greenBalloonDescriber.accessibleName;
+      const greenBalloon = this.greenBalloon;
+      const greenBalloonDescriber = this.greenBalloonDescriber;
+      const greenBalloonLabel = greenBalloonDescriber.accessibleName;
 
-      var greenInducingChargeAndVisilbe = greenBalloon.inducingChargeAndVisible();
-      var yellowInducingChargeAndVisible = yellowBalloon.inducingChargeAndVisible();
+      const greenInducingChargeAndVisilbe = greenBalloon.inducingChargeAndVisible();
+      const yellowInducingChargeAndVisible = yellowBalloon.inducingChargeAndVisible();
       assert && assert( greenInducingChargeAndVisilbe || yellowInducingChargeAndVisible );
 
-      var wallVisible = this.model.wall.isVisibleProperty.get();
+      const wallVisible = this.model.wall.isVisibleProperty.get();
 
       if ( greenInducingChargeAndVisilbe && yellowInducingChargeAndVisible ) {
 
@@ -303,14 +303,14 @@ define( require => {
         else {
 
           // full description for yellow balloon
-          var yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
+          const yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
             includeWallLocation: false,
             includePositiveChargeInfo: false
           } );
 
           // short summary for green balloon
-          var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( greenBalloon );
-          var greenBalloonDescription = StringUtils.fillIn( summarySecondBalloonInducingChargePatternString, {
+          const inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( greenBalloon );
+          const greenBalloonDescription = StringUtils.fillIn( summarySecondBalloonInducingChargePatternString, {
             amount: inducedChargeAmount
           } );
 
@@ -351,7 +351,7 @@ define( require => {
      * @returns {string}
      */
     getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
-      var patternString;
+      let patternString;
       if ( wallVisible ) {
         patternString = balloonVisible ? summaryYellowGreenSweaterWallPatternString : summaryYellowSweaterWallPatternString;
       }
@@ -359,8 +359,8 @@ define( require => {
         patternString = balloonVisible ? summaryYellowGreenSweaterPatternString : summaryYellowSweaterPatternString;
       }
 
-      var sweaterString = wallVisible ? aSweaterString : andASweaterString;
-      var descriptionString = StringUtils.fillIn( patternString, {
+      const sweaterString = wallVisible ? aSweaterString : andASweaterString;
+      const descriptionString = StringUtils.fillIn( patternString, {
         yellowBalloon: aYellowBalloonString,
         greenBalloon: aGreenBalloonString,
         sweater: sweaterString,

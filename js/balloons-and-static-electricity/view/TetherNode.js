@@ -23,7 +23,7 @@ define( require => {
    * @constructor
    */
   function TetherNode( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
-    var self = this;
+    const self = this;
 
     Path.call( this, null, {
       stroke: '#000000',
@@ -32,10 +32,10 @@ define( require => {
       tandem: tandem
     } );
 
-    var anchorPointCopy = anchorPoint.copy();
+    const anchorPointCopy = anchorPoint.copy();
 
     balloonModel.locationProperty.link( function( location ) {
-      var attachmentPoint = location.plus( tetherPointOffset );
+      const attachmentPoint = location.plus( tetherPointOffset );
       self.shape = new Shape()
         .moveToPoint( anchorPointCopy )
         .quadraticCurveTo(

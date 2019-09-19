@@ -20,12 +20,12 @@ define( require => {
 
   // Node converted to image to be drawn in canvas - scale up the node, then back down when converting to image so it
   // doesn't look fuzzy
-  var scale = 3.0;
-  var chargeNode = null;
+  const scale = 3.0;
+  let chargeNode = null;
 
   // This is to prevent an instrumented phet-io instance from being created outside of a constructor,
   // see https://github.com/phetsims/phet-io-wrappers/issues/97
-  var getChargeNode = function() {
+  const getChargeNode = function() {
     if ( !chargeNode ) {
       chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.globalTandem.createTandem( 'chargeNode' ), {
         scale: scale
@@ -76,12 +76,12 @@ define( require => {
       context.scale( 1 / scale, 1 / scale );
 
       // draw all of the charges
-      for ( var i = 0; i < this.charges.length; i++ ) {
-        var charge = this.charges[ i ];
-        var chargePosition = charge.locationProperty.get();
+      for ( let i = 0; i < this.charges.length; i++ ) {
+        const charge = this.charges[ i ];
+        const chargePosition = charge.locationProperty.get();
 
-        var xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale );
-        var yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale;
+        const xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale );
+        const yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale;
 
         // render particle
         context.drawImage( this.chargeImageNode.image, xPosition, yPosition );

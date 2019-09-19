@@ -40,10 +40,10 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
-  var X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
+  const X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   // a11y strings
-  var grabBalloonHelpString = BASEA11yStrings.grabBalloonHelp.value;
+  const grabBalloonHelpString = BASEA11yStrings.grabBalloonHelp.value;
 
   /**
    * Constructor for the balloon
@@ -60,7 +60,7 @@ define( require => {
    * @constructor
    */
   function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       cursor: 'pointer',
@@ -89,13 +89,13 @@ define( require => {
     // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
     this.jumpingUtterance = new Utterance();
 
-    var originalChargesNode = new Node( {
+    const originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
     } );
-    var addedChargesNode = new Node( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
+    const addedChargesNode = new Node( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
 
-    var property = {
+    const property = {
 
       //Set only to the legal positions in the frame
       set: function( location ) { model.locationProperty.set( globalModel.checkBalloonRestrictions( location, model.width, model.height ) ); },
@@ -108,14 +108,14 @@ define( require => {
      * Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting
      * velocities.
      */
-    var endDragListener = function() {
+    const endDragListener = function() {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
       model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
     };
 
     //When dragging, move the balloon
-    var dragHandler = new MovableDragHandler( property, {
+    const dragHandler = new MovableDragHandler( property, {
 
       //When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
@@ -135,7 +135,7 @@ define( require => {
 
     this.addInputListener( dragHandler );
 
-    var balloonImageNode = new Image( imgsrc, {
+    const balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
       pickable: false // custom touch areas applied to parent
     } );
@@ -148,16 +148,16 @@ define( require => {
     this.touchArea = this.mouseArea;
 
     // static charges
-    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
-    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
+    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
+    const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
-      var plusChargeNode = new PlusChargeNode(
+      const plusChargeNode = new PlusChargeNode(
         model.plusCharges[ i ].location,
         plusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( plusChargeNode );
 
-      var minusChargeNode = new MinusChargeNode(
+      const minusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].location,
         minusChargeNodesTandemGroup.createNextTandem()
       );
@@ -165,10 +165,10 @@ define( require => {
     }
 
     //possible charges
-    var addedNodes = []; // track in a local array to update visibility with charge
-    var addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
+    const addedNodes = []; // track in a local array to update visibility with charge
+    const addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      var addedMinusChargeNode = new MinusChargeNode(
+      const addedMinusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].location,
         addedChargeNodesTandemGroup.createNextTandem()
       );
@@ -182,9 +182,9 @@ define( require => {
 
     //if change charge, show more minus charges
     model.chargeProperty.link( function updateCharge( chargeVal ) {
-      var numVisibleMinusCharges = Math.abs( chargeVal );
+      const numVisibleMinusCharges = Math.abs( chargeVal );
 
-      for ( var i = 0; i < addedNodes.length; i++ ) {
+      for ( let i = 0; i < addedNodes.length; i++ ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
     } );
@@ -201,7 +201,7 @@ define( require => {
         addedChargesNode.visible = true;
       }
       else {
-        var visiblity = ( value === 'all' );
+        const visiblity = ( value === 'all' );
         originalChargesNode.visible = visiblity;
         addedChargesNode.visible = visiblity;
       }
@@ -212,7 +212,7 @@ define( require => {
 
     // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
-    var updateAccessibleDescription = function() {
+    const updateAccessibleDescription = function() {
       self.descriptionContent = self.describer.getBalloonDescription( model );
     };
     model.locationProperty.link( updateAccessibleDescription );
@@ -244,12 +244,12 @@ define( require => {
 
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
     // a keyboard
-    var interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
+    const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
 
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
-    var grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
+    const grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
 
@@ -320,7 +320,7 @@ define( require => {
     } );
 
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
-      var parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
+      const parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
       this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) );
       this.addChild( new Line( -500, parentToLocalChargeCenter.y, 500, parentToLocalChargeCenter.y, { stroke: 'green' } ) );
     }
@@ -378,7 +378,7 @@ define( require => {
     },
 
     getAttemptedMovementDirection: function( keyCode ) {
-      var direction;
+      let direction;
       if ( KeyboardDragListener.isLeftMovementKey( keyCode ) ) {
         direction = BalloonDirectionEnum.LEFT;
       }
@@ -397,9 +397,9 @@ define( require => {
     },
 
     getDragBounds: function() {
-      var modelBounds = this.globalModel.playAreaBounds;
-      var balloonWidth = this.model.width;
-      var balloonHeight = this.model.height;
+      const modelBounds = this.globalModel.playAreaBounds;
+      const balloonWidth = this.model.width;
+      const balloonHeight = this.model.height;
       return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
     }
   } );

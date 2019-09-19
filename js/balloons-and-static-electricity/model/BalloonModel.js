@@ -30,16 +30,16 @@ define( require => {
   const Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
-  var VELOCITY_ARRAY_LENGTH = 5;
-  var THRESHOLD_SPEED = 0.0125;
-  var BALLOON_WIDTH = 134;
-  var BALLOON_HEIGHT = 222;
+  const VELOCITY_ARRAY_LENGTH = 5;
+  const THRESHOLD_SPEED = 0.0125;
+  const BALLOON_WIDTH = 134;
+  const BALLOON_HEIGHT = 222;
 
   // threshold for diagonal movement is +/- 15 degrees from diagonals
-  var DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
+  const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
   // map that determines if the balloon is moving up, down, horizontally or along a diagonal between two points
-  var DIRECTION_MAP = {
+  const DIRECTION_MAP = {
     UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
     RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -52,12 +52,12 @@ define( require => {
     UP_RIGHT: new Range( -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
     DOWN_RIGHT: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD )
   };
-  var DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
+  const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
 
   // collection of charge positions on the balloon, relative to the top left corners
   // charges will appear in these positions as the balloon collects electrons
-  var POSITIONS = [
+  const POSITIONS = [
     [ 14, 70 ],
     [ 18, 60 ],
     [ 14, 90 ],
@@ -120,11 +120,11 @@ define( require => {
 
   // determine average Y position for the charges in the balloon, used to calculate the average vertical location of
   // the visual charge center
-  var positionYSum = 0;
-  for ( var i = 0; i < POSITIONS.length; i++ ) {
+  let positionYSum = 0;
+  for ( let i = 0; i < POSITIONS.length; i++ ) {
     positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
   }
-  var AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
+  const AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
 
   /**
    * Constructor
@@ -137,7 +137,7 @@ define( require => {
    */
   function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibility, tandem ) {
 
-    var self = this;
+    const self = this;
 
     //------------------------------------------------
     // Properties
@@ -257,15 +257,15 @@ define( require => {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
-    var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
-    var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
+    const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
+    const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( function( entry ) {
 
-      var plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
+      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
       self.plusCharges.push( plusCharge );
 
       // minus charges at same location of positive charge, shifted down and to the right by charge radius
-      var minusCharge = new PointChargeModel(
+      const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
         minusChargesTandemGroup.createNextTandem(),
@@ -276,7 +276,7 @@ define( require => {
 
     // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( function( entry ) {
-      var minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
+      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
       self.minusCharges.push( minusCharge );
     } );
 
@@ -340,7 +340,7 @@ define( require => {
      * @returns {boolean}
      */
     onSweater: function() {
-      var sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
+      const sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
       if ( sweaterBounds.intersectsBounds( this.bounds ) ) {
         return true;
       }
@@ -421,7 +421,7 @@ define( require => {
      * @returns {string}
      */
     veryCloseToObject: function() {
-      var centerX = this.getCenterX();
+      const centerX = this.getCenterX();
       return PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_SWEATER.contains( centerX ) ||
              PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_WALL.contains( centerX ) ||
              PlayAreaMap.LANDMARK_RANGES.AT_VERY_CLOSE_TO_RIGHT_EDGE.contains( centerX );
@@ -433,8 +433,8 @@ define( require => {
      * @returns {boolean}
      */
     touchingWall: function() {
-      var atWall = this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
-      var wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
+      const atWall = this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+      const wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
       return ( atWall && wallVisible );
     },
 
@@ -444,7 +444,7 @@ define( require => {
      * @returns {string} - "LEFT"|"RIGHT"
      */
     movingHorizontally: function() {
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.RIGHT;
     },
 
@@ -454,7 +454,7 @@ define( require => {
      * @returns {string} - "UP"|"DOWN"
      */
     movingVertically: function() {
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.UP || direction === BalloonDirectionEnum.DOWN;
     },
 
@@ -464,7 +464,7 @@ define( require => {
      * @returns {string} - "UP_LEFT"|"UP_RIGHT"|"DOWN_LEFT"|"DOWN_RIGHT"
      */
     movingDiagonally: function() {
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.UP_LEFT ||
              direction === BalloonDirectionEnum.UP_RIGHT ||
              direction === BalloonDirectionEnum.DOWN_LEFT ||
@@ -477,7 +477,7 @@ define( require => {
      * @returns {boolean}
      */
     movingRight: function() {
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.RIGHT ||
              direction === BalloonDirectionEnum.UP_RIGHT ||
              direction === BalloonDirectionEnum.DOWN_RIGHT;
@@ -489,7 +489,7 @@ define( require => {
      * @returns {boolean}
      */
     movingLeft: function() {
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       return direction === BalloonDirectionEnum.LEFT ||
              direction === BalloonDirectionEnum.UP_LEFT ||
              direction === BalloonDirectionEnum.DOWN_LEFT;
@@ -505,8 +505,8 @@ define( require => {
      */
     getProgressThroughRegion: function() {
 
-      var range;
-      var difference;
+      let range;
+      let difference;
       if ( this.movingHorizontally() || this.movingDiagonally() ) {
         range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumnProperty.get() ];
         difference = this.getCenter().x - range.min;
@@ -517,10 +517,10 @@ define( require => {
       }
 
       // determine how far we are through the region
-      var progress = difference / range.getLength();
+      let progress = difference / range.getLength();
 
       // progress is the difference of the calculated proportion if moving to the left or up
-      var direction = this.directionProperty.get();
+      const direction = this.directionProperty.get();
       if ( direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.UP ) {
         progress = 1 - progress;
       }
@@ -586,8 +586,8 @@ define( require => {
      * @returns {Vector2}
      */
     getChargeCenter: function() {
-      var centerX = this.getCenter().x;
-      var centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
+      const centerX = this.getCenter().x;
+      const centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
       return new Vector2( centerX, centerY );
     },
 
@@ -598,8 +598,8 @@ define( require => {
      * @returns {Vector2}
      */
     getSweaterTouchingCenter: function() {
-      var sweater = this.balloonsAndStaticElectricityModel.sweater;
-      var sweaterRight = sweater.x + sweater.width;
+      const sweater = this.balloonsAndStaticElectricityModel.sweater;
+      const sweaterRight = sweater.x + sweater.width;
 
       if ( this.getCenter().x > sweaterRight ) {
         var centerX = this.locationProperty.get().x;
@@ -645,8 +645,8 @@ define( require => {
       }
 
       // otherwise, wall and balloon must be visible, and force must be large enough
-      var balloonForce = BalloonModel.getForceToClosestWallCharge( this );
-      var forceLargeEnough = this.balloonsAndStaticElectricityModel.wall.forceIndicatesInducedCharge( balloonForce );
+      const balloonForce = BalloonModel.getForceToClosestWallCharge( this );
+      const forceLargeEnough = this.balloonsAndStaticElectricityModel.wall.forceIndicatesInducedCharge( balloonForce );
       return wallVisible && this.isVisibleProperty.get() && forceLargeEnough;
     },
 
@@ -687,7 +687,7 @@ define( require => {
 
       // seconds to milliseconds - really, the model is fairly 'unitless' but multiplying the
       // time step by 1000 makes the sim look and feel like the Java version
-      var dt = dtSeconds * 1000;
+      let dt = dtSeconds * 1000;
 
       // limit large values of dt - they probably mean that the sim just regained focus
       if ( dt > 500 ) {
@@ -722,8 +722,8 @@ define( require => {
       if ( !this.oldLocation ) {
         return;
       }
-      var vx = ( this.locationProperty.get().x - this.oldLocation.x ) / dt;
-      var vy = ( this.locationProperty.get().y - this.oldLocation.y ) / dt;
+      const vx = ( this.locationProperty.get().x - this.oldLocation.x ) / dt;
+      const vy = ( this.locationProperty.get().y - this.oldLocation.y ) / dt;
 
       // calculate average velocity
       this.xVelocityArray[ this.xVelocityArray.counter++ ] = vx * vx;
@@ -731,9 +731,9 @@ define( require => {
       this.yVelocityArray[ this.yVelocityArray.counter++ ] = vy * vy;
       this.yVelocityArray.counter %= VELOCITY_ARRAY_LENGTH;
 
-      var averageX = 0;
-      var averageY = 0;
-      for ( var i = 0; i < VELOCITY_ARRAY_LENGTH; i++ ) {
+      let averageX = 0;
+      let averageY = 0;
+      for ( let i = 0; i < VELOCITY_ARRAY_LENGTH; i++ ) {
         averageX += this.xVelocityArray[ i ];
         averageY += this.yVelocityArray[ i ];
       }
@@ -741,11 +741,11 @@ define( require => {
       averageY /= VELOCITY_ARRAY_LENGTH;
 
       // if average speed larger than threshold speed we try to move minus charges from sweater to balloon
-      var speed = Math.sqrt( averageX * averageX + averageY * averageY );
+      const speed = Math.sqrt( averageX * averageX + averageY * averageY );
 
       this.dragVelocityProperty.set( new Vector2( vx, vy ) );
 
-      var chargeFound = false;
+      let chargeFound = false;
       if ( speed >= THRESHOLD_SPEED ) {
         chargeFound = model.sweater.checkAndTransferCharges( this );
       }
@@ -785,7 +785,7 @@ define( require => {
      * @returns {boolean}
      */
     isTouchingRightBoundary: function() {
-      var balloonX = this.getCenter().x;
+      const balloonX = this.getCenter().x;
       if ( this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() ) {
         return PlayAreaMap.X_LOCATIONS.AT_WALL === balloonX;
       }
@@ -801,7 +801,7 @@ define( require => {
      * @returns {boolean}
      */
     isTouchingRightEdge: function() {
-      var balloonX = this.getCenterX();
+      const balloonX = this.getCenterX();
       return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE === balloonX;
     },
 
@@ -835,13 +835,13 @@ define( require => {
     applyForce: function( dt ) {
 
       // only move if this balloon is not over the sweater
-      var model = this.balloonsAndStaticElectricityModel;
+      const model = this.balloonsAndStaticElectricityModel;
       if ( !this.centerInSweaterChargedArea() ) {
 
-        var rightBound = model.playAreaBounds.maxX;
-        var force = this.getTotalForce();
-        var newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
-        var newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
+        const rightBound = model.playAreaBounds.maxX;
+        const force = this.getTotalForce();
+        const newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
+        const newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
 
         if ( newLocation.x + this.width >= rightBound ) {
 
@@ -890,27 +890,27 @@ define( require => {
      * @returns {Vector2}
      */
     getTotalForce: function() {
-      var model = this.balloonsAndStaticElectricityModel;
+      const model = this.balloonsAndStaticElectricityModel;
       if ( model.wall.isVisibleProperty.get() ) {
-        var distFromWall = model.wall.x - this.locationProperty.get().x;
+        const distFromWall = model.wall.x - this.locationProperty.get().x;
 
         // if the balloon has enough charge and is close enough to the wall, the wall attracts it more than the sweater
         if ( this.chargeProperty.get() < -5 ) {
-          var relDist = distFromWall - this.width;
-          var fright = 0.003;
+          const relDist = distFromWall - this.width;
+          const fright = 0.003;
           if ( relDist <= 40 + this.chargeProperty.get() / 8 ) {
             return new Vector2( -fright * this.chargeProperty.get() / 20.0, 0 );
           }
         }
       }
 
-      var force = this.getSweaterForce( model.sweater );
-      var other = this.getOtherBalloonForce();
-      var sumOfForces = force.plus( other );
+      const force = this.getSweaterForce( model.sweater );
+      const other = this.getOtherBalloonForce();
+      const sumOfForces = force.plus( other );
 
       // Don't allow the force to be too high or the balloon can jump across the screen in 1 step, see #67
-      var mag = sumOfForces.magnitude;
-      var max = 1E-2;
+      const mag = sumOfForces.magnitude;
+      const max = 1E-2;
       if ( mag > max ) {
         sumOfForces.normalize();
         sumOfForces.multiplyScalar( max );
@@ -929,7 +929,7 @@ define( require => {
       if ( this.isDraggedProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
         return new Vector2( 0, 0 );
       }
-      var kqq = BalloonModel.FORCE_CONSTANT * this.chargeProperty.get() * this.other.chargeProperty.get();
+      const kqq = BalloonModel.FORCE_CONSTANT * this.chargeProperty.get() * this.other.chargeProperty.get();
       return BalloonModel.getForce( this.getCenter(), this.other.getCenter(), kqq );
     }
   }, {
@@ -954,8 +954,8 @@ define( require => {
       power = power || 2;
 
       // calculate a vector from one point to the other
-      var difference = p1.minus( p2 );
-      var r = difference.magnitude;
+      const difference = p1.minus( p2 );
+      const r = difference.magnitude;
 
       // if the points are right on top of one another, return an attraction value of zero
       if ( r === 0 ) {
@@ -995,11 +995,11 @@ define( require => {
      * @static
      */
     getDirection: function( pointA, pointB ) {
-      var direction;
+      let direction;
 
-      var dx = pointA.x - pointB.x;
-      var dy = pointA.y - pointB.y;
-      var angle = Math.atan2( dy, dx );
+      const dx = pointA.x - pointB.x;
+      const dy = pointA.y - pointB.y;
+      const angle = Math.atan2( dy, dx );
 
       // atan2 wraps around Math.PI, so special check for moving left from absolute value
       if ( DIRECTION_MAP.LEFT.contains( Math.abs( angle ) ) ) {
@@ -1007,8 +1007,8 @@ define( require => {
       }
 
       // otherwise, angle will be in one of the ranges in DIRECTION_MAP
-      for ( var i = 0; i < DIRECTION_MAP_KEYS.length; i++ ) {
-        var entry = DIRECTION_MAP[ DIRECTION_MAP_KEYS[ i ] ];
+      for ( let i = 0; i < DIRECTION_MAP_KEYS.length; i++ ) {
+        const entry = DIRECTION_MAP[ DIRECTION_MAP_KEYS[ i ] ];
         if ( entry.contains( angle ) ) {
           direction = BalloonDirectionEnum[ DIRECTION_MAP_KEYS[ i ] ];
           break;

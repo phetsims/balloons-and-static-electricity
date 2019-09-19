@@ -23,11 +23,11 @@ define( require => {
 
   // constants
   // when within this width of an X_LOCATION, balloon is considered in a landmark
-  var LANDMARK_WIDTH = 20;
-  var HALF_LANDMARK_WIDTH = LANDMARK_WIDTH / 2;
+  const LANDMARK_WIDTH = 20;
+  const HALF_LANDMARK_WIDTH = LANDMARK_WIDTH / 2;
 
   // critical x locations for the balloon (relative to the balloon's center)
-  var X_LOCATIONS = {
+  const X_LOCATIONS = {
     AT_NEAR_SWEATER: 393,
     AT_CENTER_PLAY_AREA: 507,
     AT_NEAR_WALL: 596,
@@ -36,42 +36,42 @@ define( require => {
   };
 
   // critical y locations for the balloon (relative to the balloon's center)
-  var Y_LOCATIONS = {
+  const Y_LOCATIONS = {
     AT_BOTTOM: 393,
     AT_CENTER_PLAY_AREA: 249
   };
 
   // horizontal boundary locations, the left and right edges
-  var X_BOUNDARY_LOCATIONS = {
+  const X_BOUNDARY_LOCATIONS = {
     AT_LEFT_EDGE: 67,
     AT_RIGHT_EDGE: 701
   };
 
   // vertical boundary locations, the top and bottom edges
-  var Y_BOUNDARY_LOCATIONS = {
+  const Y_BOUNDARY_LOCATIONS = {
     AT_TOP: 111,
     AT_BOTTOM: 393
   };
 
   // landmark ranges that surround critical x locations, but more are added below that depend on these ranges
-  var atNearSweaterRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_SWEATER );
-  var atCenterPlayAreaRange = createLandmarkRange( X_LOCATIONS.AT_CENTER_PLAY_AREA );
-  var atNearWallRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_WALL );
-  var atNearRightEdgeRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_RIGHT_EDGE );
+  const atNearSweaterRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_SWEATER );
+  const atCenterPlayAreaRange = createLandmarkRange( X_LOCATIONS.AT_CENTER_PLAY_AREA );
+  const atNearWallRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_WALL );
+  const atNearRightEdgeRange = createLandmarkRange( X_LOCATIONS.AT_NEAR_RIGHT_EDGE );
 
   // special ranges with slightly different widths, but that behave just like a landmark in the play area
   // at 'very close to sweater' landmark which extends to the left off the 'near sweater' landmark until we hit the
   // sweater
-  var atVeryCloseToSweaterRange = new Range( atNearSweaterRange.min - LANDMARK_WIDTH, atNearSweaterRange.min );
+  const atVeryCloseToSweaterRange = new Range( atNearSweaterRange.min - LANDMARK_WIDTH, atNearSweaterRange.min );
 
   // at 'very close to wall' landmark which extends to the right  off the 'near wall' landmark until just before we hit
   // the wall
-  var atVeryCloseToWallRange = new Range( atNearWallRange.max, X_LOCATIONS.AT_WALL - 1 );
+  const atVeryCloseToWallRange = new Range( atNearWallRange.max, X_LOCATIONS.AT_WALL - 1 );
 
   // at 'very close to right edge' landmark, which extends to right of the 'near right edge' landmark until just before
   // we hit the right edge
-  var atVeryCloseToRightEdgeRange = new Range( atNearRightEdgeRange.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
-  var LANDMARK_RANGES = {
+  const atVeryCloseToRightEdgeRange = new Range( atNearRightEdgeRange.max, X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE - 1 );
+  const LANDMARK_RANGES = {
     AT_NEAR_SWEATER: atNearSweaterRange,
     AT_CENTER_PLAY_AREA: atCenterPlayAreaRange,
     AT_NEAR_WALL: atNearWallRange,
@@ -82,15 +82,15 @@ define( require => {
   };
 
   // ranges that define columns in the play area, exact widths chosen by inspection to match mockup provided in #222
-  var leftArmRange = createNextRange( 138 );
-  var leftSideOfSweaterRange = createNextRange( 65, leftArmRange );
-  var rightSideOfSweaterRange = createNextRange( 67, leftSideOfSweaterRange );
-  var rightArmRange = createNextRange( 65, rightSideOfSweaterRange );
-  var leftPlayAreaRange = createNextRange( 132, rightArmRange );
-  var centerPlayAreaRange = createNextRange( 77, leftPlayAreaRange );
-  var rightPlayAreaRange = createNextRange( 132, centerPlayAreaRange );
-  var rightEdgeRange = createNextRange( 500, rightPlayAreaRange ); // extends far beyond the play area bounds
-  var COLUMN_RANGES = {
+  const leftArmRange = createNextRange( 138 );
+  const leftSideOfSweaterRange = createNextRange( 65, leftArmRange );
+  const rightSideOfSweaterRange = createNextRange( 67, leftSideOfSweaterRange );
+  const rightArmRange = createNextRange( 65, rightSideOfSweaterRange );
+  const leftPlayAreaRange = createNextRange( 132, rightArmRange );
+  const centerPlayAreaRange = createNextRange( 77, leftPlayAreaRange );
+  const rightPlayAreaRange = createNextRange( 132, centerPlayAreaRange );
+  const rightEdgeRange = createNextRange( 500, rightPlayAreaRange ); // extends far beyond the play area bounds
+  const COLUMN_RANGES = {
     LEFT_ARM: leftArmRange,
     LEFT_SIDE_OF_SWEATER: leftSideOfSweaterRange,
     RIGHT_SIDE_OF_SWEATER: rightSideOfSweaterRange,
@@ -102,10 +102,10 @@ define( require => {
   };
 
   // ranges that define the rows of the play area, exact heights chosen by inspection to match mockup in #222
-  var upperPlayAreaRange = createNextRange( 172 );
-  var centerPlayAreaRowRange = createNextRange( 154, upperPlayAreaRange );
-  var lowerPlayAreaRange = createNextRange( 500, centerPlayAreaRowRange );
-  var ROW_RANGES = {
+  const upperPlayAreaRange = createNextRange( 172 );
+  const centerPlayAreaRowRange = createNextRange( 154, upperPlayAreaRange );
+  const lowerPlayAreaRange = createNextRange( 500, centerPlayAreaRowRange );
+  const ROW_RANGES = {
     UPPER_PLAY_AREA: upperPlayAreaRange,
     CENTER_PLAY_AREA: centerPlayAreaRowRange,
     LOWER_PLAY_AREA: lowerPlayAreaRange
@@ -129,14 +129,14 @@ define( require => {
      * @returns {string}
      */
     getPlayAreaColumn: function( location, wallVisible ) {
-      var columns = COLUMN_RANGES;
+      const columns = COLUMN_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
       // loops
-      var columnsKeys = Object.keys( columns );
+      const columnsKeys = Object.keys( columns );
 
-      var column;
-      for ( var i = 0; i < columnsKeys.length; i++ ) {
+      let column;
+      for ( let i = 0; i < columnsKeys.length; i++ ) {
         if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
           column = columnsKeys[ i ];
         }
@@ -158,14 +158,14 @@ define( require => {
      * @returns {string}
      */
     getPlayAreaLandmark: function( location, wallVisible ) {
-      var landmarks = LANDMARK_RANGES;
+      const landmarks = LANDMARK_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
       // loops
-      var landmarksKeys = Object.keys( landmarks );
+      const landmarksKeys = Object.keys( landmarks );
 
-      var landmark =  null;
-      for ( var i = 0; i < landmarksKeys.length; i++ ) {
+      let landmark =  null;
+      for ( let i = 0; i < landmarksKeys.length; i++ ) {
         if ( landmarks[ landmarksKeys[ i ] ].contains( location.x ) ) {
           landmark = landmarksKeys[ i ];
         }
@@ -186,13 +186,13 @@ define( require => {
      * @returns {strint}
      */
     getPlayAreaRow: function( location ) {
-      var rows = PlayAreaMap.ROW_RANGES;
+      const rows = PlayAreaMap.ROW_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
-      var rowKeys = Object.keys( rows );
+      const rowKeys = Object.keys( rows );
 
-      var row;
-      var i;
+      let row;
+      let i;
       for ( i = 0; i < rowKeys.length; i++ ) {
         if ( rows[ rowKeys[ i ] ].contains( location.y ) ) {
           row = rowKeys[ i ];
@@ -211,12 +211,12 @@ define( require => {
      * @returns {boolean}
      */
     inLandmarkColumn: function( location ) {
-      var landmarks = PlayAreaMap.LANDMARK_RANGES;
+      const landmarks = PlayAreaMap.LANDMARK_RANGES;
 
       // loop through keys manually to prevent many closures from being created during object iteration in for loops
-      var landmarkKeys = Object.keys( landmarks );
-      var inLandmarkColumn = false;
-      for( var i = 0; i < landmarkKeys.length; i++ ) {
+      const landmarkKeys = Object.keys( landmarks );
+      let inLandmarkColumn = false;
+      for( let i = 0; i < landmarkKeys.length; i++ ) {
         if ( landmarks[ landmarkKeys[ i ] ].contains( location.x ) ) {
           inLandmarkColumn = true;
           break;
@@ -239,7 +239,7 @@ define( require => {
    * @returns {Range}
    */
   function createNextRange( width, previousRange ) {
-    var min = previousRange ? previousRange.max : 0;
+    const min = previousRange ? previousRange.max : 0;
     return new Range( min, min + width );
   }
 

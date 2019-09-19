@@ -23,29 +23,29 @@ define( require => {
   const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
-  var summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralCharge.value;
-  var balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePattern.value;
-  var balloonZeroString = BASEA11yStrings.balloonZero.value;
-  var balloonNegativeString = BASEA11yStrings.balloonNegative.value;
-  var balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePattern.value;
-  var balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPattern.value;
-  var moreInducedChargePatternString = BASEA11yStrings.moreInducedChargePattern.value;
-  var lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePattern.value;
-  var balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPattern.value;
-  var combinedChargePatternString = BASEA11yStrings.combinedChargePattern.value;
-  var wallInducedChargeWithManyPairsPatternString = BASEA11yStrings.wallInducedChargeWithManyPairsPattern.value;
-  var eachBalloonString = BASEA11yStrings.eachBalloon.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  var wallHasManyChargesString = BASEA11yStrings.wallHasManyCharges.value;
-  var balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePattern.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
-  var balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePattern.value;
-  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
-  var moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMore.value;
-  var beginToReturnString = BASEA11yStrings.beginToReturn.value;
-  var returnALittleMoreString = BASEA11yStrings.returnALittleMore.value;
-  var balloonHasChargePatternString = BASEA11yStrings.balloonHasChargePattern.value;
-  var balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeShowingPattern.value;
+  const summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralCharge.value;
+  const balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePattern.value;
+  const balloonZeroString = BASEA11yStrings.balloonZero.value;
+  const balloonNegativeString = BASEA11yStrings.balloonNegative.value;
+  const balloonRelativeChargePatternString = BASEA11yStrings.balloonRelativeChargePattern.value;
+  const balloonChargeDifferencesPatternString = BASEA11yStrings.balloonChargeDifferencesPattern.value;
+  const moreInducedChargePatternString = BASEA11yStrings.moreInducedChargePattern.value;
+  const lessInducedChargePatternString = BASEA11yStrings.lessInducedChargePattern.value;
+  const balloonRelativeChargeAllPatternString = BASEA11yStrings.balloonRelativeChargeAllPattern.value;
+  const combinedChargePatternString = BASEA11yStrings.combinedChargePattern.value;
+  const wallInducedChargeWithManyPairsPatternString = BASEA11yStrings.wallInducedChargeWithManyPairsPattern.value;
+  const eachBalloonString = BASEA11yStrings.eachBalloon.value;
+  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  const wallHasManyChargesString = BASEA11yStrings.wallHasManyCharges.value;
+  const balloonHasRelativeChargePatternString = BASEA11yStrings.balloonHasRelativeChargePattern.value;
+  const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  const balloonHasNetChargePatternString = BASEA11yStrings.balloonHasNetChargePattern.value;
+  const balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
+  const moveAwayALittleMoreString = BASEA11yStrings.moveAwayALittleMore.value;
+  const beginToReturnString = BASEA11yStrings.beginToReturn.value;
+  const returnALittleMoreString = BASEA11yStrings.returnALittleMore.value;
+  const balloonHasChargePatternString = BASEA11yStrings.balloonHasChargePattern.value;
+  const balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeShowingPattern.value;
 
   /**
    * @constructor
@@ -55,7 +55,7 @@ define( require => {
    * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
    */
   function BalloonChargeDescriber( model, balloonModel, accessibleName, otherAccessibleName ) {
-    var self = this;
+    const self = this;
 
     // @private
     this.model = model;
@@ -107,7 +107,7 @@ define( require => {
      * @returns {string}
      */
     getNetChargeDescription: function() {
-      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
+      const chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
       return StringUtils.fillIn( balloonNetChargePatternString, {
         chargeAmount: chargeAmountString
       } );
@@ -121,7 +121,7 @@ define( require => {
      * @returns {string}
      */
     getNetChargeDescriptionWithLabel: function() {
-      var chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
+      const chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
       return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
         chargeAmount: chargeAmountString,
         balloon: this.accessibleName
@@ -142,22 +142,22 @@ define( require => {
      */
     getCombinedRelativeChargeDescription: function() {
       assert && assert( this.balloonModel.isDraggedProperty.get(), 'alert should only be generated if balloon is grabbed' );
-      var description;
+      let description;
 
       // the relative charge, used in all cases
-      var sameChargeRange = BASEDescriber.getBalloonsVisibleWithSameChargeRange( this.balloonModel, this.balloonModel.other );
+      const sameChargeRange = BASEDescriber.getBalloonsVisibleWithSameChargeRange( this.balloonModel, this.balloonModel.other );
 
-      var chargesShown = this.showChargesProperty.get();
+      const chargesShown = this.showChargesProperty.get();
 
       // if both balloons have the same charge range, describe togethehr
       if ( sameChargeRange ) {
         description = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, eachBalloonString );
       }
       else {
-        var grabbedBalloonDescription = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, this.accessibleName );
+        const grabbedBalloonDescription = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, chargesShown, this.accessibleName );
 
         if ( this.model.bothBalloonsVisible() ) {
-          var otherBalloonDescription = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleName );
+          const otherBalloonDescription = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel.other, chargesShown, this.otherAccessibleName );
 
           description = StringUtils.fillIn( combinedChargePatternString, {
             grabbedBalloon: grabbedBalloonDescription,
@@ -183,21 +183,21 @@ define( require => {
      * @returns {string}
      */
     getOtherObjectChargeDescription: function() {
-      var inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
-      var onSweater = this.balloonModel.onSweater();
+      const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
+      const onSweater = this.balloonModel.onSweater();
       assert && assert( onSweater || inducingChargeOrTouchingWall, 'only include this phrase when balloon is inducing charge or on sweater' );
-      var description;
+      let description;
 
-      var chargesShown = this.showChargesProperty.get();
+      const chargesShown = this.showChargesProperty.get();
 
       // if balloon is inducing charge, describe that object
       if ( inducingChargeOrTouchingWall ) {
-        var wallVisible = this.model.wall.isVisibleProperty.get();
+        const wallVisible = this.model.wall.isVisibleProperty.get();
 
         if ( chargesShown === 'diff' ) {
 
           // if showing charge differences, no charges are shown, so include that information
-          var balloonsAdjacent = this.model.getBalloonsAdjacent();
+          const balloonsAdjacent = this.model.getBalloonsAdjacent();
           description = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
           description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
         }
@@ -217,7 +217,7 @@ define( require => {
           else {
 
             // touching wall, not inducing charge, wrap with punctuation for this context
-            var balloonCenter = this.balloonModel.getCenter();
+            const balloonCenter = this.balloonModel.getCenter();
             description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getLocationDescription( balloonCenter, wallVisible ) );
             description = StringUtils.fillIn( singleStatementPatternString, {
               statement: description
@@ -252,30 +252,30 @@ define( require => {
      * @returns {string}
      */
     getInducedChargeChangeDescription: function() {
-      var descriptionString;
+      let descriptionString;
 
-      var wallVisible = this.model.wall.isVisibleProperty.get();
+      const wallVisible = this.model.wall.isVisibleProperty.get();
 
       // the force between the balloon and the closest charge to the balloon in the wall
-      var balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
-      var forceMagnitude = balloonForce.magnitude;
+      const balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
+      const forceMagnitude = balloonForce.magnitude;
    
       // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
       // charge in the wall, but there must be some change since the last description
-      var forceDelta = forceMagnitude - this.previousForceMagnitude;
+      const forceDelta = forceMagnitude - this.previousForceMagnitude;
       assert && assert( forceDelta !== 0, 'induced charge did not change since last description' );
 
       // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
       // wall charges in the same direction since the last time this change was described 
-      var forceDeltaNormalized = forceDelta / Math.abs( forceDelta );
-      var continuedDirection = forceDeltaNormalized === this.previousForceMagnitudeNormalized;
+      const forceDeltaNormalized = forceDelta / Math.abs( forceDelta );
+      const continuedDirection = forceDeltaNormalized === this.previousForceMagnitudeNormalized;
 
       // describes the location of induced charge in the wall
-      var balloonY = this.balloonModel.getCenterY();
-      var chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, balloonY );
-      var chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
+      const balloonY = this.balloonModel.getCenterY();
+      const chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, balloonY );
+      const chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
 
-      var movementString;
+      let movementString;
       if ( forceDelta > 0 ) {
         if ( continuedDirection ) {
 
@@ -327,9 +327,9 @@ define( require => {
      * @returns {string}
      */
     describeInducedChargeChange: function() {
-      var chargesShown = this.showChargesProperty.get();
-      var wallVisible = this.wall.isVisibleProperty.get();
-      var jumping = this.balloonModel.jumping;
+      const chargesShown = this.showChargesProperty.get();
+      const wallVisible = this.wall.isVisibleProperty.get();
+      const jumping = this.balloonModel.jumping;
       return !jumping &&
              !this.balloonModel.touchingWall() &&
              wallVisible &&
@@ -343,7 +343,7 @@ define( require => {
      * @returns {string}
      */
     getSummaryRelativeChargeDescription: function() {
-      var chargesShown = this.showChargesProperty.get();
+      const chargesShown = this.showChargesProperty.get();
 
       if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'all' ) {
         return summaryBalloonNeutralChargeString;
@@ -362,9 +362,9 @@ define( require => {
      * @returns {string}
      */
     getHasRelativeChargeDescription: function() {
-      var balloonCharge = this.balloonModel.chargeProperty.get();
-      var chargesShown = this.showChargesProperty.get();
-      var chargeDescription = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
+      const balloonCharge = this.balloonModel.chargeProperty.get();
+      const chargesShown = this.showChargesProperty.get();
+      let chargeDescription = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
 
       if ( chargesShown === 'all' ) {
         chargeDescription = StringUtils.fillIn( balloonHasChargePatternString, {
@@ -372,7 +372,7 @@ define( require => {
         } );  
       }
       else if ( chargesShown === 'diff' ) {
-        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
+        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
         chargeDescription = StringUtils.fillIn( balloonHasChargeShowingPatternString, {
           charge: chargeString,
           showing: chargeDescription
@@ -408,8 +408,8 @@ define( require => {
      * @returns {string}
      */
     getRelativeChargeDescription: function( balloonModel, showCharges ) {
-      var description;
-      var chargeValue = Math.abs( balloonModel.chargeProperty.get() );
+      let description;
+      const chargeValue = Math.abs( balloonModel.chargeProperty.get() );
 
       // if charge view is 'diff' and there are no charges, we simply say that there are no
       // charges shown
@@ -417,8 +417,8 @@ define( require => {
         description = showingNoChargesString;
       }
       else {
-        var relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
-        var stringPattern;
+        const relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
+        let stringPattern;
         if ( showCharges === 'all' ) {
           stringPattern = balloonRelativeChargePatternString;
         }
@@ -446,8 +446,8 @@ define( require => {
      * @returns {string}
      */
     getRelativeChargeDescriptionWithLabel: function( balloonModel, showCharges, label ) {
-      var description;
-      var relativeCharge = BalloonChargeDescriber.getRelativeChargeDescription( balloonModel, showCharges );
+      let description;
+      const relativeCharge = BalloonChargeDescriber.getRelativeChargeDescription( balloonModel, showCharges );
       assert && assert( showCharges !== 'none', 'relative description with label should never be read when no charges are shown' );
 
       if ( showCharges === 'all' ) {
@@ -457,8 +457,8 @@ define( require => {
         } );
       }
       else if ( showCharges === 'diff' ) {
-        var balloonCharge = balloonModel.chargeProperty.get();
-        var chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
+        const balloonCharge = balloonModel.chargeProperty.get();
+        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
 
         description = StringUtils.fillIn( balloonHasNetChargePatternString, {
           balloon: label,

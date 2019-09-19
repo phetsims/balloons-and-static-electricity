@@ -22,73 +22,73 @@ define( require => {
   const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
-  var atWallString = BASEA11yStrings.atWall.value;
-  var balloonStickingToString = BASEA11yStrings.balloonStickingTo.value;
-  var balloonOnString = BASEA11yStrings.balloonOn.value;
-  var balloonAtString = BASEA11yStrings.balloonAt.value;
-  var balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePattern.value;
-  var initialMovementPatternString = BASEA11yStrings.initialMovementPattern.value;
-  var continuousMovementWithLabelPatternString = BASEA11yStrings.continuousMovementWithLabelPattern.value;
-  var twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPattern.value;
-  var twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPattern.value;
-  var twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPattern.value;
-  var extremelySlowlyString  = BASEA11yStrings.extremelySlowly.value;
-  var verySlowlyString = BASEA11yStrings.verySlowly.value;
-  var slowlyString = BASEA11yStrings.slowly.value;
-  var quicklyString = BASEA11yStrings.quickly.value;
-  var veryQuicklyString = BASEA11yStrings.veryQuickly.value;
-  var upDraggingString = BASEA11yStrings.upDragging.value;
-  var leftDraggingString = BASEA11yStrings.leftDragging.value;
-  var downDraggingString = BASEA11yStrings.downDragging.value;
-  var rightDraggingString = BASEA11yStrings.rightDragging.value;
-  var upAndToTheRightDraggingString = BASEA11yStrings.upAndToTheRightDragging.value;
-  var upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDragging.value;
-  var downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDragging.value;
-  var downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDragging.value;
-  var upString = BASEA11yStrings.up.value;
-  var leftString = BASEA11yStrings.left.value;
-  var downString = BASEA11yStrings.down.value;
-  var rightString = BASEA11yStrings.right.value;
-  var upAndToTheRightString = BASEA11yStrings.upAndToTheRight.value;
-  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeft.value;
-  var downAndToTheRightString = BASEA11yStrings.downAndToTheRight.value;
-  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeft.value;
-  var atLeftEdgeString = BASEA11yStrings.atLeftEdge.value;
-  var atTopString = BASEA11yStrings.atTop.value;
-  var atBottomString = BASEA11yStrings.atBottom.value;
-  var atRightEdgeString = BASEA11yStrings.atRightEdge.value;
-  var onSweaterString = BASEA11yStrings.onSweater.value;
-  var offSweaterString = BASEA11yStrings.offSweater.value;
-  var balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPattern.value;
-  var closerToObjectPatternString = BASEA11yStrings.closerToObjectPattern.value;
-  var sweaterString = BASEA11yStrings.sweater.value;
-  var wallString = BASEA11yStrings.wall.value;
-  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayArea.value;
-  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
-  var topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayArea.value;
-  var bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayArea.value;
-  var noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPattern.value;
-  var nearSweaterString = BASEA11yStrings.nearSweater.value;
-  var balloonNearString = BASEA11yStrings.balloonNear.value;
-  var locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePattern.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  var interactionCueString = BASEA11yStrings.interactionCue.value;
-  var balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePattern.value;
-  var balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseTo.value;
-  var continuousMovementPatternString = BASEA11yStrings.continuousMovementPattern.value;
-  var continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPattern.value;
-  var nowDirectionPatternString = BASEA11yStrings.nowDirectionPattern.value;
-  var balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePattern.value;
-  var noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePattern.value;
-  var balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPattern.value;
-  var grabbedNonePatternString = BASEA11yStrings.grabbedNonePattern.value;
-  var grabbedChargePatternString = BASEA11yStrings.grabbedChargePattern.value;
-  var grabbedWithOtherChargePatternString = BASEA11yStrings.grabbedWithOtherChargePattern.value;
-  var grabbedWithHelpPatternString = BASEA11yStrings.grabbedWithHelpPattern.value;
+  const atWallString = BASEA11yStrings.atWall.value;
+  const balloonStickingToString = BASEA11yStrings.balloonStickingTo.value;
+  const balloonOnString = BASEA11yStrings.balloonOn.value;
+  const balloonAtString = BASEA11yStrings.balloonAt.value;
+  const balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePattern.value;
+  const initialMovementPatternString = BASEA11yStrings.initialMovementPattern.value;
+  const continuousMovementWithLabelPatternString = BASEA11yStrings.continuousMovementWithLabelPattern.value;
+  const twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPattern.value;
+  const twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPattern.value;
+  const twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPattern.value;
+  const extremelySlowlyString  = BASEA11yStrings.extremelySlowly.value;
+  const verySlowlyString = BASEA11yStrings.verySlowly.value;
+  const slowlyString = BASEA11yStrings.slowly.value;
+  const quicklyString = BASEA11yStrings.quickly.value;
+  const veryQuicklyString = BASEA11yStrings.veryQuickly.value;
+  const upDraggingString = BASEA11yStrings.upDragging.value;
+  const leftDraggingString = BASEA11yStrings.leftDragging.value;
+  const downDraggingString = BASEA11yStrings.downDragging.value;
+  const rightDraggingString = BASEA11yStrings.rightDragging.value;
+  const upAndToTheRightDraggingString = BASEA11yStrings.upAndToTheRightDragging.value;
+  const upAndToTheLeftDraggingString = BASEA11yStrings.upAndToTheLeftDragging.value;
+  const downAndToTheRightDraggingString = BASEA11yStrings.downAndToTheRightDragging.value;
+  const downAndToTheLeftDraggingString = BASEA11yStrings.downAndToTheLeftDragging.value;
+  const upString = BASEA11yStrings.up.value;
+  const leftString = BASEA11yStrings.left.value;
+  const downString = BASEA11yStrings.down.value;
+  const rightString = BASEA11yStrings.right.value;
+  const upAndToTheRightString = BASEA11yStrings.upAndToTheRight.value;
+  const upAndToTheLeftString = BASEA11yStrings.upAndToTheLeft.value;
+  const downAndToTheRightString = BASEA11yStrings.downAndToTheRight.value;
+  const downAndToTheLeftString = BASEA11yStrings.downAndToTheLeft.value;
+  const atLeftEdgeString = BASEA11yStrings.atLeftEdge.value;
+  const atTopString = BASEA11yStrings.atTop.value;
+  const atBottomString = BASEA11yStrings.atBottom.value;
+  const atRightEdgeString = BASEA11yStrings.atRightEdge.value;
+  const onSweaterString = BASEA11yStrings.onSweater.value;
+  const offSweaterString = BASEA11yStrings.offSweater.value;
+  const balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPattern.value;
+  const closerToObjectPatternString = BASEA11yStrings.closerToObjectPattern.value;
+  const sweaterString = BASEA11yStrings.sweater.value;
+  const wallString = BASEA11yStrings.wall.value;
+  const centerOfPlayAreaString = BASEA11yStrings.centerOfPlayArea.value;
+  const rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
+  const topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayArea.value;
+  const bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayArea.value;
+  const noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPattern.value;
+  const nearSweaterString = BASEA11yStrings.nearSweater.value;
+  const balloonNearString = BASEA11yStrings.balloonNear.value;
+  const locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePattern.value;
+  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  const interactionCueString = BASEA11yStrings.interactionCue.value;
+  const balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePattern.value;
+  const balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseTo.value;
+  const continuousMovementPatternString = BASEA11yStrings.continuousMovementPattern.value;
+  const continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPattern.value;
+  const nowDirectionPatternString = BASEA11yStrings.nowDirectionPattern.value;
+  const balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePattern.value;
+  const noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePattern.value;
+  const balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPattern.value;
+  const grabbedNonePatternString = BASEA11yStrings.grabbedNonePattern.value;
+  const grabbedChargePatternString = BASEA11yStrings.grabbedChargePattern.value;
+  const grabbedWithOtherChargePatternString = BASEA11yStrings.grabbedWithOtherChargePattern.value;
+  const grabbedWithHelpPatternString = BASEA11yStrings.grabbedWithHelpPattern.value;
 
   // constants
   // maps balloon direction to a description string while the balloon is being dragged
-  var BALLOON_DIRECTION_DRAGGING_MAP = {
+  const BALLOON_DIRECTION_DRAGGING_MAP = {
     UP: upDraggingString,
     DOWN: downDraggingString,
     LEFT: leftDraggingString,
@@ -100,7 +100,7 @@ define( require => {
   };
 
   // maps balloon direction to a description string for while the balloon is released
-  var BALLOON_DIRECTION_RELEASE_MAP = {
+  const BALLOON_DIRECTION_RELEASE_MAP = {
     UP: upString,
     DOWN: downString,
     LEFT: leftString,
@@ -112,13 +112,13 @@ define( require => {
   };
 
   // maximum velocity of a balloon immediately after release in this simulation, determined by observation
-  var MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
+  const MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 
   // speed of the balloon to be considered moving slowly, determined empirically so that descriptions sound nice
-  var SLOW_BALLOON_SPEED = 0.09;
+  const SLOW_BALLOON_SPEED = 0.09;
 
   // maps magnitude of velocity to the description
-  var BALLOON_VELOCITY_MAP = {
+  const BALLOON_VELOCITY_MAP = {
     EXTREMELY_SLOWLY_RANGE: {
       range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 200 ),
       description: extremelySlowlyString
@@ -173,7 +173,7 @@ define( require => {
      * @returns {string}
      */
     getAttractiveStateOrProximityDescription: function() {
-      var string = '';
+      let string = '';
 
       if ( this.balloonModel.onSweater() ) {
         if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
@@ -202,9 +202,9 @@ define( require => {
      * @returns {string}
      */
     getPreposition: function() {
-      var string = '';
+      let string = '';
 
-      var wallVisible = this.wall.isVisibleProperty.get();
+      const wallVisible = this.wall.isVisibleProperty.get();
 
       if ( this.balloonModel.nearWall() && wallVisible ) {
 
@@ -242,10 +242,10 @@ define( require => {
      * @returns {string}
      */
     getAttractiveStateAndLocationDescription: function() {
-      var locationDescriptionString = this.getBalloonLocationDescription();
+      const locationDescriptionString = this.getBalloonLocationDescription();
       
-      var attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
-      var attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+      const attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
+      const attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
         attractiveState: attractiveStateDescriptionString,
         location: locationDescriptionString 
       } );
@@ -261,10 +261,10 @@ define( require => {
      * @returns {string}
      */
     getAttractiveStateAndLocationDescriptionWithLabel: function() {
-      var alert;
+      let alert;
 
       // to lower case since it is used elsewhere in the string
-      var location = this.getAttractiveStateAndLocationDescription().toLowerCase();
+      const location = this.getAttractiveStateAndLocationDescription().toLowerCase();
       alert = StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
         balloonLabel: this.accessibleName,
         attractiveStateAndLocation: location
@@ -284,7 +284,7 @@ define( require => {
      */
     getOnLocationDescription: function() {
 
-      var locationDescription = this.getBalloonLocationDescription();
+      const locationDescription = this.getBalloonLocationDescription();
 
       return StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
         attractiveState: this.getPreposition(),
@@ -306,7 +306,7 @@ define( require => {
      * @returns {string}
      */
     getBalloonLocationDescription: function() {
-      var description = this.getLocationDescriptionWithoutOverlap();
+      let description = this.getLocationDescriptionWithoutOverlap();
 
       // include information about how balloons are adjacent if necessary
       if ( this.model.getBalloonsAdjacent() ) {
@@ -330,8 +330,8 @@ define( require => {
      * @returns {string}
      */
     getLocationDescriptionWithoutOverlap: function() {
-      var describedBalloonPosition = this.getDescribedPoint();
-      var wallVisible = this.wall.isVisibleProperty.get();
+      const describedBalloonPosition = this.getDescribedPoint();
+      const wallVisible = this.wall.isVisibleProperty.get();
       return BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
     },
 
@@ -343,7 +343,7 @@ define( require => {
      * @returns {Vector2}
      */
     getDescribedPoint: function() {
-      var describedBalloonPosition;
+      let describedBalloonPosition;
 
       if ( this.balloonModel.onSweater() ) {
         describedBalloonPosition = this.balloonModel.getSweaterTouchingCenter();
@@ -365,7 +365,7 @@ define( require => {
     getTouchingBoundaryDescription: function( attemptedDirection ) {
       assert && assert ( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
-      var boundaryString;
+      let boundaryString;
       if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BalloonDirectionEnum.DOWN ) {
         boundaryString = atBottomString;
       }
@@ -397,7 +397,7 @@ define( require => {
      * @returns {string}
      */
     getOnSweaterString: function( onSweater ) {
-      var description;
+      let description;
 
       if ( onSweater ) {
         description = onSweaterString;
@@ -431,9 +431,9 @@ define( require => {
      * @returns {string|null}
      */
     getLandmarkDragDescription: function() {
-      var playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
-      var dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
-      var alert = this.getAttractiveStateAndLocationDescription();
+      const playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
+      const dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
+      let alert = this.getAttractiveStateAndLocationDescription();
 
       // wrap as a single statement with punctuation
       alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
@@ -466,12 +466,12 @@ define( require => {
      * @returns {string}
      */
     getKeyboardMovementAlert: function() {
-      var alert;
+      let alert;
 
       // percent of progress through the region
-      var progressThroughCell = this.balloonModel.getProgressThroughRegion();
-      var dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude;
-      var movingDiagonally = this.balloonModel.movingDiagonally();
+      const progressThroughCell = this.balloonModel.getProgressThroughRegion();
+      const dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude;
+      const movingDiagonally = this.balloonModel.movingDiagonally();
 
       if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 && !movingDiagonally ) {
 
@@ -507,10 +507,10 @@ define( require => {
     getInitialReleaseDescription: function( location, oldLocation ) {
 
       // the balloon is moving with some initial velocity, describe that
-      var velocityString = this.getVelocityString();
-      var directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
+      const velocityString = this.getVelocityString();
+      const directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
-      var description;
+      let description;
       if ( this.model.bothBalloonsVisible() ) {
         description = StringUtils.fillIn( twoBalloonInitialMovementPatternString, {
           balloon: this.accessibleName,
@@ -538,8 +538,8 @@ define( require => {
      * @returns {string}
      */
     getContinuousReleaseDescription: function() {
-      var description;
-      var directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
+      let description;
+      const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
       // describes movement and direction, including label if both balloons are visible
       if ( this.balloonModel.other.isVisibleProperty.get() ) {
@@ -575,9 +575,9 @@ define( require => {
      * @returns {string}
      */
     getNoChangeReleaseDescription: function() {
-      var description;
+      let description;
 
-      var attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
+      const attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
       if ( this.model.bothBalloonsVisible() ) {
         description = StringUtils.fillIn( twoBalloonNoChangeAndLocationPatternString, {
           balloon: this.accessibleName,
@@ -592,12 +592,12 @@ define( require => {
 
       // if balloon touching wall and inducing charge, include induced charge information
       if ( this.balloonModel.touchingWall() && this.model.showChargesProperty.get() === 'all' ) {
-        var wallVisible = this.model.wall.isVisibleProperty.get();
+        const wallVisible = this.model.wall.isVisibleProperty.get();
 
-        var thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
-        var otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
+        const thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
+        const otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
 
-        var inducedChargeString;
+        let inducedChargeString;
         if ( thisInducingAndVisible && otherInducingAndVisible && this.model.getBalloonsAdjacent() ) {
 
           // if both inducing charge, combine induced charge description with "both balloons"
@@ -626,13 +626,13 @@ define( require => {
      * @returns {string}
      */
     getVelocityString: function() {
-      var velocityString;
+      let velocityString;
 
-      var balloonVelocity = this.balloonModel.velocityProperty.get();
+      const balloonVelocity = this.balloonModel.velocityProperty.get();
 
-      var keys = Object.keys( BALLOON_VELOCITY_MAP );
-      for ( var i = 0; i < keys.length; i++ ) {
-        var entry = BALLOON_VELOCITY_MAP[ keys[ i ] ];
+      const keys = Object.keys( BALLOON_VELOCITY_MAP );
+      for ( let i = 0; i < keys.length; i++ ) {
+        const entry = BALLOON_VELOCITY_MAP[ keys[ i ] ];
         if ( entry.range.contains( balloonVelocity.magnitude ) ) {
           velocityString = entry.description;
           break;
@@ -652,7 +652,7 @@ define( require => {
      * @returns {string}
      */
     getDraggingDirectionDescription: function( direction ) {
-      var movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
+      const movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
 
       assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
       return movementString;
@@ -665,7 +665,7 @@ define( require => {
      * @param  {string} direction - one of BalloonDirectionEnum
      */
     getReleaseDirectionDescription: function( direction ) {
-      var movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction ];
+      const movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction ];
 
       assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
       return movementString;
@@ -679,11 +679,11 @@ define( require => {
      */
     getPlayAreaDragNewRegionDescription: function() {
 
-      var nearOrAt = this.getPreposition();
-      var balloonCenter = this.balloonModel.getCenter();
+      const nearOrAt = this.getPreposition();
+      const balloonCenter = this.balloonModel.getCenter();
 
-      var wallVisible = this.model.wall.isVisibleProperty.get();
-      var locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
+      const wallVisible = this.model.wall.isVisibleProperty.get();
+      const locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
 
       return StringUtils.fillIn( balloonNewRegionPatternString, {
         nearOrAt: nearOrAt,
@@ -697,14 +697,14 @@ define( require => {
      * @returns {string}
      */
     getPlayAreaDragProgressDescription: function() {
-      var alert;
-      var nearestObjectString;
+      let alert;
+      let nearestObjectString;
 
-      var centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
-      var centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
-      var balloonCenterX = this.balloonModel.getCenterX();
-      var balloonCenterY = this.balloonModel.getCenterY();
-      var balloonDirection = this.balloonModel.directionProperty.get();
+      const centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
+      const centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
+      const balloonCenterX = this.balloonModel.getCenterX();
+      const balloonCenterY = this.balloonModel.getCenterY();
+      const balloonDirection = this.balloonModel.directionProperty.get();
 
       if ( balloonDirection === BalloonDirectionEnum.LEFT ) {
 
@@ -755,9 +755,9 @@ define( require => {
      * @returns {string}
      */
     getDirectionChangedDescription: function() {
-      var description;
+      let description;
 
-      var direction = this.balloonModel.directionProperty.get();
+      const direction = this.balloonModel.directionProperty.get();
       if ( this.balloonModel.isDraggedProperty.get() ) {
 
         // when dragged, just the direction
@@ -766,7 +766,7 @@ define( require => {
       else {
 
         // when not dragged, add 'Now' to direction
-        var directionString = this.getReleaseDirectionDescription( direction );
+        const directionString = this.getReleaseDirectionDescription( direction );
         if ( this.model.bothBalloonsVisible() )  {
           description = StringUtils.fillIn( twoBalloonNowDirectionPatternString, {
             balloon: this.accessibleName,
@@ -795,19 +795,19 @@ define( require => {
      * @returns {string}
      */
     getMovementStopsDescription: function() {
-      var descriptionString;
+      let descriptionString;
 
       // the location string is used for all charge views, used as a single sentence
-      var locationString = this.getAttractiveStateAndLocationDescriptionWithLabel();
+      const locationString = this.getAttractiveStateAndLocationDescriptionWithLabel();
 
-      var shownCharges = this.model.showChargesProperty.get();
+      const shownCharges = this.model.showChargesProperty.get();
 
       if ( shownCharges === 'all' && this.wall.isVisibleProperty.get() ) {
 
         // don't include information about adjacency to other balloon in this location  description
-        var chargeLocationString = this.getLocationDescriptionWithoutOverlap();
+        const chargeLocationString = this.getLocationDescriptionWithoutOverlap();
 
-        var chargeString;
+        let chargeString;
         if ( this.balloonModel.inducingChargeProperty.get() ) {
           chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, this.wall.isVisibleProperty.get() );
         }
@@ -834,7 +834,7 @@ define( require => {
      * @returns {boolean}
      */
     balloonMovingAtContinousDescriptionVelocity: function() {
-      var velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
+      const velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
       return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
              velocityMagnitude > 0.0005; // value chosen empirically, see #413
     },
@@ -850,13 +850,13 @@ define( require => {
      * @returns {string}
      */
     getGrabbedAlert: function() {
-      var description;
+      let description;
 
       // charges visible in the view
-      var chargesShown = this.model.showChargesProperty.get();
+      const chargesShown = this.model.showChargesProperty.get();
 
       // attractive state and location is described for every charge view, it is a single sentence in this use case
-      var stateAndLocation = this.getOnLocationDescription();
+      let stateAndLocation = this.getOnLocationDescription();
       stateAndLocation = StringUtils.fillIn( singleStatementPatternString, {
         statement: stateAndLocation
       } );
@@ -864,7 +864,7 @@ define( require => {
       // get a description of the relative charge of the grabbed balloon, and possibly the other relative charge
       // of the other balloon if visible
       if ( chargesShown !== 'none' ) {
-        var chargeDescription;
+        let chargeDescription;
 
         if ( this.model.getBalloonsAdjacent() ) {
           chargeDescription = this.balloonDescriber.chargeDescriber.getCombinedRelativeChargeDescription();
@@ -878,10 +878,10 @@ define( require => {
         } );
 
         // if the balloon is inducing charge, or touching the sweater or wall we include a description for this
-        var inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
-        var onSweater = this.balloonModel.onSweater();
+        const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
+        const onSweater = this.balloonModel.onSweater();
         if ( inducingChargeOrTouchingWall || onSweater && ( chargesShown !== 'none' ) ) {
-          var otherObjectCharge = this.balloonDescriber.chargeDescriber.getOtherObjectChargeDescription();
+          const otherObjectCharge = this.balloonDescriber.chargeDescriber.getOtherObjectChargeDescription();
           chargeDescription = StringUtils.fillIn( grabbedWithOtherChargePatternString, {
             balloonCharge: chargeDescription,
             otherObjectCharge: otherObjectCharge
@@ -924,10 +924,10 @@ define( require => {
      * @returns {string}
      */
     getJumpingDescription: function( center ) {
-      var description = '';
+      let description = '';
 
       // all jumping is in the x direction
-      var centerX = center.x;
+      const centerX = center.x;
 
       // determine which description we should use depending on the center location of the balloon
       if ( centerX === PlayAreaMap.X_LOCATIONS.AT_NEAR_SWEATER ) {
@@ -936,12 +936,12 @@ define( require => {
       else {
 
         // general location description for the balloon
-        var locationDescription = this.getAttractiveStateAndLocationDescription();
+        const locationDescription = this.getAttractiveStateAndLocationDescription();
 
         // state variables used to generate description content
-        var wallVisible = this.wall.isVisibleProperty.get();
-        var inducingCharge = this.balloonModel.inducingChargeProperty.get();
-        var showCharges = this.model.showChargesProperty.get();
+        const wallVisible = this.wall.isVisibleProperty.get();
+        const inducingCharge = this.balloonModel.inducingChargeProperty.get();
+        const showCharges = this.model.showChargesProperty.get();
 
         // if jumping to wall, describe as if balloon is rubbing along the wall for the first time
         if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none') {
@@ -957,7 +957,7 @@ define( require => {
         else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
           
           // if there is an induced charge and the charges are visible, describe induced charge summary
-          var inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );
+          const inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );
           description = StringUtils.fillIn( locationAndInducedChargePatternString, {
             location: locationDescription,
             inducedCharge: inducedChargeDescription

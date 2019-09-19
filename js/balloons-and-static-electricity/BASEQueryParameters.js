@@ -12,7 +12,7 @@ define( require => {
   // modules
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
 
-  var BASEQueryParameters = QueryStringMachine.getAll( {
+  const BASEQueryParameters = QueryStringMachine.getAll( {
 
     // keyData - must be used with reader, shows key information instead of reader output, useful for debugging
     keyData: { type: 'flag' },

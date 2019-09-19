@@ -27,9 +27,9 @@ define( require => {
 
   SimLauncher.launch( function() {
 
-    var tandem = Tandem.rootTandem;
+    const tandem = Tandem.rootTandem;
 
-    var simOptions = {
+    const simOptions = {
       credits: {
         leadDesign: 'Noah Podolefsky & Sam Reid',
         softwareDevelopment: 'Sam Reid, John Blanco',
@@ -43,7 +43,7 @@ define( require => {
       keyboardHelpNode: new BASEKeyboardHelpContent()
     };
 
-    var balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
+    const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
     //Create and start the sim
     new Sim( balloonsAndStaticElectricityTitleString, [

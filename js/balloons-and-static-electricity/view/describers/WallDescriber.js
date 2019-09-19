@@ -19,34 +19,34 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // strings
-  var wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPattern.value;
-  var wallLocationString = BASEA11yStrings.wallLocation.value;
-  var wallNoNetChargeString = BASEA11yStrings.wallNoNetCharge.value;
-  var aLittleBitString = BASEA11yStrings.aLittleBit.value;
-  var aLotString = BASEA11yStrings.aLot.value;
-  var quiteALotString = BASEA11yStrings.quiteALot.value;
-  var inducedChargePatternString = BASEA11yStrings.inducedChargePattern.value;
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
-  var wallTwoBalloonInducedChargePatternString = BASEA11yStrings.wallTwoBalloonInducedChargePattern.value;
-  var wallChargeWithoutInducedPatternString = BASEA11yStrings.wallChargeWithoutInducedPattern.value;
-  var wallChargeWithInducedPatternString = BASEA11yStrings.wallChargeWithInducedPattern.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
-  var manyChargePairsString = BASEA11yStrings.manyChargePairs.value;
-  var singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  var wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPattern.value;
-  var inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPattern.value;
-  var wallChargePatternStringWithLabel = BASEA11yStrings.wallChargePatternStringWithLabel.value;
-  var summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
-  var summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
-  var wallLabelString = BASEA11yStrings.wallLabel.value;
-  var zeroString = BASEA11yStrings.zero.value;
-  var bothBalloonsString = BASEA11yStrings.bothBalloons.value;
-  var wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPattern.value;
-  var positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMove.value;
+  const wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPattern.value;
+  const wallLocationString = BASEA11yStrings.wallLocation.value;
+  const wallNoNetChargeString = BASEA11yStrings.wallNoNetCharge.value;
+  const aLittleBitString = BASEA11yStrings.aLittleBit.value;
+  const aLotString = BASEA11yStrings.aLot.value;
+  const quiteALotString = BASEA11yStrings.quiteALot.value;
+  const inducedChargePatternString = BASEA11yStrings.inducedChargePattern.value;
+  const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
+  const yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
+  const wallTwoBalloonInducedChargePatternString = BASEA11yStrings.wallTwoBalloonInducedChargePattern.value;
+  const wallChargeWithoutInducedPatternString = BASEA11yStrings.wallChargeWithoutInducedPattern.value;
+  const wallChargeWithInducedPatternString = BASEA11yStrings.wallChargeWithInducedPattern.value;
+  const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  const manyChargePairsString = BASEA11yStrings.manyChargePairs.value;
+  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+  const wallNoChangeInChargesPatternString = BASEA11yStrings.wallNoChangeInChargesPattern.value;
+  const inducedChargeNoAmountPatternString = BASEA11yStrings.inducedChargeNoAmountPattern.value;
+  const wallChargePatternStringWithLabel = BASEA11yStrings.wallChargePatternStringWithLabel.value;
+  const summaryObjectHasChargePatternString = BASEA11yStrings.summaryObjectHasChargePattern.value;
+  const summaryObjectChargePatternString = BASEA11yStrings.summaryObjectChargePattern.value;
+  const wallLabelString = BASEA11yStrings.wallLabel.value;
+  const zeroString = BASEA11yStrings.zero.value;
+  const bothBalloonsString = BASEA11yStrings.bothBalloons.value;
+  const wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPattern.value;
+  const positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMove.value;
 
   // constants
-  var INDUCED_CHARGE_DESCRIPTION_MAP = {
+  const INDUCED_CHARGE_DESCRIPTION_MAP = {
     A_LITTLE_BIT: {
       range: new Range( 0, 10 ),
       description: aLittleBitString
@@ -96,7 +96,7 @@ define( require => {
      * @returns {string}
      */
     getWallDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent ) {
-      var  description;
+      let  description;
 
       // if no charges are shown, the location is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
@@ -105,7 +105,7 @@ define( require => {
         } );
       }
       else {
-        var chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, this.wallModel.isVisibleProperty.get(), this.showChargesProperty.get() );
+        const chargeDescription = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, this.wallModel.isVisibleProperty.get(), this.showChargesProperty.get() );
 
         // assemble the whole description
         description = StringUtils.fillIn( wallDescriptionPatternString, {
@@ -125,14 +125,14 @@ define( require => {
      * @returns {string}
      */
     getWallChargeDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown )  {
-      var descriptionString;
+      let descriptionString;
 
-      var inducedChargeString;
-      var yellowBalloonInducedChargeString;
-      var greenBalloonInducedChargeString;
+      let inducedChargeString;
+      let yellowBalloonInducedChargeString;
+      let greenBalloonInducedChargeString;
 
-      var yellowInducingAndvisible = yellowBalloon.inducingChargeAndVisible();
-      var greenInducingAndVisible = greenBalloon.inducingChargeAndVisible();
+      const yellowInducingAndvisible = yellowBalloon.inducingChargeAndVisible();
+      const greenInducingAndVisible = greenBalloon.inducingChargeAndVisible();
 
       // if all charges are shown, and a balloon is inducing charge, generate the description for induced charge which
       // can change depending on whether balloons are adjacent or whether both balloons are inducing at the same time
@@ -180,10 +180,10 @@ define( require => {
       }
 
       // get the description for what charges are currently shown
-      var shownChargesString = ( chargesShown === 'diff' ) ? showingNoChargesString : manyChargePairsString;
+      const shownChargesString = ( chargesShown === 'diff' ) ? showingNoChargesString : manyChargePairsString;
 
       // if there is an induced charge, include it in the full charge description
-      var wallChargeString;
+      let wallChargeString;
       if ( ( yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible ) && chargesShown === 'all' && wallVisible ) {
         inducedChargeString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
           inducedCharge: inducedChargeString,
@@ -220,7 +220,7 @@ define( require => {
      * @returns {string}
      */
     getWallChargeDescriptionWithLabel: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown ) {
-      var description = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
+      let description = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
       description = description.toLowerCase();
 
       return StringUtils.fillIn( wallChargePatternStringWithLabel, {
@@ -236,10 +236,10 @@ define( require => {
      */
     getInducedChargeAmountDescription: function( balloon ) {
 
-      var amountDescription;
-      var descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
-      for ( var j = 0; j < descriptionKeys.length; j++ ) {
-        var value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
+      let amountDescription;
+      const descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
+      for ( let j = 0; j < descriptionKeys.length; j++ ) {
+        const value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
         if ( value.range.contains( balloon.closestChargeInWall.getDisplacement() ) ) {
           amountDescription = value.description;
         }
@@ -270,9 +270,9 @@ define( require => {
      * @returns {string}
      */
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
-      var descriptionString;
+      let descriptionString;
 
-      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, true );
+      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, true );
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
           wallLocation: chargeLocationString,
@@ -309,11 +309,11 @@ define( require => {
         includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
       }, options );
 
-      var descriptionString;
-      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
+      let descriptionString;
+      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
 
       if ( balloon.inducingChargeProperty.get() ) {
-        var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
+        const inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {
           wallLocation: chargeLocationString,
@@ -356,10 +356,10 @@ define( require => {
         includeWallLocation: true,
         includePositiveChargeInfo: true
       }, options );
-      var descriptionString;
-      var chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
+      let descriptionString;
+      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
 
-      var inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
+      const inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
       descriptionString = StringUtils.fillIn( inducedChargePatternString, {
         wallLocation: chargeLocationString,
@@ -397,9 +397,9 @@ define( require => {
      * @returns {[type]} [description]
      */
     getInducedChargeLocationDescription: function( balloon, wallVisible, includeWallLocation ) {
-      var chargeLocationX = PlayAreaMap.X_LOCATIONS.AT_WALL;
-      var chargeLocationY = includeWallLocation ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
-      var chargeLocation = new Vector2( chargeLocationX, chargeLocationY );
+      const chargeLocationX = PlayAreaMap.X_LOCATIONS.AT_WALL;
+      const chargeLocationY = includeWallLocation ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
+      const chargeLocation = new Vector2( chargeLocationX, chargeLocationY );
       return BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
     },
 
@@ -412,9 +412,9 @@ define( require => {
      * @returns {string}
      */
     getSummaryChargeDescription: function( chargesShown, numberOfCharges ) {
-      var chargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfCharges );
+      const chargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfCharges );
 
-      var wallObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
+      const wallObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
         object: wallLabelString,
         charge: zeroString
       } );

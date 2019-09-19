@@ -57,8 +57,8 @@ define( require => {
      * @returns {Vector2}
      */
     getDisplacement: function() {
-      var initialPosition = this.locationProperty.initialValue;
-      var displacement = this.locationProperty.get().distance( initialPosition );
+      const initialPosition = this.locationProperty.initialValue;
+      const displacement = this.locationProperty.get().distance( initialPosition );
 
       return displacement;
     },

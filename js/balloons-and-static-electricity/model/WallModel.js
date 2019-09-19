@@ -20,7 +20,7 @@ define( require => {
 
   // constants
   // when charge displacement is larger than this, there is an appreciable induced charge
-  var FORCE_MAGNITUDE_THRESHOLD = 2;
+  const FORCE_MAGNITUDE_THRESHOLD = 2;
 
   /**
    * @constructor
@@ -52,22 +52,22 @@ define( require => {
 
     // @private {array.<PointChargeModel>}
     this.plusCharges = [];
-    var plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
+    const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
 
     // @private {array.<MovablePointChargeModel>}
     this.minusCharges = [];
-    var minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
+    const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
 
-    for ( var i = 0; i < this.numX; i++ ) {
-      for ( var k = 0; k < this.numY; k++ ) {
+    for ( let i = 0; i < this.numX; i++ ) {
+      for ( let k = 0; k < this.numY; k++ ) {
 
         //plus
-        var position = this.calculatePosition( i, k );
-        var plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
+        const position = this.calculatePosition( i, k );
+        const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
         this.plusCharges.push( plusCharge );
 
         //minus
-        var minusCharge = new MovablePointChargeModel(
+        const minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
           position[ 1 ] - PointChargeModel.RADIUS,
           minusChargesTandemGroup.createNextTandem(),
@@ -77,20 +77,20 @@ define( require => {
       }
     }
 
-    var self = this;
-    var updateChargePositions = function() {
+    const self = this;
+    const updateChargePositions = function() {
 
       // value for k for calculating forces, chosen so that motion of the balloon looks like Java version
-      var k = 10000;
+      const k = 10000;
       
       // calculate force from Balloon to each charge in the wall, we subtract by the PointChargeModel radius
       // to make the force look correct because each charge is minus charge is shifted down by that much initially
       self.minusCharges.forEach( function( entry ) {
-        var ch = entry;
-        var dv1 = new Vector2( 0, 0 );
-        var dv2 = new Vector2( 0, 0 );
+        const ch = entry;
+        let dv1 = new Vector2( 0, 0 );
+        let dv2 = new Vector2( 0, 0 );
 
-        var defaultLocation = ch.locationProperty.initialValue;
+        const defaultLocation = ch.locationProperty.initialValue;
         if ( yellowBalloon.isVisibleProperty.get() ) {
           dv1 = BalloonModel.getForce(
             defaultLocation,
@@ -121,11 +121,11 @@ define( require => {
 
     // if a balloon was stuck to the wall and visible when the wall becomes invisible, we need to
     // notify that the balloon was released by reseting the timer
-    var balloons = [ yellowBalloon, greenBalloon ];
+    const balloons = [ yellowBalloon, greenBalloon ];
     this.isVisibleProperty.link( function( isVisible ) {
       if ( !isVisible ) {
-        for ( var i = 0; i < balloons.length; i++ ) {
-          var balloon = balloons[ i ];
+        for ( let i = 0; i < balloons.length; i++ ) {
+          const balloon = balloons[ i ];
           if ( balloon.isVisibleProperty.get() && balloon.rightAtWallLocation() && balloon.isCharged() ) {
             balloon.timeSinceRelease = 0;
           }
@@ -157,7 +157,7 @@ define( require => {
      * @returns {Array.<number>} - an array containing the x and y values for the charge
      */
     calculatePosition: function( i, k ) {
-      var y0 = i % 2 === 0 ? this.dy / 2 : 1;
+      const y0 = i % 2 === 0 ? this.dy / 2 : 1;
       return [ i * this.dx + PointChargeModel.RADIUS + 1, k * this.dy + y0 ];
     },
 
@@ -168,16 +168,16 @@ define( require => {
      * @returns {MovablePointChargeModel}
      */
     getClosestChargeToBalloon: function( balloon ) {
-      var minusCharges = this.minusCharges;
+      const minusCharges = this.minusCharges;
 
       // get the minus charge that is closest to the balloon
-      var closestCharge = null;
-      var chargeDistance = Number.POSITIVE_INFINITY;
-      var balloonChargeCenter = balloon.getChargeCenter();
+      let closestCharge = null;
+      let chargeDistance = Number.POSITIVE_INFINITY;
+      const balloonChargeCenter = balloon.getChargeCenter();
 
-      for ( var i = 0; i < minusCharges.length; i++ ) {
+      for ( let i = 0; i < minusCharges.length; i++ ) {
         var charge = minusCharges[ i ];
-        var newChargeDistance = charge.locationProperty.initialValue.distance( balloonChargeCenter );
+        const newChargeDistance = charge.locationProperty.initialValue.distance( balloonChargeCenter );
 
         if ( newChargeDistance < chargeDistance ) {
           chargeDistance = newChargeDistance;

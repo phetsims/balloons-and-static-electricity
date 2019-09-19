@@ -29,15 +29,15 @@ define( require => {
   const WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
 
   // a11y strings
-  var greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
-  var yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
+  const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
+  const yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
 
   // images
   const balloonGreen = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-green.png' );
   const balloonYellow = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/balloon-yellow.png' );
 
   // constants
-  var BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
+  const BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
 
   /**
    * @constructor
@@ -46,15 +46,15 @@ define( require => {
    */
   function BASEView( model, tandem ) {
 
-    var self = this;
+    const self = this;
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
       tandem: tandem
     } );
 
-    var sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
-    var wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
+    const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
+    const wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
     this.playAreaNode.addChild( sweaterNode );
     this.playAreaNode.addChild( wallNode );
@@ -69,7 +69,7 @@ define( require => {
     ) );
 
     //Add black to the left of the screen to match the black region to the right of the wall
-    var maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
+    const maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
     this.addChild( new Rectangle(
       maxX - 1000,
       0,
@@ -78,12 +78,12 @@ define( require => {
       { fill: 'black', tandem: tandem.createTandem( 'spaceToLeftOfWall' ) }
     ) );
 
-    var controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
     this.yellowBalloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, this.layoutBounds, tandem.createTandem( 'yellowBalloonNode' ), {
       labelContent: yellowBalloonLabelString
     } );
-    var tetherAnchorPoint = new Vector2(
+    const tetherAnchorPoint = new Vector2(
       model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
       this.layoutBounds.height
     );
@@ -104,12 +104,12 @@ define( require => {
     );
 
     // created after all other view objects so we can access each describer
-    var screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'screenSummaryNode' ) );
+    const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'screenSummaryNode' ) );
     this.setScreenSummaryContent( screenSummaryNode );
 
     // combine the balloon content into single nodes so that they are easily layerable
-    var greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
-    var yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
+    const greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
+    const yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
     this.playAreaNode.addChild( yellowBalloonLayerNode );
     this.playAreaNode.addChild( greenBalloonLayerNode );
 
@@ -172,11 +172,11 @@ define( require => {
     layout: function( width, height ) {
       this.resetTransform();
 
-      var scale = this.getLayoutScale( width, height );
+      const scale = this.getLayoutScale( width, height );
       this.setScaleMagnitude( scale );
 
-      var dx = 0;
-      var offsetY = 0;
+      let dx = 0;
+      let offsetY = 0;
 
       // Move to bottom vertically (custom for this sim)
       if ( scale === width / this.layoutBounds.width ) {

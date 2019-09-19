@@ -23,7 +23,7 @@ define( require => {
   const wallImage = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/wall.png' );
 
   // a11y strings
-  var wallLabelString = BASEA11yStrings.wallLabel.value;
+  const wallLabelString = BASEA11yStrings.wallLabel.value;
 
   /**
    * @constructor
@@ -31,11 +31,11 @@ define( require => {
    * @param {Tandem} tandem
    */
   function WallNode( model, layoutHeight, tandem ) {
-    var self = this;
+    const self = this;
 
     // @private
     this.model = model;
-    var wallModel = model.wall;
+    const wallModel = model.wall;
 
     // manages a11y descriptions for the wall
     this.wallDescriber = new WallDescriber( model );
@@ -56,21 +56,21 @@ define( require => {
 
     this.addChild( this.wallNode );
 
-    var plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
+    const plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
     plusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
-    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
+    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( function( entry ) {
-      var plusChargeNode = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
       plusChargesNode.addChild( plusChargeNode );
     } );
     this.addChild( plusChargesNode );
 
     // the minus charges on the wall - with Canvas for performance, bounds widened so that charges are fully
     // visible in wider layouts, see #409
-    var wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
-    var minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
+    const wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
+    const minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
     this.addChild( minusChargesNode );
 
     wallModel.isVisibleProperty.link( function updateWallVisibility( isVisible ) {
@@ -84,7 +84,7 @@ define( require => {
     } );
 
     // a11y - when the balloons change location, update the description of the induced charge in the wall
-    var updateWallDescription = function() {
+    const updateWallDescription = function() {
       self.setDescriptionContent( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
     };
 

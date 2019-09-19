@@ -21,21 +21,21 @@ define( require => {
   QUnit.module( 'BASESummaryNode' );
 
   // create model and view for testing
-  var model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
-  var view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
+  const model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
+  const view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
 
   // create a wallNode for testing
-  var wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
+  const wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
   
   QUnit.test( 'Summary tests', function( assert ) {
-    var summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.rootTandem.createTandem( 'summaryNode' ) );
+    const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.rootTandem.createTandem( 'summaryNode' ) );
 
     // verify first item in summary, description of items in the room
     model.reset();
 
     // on load, yellow balloon, sweater, and removable wall
-    var expectedFirstItem = 'Currently, room has a yellow balloon, a sweater, and a removable wall.';
-    var actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
+    let expectedFirstItem = 'Currently, room has a yellow balloon, a sweater, and a removable wall.';
+    let actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
     assert.equal( actualFirstItem, expectedFirstItem, 'first summary item incorrect on load' );
 
     // yellow balloon and sweater
@@ -61,8 +61,8 @@ define( require => {
     model.reset();
 
     // on load
-    var expectedSecondItem = 'Yellow Balloon has zero net charge, a few pairs of negative and positive charges.';
-    var actualSecondItem = summaryNode.getBalloonChargeDescription();
+    let expectedSecondItem = 'Yellow Balloon has zero net charge, a few pairs of negative and positive charges.';
+    let actualSecondItem = summaryNode.getBalloonChargeDescription();
     assert.equal( actualSecondItem, expectedSecondItem );
 
     // when both balloons are visible
@@ -111,8 +111,8 @@ define( require => {
     model.reset();
 
     // on load
-    var expectedThirdItem = 'Sweater and wall have zero net charge, each has many pairs of negative and positive charges.';
-    var actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
+    let expectedThirdItem = 'Sweater and wall have zero net charge, each has many pairs of negative and positive charges.';
+    let actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
     assert.equal( actualThirdItem, expectedThirdItem );
 
     // when wall is invisible
@@ -147,8 +147,8 @@ define( require => {
     model.reset();
     model.yellowBalloon.chargeProperty.set( -20 );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenter().y ) );
-    var expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a lot. Positive charges do not move.';
-    var actualFourthItem = summaryNode.getInducedChargeDescription();
+    let expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a lot. Positive charges do not move.';
+    let actualFourthItem = summaryNode.getInducedChargeDescription();
     assert.equal( actualFourthItem, expectedFourthItem );
 
     // test both balloons when they are adjacent 

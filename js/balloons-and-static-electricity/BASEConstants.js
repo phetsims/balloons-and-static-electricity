@@ -12,7 +12,7 @@ define( require => {
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const Property = require( 'AXON/Property' );
 
-  var BASEConstants = {
+  const BASEConstants = {
     backgroundColorProperty: new Property( 'rgb( 151, 208, 255 )' ),
     msScaleFactor: 1000, // to convert seconds to miliseconds, used throughout the view
     MAX_BALLOON_CHARGE: 57, // max number of charges the balloon can have

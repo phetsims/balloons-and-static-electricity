@@ -20,80 +20,80 @@ define( require => {
 
   // a11y strings
   // play area grid strings
-  var leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
-  var leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweater.value;
-  var bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweater.value;
+  const leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
+  const leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweater.value;
+  const bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweater.value;
 
-  var upperLeftSideOfSweaterString = BASEA11yStrings.upperLeftSideOfSweater.value;
-  var leftSideOfSweaterString = BASEA11yStrings.leftSideOfSweater.value;
-  var lowerLeftSideOfSweaterString = BASEA11yStrings.lowerLeftSideOfSweater.value;
+  const upperLeftSideOfSweaterString = BASEA11yStrings.upperLeftSideOfSweater.value;
+  const leftSideOfSweaterString = BASEA11yStrings.leftSideOfSweater.value;
+  const lowerLeftSideOfSweaterString = BASEA11yStrings.lowerLeftSideOfSweater.value;
 
-  var upperRightSideOfSweaterString = BASEA11yStrings.upperRightSideOfSweater.value;
-  var rightSideOfSweaterString = BASEA11yStrings.rightSideOfSweater.value;
-  var lowerRightSideOfSweater = BASEA11yStrings.lowerRightSideOfSweater.value;
+  const upperRightSideOfSweaterString = BASEA11yStrings.upperRightSideOfSweater.value;
+  const rightSideOfSweaterString = BASEA11yStrings.rightSideOfSweater.value;
+  const lowerRightSideOfSweater = BASEA11yStrings.lowerRightSideOfSweater.value;
 
-  var rightShoulderOfSweaterString = BASEA11yStrings.rightShoulderOfSweater.value;
-  var rightArmOfSweaterString = BASEA11yStrings.rightArmOfSweater.value;
-  var lowerRightArmOfSweaterString = BASEA11yStrings.lowerRightArmOfSweater.value;
+  const rightShoulderOfSweaterString = BASEA11yStrings.rightShoulderOfSweater.value;
+  const rightArmOfSweaterString = BASEA11yStrings.rightArmOfSweater.value;
+  const lowerRightArmOfSweaterString = BASEA11yStrings.lowerRightArmOfSweater.value;
 
-  var upperLeftSideOfPlayAreaString = BASEA11yStrings.upperLeftSideOfPlayArea.value;
-  var leftSideOfPlayAreaString = BASEA11yStrings.leftSideOfPlayArea.value;
-  var lowerLeftSideOfPlayAreaString = BASEA11yStrings.lowerLeftSideOfPlayArea.value;
+  const upperLeftSideOfPlayAreaString = BASEA11yStrings.upperLeftSideOfPlayArea.value;
+  const leftSideOfPlayAreaString = BASEA11yStrings.leftSideOfPlayArea.value;
+  const lowerLeftSideOfPlayAreaString = BASEA11yStrings.lowerLeftSideOfPlayArea.value;
 
-  var upperCenterOfPlayAreaString = BASEA11yStrings.upperCenterOfPlayArea.value;
-  var centerOfPlayAreaString = BASEA11yStrings.centerOfPlayArea.value;
-  var lowerCenterOfPlayAreaString = BASEA11yStrings.lowerCenterOfPlayArea.value;
+  const upperCenterOfPlayAreaString = BASEA11yStrings.upperCenterOfPlayArea.value;
+  const centerOfPlayAreaString = BASEA11yStrings.centerOfPlayArea.value;
+  const lowerCenterOfPlayAreaString = BASEA11yStrings.lowerCenterOfPlayArea.value;
 
-  var upperRightSideOfPlayAreaString = BASEA11yStrings.upperRightSideOfPlayArea.value;
-  var rightSideOfPlayAreaString = BASEA11yStrings.rightSideOfPlayArea.value;
-  var lowerRightSideOfPlayAreaString = BASEA11yStrings.lowerRightSideOfPlayArea.value;
+  const upperRightSideOfPlayAreaString = BASEA11yStrings.upperRightSideOfPlayArea.value;
+  const rightSideOfPlayAreaString = BASEA11yStrings.rightSideOfPlayArea.value;
+  const lowerRightSideOfPlayAreaString = BASEA11yStrings.lowerRightSideOfPlayArea.value;
 
-  var upperWallString = BASEA11yStrings.upperWall.value;
-  var wallString = BASEA11yStrings.wall.value;
-  var lowerWallString = BASEA11yStrings.lowerWall.value;
+  const upperWallString = BASEA11yStrings.upperWall.value;
+  const wallString = BASEA11yStrings.wall.value;
+  const lowerWallString = BASEA11yStrings.lowerWall.value;
 
-  var upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayArea.value;
-  var rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
-  var lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayArea.value;
-
-  // charge strings
-  var noString = BASEA11yStrings.no.value;
-  var zeroString = BASEA11yStrings.zero.value;
-  var aFewString = BASEA11yStrings.aFew.value;
-  var severalString = BASEA11yStrings.several.value;
-  var manyString = BASEA11yStrings.many.value;
-  var negativeString = BASEA11yStrings.negative.value;
-
-  var eachBalloonString = BASEA11yStrings.eachBalloon.value;
-  var balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
-
-  var landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweater.value;
-  var landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdge.value;
-  var landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWall.value;
-  var landmarkNearWallString = BASEA11yStrings.landmarkNearWall.value;
-  var landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWall.value;
-  var landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdge.value;
-  var landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdge.value;
-  var landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdge.value;
-  var landmarkAtCenterPlayAreaString = BASEA11yStrings.landmarkAtCenterPlayArea.value;
-  var landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayArea.value;
-  var landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayArea.value;
-
-  var upString = BASEA11yStrings.up.value;
-  var leftString = BASEA11yStrings.left.value;
-  var downString = BASEA11yStrings.down.value;
-  var rightString = BASEA11yStrings.right.value;
-  var upAndToTheRightString = BASEA11yStrings.upAndToTheRight.value;
-  var upAndToTheLeftString = BASEA11yStrings.upAndToTheLeft.value;
-  var downAndToTheRightString = BASEA11yStrings.downAndToTheRight.value;
-  var downAndToTheLeftString = BASEA11yStrings.downAndToTheLeft.value;
+  const upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayArea.value;
+  const rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
+  const lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayArea.value;
 
   // charge strings
-  var summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
-  var showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+  const noString = BASEA11yStrings.no.value;
+  const zeroString = BASEA11yStrings.zero.value;
+  const aFewString = BASEA11yStrings.aFew.value;
+  const severalString = BASEA11yStrings.several.value;
+  const manyString = BASEA11yStrings.many.value;
+  const negativeString = BASEA11yStrings.negative.value;
+
+  const eachBalloonString = BASEA11yStrings.eachBalloon.value;
+  const balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
+
+  const landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweater.value;
+  const landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdge.value;
+  const landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWall.value;
+  const landmarkNearWallString = BASEA11yStrings.landmarkNearWall.value;
+  const landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWall.value;
+  const landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdge.value;
+  const landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdge.value;
+  const landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdge.value;
+  const landmarkAtCenterPlayAreaString = BASEA11yStrings.landmarkAtCenterPlayArea.value;
+  const landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayArea.value;
+  const landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayArea.value;
+
+  const upString = BASEA11yStrings.up.value;
+  const leftString = BASEA11yStrings.left.value;
+  const downString = BASEA11yStrings.down.value;
+  const rightString = BASEA11yStrings.right.value;
+  const upAndToTheRightString = BASEA11yStrings.upAndToTheRight.value;
+  const upAndToTheLeftString = BASEA11yStrings.upAndToTheLeft.value;
+  const downAndToTheRightString = BASEA11yStrings.downAndToTheRight.value;
+  const downAndToTheLeftString = BASEA11yStrings.downAndToTheLeft.value;
+
+  // charge strings
+  const summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
+  const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
 
   // constants
-  var LOCATION_DESCRIPTION_MAP = {
+  const LOCATION_DESCRIPTION_MAP = {
     AT_LEFT_EDGE: {
       UPPER_PLAY_AREA: landmarkLeftEdgeString,
       CENTER_PLAY_AREA: landmarkLeftEdgeString,
@@ -202,14 +202,14 @@ define( require => {
    *
    * @returns {Object}
    */
-  var generateDescriptionMapWithEntries = function( descriptionArray, valueRange, entries ) {
+  const generateDescriptionMapWithEntries = function( descriptionArray, valueRange, entries ) {
     entries = entries || [];
-    var map = {};
+    const map = {};
 
-    var minValue = valueRange.min;
-    for ( var i = 0; i < descriptionArray.length; i++ ) {
+    let minValue = valueRange.min;
+    for ( let i = 0; i < descriptionArray.length; i++ ) {
 
-      var nextMin = minValue + valueRange.getLength() / descriptionArray.length;
+      const nextMin = minValue + valueRange.getLength() / descriptionArray.length;
 
       map[ i ] = {};
       map[ i ].description = descriptionArray[ i ];
@@ -224,7 +224,7 @@ define( require => {
     }
 
     if ( entries.length > 0 ) {
-      for ( var j = 0; j < entries.length; j++ ) {
+      for ( let j = 0; j < entries.length; j++ ) {
         map[ descriptionArray.length + j ] = entries[ j ];
       }
     }
@@ -232,14 +232,14 @@ define( require => {
     return map;
   };
 
-  var relativeChargeStrings = [ aFewString, severalString, manyString ];
-  var RELATIVE_CHARGE_DESCRIPTION_MAP = generateDescriptionMapWithEntries( relativeChargeStrings, new Range( 1, BASEConstants.MAX_BALLOON_CHARGE ), [ {
+  const relativeChargeStrings = [ aFewString, severalString, manyString ];
+  const RELATIVE_CHARGE_DESCRIPTION_MAP = generateDescriptionMapWithEntries( relativeChargeStrings, new Range( 1, BASEConstants.MAX_BALLOON_CHARGE ), [ {
     range: new Range( 0, 0 ),
     description: noString
   } ] );
 
   // maps  direction to a description string
-  var DIRECTION_MAP = {
+  const DIRECTION_MAP = {
     UP: upString,
     DOWN: downString,
     LEFT: leftString,
@@ -261,23 +261,23 @@ define( require => {
      */
     getLocationDescription: function( location, wallVisible ) {
 
-      var landmarks = PlayAreaMap.LANDMARK_RANGES;
-      var columns = PlayAreaMap.COLUMN_RANGES;
-      var locations = PlayAreaMap.X_LOCATIONS;
-      var rows = PlayAreaMap.ROW_RANGES;
+      const landmarks = PlayAreaMap.LANDMARK_RANGES;
+      const columns = PlayAreaMap.COLUMN_RANGES;
+      const locations = PlayAreaMap.X_LOCATIONS;
+      const rows = PlayAreaMap.ROW_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
       // loops
-      var columnsKeys = Object.keys( columns );
-      var rowKeys = Object.keys( rows );
-      var landmarkKeys = Object.keys( landmarks );
-      var locationKeys = Object.keys( locations );
+      const columnsKeys = Object.keys( columns );
+      const rowKeys = Object.keys( rows );
+      const landmarkKeys = Object.keys( landmarks );
+      const locationKeys = Object.keys( locations );
 
-      var i;
-      var currentLocation;
-      var currentLandmark;
-      var currentColumn;
-      var currentRow;
+      let i;
+      let currentLocation;
+      let currentLandmark;
+      let currentColumn;
+      let currentRow;
 
       // critical x locations take priority, start there
       for ( i = 0; i < locationKeys.length; i++ ) {
@@ -342,13 +342,13 @@ define( require => {
     getRelativeChargeDescription: function( charge ) {
 
       // the description is mapped to the absolute value of charge
-      var absCharge = Math.abs( charge );
+      const absCharge = Math.abs( charge );
 
-      var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
-      var description;
+      const keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
+      let description;
 
-      for ( var i = 0; i < keys.length; i++ ) {
-        var value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
+      for ( let i = 0; i < keys.length; i++ ) {
+        const value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
         if ( value.range.contains( absCharge ) ) {
           description = value.description;
           break;
@@ -368,12 +368,12 @@ define( require => {
      */
     getDescribedChargeRange: function( charge ) {
 
-      var describedCharge = Math.abs( charge );
-      var keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
+      const describedCharge = Math.abs( charge );
+      const keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
 
-      var range;
-      for ( var i = 0; i < keys.length; i++ ) {
-        var value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
+      let range;
+      for ( let i = 0; i < keys.length; i++ ) {
+        const value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
         if ( value.range.contains( describedCharge ) ) {
           range = value.range;
           break;
@@ -393,11 +393,11 @@ define( require => {
      * @returns {[type]} [description]
      */
     getBalloonsVisibleWithSameChargeRange: function( balloonA, balloonB ) {
-      var rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
-      var rangeB = BASEDescriber.getDescribedChargeRange( balloonB.chargeProperty.get() );
+      const rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
+      const rangeB = BASEDescriber.getDescribedChargeRange( balloonB.chargeProperty.get() );
 
-      var visibleA = balloonA.isVisibleProperty.get();
-      var visibleB = balloonB.isVisibleProperty.get();
+      const visibleA = balloonA.isVisibleProperty.get();
+      const visibleB = balloonB.isVisibleProperty.get();
 
       return rangeA.equals( rangeB ) && ( visibleA && visibleB );
     },
@@ -422,7 +422,7 @@ define( require => {
      * @returns {string}
      */
     getNetChargeDescriptionWithLabel: function( charge ) {
-      var chargeAmountString = charge < 0 ? negativeString : zeroString;
+      const chargeAmountString = charge < 0 ? negativeString : zeroString;
       return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
         chargeAmount: chargeAmountString,
         balloon: eachBalloonString
@@ -441,9 +441,9 @@ define( require => {
      * @returns {string}
      */
     getNeutralChargesShownDescription: function( chargesShown, numberOfCharges ) {
-      var description;
+      let description;
 
-      var relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
+      const relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
       if ( chargesShown === 'all' )  {
         description = StringUtils.fillIn( summaryNeutralChargesPatternString, {
           amount: relativeCharge

@@ -23,7 +23,7 @@ define( require => {
   const SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
 
   // a11y strings
-  var sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
+  const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
   // images
   const sweater = require( 'image!BALLOONS_AND_STATIC_ELECTRICITY/sweater.png' );
@@ -34,7 +34,7 @@ define( require => {
    * @param {Tandem} tandem
    */
   function SweaterNode( model, tandem ) {
-    var self = this;
+    const self = this;
 
     Node.call( this, {
       pickable: false,
@@ -53,7 +53,7 @@ define( require => {
     this.sweaterModel = model.sweater;
 
     // create the sweater image
-    var sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
+    const sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
 
     // scale image to match model, then set position
     sweaterImageNode.scale(
@@ -75,14 +75,14 @@ define( require => {
     }
 
     // draw plus and minus charges
-    var plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
-    var minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
+    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
+    const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      var plusChargeNode = new PlusChargeNode( plusCharge.location, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( plusCharge.location, plusChargeNodesTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusChargeNode );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      var minusChargeNode = new MinusChargeNode( minusCharge.location, minusChargeNodesTandemGroup.createNextTandem() );
+      const minusChargeNode = new MinusChargeNode( minusCharge.location, minusChargeNodesTandemGroup.createNextTandem() );
       self.minusChargesNode.addChild( minusChargeNode );
     } );
 
@@ -90,7 +90,7 @@ define( require => {
     this.addChild( this.minusChargesNode );
 
     // show all, none or charge difference
-    var updateChargesVisibilityOnSweater = function( value ) {
+    const updateChargesVisibilityOnSweater = function( value ) {
       if ( model.showChargesProperty.get() === 'none' ) {
         self.plusChargesNode.visible = false;
         self.minusChargesNode.visible = false;
@@ -99,10 +99,10 @@ define( require => {
         self.plusChargesNode.visible = true;
         self.minusChargesNode.visible = true;
 
-        var showAll = ( model.showChargesProperty.get() === 'all');
-        for ( var i = 0; i < self.sweaterModel.minusCharges.length; i++ ) {
-          var plusChargeNodes = self.plusChargesNode.children;
-          var minusChargeNodes = self.minusChargesNode.children;
+        const showAll = ( model.showChargesProperty.get() === 'all');
+        for ( let i = 0; i < self.sweaterModel.minusCharges.length; i++ ) {
+          const plusChargeNodes = self.plusChargesNode.children;
+          const minusChargeNodes = self.minusChargesNode.children;
           plusChargeNodes[ i ].visible = showAll ||
                                          self.sweaterModel.minusCharges[ i ].movedProperty.get();
           minusChargeNodes[ i ].visible = showAll && !self.sweaterModel.minusCharges[ i ].movedProperty.get();
@@ -111,7 +111,7 @@ define( require => {
     };
 
     // a11y - construct a type that manages descriptions depending on the state of the model
-    var sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
+    const sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
     Property.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], function( showCharges, charge ) {
       updateChargesVisibilityOnSweater( charge );

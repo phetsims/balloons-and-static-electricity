@@ -19,7 +19,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
-  var CHARGE_PAIR_POSITIONS = [
+  const CHARGE_PAIR_POSITIONS = [
     new Vector2( 104, 64 ),
     new Vector2( 94, 90 ),
     new Vector2( 85, 121 ),
@@ -99,7 +99,7 @@ define( require => {
       phetioReadOnly: true
     } );
 
-    var self = this;
+    const self = this;
 
     // @public
     this.x = x;
@@ -119,14 +119,14 @@ define( require => {
     // https://github.com/phetsims/balloons-and-static-electricity/issues/240.  This algorithm works by dividing the
     // unit circle into a set of slices and finding the charge location that is furthest from the center in that
     // slice, then building a shape from that set of points.
-    var numSlices = 9; // this number can be adjusted to get a more refined shape to enclose the charges
-    var shapeDefiningPoints = [];
-    var sliceWidth = ( 2 * Math.PI ) / numSlices; // in radians
+    const numSlices = 9; // this number can be adjusted to get a more refined shape to enclose the charges
+    const shapeDefiningPoints = [];
+    const sliceWidth = ( 2 * Math.PI ) / numSlices; // in radians
     _.times( numSlices ).forEach( function( sliceNumber ) {
       shapeDefiningPoints.push( self.center.copy() );
-      var slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
+      const slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
       CHARGE_PAIR_POSITIONS.forEach( function( chargePairPosition ) {
-        var angle = chargePairPosition.minus( self.center ).angle;
+        let angle = chargePairPosition.minus( self.center ).angle;
 
         // convert negative angles
         if ( angle < 0 ) {
@@ -146,7 +146,7 @@ define( require => {
 
     // @public {Shape} - area on the sweater where charges exist
     this.chargedArea = new Shape().moveToPoint( shapeDefiningPoints[ 0 ] );
-    for ( var i = 1; i < shapeDefiningPoints.length; i++ ) {
+    for ( let i = 1; i < shapeDefiningPoints.length; i++ ) {
       this.chargedArea.lineToPoint( shapeDefiningPoints[ i ] );
     }
     this.chargedArea.close();
@@ -155,10 +155,10 @@ define( require => {
     this.plusCharges = [];
     this.minusCharges = [];
 
-    var plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
-    var minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
+    const plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
+    const minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
     CHARGE_PAIR_POSITIONS.forEach( function( chargePairPosition ) {
-      var plusCharge = new PointChargeModel(
+      const plusCharge = new PointChargeModel(
         chargePairPosition.x,
         chargePairPosition.y,
         plusChargesGroupTandem.createNextTandem(),
@@ -167,7 +167,7 @@ define( require => {
       self.plusCharges.push( plusCharge );
 
       //minus
-      var minusCharge = new PointChargeModel(
+      const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
         chargePairPosition.y + PointChargeModel.RADIUS,
         minusChargesGroupTandem.createNextTandem(),
@@ -192,10 +192,10 @@ define( require => {
      * @returns {boolean} chargeMoved - was a charge moved to the balloon?
      */
     checkAndTransferCharges: function( balloon ) {
-      var self = this;
+      const self = this;
 
       // track whether or not at least once charge was moved
-      var chargeMoved = false;
+      let chargeMoved = false;
 
       // check each minus charge to see whether it should be moved to the balloon
       this.minusCharges.forEach( function( minusCharge ) {

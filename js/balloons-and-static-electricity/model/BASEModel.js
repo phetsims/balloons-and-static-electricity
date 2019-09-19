@@ -62,11 +62,11 @@ define( require => {
     this.wall = new WallModel( width - this.wallWidth, this.wallWidth, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
     // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
-    var self = this;
+    const self = this;
     this.wall.isVisibleProperty.link( function( isVisible ) {
 
       // update the model bounds
-      var newWidth = isVisible ? width - self.wallWidth : width;
+      const newWidth = isVisible ? width - self.wallWidth : width;
       self.playAreaBounds.setMaxX( newWidth );
     } );
 
@@ -116,7 +116,7 @@ define( require => {
 
     // Called by the animation loop
     step: function( dt ) {
-      var self = this;
+      const self = this;
 
       this.balloons.forEach( function( balloon ) {
         if ( balloon.isVisibleProperty.get() ) {
@@ -156,7 +156,7 @@ define( require => {
      * @returns {boolean}
      */
     getBalloonsAdjacent: function() {
-      var balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude ) < BalloonModel.BALLOON_WIDTH;
+      const balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude ) < BalloonModel.BALLOON_WIDTH;
       return balloonsAdjacent && this.bothBalloonsVisible();
     },
 
@@ -172,10 +172,10 @@ define( require => {
     checkBalloonRestrictions: function( position, objWidth, objHeight ) {
 
       //flag to check if we outside borders
-      var isOutBounds = false;
+      let isOutBounds = false;
 
       // if wall visible, right bound will be smaller by width of wall
-      var rightBound = this.playAreaBounds.width;
+      const rightBound = this.playAreaBounds.width;
 
       //if more than maxRight position - set maxRight position
       if ( position.x + objWidth > rightBound ) {

@@ -28,26 +28,26 @@ define( require => {
   function PlayAreaGridNode( layoutBounds, tandem ) {
 
     Node.call( this, { pickable: false } );
-    var blueOptions = { fill: 'rgba(0,0,255,0.5)' };
-    var greyOptions = { fill: 'rgba(200,200,200,0.5)' };
-    var redOptions = { fill: 'rgba(250,0,50,0.45)' };
+    const blueOptions = { fill: 'rgba(0,0,255,0.5)' };
+    const greyOptions = { fill: 'rgba(200,200,200,0.5)' };
+    const redOptions = { fill: 'rgba(250,0,50,0.45)' };
 
-    var columns = PlayAreaMap.COLUMN_RANGES;
-    var rows = PlayAreaMap.ROW_RANGES;
-    var landmarks = PlayAreaMap.LANDMARK_RANGES;
+    const columns = PlayAreaMap.COLUMN_RANGES;
+    const rows = PlayAreaMap.ROW_RANGES;
+    const landmarks = PlayAreaMap.LANDMARK_RANGES;
 
     // draw each column
-    var self = this;
-    var i = 0;
-    var range;
-    var minValue;
-    var maxValue;
+    const self = this;
+    let i = 0;
+    let range;
+    let minValue;
+    let maxValue;
     for ( range in columns ) {
       if ( columns.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
           minValue = Math.max( layoutBounds.minX, columns[ range ].min );
           maxValue = Math.min( layoutBounds.maxX, columns[ range ].max );
-          var width = maxValue - minValue;
+          const width = maxValue - minValue;
           self.addChild( new Rectangle( minValue, 0, width, PlayAreaMap.HEIGHT, blueOptions ) );
         }
         i++;
@@ -60,7 +60,7 @@ define( require => {
         if ( i % 2 === 0 ) {
           minValue = Math.max( layoutBounds.minY, rows[ range ].min );
           maxValue = Math.min( layoutBounds.maxY, rows[ range ].max );
-          var height = maxValue - minValue;
+          const height = maxValue - minValue;
           self.addChild( new Rectangle( 0, minValue, PlayAreaMap.WIDTH, height, greyOptions ) );
         }
         i++;
@@ -72,16 +72,16 @@ define( require => {
       if ( landmarks.hasOwnProperty( range ) ) {
         minValue = Math.max( layoutBounds.minX, landmarks[ range ].min );
         maxValue = Math.min( layoutBounds.maxX, landmarks[ range ].max );
-        var landmarkWidth = maxValue - minValue;
+        const landmarkWidth = maxValue - minValue;
         self.addChild( new Rectangle( minValue, 0, landmarkWidth, PlayAreaMap.HEIGHT, redOptions ) );
       }
     }
 
     // draw the lines to along critical balloon locations along both x and y
-    var lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
-    var xLocations = PlayAreaMap.X_LOCATIONS;
-    var yLocations = PlayAreaMap.Y_LOCATIONS;
-    var location;
+    const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
+    const xLocations = PlayAreaMap.X_LOCATIONS;
+    const yLocations = PlayAreaMap.Y_LOCATIONS;
+    let location;
     for ( location in xLocations ) {
       if ( xLocations.hasOwnProperty( location ) ) {
         self.addChild( new Line( xLocations[ location ], 0, xLocations[ location ], PlayAreaMap.HEIGHT, lineOptions ) );
