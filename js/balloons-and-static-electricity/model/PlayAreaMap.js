@@ -14,12 +14,12 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Range = require( 'DOT/Range' );
+  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  const Range = require( 'DOT/Range' );
 
   // constants
   // when within this width of an X_LOCATION, balloon is considered in a landmark

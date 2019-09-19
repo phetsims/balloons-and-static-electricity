@@ -17,26 +17,26 @@
  * @author John Blanco
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Color = require( 'SCENERY/util/Color' );
-  var ColorConstants = require( 'SUN/ColorConstants' );
-  var DownUpListener = require( 'SCENERY/input/DownUpListener' );
-  var Emitter = require( 'AXON/Emitter' );
-  var EventType = require( 'TANDEM/EventType' );
-  var HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var SunConstants = require( 'SUN/SunConstants' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  const Color = require( 'SCENERY/util/Color' );
+  const ColorConstants = require( 'SUN/ColorConstants' );
+  const DownUpListener = require( 'SCENERY/input/DownUpListener' );
+  const Emitter = require( 'AXON/Emitter' );
+  const EventType = require( 'TANDEM/EventType' );
+  const HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const Shape = require( 'KITE/Shape' );
+  const SunConstants = require( 'SUN/SunConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var DEFAULT_FILL = new Color( 'white' );

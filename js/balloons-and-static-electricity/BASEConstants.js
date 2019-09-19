@@ -5,12 +5,12 @@
  * 
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  var Property = require( 'AXON/Property' );
+  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  const Property = require( 'AXON/Property' );
 
   var BASEConstants = {
     backgroundColorProperty: new Property( 'rgb( 151, 208, 255 )' ),
