@@ -2,7 +2,7 @@
 
 /**
  * A view type that presents the accessibility descriptions for the Sweater.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -51,7 +51,7 @@ define( require => {
 
   /**
    * Manages all descriptions relating to the sweater.
-   * 
+   *
    * @param {BASEModel} model
    * @param {Sweater} sweaterModel
    */
@@ -66,7 +66,7 @@ define( require => {
 
     /**
      * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
-     * relative proportion of positive and negative charges.  Will be dependent on what charges are visible. 
+     * relative proportion of positive and negative charges.  Will be dependent on what charges are visible.
      * "At left edge of Play Area. Has positive net charge, a few more positive charges than negative charges." or
      * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
      * "At left edge of Play Area. Has positive net charge, no more negative charges, only positive charges." or
@@ -76,7 +76,6 @@ define( require => {
      * @returns {string}
      */
     getSweaterDescription: function( showCharges ) {
-      let description;
 
       // if we are not showing any charges, just return a description for the location
       if ( showCharges === 'none' ) {
@@ -118,7 +117,7 @@ define( require => {
           chargeString = showingAllPositiveChargesString;
         }
         else {
-          chargeString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString,  {
+          chargeString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
             charge: relativeChargeString
           } );
         }
@@ -131,7 +130,7 @@ define( require => {
       } );
 
       // full description,  without punctuation
-      description = StringUtils.fillIn( sweaterDescriptionPatternString, {
+      const description = StringUtils.fillIn( sweaterDescriptionPatternString, {
         location: sweaterLocationString,
         charge: chargeString
       } );
@@ -149,10 +148,10 @@ define( require => {
      * "Sweater has several more positive charges than negative charges." or
      * "Sweater has positive net charge, showing several positive charges." or
      * "Sweater has no more negative charges, only positive charges."
-     * 
+     *
      * @param  {number} charge
      * @param  {string} shownCharges
-     * @returns {string} 
+     * @returns {string}
      */
     getRelativeChargeDescriptionWithLabel: function( charge, shownCharges ) {
       let description;
@@ -205,7 +204,7 @@ define( require => {
     getRelativeChargeDescription: function( charge ) {
 
       if ( charge === BASEConstants.MAX_BALLOON_CHARGE ) {
-        return allString;        
+        return allString;
       }
       else {
         return BASEDescriber.getRelativeChargeDescription( charge );
@@ -215,7 +214,7 @@ define( require => {
     /**
      * Get an alert describing the sweater when it runs out of charges.  Dependent on the
      * charge visibility.
-     * 
+     *
      * @param  {string} shownCharges
      * @returns {string}
      */
@@ -223,7 +222,7 @@ define( require => {
       let alert;
       if ( shownCharges === 'all' ) {
         alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
-          relativeCharge: sweaterNoMoreChargesString          
+          relativeCharge: sweaterNoMoreChargesString
         } );
       }
       else if ( shownCharges === 'diff' ) {
@@ -241,7 +240,7 @@ define( require => {
      * @param {number} sweaterCharge
      * @returns {string}
      */
-    getNetChargeDescription: function( sweaterCharge )  {
+    getNetChargeDescription: function( sweaterCharge ) {
       const relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
       return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
         relativeCharge: relativeChargeString
@@ -282,18 +281,18 @@ define( require => {
       if ( shownCharges === 'all' ) {
         moreChargesString = morePairsOfChargesString;
       }
-      else if ( shownCharges === 'diff' )  {
+      else if ( shownCharges === 'diff' ) {
         moreChargesString = moreHiddenPairsOfChargesString;
       }
 
       return StringUtils.fillIn( patternString, {
-        moreCharges:  moreChargesString,
+        moreCharges: moreChargesString,
         direction: directionDescription
       } );
     },
 
     /**
-     * Get a description of the sweater's charge for the screen summary. Will return something like 
+     * Get a description of the sweater's charge for the screen summary. Will return something like
      * "Sweater has positive net charge, a few more positive charges than negative charges."
      * "Sweater has positive net charge, showing a few positive charges."
      * "Sweater has zero net charge, many pairs of positive and negative charges."
@@ -315,13 +314,13 @@ define( require => {
       const relativeChargeString = BASEDescriber.getRelativeChargeDescription( charge );
       if ( chargesShown === 'all' ) {
         chargeString = ( charge === 0 ) ?
-          StringUtils.fillIn( summaryNeutralChargesPatternString, { amount: manyString } ) :
-          StringUtils.fillIn( sweaterRelativeChargePatternString, { charge: relativeChargeString } );
+                       StringUtils.fillIn( summaryNeutralChargesPatternString, { amount: manyString } ) :
+                       StringUtils.fillIn( sweaterRelativeChargePatternString, { charge: relativeChargeString } );
       }
       else if ( chargesShown === 'diff' ) {
         chargeString = ( charge === 0 ) ?
-          showingNoChargesString :
-          chargeString = StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );
+                       showingNoChargesString :
+                       chargeString = StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );
       }
 
       return StringUtils.fillIn( summaryObjectChargePatternString, {

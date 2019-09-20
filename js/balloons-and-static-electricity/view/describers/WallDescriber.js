@@ -89,14 +89,14 @@ define( require => {
      * Get the full description for the wall including its location, net charge, and induced charge.  This is used
      * as the general description for the wall which an AT user can read at any time with the virtual cursor.
      * The content is dependent on the view representation of charges (model.showchargesProperty).
-     * 
+     *
      * @public
      * @param  {BalloonModel} yellowBalloon
      * @param  {BalloonModel} greenBalloon
      * @returns {string}
      */
     getWallDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent ) {
-      let  description;
+      let description;
 
       // if no charges are shown, the location is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
@@ -109,9 +109,9 @@ define( require => {
 
         // assemble the whole description
         description = StringUtils.fillIn( wallDescriptionPatternString, {
-          location: wallLocationString, 
+          location: wallLocationString,
           charge: chargeDescription
-        } ); 
+        } );
       }
 
       return description;
@@ -124,8 +124,7 @@ define( require => {
      *
      * @returns {string}
      */
-    getWallChargeDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown )  {
-      let descriptionString;
+    getWallChargeDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown ) {
 
       let inducedChargeString;
       let yellowBalloonInducedChargeString;
@@ -203,7 +202,7 @@ define( require => {
         } );
       }
 
-      descriptionString = wallChargeString;
+      const descriptionString = wallChargeString;
       return descriptionString;
     },
 
@@ -277,7 +276,7 @@ define( require => {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
           wallLocation: chargeLocationString,
           balloon: balloonLabel
-        } ); 
+        } );
       }
       else {
         descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
@@ -293,7 +292,7 @@ define( require => {
      *
      * "Negative charges in wall move away from yellow balloon a little bit." or
      * "Negative charges in wall move away from yellow balloon a little bit. Positive charges do not move."
-     * 
+     *
      * @static
      * @public
      *
@@ -317,9 +316,9 @@ define( require => {
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {
           wallLocation: chargeLocationString,
-          balloon: balloonLabel,  
+          balloon: balloonLabel,
           inductionAmount: inducedChargeAmount
-        } ); 
+        } );
       }
       else {
         descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
@@ -343,8 +342,8 @@ define( require => {
     },
 
     /**
-     * Get a description of both balloons. Will return something like 
-     * 
+     * Get a description of both balloons. Will return something like
+     *
      * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
      * "Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move."
      *
@@ -363,7 +362,7 @@ define( require => {
 
       descriptionString = StringUtils.fillIn( inducedChargePatternString, {
         wallLocation: chargeLocationString,
-        balloon: bothBalloonsString,  
+        balloon: bothBalloonsString,
         inductionAmount: inducedChargeAmount
       } );
 

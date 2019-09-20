@@ -32,7 +32,7 @@ define( require => {
   const twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPattern.value;
   const twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPattern.value;
   const twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPattern.value;
-  const extremelySlowlyString  = BASEA11yStrings.extremelySlowly.value;
+  const extremelySlowlyString = BASEA11yStrings.extremelySlowly.value;
   const verySlowlyString = BASEA11yStrings.verySlowly.value;
   const slowlyString = BASEA11yStrings.slowly.value;
   const quicklyString = BASEA11yStrings.quickly.value;
@@ -128,11 +128,11 @@ define( require => {
       description: verySlowlyString
     },
     SLOWLY_RANGE: {
-      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 100, MAXIMUM_VELOCITY_ON_RELEASE  / 50 ),
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 100, MAXIMUM_VELOCITY_ON_RELEASE / 50 ),
       description: slowlyString
     },
     QUICKLY_RANGE: {
-      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 50,  MAXIMUM_VELOCITY_ON_RELEASE / 4 ),
+      range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 50, MAXIMUM_VELOCITY_ON_RELEASE / 4 ),
       description: quicklyString
     },
     VERY_QUICKLY_RANGE: {
@@ -243,11 +243,11 @@ define( require => {
      */
     getAttractiveStateAndLocationDescription: function() {
       const locationDescriptionString = this.getBalloonLocationDescription();
-      
+
       const attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
       const attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
         attractiveState: attractiveStateDescriptionString,
-        location: locationDescriptionString 
+        location: locationDescriptionString
       } );
 
       return attractiveStateAndLocationString;
@@ -261,11 +261,10 @@ define( require => {
      * @returns {string}
      */
     getAttractiveStateAndLocationDescriptionWithLabel: function() {
-      let alert;
 
       // to lower case since it is used elsewhere in the string
       const location = this.getAttractiveStateAndLocationDescription().toLowerCase();
-      alert = StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
+      const alert = StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
         balloonLabel: this.accessibleName,
         attractiveStateAndLocation: location
       } );
@@ -299,8 +298,8 @@ define( require => {
      * "next to {{balloon label}}" is added. Will return someting like
      *
      * "center of play area" or
-     * "upper wall", or 
-     * "wall, next to Green Balloon", or 
+     * "upper wall", or
+     * "wall, next to Green Balloon", or
      * "right arm of sweater, next to Yellow Balloon"
      *
      * @returns {string}
@@ -363,7 +362,7 @@ define( require => {
      * @returns {string}
      */
     getTouchingBoundaryDescription: function( attemptedDirection ) {
-      assert && assert ( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
+      assert && assert( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
       let boundaryString;
       if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BalloonDirectionEnum.DOWN ) {
@@ -375,14 +374,14 @@ define( require => {
       else if ( this.balloonModel.touchingWall() && attemptedDirection === BalloonDirectionEnum.RIGHT ) {
         boundaryString = atWallString;
       }
-      else if ( this.balloonModel.isTouchingRightEdge() && attemptedDirection === BalloonDirectionEnum.RIGHT) {
+      else if ( this.balloonModel.isTouchingRightEdge() && attemptedDirection === BalloonDirectionEnum.RIGHT ) {
         boundaryString = atRightEdgeString;
       }
       else if ( this.balloonModel.isTouchingTopBoundary() && attemptedDirection === BalloonDirectionEnum.UP ) {
         boundaryString = atTopString;
       }
 
-      assert && assert ( boundaryString, 'No boundary string found for balloon.' );
+      assert && assert( boundaryString, 'No boundary string found for balloon.' );
       return boundaryString;
     },
 
@@ -496,8 +495,8 @@ define( require => {
      * Generally announced right after the balloon as been released, this is read as an alert. Dependent on whether
      * both balloons are visible. If they are, the label of the released balloon is read prior to the rest of the
      * alert. Will generate something like
-     * 
-     * "Moves extremely slowly left." or 
+     *
+     * "Moves extremely slowly left." or
      * "Yellow balloon, moves slowly left."
      *
      * @param {Vector2} location - the current location of the balloon
@@ -508,7 +507,7 @@ define( require => {
 
       // the balloon is moving with some initial velocity, describe that
       const velocityString = this.getVelocityString();
-      const directionString= this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
+      const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
 
       let description;
       if ( this.model.bothBalloonsVisible() ) {
@@ -522,7 +521,7 @@ define( require => {
         description = StringUtils.fillIn( initialMovementPatternString, {
           velocity: velocityString,
           direction: directionString
-        } ); 
+        } );
       }
 
       return description;
@@ -621,7 +620,7 @@ define( require => {
 
     /**
      * Get a description of velocity for this balloon, one of "very slowly", "slowly", "quickly", "very quickly"
-     * 
+     *
      * @private
      * @returns {string}
      */
@@ -661,7 +660,7 @@ define( require => {
     /**
      * Get a description of the balloon movement direction when the balloon is not currently
      * being dragged.
-     * 
+     *
      * @param  {string} direction - one of BalloonDirectionEnum
      */
     getReleaseDirectionDescription: function( direction ) {
@@ -687,7 +686,7 @@ define( require => {
 
       return StringUtils.fillIn( balloonNewRegionPatternString, {
         nearOrAt: nearOrAt,
-        location: locationString 
+        location: locationString
       } );
     },
 
@@ -697,7 +696,6 @@ define( require => {
      * @returns {string}
      */
     getPlayAreaDragProgressDescription: function() {
-      let alert;
       let nearestObjectString;
 
       const centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
@@ -736,7 +734,7 @@ define( require => {
       }
 
       assert && assert( nearestObjectString, 'no nearest object found for movement direction: ' + balloonDirection );
-      alert = StringUtils.fillIn( closerToObjectPatternString, {
+      const alert = StringUtils.fillIn( closerToObjectPatternString, {
         object: nearestObjectString
       } );
 
@@ -767,7 +765,7 @@ define( require => {
 
         // when not dragged, add 'Now' to direction
         const directionString = this.getReleaseDirectionDescription( direction );
-        if ( this.model.bothBalloonsVisible() )  {
+        if ( this.model.bothBalloonsVisible() ) {
           description = StringUtils.fillIn( twoBalloonNowDirectionPatternString, {
             balloon: this.accessibleName,
             direction: directionString
@@ -873,7 +871,7 @@ define( require => {
           chargeDescription = this.balloonDescriber.chargeDescriber.getHasRelativeChargeDescription();
         }
 
-        chargeDescription = StringUtils.fillIn( singleStatementPatternString,  {
+        chargeDescription = StringUtils.fillIn( singleStatementPatternString, {
           statement: chargeDescription
         } );
 
@@ -905,7 +903,7 @@ define( require => {
       if ( !this.balloonModel.successfulPickUp ) {
         description = StringUtils.fillIn( grabbedWithHelpPatternString, {
           grabbedAlert: description,
-          help: interactionCueString  
+          help: interactionCueString
         } );
       }
 
@@ -944,7 +942,7 @@ define( require => {
         const showCharges = this.model.showChargesProperty.get();
 
         // if jumping to wall, describe as if balloon is rubbing along the wall for the first time
-        if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none') {
+        if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none' ) {
           if ( showCharges === 'all' ) {
 
             // describer pairs of charges in the wall if they are visible
@@ -955,7 +953,7 @@ define( require => {
           }
         }
         else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
-          
+
           // if there is an induced charge and the charges are visible, describe induced charge summary
           const inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );
           description = StringUtils.fillIn( locationAndInducedChargePatternString, {
