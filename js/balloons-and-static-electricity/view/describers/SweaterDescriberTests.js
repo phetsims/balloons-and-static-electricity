@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Tests for screen summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but
