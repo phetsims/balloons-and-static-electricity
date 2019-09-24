@@ -25,7 +25,8 @@
     "simulation": true,
     "phet-io": {
       "wrappers": [
-        "phet-io-wrapper-balloons-and-static-electricity-sonification"
+        "phet-io-wrapper-balloons-and-static-electricity-sonification",
+        "phet-io-wrapper-haptics"
       ]
     }
   },
