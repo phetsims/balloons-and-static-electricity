@@ -29,7 +29,7 @@ define( require => {
     // debugging - show locations of center of balloon and center of balloon charges
     showBalloonChargeCenter: { type: 'flag' },
 
-    vibrationChart: { type: 'flag' },
+    vibrationChart: { type: 'flag' }
   } );
 
   balloonsAndStaticElectricity.register( 'BASEQueryParameters', BASEQueryParameters );
