@@ -27,7 +27,9 @@ define( require => {
     showSweaterChargedArea: { type: 'flag' },
 
     // debugging - show locations of center of balloon and center of balloon charges
-    showBalloonChargeCenter: { type: 'flag' }
+    showBalloonChargeCenter: { type: 'flag' },
+
+    vibrationChart: { type: 'flag' },
   } );
 
   balloonsAndStaticElectricity.register( 'BASEQueryParameters', BASEQueryParameters );

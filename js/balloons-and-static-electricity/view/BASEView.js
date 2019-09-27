@@ -28,6 +28,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
   const vibrationController = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/vibrationController' );
+  //const VibrationChart = require( 'TAPPI/view/VibrationChart' );
 
   // a11y strings
   const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
@@ -138,6 +139,15 @@ define( require => {
     // init vib controller
     vibrationController.initialize( model );
 
+    // if ( BASEQueryParameters.vibrationChart ) {
+    //   this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.75, 75, {
+    //     labelFont: new PhetFont( 14 )
+    //   } );
+    //
+    //   this.addChild( this.vibrationChart );
+    //   this.vibrationChart.centerTop = this.layoutBounds.centerTop;
+    // }
+
     //--------------------------------------------------------------------------
     // debugging
     //--------------------------------------------------------------------------
@@ -163,6 +173,10 @@ define( require => {
 
       // step the audio
       this.audioView && this.audioView.step( dt );
+
+    //   if ( this.vibrationChart ) {
+    //     this.vibrationChart.step( dt );
+    //   }
     },
 
     /**

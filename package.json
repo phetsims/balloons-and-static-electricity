@@ -14,7 +14,8 @@
     "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
     "phetLibs": [
       "vibe",
-      "tappi"
+      "tappi",
+      "griddle"
     ],
     "runnable": true,
     "supportedBrands": [

@@ -19,8 +19,8 @@ define( require => {
 
   // modules
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  //const vibrationManager = require( 'TAPPI/vibrationManager' );
-  //const VibrationPatterns = require( 'TAPPI/VibrationPatterns' );
+  const vibrationManager = require( 'TAPPI/vibrationManager' );
+  const VibrationPatterns = require( 'TAPPI/VibrationPatterns' );
   //const Property = require( 'AXON/Property' );
 
   class VibrationController {
@@ -31,6 +31,13 @@ define( require => {
      */
     initialize( model ) {
       //const paradigmChoice = phet.chipper.queryParameters.vibration;
+
+      model.yellowBalloon.chargeProperty.link( chargeValue => {
+        if( chargeValue < 0 ) {
+          vibrationManager.startTimedVibrate(250, HZ_10);
+        }
+      })
+
     }
   }
 
