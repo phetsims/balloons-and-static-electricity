@@ -13,7 +13,8 @@
     "generatedUnitTests": true,
     "requirejsNamespace": "BALLOONS_AND_STATIC_ELECTRICITY",
     "phetLibs": [
-      "vibe"
+      "vibe",
+      "tappi"
     ],
     "runnable": true,
     "supportedBrands": [

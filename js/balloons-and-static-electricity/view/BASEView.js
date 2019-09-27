@@ -27,6 +27,7 @@ define( require => {
   const TetherNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TetherNode' );
   const Vector2 = require( 'DOT/Vector2' );
   const WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
+  const vibrationController = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/vibrationController' );
 
   // a11y strings
   const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
@@ -133,6 +134,9 @@ define( require => {
 
     // set the accessible order: sweater, balloons wall
     this.playAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
+
+    // init vib controller
+    vibrationController.initialize( model );
 
     //--------------------------------------------------------------------------
     // debugging
