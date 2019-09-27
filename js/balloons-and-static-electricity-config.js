@@ -30,6 +30,7 @@ require.config( {
     BALLOONS_AND_STATIC_ELECTRICITY: '.',
     BRAND: '../../brand/' + phet.chipper.brand + '/js',
     DOT: '../../dot/js',
+    GRIDDLE: '../../griddle/js',
     JOIST: '../../joist/js',
     KITE: '../../kite/js',
     PHETCOMMON: '../../phetcommon/js',
@@ -41,7 +42,8 @@ require.config( {
     SUN: '../../sun/js',
     TAMBO: '../../tambo/js',
     TANDEM: '../../tandem/js',
-    TAPPI: '../../tappi/js'
+    TAPPI: '../../tappi/js',
+    VIBE: '../../vibe/js'
   },
 
   // optional cache bust to make browser refresh load all included scripts, can be enabled with ?cacheBust

@@ -19,6 +19,7 @@ define( require => {
   const ControlPanel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/ControlPanel' );
   const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -26,9 +27,10 @@ define( require => {
   const SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   const TetherNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TetherNode' );
   const Vector2 = require( 'DOT/Vector2' );
-  const WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
+  const VibrationChart = require( 'TAPPI/view/VibrationChart' );
   const vibrationController = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/vibrationController' );
-  //const VibrationChart = require( 'TAPPI/view/VibrationChart' );
+  const vibrationManager = require( 'TAPPI/vibrationManager' );
+  const WallNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/WallNode' );
 
   // a11y strings
   const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
@@ -139,14 +141,14 @@ define( require => {
     // init vib controller
     vibrationController.initialize( model );
 
-    // if ( BASEQueryParameters.vibrationChart ) {
-    //   this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.75, 75, {
-    //     labelFont: new PhetFont( 14 )
-    //   } );
-    //
-    //   this.addChild( this.vibrationChart );
-    //   this.vibrationChart.centerTop = this.layoutBounds.centerTop;
-    // }
+    if ( BASEQueryParameters.vibrationChart ) {
+      this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.75, 75, {
+        labelFont: new PhetFont( 14 )
+      } );
+
+      this.addChild( this.vibrationChart );
+      this.vibrationChart.centerTop = this.layoutBounds.centerTop;
+    }
 
     //--------------------------------------------------------------------------
     // debugging
@@ -174,9 +176,9 @@ define( require => {
       // step the audio
       this.audioView && this.audioView.step( dt );
 
-    //   if ( this.vibrationChart ) {
-    //     this.vibrationChart.step( dt );
-    //   }
+      if ( this.vibrationChart ) {
+        this.vibrationChart.step( dt );
+      }
     },
 
     /**

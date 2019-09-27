@@ -17,6 +17,7 @@ define( require => {
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
   const Tandem = require( 'TANDEM/Tandem' );
+  const vibrationManager = require( 'TAPPI/vibrationManager' );
 
   // modules used by wrappers
   require( 'TAMBO/sound-generators/SoundClip' );
@@ -40,7 +41,10 @@ define( require => {
         thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
       },
       accessibility: true,
-      keyboardHelpNode: new BASEKeyboardHelpContent()
+      keyboardHelpNode: new BASEKeyboardHelpContent(),
+
+      // prototype vibration in this sim - eventually, Sim may just create this
+      vibrationManager: vibrationManager
     };
 
     const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
