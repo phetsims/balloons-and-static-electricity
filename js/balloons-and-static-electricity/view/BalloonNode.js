@@ -235,7 +235,7 @@ define( require => {
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( self.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
-          const attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );  
+          const attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );
           boundaryUtterance.alert = self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
           utteranceQueue.addToBack( boundaryUtterance );
         }

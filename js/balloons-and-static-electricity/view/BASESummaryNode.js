@@ -83,7 +83,7 @@ define( require => {
     // list of dynamic description content that will update with the state of the simulation
     const listNode = new Node( { tagName: 'ul' } );
     const roomObjectsNode = new Node( { tagName: 'li' } );
-    const objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } ); 
+    const objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } );
     const balloonChargeNode = new Node( { tagName: 'li' } );
     const sweaterWallChargeNode = new Node( { tagName: 'li' } );
     const inducedChargeNode = new Node( { tagName: 'li' } );

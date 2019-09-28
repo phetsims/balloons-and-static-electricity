@@ -131,7 +131,7 @@ define( require => {
     model.sweater.chargeProperty.set( 10 );
 
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
-    expectedDescription = 'Grabbed. On right arm of sweater. Has a few more negative charges than positive charges. ' + 
+    expectedDescription = 'Grabbed. On right arm of sweater. Has a few more negative charges than positive charges. ' +
                           'Sweater has a few more positive charges than negative charges. ' +
                           'Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 8' );
@@ -139,7 +139,7 @@ define( require => {
     // charged balloon on sweater, showing charge differences
     model.showChargesProperty.set( 'diff' );
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
-    expectedDescription = 'Grabbed. On right arm of sweater. Has negative net charge, showing a few negative charges. ' + 
+    expectedDescription = 'Grabbed. On right arm of sweater. Has negative net charge, showing a few negative charges. ' +
                           'Sweater has positive net charge, showing a few positive charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 9' );
 
@@ -185,7 +185,7 @@ define( require => {
     assert.equal( actualDescription, expectedDescription, 'grab alert test 14' );
 
     // grab alerts when both balloons are visible, at wall, and neutral, all charges shown
-    
+
     model.reset();
     model.greenBalloon.isVisibleProperty.set( true );
     model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenterY() ) );
@@ -193,7 +193,7 @@ define( require => {
     model.yellowBalloon.isDraggedProperty.set( true );
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. At wall, next to Green Balloon. Each balloon has no more negative charges than positive charges. ' +
-                          'In wall, no change in charges. Wall has many pairs of negative and positive charges. '  +
+                          'In wall, no change in charges. Wall has many pairs of negative and positive charges. ' +
                           'Press W, A, S, or D key to move balloon. Space to release.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 15' );
 
@@ -265,7 +265,7 @@ define( require => {
                           'Green Balloon has negative net charge, showing a few negative charges. ' +
                           'Wall has zero net charge, showing no charges.';
     assert.equal( actualDescription, expectedDescription, 'grab alert test 21' );
-    
+
     // both balloons visible and at wall. Grabbed balloon neutral, un-grabbed balloon has charge, showing charge
     // differences
     model.greenBalloon.chargeProperty.set( -20 );
@@ -325,8 +325,8 @@ define( require => {
     model.sweater.chargeProperty.set( 20 );
     actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
     expectedDescription = 'Grabbed. On upper-right side of sweater, next to Green Balloon. ' +
-                              'Each balloon has negative net charge, showing a few negative charges. ' +
-                              'Sweater has positive net charge, showing several positive charges.';
+                          'Each balloon has negative net charge, showing a few negative charges. ' +
+                          'Sweater has positive net charge, showing several positive charges.';
     assert.equal( actualDescription, expectedDescription, 'sweater grab test 3' );
 
     // grabbed balloon neutral, next to negatively charged balloon.
@@ -406,7 +406,7 @@ define( require => {
     actualAlert = balloonNode.describer.getNoChargePickupDescription();
     expectedAlert = 'No change in net charge. On upper-left side of sweater. More hidden pairs of charges up and to the left.';
     assert.equal( actualAlert, expectedAlert, 'no pick up 2' );
-    
+
     // the balloon just picked up the last charge from the sweater
     model.showChargesProperty.set( 'all' );
     model.sweater.chargeProperty.set( BASEConstants.MAX_BALLOON_CHARGE );

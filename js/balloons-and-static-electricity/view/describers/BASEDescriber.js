@@ -3,7 +3,7 @@
 /**
  * Manages descriptions for the entire simulation Balloons and Static Electricity.  Has functions that put together
  * strings for descriptions that are used throughout several view types.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -122,12 +122,12 @@ define( require => {
     AT_VERY_CLOSE_TO_SWEATER: {
       UPPER_PLAY_AREA: landmarkNearSweaterString,
       CENTER_PLAY_AREA: landmarkNearSweaterString,
-      LOWER_PLAY_AREA: landmarkNearSweaterString      
+      LOWER_PLAY_AREA: landmarkNearSweaterString
     },
     AT_NEAR_SWEATER: {
       UPPER_PLAY_AREA: landmarkNearSweaterString,
       CENTER_PLAY_AREA: landmarkNearSweaterString,
-      LOWER_PLAY_AREA: landmarkNearSweaterString 
+      LOWER_PLAY_AREA: landmarkNearSweaterString
     },
     LEFT_PLAY_AREA: {
       UPPER_PLAY_AREA: upperLeftSideOfPlayAreaString,
@@ -192,7 +192,7 @@ define( require => {
   };
 
   /**
-   * Generate a map from physical value to accessible descripton. Each described range has a length of 
+   * Generate a map from physical value to accessible descripton. Each described range has a length of
    * valueRange / descriptionArray.length
    *
    * @param {[].string} descriptionArray
@@ -255,7 +255,7 @@ define( require => {
     /**
      * Get the location description for the balloon. This is not a full description, but a short
      * descsription. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
-     * 
+     *
      * @param {Vector2} location - location of the balloon, relative to its center
      * @returns {string}
      */
@@ -333,9 +333,9 @@ define( require => {
     },
 
     /**
-     * Get a fragment that describes the relative charge for an objet, like 'a few' or 'several', to be used in 
+     * Get a fragment that describes the relative charge for an objet, like 'a few' or 'several', to be used in
      * string patterns
-     * 
+     *
      * @param  {number} charge
      * @returns {string}
      */
@@ -409,7 +409,7 @@ define( require => {
      * @param {string} direction - one of BalloonDirectionEnum
      * @returns {string}
      */
-    getDirectionDescription: function( direction )  {
+    getDirectionDescription: function( direction ) {
       return DIRECTION_MAP[ direction ];
     },
 
@@ -444,7 +444,7 @@ define( require => {
       let description;
 
       const relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
-      if ( chargesShown === 'all' )  {
+      if ( chargesShown === 'all' ) {
         description = StringUtils.fillIn( summaryNeutralChargesPatternString, {
           amount: relativeCharge
         } );

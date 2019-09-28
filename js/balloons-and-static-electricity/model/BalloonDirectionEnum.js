@@ -33,7 +33,7 @@ define( require => {
              direction === BalloonDirectionEnum.RIGHT ||
              direction === BalloonDirectionEnum.UP ||
              direction === BalloonDirectionEnum.DOWN;
-    }    
+    }
   };
 
   // verify that enum is immutable, without the runtime penalty in production code

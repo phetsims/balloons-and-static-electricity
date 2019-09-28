@@ -3,7 +3,7 @@
 /**
  * Generates descriptions about to the balloon's charge, which is dependent on which charges are visible
  * in the sim and the value of BASEModel.showChargesProperty.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -102,7 +102,7 @@ define( require => {
     /**
      * Get a description of the  net charge. Will return something like
      * "Has negative net charge." or
-     * "Has neutral net charge." 
+     * "Has neutral net charge."
      *
      * @returns {string}
      */
@@ -130,9 +130,9 @@ define( require => {
 
     /**
      * Get the combined relative charge description for each balloon. Will return something like
-     * 
+     *
      * "Each balloon has zero net charge, showing no charges." or
-     * "Green balloon has negative net charge, showing a few negative charges. Yellow balloon has zero net charge, 
+     * "Green balloon has negative net charge, showing a few negative charges. Yellow balloon has zero net charge,
      *   showing no charges." or
      * "Each balloon has no more negative charges than positive charges." or
      * "Green balloon has several more negative charges than positive  charges. Yellow balloon has several more
@@ -259,7 +259,7 @@ define( require => {
       // the force between the balloon and the closest charge to the balloon in the wall
       const balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
       const forceMagnitude = balloonForce.magnitude;
-   
+
       // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
       // charge in the wall, but there must be some change since the last description
       const forceDelta = forceMagnitude - this.previousForceMagnitude;
@@ -356,7 +356,7 @@ define( require => {
     /**
      * Get a description that indicates how much charge the balloon has, and how much charge is showing depending
      * on charge view. Will return something like
-     * "Has zero net charge, showing no charges." or 
+     * "Has zero net charge, showing no charges." or
      * "Has zero net charge, many pairs of positive and negative charges"
      *
      * @returns {string}
@@ -369,10 +369,10 @@ define( require => {
       if ( chargesShown === 'all' ) {
         chargeDescription = StringUtils.fillIn( balloonHasChargePatternString, {
           charge: chargeDescription
-        } );  
+        } );
       }
       else if ( chargesShown === 'diff' ) {
-        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
+        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString;
         chargeDescription = StringUtils.fillIn( balloonHasChargeShowingPatternString, {
           charge: chargeString,
           showing: chargeDescription
@@ -395,7 +395,7 @@ define( require => {
     //--------------------------------------------------------------------------
     // statics
     //--------------------------------------------------------------------------
-    
+
     /**
      * Get the relative charge description of a balloon, will return something like
      * "no more negative charges than positive charges" or
@@ -438,7 +438,7 @@ define( require => {
     /**
      * Get the relative charge with the accessible label, something like
      * "Yellow balloon has a few more negative charges than positive charges." or
-     * "Yellow balloon has negative net charge, showing several negative charges." or 
+     * "Yellow balloon has negative net charge, showing several negative charges." or
      * "Yellow balloon has zero net charge, showing no charges."
      *
      * Dependent on the charge view.
@@ -458,7 +458,7 @@ define( require => {
       }
       else if ( showCharges === 'diff' ) {
         const balloonCharge = balloonModel.chargeProperty.get();
-        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString; 
+        const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString;
 
         description = StringUtils.fillIn( balloonHasNetChargePatternString, {
           balloon: label,

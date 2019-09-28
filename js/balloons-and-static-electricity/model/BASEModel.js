@@ -97,7 +97,7 @@ define( require => {
       Property.multilink( [ self.wall.isVisibleProperty, balloon.locationProperty ], function( wallVisible, location ) {
         balloon.inducingChargeProperty.set( balloon.inducingCharge( wallVisible ) );
       } );
-    } ); 
+    } );
 
     this.reset();
   }
