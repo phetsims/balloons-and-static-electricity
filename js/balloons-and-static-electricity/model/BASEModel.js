@@ -18,12 +18,13 @@ define( require => {
   const PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   const Property = require( 'AXON/Property' );
   const PropertyIO = require( 'AXON/PropertyIO' );
+  const ScanningPropertySet = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/ScanningPropertySet' );
   const StringIO = require( 'TANDEM/types/StringIO' );
   const SweaterModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/SweaterModel' );
   const WallModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/WallModel' );
 
   /**
-   * Constructor for main model for the Balloons and Static Electricity sim. 
+   * Constructor for main model for the Balloons and Static Electricity sim.
    * @param {number} width
    * @param {number} height
    * @param {Tandem} tandem
@@ -57,6 +58,9 @@ define( require => {
     // assign 'other' balloon references
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
+
+    // @public - set of Properties that indicate where the user is while scanning for objects in the play area
+    this.scanningPropertySet = new ScanningPropertySet();
 
     // @public (read-only) - Model of the wall
     this.wall = new WallModel( width - this.wallWidth, this.wallWidth, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );

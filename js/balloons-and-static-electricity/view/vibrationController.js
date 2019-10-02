@@ -12,7 +12,6 @@ define( require => {
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const vibrationManager = require( 'TAPPI/vibrationManager' );
   const VibrationPatterns = require( 'TAPPI/VibrationPatterns' );
-  //const Property = require( 'AXON/Property' );
 
   class VibrationController {
     constructor() {}
@@ -56,6 +55,29 @@ define( require => {
             vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
           } else if ( chargeValue < -10) {
             vibrationManager.startVibrate( VibrationPatterns.HZ_25 );
+          }
+        } );
+      }
+
+      if ( paradigmChoice === 'manipulation' ) {
+
+        // 250 ms pulse when finger goes over the balloon
+        model.scanningPropertySet.yellowBalloonDetectedProperty.link( detected => {
+          if ( detected ) {
+            vibrationManager.startTimedVibrate( 250 );
+          }
+        } );
+
+        // continuous vibration for as long as the balloon is grabbed
+        model.yellowBalloon.isDraggedProperty.link( isDragged => {
+          if ( isDragged ) {
+
+            // TODO: We need to support faster vibrations, changes in tappi coming to allow this, when that is done
+            // this should change to a 50 hz vibration.
+            vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
+          }
+          else {
+            vibrationManager.stopVibrate();
           }
         } );
       }

@@ -13,6 +13,7 @@ define( require => {
   const BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  const BASEShapeHitDetector = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEShapeHitDetector' );
   const BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   const BASESummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNode' );
   const Bounds2 = require( 'DOT/Bounds2' );
@@ -148,6 +149,11 @@ define( require => {
 
       this.addChild( this.vibrationChart );
       this.vibrationChart.centerTop = this.layoutBounds.centerTop;
+    }
+
+    if ( phet.chipper.queryParameters.vibration !== null ) {
+      const hitDetector = new BASEShapeHitDetector( model, this, tandem.createTandem( 'hitDetector' ) );
+      phet.joist.display.addInputListener( hitDetector );
     }
 
     //--------------------------------------------------------------------------
