@@ -83,7 +83,7 @@ define( require => {
     this.model = model;
     this.globalModel = globalModel;
 
-    // a11y - a type that generates descriptions for the balloon 
+    // a11y - a type that generates descriptions for the balloon
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
 
     // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
@@ -117,8 +117,9 @@ define( require => {
     //When dragging, move the balloon
     const dragHandler = new MovableDragHandler( property, {
 
-      //When dragging across it in a mobile device, pick it up
-      allowTouchSnag: true,
+      // When dragging across it in a mobile device, pick it up
+      // Temporarily disabled for vibration prototypes, see #449
+      allowTouchSnag: phet.joist.queryParameters.vibration === null,
       onDrag: function() {
 
         // make sure the balloon is dragged - when this node is blurred, isDraggedProperty is set to false and this
@@ -256,7 +257,7 @@ define( require => {
       grabCueOptions: {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
-      
+
       grabbableOptions: {
         descriptionContent: grabBalloonHelpString,
         appendDescription: true
