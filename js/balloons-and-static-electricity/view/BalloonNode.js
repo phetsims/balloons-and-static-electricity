@@ -119,7 +119,7 @@ define( require => {
 
       // When dragging across it in a mobile device, pick it up
       // Temporarily disabled for vibration prototypes, see #449
-      allowTouchSnag: phet.joist.queryParameters.vibration === null,
+      allowTouchSnag: phet.chipper.queryParameters.vibration === null,
       onDrag: function() {
 
         // make sure the balloon is dragged - when this node is blurred, isDraggedProperty is set to false and this
