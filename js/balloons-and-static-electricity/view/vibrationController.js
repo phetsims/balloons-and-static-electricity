@@ -10,8 +10,10 @@ define( require => {
 
   // modules
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  const PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   const vibrationManager = require( 'TAPPI/vibrationManager' );
   const VibrationPatterns = require( 'TAPPI/VibrationPatterns' );
+  const Property = require( 'AXON/Property' );
 
   class VibrationController {
     constructor() {}
@@ -86,6 +88,51 @@ define( require => {
             vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
           }
           else {
+            vibrationManager.stopVibrate();
+          }
+        } );
+      }
+
+      // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback
+      // based on the location of the balloon in relation to other objects.
+      if ( paradigmChoice === 'result' ) {
+        const yellowBalloon = model.yellowBalloon;
+
+        // the vibration needs to update with the state of these Properties
+        const resultProperties = [
+          yellowBalloon.playAreaColumnProperty,
+          yellowBalloon.onSweaterProperty,
+          yellowBalloon.isDraggedProperty
+        ];
+        Property.multilink( resultProperties, ( column, onSweater, isDragged ) => {
+          if ( isDragged ) {
+            if ( onSweater ) {
+
+              // if dragging on the sweater, begin a persistent vibration
+              vibrationManager.startVibrate();
+            }
+            else if ( yellowBalloon.isCharged() ) {
+
+              // otherwise, pattern dependent on how close balloon is to the sweater and wall
+              const columnRange = PlayAreaMap.COLUMN_RANGES[ column ];
+
+              if ( columnRange === PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA ) {
+                vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
+              }
+              else if ( columnRange === PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA ) {
+                vibrationManager.startVibrate( VibrationPatterns.HZ_25 );
+              }
+              else if ( columnRange === PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA ) {
+                vibrationManager.startVibrate( VibrationPatterns.HZ_5 );
+              }
+            }
+            else {
+              vibrationManager.stopVibrate();
+            }
+          }
+          else {
+
+            // stop all vibration upon release
             vibrationManager.stopVibrate();
           }
         } );
