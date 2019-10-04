@@ -42,8 +42,7 @@ require.config( {
     SUN: '../../sun/js',
     TAMBO: '../../tambo/js',
     TANDEM: '../../tandem/js',
-    TAPPI: '../../tappi/js',
-    VIBE: '../../vibe/js'
+    TAPPI: '../../tappi/js'
   },
 
   // Cache busting is applied by default, but can be disabled via ?cacheBust=false, see initialize-globals.js
