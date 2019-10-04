@@ -15,8 +15,10 @@ define( require => {
   class ScanningPropertySet {
     constructor() {
 
-      // @public - is the finger over the yellow balloon?
+      // @public - is the finger over one of these objects?
       this.yellowBalloonDetectedProperty = new BooleanProperty( false );
+      this.sweaterDetectedProperty = new BooleanProperty( false );
+      this.wallDetectedProperty = new BooleanProperty( false );
     }
   }
 

@@ -23,21 +23,30 @@ define( require => {
       const paradigmChoice = phet.chipper.queryParameters.vibration;
 
       if ( paradigmChoice === 'objects' ) {
-        // short buzz notification when grabbing the balloon
-        model.yellowBalloon.isDraggedProperty.link( isDragged => {
-          if ( isDragged ) {
-            vibrationManager.startTimedVibrate( 250, VibrationPatterns.HZ_25 );
+        model.scanningPropertySet.sweaterDetectedProperty.link( detected => {
+          if ( detected ) {
+            vibrationManager.startVibrate();
+          } else {
+            vibrationManager.stopVibrate();
           }
         } );
 
-          // how to check if inside sweater area?
-          model.yellowBalloon.onSweaterProperty.link( isInsideSweater => {
-            if( isInsideSweater ) {
-              vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
-            } else {
-              vibrationManager.stopVibrate();
-            }
-          } );
+        model.scanningPropertySet.wallDetectedProperty.link( detected => {
+          if ( detected ) {
+            vibrationManager.startVibrate( VibrationPatterns.HZ_25 );
+          } else {
+            vibrationManager.stopVibrate();
+          }
+        } );
+
+        model.scanningPropertySet.yellowBalloonDetectedProperty.link( detected => {
+          if ( detected ) {
+            vibrationManager.startVibrate( VibrationPatterns.HZ_50 );
+          } else {
+            vibrationManager.stopVibrate();
+          }
+        } );
+
       }
 
       if ( paradigmChoice === 'interaction' ) {
