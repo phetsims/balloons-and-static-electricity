@@ -2,7 +2,7 @@
 
 /**
  * Model of a wall. Wall have electrons which can change position under force from balloons.
- * 
+ *
  * @author Vasily Shakhov (Mlearner)
  */
 define( require => {
@@ -17,6 +17,7 @@ define( require => {
   const PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
+  const Bounds2 = require( 'DOT/Bounds2' );
 
   // constants
   // when charge displacement is larger than this, there is an appreciable induced charge
@@ -40,11 +41,15 @@ define( require => {
     } );
 
     // @public (read-only)
+    this.y = 0; // the top location of the wall
     this.x = x; // the left location of the wall
     this.numX = 3; // number of columns with charges
     this.numY = 18; // number of rows with charges
     this.width = width;
     this.height = height;
+
+    // @public {Bounds2} bounds containing the wall
+    this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
 
     // @private {number} - scaling factors for calculating positions for induced charge
     this.dx = Util.roundSymmetric( width / this.numX + 2 );
@@ -82,7 +87,7 @@ define( require => {
 
       // value for k for calculating forces, chosen so that motion of the balloon looks like Java version
       const k = 10000;
-      
+
       // calculate force from Balloon to each charge in the wall, we subtract by the PointChargeModel radius
       // to make the force look correct because each charge is minus charge is shifted down by that much initially
       self.minusCharges.forEach( function( entry ) {
