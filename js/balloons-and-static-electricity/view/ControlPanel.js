@@ -10,15 +10,16 @@ define( require => {
   'use strict';
 
   // modules
-  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   const BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
+  const BooleanRectangularToggleButton = require( 'SUN/buttons/BooleanRectangularToggleButton' );
   const BooleanToggleNode = require( 'SUN/BooleanToggleNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Panel = require( 'SUN/Panel' );
@@ -120,7 +121,7 @@ define( require => {
     const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
       node: new Text(
         balloonAppletShowAllChargesString,
-        _.extend( { tandem: tandem.createTandem( 'allCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        merge( { tandem: tandem.createTandem( 'allCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
       value: 'all',
       tandemName: 'showAllChargesRadioButton',
@@ -128,7 +129,7 @@ define( require => {
     }, {
       node: new Text(
         balloonAppletShowNoChargesString,
-        _.extend( { tandem: tandem.createTandem( 'noCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        merge( { tandem: tandem.createTandem( 'noCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
       value: 'none',
       tandemName: 'showNoChargesRadioButton',
@@ -136,7 +137,7 @@ define( require => {
     }, {
       node: new Text(
         balloonAppletShowChargeDifferencesString,
-        _.extend( { tandem: tandem.createTandem( 'differentialCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        merge( { tandem: tandem.createTandem( 'differentialCharges' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
       value: 'diff',
       tandemName: 'showChargeDifferencesRadioButton',

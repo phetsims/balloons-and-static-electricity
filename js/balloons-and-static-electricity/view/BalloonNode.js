@@ -28,6 +28,7 @@ define( require => {
   const KeyboardDragListener = require( 'SCENERY/listeners/KeyboardDragListener' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
   const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -62,7 +63,7 @@ define( require => {
   function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       cursor: 'pointer',
 
       // a11y - this node will act as a container for more accessible content, its children will implement

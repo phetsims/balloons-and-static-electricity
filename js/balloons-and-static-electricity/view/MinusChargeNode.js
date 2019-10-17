@@ -9,10 +9,11 @@ define( require => {
   'use strict';
 
   // modules
-  const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+  const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -47,7 +48,7 @@ define( require => {
    */
   function MinusChargeNode( location, tandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
       pickable: false,
       tandem: tandem
     }, options );

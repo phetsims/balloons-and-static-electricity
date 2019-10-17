@@ -14,6 +14,7 @@ define( require => {
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const merge = require( 'PHET_CORE/merge' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
   const TwoColumnKeyboardHelpContent = require( 'SCENERY_PHET/keyboard/help/TwoColumnKeyboardHelpContent' );
 
@@ -95,7 +96,7 @@ define( require => {
         }
       } );
 
-      super( grabOrReleaseBalloonHeadingString, [ labelWithContent ], _.extend( {
+      super( grabOrReleaseBalloonHeadingString, [ labelWithContent ], merge( {
         a11yContentTagName: null // just a paragraph for this section, no list
       }, options ) );
     }
