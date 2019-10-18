@@ -31,6 +31,7 @@ define( require => {
   const HighlightListener = require( 'SCENERY_PHET/input/HighlightListener' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
@@ -52,7 +53,7 @@ define( require => {
    */
   function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // LayoutBox options - buttons oriented with a layout box
       spacing: 10,

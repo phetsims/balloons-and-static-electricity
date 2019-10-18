@@ -13,6 +13,7 @@ define( require => {
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   const BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   const Range = require( 'DOT/Range' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -303,7 +304,7 @@ define( require => {
      * @returns {string}
      */
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible, options ) {
-      options = _.extend( {
+      options = merge( {
         includeWallLocation: true, // include location in the wall?
         includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
       }, options );
@@ -351,7 +352,7 @@ define( require => {
      */
     getCombinedInducedChargeDescription: function( balloon, wallVisible, options ) {
 
-      options = _.extend( {
+      options = merge( {
         includeWallLocation: true,
         includePositiveChargeInfo: true
       }, options );
