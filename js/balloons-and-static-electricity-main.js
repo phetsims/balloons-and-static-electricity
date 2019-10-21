@@ -19,10 +19,6 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
   const vibrationManager = require( 'TAPPI/vibrationManager' );
 
-  // modules used by wrappers
-  require( 'TAMBO/sound-generators/SoundClip' );
-  require( 'TAMBO/phetAudioContext' );
-
   // strings
   const balloonsAndStaticElectricityTitleString = require( 'string!BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity.title' );
 
