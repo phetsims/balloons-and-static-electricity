@@ -13,6 +13,7 @@ define( require => {
   const BalloonNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BalloonNode' );
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
+  const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
   const BASEShapeHitDetector = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASEShapeHitDetector' );
   const BASEQueryParameters = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEQueryParameters' );
   const BASESummaryNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNode' );
@@ -21,10 +22,12 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PitchedPopGenerator = require( 'TAMBO/sound-generators/PitchedPopGenerator' );
   const PlayAreaGridNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlayAreaGridNode' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const SweaterNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/SweaterNode' );
   const TetherNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TetherNode' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -73,7 +76,7 @@ define( require => {
       { fill: 'black', tandem: tandem.createTandem( 'spaceToRightOfWall' ) }
     ) );
 
-    //Add black to the left of the screen to match the black region to the right of the wall
+    // Add black to the left of the screen to match the black region to the right of the wall
     const maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
     this.addChild( new Rectangle(
       maxX - 1000,
@@ -134,6 +137,21 @@ define( require => {
       else if ( greenDragged ) {
         greenBalloonLayerNode.moveToFront();
       }
+    } );
+
+    // sound generation
+    const popSoundGenerator = new PitchedPopGenerator( {
+      // enableControlProperties: [ resetNotInProgressProperty ],
+      initialOutputLevel: 0.3
+    } );
+    soundManager.addSoundGenerator( popSoundGenerator );
+    model.balloons.forEach( balloon => {
+      balloon.chargeProperty.lazyLink( charge => {
+        const chargeAbsoluteValue = Math.abs( charge );
+        if ( chargeAbsoluteValue > 0 ) {
+          popSoundGenerator.playPop( chargeAbsoluteValue / BASEConstants.MAX_BALLOON_CHARGE );
+        }
+      } );
     } );
 
     // set the accessible order: sweater, balloons wall
