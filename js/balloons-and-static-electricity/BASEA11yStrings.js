@@ -299,10 +299,10 @@ define( require => {
       value: '{{object}}, {{charge}}.'
     },
     summaryObjectEachHasPattern: {
-      value:'{{object}}, each has {{charge}}.'
+      value: '{{object}}, each has {{charge}}.'
     },
     summaryObjectEachPattern: {
-      value:  '{{object}}, each {{charge}}.'
+      value: '{{object}}, each {{charge}}.'
     },
     summarySweaterWallPattern: {
       value: '{{sweater}} {{wall}}'
@@ -496,8 +496,11 @@ define( require => {
     grabBalloonToPlay: {
       value: 'Grab balloon to play.'
     },
-    grabBalloonHelp: {
-      value: 'Look for grab button to play. Once grabbed, press W, A, S, or D key to move up, left, down, or right. Space to release.'
+    grabBalloonKeyboardHelp: {
+      value: 'Look for grab button to play. Once grabbed, use letter keys W, A,S, or D key to move up, left, down, or right. Space to release.'
+    },
+    grabBalloonTouchHelp: {
+      value: 'Double tap and hold to drag balloon. Lift finger to release.'
     },
     balloonLocationAttractiveStatePattern: {
       value: '{{attractiveState}} {{location}}'

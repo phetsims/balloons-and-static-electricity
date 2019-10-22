@@ -44,7 +44,8 @@ define( require => {
   const X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
 
   // a11y strings
-  const grabBalloonHelpString = BASEA11yStrings.grabBalloonHelp.value;
+  const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
+  const grabBalloonTouchHelpString = BASEA11yStrings.grabBalloonTouchHelp.value;
 
   /**
    * Constructor for the balloon
@@ -260,7 +261,7 @@ define( require => {
       },
 
       grabbableOptions: {
-        descriptionContent: grabBalloonHelpString,
+        descriptionContent: phet.joist.sim.supportsTouchA11y ? grabBalloonTouchHelpString : grabBalloonKeyboardHelpString,
         appendDescription: true
       },
 
