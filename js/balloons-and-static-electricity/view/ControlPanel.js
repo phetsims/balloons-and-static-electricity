@@ -29,7 +29,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNode' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
 

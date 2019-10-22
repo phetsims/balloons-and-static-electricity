@@ -33,8 +33,8 @@ define( require => {
   const PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
-  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const Vector2 = require( 'DOT/Vector2' );
   const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 

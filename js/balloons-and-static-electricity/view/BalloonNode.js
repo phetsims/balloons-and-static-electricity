@@ -36,8 +36,8 @@ define( require => {
   const PlusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/PlusChargeNode' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
-  const Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
