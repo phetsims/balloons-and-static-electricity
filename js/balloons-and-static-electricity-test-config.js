@@ -43,6 +43,7 @@ require.config( {
     TAMBO: '../../tambo/js',
     TANDEM: '../../tandem/js',
     TAPPI: '../../tappi/js',
+    UTTERANCE_QUEUE: '../../utterance-queue/js',
     VIBE: '../../vibe/js'
   },
 
