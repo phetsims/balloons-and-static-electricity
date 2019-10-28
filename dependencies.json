@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.12 Tue Oct 22 2019 12:02:32 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.13 Tue Oct 22 2019 16:57:14 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "bd6e3ed0a8b6fea73a4a176d5364809666833e58",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "1b49e10c4745ad8bf27cc07827da94bd2f80fa34",
+    "sha": "19ea6584e875a41a6f7b128f7721a8abaf914a0b",
     "branch": "master"
   },
   "brand": {
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "dot": {
-    "sha": "e0a5b27c59d101e65d373bca3bdd58e9fd128a01",
+    "sha": "4e7eb81024c55afa075e18d362dabe81e9845706",
     "branch": "master"
   },
   "griddle": {
@@ -29,7 +29,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "e724de9fdc47d3eb0581ab77c1daf8b825931625",
+    "sha": "6036d95ea43eb7a3c0589568246cf82477f6f23b",
     "branch": "master"
   },
   "kite": {
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "578598df2538f66ce7cf42f9aeda129c8f61e744",
+    "sha": "b6460ed5a8568194ec94ccd0026b756d40386bf0",
     "branch": "master"
   },
   "phet-io-wrapper-haptics": {
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "dae4d2c68ebfe735f06d5a9d8cc634ec7f1c6794",
+    "sha": "7ebcb28b8f65bd19793ce61831c7aeba3fac98a1",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "34a1d10b2f312e688526533eaf851ad42a33bc62",
+    "sha": "3368be83504592a7a68d0aa90798af109038bd07",
     "branch": "master"
   },
   "sherpa": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "994b79ed493f55c488a62eb35a886310c7408b3f",
+    "sha": "907028d3fdc77a53eb676e9f36123e01a2c027e4",
     "branch": "master"
   },
   "tambo": {
