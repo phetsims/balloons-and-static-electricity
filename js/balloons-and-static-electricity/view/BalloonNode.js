@@ -136,8 +136,7 @@ define( require => {
     this.addInputListener( dragHandler );
 
     const balloonImageNode = new Image( imgsrc, {
-      tandem: tandem.createTandem( 'balloonImageNode' ),
-      pickable: false // custom touch areas applied to parent
+      tandem: tandem.createTandem( 'balloonImageNode' )
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
