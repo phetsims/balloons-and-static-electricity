@@ -127,7 +127,7 @@ define( require => {
       self.greenBalloonTetherNode.visible = isVisible;
     } );
 
-    this.controlAreaNode.addChild( controlPanel );
+    this.pdomControlAreaNode.addChild( controlPanel );
 
     // when one of the balloons is picked up, move its content and cue nodes to front
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
