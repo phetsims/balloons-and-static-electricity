@@ -118,7 +118,7 @@ define( require => {
 
     //--------------------------------------------------------------------------
     // Play Area landmark strings, 'near' or  'at' added  through string patterns
-    //--------------------------------------------------------------------------  
+    //--------------------------------------------------------------------------
     landmarkNearSweater: {
       value: 'sweater'
     },
@@ -717,8 +717,11 @@ define( require => {
     combinedChargePattern: {
       value: '{{grabbedBalloon}}. {{otherBalloon}}'
     },
-    interactionCue: {
+    keyboardInteractionCue: {
       value: 'Press W, A, S, or D key to move balloon. Space to release.'
+    },
+    touchInteractionCue: {
+      value: 'Drag finger to move balloon. Lift finger to release.'
     },
 
     //--------------------------------------------------------------------------

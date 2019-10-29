@@ -122,10 +122,7 @@ define( require => {
       // When dragging across it in a mobile device, pick it up
       // Temporarily disabled for vibration prototypes, see #449
       allowTouchSnag: phet.chipper.queryParameters.vibration === null,
-      onDrag: function() {
-
-        // make sure the balloon is dragged - when this node is blurred, isDraggedProperty is set to false and this
-        // happens after MovableDragHandler.startDrag
+      startDrag: function() {
         if ( !model.isDraggedProperty.get() ) {
           model.isDraggedProperty.set( true );
         }
@@ -139,8 +136,7 @@ define( require => {
     this.addInputListener( dragHandler );
 
     const balloonImageNode = new Image( imgsrc, {
-      tandem: tandem.createTandem( 'balloonImageNode' ),
-      pickable: false // custom touch areas applied to parent
+      tandem: tandem.createTandem( 'balloonImageNode' )
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
@@ -250,6 +246,17 @@ define( require => {
     const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
 
+    const grabbableOptions = {
+      appendDescription: true
+    };
+
+    // devices that support touch a11y will use `grabbableHelpText` option so that the help text is read automatically
+    // when the user finds it - must be set explicitly here because `null` will override the value and `undefined`
+    // is disallowed
+    if ( !phet.joist.sim.supportsTouchA11y ) {
+      grabbableOptions.descriptionContent = grabBalloonKeyboardHelpString;
+    }
+
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
     const grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
@@ -260,10 +267,11 @@ define( require => {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
 
-      grabbableOptions: {
-        descriptionContent: phet.joist.sim.supportsTouchA11y ? grabBalloonTouchHelpString : grabBalloonKeyboardHelpString,
-        appendDescription: true
-      },
+      // if on a device that supports accessible touch interaction, associate the description content with
+      // aria-describedby so it is read automatically
+      grabbableHelpText: phet.joist.sim.supportsTouchA11y ? grabBalloonTouchHelpString : null,
+
+      grabbableOptions: grabbableOptions,
 
       onGrab: function() {
         model.isDraggedProperty.set( true );

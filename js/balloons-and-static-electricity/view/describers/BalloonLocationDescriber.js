@@ -72,7 +72,8 @@ define( require => {
   const balloonNearString = BASEA11yStrings.balloonNear.value;
   const locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePattern.value;
   const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  const interactionCueString = BASEA11yStrings.interactionCue.value;
+  const keyboardInteractionCueString = BASEA11yStrings.keyboardInteractionCue.value;
+  const touchInteractionCueString = BASEA11yStrings.touchInteractionCue.value;
   const balloonLabelWithAttractiveStatePatternString = BASEA11yStrings.balloonLabelWithAttractiveStatePattern.value;
   const balloonVeryCloseToString = BASEA11yStrings.balloonVeryCloseTo.value;
   const continuousMovementPatternString = BASEA11yStrings.continuousMovementPattern.value;
@@ -903,7 +904,7 @@ define( require => {
       if ( !this.balloonModel.successfulPickUp ) {
         description = StringUtils.fillIn( grabbedWithHelpPatternString, {
           grabbedAlert: description,
-          help: interactionCueString
+          help: phet.joist.sim.supportsTouchA11y ? touchInteractionCueString : keyboardInteractionCueString
         } );
       }
 
