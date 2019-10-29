@@ -64,8 +64,8 @@ define( require => {
     const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
     const wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
-    this.playAreaNode.addChild( sweaterNode );
-    this.playAreaNode.addChild( wallNode );
+    this.pdomPlayAreaNode.addChild( sweaterNode );
+    this.pdomPlayAreaNode.addChild( wallNode );
 
     //Show black to the right side of the wall so it doesn't look like empty space over there
     this.addChild( new Rectangle(
@@ -118,8 +118,8 @@ define( require => {
     // combine the balloon content into single nodes so that they are easily layerable
     const greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     const yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-    this.playAreaNode.addChild( yellowBalloonLayerNode );
-    this.playAreaNode.addChild( greenBalloonLayerNode );
+    this.pdomPlayAreaNode.addChild( yellowBalloonLayerNode );
+    this.pdomPlayAreaNode.addChild( greenBalloonLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
@@ -155,7 +155,7 @@ define( require => {
     } );
 
     // set the accessible order: sweater, balloons wall
-    this.playAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
+    this.pdomPlayAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
 
     // init vib controller
     vibrationController.initialize( model );
