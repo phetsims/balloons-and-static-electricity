@@ -97,7 +97,7 @@ define( require => {
     // @private - manages descriptions about the  balloon related to balloon movement and location
     this.movementDescriber = new BalloonLocationDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
 
-    // @private - used to track previous values after an interaction so that we can accurately describe how 
+    // @private - used to track previous values after an interaction so that we can accurately describe how
     // the model has changed
     this.describedChargeRange = null;
 
@@ -188,7 +188,7 @@ define( require => {
       self.alertNextPickup = false;
     } );
 
-    // when visibility changes, generate the alert and be sure to describe initial movement the next time the 
+    // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( function( isVisible ) {
       utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
@@ -712,7 +712,7 @@ define( require => {
           if ( model.isDraggedProperty.get() ) {
             if ( model.onSweater() || model.touchingWall() ) {
 
-              // while dragging, just attractive state and location 
+              // while dragging, just attractive state and location
               utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
             }
           }
@@ -785,6 +785,8 @@ define( require => {
             if ( this.chargeDescriber.describeInducedChargeChange() ) {
               utterance = '';
               const wallVisible = this.wall.isVisibleProperty.get();
+
+              assert && assert( this.balloonModel.isCharged(), 'balloon should be charged to describe induced charge' );
 
               // if there is purely vertical motion, do not include information about amount of charge displacement
               if ( dragDelta.x === 0 ) {

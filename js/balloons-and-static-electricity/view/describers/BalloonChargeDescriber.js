@@ -259,11 +259,21 @@ define( require => {
       // the force between the balloon and the closest charge to the balloon in the wall
       const balloonForce = BalloonModel.getForceToClosestWallCharge( this.balloonModel );
       const forceMagnitude = balloonForce.magnitude;
+      assert && assert( forceMagnitude !== 0, 'there should be non-zero force magnitude for induced charge' );
 
       // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
       // charge in the wall, but there must be some change since the last description
       const forceDelta = forceMagnitude - this.previousForceMagnitude;
-      assert && assert( forceDelta !== 0, 'induced charge did not change since last description' );
+      assert && assert( forceDelta !== 0, 'induced charge did not change since last description, debugging info: ' +
+        'forceMagnitude: ' + forceMagnitude + ', ' +
+        'previousForceMagnitude: ' + this.previousForceMagnitude + ', ' +
+        'greenBalloonVisible: ' + this.model.greenBalloon.isVisibleProperty.get() + ', ' +
+        'yellowBalloonInducingCharge: ' + this.model.yellowBalloon.inducingChargeProperty.get() + ', ' +
+        'greenBalloonInducingCharge: ' + this.model.greenBalloon.inducingChargeProperty.get() + ', ' +
+        'yellowBalloonTouchingWall: ' + this.model.yellowBalloon.touchingWallProperty.get() + ', ' +
+        'greenBalloonTouchingWall: ' + this.model.greenBalloon.touchingWallProperty.get() + ', ' +
+        'wallVisible: ' + wallVisible
+      );
 
       // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
       // wall charges in the same direction since the last time this change was described
