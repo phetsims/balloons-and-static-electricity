@@ -266,7 +266,7 @@ define( require => {
       assert && assert( forceDelta !== 0, 'induced charge did not change since last description' );
 
       // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
-      // wall charges in the same direction since the last time this change was described 
+      // wall charges in the same direction since the last time this change was described
       const forceDeltaNormalized = forceDelta / Math.abs( forceDelta );
       const continuedDirection = forceDeltaNormalized === this.previousForceMagnitudeNormalized;
 
@@ -324,7 +324,7 @@ define( require => {
      * that the charges moved away from the balloon, we will always describe the return of induced charges at least
      * once.
      *
-     * @returns {string}
+     * @returns {boolean}
      */
     describeInducedChargeChange: function() {
       const chargesShown = this.showChargesProperty.get();
