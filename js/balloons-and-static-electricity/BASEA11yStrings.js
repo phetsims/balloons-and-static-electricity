@@ -499,9 +499,6 @@ define( require => {
     grabBalloonKeyboardHelp: {
       value: 'Look for grab button to play. Once grabbed, use letter keys W, A,S, or D key to move up, left, down, or right. Space to release.'
     },
-    grabBalloonTouchHelp: {
-      value: 'Double tap and hold to drag balloon. Lift finger to release.'
-    },
     balloonLocationAttractiveStatePattern: {
       value: '{{attractiveState}} {{location}}'
     },

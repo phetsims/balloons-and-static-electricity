@@ -45,7 +45,6 @@ define( require => {
 
   // a11y strings
   const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
-  const grabBalloonTouchHelpString = BASEA11yStrings.grabBalloonTouchHelp.value;
 
   /**
    * Constructor for the balloon
@@ -250,13 +249,6 @@ define( require => {
       appendDescription: true
     };
 
-    // devices that support touch a11y will use `grabbableHelpText` option so that the help text is read automatically
-    // when the user finds it - must be set explicitly here because `null` will override the value and `undefined`
-    // is disallowed
-    if ( !phet.joist.sim.supportsTouchA11y ) {
-      grabbableOptions.descriptionContent = grabBalloonKeyboardHelpString;
-    }
-
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
     const grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
@@ -267,9 +259,7 @@ define( require => {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
 
-      // if on a device that supports accessible touch interaction, associate the description content with
-      // aria-describedby so it is read automatically
-      grabbableHelpText: phet.joist.sim.supportsTouchA11y ? grabBalloonTouchHelpString : null,
+      keyboardHelpText: grabBalloonKeyboardHelpString,
 
       grabbableOptions: grabbableOptions,
 
