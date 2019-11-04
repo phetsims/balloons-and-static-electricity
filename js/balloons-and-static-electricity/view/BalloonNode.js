@@ -245,10 +245,6 @@ define( require => {
     const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
 
-    const grabbableOptions = {
-      appendDescription: true
-    };
-
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
     const grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
@@ -260,8 +256,6 @@ define( require => {
       },
 
       keyboardHelpText: grabBalloonKeyboardHelpString,
-
-      grabbableOptions: grabbableOptions,
 
       onGrab: function() {
         model.isDraggedProperty.set( true );
