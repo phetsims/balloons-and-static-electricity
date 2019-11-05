@@ -277,7 +277,7 @@ define( require => {
     } );
 
     // jump to the wall on 'J + W'
-    this.keyboardDragHandler.addHotkeyGroups( [
+    this.keyboardDragHandler.addHotkeys( [
       {
         keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_W ],
         callback: function() {
