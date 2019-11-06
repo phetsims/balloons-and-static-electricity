@@ -29,8 +29,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TwoSceneSelectionNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/TwoSceneSelectionNode' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
+const VBox = require( 'SCENERY/nodes/VBox' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
 
   // images
@@ -110,7 +109,7 @@ define( require => {
       self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-        utteranceQueue.addToBack( alertDescription );
+        phet.joist.sim.display.utteranceQueue.addToBack( alertDescription );
     } );
 
     // Radio buttons related to charges
@@ -168,7 +167,7 @@ define( require => {
       }
 
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
-      utteranceQueue.addToBack( alertString );
+      phet.joist.sim.display.utteranceQueue.addToBack( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -228,17 +227,17 @@ define( require => {
     const resetBalloonButtonListener = function() {
 
       // disable other alerts until after we are finished resetting the balloons
-      utteranceQueue.enabled = false;
+      phet.joist.sim.display.utteranceQueue.enabled = false;
 
       model.sweater.reset();
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
       } );
 
-      utteranceQueue.enabled = true;
+      phet.joist.sim.display.utteranceQueue.enabled = true;
 
       // alert to assistive technology
-      utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+      phet.joist.sim.display.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };

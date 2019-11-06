@@ -37,8 +37,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const Vector2 = require( 'DOT/Vector2' );
+const Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
   const X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
@@ -235,7 +234,7 @@ define( require => {
         if ( self.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
           const attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );
           boundaryUtterance.alert = self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
-          utteranceQueue.addToBack( boundaryUtterance );
+          phet.joist.sim.display.utteranceQueue.addToBack( boundaryUtterance );
         }
       }
     } );
@@ -349,11 +348,11 @@ define( require => {
       this.model.setCenter( center );
 
       // clear the queue of utterances that collected as position changed
-      utteranceQueue.clear();
+      phet.joist.sim.display.utteranceQueue.clear();
 
       // Send a custom alert, depending on where the balloon was moved to
       this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
-      utteranceQueue.addToBack( this.jumpingUtterance );
+      phet.joist.sim.display.utteranceQueue.addToBack( this.jumpingUtterance );
 
       // reset forces in tracked values in describer that determine description for induced charge change
       this.describer.chargeDescriber.resetReferenceForces();

@@ -34,8 +34,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const Vector2 = require( 'DOT/Vector2' );
+const Vector2 = require( 'DOT/Vector2' );
   const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
 
   // a11y strings
@@ -174,13 +173,13 @@ define( require => {
       // the first charge pickup and subsequent pickups (behind a refresh rate) should be announced
       if ( self.alertNextPickup || self.alertFirstPickup ) {
         alert = self.getChargePickupDescription( self.alertFirstPickup );
-        utteranceQueue.addToBack( alert );
+        phet.joist.sim.display.utteranceQueue.addToBack( alert );
       }
 
       // announce pickup of last charge, as long as charges are visible
       if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
         alert = self.getLastChargePickupDescription();
-        utteranceQueue.addToBack( alert );
+        phet.joist.sim.display.utteranceQueue.addToBack( alert );
       }
 
       // reset flags
@@ -191,7 +190,7 @@ define( require => {
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( function( isVisible ) {
-      utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
+      phet.joist.sim.display.utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
       self.initialMovementDescribed = false;
       self.preventNoMovementAlert = true;
     } );
@@ -199,7 +198,7 @@ define( require => {
     // a11y - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( function( onSweater ) {
       if ( balloon.isDraggedProperty.get() ) {
-        utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
+        phet.joist.sim.display.utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -212,7 +211,7 @@ define( require => {
       if ( !self.balloonModel.jumping ) {
         if ( self.describeDirection ) {
           self.directionUtterance.alert = self.movementDescriber.getDirectionChangedDescription();
-          utteranceQueue.addToBack( self.directionUtterance );
+          phet.joist.sim.display.utteranceQueue.addToBack( self.directionUtterance );
         }
       }
     } );
@@ -713,13 +712,13 @@ define( require => {
             if ( model.onSweater() || model.touchingWall() ) {
 
               // while dragging, just attractive state and location
-              utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
             }
           }
           else if ( model.onSweater() ) {
 
             // if we stop on the sweater, announce that we are sticking to it
-            utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+            phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
           }
           else {
 
@@ -727,7 +726,7 @@ define( require => {
             // special case: if the balloon is touching the wall for the first time, don't describe this because
             // the section of this function observing that state will describe this
             if ( nextTouchingWall === this.describedTouchingWall ) {
-              utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
             }
           }
         }
@@ -778,7 +777,7 @@ define( require => {
 
               // assign an id so that we only announce the most recent alert in the utteranceQueue
               this.movementUtterance.alert = utterance;
-              utteranceQueue.addToBack( this.movementUtterance );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.movementUtterance );
             }
 
             // describe the change in induced charge due to balloon dragging
@@ -797,7 +796,7 @@ define( require => {
               }
 
               this.inducedChargeChangeUtterance.alert = utterance;
-              utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
             }
 
             // update flags that indicate which alerts should come next
@@ -820,14 +819,14 @@ define( require => {
         if ( !model.jumping ) {
           if ( nextTouchingWall ) {
             if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
-              utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
               this.describeWallRub = false;
             }
             else {
 
               // generates a description of how the balloon interacts with the wall
               if ( nextVisible ) {
-                utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+                phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
               }
             }
           }
@@ -840,7 +839,7 @@ define( require => {
 
         if ( nextIsDragged ) {
           utterance = this.movementDescriber.getGrabbedAlert();
-          utteranceQueue.addToBack( utterance );
+          phet.joist.sim.display.utteranceQueue.addToBack( utterance );
 
           // we have been picked up successfully, start describing direction
           this.describeDirection = true;
@@ -878,7 +877,7 @@ define( require => {
             if ( !nextVelocity.equals( Vector2.ZERO ) ) {
 
               utterance = this.movementDescriber.getInitialReleaseDescription();
-              utteranceQueue.addToBack( utterance );
+              phet.joist.sim.display.utteranceQueue.addToBack( utterance );
 
               // after describing initial movement, continue to describe direction changes
               this.describeDirection = true;
@@ -889,7 +888,7 @@ define( require => {
               // when the balloon is first added to the play area
               if ( !this.preventNoMovementAlert ) {
                 utterance = this.movementDescriber.getNoChangeReleaseDescription();
-                utteranceQueue.addToBack( utterance );
+                phet.joist.sim.display.utteranceQueue.addToBack( utterance );
               }
               this.preventNoMovementAlert = false;
             }
@@ -903,7 +902,7 @@ define( require => {
           // if the balloon is moving slowly, alert a continuous movement description
           if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
             utterance = this.movementDescriber.getContinuousReleaseDescription();
-            utteranceQueue.addToBack( utterance );
+            phet.joist.sim.display.utteranceQueue.addToBack( utterance );
 
             // reset timer
             this.timeSinceReleaseAlert = 0;
@@ -917,7 +916,7 @@ define( require => {
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
               this.chargeUtterance.alert = this.getNoChargePickupDescription();
-              utteranceQueue.addToBack( this.chargeUtterance );
+              phet.joist.sim.display.utteranceQueue.addToBack( this.chargeUtterance );
             }
           }
         }
