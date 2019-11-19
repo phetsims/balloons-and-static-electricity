@@ -37,7 +37,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-const Vector2 = require( 'DOT/Vector2' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // a11y - critical x locations for the balloon
   const X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
@@ -272,7 +272,9 @@ const Vector2 = require( 'DOT/Vector2' );
         return !model.locationProperty.get().equals( model.locationProperty.initialValue );
       },
 
-      listenersForDrag: [ this.keyboardDragHandler ]
+      listenersForDrag: [ this.keyboardDragHandler ],
+
+      tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
 
     // jump to the wall on 'J + W'
