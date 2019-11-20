@@ -173,13 +173,13 @@ const Vector2 = require( 'DOT/Vector2' );
       // the first charge pickup and subsequent pickups (behind a refresh rate) should be announced
       if ( self.alertNextPickup || self.alertFirstPickup ) {
         alert = self.getChargePickupDescription( self.alertFirstPickup );
-        phet.joist.sim.display.utteranceQueue.addToBack( alert );
+        phet.joist.sim.utteranceQueue.addToBack( alert );
       }
 
       // announce pickup of last charge, as long as charges are visible
       if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
         alert = self.getLastChargePickupDescription();
-        phet.joist.sim.display.utteranceQueue.addToBack( alert );
+        phet.joist.sim.utteranceQueue.addToBack( alert );
       }
 
       // reset flags
@@ -190,7 +190,7 @@ const Vector2 = require( 'DOT/Vector2' );
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( function( isVisible ) {
-      phet.joist.sim.display.utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
+      phet.joist.sim.utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
       self.initialMovementDescribed = false;
       self.preventNoMovementAlert = true;
     } );
@@ -198,7 +198,7 @@ const Vector2 = require( 'DOT/Vector2' );
     // a11y - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( function( onSweater ) {
       if ( balloon.isDraggedProperty.get() ) {
-        phet.joist.sim.display.utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
+        phet.joist.sim.utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -211,7 +211,7 @@ const Vector2 = require( 'DOT/Vector2' );
       if ( !self.balloonModel.jumping ) {
         if ( self.describeDirection ) {
           self.directionUtterance.alert = self.movementDescriber.getDirectionChangedDescription();
-          phet.joist.sim.display.utteranceQueue.addToBack( self.directionUtterance );
+          phet.joist.sim.utteranceQueue.addToBack( self.directionUtterance );
         }
       }
     } );
@@ -712,13 +712,13 @@ const Vector2 = require( 'DOT/Vector2' );
             if ( model.onSweater() || model.touchingWall() ) {
 
               // while dragging, just attractive state and location
-              phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+              phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
             }
           }
           else if ( model.onSweater() ) {
 
             // if we stop on the sweater, announce that we are sticking to it
-            phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+            phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
           }
           else {
 
@@ -726,7 +726,7 @@ const Vector2 = require( 'DOT/Vector2' );
             // special case: if the balloon is touching the wall for the first time, don't describe this because
             // the section of this function observing that state will describe this
             if ( nextTouchingWall === this.describedTouchingWall ) {
-              phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+              phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
             }
           }
         }
@@ -777,7 +777,7 @@ const Vector2 = require( 'DOT/Vector2' );
 
               // assign an id so that we only announce the most recent alert in the utteranceQueue
               this.movementUtterance.alert = utterance;
-              phet.joist.sim.display.utteranceQueue.addToBack( this.movementUtterance );
+              phet.joist.sim.utteranceQueue.addToBack( this.movementUtterance );
             }
 
             // describe the change in induced charge due to balloon dragging
@@ -796,7 +796,7 @@ const Vector2 = require( 'DOT/Vector2' );
               }
 
               this.inducedChargeChangeUtterance.alert = utterance;
-              phet.joist.sim.display.utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
+              phet.joist.sim.utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
             }
 
             // update flags that indicate which alerts should come next
@@ -819,14 +819,14 @@ const Vector2 = require( 'DOT/Vector2' );
         if ( !model.jumping ) {
           if ( nextTouchingWall ) {
             if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
-              phet.joist.sim.display.utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
+              phet.joist.sim.utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
               this.describeWallRub = false;
             }
             else {
 
               // generates a description of how the balloon interacts with the wall
               if ( nextVisible ) {
-                phet.joist.sim.display.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+                phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
               }
             }
           }
@@ -839,7 +839,7 @@ const Vector2 = require( 'DOT/Vector2' );
 
         if ( nextIsDragged ) {
           utterance = this.movementDescriber.getGrabbedAlert();
-          phet.joist.sim.display.utteranceQueue.addToBack( utterance );
+          phet.joist.sim.utteranceQueue.addToBack( utterance );
 
           // we have been picked up successfully, start describing direction
           this.describeDirection = true;
@@ -877,7 +877,7 @@ const Vector2 = require( 'DOT/Vector2' );
             if ( !nextVelocity.equals( Vector2.ZERO ) ) {
 
               utterance = this.movementDescriber.getInitialReleaseDescription();
-              phet.joist.sim.display.utteranceQueue.addToBack( utterance );
+              phet.joist.sim.utteranceQueue.addToBack( utterance );
 
               // after describing initial movement, continue to describe direction changes
               this.describeDirection = true;
@@ -888,7 +888,7 @@ const Vector2 = require( 'DOT/Vector2' );
               // when the balloon is first added to the play area
               if ( !this.preventNoMovementAlert ) {
                 utterance = this.movementDescriber.getNoChangeReleaseDescription();
-                phet.joist.sim.display.utteranceQueue.addToBack( utterance );
+                phet.joist.sim.utteranceQueue.addToBack( utterance );
               }
               this.preventNoMovementAlert = false;
             }
@@ -902,7 +902,7 @@ const Vector2 = require( 'DOT/Vector2' );
           // if the balloon is moving slowly, alert a continuous movement description
           if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
             utterance = this.movementDescriber.getContinuousReleaseDescription();
-            phet.joist.sim.display.utteranceQueue.addToBack( utterance );
+            phet.joist.sim.utteranceQueue.addToBack( utterance );
 
             // reset timer
             this.timeSinceReleaseAlert = 0;
@@ -916,7 +916,7 @@ const Vector2 = require( 'DOT/Vector2' );
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
               this.chargeUtterance.alert = this.getNoChargePickupDescription();
-              phet.joist.sim.display.utteranceQueue.addToBack( this.chargeUtterance );
+              phet.joist.sim.utteranceQueue.addToBack( this.chargeUtterance );
             }
           }
         }

@@ -234,7 +234,7 @@ define( require => {
         if ( self.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
           const attemptedDirection = self.getAttemptedMovementDirection( event.domEvent.keyCode );
           boundaryUtterance.alert = self.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
-          phet.joist.sim.display.utteranceQueue.addToBack( boundaryUtterance );
+          phet.joist.sim.utteranceQueue.addToBack( boundaryUtterance );
         }
       }
     } );
@@ -350,11 +350,11 @@ define( require => {
       this.model.setCenter( center );
 
       // clear the queue of utterances that collected as position changed
-      phet.joist.sim.display.utteranceQueue.clear();
+      phet.joist.sim.utteranceQueue.clear();
 
       // Send a custom alert, depending on where the balloon was moved to
       this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
-      phet.joist.sim.display.utteranceQueue.addToBack( this.jumpingUtterance );
+      phet.joist.sim.utteranceQueue.addToBack( this.jumpingUtterance );
 
       // reset forces in tracked values in describer that determine description for induced charge change
       this.describer.chargeDescriber.resetReferenceForces();

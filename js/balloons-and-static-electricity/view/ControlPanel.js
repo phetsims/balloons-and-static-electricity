@@ -109,7 +109,7 @@ const VBox = require( 'SCENERY/nodes/VBox' );
       self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-        phet.joist.sim.display.utteranceQueue.addToBack( alertDescription );
+        phet.joist.sim.utteranceQueue.addToBack( alertDescription );
     } );
 
     // Radio buttons related to charges
@@ -167,7 +167,7 @@ const VBox = require( 'SCENERY/nodes/VBox' );
       }
 
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
-      phet.joist.sim.display.utteranceQueue.addToBack( alertString );
+      phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -227,17 +227,17 @@ const VBox = require( 'SCENERY/nodes/VBox' );
     const resetBalloonButtonListener = function() {
 
       // disable other alerts until after we are finished resetting the balloons
-      phet.joist.sim.display.utteranceQueue.enabled = false;
+      phet.joist.sim.utteranceQueue.enabled = false;
 
       model.sweater.reset();
       model.balloons.forEach( function( balloon ) {
         balloon.reset( true );
       } );
 
-      phet.joist.sim.display.utteranceQueue.enabled = true;
+      phet.joist.sim.utteranceQueue.enabled = true;
 
       // alert to assistive technology
-      phet.joist.sim.display.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+      phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };
