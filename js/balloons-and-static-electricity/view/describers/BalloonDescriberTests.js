@@ -24,10 +24,10 @@ define( require => {
 
   // create model and view for testing
   const layoutBounds = new Bounds2( 0, 0, 768, 504 );
-  const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.rootTandem.createTandem( 'model' ) );
+  const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.ROOT.createTandem( 'model' ) );
 
   // create a wallNode for testing
-  const balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.rootTandem.createTandem( 'balloonNode' ), {
+  const balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {
     labelContent: 'Yellow Balloon'
   } );
 

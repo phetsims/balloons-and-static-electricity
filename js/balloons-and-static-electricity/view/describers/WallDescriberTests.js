@@ -21,13 +21,13 @@ define( require => {
   QUnit.module( 'WallDescriberTests' );
 
   // create model and view for testing
-  const model = new BASEModel( 768, 504, Tandem.rootTandem.createTandem( 'model' ) );
-  const view = new BASEView( model, Tandem.rootTandem.createTandem( 'view' ) );
+  const model = new BASEModel( 768, 504, Tandem.ROOT.createTandem( 'model' ) );
+  const view = new BASEView( model, Tandem.ROOT.createTandem( 'view' ) );
 
   QUnit.test( 'WallDescriber tests', function( assert ) {
 
     // create a view
-    const wallNode = new WallNode( model, view.layoutBounds, Tandem.rootTandem.createTandem( 'wallNode' ) );
+    const wallNode = new WallNode( model, view.layoutBounds, Tandem.ROOT.createTandem( 'wallNode' ) );
 
     // on page load
     let actualDescription = wallNode.descriptionContent;

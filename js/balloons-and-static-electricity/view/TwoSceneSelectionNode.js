@@ -102,7 +102,7 @@ define( require => {
       cursor: 'pointer',
 
       // tandem support
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
 
       // a11y
       tagName: 'input',

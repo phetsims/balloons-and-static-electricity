@@ -24,7 +24,7 @@ define( require => {
 
   SimLauncher.launch( function() {
 
-    const tandem = Tandem.rootTandem;
+    const tandem = Tandem.ROOT;
 
     const simOptions = {
       credits: {

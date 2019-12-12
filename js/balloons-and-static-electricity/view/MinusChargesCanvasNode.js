@@ -27,7 +27,7 @@ define( require => {
   // see https://github.com/phetsims/phet-io-wrappers/issues/97
   const getChargeNode = function() {
     if ( !chargeNode ) {
-      chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.globalTandem.createTandem( 'chargeNode' ), {
+      chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.GLOBAL.createTandem( 'chargeNode' ), {
         scale: scale
       } );
     }
