@@ -1,7 +1,7 @@
 // Copyright 2017-2019, University of Colorado Boulder
 
 /**
- * Single location of all accessibility strings.  These strings are not meant to be translatable yet.  Rosetta needs
+ * Single position of all accessibility strings.  These strings are not meant to be translatable yet.  Rosetta needs
  * some work to provide translators with context for these strings, and we want to receive some community feedback
  * before these strings are submitted for translation.
  *
@@ -157,7 +157,7 @@ define( require => {
     },
 
     //--------------------------------------------------------------------------
-    // Boundary or Critical location strings
+    // Boundary or Critical position strings
     //--------------------------------------------------------------------------
     atLeftEdge: {
       value: 'At left edge.'
@@ -264,10 +264,10 @@ define( require => {
       value: '{{yellowBalloon}} {{sweater}}'
     },
     inducedChargePattern: {
-      value: 'Negative charges in {{wallLocation}} move away from {{balloon}} {{inductionAmount}}'
+      value: 'Negative charges in {{wallPosition}} move away from {{balloon}} {{inductionAmount}}'
     },
     inducedChargeNoAmountPattern: {
-      value: 'Negative charges in {{wallLocation}} move away from {{balloon}}.'
+      value: 'Negative charges in {{wallPosition}} move away from {{balloon}}.'
     },
     summaryBalloonNeutralCharge: {
       value: 'a few pairs of negative and positive charges'
@@ -281,7 +281,7 @@ define( require => {
     summarySweaterAndWall: {
       value: 'Sweater and wall'
     },
-    initialObjectLocations: {
+    initialObjectPositions: {
       value: 'Yellow balloon is at center of Play Area, evenly between sweater and wall. Sweater is at far left, wall at far right.'
     },
 
@@ -349,11 +349,11 @@ define( require => {
     sweaterLabel: {
       value: 'Sweater'
     },
-    sweaterLocation: {
+    sweaterPosition: {
       value: 'At left edge of Play Area.'
     },
     sweaterDescriptionPattern: {
-      value: '{{location}} {{charge}}'
+      value: '{{position}} {{charge}}'
     },
     sweaterChargePattern: {
       value: '{{netCharge}}, {{relativeCharge}}'
@@ -402,9 +402,9 @@ define( require => {
     // Wall strings
     //------------------------------------------------------------------------
     wallDescriptionPattern: {
-      value: '{{location}}. {{charge}}.'
+      value: '{{position}}. {{charge}}.'
     },
-    wallLocation: {
+    wallPosition: {
       value: 'At right edge of Play Area'
     },
     wallNoNetCharge: {
@@ -423,13 +423,13 @@ define( require => {
       value: '{{yellowBalloon}} {{greenBalloon}}'
     },
     wallNoChangeInChargesPattern: {
-      value: 'In {{location}}, no change in charges' // punctuation inserted in another string pattern
+      value: 'In {{position}}, no change in charges' // punctuation inserted in another string pattern
     },
     wallChargePatternStringWithLabel: {
       value: 'Wall {{wallCharge}}'
     },
     wallRubPattern: {
-      value: '{{location}} {{charge}}'
+      value: '{{position}} {{charge}}'
     },
     wallRubAllPattern: {
       value: 'No transfer of charge. {{inducedCharge}}'
@@ -457,10 +457,10 @@ define( require => {
     // Induced charge change strings
     //--------------------------------------------------------------------------
     moreInducedChargePattern: {
-      value: 'Negative charges in {{location}} {{movement}} from {{balloon}}.'
+      value: 'Negative charges in {{position}} {{movement}} from {{balloon}}.'
     },
     lessInducedChargePattern: {
-      value: 'Negative charges in {{location}} {{movement}}.'
+      value: 'Negative charges in {{position}} {{movement}}.'
     },
     moveAwayALittleMore: {
       value: 'move away a little more'
@@ -499,14 +499,14 @@ define( require => {
     grabBalloonKeyboardHelp: {
       value: 'Look for grab button to play. Once grabbed, use letter keys W, A,S, or D key to move up, left, down, or right. Space to release.'
     },
-    balloonLocationAttractiveStatePattern: {
-      value: '{{attractiveState}} {{location}}'
+    balloonPositionAttractiveStatePattern: {
+      value: '{{attractiveState}} {{position}}'
     },
     balloonShowAllChargesPattern: {
-      value: '{{stateAndLocation}} {{netCharge}}, {{relativeCharge}}.'
+      value: '{{stateAndPosition}} {{netCharge}}, {{relativeCharge}}.'
     },
     balloonLabelWithAttractiveStatePattern: {
-      value: '{{balloonLabel}}, {{attractiveStateAndLocation}}'
+      value: '{{balloonLabel}}, {{attractiveStateAndPosition}}'
     },
 
     // describing the attractive state of a balloon
@@ -584,11 +584,11 @@ define( require => {
       value: 'very quickly'
     },
 
-    noChangeAndLocationPattern: {
-      value: 'No change in position. {{location}}'
+    noChangeAndPositionPattern: {
+      value: 'No change in position. {{position}}'
     },
-    twoBalloonNoChangeAndLocationPattern: {
-      value: '{{balloon}}, no change in position. {{location}}'
+    twoBalloonNoChangeAndPositionPattern: {
+      value: '{{balloon}}, no change in position. {{position}}'
     },
     noChangeWithInducedChargePattern: {
       value: '{{noChange}} {{inducedCharge}}'
@@ -612,8 +612,8 @@ define( require => {
     },
 
     // when balloon hits wall and there is a change in charges
-    balloonLocationNoChangePattern: {
-      value: '{{location}} {{inducedCharge}}'
+    balloonPositionNoChangePattern: {
+      value: '{{position}} {{inducedCharge}}'
     },
 
     //--------------------------------------------------------------------------
@@ -671,11 +671,11 @@ define( require => {
     },
 
     // dragging, specific cues when the balloon enters an important area
-    balloonAtLocationPattern: {
-      value: 'At {{location}}'
+    balloonAtPositionPattern: {
+      value: 'At {{position}}'
     },
     balloonNewRegionPattern: {
-      value: '{{nearOrAt}} {{location}}'
+      value: '{{nearOrAt}} {{position}}'
     },
     closerToObjectPattern: {
       value: 'Closer to {{object}}'
@@ -691,10 +691,10 @@ define( require => {
     // Balloon grabbing strings (when the balloon is initially picked up)
     //--------------------------------------------------------------------------
     grabbedNonePattern: {
-      value: 'Grabbed. {{location}}'
+      value: 'Grabbed. {{position}}'
     },
     grabbedChargePattern: {
-      value: 'Grabbed. {{location}} {{charge}}'
+      value: 'Grabbed. {{position}} {{charge}}'
     },
     grabbedWithOtherChargePattern: {
       value: '{{balloonCharge}} {{otherObjectCharge}}'
@@ -747,13 +747,13 @@ define( require => {
     // Balloon rubbing strings, fail to pick up charges
     //--------------------------------------------------------------------------
     noChargePickupPattern: {
-      value: '{{noChange}}. {{balloonLocation}}. {{moreChargesLocation}}'
+      value: '{{noChange}}. {{balloonPosition}}. {{moreChargesPosition}}'
     },
     nochargePickupWithObjectChargeAndHint: {
-      value: '{{noChange}}. {{balloonLocation}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
+      value: '{{noChange}}. {{balloonPosition}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
     },
     noChargePickupHintPattern: {
-      value: '{{noChange}}. {{balloonLocation}}. {{hint}}'
+      value: '{{noChange}}. {{balloonPosition}}. {{hint}}'
     },
     releaseHint: {
       value: 'Press Space to release.'
@@ -777,8 +777,8 @@ define( require => {
     nearSweater: {
       value: 'Near sweater.'
     },
-    locationAndInducedChargePattern: {
-      value: '{{location}}. {{inducedCharge}}'
+    positionAndInducedChargePattern: {
+      value: '{{position}}. {{inducedCharge}}'
     },
 
     //------------------------------------------------------------------------
@@ -841,11 +841,11 @@ define( require => {
     balloonRemovedPattern: {
       value: '{{balloonLabel}} removed from Play Area.'
     },
-    balloonAddedWithLocationPattern: {
-      value: '{{balloonLabel}} added. {{location}}.'
+    balloonAddedWithPositionPattern: {
+      value: '{{balloonLabel}} added. {{position}}.'
     },
-    balloonLocationNearOtherPattern: {
-      value: '{{location}}, next to {{otherBalloon}}'
+    balloonPositionNearOtherPattern: {
+      value: '{{position}}, next to {{otherBalloon}}'
     },
 
     //--------------------------------------------------------------------------
@@ -876,7 +876,7 @@ define( require => {
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
     for ( const key in BASEA11yStrings ) {
-      BASEA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
+      BASEA11yStrings[ key ].value += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.position.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
     }
   }
 

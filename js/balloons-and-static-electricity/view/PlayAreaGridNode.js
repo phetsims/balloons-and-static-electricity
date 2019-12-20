@@ -77,20 +77,20 @@ define( require => {
       }
     }
 
-    // draw the lines to along critical balloon locations along both x and y
+    // draw the lines to along critical balloon positions along both x and y
     const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
-    const xLocations = PlayAreaMap.X_LOCATIONS;
-    const yLocations = PlayAreaMap.Y_LOCATIONS;
-    let location;
-    for ( location in xLocations ) {
-      if ( xLocations.hasOwnProperty( location ) ) {
-        self.addChild( new Line( xLocations[ location ], 0, xLocations[ location ], PlayAreaMap.HEIGHT, lineOptions ) );
+    const xPositions = PlayAreaMap.X_POSITIONS;
+    const yPositions = PlayAreaMap.Y_POSITIONS;
+    let position;
+    for ( position in xPositions ) {
+      if ( xPositions.hasOwnProperty( position ) ) {
+        self.addChild( new Line( xPositions[ position ], 0, xPositions[ position ], PlayAreaMap.HEIGHT, lineOptions ) );
       }
     }
 
-    for ( location in yLocations ) {
-      if ( yLocations.hasOwnProperty( location ) ) {
-        self.addChild( new Line( 0, yLocations[ location ], PlayAreaMap.WIDTH, yLocations[ location ], lineOptions ) );
+    for ( position in yPositions ) {
+      if ( yPositions.hasOwnProperty( position ) ) {
+        self.addChild( new Line( 0, yPositions[ position ], PlayAreaMap.WIDTH, yPositions[ position ], lineOptions ) );
       }
     }
   }

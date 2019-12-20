@@ -11,7 +11,7 @@
  * are used where possible, but for alerts that need to be timed around those that use polling, it is more
  * straight forward to have those use polling as well.
  *
- * This file is quite large. It distributes some logic into additional files (BalloonLocationDescriber,
+ * This file is quite large. It distributes some logic into additional files (BalloonPositionDescriber,
  * BalloonChargeDescriber) that describe particular aspects of a balloon. Further abstraction doesn't feel helpful
  * as it all pertains to general balloon description, so I decided to keep the remaining functions in this file for
  * easy discoverability.
@@ -24,7 +24,7 @@ define( require => {
 
   // modules
   const BalloonChargeDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonChargeDescriber' );
-  const BalloonLocationDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonLocationDescriber' );
+  const BalloonPositionDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonPositionDescriber' );
   const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
@@ -39,7 +39,7 @@ const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   const balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
-  const balloonAtLocationPatternString = BASEA11yStrings.balloonAtLocationPattern.value;
+  const balloonAtPositionPatternString = BASEA11yStrings.balloonAtPositionPattern.value;
   const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
   const balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPattern.value;
   const balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPattern.value;
@@ -55,7 +55,7 @@ const Vector2 = require( 'DOT/Vector2' );
   const releaseHintString = BASEA11yStrings.releaseHint.value;
   const balloonAddedPatternString = BASEA11yStrings.balloonAddedPattern.value;
   const balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPattern.value;
-  const balloonAddedWithLocationPatternString = BASEA11yStrings.balloonAddedWithLocationPattern.value;
+  const balloonAddedWithPositionPatternString = BASEA11yStrings.balloonAddedWithPositionPattern.value;
   const wallRubbingWithPairsPattern = BASEA11yStrings.wallRubbingWithPairsPattern.value;
   const wallRubPatternString = BASEA11yStrings.wallRubPattern.value;
   const wallRubAllPatternString = BASEA11yStrings.wallRubAllPattern.value;
@@ -93,8 +93,8 @@ const Vector2 = require( 'DOT/Vector2' );
     // @private - manages descriptions about the balloon related to charge
     this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
 
-    // @private - manages descriptions about the  balloon related to balloon movement and location
-    this.movementDescriber = new BalloonLocationDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
+    // @private - manages descriptions about the  balloon related to balloon movement and position
+    this.movementDescriber = new BalloonPositionDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
 
     // @private - used to track previous values after an interaction so that we can accurately describe how
     // the model has changed
@@ -113,7 +113,7 @@ const Vector2 = require( 'DOT/Vector2' );
     // @private - variables tracking state and how it changes between description steps, see step() below
     this.describedVelocity = balloon.velocityProperty.get();
     this.describedDragVelocity = balloon.dragVelocityProperty.get();
-    this.describedLocation = balloon.locationProperty.get();
+    this.describedPosition = balloon.positionProperty.get();
     this.describedVisible = balloon.isVisibleProperty.get();
     this.describedTouchingWall = balloon.touchingWallProperty.get();
     this.describedIsDragged = balloon.isDraggedProperty.get();
@@ -127,7 +127,7 @@ const Vector2 = require( 'DOT/Vector2' );
     this.chargeUtterance = new Utterance();
 
     // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
-    this.oldDragLocation = balloon.locationProperty.get().copy();
+    this.oldDragPosition = balloon.positionProperty.get().copy();
 
     // @private - monitors position delta in a single drag
     this.dragDelta = new Vector2( 0, 0 );
@@ -249,13 +249,13 @@ const Vector2 = require( 'DOT/Vector2' );
       // reset all variables tracking previous descriptions
       this.describedVelocity = this.balloonModel.velocityProperty.get();
       this.describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
-      this.describedLocation = this.balloonModel.locationProperty.get();
+      this.describedPosition = this.balloonModel.positionProperty.get();
       this.describedVisible = this.balloonModel.isVisibleProperty.get();
       this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
       this.describedIsDragged = this.balloonModel.isDraggedProperty.get();
       this.describedWallVisible = this.wall.isVisibleProperty.get();
 
-      this.oldDragLocation = this.balloonModel.locationProperty.get().copy();
+      this.oldDragPosition = this.balloonModel.positionProperty.get().copy();
       this.dragDelta = new Vector2( 0, 0 );
       this.chargeOnStartDrag = this.balloonModel.chargeProperty.get();
       this.chargeOnEndDrag = this.balloonModel.chargeProperty.get();
@@ -269,7 +269,7 @@ const Vector2 = require( 'DOT/Vector2' );
 
     /**
      * Get the description for the balloon, the content that can be read by an assistive device in the Parallel DOM.
-     * Dependent on location, charge, and charge visibility. Will return something like:
+     * Dependent on position, charge, and charge visibility. Will return something like:
      * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
      * "At center of play area, next to green balloon."
      *
@@ -279,13 +279,13 @@ const Vector2 = require( 'DOT/Vector2' );
       let description;
       const showCharges = this.showChargesProperty.get();
 
-      let attractiveStateAndLocationString = this.movementDescriber.getAttractiveStateAndLocationDescription();
-      attractiveStateAndLocationString = StringUtils.fillIn( singleStatementPatternString, {
-        statement: attractiveStateAndLocationString
+      let attractiveStateAndPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
+      attractiveStateAndPositionString = StringUtils.fillIn( singleStatementPatternString, {
+        statement: attractiveStateAndPositionString
       } );
 
       if ( showCharges === 'none' ) {
-        description = attractiveStateAndLocationString;
+        description = attractiveStateAndPositionString;
       }
       else {
 
@@ -296,7 +296,7 @@ const Vector2 = require( 'DOT/Vector2' );
         const relativeChargesString = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, showCharges );
 
         description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
-          stateAndLocation: attractiveStateAndLocationString,
+          stateAndPosition: attractiveStateAndPositionString,
           netCharge: netChargeDescriptionString,
           relativeCharge: relativeChargesString
         } );
@@ -321,7 +321,7 @@ const Vector2 = require( 'DOT/Vector2' );
       const newRange = BASEDescriber.getDescribedChargeRange( newCharge );
 
       if ( shownCharges === 'none' ) {
-        description = this.movementDescriber.getAttractiveStateAndLocationDescription();
+        description = this.movementDescriber.getAttractiveStateAndPositionDescription();
         description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
       }
       else if ( firstPickup ) {
@@ -420,14 +420,14 @@ const Vector2 = require( 'DOT/Vector2' );
       let alert;
       const chargesShown = this.showChargesProperty.get();
 
-      const balloonLocationString = this.movementDescriber.getAttractiveStateAndLocationDescription();
+      const balloonPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
       const sweaterCharge = this.model.sweater.chargeProperty.get();
 
       if ( chargesShown === 'none' ) {
 
         // if no charges are shown, just describe position of balloon as a complete sentence
         alert = StringUtils.fillIn( singleStatementPatternString, {
-          statement: balloonLocationString
+          statement: balloonPositionString
         } );
       }
       else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
@@ -438,15 +438,15 @@ const Vector2 = require( 'DOT/Vector2' );
         if ( chargesShown === 'all' ) {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
             noChange: noChangeInChargesString,
-            balloonLocation: balloonLocationString,
-            moreChargesLocation: moreChargesString
+            balloonPosition: balloonPositionString,
+            moreChargesPosition: moreChargesString
           } );
         }
         else if ( chargesShown === 'diff' ) {
           alert = StringUtils.fillIn( noChargePickupPatternString, {
             noChange: noChangeInNetChargeString,
-            balloonLocation: balloonLocationString,
-            moreChargesLocation: moreChargesString
+            balloonPosition: balloonPositionString,
+            moreChargesPosition: moreChargesString
           } );
         }
       }
@@ -460,7 +460,7 @@ const Vector2 = require( 'DOT/Vector2' );
 
           alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
             noChange: noChangeInChargesString,
-            balloonLocation: balloonLocationString,
+            balloonPosition: balloonPositionString,
             sweaterCharge: relativeSweaterCharge,
             balloonCharge: relativeBalloonCharge,
             hint: releaseHintString
@@ -469,7 +469,7 @@ const Vector2 = require( 'DOT/Vector2' );
         else if ( chargesShown === 'diff' ) {
           alert = StringUtils.fillIn( noChargePickupHintPatternString, {
             noChange: noChangeInNetChargeString,
-            balloonLocation: balloonLocationString,
+            balloonPosition: balloonPositionString,
             hint: releaseHintString
           } );
         }
@@ -494,19 +494,19 @@ const Vector2 = require( 'DOT/Vector2' );
       let descriptionString;
       let chargeString;
 
-      // the location string is used for all charge views, used as a single sentence
-      const locationString = this.movementDescriber.getBalloonLocationDescription();
-      let atLocationString = StringUtils.fillIn( balloonAtLocationPatternString, {
-        location: locationString
+      // the position string is used for all charge views, used as a single sentence
+      const positionString = this.movementDescriber.getBalloonPositionDescription();
+      let atPositionString = StringUtils.fillIn( balloonAtPositionPatternString, {
+        position: positionString
       } );
-      atLocationString = StringUtils.fillIn( singleStatementPatternString, {
-        statement: atLocationString
+      atPositionString = StringUtils.fillIn( singleStatementPatternString, {
+        statement: atPositionString
       } );
 
       const shownCharges = this.showChargesProperty.get();
       const wallVisible = this.wall.isVisibleProperty.get();
       if ( shownCharges === 'none' ) {
-        descriptionString = atLocationString;
+        descriptionString = atPositionString;
       }
       else {
         if ( shownCharges === 'all' ) {
@@ -588,9 +588,9 @@ const Vector2 = require( 'DOT/Vector2' );
           }
         }
 
-        // combine charge and location portions of the description for 'all' and 'diff' charge views
+        // combine charge and position portions of the description for 'all' and 'diff' charge views
         descriptionString = StringUtils.fillIn( wallRubPatternString, {
-          location: atLocationString,
+          position: atPositionString,
           charge: chargeString
         } );
       }
@@ -642,7 +642,7 @@ const Vector2 = require( 'DOT/Vector2' );
      */
     getVisibilityChangedDescription: function() {
       let description;
-      const locationProperty = this.balloonModel.locationProperty;
+      const positionProperty = this.balloonModel.positionProperty;
       const visible = this.balloonModel.isVisibleProperty.get();
 
       if ( !visible ) {
@@ -653,19 +653,19 @@ const Vector2 = require( 'DOT/Vector2' );
         } );
       }
       else {
-        if ( locationProperty.get().equals( locationProperty.initialValue ) ) {
+        if ( positionProperty.get().equals( positionProperty.initialValue ) ) {
 
-          // if add at initial location, generic string
+          // if add at initial position, generic string
           description = StringUtils.fillIn( balloonAddedPatternString, {
             balloonLabel: this.accessibleName
           } );
         }
         else {
 
-          // if not at initial location, include attractive state and location
-          description = StringUtils.fillIn( balloonAddedWithLocationPatternString, {
+          // if not at initial position, include attractive state and position
+          description = StringUtils.fillIn( balloonAddedWithPositionPatternString, {
             balloonLabel: this.accessibleName,
-            location: this.movementDescriber.getAttractiveStateAndLocationDescription()
+            position: this.movementDescriber.getAttractiveStateAndPositionDescription()
           } );
         }
       }
@@ -695,7 +695,7 @@ const Vector2 = require( 'DOT/Vector2' );
       // grab next values to describe
       const nextVelocity = model.velocityProperty.get();
       const nextDragVelocity = model.dragVelocityProperty.get();
-      const nextLocation = model.locationProperty.get();
+      const nextPosition = model.positionProperty.get();
       const nextVisible = model.isVisibleProperty.get();
       const nextTouchingWall = model.touchingWallProperty.get();
       const nextIsDragged = model.isDraggedProperty.get();
@@ -711,14 +711,14 @@ const Vector2 = require( 'DOT/Vector2' );
           if ( model.isDraggedProperty.get() ) {
             if ( model.onSweater() || model.touchingWall() ) {
 
-              // while dragging, just attractive state and location
-              phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+              // while dragging, just attractive state and position
+              phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
             }
           }
           else if ( model.onSweater() ) {
 
             // if we stop on the sweater, announce that we are sticking to it
-            phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndLocationDescriptionWithLabel() );
+            phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
           }
           else {
 
@@ -747,11 +747,11 @@ const Vector2 = require( 'DOT/Vector2' );
         // user makes an interaction while a new alert is being announced
         if ( model.isDraggedProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) ) {
 
-          // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new location)
+          // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new position)
           if ( !model.jumping ) {
 
             // how much balloon has moved in a single drag
-            const dragDelta = nextLocation.minus( this.oldDragLocation );
+            const dragDelta = nextPosition.minus( this.oldDragPosition );
 
             // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new description next
             // time we move the balloon
@@ -808,8 +808,8 @@ const Vector2 = require( 'DOT/Vector2' );
             model.jumping = false;
           }
 
-          // update the old dragging location for next time, copy so we can compare by value
-          this.oldDragLocation = nextLocation.copy();
+          // update the old dragging position for next time, copy so we can compare by value
+          this.oldDragPosition = nextPosition.copy();
         }
       }
 
@@ -864,7 +864,7 @@ const Vector2 = require( 'DOT/Vector2' );
         }
       }
 
-      // any changes to location from independent balloon movement (not dragging)
+      // any changes to position from independent balloon movement (not dragging)
       if ( nextVisible && !nextIsDragged ) {
         utterance = '';
 
@@ -929,7 +929,7 @@ const Vector2 = require( 'DOT/Vector2' );
       // update variables for next step
       this.describedVelocity = nextVelocity;
       this.describedDragVelocity = nextDragVelocity;
-      this.describedLocation = nextLocation;
+      this.describedPosition = nextPosition;
       this.describedVisible = nextVisible;
       this.describedTouchingWall = nextTouchingWall;
       this.describedIsDragged = nextIsDragged;

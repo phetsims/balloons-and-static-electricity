@@ -46,7 +46,7 @@ define( require => {
   const summaryYellowGreenSweaterPatternString = BASEA11yStrings.summaryYellowGreenSweaterPattern.value;
   const summaryYellowSweaterWallPatternString = BASEA11yStrings.summaryYellowSweaterWallPattern.value;
   const summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPattern.value;
-  const initialObjectLocationsString = BASEA11yStrings.initialObjectLocations.value;
+  const initialObjectPositionsString = BASEA11yStrings.initialObjectPositions.value;
   const simOpeningString = BASEA11yStrings.simOpening.value;
 
   /**
@@ -83,7 +83,7 @@ define( require => {
     // list of dynamic description content that will update with the state of the simulation
     const listNode = new Node( { tagName: 'ul' } );
     const roomObjectsNode = new Node( { tagName: 'li' } );
-    const objectLocationsNode = new Node( { tagName: 'li', innerContent: initialObjectLocationsString } );
+    const objectPositionsNode = new Node( { tagName: 'li', innerContent: initialObjectPositionsString } );
     const balloonChargeNode = new Node( { tagName: 'li' } );
     const sweaterWallChargeNode = new Node( { tagName: 'li' } );
     const inducedChargeNode = new Node( { tagName: 'li' } );
@@ -91,7 +91,7 @@ define( require => {
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
-    listNode.addChild( objectLocationsNode );
+    listNode.addChild( objectPositionsNode );
     listNode.addChild( balloonChargeNode );
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
@@ -115,8 +115,8 @@ define( require => {
       }
     } );
 
-    const inducedChargeProperties = [ this.yellowBalloon.locationProperty, this.greenBalloon.locationProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-    Property.multilink( inducedChargeProperties, function( yellowLocation, greenLocation, greenVisible, showCharges, wallVisible ) {
+    const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    Property.multilink( inducedChargeProperties, function( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = self.yellowBalloon.inducingChargeAndVisible() || self.greenBalloon.inducingChargeAndVisible();
@@ -128,20 +128,20 @@ define( require => {
       }
     } );
 
-    // If all of the simulation objects are at their initial state, include the location summary phrase that lets the
+    // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
     // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
     Property.multilink(
-      [ self.yellowBalloon.locationProperty,
-        self.greenBalloon.locationProperty,
+      [ self.yellowBalloon.positionProperty,
+        self.greenBalloon.positionProperty,
         self.greenBalloon.isVisibleProperty,
         model.wall.isVisibleProperty
-      ], function( yellowLocation, greenLocation, greenVisible, wallVisible ) {
-        const initialValues = self.yellowBalloon.locationProperty.initialValue === yellowLocation &&
-                            self.greenBalloon.locationProperty.initialValue === greenLocation &&
-                            self.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
-                            model.wall.isVisibleProperty.initialValue === wallVisible;
+      ], function( yellowPosition, greenPosition, greenVisible, wallVisible ) {
+        const initialValues = self.yellowBalloon.positionProperty.initialValue === yellowPosition &&
+                              self.greenBalloon.positionProperty.initialValue === greenPosition &&
+                              self.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
+                              model.wall.isVisibleProperty.initialValue === wallVisible;
 
-        objectLocationsNode.accessibleVisible = initialValues;
+        objectPositionsNode.accessibleVisible = initialValues;
       }
     );
   }
@@ -292,7 +292,7 @@ define( require => {
 
         if ( this.model.balloonsAdjacentProperty.get() ) {
           description = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, {
-            includeWallLocation: false
+            includeWallPosition: false
           } );
 
           // add punctuation, a period at  the end of the phrase
@@ -304,7 +304,7 @@ define( require => {
 
           // full description for yellow balloon
           const yellowBalloonDescription = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
-            includeWallLocation: false,
+            includeWallPosition: false,
             includePositiveChargeInfo: false
           } );
 
@@ -323,12 +323,12 @@ define( require => {
       else {
         if ( greenInducingChargeAndVisilbe ) {
           description = WallDescriber.getInducedChargeDescription( greenBalloon, greenBalloonLabel, wallVisible, {
-            includeWallLocation: false
+            includeWallPosition: false
           } );
         }
         else if ( yellowInducingChargeAndVisible ) {
           description = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabel, wallVisible, {
-            includeWallLocation: false
+            includeWallPosition: false
           } );
         }
 

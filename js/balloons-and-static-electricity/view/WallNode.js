@@ -62,7 +62,7 @@ define( require => {
     //draw plusCharges on the wall
     const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( function( entry ) {
-      const plusChargeNode = new PlusChargeNode( entry.location, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( entry.position, plusChargeNodesTandemGroup.createNextTandem() );
       plusChargesNode.addChild( plusChargeNode );
     } );
     this.addChild( plusChargesNode );
@@ -83,20 +83,20 @@ define( require => {
       minusChargesNode.visible = ( value === 'all' );
     } );
 
-    // a11y - when the balloons change location, update the description of the induced charge in the wall
+    // a11y - when the balloons change position, update the description of the induced charge in the wall
     const updateWallDescription = function() {
       self.setDescriptionContent( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
     };
 
     // a11y - attach listeners to update descriptions of the wall, no need to dispose
-    model.yellowBalloon.locationProperty.link( updateWallDescription );
-    model.greenBalloon.locationProperty.link( updateWallDescription );
+    model.yellowBalloon.positionProperty.link( updateWallDescription );
+    model.greenBalloon.positionProperty.link( updateWallDescription );
     model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
 
     // update minus charges indicating induced charge when balloons move
-    model.yellowBalloon.locationProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
-    model.greenBalloon.locationProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
+    model.yellowBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
+    model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
   }
 
   balloonsAndStaticElectricity.register( 'WallNode', WallNode );

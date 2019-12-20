@@ -94,7 +94,7 @@ define( require => {
       }
 
       // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback
-      // based on the location of the balloon in relation to other objects.
+      // based on the position of the balloon in relation to other objects.
       if ( paradigmChoice === 'result' ) {
         const yellowBalloon = model.yellowBalloon;
 

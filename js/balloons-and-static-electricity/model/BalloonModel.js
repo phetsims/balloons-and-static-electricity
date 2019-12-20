@@ -118,7 +118,7 @@ define( require => {
     [ 34, 77 ]
   ];
 
-  // determine average Y position for the charges in the balloon, used to calculate the average vertical location of
+  // determine average Y position for the charges in the balloon, used to calculate the average vertical position of
   // the visual charge center
   let positionYSum = 0;
   for ( let i = 0; i < POSITIONS.length; i++ ) {
@@ -167,9 +167,9 @@ define( require => {
       tandem: tandem.createTandem( 'isDraggedProperty' )
     } );
 
-    // @public {Vector2} - location of the upper left corner of the rectangle that encloses the balloon
-    this.locationProperty = new Vector2Property( new Vector2( x, y ), {
-      tandem: tandem.createTandem( 'locationProperty' ),
+    // @public {Vector2} - position of the upper left corner of the rectangle that encloses the balloon
+    this.positionProperty = new Vector2Property( new Vector2( x, y ), {
+      tandem: tandem.createTandem( 'positionProperty' ),
       useDeepEquality: true
     } );
 
@@ -195,7 +195,7 @@ define( require => {
     // @private string - the current row of the play area that the balloon is in
     this.playAreaRowProperty = new Property( null );
 
-    // @private {string|null} - if the balloon is in a landmark location, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
+    // @private {string|null} - if the balloon is in a landmark position, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
     this.playAreaLandmarkProperty = new Property( null );
 
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
@@ -216,7 +216,7 @@ define( require => {
     this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
     this.xVelocityArray.counter = 0;
 
-    // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a location in the play
+    // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a position in the play
     // area without dragging or an applied force
     this.jumping = false;
 
@@ -234,9 +234,9 @@ define( require => {
     // @public {number} - in ms, the amount of time that has passed since balloon has been released
     this.timeSinceRelease = 0;
 
-    // @public (read-only) - the old location of the balloon, used throughout the model and view to calculate
+    // @public (read-only) - the old position of the balloon, used throughout the model and view to calculate
     // changes in position
-    this.oldLocation = this.locationProperty.get().copy();
+    this.oldPosition = this.positionProperty.get().copy();
 
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
@@ -264,7 +264,7 @@ define( require => {
       const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
       self.plusCharges.push( plusCharge );
 
-      // minus charges at same location of positive charge, shifted down and to the right by charge radius
+      // minus charges at same position of positive charge, shifted down and to the right by charge radius
       const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
@@ -282,21 +282,21 @@ define( require => {
 
     // @public (read-only) model bounds, updated when position changes
     this.bounds = new Bounds2(
-      this.locationProperty.get().x,
-      this.locationProperty.get().y,
-      this.locationProperty.get().x + this.width,
-      this.locationProperty.get().y + this.height
+      this.positionProperty.get().x,
+      this.positionProperty.get().y,
+      this.positionProperty.get().x + this.width,
+      this.positionProperty.get().y + this.height
     );
 
     // when position changes, update bounds of balloon in play area, direction of movement, and whether or not the
     // the balloon is touching an object - no need to dispose as balloons exist for life of sim
-    this.locationProperty.link( function( location, oldLocation ) {
-      self.bounds.setMinMax( location.x, location.y, location.x + self.width, location.y + self.height );
+    this.positionProperty.link( function( position, oldPosition ) {
+      self.bounds.setMinMax( position.x, position.y, position.x + self.width, position.y + self.height );
 
-      if ( oldLocation ) {
+      if ( oldPosition ) {
 
-        // the direction from the old location to the newLocation
-        self.directionProperty.set( BalloonModel.getDirection( location, oldLocation ) );
+        // the direction from the old position to the newPosition
+        self.directionProperty.set( BalloonModel.getDirection( position, oldPosition ) );
 
         // update whether or not the balloon is on the sweater
         if ( self.onSweater() !== self.onSweaterProperty.get() ) {
@@ -376,14 +376,14 @@ define( require => {
     },
 
     /**
-     * Returns whether or not the right edge of the balloon is at the wall location, regardless of
-     * balloon or wall visibility.  Useful for checking whether the balloon is at the wall location
+     * Returns whether or not the right edge of the balloon is at the wall position, regardless of
+     * balloon or wall visibility.  Useful for checking whether the balloon is at the wall position
      * when the wall is removed.
      *
      * @returns {boolean}
      */
-    rightAtWallLocation: function() {
-      return this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+    rightAtWallPosition: function() {
+      return this.getCenterX() === PlayAreaMap.X_POSITIONS.AT_WALL;
     },
 
     /**
@@ -392,7 +392,7 @@ define( require => {
      * @returns {boolean}
      */
     atRightEdge: function() {
-      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_WALL;
+      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_POSITIONS.AT_WALL;
     },
 
     /**
@@ -401,12 +401,12 @@ define( require => {
      * @returns {string}
      */
     atLeftEdge: function() {
-      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE;
+      return this.getCenterX() === PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
     },
 
     /**
      * Returns whether or not this balloon is in the center of the play area horizontally. Does not consider vertical
-     * location.
+     * position.
      *
      * @returns {boolean}
      */
@@ -433,7 +433,7 @@ define( require => {
      * @returns {boolean}
      */
     touchingWall: function() {
-      const atWall = this.getCenterX() === PlayAreaMap.X_LOCATIONS.AT_WALL;
+      const atWall = this.getCenterX() === PlayAreaMap.X_POSITIONS.AT_WALL;
       const wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
       return ( atWall && wallVisible );
     },
@@ -530,25 +530,25 @@ define( require => {
     },
 
     /**
-     * Set the center location of the balloon. Sets the location Property but with an offset to account
+     * Set the center position of the balloon. Sets the position Property but with an offset to account
      * for the balloon dimensions.
      *
      * @param {Vector2} center
      */
     setCenter: function( center ) {
-      this.locationProperty.set( new Vector2(
+      this.positionProperty.set( new Vector2(
         center.x - this.width / 2,
         center.y - this.height / 2
       ) );
     },
 
     /**
-     * Get the center location of the balloon.
+     * Get the center position of the balloon.
      * @public
      * @returns {Vector2}
      */
     getCenter: function() {
-      return new Vector2( this.locationProperty.get().x + this.width / 2, this.locationProperty.get().y + this.height / 2 );
+      return new Vector2( this.positionProperty.get().x + this.width / 2, this.positionProperty.get().y + this.height / 2 );
     },
 
     /**
@@ -556,15 +556,15 @@ define( require => {
      * @returns {number}
      */
     getCenterY: function() {
-      return this.locationProperty.get().y + this.height / 2;
+      return this.positionProperty.get().y + this.height / 2;
     },
 
     /**
-     * Get the horizontal center location of the balloon.
+     * Get the horizontal center position of the balloon.
      * @returns {number}
      */
     getCenterX: function() {
-      return this.locationProperty.get().x + this.width / 2;
+      return this.positionProperty.get().x + this.width / 2;
     },
 
     /**
@@ -573,7 +573,7 @@ define( require => {
      * @returns {number}
      */
     getRight: function() {
-      return this.locationProperty.get().x + this.width;
+      return this.positionProperty.get().x + this.width;
     },
 
     /**
@@ -587,7 +587,7 @@ define( require => {
      */
     getChargeCenter: function() {
       const centerX = this.getCenter().x;
-      const centerY = this.locationProperty.get().y + AVERAGE_CHARGE_Y;
+      const centerY = this.positionProperty.get().y + AVERAGE_CHARGE_Y;
       return new Vector2( centerX, centerY );
     },
 
@@ -602,7 +602,7 @@ define( require => {
       const sweaterRight = sweater.x + sweater.width;
 
       if ( this.getCenter().x > sweaterRight ) {
-        var centerX = this.locationProperty.get().x;
+        var centerX = this.positionProperty.get().x;
       }
       else {
         centerX = this.getCenter().x;
@@ -666,7 +666,7 @@ define( require => {
 
       this.chargeProperty.reset();
       this.velocityProperty.reset();
-      this.locationProperty.reset();
+      this.positionProperty.reset();
       if ( !notResetVisibility ) {
         this.isVisibleProperty.reset();
       }
@@ -705,7 +705,7 @@ define( require => {
         // increment the time since release
         this.timeSinceRelease += dt;
       }
-      this.oldLocation = this.locationProperty.get().copy();
+      this.oldPosition = this.positionProperty.get().copy();
     },
 
     /**
@@ -719,11 +719,11 @@ define( require => {
     dragBalloon: function( model, dt ) {
 
       // Prevent a fuzzer error that tries to drag the balloon before step is called.
-      if ( !this.oldLocation ) {
+      if ( !this.oldPosition ) {
         return;
       }
-      const vx = ( this.locationProperty.get().x - this.oldLocation.x ) / dt;
-      const vy = ( this.locationProperty.get().y - this.oldLocation.y ) / dt;
+      const vx = ( this.positionProperty.get().x - this.oldPosition.x ) / dt;
+      const vy = ( this.positionProperty.get().y - this.oldPosition.y ) / dt;
 
       // calculate average velocity
       this.xVelocityArray[ this.xVelocityArray.counter++ ] = vx * vx;
@@ -779,18 +779,18 @@ define( require => {
 
     /**
      * Returns whether or not the balloon is touching the right boundary of the play area.  If the wall
-     * is visible, this will be the location where the balloon is touching the wall, otherwise it will
-     * be the location where the balloon is touching the right edge of the play area.
+     * is visible, this will be the position where the balloon is touching the wall, otherwise it will
+     * be the position where the balloon is touching the right edge of the play area.
      *
      * @returns {boolean}
      */
     isTouchingRightBoundary: function() {
       const balloonX = this.getCenter().x;
       if ( this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() ) {
-        return PlayAreaMap.X_LOCATIONS.AT_WALL === balloonX;
+        return PlayAreaMap.X_POSITIONS.AT_WALL === balloonX;
       }
       else {
-        return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+        return PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE === balloonX;
       }
     },
 
@@ -802,7 +802,7 @@ define( require => {
      */
     isTouchingRightEdge: function() {
       const balloonX = this.getCenterX();
-      return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE === balloonX;
+      return PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE === balloonX;
     },
 
     /**
@@ -810,11 +810,11 @@ define( require => {
      * @returns {boolean}
      */
     isTouchingBottomBoundary: function() {
-      return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM === this.getCenterY();
+      return PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM === this.getCenterY();
     },
 
     isTouchingLeftBoundary: function() {
-      return PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE === this.getCenterX();
+      return PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE === this.getCenterX();
     },
 
     /**
@@ -823,7 +823,7 @@ define( require => {
      * @returns {boolean}
      */
     isTouchingTopBoundary: function() {
-      return PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP === this.getCenterY();
+      return PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP === this.getCenterY();
     },
 
     /**
@@ -841,39 +841,39 @@ define( require => {
         const rightBound = model.playAreaBounds.maxX;
         const force = this.getTotalForce();
         const newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
-        const newLocation = this.locationProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
+        const newPosition = this.positionProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
 
-        if ( newLocation.x + this.width >= rightBound ) {
+        if ( newPosition.x + this.width >= rightBound ) {
 
           // trying to go beyond right bound
-          newLocation.x = rightBound - this.width;
+          newPosition.x = rightBound - this.width;
           newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
         }
-        if ( newLocation.y + this.height >= model.playAreaBounds.maxY ) {
+        if ( newPosition.y + this.height >= model.playAreaBounds.maxY ) {
 
           // trying to go beyond bottom bound
-          newLocation.y = model.playAreaBounds.maxY - this.height;
+          newPosition.y = model.playAreaBounds.maxY - this.height;
           newVelocity.y = newVelocity.y > 0 ? 0 : newVelocity.y;
         }
-        if ( newLocation.x <= model.playAreaBounds.minX ) {
+        if ( newPosition.x <= model.playAreaBounds.minX ) {
 
           // trying to go  beyond left bound
-          newLocation.x = model.playAreaBounds.minX;
+          newPosition.x = model.playAreaBounds.minX;
           newVelocity.x = newVelocity.x < 0 ? 0 : newVelocity.x;
         }
-        if ( newLocation.y <= model.playAreaBounds.minY ) {
-          newLocation.y = model.playAreaBounds.minY;
+        if ( newPosition.y <= model.playAreaBounds.minY ) {
+          newPosition.y = model.playAreaBounds.minY;
           newVelocity.y = newVelocity.y < 0 ? 0 : newVelocity.y;
         }
 
-        // update location before velocity so that listeners associated with velocity can reference the correct
-        // location on updated velocity
+        // update position before velocity so that listeners associated with velocity can reference the correct
+        // position on updated velocity
         if ( this.isCharged() ) {
-          if ( newLocation.equals( this.locationProperty.get() ) ) {
+          if ( newPosition.equals( this.positionProperty.get() ) ) {
             // debugger;
           }
         }
-        this.locationProperty.set( newLocation );
+        this.positionProperty.set( newPosition );
         this.velocityProperty.set( newVelocity );
       }
       else {
@@ -892,7 +892,7 @@ define( require => {
     getTotalForce: function() {
       const model = this.balloonsAndStaticElectricityModel;
       if ( model.wall.isVisibleProperty.get() ) {
-        const distFromWall = model.wall.x - this.locationProperty.get().x;
+        const distFromWall = model.wall.x - this.positionProperty.get().x;
 
         // if the balloon has enough charge and is close enough to the wall, the wall attracts it more than the sweater
         if ( this.chargeProperty.get() < -5 ) {
@@ -977,7 +977,7 @@ define( require => {
      */
     getForceToClosestWallCharge: function( balloon ) {
       return BalloonModel.getForce(
-        balloon.closestChargeInWall.locationProperty.get(),
+        balloon.closestChargeInWall.positionProperty.get(),
         balloon.getCenter(),
         BASEConstants.COULOMBS_LAW_CONSTANT * balloon.chargeProperty.get() * PointChargeModel.CHARGE,
         2.35

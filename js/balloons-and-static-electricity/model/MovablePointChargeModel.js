@@ -1,8 +1,8 @@
 // Copyright 2017-2019, University of Colorado Boulder
 
 /**
- * A single point change, which has a location.  These charges are meant to move dynamically, and
- * include an observable location.  If the charge does not need to move, use PointChargeModel.
+ * A single point change, which has a position.  These charges are meant to move dynamically, and
+ * include an observable position.  If the charge does not need to move, use PointChargeModel.
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -29,9 +29,9 @@ define( require => {
 
     PointChargeModel.call( this, x, y, tandem, phetioState );
 
-    // @public {Vector2} - location of the point charge
-    this.locationProperty = new Vector2Property( this.location, {
-      tandem: tandem.createTandem( 'locationProperty' ),
+    // @public {Vector2} - position of the point charge
+    this.positionProperty = new Vector2Property( this.position, {
+      tandem: tandem.createTandem( 'positionProperty' ),
       phetioState: phetioState,
       useDeepEquality: true
     } );
@@ -48,7 +48,7 @@ define( require => {
      */
     reset: function() {
       PointChargeModel.prototype.reset.call( this );
-      this.locationProperty.reset();
+      this.positionProperty.reset();
     },
 
     /**
@@ -57,8 +57,8 @@ define( require => {
      * @returns {Vector2}
      */
     getDisplacement: function() {
-      const initialPosition = this.locationProperty.initialValue;
-      const displacement = this.locationProperty.get().distance( initialPosition );
+      const initialPosition = this.positionProperty.initialValue;
+      const displacement = this.positionProperty.get().distance( initialPosition );
 
       return displacement;
     },
@@ -70,7 +70,7 @@ define( require => {
      * @override
      */
     getCenter: function() {
-      return new Vector2( this.locationProperty.get().x + this.radius, this.locationProperty.get().y + this.radius );
+      return new Vector2( this.positionProperty.get().x + this.radius, this.positionProperty.get().y + this.radius );
     }
   } );
 

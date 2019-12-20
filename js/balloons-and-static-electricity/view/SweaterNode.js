@@ -78,11 +78,11 @@ define( require => {
     const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( function( plusCharge ) {
-      const plusChargeNode = new PlusChargeNode( plusCharge.location, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( plusCharge.position, plusChargeNodesTandemGroup.createNextTandem() );
       self.plusChargesNode.addChild( plusChargeNode );
     } );
     this.sweaterModel.minusCharges.forEach( function( minusCharge ) {
-      const minusChargeNode = new MinusChargeNode( minusCharge.location, minusChargeNodesTandemGroup.createNextTandem() );
+      const minusChargeNode = new MinusChargeNode( minusCharge.position, minusChargeNodesTandemGroup.createNextTandem() );
       self.minusChargesNode.addChild( minusChargeNode );
     } );
 

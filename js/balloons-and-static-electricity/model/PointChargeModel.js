@@ -1,9 +1,9 @@
 // Copyright 2013-2019, University of Colorado Boulder
 
 /**
- * A single point change, which has a location.  The location is intended to never change.  Most charges in this
+ * A single point change, which has a position.  The position is intended to never change.  Most charges in this
  * sim do not require observable Properties, so using this type for most of these can improve performance.
- * If the charge needs an observable dynamic location, please use MovablePointChargeModel.
+ * If the charge needs an observable dynamic position, please use MovablePointChargeModel.
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -33,8 +33,8 @@ define( require => {
    */
   function PointChargeModel( x, y, tandem, phetioState ) {
 
-    // @public (read-only) - location of this charge
-    this.location = new Vector2( x, y );
+    // @public (read-only) - position of this charge
+    this.position = new Vector2( x, y );
 
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new BooleanProperty( false, {
@@ -61,7 +61,7 @@ define( require => {
      * @returns {Vector2}
      */
     getCenter: function() {
-      return new Vector2( this.location.x + this.radius, this.location.y + this.radius );
+      return new Vector2( this.position.x + this.radius, this.position.y + this.radius );
     }
   }, {
 

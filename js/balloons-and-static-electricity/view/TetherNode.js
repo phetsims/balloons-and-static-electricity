@@ -34,8 +34,8 @@ define( require => {
 
     const anchorPointCopy = anchorPoint.copy();
 
-    balloonModel.locationProperty.link( function( location ) {
-      const attachmentPoint = location.plus( tetherPointOffset );
+    balloonModel.positionProperty.link( function( position ) {
+      const attachmentPoint = position.plus( tetherPointOffset );
       self.shape = new Shape()
         .moveToPoint( anchorPointCopy )
         .quadraticCurveTo(

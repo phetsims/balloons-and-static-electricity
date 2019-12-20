@@ -39,8 +39,8 @@ define( require => {
   const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
   const Vector2 = require( 'DOT/Vector2' );
 
-  // a11y - critical x locations for the balloon
-  const X_LOCATIONS = PlayAreaMap.X_LOCATIONS;
+  // a11y - critical x positions for the balloon
+  const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
   // a11y strings
   const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
@@ -98,10 +98,10 @@ define( require => {
     const property = {
 
       //Set only to the legal positions in the frame
-      set: function( location ) { model.locationProperty.set( globalModel.checkBalloonRestrictions( location, model.width, model.height ) ); },
+      set: function( position ) { model.positionProperty.set( globalModel.checkBalloonRestrictions( position, model.width, model.height ) ); },
 
-      //Get the location of the model
-      get: function() { return model.locationProperty.get(); }
+      //Get the position of the model
+      get: function() { return model.positionProperty.get(); }
     };
 
     /**
@@ -149,13 +149,13 @@ define( require => {
     const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( var i = 0; i < model.plusCharges.length; i++ ) {
       const plusChargeNode = new PlusChargeNode(
-        model.plusCharges[ i ].location,
+        model.plusCharges[ i ].position,
         plusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( plusChargeNode );
 
       const minusChargeNode = new MinusChargeNode(
-        model.minusCharges[ i ].location,
+        model.minusCharges[ i ].position,
         minusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( minusChargeNode );
@@ -166,7 +166,7 @@ define( require => {
     const addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       const addedMinusChargeNode = new MinusChargeNode(
-        model.minusCharges[ i ].location,
+        model.minusCharges[ i ].position,
         addedChargeNodesTandemGroup.createNextTandem()
       );
       addedMinusChargeNode.visible = false;
@@ -187,8 +187,8 @@ define( require => {
     } );
 
     // link the position of this node to the model
-    model.locationProperty.link( function updateLocation( location, oldLocation ) {
-      self.translation = location;
+    model.positionProperty.link( function updatePosition( position ) {
+      self.translation = position;
     } );
 
     //show charges based on showCharges property
@@ -207,12 +207,12 @@ define( require => {
     // a11y
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
 
-    // a11y - when the balloon charge, location, or model.showChargesProperty changes, the balloon needs a new
+    // a11y - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
     const updateAccessibleDescription = function() {
       self.descriptionContent = self.describer.getBalloonDescription( model );
     };
-    model.locationProperty.link( updateAccessibleDescription );
+    model.positionProperty.link( updateAccessibleDescription );
     model.chargeProperty.link( updateAccessibleDescription );
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
@@ -226,7 +226,7 @@ define( require => {
       dragVelocity: 300, // in view coordinates per second
       shiftDragVelocity: 100, // in view coordinates per second
       dragBounds: this.getDragBounds(),
-      locationProperty: model.locationProperty,
+      positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: function( event ) {
 
@@ -269,7 +269,7 @@ define( require => {
 
       // hides the interactionCueNode cue if this returns true
       successfulDrag: function() {
-        return !model.locationProperty.get().equals( model.locationProperty.initialValue );
+        return !model.positionProperty.get().equals( model.positionProperty.initialValue );
       },
 
       listenersForDrag: [ this.keyboardDragHandler ],
@@ -282,25 +282,25 @@ define( require => {
       {
         keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_W ],
         callback: function() {
-          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_WALL, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }
       },
       {
         keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_S ],
         callback: function() {
-          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
         }
       },
       {
         keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_N ],
         callback: function() {
-          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_NEAR_WALL, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_WALL, model.getCenterY() ) );
         }
       },
       {
         keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_C ],
         callback: function() {
-          self.jumpBalloon( new Vector2( X_LOCATIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
+          self.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
       }
     ] );
@@ -337,11 +337,11 @@ define( require => {
     },
 
     /**
-     * Jump the balloon to a new location, first muting the utteranceQueue, then updating position,
+     * Jump the balloon to a new position, first muting the utteranceQueue, then updating position,
      * then clearing the queue and enabling it once more.  Finally, we will add a custom utterance
      * to the queue describing the jump interaction.
      *
-     * @param  {Vector2} center - new center location for the balloon
+     * @param  {Vector2} center - new center position for the balloon
      */
     jumpBalloon: function( center ) {
       this.model.jumping = true;

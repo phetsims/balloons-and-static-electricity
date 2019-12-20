@@ -37,7 +37,7 @@ define( require => {
   /**
    * @constructor
    *
-   * @param {number} wallX - x location of the wall, to offset charge locations
+   * @param {number} wallX - x position of the wall, to offset charge positions
    * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
    * @param {Array.<MovablePointChargeModel} charges
    * @param {[object]} options
@@ -78,7 +78,7 @@ define( require => {
       // draw all of the charges
       for ( let i = 0; i < this.charges.length; i++ ) {
         const charge = this.charges[ i ];
-        const chargePosition = charge.locationProperty.get();
+        const chargePosition = charge.positionProperty.get();
 
         const xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale );
         const yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale;

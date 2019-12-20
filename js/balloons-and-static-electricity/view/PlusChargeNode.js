@@ -47,14 +47,14 @@ define( require => {
 
   /**
    * @constructor
-   * @param {Vector2} location
+   * @param {Vector2} position
    * @pararm {Tandem} tandem
    */
-  function PlusChargeNode( location, tandem ) {
+  function PlusChargeNode( position, tandem ) {
 
     Node.call( this, { pickable: false, tandem: tandem } );
 
-    this.translate( location.x + BASEConstants.IMAGE_PADDING, location.y + BASEConstants.IMAGE_PADDING );
+    this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
 
     this.addChild( sharedPlusChargeNode );
   }

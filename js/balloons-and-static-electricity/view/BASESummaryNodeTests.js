@@ -146,7 +146,7 @@ define( require => {
     // the last summary item, verify induced charge
     model.reset();
     model.yellowBalloon.chargeProperty.set( -20 );
-    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, model.yellowBalloon.getCenter().y ) );
+    model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, model.yellowBalloon.getCenter().y ) );
     let expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a lot. Positive charges do not move.';
     let actualFourthItem = summaryNode.getInducedChargeDescription();
     assert.equal( actualFourthItem, expectedFourthItem );
@@ -163,8 +163,8 @@ define( require => {
     // test both when balloons are not adjacent and have different charge
     model.yellowBalloon.chargeProperty.set( -10 );
     model.greenBalloon.chargeProperty.set( -20 );
-    model.yellowBalloon.setCenter( new Vector2( model.yellowBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP ) );
-    model.greenBalloon.setCenter( new Vector2( model.greenBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM ) );
+    model.yellowBalloon.setCenter( new Vector2( model.yellowBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP ) );
+    model.greenBalloon.setCenter( new Vector2( model.greenBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM ) );
     expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a little bit, from Green Balloon a lot. Positive charges do not move.';
     actualFourthItem = summaryNode.getInducedChargeDescription();
     assert.equal( actualFourthItem, expectedFourthItem );

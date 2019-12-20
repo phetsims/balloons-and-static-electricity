@@ -1,7 +1,7 @@
 // Copyright 2016-2019, University of Colorado Boulder
 
 /**
- * Manages all descriptions related to the balloon's location. This file is quite large, but further separation felt
+ * Manages all descriptions related to the balloon's position. This file is quite large, but further separation felt
  * forced so I decided to keep all in this file. Used by BalloonDescriber, which manages descriptions from the other
  * describers.
  *
@@ -26,11 +26,11 @@ define( require => {
   const balloonStickingToString = BASEA11yStrings.balloonStickingTo.value;
   const balloonOnString = BASEA11yStrings.balloonOn.value;
   const balloonAtString = BASEA11yStrings.balloonAt.value;
-  const balloonLocationAttractiveStatePatternString = BASEA11yStrings.balloonLocationAttractiveStatePattern.value;
+  const balloonPositionAttractiveStatePatternString = BASEA11yStrings.balloonPositionAttractiveStatePattern.value;
   const initialMovementPatternString = BASEA11yStrings.initialMovementPattern.value;
   const continuousMovementWithLabelPatternString = BASEA11yStrings.continuousMovementWithLabelPattern.value;
   const twoBalloonInitialMovementPatternString = BASEA11yStrings.twoBalloonInitialMovementPattern.value;
-  const twoBalloonNoChangeAndLocationPatternString = BASEA11yStrings.twoBalloonNoChangeAndLocationPattern.value;
+  const twoBalloonNoChangeAndPositionPatternString = BASEA11yStrings.twoBalloonNoChangeAndPositionPattern.value;
   const twoBalloonNowDirectionPatternString = BASEA11yStrings.twoBalloonNowDirectionPattern.value;
   const extremelySlowlyString = BASEA11yStrings.extremelySlowly.value;
   const verySlowlyString = BASEA11yStrings.verySlowly.value;
@@ -67,10 +67,10 @@ define( require => {
   const rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
   const topEdgeOfPlayAreaString = BASEA11yStrings.topEdgeOfPlayArea.value;
   const bottomEdgeOfPlayAreaString = BASEA11yStrings.bottomEdgeOfPlayArea.value;
-  const noChangeAndLocationPatternString = BASEA11yStrings.noChangeAndLocationPattern.value;
+  const noChangeAndPositionPatternString = BASEA11yStrings.noChangeAndPositionPattern.value;
   const nearSweaterString = BASEA11yStrings.nearSweater.value;
   const balloonNearString = BASEA11yStrings.balloonNear.value;
-  const locationAndInducedChargePatternString = BASEA11yStrings.locationAndInducedChargePattern.value;
+  const positionAndInducedChargePatternString = BASEA11yStrings.positionAndInducedChargePattern.value;
   const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
   const keyboardInteractionCueString = BASEA11yStrings.keyboardInteractionCue.value;
   const touchInteractionCueString = BASEA11yStrings.touchInteractionCue.value;
@@ -79,9 +79,9 @@ define( require => {
   const continuousMovementPatternString = BASEA11yStrings.continuousMovementPattern.value;
   const continuousMovementWithLandmarkPatternString = BASEA11yStrings.continuousMovementWithLandmarkPattern.value;
   const nowDirectionPatternString = BASEA11yStrings.nowDirectionPattern.value;
-  const balloonLocationNoChangePatternString = BASEA11yStrings.balloonLocationNoChangePattern.value;
+  const balloonPositionNoChangePatternString = BASEA11yStrings.balloonPositionNoChangePattern.value;
   const noChangeWithInducedChargePatternString = BASEA11yStrings.noChangeWithInducedChargePattern.value;
-  const balloonLocationNearOtherPatternString = BASEA11yStrings.balloonLocationNearOtherPattern.value;
+  const balloonPositionNearOtherPatternString = BASEA11yStrings.balloonPositionNearOtherPattern.value;
   const grabbedNonePatternString = BASEA11yStrings.grabbedNonePattern.value;
   const grabbedChargePatternString = BASEA11yStrings.grabbedChargePattern.value;
   const grabbedWithOtherChargePatternString = BASEA11yStrings.grabbedWithOtherChargePattern.value;
@@ -151,8 +151,7 @@ define( require => {
    * @param {string} accessibleName - accessible name for this balloon being described
    * @param {string} otherAccessibleName - reference to the other balloon being described
    */
-  function BalloonLocationDescriber( balloonDescriber, model, balloonModel, accessibleName, otherAccessibleName ) {
-
+  function BalloonPositionDescriber( balloonDescriber, model, balloonModel, accessibleName, otherAccessibleName ) {
 
     // @private - for use in instance functions
     this.model = model;
@@ -163,9 +162,9 @@ define( require => {
     this.otherAccessibleName = otherAccessibleName;
   }
 
-  balloonsAndStaticElectricity.register( 'BalloonLocationDescriber', BalloonLocationDescriber );
+  balloonsAndStaticElectricity.register( 'BalloonPositionDescriber', BalloonPositionDescriber );
 
-  return inherit( Object, BalloonLocationDescriber, {
+  return inherit( Object, BalloonPositionDescriber, {
 
     /**
      * Get a description that describes the attractive state or proximity of the balloon, such as
@@ -195,8 +194,8 @@ define( require => {
 
     /**
      * Get the 'near' or 'on' or 'At' description for the balloon, depending on where the balloon is.
-     * This is used as part of the balloon location description, and changes depending on interaction
-     * or location of balloon.
+     * This is used as part of the balloon position description, and changes depending on interaction
+     * or position of balloon.
      *
      * NOTE: This function is undoubtedly horrible for i18n.
      *
@@ -236,22 +235,22 @@ define( require => {
     },
 
     /**
-     * Returns a string that combines the balloon's attractive state and location descriptions. Something
+     * Returns a string that combines the balloon's attractive state and position descriptions. Something
      * like "On center of play area" or "Sticking to wall". This fragment is used in a number of different
      * contexts, so it doesn't include punctuation at the end.
      *
      * @returns {string}
      */
-    getAttractiveStateAndLocationDescription: function() {
-      const locationDescriptionString = this.getBalloonLocationDescription();
+    getAttractiveStateAndPositionDescription: function() {
+      const positionDescriptionString = this.getBalloonPositionDescription();
 
       const attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
-      const attractiveStateAndLocationString = StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+      const attractiveStateAndPositionString = StringUtils.fillIn( balloonPositionAttractiveStatePatternString, {
         attractiveState: attractiveStateDescriptionString,
-        location: locationDescriptionString
+        position: positionDescriptionString
       } );
 
-      return attractiveStateAndLocationString;
+      return attractiveStateAndPositionString;
     },
 
     /**
@@ -261,13 +260,13 @@ define( require => {
      *
      * @returns {string}
      */
-    getAttractiveStateAndLocationDescriptionWithLabel: function() {
+    getAttractiveStateAndPositionDescriptionWithLabel: function() {
 
       // to lower case since it is used elsewhere in the string
-      const location = this.getAttractiveStateAndLocationDescription().toLowerCase();
+      const position = this.getAttractiveStateAndPositionDescription().toLowerCase();
       const alert = StringUtils.fillIn( balloonLabelWithAttractiveStatePatternString, {
         balloonLabel: this.accessibleName,
-        attractiveStateAndLocation: location
+        attractiveStateAndPosition: position
       } );
 
       return StringUtils.fillIn( singleStatementPatternString, {
@@ -282,18 +281,18 @@ define( require => {
      *
      * @returns {string}
      */
-    getOnLocationDescription: function() {
+    getOnPositionDescription: function() {
 
-      const locationDescription = this.getBalloonLocationDescription();
+      const positionDescription = this.getBalloonPositionDescription();
 
-      return StringUtils.fillIn( balloonLocationAttractiveStatePatternString, {
+      return StringUtils.fillIn( balloonPositionAttractiveStatePatternString, {
         attractiveState: this.getPreposition(),
-        location: locationDescription
+        position: positionDescription
       } );
     },
 
     /**
-     * Return a phrase describing the location of the balloon in the play area.  This is usually described relative
+     * Return a phrase describing the position of the balloon in the play area.  This is usually described relative
      * to the center of the balloon, unless the balloon is touching an object, in which case it will be relative to the
      * point where the objects are touching.  If the balloons are both visible and next to each other, a phrase like
      * "next to {{balloon label}}" is added. Will return someting like
@@ -305,13 +304,13 @@ define( require => {
      *
      * @returns {string}
      */
-    getBalloonLocationDescription: function() {
-      let description = this.getLocationDescriptionWithoutOverlap();
+    getBalloonPositionDescription: function() {
+      let description = this.getPositionDescriptionWithoutOverlap();
 
       // include information about how balloons are adjacent if necessary
       if ( this.model.getBalloonsAdjacent() ) {
-        description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
-          location: description,
+        description = StringUtils.fillIn( balloonPositionNearOtherPatternString, {
+          position: description,
           otherBalloon: this.otherAccessibleName
         } );
       }
@@ -320,19 +319,19 @@ define( require => {
     },
 
     /**
-     * Get the description for the location of the balloon, without the extra phrase "next to {{other}} balloon" in
+     * Get the description for the position of the balloon, without the extra phrase "next to {{other}} balloon" in
      * the case that the two balloons are adjacent/overlap. Will return something like
      * "center of play area" or
      * "upper wall" or
      *
-     * any of the other location descriptions for the PlayAreaMap.
+     * any of the other position descriptions for the PlayAreaMap.
      *
      * @returns {string}
      */
-    getLocationDescriptionWithoutOverlap: function() {
+    getPositionDescriptionWithoutOverlap: function() {
       const describedBalloonPosition = this.getDescribedPoint();
       const wallVisible = this.wall.isVisibleProperty.get();
-      return BASEDescriber.getLocationDescription( describedBalloonPosition, wallVisible );
+      return BASEDescriber.getPositionDescription( describedBalloonPosition, wallVisible );
     },
 
     /**
@@ -357,7 +356,7 @@ define( require => {
 
 
     /**
-     * Get a short description of the balloon's location at a boundary when there is an attempted drag beyond
+     * Get a short description of the balloon's position at a boundary when there is an attempted drag beyond
      * the boundary.  Will return something like "At bottom" or "At top".
      *
      * @returns {string}
@@ -403,8 +402,8 @@ define( require => {
         description = onSweaterString;
 
         if ( this.model.getBalloonsAdjacent() ) {
-          description = StringUtils.fillIn( balloonLocationNearOtherPatternString, {
-            location: description,
+          description = StringUtils.fillIn( balloonPositionNearOtherPatternString, {
+            position: description,
             otherBalloon: this.otherAccessibleName
           } );
         }
@@ -433,7 +432,7 @@ define( require => {
     getLandmarkDragDescription: function() {
       const playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
       const dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
-      let alert = this.getAttractiveStateAndLocationDescription();
+      let alert = this.getAttractiveStateAndPositionDescription();
 
       // wrap as a single statement with punctuation
       alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
@@ -485,8 +484,8 @@ define( require => {
       }
       else {
 
-        // just announce the current location in the play area
-        alert = this.getAttractiveStateAndLocationDescription();
+        // just announce the current position in the play area
+        alert = this.getAttractiveStateAndPositionDescription();
         alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
       }
       return alert;
@@ -500,11 +499,11 @@ define( require => {
      * "Moves extremely slowly left." or
      * "Yellow balloon, moves slowly left."
      *
-     * @param {Vector2} location - the current location of the balloon
-     * @param {Vector2} oldLocation - the previous location of the balloon
+     * @param {Vector2} position - the current position of the balloon
+     * @param {Vector2} oldPosition - the previous position of the balloon
      * @returns {string}
      */
-    getInitialReleaseDescription: function( location, oldLocation ) {
+    getInitialReleaseDescription: function( position, oldPosition ) {
 
       // the balloon is moving with some initial velocity, describe that
       const velocityString = this.getVelocityString();
@@ -558,7 +557,7 @@ define( require => {
       if ( this.balloonModel.playAreaLandmarkProperty.get() ) {
         description = StringUtils.fillIn( continuousMovementWithLandmarkPatternString, {
           movementDirection: description,
-          landmark: this.getOnLocationDescription()
+          landmark: this.getOnPositionDescription()
         } );
       }
 
@@ -577,16 +576,16 @@ define( require => {
     getNoChangeReleaseDescription: function() {
       let description;
 
-      const attractiveStateAndLocationDescription = this.getAttractiveStateAndLocationDescriptionWithLabel();
+      const attractiveStateAndPositionDescription = this.getAttractiveStateAndPositionDescriptionWithLabel();
       if ( this.model.bothBalloonsVisible() ) {
-        description = StringUtils.fillIn( twoBalloonNoChangeAndLocationPatternString, {
+        description = StringUtils.fillIn( twoBalloonNoChangeAndPositionPatternString, {
           balloon: this.accessibleName,
-          location: attractiveStateAndLocationDescription
+          position: attractiveStateAndPositionDescription
         } );
       }
       else {
-        description = StringUtils.fillIn( noChangeAndLocationPatternString, {
-          location: attractiveStateAndLocationDescription
+        description = StringUtils.fillIn( noChangeAndPositionPatternString, {
+          position: attractiveStateAndPositionDescription
         } );
       }
 
@@ -683,11 +682,11 @@ define( require => {
       const balloonCenter = this.balloonModel.getCenter();
 
       const wallVisible = this.model.wall.isVisibleProperty.get();
-      const locationString = BASEDescriber.getLocationDescription( balloonCenter, wallVisible );
+      const positionString = BASEDescriber.getPositionDescription( balloonCenter, wallVisible );
 
       return StringUtils.fillIn( balloonNewRegionPatternString, {
         nearOrAt: nearOrAt,
-        location: locationString
+        position: positionString
       } );
     },
 
@@ -699,8 +698,8 @@ define( require => {
     getPlayAreaDragProgressDescription: function() {
       let nearestObjectString;
 
-      const centerPlayAreaX = PlayAreaMap.X_LOCATIONS.AT_CENTER_PLAY_AREA;
-      const centerPlayAreaY = PlayAreaMap.Y_LOCATIONS.AT_CENTER_PLAY_AREA;
+      const centerPlayAreaX = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA;
+      const centerPlayAreaY = PlayAreaMap.Y_POSITIONS.AT_CENTER_PLAY_AREA;
       const balloonCenterX = this.balloonModel.getCenterX();
       const balloonCenterY = this.balloonModel.getCenterY();
       const balloonDirection = this.balloonModel.directionProperty.get();
@@ -796,30 +795,30 @@ define( require => {
     getMovementStopsDescription: function() {
       let descriptionString;
 
-      // the location string is used for all charge views, used as a single sentence
-      const locationString = this.getAttractiveStateAndLocationDescriptionWithLabel();
+      // the position string is used for all charge views, used as a single sentence
+      const positionString = this.getAttractiveStateAndPositionDescriptionWithLabel();
 
       const shownCharges = this.model.showChargesProperty.get();
 
       if ( shownCharges === 'all' && this.wall.isVisibleProperty.get() ) {
 
-        // don't include information about adjacency to other balloon in this location  description
-        const chargeLocationString = this.getLocationDescriptionWithoutOverlap();
+        // don't include information about adjacency to other balloon in this position  description
+        const chargePositionString = this.getPositionDescriptionWithoutOverlap();
 
         let chargeString;
         if ( this.balloonModel.inducingChargeProperty.get() ) {
           chargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, this.wall.isVisibleProperty.get() );
         }
         else {
-          chargeString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+          chargeString = WallDescriber.getNoChangeInChargesDescription( chargePositionString );
         }
-        descriptionString = StringUtils.fillIn( balloonLocationNoChangePatternString, {
-          location: locationString,
+        descriptionString = StringUtils.fillIn( balloonPositionNoChangePatternString, {
+          position: positionString,
           inducedCharge: chargeString
         } );
       }
       else {
-        descriptionString = locationString;
+        descriptionString = positionString;
       }
 
       return descriptionString;
@@ -840,7 +839,7 @@ define( require => {
 
     /**
      * Get an alert that indicates that the balloon has been grabbed for dragging. Will compose
-     * a description containing charge information, location information, and help for how
+     * a description containing charge information, position information, and help for how
      * to interact with balloon. Amount of charge information will depend on charge visibility
      * setting. If the balloon is inducing charge, information about induced charge will be included.
      * If the balloon is on the sweater, will include infomation about the charges on the sweater. After the
@@ -854,10 +853,10 @@ define( require => {
       // charges visible in the view
       const chargesShown = this.model.showChargesProperty.get();
 
-      // attractive state and location is described for every charge view, it is a single sentence in this use case
-      let stateAndLocation = this.getOnLocationDescription();
-      stateAndLocation = StringUtils.fillIn( singleStatementPatternString, {
-        statement: stateAndLocation
+      // attractive state and position is described for every charge view, it is a single sentence in this use case
+      let stateAndPosition = this.getOnPositionDescription();
+      stateAndPosition = StringUtils.fillIn( singleStatementPatternString, {
+        statement: stateAndPosition
       } );
 
       // get a description of the relative charge of the grabbed balloon, and possibly the other relative charge
@@ -888,15 +887,15 @@ define( require => {
         }
 
         description = StringUtils.fillIn( grabbedChargePatternString, {
-          location: stateAndLocation,
+          position: stateAndPosition,
           charge: chargeDescription
         } );
       }
       else {
 
-        // no charges shown, just include information about location
+        // no charges shown, just include information about position
         description = StringUtils.fillIn( grabbedNonePatternString, {
-          location: stateAndLocation
+          position: stateAndPosition
         } );
       }
 
@@ -928,14 +927,14 @@ define( require => {
       // all jumping is in the x direction
       const centerX = center.x;
 
-      // determine which description we should use depending on the center location of the balloon
-      if ( centerX === PlayAreaMap.X_LOCATIONS.AT_NEAR_SWEATER ) {
+      // determine which description we should use depending on the center position of the balloon
+      if ( centerX === PlayAreaMap.X_POSITIONS.AT_NEAR_SWEATER ) {
         description = nearSweaterString;
       }
       else {
 
-        // general location description for the balloon
-        const locationDescription = this.getAttractiveStateAndLocationDescription();
+        // general position description for the balloon
+        const positionDescription = this.getAttractiveStateAndPositionDescription();
 
         // state variables used to generate description content
         const wallVisible = this.wall.isVisibleProperty.get();
@@ -957,16 +956,16 @@ define( require => {
 
           // if there is an induced charge and the charges are visible, describe induced charge summary
           const inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );
-          description = StringUtils.fillIn( locationAndInducedChargePatternString, {
-            location: locationDescription,
+          description = StringUtils.fillIn( positionAndInducedChargePatternString, {
+            position: positionDescription,
             inducedCharge: inducedChargeDescription
           } );
         }
         else {
 
-          // otherwise, only provide the location description
+          // otherwise, only provide the position description
           description = StringUtils.fillIn( singleStatementPatternString, {
-            statement: locationDescription
+            statement: positionDescription
           } );
         }
       }

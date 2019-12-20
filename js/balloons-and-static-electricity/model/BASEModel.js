@@ -77,8 +77,8 @@ define( require => {
     // add listeners to each balloon
     this.balloons.forEach( function( balloon ) {
 
-      // when the balloon locations change, update the closest charge in the wall
-      balloon.locationProperty.link( function( location ) {
+      // when the balloon positions change, update the closest charge in the wall
+      balloon.positionProperty.link( function( position ) {
 
         // find the closest charge in the wall
         balloon.closestChargeInWall = self.wall.getClosestChargeToBalloon( balloon );
@@ -98,7 +98,7 @@ define( require => {
       } );
 
       // update whether the balloon is currently inducing charge in the wall
-      Property.multilink( [ self.wall.isVisibleProperty, balloon.locationProperty ], function( wallVisible, location ) {
+      Property.multilink( [ self.wall.isVisibleProperty, balloon.positionProperty ], function( wallVisible, position ) {
         balloon.inducingChargeProperty.set( balloon.inducingCharge( wallVisible ) );
       } );
     } );

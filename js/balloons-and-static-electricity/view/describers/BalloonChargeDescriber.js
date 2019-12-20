@@ -218,7 +218,7 @@ define( require => {
 
             // touching wall, not inducing charge, wrap with punctuation for this context
             const balloonCenter = this.balloonModel.getCenter();
-            description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getLocationDescription( balloonCenter, wallVisible ) );
+            description = WallDescriber.getNoChangeInChargesDescription( BASEDescriber.getPositionDescription( balloonCenter, wallVisible ) );
             description = StringUtils.fillIn( singleStatementPatternString, {
               statement: description
             } );
@@ -265,14 +265,14 @@ define( require => {
       // charge in the wall, but there must be some change since the last description
       const forceDelta = forceMagnitude - this.previousForceMagnitude;
       assert && assert( forceDelta !== 0, 'induced charge did not change since last description, debugging info: ' +
-        'forceMagnitude: ' + forceMagnitude + ', ' +
-        'previousForceMagnitude: ' + this.previousForceMagnitude + ', ' +
-        'greenBalloonVisible: ' + this.model.greenBalloon.isVisibleProperty.get() + ', ' +
-        'yellowBalloonInducingCharge: ' + this.model.yellowBalloon.inducingChargeProperty.get() + ', ' +
-        'greenBalloonInducingCharge: ' + this.model.greenBalloon.inducingChargeProperty.get() + ', ' +
-        'yellowBalloonTouchingWall: ' + this.model.yellowBalloon.touchingWallProperty.get() + ', ' +
-        'greenBalloonTouchingWall: ' + this.model.greenBalloon.touchingWallProperty.get() + ', ' +
-        'wallVisible: ' + wallVisible
+                                          'forceMagnitude: ' + forceMagnitude + ', ' +
+                                          'previousForceMagnitude: ' + this.previousForceMagnitude + ', ' +
+                                          'greenBalloonVisible: ' + this.model.greenBalloon.isVisibleProperty.get() + ', ' +
+                                          'yellowBalloonInducingCharge: ' + this.model.yellowBalloon.inducingChargeProperty.get() + ', ' +
+                                          'greenBalloonInducingCharge: ' + this.model.greenBalloon.inducingChargeProperty.get() + ', ' +
+                                          'yellowBalloonTouchingWall: ' + this.model.yellowBalloon.touchingWallProperty.get() + ', ' +
+                                          'greenBalloonTouchingWall: ' + this.model.greenBalloon.touchingWallProperty.get() + ', ' +
+                                          'wallVisible: ' + wallVisible
       );
 
       // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
@@ -280,10 +280,10 @@ define( require => {
       const forceDeltaNormalized = forceDelta / Math.abs( forceDelta );
       const continuedDirection = forceDeltaNormalized === this.previousForceMagnitudeNormalized;
 
-      // describes the location of induced charge in the wall
+      // describes the position of induced charge in the wall
       const balloonY = this.balloonModel.getCenterY();
-      const chargeLocation = new Vector2( PlayAreaMap.X_LOCATIONS.AT_WALL, balloonY );
-      const chargeLocationString = BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
+      const chargePosition = new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, balloonY );
+      const chargePositionString = BASEDescriber.getPositionDescription( chargePosition, wallVisible );
 
       let movementString;
       if ( forceDelta > 0 ) {
@@ -291,7 +291,7 @@ define( require => {
 
           // the charges are continuing to move away from the balloon
           descriptionString = StringUtils.fillIn( moreInducedChargePatternString, {
-            location: chargeLocationString,
+            position: chargePositionString,
             movement: moveAwayALittleMoreString,
             balloon: this.accessibleName
           } );
@@ -307,7 +307,7 @@ define( require => {
         // charges are moving back to resting position
         movementString = continuedDirection ? returnALittleMoreString : beginToReturnString;
         descriptionString = StringUtils.fillIn( lessInducedChargePatternString, {
-          location: chargeLocationString,
+          position: chargePositionString,
           movement: movementString
         } );
       }

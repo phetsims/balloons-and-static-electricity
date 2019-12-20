@@ -105,10 +105,10 @@ define( require => {
     this.x = x;
     this.y = y;
 
-    // @public {Vector2} - location of center of the sweater
+    // @public {Vector2} - position of center of the sweater
     this.center = new Vector2( self.x + self.width / 2, self.y + self.height / 2 );
 
-    // @public (read-only) {Vector2} - location of the left edge of the sweater
+    // @public (read-only) {Vector2} - position of the left edge of the sweater
     this.left = new Vector2( self.x, self.y + self.height / 2 );
 
     // @public {Bounds2} bounds containing the sweater
@@ -117,7 +117,7 @@ define( require => {
     // @private {Shape} create an approximate shape of the charged area of the sweater based on the position of the
     // charges. This is used for accurate detection of when the balloons are over the charged area, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/240.  This algorithm works by dividing the
-    // unit circle into a set of slices and finding the charge location that is furthest from the center in that
+    // unit circle into a set of slices and finding the charge position that is furthest from the center in that
     // slice, then building a shape from that set of points.
     const numSlices = 9; // this number can be adjusted to get a more refined shape to enclose the charges
     const shapeDefiningPoints = [];
@@ -202,7 +202,7 @@ define( require => {
 
         // used too check if an eliptical shape contains the charge, but reverted to checking the balloon's
         // rectangular bounds, which is faster and sufficient for this simulation, see #409
-        if ( !minusCharge.movedProperty.get() && balloon.bounds.containsPoint( minusCharge.location ) ) {
+        if ( !minusCharge.movedProperty.get() && balloon.bounds.containsPoint( minusCharge.position ) ) {
           self.moveChargeTo( minusCharge, balloon );
           chargeMoved = true;
         }

@@ -103,7 +103,7 @@ define( require => {
   }
 
   /**
-   * Help section for how to move the balloon or use hot keys to make the balloon jump to locations.
+   * Help section for how to move the balloon or use hot keys to make the balloon jump to positions.
    */
   class MoveBalloonHelpSection extends KeyboardHelpSection  {
 

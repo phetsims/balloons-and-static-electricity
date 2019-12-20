@@ -21,7 +21,7 @@ define( require => {
 
   // strings
   const wallDescriptionPatternString = BASEA11yStrings.wallDescriptionPattern.value;
-  const wallLocationString = BASEA11yStrings.wallLocation.value;
+  const wallPositionString = BASEA11yStrings.wallPosition.value;
   const wallNoNetChargeString = BASEA11yStrings.wallNoNetCharge.value;
   const aLittleBitString = BASEA11yStrings.aLittleBit.value;
   const aLotString = BASEA11yStrings.aLot.value;
@@ -87,7 +87,7 @@ define( require => {
   return inherit( Object, WallDescriber, {
 
     /**
-     * Get the full description for the wall including its location, net charge, and induced charge.  This is used
+     * Get the full description for the wall including its position, net charge, and induced charge.  This is used
      * as the general description for the wall which an AT user can read at any time with the virtual cursor.
      * The content is dependent on the view representation of charges (model.showchargesProperty).
      *
@@ -99,10 +99,10 @@ define( require => {
     getWallDescription: function( yellowBalloon, greenBalloon, balloonsAdjacent ) {
       let description;
 
-      // if no charges are shown, the location is the only part of the description
+      // if no charges are shown, the position is the only part of the description
       if ( this.showChargesProperty.get() === 'none' ) {
         description = StringUtils.fillIn( singleStatementPatternString, {
-          statement: wallLocationString
+          statement: wallPositionString
         } );
       }
       else {
@@ -110,7 +110,7 @@ define( require => {
 
         // assemble the whole description
         description = StringUtils.fillIn( wallDescriptionPatternString, {
-          location: wallLocationString,
+          position: wallPositionString,
           charge: chargeDescription
         } );
       }
@@ -251,12 +251,12 @@ define( require => {
      * Get the description for induced charge when there is no induced charge. Something like
      * "In wall, no change in charges."
      *
-     * @param {string} locationString
+     * @param {string} positionString
      * @returns {string}
      */
-    getNoChangeInChargesDescription: function( locationString ) {
+    getNoChangeInChargesDescription: function( positionString ) {
       return StringUtils.fillIn( wallNoChangeInChargesPatternString, {
-        location: locationString
+        position: positionString
       } );
     },
 
@@ -272,15 +272,15 @@ define( require => {
     getInducedChargeDescriptionWithNoAmount: function( balloon, balloonLabel, wallVisible ) {
       let descriptionString;
 
-      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, true );
+      const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, true );
       if ( balloon.inducingChargeProperty.get() ) {
         descriptionString = StringUtils.fillIn( inducedChargeNoAmountPatternString, {
-          wallLocation: chargeLocationString,
+          wallPosition: chargePositionString,
           balloon: balloonLabel
         } );
       }
       else {
-        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargePositionString );
       }
 
       return descriptionString;
@@ -305,24 +305,24 @@ define( require => {
      */
     getInducedChargeDescription: function( balloon, balloonLabel, wallVisible, options ) {
       options = merge( {
-        includeWallLocation: true, // include location in the wall?
+        includeWallPosition: true, // include position in the wall?
         includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
       }, options );
 
       let descriptionString;
-      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
+      const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
 
       if ( balloon.inducingChargeProperty.get() ) {
         const inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
         descriptionString = StringUtils.fillIn( inducedChargePatternString, {
-          wallLocation: chargeLocationString,
+          wallPosition: chargePositionString,
           balloon: balloonLabel,
           inductionAmount: inducedChargeAmount
         } );
       }
       else {
-        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargeLocationString );
+        descriptionString = WallDescriber.getNoChangeInChargesDescription( chargePositionString );
       }
 
       // if all charges are shown, include information about how positive charges do not move
@@ -353,16 +353,16 @@ define( require => {
     getCombinedInducedChargeDescription: function( balloon, wallVisible, options ) {
 
       options = merge( {
-        includeWallLocation: true,
+        includeWallPosition: true,
         includePositiveChargeInfo: true
       }, options );
       let descriptionString;
-      const chargeLocationString = WallDescriber.getInducedChargeLocationDescription( balloon, wallVisible, options.includeWallLocation );
+      const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
 
       const inducedChargeAmount = WallDescriber.getInducedChargeAmountDescription( balloon );
 
       descriptionString = StringUtils.fillIn( inducedChargePatternString, {
-        wallLocation: chargeLocationString,
+        wallPosition: chargePositionString,
         balloon: bothBalloonsString,
         inductionAmount: inducedChargeAmount
       } );
@@ -383,8 +383,8 @@ define( require => {
     },
 
     /**
-     * Gets a description of where the induced charge is located in the wall. With includeWallLocation boolean, it
-     * is possible to exclude vertical location of description and just use "Wall" generally. Will return one of
+     * Gets a description of where the induced charge is located in the wall. With includeWallPosition boolean, it
+     * is possible to exclude vertical position of description and just use "Wall" generally. Will return one of
      *
      * "wall"
      * "upper wall"
@@ -392,15 +392,15 @@ define( require => {
      *
      * @param {[type]} balloon [description]
      * @param wallVisible
-     * @param {[type]} includeWallLocation [description]
+     * @param {[type]} includeWallPosition [description]
      *
      * @returns {[type]} [description]
      */
-    getInducedChargeLocationDescription: function( balloon, wallVisible, includeWallLocation ) {
-      const chargeLocationX = PlayAreaMap.X_LOCATIONS.AT_WALL;
-      const chargeLocationY = includeWallLocation ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
-      const chargeLocation = new Vector2( chargeLocationX, chargeLocationY );
-      return BASEDescriber.getLocationDescription( chargeLocation, wallVisible );
+    getInducedChargePositionDescription: function( balloon, wallVisible, includeWallPosition ) {
+      const chargePositionX = PlayAreaMap.X_POSITIONS.AT_WALL;
+      const chargePositionY = includeWallPosition ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
+      const chargePosition = new Vector2( chargePositionX, chargePositionY );
+      return BASEDescriber.getPositionDescription( chargePosition, wallVisible );
     },
 
     /**

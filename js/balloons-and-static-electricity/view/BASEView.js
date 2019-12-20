@@ -92,7 +92,7 @@ define( require => {
       labelContent: yellowBalloonLabelString
     } );
     const tetherAnchorPoint = new Vector2(
-      model.yellowBalloon.locationProperty.get().x + 30, // a bit to the side of directly below the starting position
+      model.yellowBalloon.positionProperty.get().x + 30, // a bit to the side of directly below the starting position
       this.layoutBounds.height
     );
     this.yellowBalloonTetherNode = new TetherNode(

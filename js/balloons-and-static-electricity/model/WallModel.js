@@ -41,8 +41,8 @@ define( require => {
     } );
 
     // @public (read-only)
-    this.y = 0; // the top location of the wall
-    this.x = x; // the left location of the wall
+    this.y = 0; // the top position of the wall
+    this.x = x; // the left position of the wall
     this.numX = 3; // number of columns with charges
     this.numY = 18; // number of rows with charges
     this.width = width;
@@ -95,10 +95,10 @@ define( require => {
         let dv1 = new Vector2( 0, 0 );
         let dv2 = new Vector2( 0, 0 );
 
-        const defaultLocation = ch.locationProperty.initialValue;
+        const defaultPosition = ch.positionProperty.initialValue;
         if ( yellowBalloon.isVisibleProperty.get() ) {
           dv1 = BalloonModel.getForce(
-            defaultLocation,
+            defaultPosition,
             yellowBalloon.getChargeCenter().minusXY( 0, 2 * PointChargeModel.RADIUS ),
             k * PointChargeModel.CHARGE * yellowBalloon.chargeProperty.get(),
             2.35
@@ -106,19 +106,19 @@ define( require => {
         }
         if ( greenBalloon.isVisibleProperty.get() ) {
           dv2 = BalloonModel.getForce(
-            defaultLocation,
+            defaultPosition,
             greenBalloon.getChargeCenter().minusXY( 0, 2 * PointChargeModel.RADIUS ),
             k * PointChargeModel.CHARGE * greenBalloon.chargeProperty.get(),
             2.35
           );
         }
-        entry.locationProperty.set(
-          new Vector2( defaultLocation.x + dv1.x + dv2.x, defaultLocation.y + dv1.y + dv2.y )
+        entry.positionProperty.set(
+          new Vector2( defaultPosition.x + dv1.x + dv2.x, defaultPosition.y + dv1.y + dv2.y )
         );
       } );
     };
-    yellowBalloon.locationProperty.link( updateChargePositions );
-    greenBalloon.locationProperty.link( updateChargePositions );
+    yellowBalloon.positionProperty.link( updateChargePositions );
+    greenBalloon.positionProperty.link( updateChargePositions );
     yellowBalloon.isVisibleProperty.link( updateChargePositions );
     greenBalloon.isVisibleProperty.link( updateChargePositions );
     yellowBalloon.chargeProperty.link( updateChargePositions );
@@ -131,7 +131,7 @@ define( require => {
       if ( !isVisible ) {
         for ( let i = 0; i < balloons.length; i++ ) {
           const balloon = balloons[ i ];
-          if ( balloon.isVisibleProperty.get() && balloon.rightAtWallLocation() && balloon.isCharged() ) {
+          if ( balloon.isVisibleProperty.get() && balloon.rightAtWallPosition() && balloon.isCharged() ) {
             balloon.timeSinceRelease = 0;
           }
         }
@@ -182,7 +182,7 @@ define( require => {
 
       for ( let i = 0; i < minusCharges.length; i++ ) {
         var charge = minusCharges[ i ];
-        const newChargeDistance = charge.locationProperty.initialValue.distance( balloonChargeCenter );
+        const newChargeDistance = charge.positionProperty.initialValue.distance( balloonChargeCenter );
 
         if ( newChargeDistance < chargeDistance ) {
           chargeDistance = newChargeDistance;

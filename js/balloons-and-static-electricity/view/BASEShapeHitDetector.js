@@ -27,18 +27,18 @@ define( require => {
       this.addShape( Shape.bounds( model.wall.bounds ), model.scanningPropertySet.wallDetectedProperty );
 
       model.yellowBalloon.isDraggedProperty.link( isDragged => {
-        if( isDragged ){
+        if ( isDragged ) {
           this.interrupt();
         }
       } );
 
       model.greenBalloon.isDraggedProperty.link( isDragged => {
-        if( isDragged ){
+        if ( isDragged ) {
           this.interrupt();
         }
       } );
 
-      model.yellowBalloon.locationProperty.link( location => {
+      model.yellowBalloon.positionProperty.link( position => {
         this.updateShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
       } );
     }

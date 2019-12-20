@@ -42,11 +42,11 @@ define( require => {
 
   /**
    * @constructor
-   * @param {Vector2} location
+   * @param {Vector2} position
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  function MinusChargeNode( location, tandem, options ) {
+  function MinusChargeNode( position, tandem, options ) {
 
     options = merge( {
       pickable: false,
@@ -55,7 +55,7 @@ define( require => {
 
     Node.call( this, options );
 
-    this.translate( location.x + BASEConstants.IMAGE_PADDING, location.y + BASEConstants.IMAGE_PADDING );
+    this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
 
     this.addChild( sharedMinusChargeNode );
   }

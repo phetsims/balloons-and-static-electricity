@@ -93,7 +93,7 @@ define( require => {
   const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
 
   // constants
-  const LOCATION_DESCRIPTION_MAP = {
+  const POSITION_DESCRIPTION_MAP = {
     AT_LEFT_EDGE: {
       UPPER_PLAY_AREA: landmarkLeftEdgeString,
       CENTER_PLAY_AREA: landmarkLeftEdgeString,
@@ -253,17 +253,17 @@ define( require => {
   var BASEDescriber = {
 
     /**
-     * Get the location description for the balloon. This is not a full description, but a short
+     * Get the position description for the balloon. This is not a full description, but a short
      * descsription. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
      *
-     * @param {Vector2} location - location of the balloon, relative to its center
+     * @param {Vector2} position - position of the balloon, relative to its center
      * @returns {string}
      */
-    getLocationDescription: function( location, wallVisible ) {
+    getPositionDescription: function( position, wallVisible ) {
 
       const landmarks = PlayAreaMap.LANDMARK_RANGES;
       const columns = PlayAreaMap.COLUMN_RANGES;
-      const locations = PlayAreaMap.X_LOCATIONS;
+      const positions = PlayAreaMap.X_POSITIONS;
       const rows = PlayAreaMap.ROW_RANGES;
 
       // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -271,23 +271,23 @@ define( require => {
       const columnsKeys = Object.keys( columns );
       const rowKeys = Object.keys( rows );
       const landmarkKeys = Object.keys( landmarks );
-      const locationKeys = Object.keys( locations );
+      const positionKeys = Object.keys( positions );
 
       let i;
-      let currentLocation;
+      let currentPosition;
       let currentLandmark;
       let currentColumn;
       let currentRow;
 
-      // critical x locations take priority, start there
-      for ( i = 0; i < locationKeys.length; i++ ) {
-        if ( location.x === locations[ locationKeys[ i ] ] ) {
-          currentLocation = locationKeys[ i ];
+      // critical x positions take priority, start there
+      for ( i = 0; i < positionKeys.length; i++ ) {
+        if ( position.x === positions[ positionKeys[ i ] ] ) {
+          currentPosition = positionKeys[ i ];
         }
       }
 
       for ( i = 0; i < landmarkKeys.length; i++ ) {
-        if ( landmarks[ landmarkKeys[ i ] ].contains( location.x ) ) {
+        if ( landmarks[ landmarkKeys[ i ] ].contains( position.x ) ) {
           currentLandmark = landmarkKeys[ i ];
         }
       }
@@ -295,19 +295,19 @@ define( require => {
       // landmark takes priority - only find column if we couldn't find landmark
       if ( !currentLandmark ) {
         for ( i = 0; i < columnsKeys.length; i++ ) {
-          if ( columns[ columnsKeys[ i ] ].contains( location.x ) ) {
+          if ( columns[ columnsKeys[ i ] ].contains( position.x ) ) {
             currentColumn = columnsKeys[ i ];
           }
         }
       }
       for ( i = 0; i < rowKeys.length; i++ ) {
-        if ( rows[ rowKeys[ i ] ].contains( location.y ) ) {
+        if ( rows[ rowKeys[ i ] ].contains( position.y ) ) {
           currentRow = rowKeys[ i ];
         }
       }
 
-      // use location, column, or landmark, whichever was found, prioritizing location
-      currentColumn = currentLocation || currentLandmark || currentColumn;
+      // use position, column, or landmark, whichever was found, prioritizing position
+      currentColumn = currentPosition || currentLandmark || currentColumn;
       assert && assert( currentColumn && currentRow, 'item should be in a row or column of the play area' );
 
       // the wall and the right edge of the play area overlap, so if the wall is visible chose that description
@@ -318,14 +318,14 @@ define( require => {
         currentColumn = 'RIGHT_PLAY_AREA';
       }
 
-      return LOCATION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
+      return POSITION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
     },
 
     /**
      * Returns whether or not the column is in one of the 'wall' columns, could  be at, near, or very close to wall.
      * @private
      *
-     * @param {string} column - one of keys in LOCATION_DESCRIPTION_MAP
+     * @param {string} column - one of keys in POSITION_DESCRIPTION_MAP
      * @returns {boolean}
      */
     inWallColumn: function( column ) {

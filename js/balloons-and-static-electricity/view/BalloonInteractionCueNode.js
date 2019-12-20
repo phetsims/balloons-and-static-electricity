@@ -64,24 +64,24 @@ define( require => {
     directionKeysParent.addChild( sNode );
     directionKeysParent.addChild( dNode );
 
-    // add listeners to update visibility of nodes when location changes and when the wall is made
+    // add listeners to update visibility of nodes when position changes and when the wall is made
     // visible/invisible
-    Property.multilink( [ balloonModel.locationProperty, model.wall.isVisibleProperty ], function( location, visible ) {
+    Property.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], function( position, visible ) {
 
-      // get the max x locations depending on if the wall is visible
+      // get the max x positions depending on if the wall is visible
       let centerXRightBoundary;
       if ( visible ) {
-        centerXRightBoundary = PlayAreaMap.X_LOCATIONS.AT_WALL;
+        centerXRightBoundary = PlayAreaMap.X_POSITIONS.AT_WALL;
       }
       else {
-        centerXRightBoundary = PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_RIGHT_EDGE;
+        centerXRightBoundary = PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
       }
 
       const balloonCenter = balloonModel.getCenter();
-      aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_LOCATIONS.AT_LEFT_EDGE;
-      sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_BOTTOM;
+      aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
+      sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM;
       dNode.visible = balloonCenter.x !== centerXRightBoundary;
-      wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_LOCATIONS.AT_TOP;
+      wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP;
     } );
 
     // place the direction cues relative to the balloon bounds

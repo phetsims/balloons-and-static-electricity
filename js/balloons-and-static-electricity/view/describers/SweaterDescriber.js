@@ -20,7 +20,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  const sweaterLocationString = BASEA11yStrings.sweaterLocation.value;
+  const sweaterPositionString = BASEA11yStrings.sweaterPosition.value;
   const zeroString = BASEA11yStrings.zero.value;
   const manyString = BASEA11yStrings.many.value;
   const allString = BASEA11yStrings.all.value;
@@ -77,9 +77,9 @@ define( require => {
      */
     getSweaterDescription: function( showCharges ) {
 
-      // if we are not showing any charges, just return a description for the location
+      // if we are not showing any charges, just return a description for the position
       if ( showCharges === 'none' ) {
-        return sweaterLocationString;
+        return sweaterPositionString;
       }
 
       // relative charge like "no" or "several"
@@ -131,7 +131,7 @@ define( require => {
 
       // full description,  without punctuation
       const description = StringUtils.fillIn( sweaterDescriptionPatternString, {
-        location: sweaterLocationString,
+        position: sweaterPositionString,
         charge: chargeString
       } );
 
@@ -272,7 +272,7 @@ define( require => {
       }
 
       // get the description of the direction to the closest charge
-      const direction = BalloonModel.getDirection( charge.location, balloon.getCenter() );
+      const direction = BalloonModel.getDirection( charge.position, balloon.getCenter() );
       const directionDescription = BASEDescriber.getDirectionDescription( direction );
 
       const patternString = BalloonDirectionEnum.isRelativeDirection( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;

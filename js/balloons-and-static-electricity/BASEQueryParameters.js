@@ -17,7 +17,7 @@ define( require => {
     // keyData - must be used with reader, shows key information instead of reader output, useful for debugging
     keyData: { type: 'flag' },
 
-    // showGrid - show the description grid, the grid that breaks up the play area into regions for location descriptions
+    // showGrid - show the description grid, the grid that breaks up the play area into regions for position descriptions
     showGrid: { type: 'flag' },
 
     // hide the radio button group responsible for toggling visibility of charges in the view
@@ -26,7 +26,7 @@ define( require => {
     // show charged area on sweater
     showSweaterChargedArea: { type: 'flag' },
 
-    // debugging - show locations of center of balloon and center of balloon charges
+    // debugging - show positions of center of balloon and center of balloon charges
     showBalloonChargeCenter: { type: 'flag' },
 
     vibrationChart: { type: 'flag' }
