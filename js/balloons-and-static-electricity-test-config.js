@@ -5,7 +5,7 @@
  * please modify balloons-and-static-electricity/package.json to control dependencies.
  *
  * RequireJS configuration file for the balloons-and-static-electricity sim.
- * Paths are relative to the position of this file.
+ * Paths are relative to the location of this file.
  */
 
 require.config( {
