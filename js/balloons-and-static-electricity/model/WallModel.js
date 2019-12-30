@@ -15,7 +15,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const MovablePointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/MovablePointChargeModel' );
   const PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const Bounds2 = require( 'DOT/Bounds2' );
 
@@ -52,7 +52,7 @@ define( require => {
     this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
 
     // @private {number} - scaling factors for calculating positions for induced charge
-    this.dx = Util.roundSymmetric( width / this.numX + 2 );
+    this.dx = Utils.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
 
     // @private {array.<PointChargeModel>}
