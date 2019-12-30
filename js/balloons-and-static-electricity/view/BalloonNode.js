@@ -26,7 +26,7 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyboardDragListener = require( 'SCENERY/listeners/KeyboardDragListener' );
-  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const KeyboardUtils = require( 'SCENERY/accessibility/KeyboardUtils' );
   const Line = require( 'SCENERY/nodes/Line' );
   const merge = require( 'PHET_CORE/merge' );
   const MinusChargeNode = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/MinusChargeNode' );
@@ -280,25 +280,25 @@ define( require => {
     // jump to the wall on 'J + W'
     this.keyboardDragHandler.addHotkeys( [
       {
-        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_W ],
+        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_W ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }
       },
       {
-        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_S ],
+        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_S ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
         }
       },
       {
-        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_N ],
+        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_N ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_WALL, model.getCenterY() ) );
         }
       },
       {
-        keys: [ KeyboardUtil.KEY_J, KeyboardUtil.KEY_C ],
+        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_C ],
         callback: function() {
           self.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
