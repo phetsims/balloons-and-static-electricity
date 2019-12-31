@@ -497,7 +497,7 @@ define( require => {
       value: 'Grab balloon to play.'
     },
     grabBalloonKeyboardHelp: {
-      value: 'Look for grab button to play. Once grabbed, use letter keys W, A,S, or D key to move up, left, down, or right. Space to release.'
+      value: 'Look for grab button to play. Once grabbed, use keyboard shortcuts to move balloon. Space to release.'
     },
     balloonPositionAttractiveStatePattern: {
       value: '{{attractiveState}} {{position}}'
