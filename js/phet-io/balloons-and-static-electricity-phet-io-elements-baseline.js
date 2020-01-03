@@ -6527,7 +6527,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.firedEmitter": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.fireListener.firedEmitter": {
       "phetioDocumentation": "A function that executes. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6540,7 +6540,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO<NullableIO<SceneryEventIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.pressAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.fireListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the SceneryEvent. The arguments are:<br/><ol><li>event: SceneryEventIO</li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6553,7 +6553,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO<SceneryEventIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.inputListener.releaseAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showAllChargesRadioButton.fireListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6644,7 +6644,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.firedEmitter": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.fireListener.firedEmitter": {
       "phetioDocumentation": "A function that executes. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6657,7 +6657,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO<NullableIO<SceneryEventIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.pressAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.fireListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the SceneryEvent. The arguments are:<br/><ol><li>event: SceneryEventIO</li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6670,7 +6670,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO<SceneryEventIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.inputListener.releaseAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showChargeDifferencesRadioButton.fireListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6761,7 +6761,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.firedEmitter": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.fireListener.firedEmitter": {
       "phetioDocumentation": "A function that executes. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6774,7 +6774,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO<NullableIO<SceneryEventIO>>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.pressAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.fireListener.pressAction": {
       "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the SceneryEvent. The arguments are:<br/><ol><li>event: SceneryEventIO</li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
@@ -6787,7 +6787,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO<SceneryEventIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.inputListener.releaseAction": {
+    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.balloonsAndStaticElectricityView.controlPanel.showChargesRadioButtonGroup.showNoChargesRadioButton.fireListener.releaseAction": {
       "phetioDocumentation": "Executes whenever a release occurs. The arguments are:<br/><ol><li>event: NullableIO<SceneryEventIO></li></ol>",
       "phetioDynamicElement": false,
       "phetioEventType": "USER",
