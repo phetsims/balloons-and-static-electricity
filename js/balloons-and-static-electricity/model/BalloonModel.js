@@ -868,11 +868,6 @@ define( require => {
 
         // update position before velocity so that listeners associated with velocity can reference the correct
         // position on updated velocity
-        if ( this.isCharged() ) {
-          if ( newPosition.equals( this.positionProperty.get() ) ) {
-            // debugger;
-          }
-        }
         this.positionProperty.set( newPosition );
         this.velocityProperty.set( newVelocity );
       }

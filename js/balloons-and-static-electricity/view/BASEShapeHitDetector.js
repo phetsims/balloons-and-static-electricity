@@ -23,7 +23,6 @@ define( require => {
 
       this.addShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
       this.addShape( Shape.bounds( model.sweater.bounds ), model.scanningPropertySet.sweaterDetectedProperty );
-      //debugger;
       this.addShape( Shape.bounds( model.wall.bounds ), model.scanningPropertySet.wallDetectedProperty );
 
       model.yellowBalloon.isDraggedProperty.link( isDragged => {
