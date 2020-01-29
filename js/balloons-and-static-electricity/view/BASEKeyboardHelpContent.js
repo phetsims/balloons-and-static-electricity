@@ -113,12 +113,12 @@ define( require => {
      */
     constructor( options ) {
 
-      const arrowOrWasdKeysIcon = KeyboardHelpSection.arrowOrWasdKeysRowIcon();
+      const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
       const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
       const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
       const shiftAndArrowKeysIcon = KeyboardHelpSection.shiftPlusIcon( arrowKeysIcon );
-      const wasdRowIcon = KeyboardHelpSection.wasdRowIcon();
+      const wasdRowIcon = KeyboardHelpIconFactory.wasdRowIcon();
       const shiftAndWasdRowIcon = KeyboardHelpSection.shiftPlusIcon( wasdRowIcon );
       const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
