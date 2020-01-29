@@ -117,9 +117,9 @@ define( require => {
       const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
       const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
-      const shiftAndArrowKeysIcon = KeyboardHelpSection.shiftPlusIcon( arrowKeysIcon );
+      const shiftAndArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
       const wasdRowIcon = KeyboardHelpIconFactory.wasdRowIcon();
-      const shiftAndWasdRowIcon = KeyboardHelpSection.shiftPlusIcon( wasdRowIcon );
+      const shiftAndWasdRowIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdRowIcon );
       const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
       // hot key rows for how to jump the balloon
