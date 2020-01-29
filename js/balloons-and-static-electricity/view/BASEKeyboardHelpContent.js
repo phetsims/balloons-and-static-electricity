@@ -13,6 +13,7 @@ define( require => {
   const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
   const EnterKeyNode = require( 'SCENERY_PHET/keyboard/EnterKeyNode' );
   const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
+  const KeyboardHelpIconFactory = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpIconFactory' );
   const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const merge = require( 'PHET_CORE/merge' );
   const SpaceKeyNode = require( 'SCENERY_PHET/keyboard/SpaceKeyNode' );
@@ -89,7 +90,7 @@ define( require => {
     constructor( options ) {
       const spaceKeyNode = new SpaceKeyNode();
       const enterKeyNode = new EnterKeyNode();
-      const icons = KeyboardHelpSection.iconOrIcon( spaceKeyNode, enterKeyNode );
+      const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
       const labelWithContent = KeyboardHelpSection.labelWithIcon( grabOrReleaseBalloonLabelString, icons, grabOrReleaseBalloonDescriptionString, {
         iconOptions: {
           tagName: 'p' // it is the only item so it is a p rather than an li
@@ -115,7 +116,7 @@ define( require => {
       const arrowOrWasdKeysIcon = KeyboardHelpSection.arrowOrWasdKeysRowIcon();
       const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
 
-      const arrowKeysIcon = KeyboardHelpSection.arrowKeysRowIcon();
+      const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
       const shiftAndArrowKeysIcon = KeyboardHelpSection.shiftPlusIcon( arrowKeysIcon );
       const wasdRowIcon = KeyboardHelpSection.wasdRowIcon();
       const shiftAndWasdRowIcon = KeyboardHelpSection.shiftPlusIcon( wasdRowIcon );
