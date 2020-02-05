@@ -85,7 +85,7 @@ define( require => {
   class BalloonGrabHelpSection extends KeyboardHelpSection {
 
     /**
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( options ) {
       const spaceKeyNode = new SpaceKeyNode();
@@ -109,7 +109,7 @@ define( require => {
   class MoveBalloonHelpSection extends KeyboardHelpSection  {
 
     /**
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( options ) {
 

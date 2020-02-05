@@ -49,7 +49,7 @@ define( require => {
    * @param {Object} valueB - alternate valid value for the property
    * @param {Node} nodeA
    * @param {Node} nodeB
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options ) {
 
