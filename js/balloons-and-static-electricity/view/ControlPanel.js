@@ -142,7 +142,7 @@ const VBox = require( 'SCENERY/nodes/VBox' );
       tandemName: 'showChargeDifferencesRadioButton',
       labelContent: balloonAppletShowChargeDifferencesString
     } ], {
-      touchAreaDilation: 5,
+      touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
       // a11y
