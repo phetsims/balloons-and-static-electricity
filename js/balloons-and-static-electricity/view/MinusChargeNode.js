@@ -14,6 +14,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const merge = require( 'PHET_CORE/merge' );
+  // ES6-MIGRATE-ADD import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
   const Node = require( 'SCENERY/nodes/Node' );
   const PointChargeModel = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PointChargeModel' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
