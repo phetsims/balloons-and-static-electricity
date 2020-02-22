@@ -903,7 +903,7 @@ define( require => {
       if ( !this.balloonModel.successfulPickUp ) {
         description = StringUtils.fillIn( grabbedWithHelpPatternString, {
           grabbedAlert: description,
-          help: phet.joist.sim.supportsGestureA11y ? touchInteractionCueString : keyboardInteractionCueString
+          help: (phet.joist.sim && phet.joist.sim.supportsGestureA11y) ? touchInteractionCueString : keyboardInteractionCueString
         } );
       }
 
