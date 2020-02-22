@@ -55,11 +55,19 @@ define( require => {
     // create the sweater image
     const sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
 
-    // scale image to match model, then set position
-    sweaterImageNode.scale(
-      this.sweaterModel.width / sweaterImageNode.width,
-      this.sweaterModel.height / sweaterImageNode.height
-    );
+    // Balloons and Static Electricity has unit tests which run outside of the context of SimLauncher and hence not all
+    // images may have dimensions by now.
+    if ( sweaterImageNode.width > 0 && sweaterImageNode.height > 0 ) {
+
+      // scale image to match model, then set position
+      sweaterImageNode.scale(
+        this.sweaterModel.width / sweaterImageNode.width,
+        this.sweaterModel.height / sweaterImageNode.height
+      );
+    }
+    else {
+      assert && assert( window.hasOwnProperty( 'QUnit' ), 'Images should have dimensions unless we are running a unit test' );
+    }
 
     sweaterImageNode.left = this.sweaterModel.x;
     sweaterImageNode.top = this.sweaterModel.y;
@@ -99,7 +107,7 @@ define( require => {
         self.plusChargesNode.visible = true;
         self.minusChargesNode.visible = true;
 
-        const showAll = ( model.showChargesProperty.get() === 'all');
+        const showAll = ( model.showChargesProperty.get() === 'all' );
         for ( let i = 0; i < self.sweaterModel.minusCharges.length; i++ ) {
           const plusChargeNodes = self.plusChargesNode.children;
           const minusChargeNodes = self.minusChargesNode.children;
