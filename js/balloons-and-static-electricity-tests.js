@@ -5,16 +5,12 @@
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  require( 'SCENERY/util/Trail' ); // Why is Trail not added to scenery namespace for these tests??
-  require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/BASESummaryNodeTests' );
-  require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriberTests' );
-  require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriberTests' );
-  require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonDescriberTests' );
+import '../../scenery/js/util/Trail.js'; // Why is Trail not added to scenery namespace for these tests??
+import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
+import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
+import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
+import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
 
-  // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
-  QUnit.start();
-} );
+// Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
+QUnit.start();

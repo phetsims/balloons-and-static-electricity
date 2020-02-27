@@ -6,42 +6,39 @@
  * @author Jen Tennison
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  const ShapeHitDetector = require( 'TAPPI/view/ShapeHitDetector' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../../../kite/js/Shape.js';
+import ShapeHitDetector from '../../../../tappi/js/view/ShapeHitDetector.js';
+import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-  // constants
+// constants
 
-  class BASEShapeHitDetector extends ShapeHitDetector {
+class BASEShapeHitDetector extends ShapeHitDetector {
 
-    constructor( model, view, tandem ) {
-      super( view, tandem );
+  constructor( model, view, tandem ) {
+    super( view, tandem );
 
-      this.addShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
-      this.addShape( Shape.bounds( model.sweater.bounds ), model.scanningPropertySet.sweaterDetectedProperty );
-      this.addShape( Shape.bounds( model.wall.bounds ), model.scanningPropertySet.wallDetectedProperty );
+    this.addShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
+    this.addShape( Shape.bounds( model.sweater.bounds ), model.scanningPropertySet.sweaterDetectedProperty );
+    this.addShape( Shape.bounds( model.wall.bounds ), model.scanningPropertySet.wallDetectedProperty );
 
-      model.yellowBalloon.isDraggedProperty.link( isDragged => {
-        if ( isDragged ) {
-          this.interrupt();
-        }
-      } );
+    model.yellowBalloon.isDraggedProperty.link( isDragged => {
+      if ( isDragged ) {
+        this.interrupt();
+      }
+    } );
 
-      model.greenBalloon.isDraggedProperty.link( isDragged => {
-        if ( isDragged ) {
-          this.interrupt();
-        }
-      } );
+    model.greenBalloon.isDraggedProperty.link( isDragged => {
+      if ( isDragged ) {
+        this.interrupt();
+      }
+    } );
 
-      model.yellowBalloon.positionProperty.link( position => {
-        this.updateShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
-      } );
-    }
+    model.yellowBalloon.positionProperty.link( position => {
+      this.updateShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
+    } );
   }
+}
 
-  return balloonsAndStaticElectricity.register( 'BASEShapeHitDetector', BASEShapeHitDetector );
-} );
+balloonsAndStaticElectricity.register( 'BASEShapeHitDetector', BASEShapeHitDetector );
+export default BASEShapeHitDetector;

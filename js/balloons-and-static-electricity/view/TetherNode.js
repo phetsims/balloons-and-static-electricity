@@ -6,48 +6,45 @@
  *
  * @author John Blanco
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../../../kite/js/Shape.js';
+import inherit from '../../../../phet-core/js/inherit.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-  /**
-   * @param  {BalloonModel} balloonModel
-   * @param  {Vector2} anchorPoint
-   * @param  {Vector2} tetherPointOffset
-   * @param  {Tandem} tandem
-   * @constructor
-   */
-  function TetherNode( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
-    const self = this;
+/**
+ * @param  {BalloonModel} balloonModel
+ * @param  {Vector2} anchorPoint
+ * @param  {Vector2} tetherPointOffset
+ * @param  {Tandem} tandem
+ * @constructor
+ */
+function TetherNode( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
+  const self = this;
 
-    Path.call( this, null, {
-      stroke: '#000000',
-      lineWidth: 1,
-      pickable: false,
-      tandem: tandem
-    } );
+  Path.call( this, null, {
+    stroke: '#000000',
+    lineWidth: 1,
+    pickable: false,
+    tandem: tandem
+  } );
 
-    const anchorPointCopy = anchorPoint.copy();
+  const anchorPointCopy = anchorPoint.copy();
 
-    balloonModel.positionProperty.link( function( position ) {
-      const attachmentPoint = position.plus( tetherPointOffset );
-      self.shape = new Shape()
-        .moveToPoint( anchorPointCopy )
-        .quadraticCurveTo(
-          attachmentPoint.x,
-          ( anchorPointCopy.y + attachmentPoint.y ) / 2,
-          attachmentPoint.x,
-          attachmentPoint.y
-        );
-    } );
-  }
+  balloonModel.positionProperty.link( function( position ) {
+    const attachmentPoint = position.plus( tetherPointOffset );
+    self.shape = new Shape()
+      .moveToPoint( anchorPointCopy )
+      .quadraticCurveTo(
+        attachmentPoint.x,
+        ( anchorPointCopy.y + attachmentPoint.y ) / 2,
+        attachmentPoint.x,
+        attachmentPoint.y
+      );
+  } );
+}
 
-  balloonsAndStaticElectricity.register( 'TetherNode', TetherNode );
+balloonsAndStaticElectricity.register( 'TetherNode', TetherNode );
 
-  return inherit( Path, TetherNode );
-} );
+inherit( Path, TetherNode );
+export default TetherNode;

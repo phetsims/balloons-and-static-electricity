@@ -19,374 +19,337 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import Vector2 from '../../../../../dot/js/Vector2.js';
+import inherit from '../../../../../phet-core/js/inherit.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import Utterance from '../../../../../utterance-queue/js/Utterance.js';
+import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
+import BASEA11yStrings from '../../BASEA11yStrings.js';
+import BASEConstants from '../../BASEConstants.js';
+import PlayAreaMap from '../../model/PlayAreaMap.js';
+import BalloonChargeDescriber from './BalloonChargeDescriber.js';
+import BalloonPositionDescriber from './BalloonPositionDescriber.js';
+import BASEDescriber from './BASEDescriber.js';
+import SweaterDescriber from './SweaterDescriber.js';
+import WallDescriber from './WallDescriber.js';
 
-  // modules
-  const BalloonChargeDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonChargeDescriber' );
-  const BalloonPositionDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BalloonPositionDescriber' );
-  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  const BASEA11yStrings = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEA11yStrings' );
-  const BASEConstants = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/BASEConstants' );
-  const BASEDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/BASEDescriber' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const PlayAreaMap = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/model/PlayAreaMap' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const SweaterDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/SweaterDescriber' );
-  const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
-const Vector2 = require( 'DOT/Vector2' );
-  const WallDescriber = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloons-and-static-electricity/view/describers/WallDescriber' );
+// a11y strings
+const balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
+const balloonAtPositionPatternString = BASEA11yStrings.balloonAtPositionPattern.value;
+const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+const balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPattern.value;
+const balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPattern.value;
+const balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPattern.value;
+const balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPattern.value;
+const balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPattern.value;
+const lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPattern.value;
+const noChargePickupPatternString = BASEA11yStrings.noChargePickupPattern.value;
+const noChangeInChargesString = BASEA11yStrings.noChangeInCharges.value;
+const noChangeInNetChargeString = BASEA11yStrings.noChangeInNetCharge.value;
+const noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPattern.value;
+const nochargePickupWithObjectChargeAndHint = BASEA11yStrings.nochargePickupWithObjectChargeAndHint.value;
+const releaseHintString = BASEA11yStrings.releaseHint.value;
+const balloonAddedPatternString = BASEA11yStrings.balloonAddedPattern.value;
+const balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPattern.value;
+const balloonAddedWithPositionPatternString = BASEA11yStrings.balloonAddedWithPositionPattern.value;
+const wallRubbingWithPairsPattern = BASEA11yStrings.wallRubbingWithPairsPattern.value;
+const wallRubPatternString = BASEA11yStrings.wallRubPattern.value;
+const wallRubAllPatternString = BASEA11yStrings.wallRubAllPattern.value;
+const wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
 
-  // a11y strings
-  const balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
-  const balloonAtPositionPatternString = BASEA11yStrings.balloonAtPositionPattern.value;
-  const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
-  const balloonPicksUpChargesPatternString = BASEA11yStrings.balloonPicksUpChargesPattern.value;
-  const balloonPicksUpMoreChargesPatternString = BASEA11yStrings.balloonPicksUpMoreChargesPattern.value;
-  const balloonPicksUpChargesDiffPatternString = BASEA11yStrings.balloonPicksUpChargesDiffPattern.value;
-  const balloonPicksUpMoreChargesDiffPatternString = BASEA11yStrings.balloonPicksUpMoreChargesDiffPattern.value;
-  const balloonSweaterRelativeChargesPatternString = BASEA11yStrings.balloonSweaterRelativeChargesPattern.value;
-  const lastChargePickedUpPatternString = BASEA11yStrings.lastChargePickedUpPattern.value;
-  const noChargePickupPatternString = BASEA11yStrings.noChargePickupPattern.value;
-  const noChangeInChargesString = BASEA11yStrings.noChangeInCharges.value;
-  const noChangeInNetChargeString = BASEA11yStrings.noChangeInNetCharge.value;
-  const noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPattern.value;
-  const nochargePickupWithObjectChargeAndHint = BASEA11yStrings.nochargePickupWithObjectChargeAndHint.value;
-  const releaseHintString = BASEA11yStrings.releaseHint.value;
-  const balloonAddedPatternString = BASEA11yStrings.balloonAddedPattern.value;
-  const balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPattern.value;
-  const balloonAddedWithPositionPatternString = BASEA11yStrings.balloonAddedWithPositionPattern.value;
-  const wallRubbingWithPairsPattern = BASEA11yStrings.wallRubbingWithPairsPattern.value;
-  const wallRubPatternString = BASEA11yStrings.wallRubPattern.value;
-  const wallRubAllPatternString = BASEA11yStrings.wallRubAllPattern.value;
-  const wallRubDiffPatternString = BASEA11yStrings.wallRubDiffPattern.value;
+// constants
+// in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
+const RELEASE_DESCRIPTION_TIME_DELAY = 25;
 
-  // constants
-  // in ms, delay before announcing an alert that describes independent movement, to give the model time to respond
-  const RELEASE_DESCRIPTION_TIME_DELAY = 25;
+// in ms, limits frequency of charge pickup alerts
+const CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
 
-  // in ms, limits frequency of charge pickup alerts
-  const CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
+// in ms, time between alerts that tell user balloon continues to move due to force
+const RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
 
-  // in ms, time between alerts that tell user balloon continues to move due to force
-  const RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
+/**
+ * @param {BASEModel} model
+ * @param {WallModel} wall
+ * @param {BalloonModel} balloon
+ * @param {string} accessibleLabel - accessible name for the balloon being described
+ * @param {string} otherAccessibleLabel - accessible name for the other balloon being described
+ * @constructor
+ */
+function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
+  const self = this;
+
+  // @private
+  this.model = model;
+  this.wall = wall;
+  this.balloonModel = balloon;
+  this.accessibleName = accessibleLabel;
+  this.otherAccessibleName = otherAccessibleLabel;
+  this.showChargesProperty = model.showChargesProperty;
+
+  // @private - manages descriptions about the balloon related to charge
+  this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
+
+  // @private - manages descriptions about the  balloon related to balloon movement and position
+  this.movementDescriber = new BalloonPositionDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
+
+  // @private - used to track previous values after an interaction so that we can accurately describe how
+  // the model has changed
+  this.describedChargeRange = null;
+
+  // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
+  // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
+  // "Balloon picks up negative charges from sweater"
+  this.alertFirstPickup = false;
+
+  // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
+  // pickup alert, every time interval of CHARGE_DESCRIPTION_REFRESH_RATE, this is set to true so we don't
+  // alert every time the balloon picks up a charges.
+  this.alertNextPickup = false;
+
+  // @private - variables tracking state and how it changes between description steps, see step() below
+  this.describedVelocity = balloon.velocityProperty.get();
+  this.describedDragVelocity = balloon.dragVelocityProperty.get();
+  this.describedPosition = balloon.positionProperty.get();
+  this.describedVisible = balloon.isVisibleProperty.get();
+  this.describedTouchingWall = balloon.touchingWallProperty.get();
+  this.describedIsDragged = balloon.isDraggedProperty.get();
+  this.describedWallVisible = wall.isVisibleProperty.get();
+
+  // @private {Utterance} - utterances to be sent to the queue, by default they won't spam
+  // the user if they hit the queue to frequently
+  this.directionUtterance = new Utterance();
+  this.movementUtterance = new Utterance();
+  this.inducedChargeChangeUtterance = new Utterance();
+  this.chargeUtterance = new Utterance();
+
+  // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
+  this.oldDragPosition = balloon.positionProperty.get().copy();
+
+  // @private - monitors position delta in a single drag
+  this.dragDelta = new Vector2( 0, 0 );
+
+  // @private - used to watch how much charge is picked up in a single drag action
+  this.chargeOnStartDrag = balloon.chargeProperty.get();
+
+  // @private - used to determine how much charge is picked up in a single drag action
+  this.chargeOnEndDrag = balloon.chargeProperty.get();
+
+  // @private - time since an alert related to charge pickup has been announced
+  this.timeSinceChargeAlert = 0;
+
+  // @private {boolean} - every time we drag, mark this as true so we know to describe a lack of charge pick up
+  // on the sweater. Once this rub has been described, set to false
+  this.rubAlertDirty = false;
+
+  // @private {boolean} - whether or not we describe direction changes. After certain interactions we do not want
+  // to describe the direction, or the direction is included implicitly in another alert
+  this.describeDirection = true;
+
+  // @private {boolean} - flag that indicates that user actions have lead to it being time for a "wall rub" to be
+  // described
+  this.describeWallRub = false;
+
+  // @private {boolean} - a flag that tracks if the initial movement of the balloon after release has
+  // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
+  // the balloon is sticking to the wall. True so we get non alert on start up
+  this.initialMovementDescribed = true;
+
+  // @private {boolean} - timer tracking amount of time between release alerts, used to space out alerts describing
+  // continuous independent movement like "Moving left...Moving left...Moving left...", and so on
+  this.timeSinceReleaseAlert = 0;
+
+  // @private {boolean} - flag that will prevent the firing of the "no movement" alert, set to true with toggling
+  // balloon visibility as a special case so we don't trigger this alert when added to the play area
+  this.preventNoMovementAlert = false;
+
+  // announce alerts related to charge change
+  balloon.chargeProperty.link( function updateCharge( chargeVal ) {
+    let alert;
+
+    // the first charge pickup and subsequent pickups (behind a refresh rate) should be announced
+    if ( self.alertNextPickup || self.alertFirstPickup ) {
+      alert = self.getChargePickupDescription( self.alertFirstPickup );
+      phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alert );
+    }
+
+    // announce pickup of last charge, as long as charges are visible
+    if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
+      alert = self.getLastChargePickupDescription();
+      phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alert );
+    }
+
+    // reset flags
+    self.alertFirstPickup = false;
+    self.alertNextPickup = false;
+  } );
+
+  // when visibility changes, generate the alert and be sure to describe initial movement the next time the
+  // balloon is released or added to the play area
+  balloon.isVisibleProperty.lazyLink( function( isVisible ) {
+    phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
+    self.initialMovementDescribed = false;
+    self.preventNoMovementAlert = true;
+  } );
+
+  // a11y - if we enter/leave the sweater announce that immediately
+  balloon.onSweaterProperty.link( function( onSweater ) {
+    if ( balloon.isDraggedProperty.get() ) {
+      phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
+    }
+
+    // entering sweater, indicate that we need to alert the next charge pickup
+    self.alertFirstPickup = true;
+  } );
+
+  // when the balloon changes directions during dragging, announce this immediately, unless we are "jumping" the
+  // balloon to a new place in the play area.
+  this.balloonModel.directionProperty.lazyLink( function( direction ) {
+    if ( !self.balloonModel.jumping ) {
+      if ( self.describeDirection ) {
+        self.directionUtterance.alert = self.movementDescriber.getDirectionChangedDescription();
+        phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.directionUtterance );
+      }
+    }
+  } );
+
+  // when drag velocity starts from zero, or hits zero, update charge counts on start/end drag so we can determine
+  // how much charge has been picked up in a single interaction
+  this.balloonModel.dragVelocityProperty.link( function( velocity, oldVelocity ) {
+    if ( oldVelocity ) {
+      if ( oldVelocity.equals( Vector2.ZERO ) ) {
+
+        // we just started dragging
+        self.chargeOnStartDrag = balloon.chargeProperty.get();
+      }
+      else if ( velocity.equals( Vector2.ZERO ) ) {
+
+        // we just finished a drag interaction
+        self.chargeOnEndDrag = balloon.chargeProperty.get();
+      }
+    }
+  } );
+}
+
+balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
+
+export default inherit( Object, BalloonDescriber, {
 
   /**
-   * @param {BASEModel} model
-   * @param {WallModel} wall
-   * @param {BalloonModel} balloon
-   * @param {string} accessibleLabel - accessible name for the balloon being described
-   * @param {string} otherAccessibleLabel - accessible name for the other balloon being described
-   * @constructor
+   * Reset the describer, resetting flags that are required to manipulate provided descriptions.
+   * @public
    */
-  function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
-    const self = this;
-
-    // @private
-    this.model = model;
-    this.wall = wall;
-    this.balloonModel = balloon;
-    this.accessibleName = accessibleLabel;
-    this.otherAccessibleName = otherAccessibleLabel;
-    this.showChargesProperty = model.showChargesProperty;
-
-    // @private - manages descriptions about the balloon related to charge
-    this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
-
-    // @private - manages descriptions about the  balloon related to balloon movement and position
-    this.movementDescriber = new BalloonPositionDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
-
-    // @private - used to track previous values after an interaction so that we can accurately describe how
-    // the model has changed
+  reset: function() {
+    this.chargeDescriber.reset();
     this.describedChargeRange = null;
 
-    // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
-    // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
-    // "Balloon picks up negative charges from sweater"
-    this.alertFirstPickup = false;
+    // reset all variables tracking previous descriptions
+    this.describedVelocity = this.balloonModel.velocityProperty.get();
+    this.describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
+    this.describedPosition = this.balloonModel.positionProperty.get();
+    this.describedVisible = this.balloonModel.isVisibleProperty.get();
+    this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
+    this.describedIsDragged = this.balloonModel.isDraggedProperty.get();
+    this.describedWallVisible = this.wall.isVisibleProperty.get();
 
-    // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
-    // pickup alert, every time interval of CHARGE_DESCRIPTION_REFRESH_RATE, this is set to true so we don't
-    // alert every time the balloon picks up a charges.
-    this.alertNextPickup = false;
-
-    // @private - variables tracking state and how it changes between description steps, see step() below
-    this.describedVelocity = balloon.velocityProperty.get();
-    this.describedDragVelocity = balloon.dragVelocityProperty.get();
-    this.describedPosition = balloon.positionProperty.get();
-    this.describedVisible = balloon.isVisibleProperty.get();
-    this.describedTouchingWall = balloon.touchingWallProperty.get();
-    this.describedIsDragged = balloon.isDraggedProperty.get();
-    this.describedWallVisible = wall.isVisibleProperty.get();
-
-    // @private {Utterance} - utterances to be sent to the queue, by default they won't spam
-    // the user if they hit the queue to frequently
-    this.directionUtterance = new Utterance();
-    this.movementUtterance = new Utterance();
-    this.inducedChargeChangeUtterance = new Utterance();
-    this.chargeUtterance = new Utterance();
-
-    // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
-    this.oldDragPosition = balloon.positionProperty.get().copy();
-
-    // @private - monitors position delta in a single drag
+    this.oldDragPosition = this.balloonModel.positionProperty.get().copy();
     this.dragDelta = new Vector2( 0, 0 );
-
-    // @private - used to watch how much charge is picked up in a single drag action
-    this.chargeOnStartDrag = balloon.chargeProperty.get();
-
-    // @private - used to determine how much charge is picked up in a single drag action
-    this.chargeOnEndDrag = balloon.chargeProperty.get();
-
-    // @private - time since an alert related to charge pickup has been announced
+    this.chargeOnStartDrag = this.balloonModel.chargeProperty.get();
+    this.chargeOnEndDrag = this.balloonModel.chargeProperty.get();
     this.timeSinceChargeAlert = 0;
-
-    // @private {boolean} - every time we drag, mark this as true so we know to describe a lack of charge pick up
-    // on the sweater. Once this rub has been described, set to false
     this.rubAlertDirty = false;
-
-    // @private {boolean} - whether or not we describe direction changes. After certain interactions we do not want
-    // to describe the direction, or the direction is included implicitly in another alert
     this.describeDirection = true;
-
-    // @private {boolean} - flag that indicates that user actions have lead to it being time for a "wall rub" to be
-    // described
     this.describeWallRub = false;
-
-    // @private {boolean} - a flag that tracks if the initial movement of the balloon after release has
-    // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
-    // the balloon is sticking to the wall. True so we get non alert on start up
     this.initialMovementDescribed = true;
-
-    // @private {boolean} - timer tracking amount of time between release alerts, used to space out alerts describing
-    // continuous independent movement like "Moving left...Moving left...Moving left...", and so on
     this.timeSinceReleaseAlert = 0;
+  },
 
-    // @private {boolean} - flag that will prevent the firing of the "no movement" alert, set to true with toggling
-    // balloon visibility as a special case so we don't trigger this alert when added to the play area
-    this.preventNoMovementAlert = false;
+  /**
+   * Get the description for the balloon, the content that can be read by an assistive device in the Parallel DOM.
+   * Dependent on position, charge, and charge visibility. Will return something like:
+   * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
+   * "At center of play area, next to green balloon."
+   *
+   * @returns {string}
+   */
+  getBalloonDescription: function() {
+    let description;
+    const showCharges = this.showChargesProperty.get();
 
-    // announce alerts related to charge change
-    balloon.chargeProperty.link( function updateCharge( chargeVal ) {
-      let alert;
-
-      // the first charge pickup and subsequent pickups (behind a refresh rate) should be announced
-      if ( self.alertNextPickup || self.alertFirstPickup ) {
-        alert = self.getChargePickupDescription( self.alertFirstPickup );
-        phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alert );
-      }
-
-      // announce pickup of last charge, as long as charges are visible
-      if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
-        alert = self.getLastChargePickupDescription();
-        phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alert );
-      }
-
-      // reset flags
-      self.alertFirstPickup = false;
-      self.alertNextPickup = false;
+    let attractiveStateAndPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
+    attractiveStateAndPositionString = StringUtils.fillIn( singleStatementPatternString, {
+      statement: attractiveStateAndPositionString
     } );
 
-    // when visibility changes, generate the alert and be sure to describe initial movement the next time the
-    // balloon is released or added to the play area
-    balloon.isVisibleProperty.lazyLink( function( isVisible ) {
-      phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.getVisibilityChangedDescription() );
-      self.initialMovementDescribed = false;
-      self.preventNoMovementAlert = true;
-    } );
+    if ( showCharges === 'none' ) {
+      description = attractiveStateAndPositionString;
+    }
+    else {
 
-    // a11y - if we enter/leave the sweater announce that immediately
-    balloon.onSweaterProperty.link( function( onSweater ) {
-      if ( balloon.isDraggedProperty.get() ) {
-        phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );
-      }
+      // balloon net charge description
+      const netChargeDescriptionString = this.chargeDescriber.getNetChargeDescription();
 
-      // entering sweater, indicate that we need to alert the next charge pickup
-      self.alertFirstPickup = true;
-    } );
+      // balloon relative charge string, dependent on charge visibility
+      const relativeChargesString = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, showCharges );
 
-    // when the balloon changes directions during dragging, announce this immediately, unless we are "jumping" the
-    // balloon to a new place in the play area.
-    this.balloonModel.directionProperty.lazyLink( function( direction ) {
-      if ( !self.balloonModel.jumping ) {
-        if ( self.describeDirection ) {
-          self.directionUtterance.alert = self.movementDescriber.getDirectionChangedDescription();
-          phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( self.directionUtterance );
-        }
-      }
-    } );
+      description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
+        stateAndPosition: attractiveStateAndPositionString,
+        netCharge: netChargeDescriptionString,
+        relativeCharge: relativeChargesString
+      } );
+    }
 
-    // when drag velocity starts from zero, or hits zero, update charge counts on start/end drag so we can determine
-    // how much charge has been picked up in a single interaction
-    this.balloonModel.dragVelocityProperty.link( function( velocity, oldVelocity ) {
-      if ( oldVelocity ) {
-        if ( oldVelocity.equals( Vector2.ZERO ) ) {
+    return description;
+  },
 
-          // we just started dragging
-          self.chargeOnStartDrag = balloon.chargeProperty.get();
-        }
-        else if ( velocity.equals( Vector2.ZERO ) ) {
+  /**
+   * Get the alert description for when a charge is picked up off of the sweater. Dependent
+   * on charge view, whether the balloon has picked up charges already since moving on to the
+   * sweater, and the number of charges that the balloon has picked up.
+   *
+   * @param  {boolean} firstPickup - special behavior if the first charge pickup since landing on sweater
+   * @returns {string}
+   */
+  getChargePickupDescription: function( firstPickup ) {
+    let description;
+    const shownCharges = this.showChargesProperty.get();
 
-          // we just finished a drag interaction
-          self.chargeOnEndDrag = balloon.chargeProperty.get();
-        }
-      }
-    } );
-  }
+    const newCharge = this.balloonModel.chargeProperty.get();
+    const newRange = BASEDescriber.getDescribedChargeRange( newCharge );
 
-  balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
+    if ( shownCharges === 'none' ) {
+      description = this.movementDescriber.getAttractiveStateAndPositionDescription();
+      description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
+    }
+    else if ( firstPickup ) {
 
-  return inherit( Object, BalloonDescriber, {
+      // if this is the first charge picked up after moving onto sweater, generate
+      // a special description to announce that charges have been transfered
+      description = this.getInitialChargePickupDescription();
+    }
+    else if ( !this.describedChargeRange || !newRange.equals( this.describedChargeRange ) ) {
 
-    /**
-     * Reset the describer, resetting flags that are required to manipulate provided descriptions.
-     * @public
-     */
-    reset: function() {
-      this.chargeDescriber.reset();
-      this.describedChargeRange = null;
+      // if we have entered a new described range since the previous charge alert,
+      // we will generate a special description that mentions the relative charges
+      const sweaterCharge = this.model.sweater.chargeProperty.get();
 
-      // reset all variables tracking previous descriptions
-      this.describedVelocity = this.balloonModel.velocityProperty.get();
-      this.describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
-      this.describedPosition = this.balloonModel.positionProperty.get();
-      this.describedVisible = this.balloonModel.isVisibleProperty.get();
-      this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
-      this.describedIsDragged = this.balloonModel.isDraggedProperty.get();
-      this.describedWallVisible = this.wall.isVisibleProperty.get();
+      // relative charge of balloon, as a sentance
+      let relativeBalloonCharge = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
+      relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, {
+        statement: relativeBalloonCharge
+      } );
+      const relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
 
-      this.oldDragPosition = this.balloonModel.positionProperty.get().copy();
-      this.dragDelta = new Vector2( 0, 0 );
-      this.chargeOnStartDrag = this.balloonModel.chargeProperty.get();
-      this.chargeOnEndDrag = this.balloonModel.chargeProperty.get();
-      this.timeSinceChargeAlert = 0;
-      this.rubAlertDirty = false;
-      this.describeDirection = true;
-      this.describeWallRub = false;
-      this.initialMovementDescribed = true;
-      this.timeSinceReleaseAlert = 0;
-    },
-
-    /**
-     * Get the description for the balloon, the content that can be read by an assistive device in the Parallel DOM.
-     * Dependent on position, charge, and charge visibility. Will return something like:
-     * "At center of play area. Has zero net charge, no more negative charge than positive charges." or
-     * "At center of play area, next to green balloon."
-     *
-     * @returns {string}
-     */
-    getBalloonDescription: function() {
-      let description;
-      const showCharges = this.showChargesProperty.get();
-
-      let attractiveStateAndPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
-      attractiveStateAndPositionString = StringUtils.fillIn( singleStatementPatternString, {
-        statement: attractiveStateAndPositionString
+      description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
+        balloon: relativeBalloonCharge,
+        sweater: relativeSweaterCharge
       } );
 
-      if ( showCharges === 'none' ) {
-        description = attractiveStateAndPositionString;
-      }
-      else {
+      this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
+    }
+    else {
 
-        // balloon net charge description
-        const netChargeDescriptionString = this.chargeDescriber.getNetChargeDescription();
-
-        // balloon relative charge string, dependent on charge visibility
-        const relativeChargesString = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, showCharges );
-
-        description = StringUtils.fillIn( balloonShowAllChargesPatternString, {
-          stateAndPosition: attractiveStateAndPositionString,
-          netCharge: netChargeDescriptionString,
-          relativeCharge: relativeChargesString
-        } );
-      }
-
-      return description;
-    },
-
-    /**
-     * Get the alert description for when a charge is picked up off of the sweater. Dependent
-     * on charge view, whether the balloon has picked up charges already since moving on to the
-     * sweater, and the number of charges that the balloon has picked up.
-     *
-     * @param  {boolean} firstPickup - special behavior if the first charge pickup since landing on sweater
-     * @returns {string}
-     */
-    getChargePickupDescription: function( firstPickup ) {
-      let description;
-      const shownCharges = this.showChargesProperty.get();
-
-      const newCharge = this.balloonModel.chargeProperty.get();
-      const newRange = BASEDescriber.getDescribedChargeRange( newCharge );
-
-      if ( shownCharges === 'none' ) {
-        description = this.movementDescriber.getAttractiveStateAndPositionDescription();
-        description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
-      }
-      else if ( firstPickup ) {
-
-        // if this is the first charge picked up after moving onto sweater, generate
-        // a special description to announce that charges have been transfered
-        description = this.getInitialChargePickupDescription();
-      }
-      else if ( !this.describedChargeRange || !newRange.equals( this.describedChargeRange ) ) {
-
-        // if we have entered a new described range since the previous charge alert,
-        // we will generate a special description that mentions the relative charges
-        const sweaterCharge = this.model.sweater.chargeProperty.get();
-
-        // relative charge of balloon, as a sentance
-        let relativeBalloonCharge = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
-        relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, {
-          statement: relativeBalloonCharge
-        } );
-        const relativeSweaterCharge = SweaterDescriber.getRelativeChargeDescriptionWithLabel( sweaterCharge, shownCharges );
-
-        description = StringUtils.fillIn( balloonSweaterRelativeChargesPatternString, {
-          balloon: relativeBalloonCharge,
-          sweater: relativeSweaterCharge
-        } );
-
-        this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
-      }
-      else {
-
-        // in same described range of charges, describe how balloon picks up more charges
-        const picksUpCharges = StringUtils.fillIn( balloonPicksUpMoreChargesPatternString, {
-          balloon: this.accessibleName
-        } );
-
-        if ( shownCharges === 'all' ) {
-          description = StringUtils.fillIn( singleStatementPatternString, {
-            statement: picksUpCharges
-          } );
-        }
-        else if ( shownCharges === 'diff' ) {
-          description = StringUtils.fillIn( balloonPicksUpMoreChargesDiffPatternString, {
-            pickUp: picksUpCharges
-          } );
-        }
-
-        this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
-      }
-
-      assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
-      return description;
-    },
-
-    /**
-     * The first time the balloon picks up charges from the sweater after leaving the play
-     * area, we get an initial alert like
-     * "Yellow Balloon picks up negative charges from sweater."
-     *
-     * @returns {string}
-     */
-    getInitialChargePickupDescription: function() {
-      let description;
-      const shownCharges = this.showChargesProperty.get();
-
-      const picksUpCharges = StringUtils.fillIn( balloonPicksUpChargesPatternString, {
+      // in same described range of charges, describe how balloon picks up more charges
+      const picksUpCharges = StringUtils.fillIn( balloonPicksUpMoreChargesPatternString, {
         balloon: this.accessibleName
       } );
 
@@ -396,544 +359,576 @@ const Vector2 = require( 'DOT/Vector2' );
         } );
       }
       else if ( shownCharges === 'diff' ) {
-        description = StringUtils.fillIn( balloonPicksUpChargesDiffPatternString, {
+        description = StringUtils.fillIn( balloonPicksUpMoreChargesDiffPatternString, {
           pickUp: picksUpCharges
         } );
       }
 
-      return description;
-    },
+      this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
+    }
 
-    /**
-     * Get an alert that describes that no charges were picked up during the drag interaction. This alert is dependent
-     * on which charges are visible. Will return a string like
-     *
-     * "No change in charges. On left side of sweater. More pairs of charges down and to the right." or
-     * "No change in net charge. On left side of sweater. More hidden pairs of charges down and to the right." or
-     * "On left side of sweater". or
-     * "No change in charges. On right side of sweater. Sweater has positive net charge. Yellow Balloon has negative
-     * net charge. Press space to release."
-     *
-     * @returns {string}
-     */
-    getNoChargePickupDescription: function() {
-      let alert;
-      const chargesShown = this.showChargesProperty.get();
+    assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
+    return description;
+  },
 
-      const balloonPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
-      const sweaterCharge = this.model.sweater.chargeProperty.get();
+  /**
+   * The first time the balloon picks up charges from the sweater after leaving the play
+   * area, we get an initial alert like
+   * "Yellow Balloon picks up negative charges from sweater."
+   *
+   * @returns {string}
+   */
+  getInitialChargePickupDescription: function() {
+    let description;
+    const shownCharges = this.showChargesProperty.get();
 
-      if ( chargesShown === 'none' ) {
+    const picksUpCharges = StringUtils.fillIn( balloonPicksUpChargesPatternString, {
+      balloon: this.accessibleName
+    } );
 
-        // if no charges are shown, just describe position of balloon as a complete sentence
-        alert = StringUtils.fillIn( singleStatementPatternString, {
-          statement: balloonPositionString
+    if ( shownCharges === 'all' ) {
+      description = StringUtils.fillIn( singleStatementPatternString, {
+        statement: picksUpCharges
+      } );
+    }
+    else if ( shownCharges === 'diff' ) {
+      description = StringUtils.fillIn( balloonPicksUpChargesDiffPatternString, {
+        pickUp: picksUpCharges
+      } );
+    }
+
+    return description;
+  },
+
+  /**
+   * Get an alert that describes that no charges were picked up during the drag interaction. This alert is dependent
+   * on which charges are visible. Will return a string like
+   *
+   * "No change in charges. On left side of sweater. More pairs of charges down and to the right." or
+   * "No change in net charge. On left side of sweater. More hidden pairs of charges down and to the right." or
+   * "On left side of sweater". or
+   * "No change in charges. On right side of sweater. Sweater has positive net charge. Yellow Balloon has negative
+   * net charge. Press space to release."
+   *
+   * @returns {string}
+   */
+  getNoChargePickupDescription: function() {
+    let alert;
+    const chargesShown = this.showChargesProperty.get();
+
+    const balloonPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
+    const sweaterCharge = this.model.sweater.chargeProperty.get();
+
+    if ( chargesShown === 'none' ) {
+
+      // if no charges are shown, just describe position of balloon as a complete sentence
+      alert = StringUtils.fillIn( singleStatementPatternString, {
+        statement: balloonPositionString
+      } );
+    }
+    else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
+
+      // there are still charges on the sweater
+      const sweaterCharges = this.model.sweater.minusCharges;
+      const moreChargesString = SweaterDescriber.getMoreChargesDescription( this.balloonModel, sweaterCharge, sweaterCharges, chargesShown );
+      if ( chargesShown === 'all' ) {
+        alert = StringUtils.fillIn( noChargePickupPatternString, {
+          noChange: noChangeInChargesString,
+          balloonPosition: balloonPositionString,
+          moreChargesPosition: moreChargesString
         } );
       }
-      else if ( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE ) {
-
-        // there are still charges on the sweater
-        const sweaterCharges = this.model.sweater.minusCharges;
-        const moreChargesString = SweaterDescriber.getMoreChargesDescription( this.balloonModel, sweaterCharge, sweaterCharges, chargesShown );
-        if ( chargesShown === 'all' ) {
-          alert = StringUtils.fillIn( noChargePickupPatternString, {
-            noChange: noChangeInChargesString,
-            balloonPosition: balloonPositionString,
-            moreChargesPosition: moreChargesString
-          } );
-        }
-        else if ( chargesShown === 'diff' ) {
-          alert = StringUtils.fillIn( noChargePickupPatternString, {
-            noChange: noChangeInNetChargeString,
-            balloonPosition: balloonPositionString,
-            moreChargesPosition: moreChargesString
-          } );
-        }
+      else if ( chargesShown === 'diff' ) {
+        alert = StringUtils.fillIn( noChargePickupPatternString, {
+          noChange: noChangeInNetChargeString,
+          balloonPosition: balloonPositionString,
+          moreChargesPosition: moreChargesString
+        } );
       }
-      else {
+    }
+    else {
 
-        // there are no more charges remaining on the sweater
-        if ( chargesShown === 'all' ) {
-          const relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
-          let relativeBalloonCharge = this.chargeDescriber.getNetChargeDescriptionWithLabel();
-          relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, { statement: relativeBalloonCharge } );
+      // there are no more charges remaining on the sweater
+      if ( chargesShown === 'all' ) {
+        const relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
+        let relativeBalloonCharge = this.chargeDescriber.getNetChargeDescriptionWithLabel();
+        relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, { statement: relativeBalloonCharge } );
 
-          alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
-            noChange: noChangeInChargesString,
-            balloonPosition: balloonPositionString,
-            sweaterCharge: relativeSweaterCharge,
-            balloonCharge: relativeBalloonCharge,
-            hint: releaseHintString
-          } );
-        }
-        else if ( chargesShown === 'diff' ) {
-          alert = StringUtils.fillIn( noChargePickupHintPatternString, {
-            noChange: noChangeInNetChargeString,
-            balloonPosition: balloonPositionString,
-            hint: releaseHintString
-          } );
-        }
+        alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
+          noChange: noChangeInChargesString,
+          balloonPosition: balloonPositionString,
+          sweaterCharge: relativeSweaterCharge,
+          balloonCharge: relativeBalloonCharge,
+          hint: releaseHintString
+        } );
       }
-
-      return alert;
-    },
-
-    /**
-     * Get a description of the balloon rubbing on the wall, including a description for the
-     * induced charge if there is any and depending on the charge view. Will return something like
-     *
-     * "At wall. No transfer of charge. In wall, no change in charges." or
-     * "At upper wall. No transfer of charge. Negative charges in upper wall move away from yellow balloon a lot.
-     * Positive charges do not move." or
-     * "At upper wall." or
-     * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
-     *
-     * @returns {string}
-     */
-    getWallRubbingDescription: function() {
-      let descriptionString;
-      let chargeString;
-
-      // the position string is used for all charge views, used as a single sentence
-      const positionString = this.movementDescriber.getBalloonPositionDescription();
-      let atPositionString = StringUtils.fillIn( balloonAtPositionPatternString, {
-        position: positionString
-      } );
-      atPositionString = StringUtils.fillIn( singleStatementPatternString, {
-        statement: atPositionString
-      } );
-
-      const shownCharges = this.showChargesProperty.get();
-      const wallVisible = this.wall.isVisibleProperty.get();
-      if ( shownCharges === 'none' ) {
-        descriptionString = atPositionString;
+      else if ( chargesShown === 'diff' ) {
+        alert = StringUtils.fillIn( noChargePickupHintPatternString, {
+          noChange: noChangeInNetChargeString,
+          balloonPosition: balloonPositionString,
+          hint: releaseHintString
+        } );
       }
-      else {
-        if ( shownCharges === 'all' ) {
-          let inducedChargeString;
+    }
 
-          // if balloons are adjacent, the resultant induced charge description is modified
-          if ( this.model.getBalloonsAdjacent() ) {
+    return alert;
+  },
 
-            const thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
-            const otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
+  /**
+   * Get a description of the balloon rubbing on the wall, including a description for the
+   * induced charge if there is any and depending on the charge view. Will return something like
+   *
+   * "At wall. No transfer of charge. In wall, no change in charges." or
+   * "At upper wall. No transfer of charge. Negative charges in upper wall move away from yellow balloon a lot.
+   * Positive charges do not move." or
+   * "At upper wall." or
+   * "At lower wall. Yellow balloon has negative net charge, showing several more negative charges than positive charges."
+   *
+   * @returns {string}
+   */
+  getWallRubbingDescription: function() {
+    let descriptionString;
+    let chargeString;
 
-            if ( thisInducingAndVisible && otherInducingAndVisible ) {
+    // the position string is used for all charge views, used as a single sentence
+    const positionString = this.movementDescriber.getBalloonPositionDescription();
+    let atPositionString = StringUtils.fillIn( balloonAtPositionPatternString, {
+      position: positionString
+    } );
+    atPositionString = StringUtils.fillIn( singleStatementPatternString, {
+      statement: atPositionString
+    } );
 
-              // if both inducing charge, combine induced charge description with "both balloons"
-              inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible );
-            }
-            else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
+    const shownCharges = this.showChargesProperty.get();
+    const wallVisible = this.wall.isVisibleProperty.get();
+    if ( shownCharges === 'none' ) {
+      descriptionString = atPositionString;
+    }
+    else {
+      if ( shownCharges === 'all' ) {
+        let inducedChargeString;
 
-              // neither balloon is inducing charge, just use normal induced charge description
-              inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
-            }
-            else {
-              assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
+        // if balloons are adjacent, the resultant induced charge description is modified
+        if ( this.model.getBalloonsAdjacent() ) {
 
-              // only one balloon is inducing charge, describe whichever one is currently inducing charge
-              let inducingBalloon;
-              let balloonLabel;
-              if ( this.balloonModel.inducingChargeAndVisible() ) {
-                inducingBalloon = this.balloonModel;
-                balloonLabel = this.accessibleName;
-              }
-              else {
-                inducingBalloon = this.balloonModel.other;
-                balloonLabel = this.otherAccessibleName;
-              }
+          const thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
+          const otherInducingAndVisible = this.balloonModel.other.inducingChargeAndVisible();
 
-              inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
-            }
+          if ( thisInducingAndVisible && otherInducingAndVisible ) {
+
+            // if both inducing charge, combine induced charge description with "both balloons"
+            inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( this.balloonModel, wallVisible );
           }
-          else {
+          else if ( !thisInducingAndVisible && !otherInducingAndVisible ) {
+
+            // neither balloon is inducing charge, just use normal induced charge description
             inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
           }
+          else {
+            assert && assert( this.balloonModel.inducingChargeAndVisible() !== this.balloonModel.other.inducingChargeAndVisible() );
 
-          // wrap induced charge string with punctuation
-          inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
+            // only one balloon is inducing charge, describe whichever one is currently inducing charge
+            let inducingBalloon;
+            let balloonLabel;
+            if ( this.balloonModel.inducingChargeAndVisible() ) {
+              inducingBalloon = this.balloonModel;
+              balloonLabel = this.accessibleName;
+            }
+            else {
+              inducingBalloon = this.balloonModel.other;
+              balloonLabel = this.otherAccessibleName;
+            }
 
-          chargeString = StringUtils.fillIn( wallRubAllPatternString, {
-            inducedCharge: inducedChargeString
+            inducedChargeString = WallDescriber.getInducedChargeDescription( inducingBalloon, balloonLabel, wallVisible );
+          }
+        }
+        else {
+          inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
+        }
+
+        // wrap induced charge string with punctuation
+        inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
+
+        chargeString = StringUtils.fillIn( wallRubAllPatternString, {
+          inducedCharge: inducedChargeString
+        } );
+      }
+      else {
+        let wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, this.model.getBalloonsAdjacent(), wallVisible, shownCharges );
+        let balloonChargeString = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
+
+        // balloon charge doesn't include punctuation
+        balloonChargeString = StringUtils.fillIn( singleStatementPatternString, {
+          statement: balloonChargeString
+        } );
+
+        wallChargeString = StringUtils.fillIn( singleStatementPatternString, {
+          statement: wallChargeString
+        } );
+
+        // if balloons are adjacent, the relative charge description for both balloons must be included
+        if ( this.model.getBalloonsAdjacent() ) {
+          balloonChargeString = this.chargeDescriber.getCombinedRelativeChargeDescription();
+          balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
+
+          chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
+            balloonCharge: balloonChargeString,
+            wallCharge: wallChargeString
           } );
         }
         else {
-          let wallChargeString = WallDescriber.getWallChargeDescriptionWithLabel( this.model.yellowBalloon, this.model.greenBalloon, this.model.getBalloonsAdjacent(), wallVisible, shownCharges );
-          let balloonChargeString = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
-
-          // balloon charge doesn't include punctuation
-          balloonChargeString = StringUtils.fillIn( singleStatementPatternString, {
-            statement: balloonChargeString
+          chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
+            balloonCharge: balloonChargeString,
+            wallCharge: wallChargeString
           } );
-
-          wallChargeString = StringUtils.fillIn( singleStatementPatternString, {
-            statement: wallChargeString
-          } );
-
-          // if balloons are adjacent, the relative charge description for both balloons must be included
-          if ( this.model.getBalloonsAdjacent() ) {
-            balloonChargeString = this.chargeDescriber.getCombinedRelativeChargeDescription();
-            balloonChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: balloonChargeString } );
-
-            chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
-              balloonCharge: balloonChargeString,
-              wallCharge: wallChargeString
-            } );
-          }
-          else {
-            chargeString = StringUtils.fillIn( wallRubDiffPatternString, {
-              balloonCharge: balloonChargeString,
-              wallCharge: wallChargeString
-            } );
-          }
         }
-
-        // combine charge and position portions of the description for 'all' and 'diff' charge views
-        descriptionString = StringUtils.fillIn( wallRubPatternString, {
-          position: atPositionString,
-          charge: chargeString
-        } );
       }
 
-      return descriptionString;
-    },
-
-    /**
-     * Get an alert that describes the rubbing interaction, with a reminder that the wall has many pairs of charges.
-     * Will return something like:
-     * "At upper wall. No transfer of charge. In upper wall, no change in charges. Wall has many pairs of negative
-     * and positive charges."
-     *
-     * @returns {string}
-     */
-    getWallRubbingDescriptionWithChargePairs: function() {
-      return StringUtils.fillIn( wallRubbingWithPairsPattern, {
-        rubbingAlert: this.getWallRubbingDescription()
+      // combine charge and position portions of the description for 'all' and 'diff' charge views
+      descriptionString = StringUtils.fillIn( wallRubPatternString, {
+        position: atPositionString,
+        charge: chargeString
       } );
-    },
+    }
 
-    /**
-     * Get the description when the balloon has picked up the last charge on the sweater.
-     * Dependent on the charge view.
-     *
-     * @returns {string}
-     */
-    getLastChargePickupDescription: function() {
-      const shownCharges = this.showChargesProperty.get();
-      const charge = this.balloonModel.chargeProperty.get();
+    return descriptionString;
+  },
 
-      const sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );
-      const balloonChargeString = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
+  /**
+   * Get an alert that describes the rubbing interaction, with a reminder that the wall has many pairs of charges.
+   * Will return something like:
+   * "At upper wall. No transfer of charge. In upper wall, no change in charges. Wall has many pairs of negative
+   * and positive charges."
+   *
+   * @returns {string}
+   */
+  getWallRubbingDescriptionWithChargePairs: function() {
+    return StringUtils.fillIn( wallRubbingWithPairsPattern, {
+      rubbingAlert: this.getWallRubbingDescription()
+    } );
+  },
 
-      return StringUtils.fillIn( lastChargePickedUpPatternString, {
-        sweater: sweaterChargeString,
-        balloon: balloonChargeString
+  /**
+   * Get the description when the balloon has picked up the last charge on the sweater.
+   * Dependent on the charge view.
+   *
+   * @returns {string}
+   */
+  getLastChargePickupDescription: function() {
+    const shownCharges = this.showChargesProperty.get();
+    const charge = this.balloonModel.chargeProperty.get();
+
+    const sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );
+    const balloonChargeString = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
+
+    return StringUtils.fillIn( lastChargePickedUpPatternString, {
+      sweater: sweaterChargeString,
+      balloon: balloonChargeString
+    } );
+  },
+
+  /**
+   * Get a description for when a balloon is added to the play area. Will change depending on whether balloon has been
+   * successfully moved and whether the two balloons are adjacent to each other. Will return something like
+   * "Green balloon added to play area" or
+   * "Green balloon added. Sticking to left shoulder of sweater." or
+   * "Green balloon added. On left side of play area, next to yellow balloon."
+   *
+   * @returns {string}
+   */
+  getVisibilityChangedDescription: function() {
+    let description;
+    const positionProperty = this.balloonModel.positionProperty;
+    const visible = this.balloonModel.isVisibleProperty.get();
+
+    if ( !visible ) {
+
+      // if removed, simply notify removal
+      description = StringUtils.fillIn( balloonRemovedPatternString, {
+        balloonLabel: this.accessibleName
       } );
-    },
+    }
+    else {
+      if ( positionProperty.get().equals( positionProperty.initialValue ) ) {
 
-    /**
-     * Get a description for when a balloon is added to the play area. Will change depending on whether balloon has been
-     * successfully moved and whether the two balloons are adjacent to each other. Will return something like
-     * "Green balloon added to play area" or
-     * "Green balloon added. Sticking to left shoulder of sweater." or
-     * "Green balloon added. On left side of play area, next to yellow balloon."
-     *
-     * @returns {string}
-     */
-    getVisibilityChangedDescription: function() {
-      let description;
-      const positionProperty = this.balloonModel.positionProperty;
-      const visible = this.balloonModel.isVisibleProperty.get();
-
-      if ( !visible ) {
-
-        // if removed, simply notify removal
-        description = StringUtils.fillIn( balloonRemovedPatternString, {
+        // if add at initial position, generic string
+        description = StringUtils.fillIn( balloonAddedPatternString, {
           balloonLabel: this.accessibleName
         } );
       }
       else {
-        if ( positionProperty.get().equals( positionProperty.initialValue ) ) {
 
-          // if add at initial position, generic string
-          description = StringUtils.fillIn( balloonAddedPatternString, {
-            balloonLabel: this.accessibleName
-          } );
+        // if not at initial position, include attractive state and position
+        description = StringUtils.fillIn( balloonAddedWithPositionPatternString, {
+          balloonLabel: this.accessibleName,
+          position: this.movementDescriber.getAttractiveStateAndPositionDescription()
+        } );
+      }
+    }
+
+    return description;
+  },
+
+  /**
+   * Step the describer, driving all alerts that describe interactions with the balloon and its independent
+   * movement. It also describes lack of movement or interaction, which requires polling. Rather than implement
+   * portions of this with polling and other portions with Property observers, it was more straight forward
+   * to implement everything in this step function. The alternative distributed the implementation across several
+   * functions, it is easier to manage here. The sacrifice is that we have to track values we care about before and
+   * after each step.
+   *
+   * Adding each of these in the step function also lets us directly control the order of these alerts. This is
+   * better than having Property listeners that might get called in an undesirable order.
+   *
+   * @public
+   */
+  step: function( dt ) {
+
+    // for readability
+    let utterance = '';
+    const model = this.balloonModel;
+
+    // grab next values to describe
+    const nextVelocity = model.velocityProperty.get();
+    const nextDragVelocity = model.dragVelocityProperty.get();
+    const nextPosition = model.positionProperty.get();
+    const nextVisible = model.isVisibleProperty.get();
+    const nextTouchingWall = model.touchingWallProperty.get();
+    const nextIsDragged = model.isDraggedProperty.get();
+    const nextWallVisible = this.wall.isVisibleProperty.get();
+
+    // update timers that determine the next time certain alerts should be announced
+    this.timeSinceChargeAlert += dt * 1000;
+    if ( !model.isDraggedProperty.get() ) { this.timeSinceReleaseAlert += dt * 1000; }
+
+    // alerts that might stem from changes to balloon velocity (independent movement)
+    if ( !nextVelocity.equals( this.describedVelocity ) ) {
+      if ( nextVelocity.equals( Vector2.ZERO ) ) {
+        if ( model.isDraggedProperty.get() ) {
+          if ( model.onSweater() || model.touchingWall() ) {
+
+            // while dragging, just attractive state and position
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
+          }
+        }
+        else if ( model.onSweater() ) {
+
+          // if we stop on the sweater, announce that we are sticking to it
+          phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
         }
         else {
 
-          // if not at initial position, include attractive state and position
-          description = StringUtils.fillIn( balloonAddedWithPositionPatternString, {
-            balloonLabel: this.accessibleName,
-            position: this.movementDescriber.getAttractiveStateAndPositionDescription()
-          } );
+          // if we stop along anywhere else in the play area, describe that movement has stopped
+          // special case: if the balloon is touching the wall for the first time, don't describe this because
+          // the section of this function observing that state will describe this
+          if ( nextTouchingWall === this.describedTouchingWall ) {
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
+          }
         }
       }
+    }
 
-      return description;
-    },
+    // alerts that might come from changes to balloon drag velocity
+    if ( !nextDragVelocity.equals( this.describedDragVelocity ) ) {
 
-    /**
-     * Step the describer, driving all alerts that describe interactions with the balloon and its independent
-     * movement. It also describes lack of movement or interaction, which requires polling. Rather than implement
-     * portions of this with polling and other portions with Property observers, it was more straight forward
-     * to implement everything in this step function. The alternative distributed the implementation across several
-     * functions, it is easier to manage here. The sacrifice is that we have to track values we care about before and
-     * after each step.
-     *
-     * Adding each of these in the step function also lets us directly control the order of these alerts. This is
-     * better than having Property listeners that might get called in an undesirable order.
-     *
-     * @public
-     */
-    step: function( dt ) {
+      // if we start from zero, we are initiating a drag - update the charge on start for this case and start
+      // describing wall rubs
+      if ( this.describedDragVelocity.equals( Vector2.ZERO ) ) {
+        this.describeWallRub = true;
+      }
 
-      // for readability
-      let utterance = '';
-      const model = this.balloonModel;
+      // if the drag velocity is zero, describe how the position has changed since the last drag - this is preferable
+      // to alerting every position because 1) it reduces the number of alerts that occur and 2) it waits until
+      // a user has finished interacting to make an announcement, and AT produce garbled/interrupted output if
+      // user makes an interaction while a new alert is being announced
+      if ( model.isDraggedProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) ) {
 
-      // grab next values to describe
-      const nextVelocity = model.velocityProperty.get();
-      const nextDragVelocity = model.dragVelocityProperty.get();
-      const nextPosition = model.positionProperty.get();
-      const nextVisible = model.isVisibleProperty.get();
-      const nextTouchingWall = model.touchingWallProperty.get();
-      const nextIsDragged = model.isDraggedProperty.get();
-      const nextWallVisible = this.wall.isVisibleProperty.get();
+        // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new position)
+        if ( !model.jumping ) {
 
-      // update timers that determine the next time certain alerts should be announced
-      this.timeSinceChargeAlert += dt * 1000;
-      if ( !model.isDraggedProperty.get() ) { this.timeSinceReleaseAlert += dt * 1000; }
+          // how much balloon has moved in a single drag
+          const dragDelta = nextPosition.minus( this.oldDragPosition );
 
-      // alerts that might stem from changes to balloon velocity (independent movement)
-      if ( !nextVelocity.equals( this.describedVelocity ) ) {
-        if ( nextVelocity.equals( Vector2.ZERO ) ) {
-          if ( model.isDraggedProperty.get() ) {
-            if ( model.onSweater() || model.touchingWall() ) {
+          // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new description next
+          // time we move the balloon
+          this.timeSinceChargeAlert = CHARGE_DESCRIPTION_REFRESH_RATE;
 
-              // while dragging, just attractive state and position
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
-            }
+          // if in the play area, information about movement through the play area
+          const inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
+          const onSweater = model.onSweater();
+          const touchingWall = model.touchingWall();
+          if ( !inLandmark && !onSweater && !touchingWall ) {
+            utterance = this.movementDescriber.getKeyboardMovementAlert();
           }
-          else if ( model.onSweater() ) {
+          else if ( inLandmark ) {
 
-            // if we stop on the sweater, announce that we are sticking to it
-            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
+            // just announce landmark as we move through it
+            utterance = this.movementDescriber.getLandmarkDragDescription();
+          }
+          else if ( model.touchingWall() && this.describeWallRub ) {
+            utterance = this.getWallRubbingDescription();
+          }
+
+          if ( utterance ) {
+
+            // assign an id so that we only announce the most recent alert in the utteranceQueue
+            this.movementUtterance.alert = utterance;
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementUtterance );
+          }
+
+          // describe the change in induced charge due to balloon dragging
+          if ( this.chargeDescriber.describeInducedChargeChange() ) {
+            utterance = '';
+            const wallVisible = this.wall.isVisibleProperty.get();
+
+            assert && assert( this.balloonModel.isCharged(), 'balloon should be charged to describe induced charge' );
+
+            // if there is purely vertical motion, do not include information about amount of charge displacement
+            if ( dragDelta.x === 0 ) {
+              utterance = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, this.accessibleName, wallVisible );
+            }
+            else {
+              utterance = this.chargeDescriber.getInducedChargeChangeDescription();
+            }
+
+            this.inducedChargeChangeUtterance.alert = utterance;
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
+          }
+
+          // update flags that indicate which alerts should come next
+          this.rubAlertDirty = true;
+        }
+
+        // if velocity has just become zero after a jump, we just completed a jumping interaction
+        if ( model.jumping ) {
+          model.jumping = false;
+        }
+
+        // update the old dragging position for next time, copy so we can compare by value
+        this.oldDragPosition = nextPosition.copy();
+      }
+    }
+
+    // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
+    // currently touching the balloon since the jump will generate a unique alert
+    if ( this.describedTouchingWall !== nextTouchingWall ) {
+      if ( !model.jumping ) {
+        if ( nextTouchingWall ) {
+          if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
+            this.describeWallRub = false;
           }
           else {
 
-            // if we stop along anywhere else in the play area, describe that movement has stopped
-            // special case: if the balloon is touching the wall for the first time, don't describe this because
-            // the section of this function observing that state will describe this
-            if ( nextTouchingWall === this.describedTouchingWall ) {
+            // generates a description of how the balloon interacts with the wall
+            if ( nextVisible ) {
               phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
             }
           }
         }
       }
+    }
 
-      // alerts that might come from changes to balloon drag velocity
-      if ( !nextDragVelocity.equals( this.describedDragVelocity ) ) {
+    // any alerts that might be generated when the balloon is picked up and released
+    if ( this.describedIsDragged !== nextIsDragged ) {
+      utterance = '';
 
-        // if we start from zero, we are initiating a drag - update the charge on start for this case and start
-        // describing wall rubs
-        if ( this.describedDragVelocity.equals( Vector2.ZERO ) ) {
-          this.describeWallRub = true;
-        }
+      if ( nextIsDragged ) {
+        utterance = this.movementDescriber.getGrabbedAlert();
+        phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
 
-        // if the drag velocity is zero, describe how the position has changed since the last drag - this is preferable
-        // to alerting every position because 1) it reduces the number of alerts that occur and 2) it waits until
-        // a user has finished interacting to make an announcement, and AT produce garbled/interrupted output if
-        // user makes an interaction while a new alert is being announced
-        if ( model.isDraggedProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) ) {
+        // we have been picked up successfully, start describing direction
+        this.describeDirection = true;
+      }
+      else {
 
-          // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new position)
-          if ( !model.jumping ) {
-
-            // how much balloon has moved in a single drag
-            const dragDelta = nextPosition.minus( this.oldDragPosition );
-
-            // when we complete a keyboard drag, set timer to refresh rate so that we trigger a new description next
-            // time we move the balloon
-            this.timeSinceChargeAlert = CHARGE_DESCRIPTION_REFRESH_RATE;
-
-            // if in the play area, information about movement through the play area
-            const inLandmark = PlayAreaMap.inLandmarkColumn( model.getCenter() );
-            const onSweater = model.onSweater();
-            const touchingWall = model.touchingWall();
-            if ( !inLandmark && !onSweater && !touchingWall ) {
-              utterance = this.movementDescriber.getKeyboardMovementAlert();
-            }
-            else if ( inLandmark ) {
-
-              // just announce landmark as we move through it
-              utterance = this.movementDescriber.getLandmarkDragDescription();
-            }
-            else if ( model.touchingWall() && this.describeWallRub ) {
-              utterance = this.getWallRubbingDescription();
-            }
-
-            if ( utterance ) {
-
-              // assign an id so that we only announce the most recent alert in the utteranceQueue
-              this.movementUtterance.alert = utterance;
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementUtterance );
-            }
-
-            // describe the change in induced charge due to balloon dragging
-            if ( this.chargeDescriber.describeInducedChargeChange() ) {
-              utterance = '';
-              const wallVisible = this.wall.isVisibleProperty.get();
-
-              assert && assert( this.balloonModel.isCharged(), 'balloon should be charged to describe induced charge' );
-
-              // if there is purely vertical motion, do not include information about amount of charge displacement
-              if ( dragDelta.x === 0 ) {
-                utterance = WallDescriber.getInducedChargeDescriptionWithNoAmount( model, this.accessibleName, wallVisible );
-              }
-              else {
-                utterance = this.chargeDescriber.getInducedChargeChangeDescription();
-              }
-
-              this.inducedChargeChangeUtterance.alert = utterance;
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.inducedChargeChangeUtterance );
-            }
-
-            // update flags that indicate which alerts should come next
-            this.rubAlertDirty = true;
-          }
-
-          // if velocity has just become zero after a jump, we just completed a jumping interaction
-          if ( model.jumping ) {
-            model.jumping = false;
-          }
-
-          // update the old dragging position for next time, copy so we can compare by value
-          this.oldDragPosition = nextPosition.copy();
-        }
+        // don't describe direction until initial release description happens
+        this.describeDirection = false;
       }
 
-      // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
-      // currently touching the balloon since the jump will generate a unique alert
-      if ( this.describedTouchingWall !== nextTouchingWall ) {
-        if ( !model.jumping ) {
-          if ( nextTouchingWall ) {
-            if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.getWallRubbingDescriptionWithChargePairs() );
-              this.describeWallRub = false;
-            }
-            else {
+      // reset flags that track description content
+      this.initialMovementDescribed = false;
+    }
 
-              // generates a description of how the balloon interacts with the wall
-              if ( nextVisible ) {
-                phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.movementDescriber.getMovementStopsDescription() );
-              }
-            }
-          }
-        }
-      }
+    // any balloon specific alerts that might come from changes to wall visibility
+    if ( this.describedWallVisible !== nextWallVisible ) {
 
-      // any alerts that might be generated when the balloon is picked up and released
-      if ( this.describedIsDragged !== nextIsDragged ) {
-        utterance = '';
-
-        if ( nextIsDragged ) {
-          utterance = this.movementDescriber.getGrabbedAlert();
-          phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
-
-          // we have been picked up successfully, start describing direction
-          this.describeDirection = true;
-        }
-        else {
-
-          // don't describe direction until initial release description happens
-          this.describeDirection = false;
-        }
-
-        // reset flags that track description content
+      // if the wall is removed while a balloon is touching the wall, we will need to describe how the balloon
+      // responds, just like a release
+      if ( !nextWallVisible && this.describedTouchingWall ) {
         this.initialMovementDescribed = false;
       }
+    }
 
-      // any balloon specific alerts that might come from changes to wall visibility
-      if ( this.describedWallVisible !== nextWallVisible ) {
+    // any changes to position from independent balloon movement (not dragging)
+    if ( nextVisible && !nextIsDragged ) {
+      utterance = '';
 
-        // if the wall is removed while a balloon is touching the wall, we will need to describe how the balloon
-        // responds, just like a release
-        if ( !nextWallVisible && this.describedTouchingWall ) {
-          this.initialMovementDescribed = false;
-        }
-      }
+      if ( !this.initialMovementDescribed ) {
+        if ( model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
 
-      // any changes to position from independent balloon movement (not dragging)
-      if ( nextVisible && !nextIsDragged ) {
-        utterance = '';
+          this.initialMovementDescribed = true;
 
-        if ( !this.initialMovementDescribed ) {
-          if ( model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+          // get the initial alert describing balloon release
+          if ( !nextVelocity.equals( Vector2.ZERO ) ) {
 
-            this.initialMovementDescribed = true;
-
-            // get the initial alert describing balloon release
-            if ( !nextVelocity.equals( Vector2.ZERO ) ) {
-
-              utterance = this.movementDescriber.getInitialReleaseDescription();
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
-
-              // after describing initial movement, continue to describe direction changes
-              this.describeDirection = true;
-            }
-            else if ( nextVelocity.equals( Vector2.ZERO ) ) {
-
-              // describe that the balloon was released and there was no resulting movement - but don't describe this
-              // when the balloon is first added to the play area
-              if ( !this.preventNoMovementAlert ) {
-                utterance = this.movementDescriber.getNoChangeReleaseDescription();
-                phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
-              }
-              this.preventNoMovementAlert = false;
-            }
-
-            // reset timer for release alert
-            this.timeSinceReleaseAlert = 0;
-          }
-        }
-        else if ( this.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
-
-          // if the balloon is moving slowly, alert a continuous movement description
-          if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
-            utterance = this.movementDescriber.getContinuousReleaseDescription();
+            utterance = this.movementDescriber.getInitialReleaseDescription();
             phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
 
-            // reset timer
-            this.timeSinceReleaseAlert = 0;
+            // after describing initial movement, continue to describe direction changes
+            this.describeDirection = true;
           }
-        }
-      }
+          else if ( nextVelocity.equals( Vector2.ZERO ) ) {
 
-      // announce any alert related to charge pickup (or lack of charge pickup) of the balloon
-      if ( this.timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
-        if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
-          if ( this.rubAlertDirty ) {
-            if ( nextIsDragged && model.onSweater() ) {
-              this.chargeUtterance.alert = this.getNoChargePickupDescription();
-              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.chargeUtterance );
+            // describe that the balloon was released and there was no resulting movement - but don't describe this
+            // when the balloon is first added to the play area
+            if ( !this.preventNoMovementAlert ) {
+              utterance = this.movementDescriber.getNoChangeReleaseDescription();
+              phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
             }
+            this.preventNoMovementAlert = false;
+          }
+
+          // reset timer for release alert
+          this.timeSinceReleaseAlert = 0;
+        }
+      }
+      else if ( this.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
+
+        // if the balloon is moving slowly, alert a continuous movement description
+        if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
+          utterance = this.movementDescriber.getContinuousReleaseDescription();
+          phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( utterance );
+
+          // reset timer
+          this.timeSinceReleaseAlert = 0;
+        }
+      }
+    }
+
+    // announce any alert related to charge pickup (or lack of charge pickup) of the balloon
+    if ( this.timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
+      if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
+        if ( this.rubAlertDirty ) {
+          if ( nextIsDragged && model.onSweater() ) {
+            this.chargeUtterance.alert = this.getNoChargePickupDescription();
+            phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( this.chargeUtterance );
           }
         }
-
-        this.alertNextPickup = true;
-        this.timeSinceChargeAlert = 0;
-        this.rubAlertDirty = false;
       }
 
-      // update variables for next step
-      this.describedVelocity = nextVelocity;
-      this.describedDragVelocity = nextDragVelocity;
-      this.describedPosition = nextPosition;
-      this.describedVisible = nextVisible;
-      this.describedTouchingWall = nextTouchingWall;
-      this.describedIsDragged = nextIsDragged;
-      this.describedWallVisible = nextWallVisible;
+      this.alertNextPickup = true;
+      this.timeSinceChargeAlert = 0;
+      this.rubAlertDirty = false;
     }
-  } );
+
+    // update variables for next step
+    this.describedVelocity = nextVelocity;
+    this.describedDragVelocity = nextDragVelocity;
+    this.describedPosition = nextPosition;
+    this.describedVisible = nextVisible;
+    this.describedTouchingWall = nextTouchingWall;
+    this.describedIsDragged = nextIsDragged;
+    this.describedWallVisible = nextWallVisible;
+  }
 } );

@@ -6,40 +6,36 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
+import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-  var BalloonDirectionEnum = {
-    LEFT: 'LEFT',
-    RIGHT: 'RIGHT',
-    UP: 'UP',
-    DOWN: 'DOWN',
-    UP_LEFT: 'UP_LEFT',
-    UP_RIGHT: 'UP_RIGHT',
-    DOWN_LEFT: 'DOWN_LEFT',
-    DOWN_RIGHT: 'DOWN_RIGHT',
+var BalloonDirectionEnum = {
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT',
+  UP: 'UP',
+  DOWN: 'DOWN',
+  UP_LEFT: 'UP_LEFT',
+  UP_RIGHT: 'UP_RIGHT',
+  DOWN_LEFT: 'DOWN_LEFT',
+  DOWN_RIGHT: 'DOWN_RIGHT',
 
-    /**
-     * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
-     *
-     * @param {string} direction - one of BalloonDirectionEnum
-     * @returns {Boolean}
-     */
-    isRelativeDirection: function( direction ) {
-      return direction === BalloonDirectionEnum.LEFT ||
-             direction === BalloonDirectionEnum.RIGHT ||
-             direction === BalloonDirectionEnum.UP ||
-             direction === BalloonDirectionEnum.DOWN;
-    }
-  };
+  /**
+   * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
+   *
+   * @param {string} direction - one of BalloonDirectionEnum
+   * @returns {Boolean}
+   */
+  isRelativeDirection: function( direction ) {
+    return direction === BalloonDirectionEnum.LEFT ||
+           direction === BalloonDirectionEnum.RIGHT ||
+           direction === BalloonDirectionEnum.UP ||
+           direction === BalloonDirectionEnum.DOWN;
+  }
+};
 
-  // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( BalloonDirectionEnum ); }
+// verify that enum is immutable, without the runtime penalty in production code
+if ( assert ) { Object.freeze( BalloonDirectionEnum ); }
 
-  balloonsAndStaticElectricity.register( 'BalloonDirectionEnum', BalloonDirectionEnum );
+balloonsAndStaticElectricity.register( 'BalloonDirectionEnum', BalloonDirectionEnum );
 
-  return BalloonDirectionEnum;
-} );
+export default BalloonDirectionEnum;

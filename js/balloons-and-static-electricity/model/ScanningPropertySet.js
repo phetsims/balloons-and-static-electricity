@@ -5,22 +5,19 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const balloonsAndStaticElectricity = require( 'BALLOONS_AND_STATIC_ELECTRICITY/balloonsAndStaticElectricity' );
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-  class ScanningPropertySet {
-    constructor() {
+class ScanningPropertySet {
+  constructor() {
 
-      // @public - is the finger over one of these objects?
-      this.yellowBalloonDetectedProperty = new BooleanProperty( false );
-      this.sweaterDetectedProperty = new BooleanProperty( false );
-      this.wallDetectedProperty = new BooleanProperty( false );
-    }
+    // @public - is the finger over one of these objects?
+    this.yellowBalloonDetectedProperty = new BooleanProperty( false );
+    this.sweaterDetectedProperty = new BooleanProperty( false );
+    this.wallDetectedProperty = new BooleanProperty( false );
   }
+}
 
-  return balloonsAndStaticElectricity.register( 'ScanningPropertySet', ScanningPropertySet );
-} );
+balloonsAndStaticElectricity.register( 'ScanningPropertySet', ScanningPropertySet );
+export default ScanningPropertySet;
