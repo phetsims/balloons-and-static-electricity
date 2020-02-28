@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * Controls vibration in balloons-and-static-electricity through use of tappi's vibrationManager.

@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * A node that provides an interaction cue for dragging the balloon in Balloons and Static Electricity. Includes arrow
