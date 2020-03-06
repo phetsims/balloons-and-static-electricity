@@ -104,7 +104,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     self.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
     const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-    phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alertDescription );
+    phet.joist.sim.utteranceQueue.addToBack( alertDescription );
   } );
 
   // Radio buttons related to charges
@@ -162,7 +162,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     }
 
     assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
-    phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( alertString );
+    phet.joist.sim.utteranceQueue.addToBack( alertString );
   } );
 
   // Radio buttons for selecting 1 vs 2 balloons
@@ -236,7 +236,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     }
 
     // alert to assistive technology
-    phet.joist.sim && phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+    phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
       balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
     } ) );
   };

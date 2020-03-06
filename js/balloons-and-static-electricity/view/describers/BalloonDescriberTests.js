@@ -10,21 +10,32 @@
 import Bounds2 from '../../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
+import UtteranceQueue from '../../../../../utterance-queue/js/UtteranceQueue.js';
 import balloonYellow from '../../../../images/balloon-yellow_png.js';
 import BASEConstants from '../../BASEConstants.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
 import BalloonNode from '../BalloonNode.js';
 
-QUnit.module( 'BalloonDescriberTests' );
-
 // create model and view for testing
 const layoutBounds = new Bounds2( 0, 0, 768, 504 );
 const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.ROOT.createTandem( 'model' ) );
 
-// create a wallNode for testing
-const balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {
-  labelContent: 'Yellow Balloon'
+let balloonNode = null;
+QUnit.module( 'BalloonDescriberTests', {
+  before: () => {
+
+    // BalloonDescriber uses many calls to utteranceQueue. This is to support testing
+    phet.joist = phet.joist || {};
+    phet.joist.sim = phet.joist.sim || {};
+    phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
+  },
+  after: () => delete phet.joist.sim.utteranceQueue,
+  beforeEach: () => {
+    balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {
+      labelContent: 'Yellow Balloon'
+    } );
+  }
 } );
 
 QUnit.test( 'Dynamic descriptions for PlayArea objects', function( assert ) {
