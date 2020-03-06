@@ -19,13 +19,16 @@ import WallNode from './WallNode.js';
 QUnit.module( 'BASESummaryNode', {
   before: () => {
 
-    // BalloonDescriber uses many calls to utteranceQueue. This is to support testing
+    // BASESummaryNode uses many calls to utteranceQueue. This is to support testing
     phet.joist = phet.joist || {};
     phet.joist.sim = phet.joist.sim || {};
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
     phet.joist.sim.supportsGestureA11y = false;
   },
-  after: () => delete phet.joist.sim.utteranceQueue
+  after: () => {
+    delete phet.joist.sim.utteranceQueue;
+    delete phet.joist.sim.supportsGestureA11y;
+  }
 } );
 
 QUnit.test( 'Summary tests', function( assert ) {

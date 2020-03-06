@@ -16,15 +16,19 @@ import BASEView from '../BASEView.js';
 import WallNode from '../WallNode.js';
 import WallDescriber from './WallDescriber.js';
 
-QUnit.module( 'WallDescriberTests', {
+QUnit.module( 'WallDescriber', {
   before: () => {
 
-    // BalloonDescriber uses many calls to utteranceQueue. This is to support testing
+    // WallDescriber uses many calls to utteranceQueue. This is to support testing
     phet.joist = phet.joist || {};
     phet.joist.sim = phet.joist.sim || {};
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
+    phet.joist.sim.supportsGestureA11y = false;
   },
-  after: () => delete phet.joist.sim.utteranceQueue
+  after: () => {
+    delete phet.joist.sim.utteranceQueue;
+    delete phet.joist.sim.supportsGestureA11y;
+  }
 } );
 
 QUnit.test( 'WallDescriber tests', function( assert ) {

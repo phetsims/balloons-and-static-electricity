@@ -22,15 +22,19 @@ const layoutBounds = new Bounds2( 0, 0, 768, 504 );
 const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.ROOT.createTandem( 'model' ) );
 
 let balloonNode = null;
-QUnit.module( 'BalloonDescriberTests', {
+QUnit.module( 'BalloonDescriber', {
   before: () => {
 
     // BalloonDescriber uses many calls to utteranceQueue. This is to support testing
     phet.joist = phet.joist || {};
     phet.joist.sim = phet.joist.sim || {};
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
+    phet.joist.sim.supportsGestureA11y = false;
   },
-  after: () => delete phet.joist.sim.utteranceQueue,
+  after: () => {
+    delete phet.joist.sim.utteranceQueue;
+    delete phet.joist.sim.supportsGestureA11y;
+  },
   beforeEach: () => {
     balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {
       labelContent: 'Yellow Balloon'
