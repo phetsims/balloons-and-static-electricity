@@ -33,7 +33,6 @@ SimLauncher.launch( function() {
       graphicArts: 'Sharon Siman-Tov',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
     },
-    accessibility: true,
     keyboardHelpNode: new BASEKeyboardHelpContent(),
 
     // prototype vibration in this sim - eventually, Sim may just create this
