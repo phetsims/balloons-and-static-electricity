@@ -16,7 +16,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 class BASEShapeHitDetector extends ShapeHitDetector {
 
   constructor( model, view, tandem ) {
-    super( view, tandem );
+    super( view );
 
     this.addShape( Shape.bounds( view.yellowBalloonNode.bounds ), model.scanningPropertySet.yellowBalloonDetectedProperty );
     this.addShape( Shape.bounds( model.sweater.bounds ), model.scanningPropertySet.sweaterDetectedProperty );
