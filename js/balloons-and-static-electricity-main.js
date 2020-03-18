@@ -10,7 +10,6 @@ import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import vibrationManager from '../../tappi/js/vibrationManager.js';
 import balloonsAndStaticElectricityStrings from './balloons-and-static-electricity-strings.js';
 import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
@@ -33,10 +32,7 @@ SimLauncher.launch( function() {
       graphicArts: 'Sharon Siman-Tov',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
     },
-    keyboardHelpNode: new BASEKeyboardHelpContent(),
-
-    // prototype vibration in this sim - eventually, Sim may just create this
-    vibrationManager: vibrationManager
+    keyboardHelpNode: new BASEKeyboardHelpContent()
   };
 
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );

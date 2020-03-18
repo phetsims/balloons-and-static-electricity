@@ -12,13 +12,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import inherit from '../../../../phet-core/js/inherit.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import vibrationManager from '../../../../tappi/js/vibrationManager.js';
-import VibrationChart from '../../../../tappi/js/view/VibrationChart.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -156,15 +153,6 @@ function BASEView( model, tandem ) {
   // init vib controller
   vibrationController.initialize( model );
 
-  if ( BASEQueryParameters.vibrationChart ) {
-    this.vibrationChart = new VibrationChart( vibrationManager.vibratingProperty, this.layoutBounds.width * 0.75, 75, {
-      labelFont: new PhetFont( 14 )
-    } );
-
-    this.addChild( this.vibrationChart );
-    this.vibrationChart.centerTop = this.layoutBounds.centerTop;
-  }
-
   if ( phet.chipper.queryParameters.vibration !== null ) {
     const hitDetector = new BASEShapeHitDetector( model, this, tandem.createTandem( 'hitDetector' ) );
     phet.joist.display.addInputListener( hitDetector );
@@ -195,10 +183,6 @@ inherit( ScreenView, BASEView, {
 
     // step the audio
     this.audioView && this.audioView.step( dt );
-
-    if ( this.vibrationChart ) {
-      this.vibrationChart.step( dt );
-    }
   },
 
   /**
