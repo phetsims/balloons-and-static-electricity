@@ -190,21 +190,24 @@ function ControlPanel( model, layoutBounds, tandem ) {
     tandem: oneBalloonIconTandem
   } );
 
-  const showSecondBalloonSelector = new TwoSceneSelectionNode(
-    model.greenBalloon.isVisibleProperty,
-    false,
-    true,
-    oneBalloonIcon,
-    twoBalloonIcon,
-    {
-      // TODO: (phet-io data stream) The 'fired' event for this tandem doesn't make sense with a 'value' of boolean in the parameters.
-      tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
-      maskFill: BASEConstants.backgroundColorProperty,
-      ariaLabel: twoBalloonExperimentLabelString,
-      containerTagName: 'div',
-      descriptionContent: twoBalloonExperimentDescriptionString
-    }
-  );
+  let showSecondBalloonSelector = null;
+  if ( !BASEQueryParameters.hideBalloonSwitch ) {
+    showSecondBalloonSelector = new TwoSceneSelectionNode(
+      model.greenBalloon.isVisibleProperty,
+      false,
+      true,
+      oneBalloonIcon,
+      twoBalloonIcon,
+      {
+        // TODO: (phet-io data stream) The 'fired' event for this tandem doesn't make sense with a 'value' of boolean in the parameters.
+        tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
+        maskFill: BASEConstants.backgroundColorProperty,
+        ariaLabel: twoBalloonExperimentLabelString,
+        containerTagName: 'div',
+        descriptionContent: twoBalloonExperimentDescriptionString
+      }
+    );
+  }
 
   // 'Reset Balloons' button
   const resetBalloonToggleNode = new BooleanToggleNode(
@@ -269,7 +272,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
 
   const balloonsPanel = new VBox( {
     spacing: 2,
-    children: [ showSecondBalloonSelector, resetBalloonButton ],
+    children: showSecondBalloonSelector ? [ showSecondBalloonSelector, resetBalloonButton ] : [ resetBalloonButton ],
 
     // a11y
     tagName: 'div',

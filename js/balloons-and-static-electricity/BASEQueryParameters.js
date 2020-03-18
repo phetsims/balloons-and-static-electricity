@@ -20,6 +20,9 @@ const BASEQueryParameters = QueryStringMachine.getAll( {
   // hide the radio button group responsible for toggling visibility of charges in the view
   hideChargeControls: { type: 'flag' },
 
+  // hide the scene selection button that adds a second balloon the to the play area
+  hideBalloonSwitch: { type: 'flag' },
+
   // show charged area on sweater
   showSweaterChargedArea: { type: 'flag' },
 
