@@ -29,11 +29,11 @@ QUnit.module( 'BalloonDescriber', {
     phet.joist = phet.joist || {};
     phet.joist.sim = phet.joist.sim || {};
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
-    phet.joist.sim.supportsGestureA11y = false;
+    phet.joist.sim.supportsGestureDescription = false;
   },
   after: () => {
     delete phet.joist.sim.utteranceQueue;
-    delete phet.joist.sim.supportsGestureA11y;
+    delete phet.joist.sim.supportsGestureDescription;
   },
   beforeEach: () => {
     balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {

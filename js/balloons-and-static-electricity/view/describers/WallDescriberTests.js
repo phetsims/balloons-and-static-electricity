@@ -23,11 +23,11 @@ QUnit.module( 'WallDescriber', {
     phet.joist = phet.joist || {};
     phet.joist.sim = phet.joist.sim || {};
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
-    phet.joist.sim.supportsGestureA11y = false;
+    phet.joist.sim.supportsGestureDescription = false;
   },
   after: () => {
     delete phet.joist.sim.utteranceQueue;
-    delete phet.joist.sim.supportsGestureA11y;
+    delete phet.joist.sim.supportsGestureDescription;
   }
 } );
 
