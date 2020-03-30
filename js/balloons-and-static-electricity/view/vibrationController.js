@@ -7,7 +7,7 @@
  */
 
 // import Property from '../../../../axon/js/Property.js';
-// import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
+import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
 // import VibrationPatterns from '../../../../tappi/js/VibrationPatterns.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 // import PlayAreaMap from '../model/PlayAreaMap.js';
@@ -19,37 +19,40 @@ class VibrationController {
    * @param {BASEModel} model
    */
   initialize( model ) {
-    // const paradigmChoice = phet.chipper.queryParameters.vibration;
-    // const vibrationManager = new VibrationManageriOS();
+    const paradigmChoice = phet.chipper.queryParameters.vibration;
+    const vibrationManager = new VibrationManageriOS();
+    vibrationManager.debug( 'initialized' );
+    console.log( 'initialize' );
 
-    // if ( paradigmChoice === 'objects' ) {
-    //   model.scanningPropertySet.sweaterDetectedProperty.lazyLink( detected => {
-    //     if ( detected ) {
-    //       vibrationManager.vibrateForever();
-    //     }
-    //     else {
-    //       vibrationManager.stop();
-    //     }
-    //   } );
+    if ( paradigmChoice === 'objects' ) {
+      model.scanningPropertySet.sweaterDetectedProperty.lazyLink( detected => {
+        if ( detected ) {
+          vibrationManager.debug( 'vibrating' );
+          vibrationManager.vibrateForever();
+        }
+        else {
+          vibrationManager.stop();
+        }
+      } );
 
-    //   model.scanningPropertySet.wallDetectedProperty.lazyLink( detected => {
-    //     if ( detected ) {
-    //       vibrationManager.vibrateAtFrequencyForever( 25 );
-    //     }
-    //     else {
-    //       vibrationManager.stop();
-    //     }
-    //   } );
+      model.scanningPropertySet.wallDetectedProperty.lazyLink( detected => {
+        if ( detected ) {
+          vibrationManager.vibrateAtFrequencyForever( 25 );
+        }
+        else {
+          vibrationManager.stop();
+        }
+      } );
 
-    //   model.scanningPropertySet.yellowBalloonDetectedProperty.lazyLink( detected => {
-    //     if ( detected ) {
-    //       vibrationManager.vibrateAtFrequencyForever( 50 );
-    //     }
-    //     else {
-    //       vibrationManager.stop();
-    //     }
-    //   } );
-    // }
+      model.scanningPropertySet.yellowBalloonDetectedProperty.lazyLink( detected => {
+        if ( detected ) {
+          vibrationManager.vibrateAtFrequencyForever( 50 );
+        }
+        else {
+          vibrationManager.stop();
+        }
+      } );
+    }
 
     // if ( paradigmChoice === 'interaction' ) {
     //   model.yellowBalloon.chargeProperty.link( chargeValue => {
