@@ -25,7 +25,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
-import balloonsAndStaticElectricityStrings from '../../balloons-and-static-electricity-strings.js';
+import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';

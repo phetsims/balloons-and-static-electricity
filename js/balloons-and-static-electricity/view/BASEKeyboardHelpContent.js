@@ -13,7 +13,7 @@ import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/K
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import SpaceKeyNode from '../../../../scenery-phet/js/keyboard/SpaceKeyNode.js';
-import balloonsAndStaticElectricityStrings from '../../balloons-and-static-electricity-strings.js';
+import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 

@@ -10,7 +10,7 @@ import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricityStrings from './balloons-and-static-electricity-strings.js';
+import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
 import BASEKeyboardHelpContent from './balloons-and-static-electricity/view/BASEKeyboardHelpContent.js';
