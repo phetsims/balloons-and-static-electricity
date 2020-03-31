@@ -4,13 +4,14 @@
  * Controls vibration in balloons-and-static-electricity through use of tappi's vibrationManager.
  *
  * @author Jen Tennison
+ * @author Jesse Greenberg
  */
 
-// import Property from '../../../../axon/js/Property.js';
+import Property from '../../../../axon/js/Property.js';
 import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
-// import VibrationPatterns from '../../../../tappi/js/VibrationPatterns.js';
+import VibrationPatterns from '../../../../tappi/js/VibrationPatterns.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-// import PlayAreaMap from '../model/PlayAreaMap.js';
+import PlayAreaMap from '../model/PlayAreaMap.js';
 
 class VibrationController {
   constructor() {}
@@ -21,13 +22,10 @@ class VibrationController {
   initialize( model ) {
     const paradigmChoice = phet.chipper.queryParameters.vibration;
     const vibrationManager = new VibrationManageriOS();
-    vibrationManager.debug( 'initialized' );
-    console.log( 'initialize' );
 
     if ( paradigmChoice === 'objects' ) {
       model.scanningPropertySet.sweaterDetectedProperty.lazyLink( detected => {
         if ( detected ) {
-          vibrationManager.debug( 'vibrating' );
           vibrationManager.vibrateForever();
         }
         else {
@@ -54,93 +52,91 @@ class VibrationController {
       } );
     }
 
-    // if ( paradigmChoice === 'interaction' ) {
-    //   model.yellowBalloon.chargeProperty.link( chargeValue => {
-    //     if ( chargeValue < 0 ) {
-    //       vibrationManager.startTimedVibrate( 250, VibrationPatterns.HZ_10 );
-    //     }
-    //   } );
-    // }
+    if ( paradigmChoice === 'interaction' ) {
+      model.yellowBalloon.chargeProperty.link( chargeValue => {
+        if ( chargeValue < 0 ) {
+          vibrationManager.vibrateAtFrequency( .250, 50 );
+        }
+      } );
+    }
 
-    // if ( paradigmChoice === 'state' ) {
-    //   // constant buzz depending on charges present on balloon
-    //   model.yellowBalloon.chargeProperty.link( chargeValue => {
-    //     if ( chargeValue < 0 && chargeValue >= -10 ) {
-    //       vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
-    //     }
-    //     else if ( chargeValue < -10 ) {
-    //       vibrationManager.startVibrate( VibrationPatterns.HZ_25 );
-    //     }
-    //   } );
-    // }
+    if ( paradigmChoice === 'manipulation' ) {
 
-    // if ( paradigmChoice === 'manipulation' ) {
+      // 250 ms pulse when finger goes over the balloon
+      model.scanningPropertySet.yellowBalloonDetectedProperty.link( detected => {
+        if ( detected ) {
 
-    //   // 250 ms pulse when finger goes over the balloon
-    //   model.scanningPropertySet.yellowBalloonDetectedProperty.link( detected => {
-    //     if ( detected ) {
-    //       vibrationManager.startTimedVibrate( 250 );
-    //     }
-    //   } );
+          // TODO: The swift VibrationManager doesn't vibrate for this long, come back to this
+          // and make sure that it is working. Also, since the vibration lasts ~2 seconds, it
+          // overrides the frequency below. Remove for now.
+          // vibrationManager.vibrate( 0.25 );
+        }
+      } );
 
-    //   // continuous vibration for as long as the balloon is grabbed
-    //   model.yellowBalloon.isDraggedProperty.link( isDragged => {
-    //     if ( isDragged ) {
+      // continuous vibration for as long as the balloon is grabbed
+      model.yellowBalloon.isDraggedProperty.link( isDragged => {
+        if ( isDragged ) {
+          vibrationManager.vibrateAtFrequencyForever( 50 );
+        }
+        else {
+          vibrationManager.stop();
+        }
+      } );
+    }
 
-    //       // TODO: We need to support faster vibrations, changes in tappi coming to allow this, when that is done
-    //       // this should change to a 50 hz vibration.
-    //       vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
-    //     }
-    //     else {
-    //       vibrationManager.stopVibrate();
-    //     }
-    //   } );
-    // }
+    // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback
+    // based on the position of the balloon in relation to other objects.
+    // TODO: For some reason, this paradigm has poor performance and takes ~10 seconds for vibration to begin
+    if ( paradigmChoice === 'result' ) {
+      const yellowBalloon = model.yellowBalloon;
 
-    // // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback
-    // // based on the position of the balloon in relation to other objects.
-    // if ( paradigmChoice === 'result' ) {
-    //   const yellowBalloon = model.yellowBalloon;
+      // the vibration needs to update with the state of these Properties
+      const resultProperties = [
+        yellowBalloon.playAreaColumnProperty,
+        yellowBalloon.onSweaterProperty,
+        yellowBalloon.isDraggedProperty
+      ];
+      Property.multilink( resultProperties, ( column, onSweater, isDragged ) => {
+        if ( isDragged ) {
+          if ( onSweater ) {
 
-    //   // the vibration needs to update with the state of these Properties
-    //   const resultProperties = [
-    //     yellowBalloon.playAreaColumnProperty,
-    //     yellowBalloon.onSweaterProperty,
-    //     yellowBalloon.isDraggedProperty
-    //   ];
-    //   Property.multilink( resultProperties, ( column, onSweater, isDragged ) => {
-    //     if ( isDragged ) {
-    //       if ( onSweater ) {
+            // if dragging on the sweater, begin a persistent vibration
+            vibrationManager.vibrateAtFrequencyForever( 2.5 ); // TODO: 200 hz?
+          }
+          else if ( yellowBalloon.isCharged() ) {
 
-    //         // if dragging on the sweater, begin a persistent vibration
-    //         vibrationManager.startVibrate();
-    //       }
-    //       else if ( yellowBalloon.isCharged() ) {
+            // otherwise, pattern dependent on how close balloon is to the sweater and wall
+            const columnRange = PlayAreaMap.COLUMN_RANGES[ column ];
 
-    //         // otherwise, pattern dependent on how close balloon is to the sweater and wall
-    //         const columnRange = PlayAreaMap.COLUMN_RANGES[ column ];
+            if ( columnRange === PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA ) {
 
-    //         if ( columnRange === PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA ) {
-    //           vibrationManager.startVibrate( VibrationPatterns.HZ_10 );
-    //         }
-    //         else if ( columnRange === PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA ) {
-    //           vibrationManager.startVibrate( VibrationPatterns.HZ_25 );
-    //         }
-    //         else if ( columnRange === PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA ) {
-    //           vibrationManager.startVibrate( VibrationPatterns.HZ_5 );
-    //         }
-    //       }
-    //       else {
-    //         vibrationManager.stopVibrate();
-    //       }
-    //     }
-    //     else {
+              // TODO: Is this 10 hz?
+              vibrationManager.vibrateAtFrequencyForever( 50 );
+            }
+            else if ( columnRange === PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA ) {
 
-    //       // stop all vibration upon release
-    //       vibrationManager.stopVibrate();
-    //     }
-    //   } );
-    // }
+              // TODO: is this 25 hz?
+              vibrationManager.vibrateAtFrequencyForever( 25 );
+            }
+            else if ( columnRange === PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA ) {
+              vibrationManager.vibrateWithCustomPatternForever( VibrationPatterns.HEARTBEAT );
+            }
+          }
+          else {
+            vibrationManager.stop();
+          }
+        }
+        else {
+
+          // stop all vibration upon release
+          vibrationManager.stop();
+        }
+      } );
+    }
+
+
+    // TODO: Interaction changes. If we want to buzz per electron pickup, we need to resolve
+    // the isue where VirationManager.swift doesn't support exact durations
   }
 }
 
