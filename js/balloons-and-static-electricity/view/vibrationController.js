@@ -12,6 +12,7 @@ import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
 import VibrationPatterns from '../../../../tappi/js/VibrationPatterns.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
+import timer from '../../../../axon/js/timer.js';
 
 class VibrationController {
   constructor() {}
@@ -62,21 +63,15 @@ class VibrationController {
 
     if ( paradigmChoice === 'manipulation' ) {
 
-      // 250 ms pulse when finger goes over the balloon
-      model.scanningPropertySet.yellowBalloonDetectedProperty.link( detected => {
-        if ( detected ) {
-
-          // TODO: The swift VibrationManager doesn't vibrate for this long, come back to this
-          // and make sure that it is working. Also, since the vibration lasts ~2 seconds, it
-          // overrides the frequency below. Remove for now.
-          // vibrationManager.vibrate( 0.25 );
-        }
-      } );
-
       // continuous vibration for as long as the balloon is grabbed
       model.yellowBalloon.isDraggedProperty.link( isDragged => {
         if ( isDragged ) {
-          vibrationManager.vibrateAtFrequencyForever( 50 );
+
+          vibrationManager.vibrate( 0.25 );
+
+          timer.setTimeout( () => {
+            vibrationManager.vibrateAtFrequencyForever( 50 );
+          }, 250 );
         }
         else {
           vibrationManager.stop();
