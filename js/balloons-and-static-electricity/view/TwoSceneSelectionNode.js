@@ -100,7 +100,7 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
     // tandem support
     tandem: Tandem.REQUIRED,
 
-    // a11y
+    // pdom
     tagName: 'input',
     inputType: 'checkbox',
     appendDescription: true

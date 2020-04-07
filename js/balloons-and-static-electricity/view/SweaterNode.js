@@ -34,7 +34,7 @@ function SweaterNode( model, tandem ) {
   Node.call( this, {
     pickable: false,
 
-    // a11y
+    // pdom
     tagName: 'div', // sweater is just a div
     labelTagName: 'h3', // label is identified as a heading of level 3
     labelContent: sweaterLabelString
@@ -113,7 +113,7 @@ function SweaterNode( model, tandem ) {
     }
   };
 
-  // a11y - construct a type that manages descriptions depending on the state of the model
+  // pdom - construct a type that manages descriptions depending on the state of the model
   const sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
   Property.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], function( showCharges, charge ) {

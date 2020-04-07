@@ -197,7 +197,7 @@ function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibl
     self.preventNoMovementAlert = true;
   } );
 
-  // a11y - if we enter/leave the sweater announce that immediately
+  // pdom - if we enter/leave the sweater announce that immediately
   balloon.onSweaterProperty.link( function( onSweater ) {
     if ( balloon.isDraggedProperty.get() ) {
       getUtteranceQueue().addToBack( self.movementDescriber.getOnSweaterString( onSweater ) );

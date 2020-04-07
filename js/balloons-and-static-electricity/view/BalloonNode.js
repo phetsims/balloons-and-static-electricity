@@ -36,7 +36,7 @@ import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
 
-// a11y - critical x positions for the balloon
+// pdom - critical x positions for the balloon
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
@@ -61,7 +61,7 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
   options = merge( {
     cursor: 'pointer',
 
-    // a11y - this node will act as a container for more accessible content, its children will implement
+    // pdom - this node will act as a container for more accessible content, its children will implement
     // most of the keyboard navigation
     containerTagName: 'div',
     tagName: 'div',
@@ -79,7 +79,7 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
   this.model = model;
   this.globalModel = globalModel;
 
-  // a11y - a type that generates descriptions for the balloon
+  // pdom - a type that generates descriptions for the balloon
   this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
 
   // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
@@ -200,10 +200,10 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
     }
   } );
 
-  // a11y
+  // pdom
   balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
 
-  // a11y - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
+  // pdom - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
   // description for assistive technology
   const updateAccessibleDescription = function() {
     self.descriptionContent = self.describer.getBalloonDescription( model );

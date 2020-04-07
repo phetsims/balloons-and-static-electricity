@@ -77,12 +77,12 @@ function WallNode( model, layoutHeight, tandem ) {
     minusChargesNode.visible = ( value === 'all' );
   } );
 
-  // a11y - when the balloons change position, update the description of the induced charge in the wall
+  // pdom - when the balloons change position, update the description of the induced charge in the wall
   const updateWallDescription = function() {
     self.setDescriptionContent( self.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
   };
 
-  // a11y - attach listeners to update descriptions of the wall, no need to dispose
+  // pdom - attach listeners to update descriptions of the wall, no need to dispose
   model.yellowBalloon.positionProperty.link( updateWallDescription );
   model.greenBalloon.positionProperty.link( updateWallDescription );
   model.greenBalloon.isVisibleProperty.link( updateWallDescription );

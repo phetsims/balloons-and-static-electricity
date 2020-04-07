@@ -92,7 +92,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     },
     tandem: tandem.createTandem( 'wallButton' ),
 
-    // a11y
+    // pdom
     descriptionContent: removeWallDescriptionString,
     innerContent: removeWallString,
     appendDescription: true
@@ -139,14 +139,14 @@ function ControlPanel( model, layoutBounds, tandem ) {
     touchAreaXDilation: 5,
     tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
-    // a11y
+    // pdom
     labelTagName: 'h3',
     containerTagName: 'div',
     labelContent: chargeSettingsLabelString,
     descriptionContent: chargeSettingsDescriptionString
   } );
 
-  // a11y - announce an alert that describes the state of charge visibility, linked lazily
+  // pdom - announce an alert that describes the state of charge visibility, linked lazily
   // so that we don't get any alerts on sim startup
   model.showChargesProperty.lazyLink( function( value ) {
     let alertString;
@@ -248,7 +248,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     listener: resetBalloonButtonListener,
     tandem: tandem.createTandem( 'resetBalloonButton' ),
 
-    // a11y
+    // pdom
     containerTagName: 'div',
     appendDescription: true
   } );
@@ -273,7 +273,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     spacing: 2,
     children: showSecondBalloonSelector ? [ showSecondBalloonSelector, resetBalloonButton ] : [ resetBalloonButton ],
 
-    // a11y
+    // pdom
     tagName: 'div',
     labelTagName: 'h3',
     labelContent: 'Balloon Settings'
