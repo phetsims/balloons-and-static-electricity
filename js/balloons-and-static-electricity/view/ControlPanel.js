@@ -40,7 +40,6 @@ const removeWallString = balloonsAndStaticElectricityStrings.removeWall;
 const resetBalloonsString = balloonsAndStaticElectricityStrings.resetBalloons;
 const resetBalloonString = balloonsAndStaticElectricityStrings.resetBalloon;
 
-// a11y strings
 const twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
 const chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;
 const chargeSettingsDescriptionString = BASEA11yStrings.chargeSettingsDescription.value;

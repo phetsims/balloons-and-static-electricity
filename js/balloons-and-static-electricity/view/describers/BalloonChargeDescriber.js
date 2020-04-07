@@ -18,7 +18,6 @@ import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
-// a11y strings
 const summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralCharge.value;
 const balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePattern.value;
 const balloonZeroString = BASEA11yStrings.balloonZero.value;

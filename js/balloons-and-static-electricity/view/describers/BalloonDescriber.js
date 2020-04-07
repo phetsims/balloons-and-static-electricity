@@ -33,7 +33,6 @@ import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
-// a11y strings
 const balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
 const balloonAtPositionPatternString = BASEA11yStrings.balloonAtPositionPattern.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;

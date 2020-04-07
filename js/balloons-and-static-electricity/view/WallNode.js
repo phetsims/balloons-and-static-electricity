@@ -17,7 +17,6 @@ import WallDescriber from './describers/WallDescriber.js';
 import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
 
-// a11y strings
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
 /**

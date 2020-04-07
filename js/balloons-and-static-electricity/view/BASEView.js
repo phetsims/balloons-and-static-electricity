@@ -32,7 +32,6 @@ import TetherNode from './TetherNode.js';
 import vibrationController from './vibrationController.js';
 import WallNode from './WallNode.js';
 
-// a11y strings
 const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
 const yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
 

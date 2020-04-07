@@ -27,7 +27,6 @@ const moveGrabbedBalloonLabelString = balloonsAndStaticElectricityStrings.moveGr
 const moveOrJumpGrabbedBalloonHeadingString = balloonsAndStaticElectricityStrings.moveOrJumpGrabbedBalloonHeading;
 const moveSlowerLabelString = balloonsAndStaticElectricityStrings.moveSlowerLabel;
 
-// a11y strings
 const grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
 const moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
 const moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;

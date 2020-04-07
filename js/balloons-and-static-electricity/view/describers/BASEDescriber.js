@@ -14,7 +14,6 @@ import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
 
-// a11y strings
 // play area grid strings
 const leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
 const leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweater.value;

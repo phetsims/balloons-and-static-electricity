@@ -39,7 +39,6 @@ import PlusChargeNode from './PlusChargeNode.js';
 // a11y - critical x positions for the balloon
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
-// a11y strings
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
 
 /**

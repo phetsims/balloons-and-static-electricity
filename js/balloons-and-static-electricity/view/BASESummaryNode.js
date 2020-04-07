@@ -19,7 +19,6 @@ import BASEDescriber from './describers/BASEDescriber.js';
 import SweaterDescriber from './describers/SweaterDescriber.js';
 import WallDescriber from './describers/WallDescriber.js';
 
-// a11y strings
 const grabBalloonToPlayString = BASEA11yStrings.grabBalloonToPlay.value;
 const andARemovableWallString = BASEA11yStrings.andARemovableWall.value;
 const aSweaterString = BASEA11yStrings.aSweater.value;

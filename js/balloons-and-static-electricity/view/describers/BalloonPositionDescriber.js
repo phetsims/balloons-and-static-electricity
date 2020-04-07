@@ -18,7 +18,6 @@ import PlayAreaMap from '../../model/PlayAreaMap.js';
 import BASEDescriber from './BASEDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
-// a11y strings
 const atWallString = BASEA11yStrings.atWall.value;
 const balloonStickingToString = BASEA11yStrings.balloonStickingTo.value;
 const balloonOnString = BASEA11yStrings.balloonOn.value;

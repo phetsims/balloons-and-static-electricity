@@ -20,7 +20,6 @@ import SweaterDescriber from './describers/SweaterDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
 
-// a11y strings
 const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
 
