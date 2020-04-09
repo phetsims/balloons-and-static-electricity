@@ -79,6 +79,17 @@ class VibrationController {
       } );
     }
 
+    // Works OK, but with poor performance and charges can be picked up far more frequently
+    // than the duration of the vibration. For next time, try polling and pass a vibration
+    // pattern that indicates the number of charges that have been picked up per time unit.
+    if ( paradigmChoice === 'interaction-changes' ) {
+      model.yellowBalloon.chargeProperty.link( ( charge, oldCharge ) => {
+        if ( charge < oldCharge ) {
+          vibrationManager.vibrate( 0.1 );
+        }
+      } );
+    }
+
     // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback
     // based on the position of the balloon in relation to other objects.
     // TODO: For some reason, this paradigm has poor performance and takes ~10 seconds for vibration to begin
@@ -96,7 +107,7 @@ class VibrationController {
           if ( onSweater ) {
 
             // if dragging on the sweater, begin a persistent vibration
-            vibrationManager.vibrateAtFrequencyForever( 2.5 ); // TODO: 200 hz?
+            vibrationManager.vibrateAtFrequencyForever( 5 );
           }
           else if ( yellowBalloon.isCharged() ) {
 
