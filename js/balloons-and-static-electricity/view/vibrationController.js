@@ -105,7 +105,7 @@ class VibrationController {
           console.log( vibrationPattern );
 
           const duration = _.reduce( vibrationPattern, ( sum, value ) => sum + value, 0 );
-          vibrationManager.vibrateWithCustomPattern( vibrationPattern, duration );
+          vibrationManager.vibrateWithCustomPatternDuration( vibrationPattern, duration );
 
           previousCharge = currentCharge;
           elapsedTime = 0;
