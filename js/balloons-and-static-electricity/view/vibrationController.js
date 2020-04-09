@@ -83,11 +83,40 @@ class VibrationController {
     // than the duration of the vibration. For next time, try polling and pass a vibration
     // pattern that indicates the number of charges that have been picked up per time unit.
     if ( paradigmChoice === 'interaction-changes' ) {
-      model.yellowBalloon.chargeProperty.link( ( charge, oldCharge ) => {
-        if ( charge < oldCharge ) {
-          vibrationManager.vibrate( 0.1 );
+      const chargePickupInterval = ( 1 / 60 ) * 2; // assuming 60 fps
+      let elapsedTime = 0;
+      let currentCharge = 0;
+      let previousCharge = 0;
+
+      model.stepEmitter.addListener( dt => {
+        elapsedTime += dt;
+
+        if ( elapsedTime > chargePickupInterval ) {
+          currentCharge = model.yellowBalloon.chargeProperty.get();
+
+          // see how many charges we picked up since last time
+          const chargesPickedUp = Math.abs( currentCharge - previousCharge );
+
+          const vibrationPattern = [];
+          for ( let i = 0; i < chargesPickedUp; i++ ) {
+            vibrationPattern.push( 0.1 );
+            vibrationPattern.push( 0.1 );
+          }
+          console.log( vibrationPattern );
+
+          const duration = _.reduce( vibrationPattern, ( sum, value ) => sum + value, 0 );
+          vibrationManager.vibrateWithCustomPattern( vibrationPattern, duration );
+
+          previousCharge = currentCharge;
+          elapsedTime = 0;
         }
       } );
+
+      // model.yellowBalloon.chargeProperty.link( ( charge, oldCharge ) => {
+      //   if ( charge < oldCharge ) {
+      //     vibrationManager.vibrate( 0.1 );
+      //   }
+      // } );
     }
 
     // A vibration paradigm that reports feedback resulting from user interaction. This design provides feedback

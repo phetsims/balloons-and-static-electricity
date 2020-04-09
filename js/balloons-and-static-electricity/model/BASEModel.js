@@ -8,6 +8,7 @@
  * @author Jesse Greenberg(PhET Interactive Simulations)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -61,6 +62,11 @@ function BASEModel( width, height, tandem ) {
 
   // @public (read-only) - Model of the wall
   this.wall = new WallModel( width - this.wallWidth, this.wallWidth, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
+
+  // @public - broadcasts an event when we step the model
+  this.stepEmitter = new Emitter( {
+    parameters: [ { valueType: 'number' } ]
+  } );
 
   // when the wall changes visibility, the balloons could start moving if they have charge and are near the wall
   const self = this;
@@ -124,6 +130,8 @@ inherit( Object, BASEModel, {
         balloon.step( self, dt );
       }
     } );
+
+    this.stepEmitter.emit( dt );
   },
 
   // Reset the entire model
