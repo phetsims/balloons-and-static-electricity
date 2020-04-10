@@ -79,15 +79,19 @@ class VibrationController {
       } );
     }
 
-    // Works OK, but with poor performance and charges can be picked up far more frequently
-    // than the duration of the vibration. For next time, try polling and pass a vibration
-    // pattern that indicates the number of charges that have been picked up per time unit.
+    // Indicate every time that a charge has been picked up
     if ( paradigmChoice === 'interaction-changes' ) {
-      const chargePickupInterval = 0.5; // assuming 60 fps
+
+      // interval for vibration requests, smaller values are more accurate but worse for performace.
+      // Every vibration request produces a small graphical stutter.
+      const chargePickupInterval = 0.5;
       let elapsedTime = 0;
       let currentCharge = 0;
       let previousCharge = 0;
 
+      // It is bad for performance to requently request vibration, so we determine how many
+      // charges have been picked up per time interval and request a vibration pattern
+      // once based on this information
       model.stepEmitter.addListener( dt => {
         elapsedTime += dt;
 
