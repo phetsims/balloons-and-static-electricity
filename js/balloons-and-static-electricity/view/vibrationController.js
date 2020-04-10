@@ -95,11 +95,12 @@ class VibrationController {
           currentCharge = model.yellowBalloon.chargeProperty.get();
 
           // see how many charges we picked up since last time
-          const chargesPickedUp = Math.abs( currentCharge - previousCharge );
+          const chargeDelta = currentCharge - previousCharge;
 
-          if ( chargesPickedUp > 0 ) {
+          // only vibrate if we have gained electrons (negative charge), not on reset
+          if ( chargeDelta < 0 ) {
             const vibrationPattern = [];
-            for ( let i = 0; i < chargesPickedUp; i++ ) {
+            for ( let i = 0; i < Math.abs( chargeDelta ); i++ ) {
               vibrationPattern.push( 0.1 );
               vibrationPattern.push( 0.1 );
             }
