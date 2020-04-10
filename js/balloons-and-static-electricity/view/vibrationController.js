@@ -175,10 +175,6 @@ class VibrationController {
         }
       } );
     }
-
-
-    // TODO: Interaction changes. If we want to buzz per electron pickup, we need to resolve
-    // the isue where VirationManager.swift doesn't support exact durations
   }
 }
 
