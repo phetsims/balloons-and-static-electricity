@@ -105,8 +105,8 @@ class VibrationController {
           if ( chargeDelta < 0 ) {
             const vibrationPattern = [];
             for ( let i = 0; i < Math.abs( chargeDelta ); i++ ) {
-              vibrationPattern.push( 0.1 );
-              vibrationPattern.push( 0.1 );
+              vibrationPattern.push( 0.01 );
+              vibrationPattern.push( 0.01 );
             }
             console.log( vibrationPattern );
 
