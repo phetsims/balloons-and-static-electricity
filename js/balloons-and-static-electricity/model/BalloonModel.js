@@ -574,6 +574,14 @@ inherit( Object, BalloonModel, {
   },
 
   /**
+   * Get the model position of the left edge of the balloon.
+   * @returns {number}
+   */
+  getLeft: function() {
+    return this.positionProperty.get().x;
+  },
+
+  /**
    * Balloon charges aren't evenly distributed throughout the balloon, they conform to the upper left edge of the
    * balloon image, placed by visual inspection.  This returns a Vector2 pointing to what is approximately the center
    * of the balloon charges.  In x, this remains the center of the model bounds.  In y, this is the top of the

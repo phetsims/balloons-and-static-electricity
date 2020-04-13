@@ -222,6 +222,10 @@ inherit( Object, BASEModel, {
    */
   getDistance: function() {
     return this.greenBalloon.getCenter().distance( this.yellowBalloon.getCenter() );
+  },
+
+  getHorizontalDistanceFromBalloonToSweater( balloon ) {
+    return balloon.getLeft() - this.sweater.bounds.right;
   }
 }, {
 
