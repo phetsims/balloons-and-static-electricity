@@ -130,27 +130,48 @@ class VibrationController {
     // based on the position of the balloon in relation to other objects.
     // TODO: For some reason, this paradigm has poor performance and takes ~10 seconds for vibration to begin
     if ( paradigmChoice === 'result' ) {
+
+      let currentTime = 0;
+      const refreshRate = 0.5; // in seconds
+
       const activeFrequency = 50;
 
-      model.yellowBalloon.positionProperty.link( position => {
+      model.stepEmitter.addListener( dt => {
+        currentTime += dt;
 
-        if ( model.yellowBalloon.isDraggedProperty.get() ) {
+        if ( currentTime >= refreshRate ) {
+          if ( model.yellowBalloon.isDraggedProperty.get() ) {
+            const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
+            const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
+            const horizontalDistanceToSweater = model.getHorizontalDistanceFromBalloonToSweater( model.yellowBalloon );
+            let intensity = sweaterDistanceFunction( horizontalDistanceToSweater );
 
-          if ( model.yellowBalloon.isCharged() ) {
-
-            if ( activeFrequency ) {
-              const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
-              const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
-              const horizontalDistanceToSweater = model.getHorizontalDistanceFromBalloonToSweater( model.yellowBalloon );
-              let intensity = sweaterDistanceFunction( horizontalDistanceToSweater );
-
-              intensity = Utils.clamp( intensity, 0, 1 );
-              console.log( activeFrequency, intensity );
-              vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
-            }
+            intensity = Utils.clamp( intensity, 0, 1 );
+            console.log( activeFrequency, intensity );
+            vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
           }
         }
       } );
+
+      // model.yellowBalloon.positionProperty.link( position => {
+
+      //   if ( model.yellowBalloon.isDraggedProperty.get() ) {
+
+      //     if ( model.yellowBalloon.isCharged() ) {
+
+      //       if ( activeFrequency ) {
+      //         const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
+      //         const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
+      //         const horizontalDistanceToSweater = model.getHorizontalDistanceFromBalloonToSweater( model.yellowBalloon );
+      //         let intensity = sweaterDistanceFunction( horizontalDistanceToSweater );
+
+      //         intensity = Utils.clamp( intensity, 0, 1 );
+      //         console.log( activeFrequency, intensity );
+      //         vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
+      //       }
+      //     }
+      //   }
+      // } );
 
       // // the vibration needs to update with the state of these Properties
       // const resultProperties = [
