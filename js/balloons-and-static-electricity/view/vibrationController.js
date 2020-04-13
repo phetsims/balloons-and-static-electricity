@@ -134,12 +134,13 @@ class VibrationController {
       let currentTime = 0;
       const refreshRate = 0.5; // in seconds
 
-      const activeFrequency = 50;
+      const activeFrequency = 100;
 
       model.stepEmitter.addListener( dt => {
         currentTime += dt;
 
         if ( currentTime >= refreshRate ) {
+          console.log( 'refreshing', currentTime );
           if ( model.yellowBalloon.isDraggedProperty.get() ) {
             const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
             const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
@@ -150,6 +151,11 @@ class VibrationController {
             console.log( activeFrequency, intensity );
             vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
           }
+          else {
+            vibrationManager.stop();
+          }
+
+          currentTime = 0;
         }
       } );
 
