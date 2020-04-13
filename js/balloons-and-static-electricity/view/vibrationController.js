@@ -12,7 +12,6 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-import PlayAreaMap from '../model/PlayAreaMap.js';
 
 class VibrationController {
   constructor() {}
@@ -118,38 +117,33 @@ class VibrationController {
           elapsedTime = 0;
         }
       } );
-
-      // model.yellowBalloon.chargeProperty.link( ( charge, oldCharge ) => {
-      //   if ( charge < oldCharge ) {
-      //     vibrationManager.vibrate( 0.1 );
-      //   }
-      // } );
     }
 
-    // A vibration paradigm that reports feedback 1lting from user interaction. This design provides feedback
-    // based on the position of the balloon in relation to other objects.
-    // TODO: For some reason, this paradigm has poor performance and takes ~10 seconds for vibration to begin
+    // paradigm provides feedback about the state of the balloon based on the results of user interaction
+    // vibration is driven by the potential energy of the balloon, indicating the force on the balloon and motion,
+    // should the user decide to drop it
     if ( paradigmChoice === 'result' ) {
 
       let currentTime = 0;
       const refreshRate = 0.5; // in seconds
-
-      const activeFrequency = 100;
+      const maxForce = 0.00855; // by inspection - TODO: Calculate this
 
       model.stepEmitter.addListener( dt => {
         currentTime += dt;
 
         if ( currentTime >= refreshRate ) {
-          console.log( 'refreshing', currentTime );
-          if ( model.yellowBalloon.isDraggedProperty.get() ) {
-            const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
-            const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
-            const horizontalDistanceToSweater = model.getHorizontalDistanceFromBalloonToSweater( model.yellowBalloon );
-            let intensity = sweaterDistanceFunction( horizontalDistanceToSweater );
+          const totalForce = model.yellowBalloon.getTotalForce();
+          const totalForceMagnitude = totalForce.magnitude;
+          if ( totalForceMagnitude !== 0 && model.yellowBalloon.isDraggedProperty.get() ) {
 
-            intensity = Utils.clamp( intensity, 0, 1 );
-            console.log( activeFrequency, intensity );
-            vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
+            const frequency = totalForce.x > 0 ? 100 : 50;
+
+            // intensities less than 0.4 cannot be felt
+            const relativeForceFunction = new LinearFunction( 0, maxForce, 0.4, 1 );
+
+            const intensity = Utils.clamp( relativeForceFunction( totalForceMagnitude ), 0, 1 );
+            console.log( intensity );
+            vibrationManager.vibrateAtFrequencyForever( frequency, intensity );
           }
           else {
             vibrationManager.stop();
@@ -158,73 +152,6 @@ class VibrationController {
           currentTime = 0;
         }
       } );
-
-      // model.yellowBalloon.positionProperty.link( position => {
-
-      //   if ( model.yellowBalloon.isDraggedProperty.get() ) {
-
-      //     if ( model.yellowBalloon.isCharged() ) {
-
-      //       if ( activeFrequency ) {
-      //         const sweaterToPlayAreaCenter = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA - model.yellowBalloon.width / 2 - model.sweater.bounds.right;
-      //         const sweaterDistanceFunction = new LinearFunction( sweaterToPlayAreaCenter, 0, 0, 1 );
-      //         const horizontalDistanceToSweater = model.getHorizontalDistanceFromBalloonToSweater( model.yellowBalloon );
-      //         let intensity = sweaterDistanceFunction( horizontalDistanceToSweater );
-
-      //         intensity = Utils.clamp( intensity, 0, 1 );
-      //         console.log( activeFrequency, intensity );
-      //         vibrationManager.vibrateAtFrequencyForever( activeFrequency, intensity );
-      //       }
-      //     }
-      //   }
-      // } );
-
-      // // the vibration needs to update with the state of these Properties
-      // const resultProperties = [
-      //   yellowBalloon.playAreaColumnProperty,
-      //   yellowBalloon.onSweaterProperty,
-      //   yellowBalloon.isDraggedProperty
-      // ];
-      // Property.multilink( resultProperties, ( column, onSweater, isDragged ) => {
-      //   if ( isDragged ) {
-      //     if ( onSweater ) {
-      //
-      //       // if dragging on the sweater, begin a persistent vibration
-      //       vibrationManager.vibrateAtFrequencyForever( 5 );
-      //     }
-      //     else if ( yellowBalloon.isCharged() ) {
-      //
-      //       // otherwise, pattern dependent on how close balloon is to the sweater and wall
-      //       const columnRange = PlayAreaMap.COLUMN_RANGES[ column ];
-      //
-      //       if ( columnRange === PlayAreaMap.COLUMN_RANGES.LEFT_PLAY_AREA ) {
-      //
-      //         // TODO: Is this 10 hz?
-      //         // vibrationManager.vibrateAtFrequencyForever( 50 );
-      //         activeFrequency = 50;
-      //       }
-      //       else if ( columnRange === PlayAreaMap.COLUMN_RANGES.RIGHT_PLAY_AREA ) {
-      //
-      //         // TODO: is this 25 hz?
-      //         // vibrationManager.vibrateAtFrequencyForever( 25 );
-      //         activeFrequency = 25;
-      //       }
-      //       else if ( columnRange === PlayAreaMap.COLUMN_RANGES.CENTER_PLAY_AREA ) {
-      //         activeFrequency = 100;
-      //         // vibrationManager.vibrateWithCustomPatternForever( 100 );
-      //       }
-      //     }
-      //     else {
-      //       activeFrequency = null;
-      //       // vibrationManager.stop();
-      //     }
-      //   }
-      //   else {
-      //
-      //     // stop all vibration upon release
-      //     vibrationManager.stop();
-      //   }
-      // } );
     }
   }
 }
