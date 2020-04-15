@@ -24012,19 +24012,6 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "balloonsAndStaticElectricity.balloonsAndStaticElectricityScreen.nameProperty": {
-      "phetioDocumentation": "The name of the screen. Changing this value will update the screen name for the screen's corresponding button on the navigation bar and home screen, if they exist. May be null for single-screen simulations.",
-      "phetioDynamicElement": false,
-      "phetioEventType": "MODEL",
-      "phetioFeatured": true,
-      "phetioHighFrequency": false,
-      "phetioIsArchetype": false,
-      "phetioPlayback": false,
-      "phetioReadOnly": false,
-      "phetioState": true,
-      "phetioStudioControl": true,
-      "phetioTypeName": "PropertyIO<NullableIO<StringIO>>"
-    },
     "balloonsAndStaticElectricity.general.controller.input.changeAction": {
       "phetioDocumentation": "Emits when the PDOM root gets the change DOM event. The arguments are:<br/><ol><li>event: EventIO</li></ol>",
       "phetioDynamicElement": false,
