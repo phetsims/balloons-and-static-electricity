@@ -136,7 +136,7 @@ class VibrationController {
           const totalForceMagnitude = totalForce.magnitude;
           if ( totalForceMagnitude !== 0 && model.yellowBalloon.isDraggedProperty.get() ) {
 
-            const frequency = totalForce.x > 0 ? 50 : 25;
+            const frequency = totalForce.x > 0 ? 25 : 25;
 
             // intensities less than 0.4 cannot be felt
             const relativeForceFunction = new LinearFunction( 0, maxForce, 0.4, 1 );
