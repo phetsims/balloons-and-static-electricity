@@ -35,14 +35,14 @@ QUnit.test( 'Summary tests', function( assert ) {
 
   // Move these to once everything has been imported and constructed
   // create model and view for testing
-  const model = new BASEModel( 768, 504, Tandem.ROOT.createTandem( 'model' ) );
-  const view = new BASEView( model, Tandem.ROOT.createTandem( 'view' ) );
+  const model = new BASEModel( 768, 504, Tandem.GENERAL.createTandem( 'model' ) );
+  const view = new BASEView( model, Tandem.GENERAL.createTandem( 'view' ) );
 
   // create a wallNode for testing
-  const wallNode = new WallNode( model, view.layoutBounds, Tandem.ROOT.createTandem( 'wallNode' ) );
+  const wallNode = new WallNode( model, view.layoutBounds, Tandem.GENERAL.createTandem( 'wallNode' ) );
 
 
-  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.ROOT.createTandem( 'summaryNode' ) );
+  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.GENERAL.createTandem( 'summaryNode' ) );
 
   // verify first item in summary, description of items in the room
   model.reset();

@@ -19,7 +19,7 @@ import BalloonNode from '../BalloonNode.js';
 
 // create model and view for testing
 const layoutBounds = new Bounds2( 0, 0, 768, 504 );
-const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.ROOT.createTandem( 'model' ) );
+const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.GENERAL.createTandem( 'model' ) );
 
 let balloonNode = null;
 QUnit.module( 'BalloonDescriber', {
@@ -36,7 +36,7 @@ QUnit.module( 'BalloonDescriber', {
     delete phet.joist.sim.supportsGestureDescription;
   },
   beforeEach: () => {
-    balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.ROOT.createTandem( 'balloonNode' ), {
+    balloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, 'Yellow Balloon', 'Green Balloon', layoutBounds, Tandem.GENERAL.createTandem( 'balloonNode' ), {
       labelContent: 'Yellow Balloon'
     } );
   }

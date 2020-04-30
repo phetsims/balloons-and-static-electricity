@@ -15,10 +15,10 @@ import SweaterNode from '../SweaterNode.js';
 QUnit.module( 'SweaterDescriberTests' );
 
 // create model and view for testing
-const model = new BASEModel( 768, 504, Tandem.ROOT.createTandem( 'model' ) );
+const model = new BASEModel( 768, 504, Tandem.GENERAL.createTandem( 'model' ) );
 
 // create a wallNode for testing
-const sweaterNode = new SweaterNode( model, Tandem.ROOT.createTandem( 'sweaterNode' ) );
+const sweaterNode = new SweaterNode( model, Tandem.GENERAL.createTandem( 'sweaterNode' ) );
 
 QUnit.test( 'SweaterDescriber tests', function( assert ) {
 

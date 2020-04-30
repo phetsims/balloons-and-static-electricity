@@ -34,11 +34,11 @@ QUnit.module( 'WallDescriber', {
 QUnit.test( 'WallDescriber tests', function( assert ) {
 
   // create model and view for testing
-  const model = new BASEModel( 768, 504, Tandem.ROOT.createTandem( 'model' ) );
-  const view = new BASEView( model, Tandem.ROOT.createTandem( 'view' ) );
+  const model = new BASEModel( 768, 504, Tandem.GENERAL.createTandem( 'model' ) );
+  const view = new BASEView( model, Tandem.GENERAL.createTandem( 'view' ) );
 
   // create a view
-  const wallNode = new WallNode( model, view.layoutBounds, Tandem.ROOT.createTandem( 'wallNode' ) );
+  const wallNode = new WallNode( model, view.layoutBounds, Tandem.GENERAL.createTandem( 'wallNode' ) );
 
   // on page load
   let actualDescription = wallNode.descriptionContent;
