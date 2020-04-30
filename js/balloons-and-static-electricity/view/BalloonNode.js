@@ -320,7 +320,7 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
-export default inherit( Node, BalloonNode, {
+inherit( Node, BalloonNode, {
 
   /**
    * Step the describer, which uses polling to determine the next alerts describing interactions with the balloon.
@@ -395,3 +395,5 @@ export default inherit( Node, BalloonNode, {
     return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
   }
 } );
+
+export default BalloonNode;

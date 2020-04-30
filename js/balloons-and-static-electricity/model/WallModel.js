@@ -138,7 +138,7 @@ function WallModel( x, width, height, yellowBalloon, greenBalloon, tandem ) {
 
 balloonsAndStaticElectricity.register( 'WallModel', WallModel );
 
-export default inherit( Object, WallModel, {
+inherit( Object, WallModel, {
 
   // Reset the entire model
   reset: function() {
@@ -203,3 +203,5 @@ export default inherit( Object, WallModel, {
     return force.magnitude > FORCE_MAGNITUDE_THRESHOLD;
   }
 } );
+
+export default WallModel;

@@ -160,7 +160,7 @@ function BalloonPositionDescriber( balloonDescriber, model, balloonModel, access
 
 balloonsAndStaticElectricity.register( 'BalloonPositionDescriber', BalloonPositionDescriber );
 
-export default inherit( Object, BalloonPositionDescriber, {
+inherit( Object, BalloonPositionDescriber, {
 
   /**
    * Get a description that describes the attractive state or proximity of the balloon, such as
@@ -971,3 +971,5 @@ export default inherit( Object, BalloonPositionDescriber, {
     return description;
   }
 } );
+
+export default BalloonPositionDescriber;

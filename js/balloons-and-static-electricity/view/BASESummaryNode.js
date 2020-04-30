@@ -143,7 +143,7 @@ function BASESummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, 
 
 balloonsAndStaticElectricity.register( 'BASESummaryNode', BASESummaryNode );
 
-export default inherit( Node, BASESummaryNode, {
+inherit( Node, BASESummaryNode, {
 
   /**
    * Get a description of the sweater and wall charge. Does not include induced charge. If the sweater has neutral
@@ -367,3 +367,5 @@ export default inherit( Node, BASESummaryNode, {
     } );
   }
 } );
+
+export default BASESummaryNode;

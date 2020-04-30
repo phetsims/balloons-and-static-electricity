@@ -91,7 +91,7 @@ function BalloonChargeDescriber( model, balloonModel, accessibleName, otherAcces
 
 balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );
 
-export default inherit( Object, BalloonChargeDescriber, {
+inherit( Object, BalloonChargeDescriber, {
 
 
   /**
@@ -475,3 +475,5 @@ export default inherit( Object, BalloonChargeDescriber, {
     return description;
   }
 } );
+
+export default BalloonChargeDescriber;

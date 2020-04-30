@@ -238,7 +238,7 @@ function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibl
 
 balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
 
-export default inherit( Object, BalloonDescriber, {
+inherit( Object, BalloonDescriber, {
 
   /**
    * Reset the describer, resetting flags that are required to manipulate provided descriptions.
@@ -938,3 +938,5 @@ export default inherit( Object, BalloonDescriber, {
     this.describedWallVisible = nextWallVisible;
   }
 } );
+
+export default BalloonDescriber;

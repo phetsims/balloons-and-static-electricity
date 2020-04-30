@@ -276,7 +276,7 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
-export default inherit( Node, TwoSceneSelectionNode, {
+inherit( Node, TwoSceneSelectionNode, {
 
   /**
    * Make eligible for garbage collection.
@@ -306,3 +306,5 @@ export default inherit( Node, TwoSceneSelectionNode, {
   get enabled() { return this.getEnabled(); }
 
 } );
+
+export default TwoSceneSelectionNode;

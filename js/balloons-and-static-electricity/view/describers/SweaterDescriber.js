@@ -58,7 +58,7 @@ function SweaterDescriber( model, sweaterModel ) {
 
 balloonsAndStaticElectricity.register( 'SweaterDescriber', SweaterDescriber );
 
-export default inherit( Object, SweaterDescriber, {
+inherit( Object, SweaterDescriber, {
 
   /**
    * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
@@ -325,3 +325,5 @@ export default inherit( Object, SweaterDescriber, {
     } );
   }
 } );
+
+export default SweaterDescriber;

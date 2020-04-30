@@ -80,7 +80,7 @@ function WallDescriber( model ) {
 
 balloonsAndStaticElectricity.register( 'WallDescriber', WallDescriber );
 
-export default inherit( Object, WallDescriber, {
+inherit( Object, WallDescriber, {
 
   /**
    * Get the full description for the wall including its position, net charge, and induced charge.  This is used
@@ -421,3 +421,5 @@ export default inherit( Object, WallDescriber, {
     } );
   }
 } );
+
+export default WallDescriber;

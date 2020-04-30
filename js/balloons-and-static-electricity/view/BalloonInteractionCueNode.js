@@ -91,7 +91,7 @@ function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBoun
 
 balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
 
-export default inherit( Node, BalloonInteractionCueNode, {
+inherit( Node, BalloonInteractionCueNode, {
 
   /**
    * Create a node that looks like a keyboard letter key next to an arrow indicating the direction the balloon
@@ -138,3 +138,5 @@ export default inherit( Node, BalloonInteractionCueNode, {
     return box;
   }
 } );
+
+export default BalloonInteractionCueNode;

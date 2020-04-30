@@ -178,7 +178,7 @@ function SweaterModel( x, y, tandem ) {
 
 balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
 
-export default inherit( Object, SweaterModel, {
+inherit( Object, SweaterModel, {
 
   /**
    * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
@@ -234,3 +234,5 @@ export default inherit( Object, SweaterModel, {
     this.chargeProperty.set( 0 );
   }
 } );
+
+export default SweaterModel;

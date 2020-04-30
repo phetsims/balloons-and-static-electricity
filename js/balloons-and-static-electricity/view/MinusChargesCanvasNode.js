@@ -57,7 +57,7 @@ function MinusChargesCanvasNode( wallX, wallBounds, charges, options ) {
 
 balloonsAndStaticElectricity.register( 'MinusChargesCanvasNode', MinusChargesCanvasNode );
 
-export default inherit( CanvasNode, MinusChargesCanvasNode, {
+inherit( CanvasNode, MinusChargesCanvasNode, {
 
   /**
    * Draw charges at their correct positions indicating induced charge.
@@ -68,7 +68,7 @@ export default inherit( CanvasNode, MinusChargesCanvasNode, {
    */
   paintCanvas: function( context ) {
 
-    // we scaled up the node before converting to image so that it looks less pixelated, so now we need to 
+    // we scaled up the node before converting to image so that it looks less pixelated, so now we need to
     // scale it back down
     context.scale( 1 / scale, 1 / scale );
 
@@ -85,3 +85,5 @@ export default inherit( CanvasNode, MinusChargesCanvasNode, {
     }
   }
 } );
+
+export default MinusChargesCanvasNode;
