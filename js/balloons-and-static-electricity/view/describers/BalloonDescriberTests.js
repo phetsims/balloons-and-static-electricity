@@ -19,11 +19,13 @@ import BalloonNode from '../BalloonNode.js';
 
 // create model and view for testing
 const layoutBounds = new Bounds2( 0, 0, 768, 504 );
-const model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.GENERAL.createTandem( 'model' ) );
+let model = null;
 
 let balloonNode = null;
 QUnit.module( 'BalloonDescriber', {
   before: () => {
+
+    model = new BASEModel( layoutBounds.width, layoutBounds.height, Tandem.GENERAL.createTandem( 'model' ) );
 
     // BalloonDescriber uses many calls to utteranceQueue. This is to support testing
     phet.joist = phet.joist || {};
