@@ -173,7 +173,7 @@ inherit( ScreenView, BASEView, {
 
   /**
    * Step the view.  For acccessibility, we want to step the 'AudioView' and the keyboard drag handlers.
-   * @param number} dt
+   * @param {number} dt
    * @public
    */
   step: function( dt ) {

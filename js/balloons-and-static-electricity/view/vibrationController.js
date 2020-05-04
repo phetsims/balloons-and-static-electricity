@@ -125,8 +125,18 @@ class VibrationController {
     if ( paradigmChoice === 'result' ) {
 
       let currentTime = 0;
-      const refreshRate = 0.5; // in seconds
+
+      // NOTE: Ever since we switch to controlling intensity rather than frequency, performance is way
+      // faster, so it is possible this could be linked to position Property rather than polling
+      // with the stepEmitter below
+      const refreshRate = 0.01; // in seconds
+
+      // to create a function that maps applied force on the balloon to vibration intensity
       const maxForce = 0.00855; // by inspection - TODO: Calculate this
+
+      // There is no way to determine yet whether or not the vibration manager, so tracking in this case
+      // specifically
+      let vibrating = false;
 
       model.stepEmitter.addListener( dt => {
         currentTime += dt;
@@ -136,17 +146,21 @@ class VibrationController {
           const totalForceMagnitude = totalForce.magnitude;
           if ( totalForceMagnitude !== 0 && model.yellowBalloon.isDraggedProperty.get() ) {
 
-            const frequency = totalForce.x > 0 ? 25 : 25;
-
             // intensities less than 0.4 cannot be felt
             const relativeForceFunction = new LinearFunction( 0, maxForce, 0.4, 1 );
 
             const intensity = Utils.clamp( relativeForceFunction( totalForceMagnitude ), 0, 1 );
-            console.log( intensity );
-            vibrationManager.vibrateAtFrequencyForever( frequency, intensity );
+
+            if ( !vibrating ) {
+              vibrationManager.vibrateAtFrequencyForever( 25 );
+              vibrating = true;
+            }
+
+            vibrationManager.setVibrationIntensity( intensity );
           }
-          else {
+          else if ( vibrating ) {
             vibrationManager.stop();
+            vibrating = false;
           }
 
           currentTime = 0;
