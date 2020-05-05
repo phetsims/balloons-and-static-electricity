@@ -140,7 +140,6 @@ function ControlPanel( model, layoutBounds, tandem ) {
     tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
     // pdom
-    labelTagName: 'h3',
     containerTagName: 'div',
     labelContent: chargeSettingsLabelString,
     descriptionContent: chargeSettingsDescriptionString
