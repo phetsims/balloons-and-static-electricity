@@ -130,5 +130,5 @@ function SweaterNode( model, tandem ) {
 }
 
 balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );
-
-export default inherit( Node, SweaterNode, {} );
+inherit( Node, SweaterNode );
+export default SweaterNode;
