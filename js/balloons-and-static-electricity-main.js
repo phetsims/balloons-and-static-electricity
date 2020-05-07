@@ -8,7 +8,7 @@
 
 import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
@@ -18,7 +18,7 @@ import BASEView from './balloons-and-static-electricity/view/BASEView.js';
 
 const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
 
-SimLauncher.launch( function() {
+simLauncher.launch( function() {
 
   const tandem = Tandem.ROOT;
 

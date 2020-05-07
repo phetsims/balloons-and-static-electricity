@@ -50,7 +50,7 @@ function SweaterNode( model, tandem ) {
   // create the sweater image
   const sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
 
-  // Balloons and Static Electricity has unit tests which run outside of the context of SimLauncher and hence not all
+  // Balloons and Static Electricity has unit tests which run outside of the context of simLauncher and hence not all
   // images may have dimensions by now.
   if ( sweaterImageNode.width > 0 && sweaterImageNode.height > 0 ) {
 
