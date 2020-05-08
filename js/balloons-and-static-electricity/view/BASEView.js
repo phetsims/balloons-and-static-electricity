@@ -54,14 +54,16 @@ function BASEView( model, tandem ) {
   } );
 
   const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
-  const wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
+
+  // @public (for QUnit tests)
+  this.wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
   this.pdomPlayAreaNode.addChild( sweaterNode );
-  this.pdomPlayAreaNode.addChild( wallNode );
+  this.pdomPlayAreaNode.addChild( this.wallNode );
 
   //Show black to the right side of the wall so it doesn't look like empty space over there
   this.addChild( new Rectangle(
-    model.wall.x + wallNode.wallNode.width,
+    model.wall.x + this.wallNode.wallNode.width,
     0,
     1000,
     1000,
@@ -69,7 +71,7 @@ function BASEView( model, tandem ) {
   ) );
 
   // Add black to the left of the screen to match the black region to the right of the wall
-  const maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
+  const maxX = this.layoutBounds.maxX - model.wall.x - this.wallNode.wallNode.width;
   this.addChild( new Rectangle(
     maxX - 1000,
     0,
@@ -104,7 +106,7 @@ function BASEView( model, tandem ) {
   );
 
   // created after all other view objects so we can access each describer
-  const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, wallNode, tandem.createTandem( 'screenSummaryNode' ) );
+  const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, this.wallNode, tandem.createTandem( 'screenSummaryNode' ) );
   this.setScreenSummaryContent( screenSummaryNode );
 
   // combine the balloon content into single nodes so that they are easily layerable
@@ -147,7 +149,7 @@ function BASEView( model, tandem ) {
   } );
 
   // set the accessible order: sweater, balloons wall
-  this.pdomPlayAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, wallNode ];
+  this.pdomPlayAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
 
   // init vib controller
   vibrationController.initialize( model );

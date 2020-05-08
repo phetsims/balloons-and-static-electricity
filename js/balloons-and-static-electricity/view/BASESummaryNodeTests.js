@@ -9,38 +9,21 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
-import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BASESummaryNode from './BASESummaryNode.js';
-import BASEView from './BASEView.js';
 import WallNode from './WallNode.js';
 
-QUnit.module( 'BASESummaryNode', {
-  before: () => {
-
-    // BASESummaryNode uses many calls to utteranceQueue. This is to support testing
-    phet.joist = phet.joist || {};
-    phet.joist.sim = phet.joist.sim || { runOnNextFrame() {} };
-    phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
-    phet.joist.sim.supportsGestureDescription = false;
-  },
-  after: () => {
-    delete phet.joist.sim.utteranceQueue;
-    delete phet.joist.sim.supportsGestureDescription;
-  }
-} );
+QUnit.module( 'BASESummaryNode' );
 
 QUnit.test( 'Summary tests', function( assert ) {
 
   // Move these to once everything has been imported and constructed
   // create model and view for testing
-  const model = new BASEModel( 768, 504, Tandem.GENERAL.createTandem( 'model' ) );
-  const view = new BASEView( model, Tandem.GENERAL.createTandem( 'view' ) );
+  const model = window.baseModel;
+  const view = window.baseView;
 
   // create a wallNode for testing
   const wallNode = new WallNode( model, view.layoutBounds, Tandem.GENERAL.createTandem( 'wallNode' ) );
-
 
   const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.GENERAL.createTandem( 'summaryNode' ) );
 
