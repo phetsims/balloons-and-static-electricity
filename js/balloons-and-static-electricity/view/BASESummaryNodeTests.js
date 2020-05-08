@@ -21,7 +21,7 @@ QUnit.module( 'BASESummaryNode', {
 
     // BASESummaryNode uses many calls to utteranceQueue. This is to support testing
     phet.joist = phet.joist || {};
-    phet.joist.sim = phet.joist.sim || {};
+    phet.joist.sim = phet.joist.sim || { runOnNextFrame() {} };
     phet.joist.sim.utteranceQueue = new UtteranceQueue( true );
     phet.joist.sim.supportsGestureDescription = false;
   },
