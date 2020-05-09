@@ -32,7 +32,7 @@ const loadListener = event => {
 
 window.addEventListener( 'message', loadListener );
 
-iframe.src = '../../../../balloons-and-static-electricity/balloons-and-static-electricity_en.html?brand=phet&ea&postMessageOnLoad';
+iframe.src = '../balloons-and-static-electricity/balloons-and-static-electricity_en.html?brand=phet&ea&postMessageOnLoad';
 document.body.appendChild( iframe ); // triggers loading of the sim
 
 QUnit.done( () => {
