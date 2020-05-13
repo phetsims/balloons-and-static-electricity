@@ -17,6 +17,7 @@ class VibrationController {
   constructor() {}
 
   /**
+   * @public
    * @param {BASEModel} model
    */
   initialize( model ) {
