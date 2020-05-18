@@ -117,12 +117,14 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
     // Temporarily disabled for vibration prototypes, see #449
     allowTouchSnag: phet.chipper.queryParameters.vibration === null,
     startDrag: function() {
+      model.draggingWithPointer = true;
       if ( !model.isDraggedProperty.get() ) {
         model.isDraggedProperty.set( true );
       }
     },
     endDrag: function() {
       endDragListener();
+      model.draggingWithPointer = false;
     },
     tandem: tandem.createTandem( 'dragHandler' )
   } );

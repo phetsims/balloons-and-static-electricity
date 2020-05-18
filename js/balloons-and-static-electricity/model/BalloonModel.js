@@ -164,6 +164,10 @@ function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibilit
     tandem: tandem.createTandem( 'isDraggedProperty' )
   } );
 
+  // @public {boolean} - whether or not this balloon is being dragged with a mouse or touch pointer, in which case
+  // we want to reduce the frequency of alerts and avoid describing very small position changes.
+  this.draggingWithPointer = false;
+
   // @public {Vector2} - position of the upper left corner of the rectangle that encloses the balloon
   this.positionProperty = new Vector2Property( new Vector2( x, y ), {
     tandem: tandem.createTandem( 'positionProperty' ),
