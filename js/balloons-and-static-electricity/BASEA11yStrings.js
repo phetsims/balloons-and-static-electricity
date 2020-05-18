@@ -782,6 +782,9 @@ const BASEA11yStrings = {
   //------------------------------------------------------------------------
   // Control panel strings
   //------------------------------------------------------------------------
+  balloonSettingsLabel: {
+    value: 'Balloon Setttings'
+  },
   chargeSettingsDescription: {
     value: 'Choose how you see or hear charge information.'
   },

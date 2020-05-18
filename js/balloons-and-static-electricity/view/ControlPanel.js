@@ -55,6 +55,7 @@ const wallAddedString = BASEA11yStrings.wallAdded.value;
 const wallRemovedString = BASEA11yStrings.wallRemoved.value;
 const positionsString = BASEA11yStrings.positions.value;
 const positionString = BASEA11yStrings.position.value;
+const balloonSettingsLabelString = BASEA11yStrings.balloonSettingsLabel.value;
 const resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescriptionPattern.value;
 
 // constants
@@ -275,7 +276,7 @@ function ControlPanel( model, layoutBounds, tandem ) {
     // pdom
     tagName: 'div',
     labelTagName: 'h3',
-    labelContent: 'Balloon Settings'
+    labelContent: balloonSettingsLabelString
   } );
 
   //Add the controls at the right, with the reset all button and the wall button
