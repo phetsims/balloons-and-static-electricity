@@ -171,29 +171,6 @@ function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibl
   // balloon visibility as a special case so we don't trigger this alert when added to the play area
   this.preventNoMovementAlert = false;
 
-  // // announce alerts related to charge change
-  // balloon.chargeProperty.link( function updateCharge( chargeVal ) {
-  //   let alert;
-  //
-  //   // the first charge pickup and subsequent pickups (behind a refresh rate) should be announced
-  //   if ( self.alertNextPickup || self.alertFirstPickup ) {
-  //     alert = self.getChargePickupDescription( self.alertFirstPickup );
-  //     self.chargePickupUtterance.alert = alert;
-  //     getUtteranceQueue().addToBack( self.chargePickupUtterance );
-  //   }
-  //
-  //   // announce pickup of last charge, as long as charges are visible
-  //   if ( Math.abs( chargeVal ) === BASEConstants.MAX_BALLOON_CHARGE && self.showChargesProperty.get() !== 'none' ) {
-  //     alert = self.getLastChargePickupDescription();
-  //     self.chargePickupUtterance.alert = alert;
-  //     getUtteranceQueue().addToBack( self.chargePickupUtterance );
-  //   }
-  //
-  //   // reset flags
-  //   self.alertFirstPickup = false;
-  //   self.alertNextPickup = false;
-  // } );
-
   // when visibility changes, generate the alert and be sure to describe initial movement the next time the
   // balloon is released or added to the play area
   balloon.isVisibleProperty.lazyLink( function( isVisible ) {
@@ -212,11 +189,17 @@ function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibl
     self.alertFirstPickup = true;
   } );
 
+  // @private {number} distance the balloon has moved since we last sent an alert to the utteranceQueue. After a
+  // successful alert we don't send any alerts to the utterance queue until we have substantial balloon movement
+  // to avoid a pile-up of alerts.
   this.distanceSinceDirectionAlert = 0;
-  this.positionOnDirectionAlert = this.balloonModel.positionProperty.get();
+
+  // @private {Vector2} the position of the balloon when we send an alert to the utteranceQueue. After a successful
+  // alert, we don't alert again until there is sufficient movement to avoid a pile-up of alerts
+  this.positionOnAlert = this.balloonModel.positionProperty.get();
 
   this.balloonModel.positionProperty.link( position => {
-    self.distanceSinceDirectionAlert = position.minus( this.positionOnDirectionAlert ).magnitude;
+    self.distanceSinceDirectionAlert = position.minus( this.positionOnAlert ).magnitude;
   } );
 
   // when drag velocity starts from zero, or hits zero, update charge counts on start/end drag so we can determine
@@ -268,6 +251,15 @@ inherit( Object, BalloonDescriber, {
     this.describeWallRub = false;
     this.initialMovementDescribed = true;
     this.timeSinceReleaseAlert = 0;
+  },
+
+  /**
+   * Send an alert to the utteranceQueue, but save the position when we do so to track
+   * @param alertable
+   */
+  sendAlert: function( alertable ) {
+    getUtteranceQueue().addToBack( alertable );
+    this.positionOnAlert = this.balloonModel.positionProperty.get();
   },
 
   /**
@@ -725,9 +717,8 @@ inherit( Object, BalloonDescriber, {
         if ( this.balloonModel.isDraggedProperty.get() || model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
           this.directionUtterance.alert = this.movementDescriber.getDirectionChangedDescription();
 
-          getUtteranceQueue().addToBack( this.directionUtterance );
+          this.sendAlert( this.directionUtterance );
           this.describedDirection = this.balloonModel.directionProperty.get();
-          this.positionOnDirectionAlert = this.balloonModel.positionProperty.get();
         }
       }
 
@@ -737,7 +728,7 @@ inherit( Object, BalloonDescriber, {
           if ( this.rubAlertDirty ) {
             if ( nextIsDragged && model.onSweater() ) {
               this.noChargePickupUtterance.alert = this.getNoChargePickupDescription();
-              getUtteranceQueue().addToBack( this.noChargePickupUtterance );
+              this.sendAlert( this.noChargePickupUtterance );
             }
           }
         }
@@ -756,14 +747,14 @@ inherit( Object, BalloonDescriber, {
       if ( this.alertNextPickup || this.alertFirstPickup ) {
         alert = this.getChargePickupDescription( this.alertFirstPickup );
         this.chargePickupUtterance.alert = alert;
-        getUtteranceQueue().addToBack( this.chargePickupUtterance );
+        this.sendAlert( this.chargePickupUtterance );
       }
 
       // announce pickup of last charge, as long as charges are visible
       if ( Math.abs( nextCharge ) === BASEConstants.MAX_BALLOON_CHARGE && this.showChargesProperty.get() !== 'none' ) {
         alert = this.getLastChargePickupDescription();
         this.chargePickupUtterance.alert = alert;
-        getUtteranceQueue().addToBack( this.chargePickupUtterance );
+        this.sendAlert( this.chargePickupUtterance );
       }
 
       // reset flags
@@ -778,13 +769,13 @@ inherit( Object, BalloonDescriber, {
           if ( model.onSweater() || model.touchingWall() ) {
 
             // while dragging, just attractive state and position
-            getUtteranceQueue().addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
+            this.sendAlert( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
           }
         }
         else if ( model.onSweater() ) {
 
           // if we stop on the sweater, announce that we are sticking to it
-          getUtteranceQueue().addToBack( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
+          this.sendAlert( this.movementDescriber.getAttractiveStateAndPositionDescriptionWithLabel() );
         }
         else {
 
@@ -792,7 +783,7 @@ inherit( Object, BalloonDescriber, {
           // special case: if the balloon is touching the wall for the first time, don't describe this because
           // the section of this function observing that state will describe this
           if ( nextTouchingWall === this.describedTouchingWall ) {
-            getUtteranceQueue().addToBack( this.movementDescriber.getMovementStopsDescription() );
+            this.sendAlert( this.movementDescriber.getMovementStopsDescription() );
           }
         }
       }
@@ -843,7 +834,7 @@ inherit( Object, BalloonDescriber, {
 
             // assign an id so that we only announce the most recent alert in the utteranceQueue
             this.movementUtterance.alert = utterance;
-            getUtteranceQueue().addToBack( this.movementUtterance );
+            this.sendAlert( this.movementUtterance );
           }
 
           // describe the change in induced charge due to balloon dragging
@@ -862,7 +853,7 @@ inherit( Object, BalloonDescriber, {
             }
 
             this.inducedChargeChangeUtterance.alert = utterance;
-            getUtteranceQueue().addToBack( this.inducedChargeChangeUtterance );
+            this.sendAlert( this.inducedChargeChangeUtterance );
           }
 
           // update flags that indicate which alerts should come next
@@ -885,14 +876,14 @@ inherit( Object, BalloonDescriber, {
       if ( !model.jumping ) {
         if ( nextTouchingWall ) {
           if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
-            getUtteranceQueue().addToBack( this.getWallRubbingDescriptionWithChargePairs() );
+            this.sendAlert( this.getWallRubbingDescriptionWithChargePairs() );
             this.describeWallRub = false;
           }
           else {
 
             // generates a description of how the balloon interacts with the wall
             if ( nextVisible ) {
-              getUtteranceQueue().addToBack( this.movementDescriber.getMovementStopsDescription() );
+              this.sendAlert( this.movementDescriber.getMovementStopsDescription() );
             }
           }
         }
@@ -905,7 +896,7 @@ inherit( Object, BalloonDescriber, {
 
       if ( nextIsDragged ) {
         utterance = this.movementDescriber.getGrabbedAlert();
-        getUtteranceQueue().addToBack( utterance );
+        this.sendAlert( utterance );
 
         // we have been picked up successfully, start describing direction
         this.describeDirection = true;
@@ -943,7 +934,7 @@ inherit( Object, BalloonDescriber, {
           if ( !nextVelocity.equals( Vector2.ZERO ) ) {
 
             utterance = this.movementDescriber.getInitialReleaseDescription();
-            getUtteranceQueue().addToBack( utterance );
+            this.sendAlert( utterance );
             this.describedDirection = this.balloonModel.directionProperty.get();
 
             // after describing initial movement, continue to describe direction changes
@@ -955,7 +946,7 @@ inherit( Object, BalloonDescriber, {
             // when the balloon is first added to the play area
             if ( !this.preventNoMovementAlert ) {
               utterance = this.movementDescriber.getNoChangeReleaseDescription();
-              getUtteranceQueue().addToBack( utterance );
+              this.sendAlert( utterance );
             }
             this.preventNoMovementAlert = false;
           }
@@ -969,7 +960,7 @@ inherit( Object, BalloonDescriber, {
         // if the balloon is moving slowly, alert a continuous movement description
         if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
           utterance = this.movementDescriber.getContinuousReleaseDescription();
-          getUtteranceQueue().addToBack( utterance );
+          this.sendAlert( utterance );
 
           // reset timer
           this.timeSinceReleaseAlert = 0;
