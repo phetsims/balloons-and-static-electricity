@@ -11,6 +11,7 @@ import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
 import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
+import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 
 const iframe = document.createElement( 'iframe' );
 iframe.id = 'testFrame';
@@ -26,7 +27,7 @@ const loadListener = event => {
     window.baseModel = iframe.contentWindow.phet.joist.sim.screens[ 0 ].model;
     window.baseView = iframe.contentWindow.phet.joist.sim.screens[ 0 ].view;
 
-    QUnit.start();
+    qunitStart();
   }
 };
 
