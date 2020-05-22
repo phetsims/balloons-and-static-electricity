@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.16 Fri May 22 2020 12:28:16 GMT-0400 (Eastern Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.17 Fri May 22 2020 13:36:32 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "0b7a48c6b9ba48af48ae7419bd30c280c785f2cc",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "30ce143e28c4b8ab2a680b6d008abab06f4d984f",
+    "sha": "beffa3723f559082f72a178481773c2ef097d7bf",
     "branch": "master"
   },
   "brand": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "tappi": {
-    "sha": "fb37f4400b54a490c5c1d6d770e48a74fe42c98a",
+    "sha": "0309938fc81c5ddb8b0cdfd2e5f4dff1d8e1f710",
     "branch": "master"
   },
   "utterance-queue": {
