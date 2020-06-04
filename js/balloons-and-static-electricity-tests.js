@@ -6,12 +6,12 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 import '../../scenery/js/util/Trail.js'; // Why is Trail not added to scenery namespace for these tests??
 import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
 import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
-import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 
 const iframe = document.createElement( 'iframe' );
 iframe.id = 'testFrame';

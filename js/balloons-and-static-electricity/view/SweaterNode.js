@@ -12,6 +12,7 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -124,7 +125,7 @@ function SweaterNode( model, tandem ) {
 
   // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
   // due to the fact that the movedProperty state could get loaded before the chargeProperty state.
-  _.hasIn( window, 'phet.phetio.phetioEngine' ) && phet.phetio.phetioEngine.phetioStateEngine.stateSetEmitter.addListener( function() {
+  Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.phetioStateEngine.stateSetEmitter.addListener( function() {
     updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
   } );
 }
