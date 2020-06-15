@@ -12,7 +12,11 @@ import BASEConstants from '../../BASEConstants.js';
 import BASEModel from '../../model/BASEModel.js';
 import SweaterNode from '../SweaterNode.js';
 
-QUnit.module( 'SweaterDescriberTests' );
+QUnit.module( 'SweaterDescriberTests', {
+  beforeEach: () => {
+    window.baseModel.reset();
+  }
+} );
 
 QUnit.test( 'SweaterDescriber tests', function( assert ) {
 

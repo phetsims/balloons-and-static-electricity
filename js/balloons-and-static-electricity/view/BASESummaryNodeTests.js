@@ -13,7 +13,11 @@ import PlayAreaMap from '../model/PlayAreaMap.js';
 import BASESummaryNode from './BASESummaryNode.js';
 import WallNode from './WallNode.js';
 
-QUnit.module( 'BASESummaryNode' );
+QUnit.module( 'BASESummaryNode', {
+  beforeEach: () => {
+    window.baseModel.reset();
+  }
+} );
 
 QUnit.test( 'Summary tests', function( assert ) {
 

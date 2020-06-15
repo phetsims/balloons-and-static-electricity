@@ -11,7 +11,11 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
 import WallDescriber from './WallDescriber.js';
 
-QUnit.module( 'WallDescriber' );
+QUnit.module( 'WallDescriber', {
+  beforeEach: () => {
+    window.baseModel.reset();
+  }
+} );
 
 QUnit.test( 'WallDescriber tests', function( assert ) {
   window.baseModel.reset();
