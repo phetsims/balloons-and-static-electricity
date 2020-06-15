@@ -10,7 +10,6 @@
 import timer from '../../../../axon/js/timer.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
-import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 class VibrationController {
@@ -18,11 +17,12 @@ class VibrationController {
 
   /**
    * @public
+   *
    * @param {BASEModel} model
+   * @param {VibrationManageriOS} vibrationManager - sends messeges to the containing app
    */
-  initialize( model ) {
+  initialize( model, vibrationManager ) {
     const paradigmChoice = phet.chipper.queryParameters.vibration;
-    const vibrationManager = new VibrationManageriOS();
 
     if ( paradigmChoice === 'objects' ) {
       model.scanningPropertySet.sweaterDetectedProperty.lazyLink( detected => {

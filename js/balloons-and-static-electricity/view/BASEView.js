@@ -16,6 +16,11 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import SaveTestEventsButton from '../../../../tappi/js/tracking/SaveTestEventsButton.js';
+import VibrationTestEventRecorder from '../../../../tappi/js/tracking/VibrationTestEventRecorder.js';
+import VibrationTestEvent from '../../../../tappi/js/tracking/VibrationTestEvent.js';
+import VibrationTestInputListener from '../../../../tappi/js/tracking/VibrationTestInputListener.js';
+import VibrationManageriOS from '../../../../tappi/js/VibrationManageriOS.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -151,12 +156,50 @@ function BASEView( model, tandem ) {
   // set the accessible order: sweater, balloons wall
   this.pdomPlayAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
 
-  // init vib controller
-  vibrationController.initialize( model );
-
   if ( phet.chipper.queryParameters.vibration !== null ) {
+
+    // sends messages to the containing Swift app
+    const vibrationManager = new VibrationManageriOS();
+
+    vibrationController.initialize( model, vibrationManager );
+
+    // listener that will detect pointer hits on various objects
     const hitDetector = new BASEShapeHitDetector( model, this, tandem.createTandem( 'hitDetector' ) );
     phet.joist.display.addInputListener( hitDetector );
+
+    // @private {number} - time in seconds since simulation launch, for saving event data
+    this.elapsedTime = 0;
+
+    // collection of input and simulation events that will be recorded during user interaction
+    const eventRecorder = new VibrationTestEventRecorder();
+
+    // @private {VibrationTestInputListener} listener that watches finger/touch input and saves to the event recorder
+    this.vibrationTestInputListener = new VibrationTestInputListener( eventRecorder );
+    phet.joist.display.addInputListener( this.vibrationTestInputListener );
+
+    const saveButton = new SaveTestEventsButton( vibrationManager, eventRecorder, {
+      leftTop: this.layoutBounds.leftTop.plusXY( 5, 5 ),
+      baseColor: 'rgb( 150, 225, 0 )'
+    } );
+    this.addChild( saveButton );
+
+    // sim specific events that we want to capture (we only care about the yellow balloon for vibration tests
+    model.yellowBalloon.touchingWallProperty.lazyLink( touchingWall => {
+      if ( model.yellowBalloon.isDraggedProperty.get() ) {
+        const eventString = touchingWall ? 'Touching Wall' : 'Leaving Wall';
+        eventRecorder.addTestEvent( new VibrationTestEvent( null, null, this.elapsedTime, eventString ) );
+      }
+    } );
+    model.yellowBalloon.onSweaterProperty.lazyLink( onSweater => {
+      if ( model.yellowBalloon.isDraggedProperty.get() ) {
+        const eventString = onSweater ? 'On Sweater' : 'Off Sweater';
+        eventRecorder.addTestEvent( new VibrationTestEvent( null, null, this.elapsedTime, eventString ) );
+      }
+    } );
+    model.yellowBalloon.isDraggedProperty.lazyLink( isDragged => {
+      const eventString = isDragged ? 'Balloon drag start' : 'Balloon drag end';
+      eventRecorder.addTestEvent( new VibrationTestEvent( null, null, this.elapsedTime, eventString ) );
+    } );
   }
 
   //--------------------------------------------------------------------------
@@ -184,6 +227,11 @@ inherit( ScreenView, BASEView, {
 
     // step the audio
     this.audioView && this.audioView.step( dt );
+
+    if ( this.vibrationTestInputListener ) {
+      this.elapsedTime += dt;
+      this.vibrationTestInputListener.setElapsedTime( this.elapsedTime );
+    }
   },
 
   /**
