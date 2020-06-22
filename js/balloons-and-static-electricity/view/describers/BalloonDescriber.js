@@ -123,13 +123,14 @@ function BalloonDescriber( model, wall, balloon, accessibleLabel, otherAccessibl
   this.describedDirection = null;
   this.describedCharge = 0;
 
-  // @private {Utterance} - utterances to be sent to the queue, by default they won't spam
+  // @private {Utterance} - utterances to be sent to the queue, with a bit of a delay they won't spam
   // the user if they hit the queue to frequently
-  this.directionUtterance = new Utterance( );
-  this.movementUtterance = new Utterance( );
-  this.inducedChargeChangeUtterance = new Utterance( );
-  this.noChargePickupUtterance = new Utterance();
-  this.chargePickupUtterance = new Utterance( );
+  const utteranceOptions = { alertStableDelay: 500 };
+  this.directionUtterance = new Utterance( utteranceOptions );
+  this.movementUtterance = new Utterance( utteranceOptions );
+  this.inducedChargeChangeUtterance = new Utterance( utteranceOptions );
+  this.noChargePickupUtterance = new Utterance( utteranceOptions );
+  this.chargePickupUtterance = new Utterance( utteranceOptions );
 
   // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
   this.oldDragPosition = balloon.positionProperty.get().copy();
