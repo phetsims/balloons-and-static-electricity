@@ -200,6 +200,13 @@ function BASEView( model, tandem ) {
       const eventString = isDragged ? 'Balloon drag start' : 'Balloon drag end';
       eventRecorder.addTestEvent( new VibrationTestEvent( null, null, this.elapsedTime, eventString ) );
     } );
+
+    // let user know that simulation is loaded, and let them know to begin reading through the PDOM
+    phet.joist.sim.isConstructionCompleteProperty.link( complete => {
+      if ( complete ) {
+        phet.joist.sim.utteranceQueue.addToBack( 'Simulation loaded. Start reading to play.' );
+      }
+    } );
   }
 
   //--------------------------------------------------------------------------
