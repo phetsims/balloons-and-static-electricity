@@ -67,11 +67,15 @@ class VibrationController {
       model.yellowBalloon.isDraggedProperty.link( isDragged => {
         if ( isDragged ) {
 
+          // in seconds
           vibrationManager.vibrate( 0.25 );
 
+          // after the above vibration, start vibrating at 50 hz frequency, but wait for the timeout to
+          // begin vibrating so we wait unitl the first vibration is done - in the future
+          // we should be able to more gracefully queue vibrations
           timer.setTimeout( () => {
             vibrationManager.vibrateAtFrequencyForever( 50 );
-          }, 250 );
+          }, 500 );
         }
         else {
           vibrationManager.stop();
