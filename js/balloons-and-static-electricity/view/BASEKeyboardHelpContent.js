@@ -38,8 +38,8 @@ const jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescription.
 // constants
 // the english strings are shorter for the balloon help content, so we restrict that content width for i18n more
 // so that the whole content will fit in dev bounds 
-const BALLOON_CONTENT_MAX_WIDTH = 130;
-const GENERAL_CONTENT_MAX_WIDTH = 160;
+const BALLOON_CONTENT_MAX_WIDTH = 174;
+const GENERAL_CONTENT_MAX_WIDTH = 214;
 
 /**
  * Constructor.
@@ -65,7 +65,7 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
     // left aligned sections, and section about how to move the grabbed balloon are horizontally aligned
     super( [ balloonGrabHelpSection, moveBalloonHelpSection ], [ generalNavigationHelpSection ], {
-      columnSpacing: 20
+      columnSpacing: 27
     } );
 
     // the reading order for screen readers
