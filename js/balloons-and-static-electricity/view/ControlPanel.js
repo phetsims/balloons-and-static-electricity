@@ -74,16 +74,20 @@ function ControlPanel( model, layoutBounds, tandem ) {
   Node.call( this );
   const self = this;
 
+  // options for text in the wall toggle button
+  const textOptions = {
+    font: CONTROLS_FONT,
+    maxWidth: 100
+  };
+
   // content for Add/Remove wall button.
-  const addWallText = new MultiLineText( addWallString, {
-    font: CONTROLS_FONT,
+  const addWallText = new MultiLineText( addWallString, merge( {
     tandem: tandem.createTandem( 'addWallText' )
-  } );
-  const removeWallText = new MultiLineText( removeWallString, {
-    font: CONTROLS_FONT,
+  }, textOptions ) );
+  const removeWallText = new MultiLineText( removeWallString, merge( {
     center: addWallText.center,
     tandem: tandem.createTandem( 'removeWallText' )
-  } );
+  }, textOptions ) );
 
   // @private
   this.wallButton = new BooleanRectangularToggleButton( removeWallText, addWallText, model.wall.isVisibleProperty, {
