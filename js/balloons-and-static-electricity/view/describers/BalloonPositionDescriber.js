@@ -838,7 +838,7 @@ inherit( Object, BalloonPositionDescriber, {
    * a description containing charge information, position information, and help for how
    * to interact with balloon. Amount of charge information will depend on charge visibility
    * setting. If the balloon is inducing charge, information about induced charge will be included.
-   * If the balloon is on the sweater, will include infomation about the charges on the sweater. After the
+   * If the balloon is on the sweater, will include information about the charges on the sweater. After the
    * balloon has been picked up once, we don't need to describe help information until reset.
    *
    * @returns {string}
