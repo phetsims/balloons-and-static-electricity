@@ -827,7 +827,7 @@ inherit( Object, BalloonPositionDescriber, {
    *
    * @returns {boolean}
    */
-  balloonMovingAtContinousDescriptionVelocity: function() {
+  balloonMovingAtContinuousDescriptionVelocity: function() {
     const velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
     return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
            velocityMagnitude > 0.0005; // value chosen empirically, see #413

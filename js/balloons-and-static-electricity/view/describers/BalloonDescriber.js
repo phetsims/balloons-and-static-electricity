@@ -959,7 +959,7 @@ inherit( Object, BalloonDescriber, {
       else if ( this.timeSinceReleaseAlert > RELEASE_DESCRIPTION_REFRESH_RATE ) {
 
         // if the balloon is moving slowly, alert a continuous movement description
-        if ( this.movementDescriber.balloonMovingAtContinousDescriptionVelocity() ) {
+        if ( this.movementDescriber.balloonMovingAtContinuousDescriptionVelocity() ) {
           utterance = this.movementDescriber.getContinuousReleaseDescription();
           this.sendAlert( utterance );
 
