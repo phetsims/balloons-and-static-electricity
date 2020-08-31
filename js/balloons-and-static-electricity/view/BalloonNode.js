@@ -313,8 +313,6 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
     // if reset, release the balloon from dragging
     dragHandler.interrupt();
 
-    grabDragInteraction.interrupt();
-
     self.describer.reset();
     grabDragInteraction.reset();
   } );
