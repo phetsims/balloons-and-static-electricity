@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import timer from '../../../../axon/js/timer.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -73,7 +73,7 @@ class VibrationController {
           // after the above vibration, start vibrating at 50 hz frequency, but wait for the timeout to
           // begin vibrating so we wait unitl the first vibration is done - in the future
           // we should be able to more gracefully queue vibrations
-          timer.setTimeout( () => {
+          stepTimer.setTimeout( () => {
             vibrationManager.vibrateAtFrequencyForever( 50 );
           }, 500 );
         }
