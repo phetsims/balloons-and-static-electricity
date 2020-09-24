@@ -22,9 +22,8 @@ import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
-import sceneryPhet from '../../../../scenery-phet/js/sceneryPhet.js';
-import ButtonListener from '../../../../scenery/js/input/ButtonListener.js';
 import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
+import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -239,13 +238,14 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
     self.setAccessibleChecked( value === valueB );
   };
 
-  // listener that highlights the unselected button when mouse is over local bounds
-  const highlightListener = new HighlightListener( function( target, highlight ) {
+  // listener that highlights the unselected button when mouse is over
+  const highlightListener = new PressListener();
+  highlightListener.isHighlightedProperty.link( highlighted => {
     const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
     const otherContent = property.get() === valueA ? nodeB : nodeA;
 
-    const buttonOpacity = highlight ? options.overButtonOpacity : options.deselectedButtonOpacity;
-    const contentOpacity = highlight ? options.overContentOpacity : options.deselectedContentOpacity;
+    const buttonOpacity = highlighted ? options.overButtonOpacity : options.deselectedButtonOpacity;
+    const contentOpacity = highlighted ? options.overContentOpacity : options.deselectedContentOpacity;
 
     otherButton.opacity = buttonOpacity;
     otherContent.opacity = contentOpacity;
@@ -307,26 +307,5 @@ inherit( Node, TwoSceneSelectionNode, {
   get enabled() { return this.getEnabled(); }
 
 } );
-
-//TODO This was moved here from scenery-phet. Replace with PressListener.
-// See https://github.com/phetsims/scenery/issues/1078 and https://github.com/phetsims/balloons-and-static-electricity/issues/470
-/**
- * @param {function(Node,boolean)} callback called when the highlight changes, has 2 parameters:
- *   the {Node} to be highlighted, and a {boolean} indicating whether to highlight
- * @constructor
- */
-function HighlightListener( callback ) {
-  ButtonListener.call( this, {
-    over: function( event ) {
-      callback( event.currentTarget, true );
-    },
-    up: function( event ) {
-      callback( event.currentTarget, false );
-    }
-  } );
-}
-
-sceneryPhet.register( 'HighlightListener', HighlightListener );
-inherit( ButtonListener, HighlightListener );
 
 export default TwoSceneSelectionNode;
