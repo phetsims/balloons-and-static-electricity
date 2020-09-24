@@ -254,7 +254,7 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
   // listener that is called when the button is pressed with 'enter' or 'spacebar'
   const clickListener = { click: upFunction };
 
-  // add listeners, to be disposed
+  // add listeners
   this.addInputListener( downUpListener );
   this.addInputListener( highlightListener );
   this.enabledProperty.link( setStyles );
@@ -264,28 +264,11 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
   // set mouse and touch areas
   this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
   this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
-
-  // @private - for garbage collection
-  this.disposeTwoSceneSelectionNode = function() {
-    this.removeInputListener( downUpListener );
-    this.removeInputListener( highlightListener );
-    this.enabledProperty.unlink( setStyles );
-    property.unlink( propertyListener );
-    this.removeInputListener( clickListener );
-  };
 }
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
 inherit( Node, TwoSceneSelectionNode, {
-
-  /**
-   * Make eligible for garbage collection.
-   * @public
-   */
-  dispose: function() {
-    this.disposeTwoSceneSelectionNode();
-  },
 
   /**
    * Set enabled/disabled for interaction
