@@ -239,7 +239,9 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
   };
 
   // listener that highlights the unselected button when mouse is over
-  const highlightListener = new PressListener();
+  const highlightListener = new PressListener( {
+    tandem: options.tandem.createTandem( 'highlightListener' )
+  } );
   highlightListener.isHighlightedProperty.link( highlighted => {
     const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
     const otherContent = property.get() === valueA ? nodeB : nodeA;
