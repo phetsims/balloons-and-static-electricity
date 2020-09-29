@@ -10,7 +10,6 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
-import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
@@ -32,7 +31,7 @@ function BASEModel( width, height, tandem ) {
   // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
   this.showChargesProperty = new Property( 'all', {
     tandem: tandem.createTandem( 'showChargesProperty' ),
-    phetioType: PropertyIO( StringIO )
+    phetioType: Property.PropertyIO( StringIO )
   } );
 
   // @public {boolean} - whether or not the two balloons are considered 'next to' each other, primarily used for a11y

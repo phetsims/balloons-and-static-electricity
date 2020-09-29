@@ -12,7 +12,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -202,7 +201,7 @@ function BalloonModel( x, y, balloonsAndStaticElectricityModel, defaultVisibilit
   // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
   this.directionProperty = new Property( null, {
     tandem: tandem.createTandem( 'directionProperty' ),
-    phetioType: PropertyIO( NullableIO( StringIO ) )
+    phetioType: Property.PropertyIO( NullableIO( StringIO ) )
   } );
 
   // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
