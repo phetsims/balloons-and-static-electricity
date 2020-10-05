@@ -10,11 +10,11 @@ import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
 import BASEKeyboardHelpContent from './balloons-and-static-electricity/view/BASEKeyboardHelpContent.js';
 import BASEView from './balloons-and-static-electricity/view/BASEView.js';
+import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 
 const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
 
@@ -32,7 +32,7 @@ simLauncher.launch( function() {
       graphicArts: 'Sharon Siman-Tov',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
     },
-    keyboardHelpNode: new BASEKeyboardHelpContent()
+    hasKeyboardHelpContent: true
   };
 
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
@@ -54,7 +54,8 @@ simLauncher.launch( function() {
       },
       {
         backgroundColorProperty: BASEConstants.backgroundColorProperty,
-        tandem: balloonsAndStaticElectricityScreenTandem
+        tandem: balloonsAndStaticElectricityScreenTandem,
+        keyboardHelpNode: new BASEKeyboardHelpContent()
       }
     )
   ], simOptions ).start();
