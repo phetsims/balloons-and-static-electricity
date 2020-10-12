@@ -53,7 +53,6 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
     const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
-      withGroupContent: true,
       labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
     const moveBalloonHelpSection = new MoveBalloonHelpSection( {
