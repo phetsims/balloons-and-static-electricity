@@ -23,7 +23,7 @@ import PlayAreaMap from '../model/PlayAreaMap.js';
 const ARROW_HEIGHT = 15; // dimensions for the arrow icons
 const KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
 const ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-const TEXT_KEY_OPTIONS = { font: new PhetFont( 14 ), forceSquareKey: true, keyHeight: KEY_HEIGHT };
+const LETTER_KEY_OPTIONS = { font: new PhetFont( 14 ), keyHeight: KEY_HEIGHT };
 const KEY_ARROW_SPACING = 2;
 const BALLOON_KEY_SPACING = 8;
 const SHADOW_WIDTH = 2;
@@ -118,19 +118,19 @@ inherit( Node, BalloonInteractionCueNode, {
     let keyIcon;
     let box;
     if ( direction === 'up' ) {
-      keyIcon = new LetterKeyNode( 'W', TEXT_KEY_OPTIONS );
+      keyIcon = new LetterKeyNode( 'W', LETTER_KEY_OPTIONS );
       box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'left' ) {
-      keyIcon = new LetterKeyNode( 'A', TEXT_KEY_OPTIONS );
+      keyIcon = new LetterKeyNode( 'A', LETTER_KEY_OPTIONS );
       box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'right' ) {
-      keyIcon = new LetterKeyNode( 'D', TEXT_KEY_OPTIONS );
+      keyIcon = new LetterKeyNode( 'D', LETTER_KEY_OPTIONS );
       box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'down' ) {
-      keyIcon = new LetterKeyNode( 'S', TEXT_KEY_OPTIONS );
+      keyIcon = new LetterKeyNode( 'S', LETTER_KEY_OPTIONS );
       box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
 
