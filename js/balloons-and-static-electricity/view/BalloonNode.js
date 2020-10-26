@@ -266,8 +266,8 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
     },
 
     // hides the interactionCueNode cue if this returns true
-    successfulDrag: function() {
-      return !model.positionProperty.get().equals( model.positionProperty.initialValue );
+    showDragCueNode: function() {
+      return model.positionProperty.get().equals( model.positionProperty.initialValue );
     },
 
     listenersForDrag: [ this.keyboardDragHandler ],
