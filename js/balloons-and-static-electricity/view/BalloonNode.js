@@ -114,8 +114,7 @@ function BalloonNode( model, imgsrc, globalModel, accessibleLabelString, otherAc
   const dragHandler = new MovableDragHandler( property, {
 
     // When dragging across it in a mobile device, pick it up
-    // Temporarily disabled for vibration prototypes, see #449
-    allowTouchSnag: phet.chipper.queryParameters.vibration === null,
+    allowTouchSnag: true,
     startDrag: function() {
       model.draggingWithPointer = true;
       if ( !model.isDraggedProperty.get() ) {

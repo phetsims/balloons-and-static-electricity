@@ -27,9 +27,7 @@ const BASEQueryParameters = QueryStringMachine.getAll( {
   showSweaterChargedArea: { type: 'flag' },
 
   // debugging - show positions of center of balloon and center of balloon charges
-  showBalloonChargeCenter: { type: 'flag' },
-
-  vibrationChart: { type: 'flag' }
+  showBalloonChargeCenter: { type: 'flag' }
 } );
 
 balloonsAndStaticElectricity.register( 'BASEQueryParameters', BASEQueryParameters );
