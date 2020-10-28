@@ -29,7 +29,6 @@ import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import ColorConstants from '../../../../sun/js/ColorConstants.js';
 import SunConstants from '../../../../sun/js/SunConstants.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -65,7 +64,6 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
     // The fill for the buttons - default is white
     baseColor: DEFAULT_FILL,
     pressedColor: DEFAULT_FILL.colorUtilsDarker( 0.4 ),
-    disabledBaseColor: ColorConstants.LIGHT_GRAY,
 
     // Opacity can be set separately for the buttons and button content.
     selectedButtonOpacity: 1,
