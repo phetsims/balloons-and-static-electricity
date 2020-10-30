@@ -284,10 +284,10 @@ inherit( Node, TwoSceneSelectionNode, {
    * Get enabled/disabled value.
    * @returns {boolean}
    */
-  getEnabled: function() {
+  isEnabled: function() {
     return this.enabledProperty.get();
   },
-  get enabled() { return this.getEnabled(); }
+  get enabled() { return this.isEnabled(); }
 
 } );
 
