@@ -18,7 +18,6 @@
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
-import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -57,9 +56,6 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
 
     // mask behind the buttons - if non null, hides everything behind
     maskFill: null,
-
-    // whether or not these buttons are enabled
-    enabledProperty: new Property( true ),
 
     // The fill for the buttons - default is white
     baseColor: DEFAULT_FILL,
@@ -105,9 +101,6 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
   }, options );
 
   Node.call( this, options );
-
-  // @private
-  this.enabledProperty = options.enabledProperty;
 
   // place the nodes in an align group so that the two buttons will have identical sizing
   const buttonAlignGroup = new AlignGroup();
@@ -269,6 +262,13 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
 inherit( Node, TwoSceneSelectionNode, {
+
+  /**
+   * Since Node added support for enabled, we need to opt out of that approach because this type implemented its own support
+   * @protected
+   * @override
+   */
+  onEnabledPropertyChange: function() { /* no-op */ },
 
   /**
    * Set enabled/disabled for interaction
