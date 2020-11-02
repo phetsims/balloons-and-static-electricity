@@ -268,27 +268,7 @@ inherit( Node, TwoSceneSelectionNode, {
    * @protected
    * @override
    */
-  onEnabledPropertyChange: function() { /* no-op */ },
-
-  /**
-   * Set enabled/disabled for interaction
-   * @param {boolean} value
-   */
-  setEnabled: function( value ) {
-    assert && assert( typeof value === 'boolean', 'TwoSceneSelectionNode.enabled must be a boolean value' );
-    this.enabledProperty.set( value );
-  },
-  set enabled( value ) { this.setEnabled( value ); },
-
-  /**
-   * Get enabled/disabled value.
-   * @returns {boolean}
-   */
-  isEnabled: function() {
-    return this.enabledProperty.get();
-  },
-  get enabled() { return this.isEnabled(); }
-
+  onEnabledPropertyChange: function() { /* no-op */ }
 } );
 
 export default TwoSceneSelectionNode;
