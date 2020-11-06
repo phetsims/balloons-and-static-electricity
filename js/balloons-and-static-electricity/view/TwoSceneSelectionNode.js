@@ -261,14 +261,6 @@ function TwoSceneSelectionNode( property, valueA, valueB, nodeA, nodeB, options 
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
-inherit( Node, TwoSceneSelectionNode, {
-
-  /**
-   * Since Node added support for enabled, we need to opt out of that approach because this type implemented its own support
-   * @protected
-   * @override
-   */
-  onEnabledPropertyChange: function() { /* no-op */ }
-} );
+inherit( Node, TwoSceneSelectionNode );
 
 export default TwoSceneSelectionNode;
