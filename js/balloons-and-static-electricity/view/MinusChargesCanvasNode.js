@@ -7,7 +7,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -22,7 +21,7 @@ let chargeNode = null;
 
 // This is to prevent an instrumented phet-io instance from being created outside of a constructor,
 // see https://github.com/phetsims/phet-io-wrappers/issues/97
-const getChargeNode = function() {
+const getChargeNode = () => {
   if ( !chargeNode ) {
     chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.GLOBAL.createTandem( 'chargeNode' ), {
       scale: scale
@@ -31,33 +30,30 @@ const getChargeNode = function() {
   return chargeNode;
 };
 
-/**
- * @constructor
- *
- * @param {number} wallX - x position of the wall, to offset charge positions
- * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
- * @param {Array.<MovablePointChargeModel} charges
- * @param {[object]} options
- */
-function MinusChargesCanvasNode( wallX, wallBounds, charges, options ) {
+class MinusChargesCanvasNode extends CanvasNode {
 
-  // @private {Array.<MovablePointChargeNode>}
-  this.charges = charges;
+  /**
+   * @param {number} wallX - x position of the wall, to offset charge positions
+   * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
+   * @param {Array.<MovablePointChargeModel} charges
+   * @param {[object]} options
+   */
+  constructor( wallX, wallBounds, charges, options ) {
 
-  // @private {number}
-  this.wallX = wallX;
+    super( options );
+    this.setCanvasBounds( wallBounds );
+    this.invalidatePaint();
 
-  // @private - created synchronously so that it can be drawn immediately in paintCanvas
-  this.chargeImageNode = getChargeNode().rasterized( { wrap: false } );
+    // @private {Array.<MovablePointChargeNode>}
+    this.charges = charges;
 
-  CanvasNode.call( this, options );
-  this.setCanvasBounds( wallBounds );
-  this.invalidatePaint();
-}
+    // @private {number}
+    this.wallX = wallX;
 
-balloonsAndStaticElectricity.register( 'MinusChargesCanvasNode', MinusChargesCanvasNode );
+    // @private - created synchronously so that it can be drawn immediately in paintCanvas
+    this.chargeImageNode = getChargeNode().rasterized( { wrap: false } );
+  }
 
-inherit( CanvasNode, MinusChargesCanvasNode, {
 
   /**
    * Draw charges at their correct positions indicating induced charge.
@@ -66,7 +62,7 @@ inherit( CanvasNode, MinusChargesCanvasNode, {
    * @override
    * @public
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
 
     // we scaled up the node before converting to image so that it looks less pixelated, so now we need to
     // scale it back down
@@ -84,6 +80,8 @@ inherit( CanvasNode, MinusChargesCanvasNode, {
       context.drawImage( this.chargeImageNode.image, xPosition, yPosition );
     }
   }
-} );
+}
+
+balloonsAndStaticElectricity.register( 'MinusChargesCanvasNode', MinusChargesCanvasNode );
 
 export default MinusChargesCanvasNode;

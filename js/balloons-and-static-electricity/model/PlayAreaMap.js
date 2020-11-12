@@ -49,6 +49,33 @@ const Y_BOUNDARY_POSITIONS = {
   AT_BOTTOM: 393
 };
 
+
+/**
+ * Create a range of the play area, optionally taking a previous range. If provided, the range that is returned will
+ * start from the max value of the previous range.
+ *
+ * @param {number} width - desired width of the next range
+ * @param {Range} [previousRange] - if provided, next range will start from max of this range
+ *
+ * @returns {Range}
+ */
+const createNextRange = ( width, previousRange ) => {
+  const min = previousRange ? previousRange.max : 0;
+  return new Range( min, min + width );
+};
+
+/**
+ * Create a range in the play area that signifies a landmark. A landmark is a specific position in the Play Area
+ * that is critical and has more important information. It is generally more narrow than the larger regions of the
+ * PlayArea that define how the balloon's position should be described.
+ *
+ * @param {number} xPosition - center of the landmark
+ * @returns {Range}
+ */
+const createLandmarkRange = xPosition => {
+  return new Range( xPosition - HALF_LANDMARK_WIDTH, xPosition + HALF_LANDMARK_WIDTH );
+};
+
 // landmark ranges that surround critical x positions, but more are added below that depend on these ranges
 const atNearSweaterRange = createLandmarkRange( X_POSITIONS.AT_NEAR_SWEATER );
 const atCenterPlayAreaRange = createLandmarkRange( X_POSITIONS.AT_CENTER_PLAY_AREA );
@@ -107,7 +134,7 @@ const ROW_RANGES = {
   LOWER_PLAY_AREA: lowerPlayAreaRange
 };
 
-var PlayAreaMap = {
+const PlayAreaMap = {
   X_POSITIONS: X_POSITIONS,
   Y_POSITIONS: Y_POSITIONS,
   X_BOUNDARY_POSITIONS: X_BOUNDARY_POSITIONS,
@@ -124,7 +151,7 @@ var PlayAreaMap = {
    * @param  {Vector2} position
    * @returns {string}
    */
-  getPlayAreaColumn: function( position, wallVisible ) {
+  getPlayAreaColumn( position, wallVisible ) {
     const columns = COLUMN_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -153,7 +180,7 @@ var PlayAreaMap = {
    * @param  {Vector2} position
    * @returns {string}
    */
-  getPlayAreaLandmark: function( position, wallVisible ) {
+  getPlayAreaLandmark( position, wallVisible ) {
     const landmarks = LANDMARK_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -181,7 +208,7 @@ var PlayAreaMap = {
    * @param  {Vector2} position
    * @returns {strint}
    */
-  getPlayAreaRow: function( position ) {
+  getPlayAreaRow( position ) {
     const rows = PlayAreaMap.ROW_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
@@ -206,7 +233,7 @@ var PlayAreaMap = {
    * @param {Vector2} position
    * @returns {boolean}
    */
-  inLandmarkColumn: function( position ) {
+  inLandmarkColumn( position ) {
     const landmarks = PlayAreaMap.LANDMARK_RANGES;
 
     // loop through keys manually to prevent many closures from being created during object iteration in for loops
@@ -224,31 +251,5 @@ var PlayAreaMap = {
 };
 
 balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );
-
-/**
- * Create a range of the play area, optionally taking a previous range. If provided, the range that is returned will
- * start from the max value of the previous range.
- *
- * @param {number} width - desired width of the next range
- * @param {Range} [previousRange] - if provided, next range will start from max of this range
- *
- * @returns {Range}
- */
-function createNextRange( width, previousRange ) {
-  const min = previousRange ? previousRange.max : 0;
-  return new Range( min, min + width );
-}
-
-/**
- * Create a range in the play area that signifies a landmark. A landmark is a specific position in the Play Area
- * that is critical and has more important information. It is generally more narrow than the larger regions of the
- * PlayArea that define how the balloon's position should be described.
- *
- * @param {number} xPosition - center of the landmark
- * @returns {Range}
- */
-function createLandmarkRange( xPosition ) {
-  return new Range( xPosition - HALF_LANDMARK_WIDTH, xPosition + HALF_LANDMARK_WIDTH );
-}
 
 export default PlayAreaMap;

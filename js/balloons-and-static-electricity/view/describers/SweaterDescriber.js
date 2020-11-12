@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
@@ -45,20 +44,18 @@ const sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
 const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
-/**
- * Manages all descriptions relating to the sweater.
- *
- * @param {BASEModel} model
- * @param {Sweater} sweaterModel
- */
-function SweaterDescriber( model, sweaterModel ) {
-  this.model = model;
-  this.sweaterModel = sweaterModel;
-}
+class SweaterDescriber {
+  /**
+   * Manages all descriptions relating to the sweater.
+   *
+   * @param {BASEModel} model
+   * @param {Sweater} sweaterModel
+   */
+  constructor( model, sweaterModel ) {
+    this.model = model;
+    this.sweaterModel = sweaterModel;
+  }
 
-balloonsAndStaticElectricity.register( 'SweaterDescriber', SweaterDescriber );
-
-inherit( Object, SweaterDescriber, {
 
   /**
    * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
@@ -67,11 +64,12 @@ inherit( Object, SweaterDescriber, {
    * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
    * "At left edge of Play Area. Has positive net charge, no more negative charges, only positive charges." or
    * "At left edge of Play Area. Has positive net charge, several more positive charges than negative charges."
+   * @public
    *
    * @param {Property.<string>} showCharges
    * @returns {string}
    */
-  getSweaterDescription: function( showCharges ) {
+  getSweaterDescription( showCharges ) {
 
     // if we are not showing any charges, just return a description for the position
     if ( showCharges === 'none' ) {
@@ -135,7 +133,7 @@ inherit( Object, SweaterDescriber, {
       statement: description
     } );
   }
-}, {
+
 
   /**
    * Get a description of the relative charge of the sweater, including the label. Dependent on
@@ -144,12 +142,13 @@ inherit( Object, SweaterDescriber, {
    * "Sweater has several more positive charges than negative charges." or
    * "Sweater has positive net charge, showing several positive charges." or
    * "Sweater has no more negative charges, only positive charges."
+   * @public
    *
    * @param  {number} charge
    * @param  {string} shownCharges
    * @returns {string}
    */
-  getRelativeChargeDescriptionWithLabel: function( charge, shownCharges ) {
+  static getRelativeChargeDescriptionWithLabel( charge, shownCharges ) {
     let description;
 
     // the relative charge on the sweater, something like 'several' or 'many'
@@ -187,17 +186,18 @@ inherit( Object, SweaterDescriber, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get the relative charge on the sweater.  Usually just returns the relative description
    * from BASEDescriber, but if all charges are gone, the sweater uses a special
    * word to indicate this.
+   * @public
    *
    * @param {number} charge
    * @returns {string}
    */
-  getRelativeChargeDescription: function( charge ) {
+  static getRelativeChargeDescription( charge ) {
 
     if ( charge === BASEConstants.MAX_BALLOON_CHARGE ) {
       return allString;
@@ -205,16 +205,17 @@ inherit( Object, SweaterDescriber, {
     else {
       return BASEDescriber.getRelativeChargeDescription( charge );
     }
-  },
+  }
 
   /**
    * Get an alert describing the sweater when it runs out of charges.  Dependent on the
    * charge visibility.
+   * @public
    *
    * @param  {string} shownCharges
    * @returns {string}
    */
-  getNoMoreChargesAlert: function( charge, shownCharges ) {
+  static getNoMoreChargesAlert( charge, shownCharges ) {
     let alert;
     if ( shownCharges === 'all' ) {
       alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
@@ -226,22 +227,23 @@ inherit( Object, SweaterDescriber, {
     }
 
     return alert;
-  },
+  }
 
   /**
    * Get a description of the net charge of the sweater, will return either
    * "Sweater has positive net charge." or
    * "Sweater has neutral net charge."
+   * @public
    *
    * @param {number} sweaterCharge
    * @returns {string}
    */
-  getNetChargeDescription: function( sweaterCharge ) {
+  static getNetChargeDescription( sweaterCharge ) {
     const relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
     return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
       relativeCharge: relativeChargeString
     } );
-  },
+  }
 
   /**
    * Get a description that includes information about where additional charges are on the sweater. This is
@@ -254,7 +256,7 @@ inherit( Object, SweaterDescriber, {
    * @param {string} shownCharges
    * @returns {string}
    */
-  getMoreChargesDescription: function( balloon, sweaterCharge, sweaterCharges, shownCharges ) {
+  static getMoreChargesDescription( balloon, sweaterCharge, sweaterCharges, shownCharges ) {
     assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );
     assert && assert( shownCharges !== 'none', 'this description should not be used when no charges are shown' );
 
@@ -285,7 +287,7 @@ inherit( Object, SweaterDescriber, {
       moreCharges: moreChargesString,
       direction: directionDescription
     } );
-  },
+  }
 
   /**
    * Get a description of the sweater's charge for the screen summary. Will return something like
@@ -293,10 +295,11 @@ inherit( Object, SweaterDescriber, {
    * "Sweater has positive net charge, showing a few positive charges."
    * "Sweater has zero net charge, many pairs of positive and negative charges."
    * "Sweater has zero net charge, showing no charges."
+   * @public
    *
    * @returns {string}
    */
-  getSummaryChargeDescription: function( chargesShown, charge ) {
+  static getSummaryChargeDescription( chargesShown, charge ) {
 
     // description of the sweater object, like "Sweater has zero net charge"
     const chargeSignString = charge > 0 ? positiveString : zeroString;
@@ -324,6 +327,8 @@ inherit( Object, SweaterDescriber, {
       charge: chargeString
     } );
   }
-} );
+}
+
+balloonsAndStaticElectricity.register( 'SweaterDescriber', SweaterDescriber );
 
 export default SweaterDescriber;

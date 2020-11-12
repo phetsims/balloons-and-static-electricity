@@ -6,7 +6,6 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -42,21 +41,22 @@ const icon = new Node( {
 } );
 const sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
-/**
- * @constructor
- * @param {Vector2} position
- * @pararm {Tandem} tandem
- */
-function PlusChargeNode( position, tandem ) {
-
-  Node.call( this, { pickable: false, tandem: tandem } );
-
-  this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
-
-  this.addChild( sharedPlusChargeNode );
+class PlusChargeNode extends Node {
+  
+  /**
+   * @param {Vector2} position
+   * @pararm {Tandem} tandem
+   */
+  constructor( position, tandem ) {
+  
+    super( { pickable: false, tandem: tandem } );
+  
+    this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
+  
+    this.addChild( sharedPlusChargeNode );
+  }
 }
 
 balloonsAndStaticElectricity.register( 'PlusChargeNode', PlusChargeNode );
 
-inherit( Node, PlusChargeNode );
 export default PlusChargeNode;

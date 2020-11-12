@@ -9,7 +9,7 @@
 
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-var BalloonDirectionEnum = {
+const BalloonDirectionEnum = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
   UP: 'UP',
@@ -25,7 +25,7 @@ var BalloonDirectionEnum = {
    * @param {string} direction - one of BalloonDirectionEnum
    * @returns {Boolean}
    */
-  isRelativeDirection: function( direction ) {
+  isRelativeDirection( direction ) {
     return direction === BalloonDirectionEnum.LEFT ||
            direction === BalloonDirectionEnum.RIGHT ||
            direction === BalloonDirectionEnum.UP ||

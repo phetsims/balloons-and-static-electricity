@@ -7,11 +7,11 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import GeneralKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';

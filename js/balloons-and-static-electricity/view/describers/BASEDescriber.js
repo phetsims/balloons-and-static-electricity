@@ -197,7 +197,7 @@ const POSITION_DESCRIPTION_MAP = {
  *
  * @returns {Object}
  */
-const generateDescriptionMapWithEntries = function( descriptionArray, valueRange, entries ) {
+const generateDescriptionMapWithEntries = ( descriptionArray, valueRange, entries ) => {
   entries = entries || [];
   const map = {};
 
@@ -245,7 +245,7 @@ const DIRECTION_MAP = {
   DOWN_LEFT: downAndToTheLeftString
 };
 
-var BASEDescriber = {
+const BASEDescriber = {
 
   /**
    * Get the position description for the balloon. This is not a full description, but a short
@@ -254,7 +254,7 @@ var BASEDescriber = {
    * @param {Vector2} position - position of the balloon, relative to its center
    * @returns {string}
    */
-  getPositionDescription: function( position, wallVisible ) {
+  getPositionDescription( position, wallVisible ) {
 
     const landmarks = PlayAreaMap.LANDMARK_RANGES;
     const columns = PlayAreaMap.COLUMN_RANGES;
@@ -323,7 +323,7 @@ var BASEDescriber = {
    * @param {string} column - one of keys in POSITION_DESCRIPTION_MAP
    * @returns {boolean}
    */
-  inWallColumn: function( column ) {
+  inWallColumn( column ) {
     return ( column === 'AT_WALL' || column === 'AT_NEAR_WALL' || column === 'WALL' || column === 'AT_VERY_CLOSE_TO_WALL' );
   },
 
@@ -334,7 +334,7 @@ var BASEDescriber = {
    * @param  {number} charge
    * @returns {string}
    */
-  getRelativeChargeDescription: function( charge ) {
+  getRelativeChargeDescription( charge ) {
 
     // the description is mapped to the absolute value of charge
     const absCharge = Math.abs( charge );
@@ -361,7 +361,7 @@ var BASEDescriber = {
    * @param  {number} charge
    * @returns {Range}
    */
-  getDescribedChargeRange: function( charge ) {
+  getDescribedChargeRange( charge ) {
 
     const describedCharge = Math.abs( charge );
     const keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
@@ -387,7 +387,7 @@ var BASEDescriber = {
    *
    * @returns {[type]} [description]
    */
-  getBalloonsVisibleWithSameChargeRange: function( balloonA, balloonB ) {
+  getBalloonsVisibleWithSameChargeRange( balloonA, balloonB ) {
     const rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
     const rangeB = BASEDescriber.getDescribedChargeRange( balloonB.chargeProperty.get() );
 
@@ -404,7 +404,7 @@ var BASEDescriber = {
    * @param {string} direction - one of BalloonDirectionEnum
    * @returns {string}
    */
-  getDirectionDescription: function( direction ) {
+  getDirectionDescription( direction ) {
     return DIRECTION_MAP[ direction ];
   },
 
@@ -416,7 +416,7 @@ var BASEDescriber = {
    *
    * @returns {string}
    */
-  getNetChargeDescriptionWithLabel: function( charge ) {
+  getNetChargeDescriptionWithLabel( charge ) {
     const chargeAmountString = charge < 0 ? negativeString : zeroString;
     return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
       chargeAmount: chargeAmountString,
@@ -435,7 +435,7 @@ var BASEDescriber = {
    * @param {number} numberOfCharges
    * @returns {string}
    */
-  getNeutralChargesShownDescription: function( chargesShown, numberOfCharges ) {
+  getNeutralChargesShownDescription( chargesShown, numberOfCharges ) {
     let description;
 
     const relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );

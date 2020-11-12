@@ -18,7 +18,7 @@ QUnit.module( 'SweaterDescriberTests', {
   }
 } );
 
-QUnit.test( 'SweaterDescriber tests', function( assert ) {
+QUnit.test( 'SweaterDescriber tests', assert => {
 
   const model = new BASEModel( 768, 504, Tandem.GENERAL.createTandem( 'model' ) );
   const sweaterNode = new SweaterNode( model, Tandem.GENERAL.createTandem( 'sweaterNode' ) );

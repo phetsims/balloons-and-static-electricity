@@ -19,7 +19,7 @@ QUnit.module( 'BASESummaryNode', {
   }
 } );
 
-QUnit.test( 'Summary tests', function( assert ) {
+QUnit.test( 'Summary tests', assert => {
 
   // Move these to once everything has been imported and constructed
   // create model and view for testing

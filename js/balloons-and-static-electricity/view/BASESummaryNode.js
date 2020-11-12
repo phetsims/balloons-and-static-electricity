@@ -10,7 +10,6 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -44,106 +43,103 @@ const summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPa
 const initialObjectPositionsString = BASEA11yStrings.initialObjectPositions.value;
 const simOpeningString = BASEA11yStrings.simOpening.value;
 
-/**
- * @constructor
- * @param {BASEModel} model
- * @param yellowBalloonNode
- * @param greenBalloonNode
- * @param wallNode
- * @param {Tandem} tandem
- */
-function BASESummaryNode( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
+class BASESummaryNode extends Node {
+  
+  /**
+   * @param {BASEModel} model
+   * @param yellowBalloonNode
+   * @param greenBalloonNode
+   * @param wallNode
+   * @param {Tandem} tandem
+   */
+  constructor( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
+  
+  
+    super( {
+      tandem: tandem
+    } );
+  
+    // pull out model elements for readability
+    this.yellowBalloon = model.yellowBalloon;
+    this.greenBalloon = model.greenBalloon;
+  
+    this.yellowBalloonDescriber = yellowBalloonNode.describer;
+    this.greenBalloonDescriber = greenBalloonNode.describer;
+  
+    // @private
+    this.model = model;
+    this.wall = model.wall;
+  
+    // opening paragraph for the simulation
+    const openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
+    this.addChild( openingSummaryNode );
+  
+    // list of dynamic description content that will update with the state of the simulation
+    const listNode = new Node( { tagName: 'ul' } );
+    const roomObjectsNode = new Node( { tagName: 'li' } );
+    const objectPositionsNode = new Node( { tagName: 'li', innerContent: initialObjectPositionsString } );
+    const balloonChargeNode = new Node( { tagName: 'li' } );
+    const sweaterWallChargeNode = new Node( { tagName: 'li' } );
+    const inducedChargeNode = new Node( { tagName: 'li' } );
+  
+    // structure the accessible content
+    this.addChild( listNode );
+    listNode.addChild( roomObjectsNode );
+    listNode.addChild( objectPositionsNode );
+    listNode.addChild( balloonChargeNode );
+    listNode.addChild( sweaterWallChargeNode );
+    listNode.addChild( inducedChargeNode );
+    this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
+  
+    // update the description that covers the visible objects in the play area
+    Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], ( balloonVisible, wallVisible ) => {
+      roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
+    } );
+  
+    const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) => {
+      const chargesVisible = showCharges !== 'none';
+      balloonChargeNode.accessibleVisible = chargesVisible;
+      sweaterWallChargeNode.accessibleVisible = chargesVisible;
+  
+      // update labels if charges are shown
+      if ( chargesVisible ) {
+        balloonChargeNode.innerContent = this.getBalloonChargeDescription();
+        sweaterWallChargeNode.innerContent = this.getSweaterAndWallChargeDescription();
+      }
+    } );
+  
+    const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
+    Property.multilink( inducedChargeProperties, ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
+  
+      // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
+      const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
+      const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
+      inducedChargeNode.accessibleVisible = showInducingItem;
+  
+      if ( showInducingItem ) {
+        inducedChargeNode.innerContent = this.getInducedChargeDescription();
+      }
+    } );
+  
+    // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
+    // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
+    Property.multilink(
+      [ this.yellowBalloon.positionProperty,
+        this.greenBalloon.positionProperty,
+        this.greenBalloon.isVisibleProperty,
+        model.wall.isVisibleProperty
+      ], ( yellowPosition, greenPosition, greenVisible, wallVisible ) => {
+        const initialValues = this.yellowBalloon.positionProperty.initialValue === yellowPosition &&
+                              this.greenBalloon.positionProperty.initialValue === greenPosition &&
+                              this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
+                              model.wall.isVisibleProperty.initialValue === wallVisible;
+  
+        objectPositionsNode.accessibleVisible = initialValues;
+      }
+    );
+  }
 
-  const self = this;
-
-  Node.call( this, {
-    tandem: tandem
-  } );
-
-  // pull out model elements for readability
-  this.yellowBalloon = model.yellowBalloon;
-  this.greenBalloon = model.greenBalloon;
-
-  this.yellowBalloonDescriber = yellowBalloonNode.describer;
-  this.greenBalloonDescriber = greenBalloonNode.describer;
-
-  // @private
-  this.model = model;
-  this.wall = model.wall;
-
-  // opening paragraph for the simulation
-  const openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
-  this.addChild( openingSummaryNode );
-
-  // list of dynamic description content that will update with the state of the simulation
-  const listNode = new Node( { tagName: 'ul' } );
-  const roomObjectsNode = new Node( { tagName: 'li' } );
-  const objectPositionsNode = new Node( { tagName: 'li', innerContent: initialObjectPositionsString } );
-  const balloonChargeNode = new Node( { tagName: 'li' } );
-  const sweaterWallChargeNode = new Node( { tagName: 'li' } );
-  const inducedChargeNode = new Node( { tagName: 'li' } );
-
-  // structure the accessible content
-  this.addChild( listNode );
-  listNode.addChild( roomObjectsNode );
-  listNode.addChild( objectPositionsNode );
-  listNode.addChild( balloonChargeNode );
-  listNode.addChild( sweaterWallChargeNode );
-  listNode.addChild( inducedChargeNode );
-  this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
-
-  // update the description that covers the visible objects in the play area
-  Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], function( balloonVisible, wallVisible ) {
-    roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
-  } );
-
-  const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-  Property.multilink( chargeProperties, function( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) {
-    const chargesVisible = showCharges !== 'none';
-    balloonChargeNode.accessibleVisible = chargesVisible;
-    sweaterWallChargeNode.accessibleVisible = chargesVisible;
-
-    // update labels if charges are shown
-    if ( chargesVisible ) {
-      balloonChargeNode.innerContent = self.getBalloonChargeDescription();
-      sweaterWallChargeNode.innerContent = self.getSweaterAndWallChargeDescription();
-    }
-  } );
-
-  const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-  Property.multilink( inducedChargeProperties, function( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) {
-
-    // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
-    const inducingCharge = self.yellowBalloon.inducingChargeAndVisible() || self.greenBalloon.inducingChargeAndVisible();
-    const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
-    inducedChargeNode.accessibleVisible = showInducingItem;
-
-    if ( showInducingItem ) {
-      inducedChargeNode.innerContent = self.getInducedChargeDescription();
-    }
-  } );
-
-  // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
-  // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
-  Property.multilink(
-    [ self.yellowBalloon.positionProperty,
-      self.greenBalloon.positionProperty,
-      self.greenBalloon.isVisibleProperty,
-      model.wall.isVisibleProperty
-    ], function( yellowPosition, greenPosition, greenVisible, wallVisible ) {
-      const initialValues = self.yellowBalloon.positionProperty.initialValue === yellowPosition &&
-                            self.greenBalloon.positionProperty.initialValue === greenPosition &&
-                            self.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
-                            model.wall.isVisibleProperty.initialValue === wallVisible;
-
-      objectPositionsNode.accessibleVisible = initialValues;
-    }
-  );
-}
-
-balloonsAndStaticElectricity.register( 'BASESummaryNode', BASESummaryNode );
-
-inherit( Node, BASESummaryNode, {
 
   /**
    * Get a description of the sweater and wall charge. Does not include induced charge. If the sweater has neutral
@@ -155,9 +151,11 @@ inherit( Node, BASESummaryNode, {
    * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
    *   positive charges."
    *
+   * @private
+   *
    * @returns {string}
    */
-  getSweaterAndWallChargeDescription: function() {
+  getSweaterAndWallChargeDescription() {
     let description;
 
     const chargesShown = this.model.showChargesProperty.get();
@@ -197,7 +195,7 @@ inherit( Node, BASESummaryNode, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get a description which describes the charge of balloons in the simulation. Dependent on charge values, charge
@@ -206,9 +204,11 @@ inherit( Node, BASESummaryNode, {
    * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
    * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
    *
+   * @private
+   *
    * @returns {string}
    */
-  getBalloonChargeDescription: function() {
+  getBalloonChargeDescription() {
     let description;
 
     const yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
@@ -255,7 +255,7 @@ inherit( Node, BASESummaryNode, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get the description for induced charge of a balloon/balloons on the wall. Will return something like
@@ -264,9 +264,11 @@ inherit( Node, BASESummaryNode, {
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
    *
+   * @private
+   *
    * @returns {string}
    */
-  getInducedChargeDescription: function() {
+  getInducedChargeDescription() {
     let description;
 
     const yellowBalloon = this.yellowBalloon;
@@ -335,7 +337,7 @@ inherit( Node, BASESummaryNode, {
 
     return description;
   }
-}, {
+
 
   /**
    * Get a description of the objects that are currently visible in the sim.
@@ -345,7 +347,7 @@ inherit( Node, BASESummaryNode, {
    * @param  {Property.<boolean>} wallVisible
    * @returns {string}
    */
-  getVisibleObjectsDescription: function( balloonVisible, wallVisible ) {
+  static getVisibleObjectsDescription( balloonVisible, wallVisible ) {
     let patternString;
     if ( wallVisible ) {
       patternString = balloonVisible ? summaryYellowGreenSweaterWallPatternString : summaryYellowSweaterWallPatternString;
@@ -366,6 +368,8 @@ inherit( Node, BASESummaryNode, {
       description: descriptionString
     } );
   }
-} );
+}
+
+balloonsAndStaticElectricity.register( 'BASESummaryNode', BASESummaryNode );
 
 export default BASESummaryNode;

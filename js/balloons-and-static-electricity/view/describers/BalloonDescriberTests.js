@@ -19,7 +19,7 @@ QUnit.module( 'BalloonDescriber', {
   }
 } );
 
-QUnit.test( 'Dynamic descriptions for PlayArea objects', function( assert ) {
+QUnit.test( 'Dynamic descriptions for PlayArea objects', assert => {
 
   // on load
   let actualDescription = balloonNode.descriptionContent;
@@ -65,7 +65,7 @@ QUnit.test( 'Dynamic descriptions for PlayArea objects', function( assert ) {
   assert.equal( actualDescription, expectedDescription );
 } );
 
-QUnit.test( 'Interactive grab alert for balloon', function( assert ) {
+QUnit.test( 'Interactive grab alert for balloon', assert => {
 
   // initial grab on load
   let actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
@@ -264,7 +264,7 @@ QUnit.test( 'Interactive grab alert for balloon', function( assert ) {
   assert.equal( actualDescription, expectedDescription, 'grab alert test 21' );
 } );
 
-QUnit.test( 'Grabbing balloon on sweater when both are visible', function( assert ) {
+QUnit.test( 'Grabbing balloon on sweater when both are visible', assert => {
   window.baseModel.reset();
   window.baseModel.greenBalloon.isVisibleProperty.set( true );
 
@@ -326,7 +326,7 @@ QUnit.test( 'Grabbing balloon on sweater when both are visible', function( asser
   assert.equal( actualDescription, expectedDescription, 'sweater grab test 4' );
 } );
 
-QUnit.test( 'Charge pick up alerts', function( assert ) {
+QUnit.test( 'Charge pick up alerts', assert => {
   window.baseModel.reset();
 
   // first time balloon hits sweater and picks up negative charges
@@ -374,7 +374,7 @@ QUnit.test( 'Charge pick up alerts', function( assert ) {
   assert.equal( actualAlert, expectedAlert, 'charge pick up 6' );
 } );
 
-QUnit.test( 'Sweater rub with no charge pickup', function( assert ) {
+QUnit.test( 'Sweater rub with no charge pickup', assert => {
   window.baseModel.reset();
 
   // balloon is 'grabbed' for all these tests
@@ -419,7 +419,7 @@ QUnit.test( 'Sweater rub with no charge pickup', function( assert ) {
   assert.equal( actualAlert, expectedAlert, 'no pick up 6' );
 } );
 
-QUnit.test( 'Balloon rubbing on wall', function( assert ) {
+QUnit.test( 'Balloon rubbing on wall', assert => {
   window.baseModel.reset();
 
   // balloon is 'grabbed' for all these tests
@@ -458,7 +458,7 @@ QUnit.test( 'Balloon rubbing on wall', function( assert ) {
   assert.equal( actualAlert, expectedAlert, 'wall rub test 5' );
 } );
 
-QUnit.test( 'Two Balloons rubbing on wall', function( assert ) {
+QUnit.test( 'Two Balloons rubbing on wall', assert => {
   window.baseModel.reset();
 
   //--------------------------------------------------------------------------

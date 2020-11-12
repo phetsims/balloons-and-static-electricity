@@ -17,7 +17,7 @@ QUnit.module( 'WallDescriber', {
   }
 } );
 
-QUnit.test( 'WallDescriber tests', function( assert ) {
+QUnit.test( 'WallDescriber tests', assert => {
   window.baseModel.reset();
 
   const wallNode = window.baseView.wallNode;

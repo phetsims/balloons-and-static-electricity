@@ -18,7 +18,7 @@ import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityS
 
 const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
 
-simLauncher.launch( function() {
+simLauncher.launch( () => {
 
   const tandem = Tandem.ROOT;
 
@@ -40,18 +40,14 @@ simLauncher.launch( function() {
   //Create and start the sim
   new Sim( balloonsAndStaticElectricityTitleString, [
     new Screen(
-      function() {
-        return new BASEModel(
+      () => new BASEModel(
           768,
           504,
-          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) );
-      },
-      function( model ) {
-        return new BASEView(
+          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ),
+      model => new BASEView(
           model,
           balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
-        );
-      },
+        ),
       {
         backgroundColorProperty: BASEConstants.backgroundColorProperty,
         tandem: balloonsAndStaticElectricityScreenTandem,

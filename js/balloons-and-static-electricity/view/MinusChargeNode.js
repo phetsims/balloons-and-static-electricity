@@ -6,16 +6,15 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
-import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
+import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
 
 const RADIUS = PointChargeModel.RADIUS;
 
@@ -38,27 +37,28 @@ const icon = new Node( {
 } );
 const sharedMinusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
-/**
- * @constructor
- * @param {Vector2} position
- * @param {Tandem} tandem
- * @param {Object} [options]
- */
-function MinusChargeNode( position, tandem, options ) {
-
-  options = merge( {
-    pickable: false,
-    tandem: tandem
-  }, options );
-
-  Node.call( this, options );
-
-  this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
-
-  this.addChild( sharedMinusChargeNode );
+class MinusChargeNode extends Node {
+  
+  /**
+   * @param {Vector2} position
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   */
+  constructor( position, tandem, options ) {
+  
+    options = merge( {
+      pickable: false,
+      tandem: tandem
+    }, options );
+  
+    super( options );
+  
+    this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
+  
+    this.addChild( sharedMinusChargeNode );
+  }
 }
 
 balloonsAndStaticElectricity.register( 'MinusChargeNode', MinusChargeNode );
 
-inherit( Node, MinusChargeNode );
 export default MinusChargeNode;

@@ -9,9 +9,8 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
-import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -36,71 +35,71 @@ const DIRECTION_ANGLES = {
   right: Math.PI / 2
 };
 
-/**
- * @constructor
- * @param {BASEModel} model
- * @param {BalloonModel} balloonModel
- * @param {BalloonNode} balloonNode
- * @param {Bounds2} layoutBounds
- */
-function BalloonInteractionCueNode( model, balloonModel, balloonNode, layoutBounds ) {
+class BalloonInteractionCueNode extends Node {
+  
+  /**
+   * @param {BASEModel} model
+   * @param {BalloonModel} balloonModel
+   * @param {BalloonNode} balloonNode
+   * @param {Bounds2} layoutBounds
+   */
+  constructor( model, balloonModel, balloonNode, layoutBounds ) {
+  
+    super();
+  
+    // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
+    const directionKeysParent = new Node();
+    this.addChild( directionKeysParent );
+  
+    const wNode = this.createMovementKeyNode( 'up' );
+    const aNode = this.createMovementKeyNode( 'left' );
+    const sNode = this.createMovementKeyNode( 'down' );
+    const dNode = this.createMovementKeyNode( 'right' );
+  
+    directionKeysParent.addChild( wNode );
+    directionKeysParent.addChild( aNode );
+    directionKeysParent.addChild( sNode );
+    directionKeysParent.addChild( dNode );
+  
+    // add listeners to update visibility of nodes when position changes and when the wall is made
+    // visible/invisible
+    Property.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], ( position, visible ) => {
+  
+      // get the max x positions depending on if the wall is visible
+      let centerXRightBoundary;
+      if ( visible ) {
+        centerXRightBoundary = PlayAreaMap.X_POSITIONS.AT_WALL;
+      }
+      else {
+        centerXRightBoundary = PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
+      }
+  
+      const balloonCenter = balloonModel.getCenter();
+      aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
+      sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM;
+      dNode.visible = balloonCenter.x !== centerXRightBoundary;
+      wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP;
+    } );
+  
+    // place the direction cues relative to the balloon bounds
+    const balloonBounds = balloonModel.bounds;
+    wNode.centerBottom = balloonBounds.getCenterTop().plusXY( 0, -BALLOON_KEY_SPACING );
+    aNode.rightCenter = balloonBounds.getLeftCenter().plusXY( -BALLOON_KEY_SPACING, 0 );
+    sNode.centerTop = balloonBounds.getCenterBottom().plusXY( 0, BALLOON_KEY_SPACING + SHADOW_WIDTH );
+    dNode.leftCenter = balloonBounds.getRightCenter().plusXY( BALLOON_KEY_SPACING + SHADOW_WIDTH, 0 );
+  }
 
-  Node.call( this );
-
-  // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
-  const directionKeysParent = new Node();
-  this.addChild( directionKeysParent );
-
-  const wNode = this.createMovementKeyNode( 'up' );
-  const aNode = this.createMovementKeyNode( 'left' );
-  const sNode = this.createMovementKeyNode( 'down' );
-  const dNode = this.createMovementKeyNode( 'right' );
-
-  directionKeysParent.addChild( wNode );
-  directionKeysParent.addChild( aNode );
-  directionKeysParent.addChild( sNode );
-  directionKeysParent.addChild( dNode );
-
-  // add listeners to update visibility of nodes when position changes and when the wall is made
-  // visible/invisible
-  Property.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], function( position, visible ) {
-
-    // get the max x positions depending on if the wall is visible
-    let centerXRightBoundary;
-    if ( visible ) {
-      centerXRightBoundary = PlayAreaMap.X_POSITIONS.AT_WALL;
-    }
-    else {
-      centerXRightBoundary = PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
-    }
-
-    const balloonCenter = balloonModel.getCenter();
-    aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
-    sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM;
-    dNode.visible = balloonCenter.x !== centerXRightBoundary;
-    wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP;
-  } );
-
-  // place the direction cues relative to the balloon bounds
-  const balloonBounds = balloonModel.bounds;
-  wNode.centerBottom = balloonBounds.getCenterTop().plusXY( 0, -BALLOON_KEY_SPACING );
-  aNode.rightCenter = balloonBounds.getLeftCenter().plusXY( -BALLOON_KEY_SPACING, 0 );
-  sNode.centerTop = balloonBounds.getCenterBottom().plusXY( 0, BALLOON_KEY_SPACING + SHADOW_WIDTH );
-  dNode.leftCenter = balloonBounds.getRightCenter().plusXY( BALLOON_KEY_SPACING + SHADOW_WIDTH, 0 );
-}
-
-balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
-
-inherit( Node, BalloonInteractionCueNode, {
 
   /**
    * Create a node that looks like a keyboard letter key next to an arrow indicating the direction the balloon
    * would move if that key is pressed.
    *
+   * @private
+   *
    * @param {string} direction - 'up'|'down'|'left'|'right'
    * @returns {Node}
    */
-  createMovementKeyNode: function( direction ) {
+  createMovementKeyNode( direction ) {
 
     // create the arrow icon
     const arrowShape = new Shape();
@@ -137,6 +136,8 @@ inherit( Node, BalloonInteractionCueNode, {
     assert && assert( box, 'No box created for direction ' + direction );
     return box;
   }
-} );
+}
+
+balloonsAndStaticElectricity.register( 'BalloonInteractionCueNode', BalloonInteractionCueNode );
 
 export default BalloonInteractionCueNode;

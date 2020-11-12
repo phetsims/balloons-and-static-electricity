@@ -21,8 +21,8 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
-import BalloonNode from './BalloonNode.js';
 import BASESummaryNode from './BASESummaryNode.js';
+import BalloonNode from './BalloonNode.js';
 import ControlPanel from './ControlPanel.js';
 import PlayAreaGridNode from './PlayAreaGridNode.js';
 import SweaterNode from './SweaterNode.js';
@@ -47,8 +47,6 @@ class BASEView extends ScreenView {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
       tandem: tandem
     } );
-
-    const self = this;
 
     const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
 
@@ -113,15 +111,15 @@ class BASEView extends ScreenView {
     this.pdomPlayAreaNode.addChild( greenBalloonLayerNode );
 
     // Only show the selected balloon(s)
-    model.greenBalloon.isVisibleProperty.link( function( isVisible ) {
-      self.greenBalloonNode.visible = isVisible;
-      self.greenBalloonTetherNode.visible = isVisible;
+    model.greenBalloon.isVisibleProperty.link( isVisible => {
+      this.greenBalloonNode.visible = isVisible;
+      this.greenBalloonTetherNode.visible = isVisible;
     } );
 
     this.pdomControlAreaNode.addChild( controlPanel );
 
     // when one of the balloons is picked up, move its content and cue nodes to front
-    Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], function( yellowDragged, greenDragged ) {
+    Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], ( yellowDragged, greenDragged ) => {
       if ( yellowDragged ) {
         yellowBalloonLayerNode.moveToFront();
       }

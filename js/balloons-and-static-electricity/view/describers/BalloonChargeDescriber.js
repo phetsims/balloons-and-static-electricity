@@ -8,7 +8,6 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
@@ -42,56 +41,52 @@ const returnALittleMoreString = BASEA11yStrings.returnALittleMore.value;
 const balloonHasChargePatternString = BASEA11yStrings.balloonHasChargePattern.value;
 const balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeShowingPattern.value;
 
-/**
- * @constructor
- * @param {BASEModel} model
- * @param {BalloonModel} balloonModel
- * @param {string} accessibleName - the accessible name for this balloon
- * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
- */
-function BalloonChargeDescriber( model, balloonModel, accessibleName, otherAccessibleName ) {
-  const self = this;
+class BalloonChargeDescriber {
+  /**
+   * @param {BASEModel} model
+   * @param {BalloonModel} balloonModel
+   * @param {string} accessibleName - the accessible name for this balloon
+   * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
+   */
+  constructor( model, balloonModel, accessibleName, otherAccessibleName ) {
+  
+    // @private
+    this.model = model;
+    this.balloonModel = balloonModel;
+    this.wall = model.wall;
+    this.accessibleName = accessibleName;
+    this.otherAccessibleName = otherAccessibleName;
+    this.showChargesProperty = model.showChargesProperty;
+  
+    // @private - Allows us to track the change in the balloon's induced charge, useful for describing how the charges
+    // move towards or away their resting positions
+    this.previousForceMagnitude = 0;
+  
+    // @private - The previous magnitude of force delta normalized, so we can track whether induced charge increases or
+    // decreases between when a description of induced charge change is triggered. Useful for describing how induced
+    // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
+    this.previousForceMagnitudeNormalized = 0;
+  
+    // listeners, no need to unlink
+    // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
+    balloonModel.inducingChargeProperty.link( inducingCharge => {
+      if ( !inducingCharge ) {
+        this.resetReferenceForces();
+      }
+    } );
+  
+    // when the balloon touches the wall, values that help describe change in charges
+    balloonModel.touchingWallProperty.link( () => {
+      this.resetReferenceForces();
+    } );
+  
+    // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
+    // in the wall
+    balloonModel.isDraggedProperty.link( () => {
+      this.resetReferenceForces();
+    } );
+  }
 
-  // @private
-  this.model = model;
-  this.balloonModel = balloonModel;
-  this.wall = model.wall;
-  this.accessibleName = accessibleName;
-  this.otherAccessibleName = otherAccessibleName;
-  this.showChargesProperty = model.showChargesProperty;
-
-  // @private - Allows us to track the change in the balloon's induced charge, useful for describing how the charges
-  // move towards or away their resting positions
-  this.previousForceMagnitude = 0;
-
-  // @private - The previous magnitude of force delta normalized, so we can track whether induced charge increases or
-  // decreases between when a description of induced charge change is triggered. Useful for describing how induced
-  // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
-  this.previousForceMagnitudeNormalized = 0;
-
-  // listeners, no need to unlink
-  // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
-  balloonModel.inducingChargeProperty.link( function( inducingCharge ) {
-    if ( !inducingCharge ) {
-      self.resetReferenceForces();
-    }
-  } );
-
-  // when the balloon touches the wall, values that help describe change in charges
-  balloonModel.touchingWallProperty.link( function() {
-    self.resetReferenceForces();
-  } );
-
-  // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
-  // in the wall
-  balloonModel.isDraggedProperty.link( function() {
-    self.resetReferenceForces();
-  } );
-}
-
-balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );
-
-inherit( Object, BalloonChargeDescriber, {
 
 
   /**
@@ -99,29 +94,33 @@ inherit( Object, BalloonChargeDescriber, {
    * "Has negative net charge." or
    * "Has neutral net charge."
    *
+   * @public
+   *
    * @returns {string}
    */
-  getNetChargeDescription: function() {
+  getNetChargeDescription() {
     const chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
     return StringUtils.fillIn( balloonNetChargePatternString, {
       chargeAmount: chargeAmountString
     } );
-  },
+  }
 
   /**
    * Get a description of the net charge for the balloon, including the label. Will return something like
    * "Yellow balloon has negative net charge." or
    * "Green balloon has no net charge."
    *
+   * @public
+   *
    * @returns {string}
    */
-  getNetChargeDescriptionWithLabel: function() {
+  getNetChargeDescriptionWithLabel() {
     const chargeAmountString = this.balloonModel.chargeProperty.get() < 0 ? balloonNegativeString : balloonZeroString;
     return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
       chargeAmount: chargeAmountString,
       balloon: this.accessibleName
     } );
-  },
+  }
 
   /**
    * Get the combined relative charge description for each balloon. Will return something like
@@ -133,9 +132,11 @@ inherit( Object, BalloonChargeDescriber, {
    * "Green balloon has several more negative charges than positive  charges. Yellow balloon has several more
    *   negative charges than positive charges." or
    *
+   * @public
+   *
    * @returns {string}
    */
-  getCombinedRelativeChargeDescription: function() {
+  getCombinedRelativeChargeDescription() {
     assert && assert( this.balloonModel.isDraggedProperty.get(), 'alert should only be generated if balloon is grabbed' );
     let description;
 
@@ -169,15 +170,17 @@ inherit( Object, BalloonChargeDescriber, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get a description of the induced charge in the wall or the charge of the sweater. To be used by the "grab" alert
    * when the balloon is picked up.
    *
+   * @public
+   *
    * @returns {string}
    */
-  getOtherObjectChargeDescription: function() {
+  getOtherObjectChargeDescription() {
     const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
     const onSweater = this.balloonModel.onSweater();
     assert && assert( onSweater || inducingChargeOrTouchingWall, 'only include this phrase when balloon is inducing charge or on sweater' );
@@ -231,7 +234,7 @@ inherit( Object, BalloonChargeDescriber, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get a description of how induced charge changes as a charged balloon moves around a wall. Every time we
@@ -244,9 +247,11 @@ inherit( Object, BalloonChargeDescriber, {
    * "Negative charges in wall begin to return."
    * "Negative charges in wall return a little more."
    *
+   * @public
+   *
    * @returns {string}
    */
-  getInducedChargeChangeDescription: function() {
+  getInducedChargeChangeDescription() {
     let descriptionString;
 
     const wallVisible = this.model.wall.isVisibleProperty.get();
@@ -313,25 +318,27 @@ inherit( Object, BalloonChargeDescriber, {
     this.previousForceMagnitude = balloonForce.magnitude;
 
     return descriptionString;
-  },
+  }
 
   /**
    * Reset the tracked forces that determine the next description of induced charge change.
+   * @public
    */
-  resetReferenceForces: function() {
+  resetReferenceForces() {
     this.previousForceMagnitude = BalloonModel.getForceToClosestWallCharge( this.balloonModel ).magnitude;
     this.previousForceMagnitudeNormalized = 0;
-  },
+  }
 
   /**
    * Return whether or not change in induced charge should be described for the balloon. If the balloon not on
    * the wall and is inducing charge while all charges are visible we will always describe change. If we described
    * that the charges moved away from the balloon, we will always describe the return of induced charges at least
    * once.
+   * @public
    *
    * @returns {boolean}
    */
-  describeInducedChargeChange: function() {
+  describeInducedChargeChange() {
     const chargesShown = this.showChargesProperty.get();
     const wallVisible = this.wall.isVisibleProperty.get();
     const jumping = this.balloonModel.jumping;
@@ -340,14 +347,15 @@ inherit( Object, BalloonChargeDescriber, {
            wallVisible &&
            chargesShown === 'all' &&
            ( this.balloonModel.inducingChargeProperty.get() );
-  },
+  }
 
   /**
    * A description of the balloon's relative charge but modified slightly for the context of the screen summary.
+   * @public
    *
    * @returns {string}
    */
-  getSummaryRelativeChargeDescription: function() {
+  getSummaryRelativeChargeDescription() {
     const chargesShown = this.showChargesProperty.get();
 
     if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'all' ) {
@@ -356,7 +364,7 @@ inherit( Object, BalloonChargeDescriber, {
     else {
       return BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
     }
-  },
+  }
 
   /**
    * Get a description that indicates how much charge the balloon has, and how much charge is showing depending
@@ -364,9 +372,11 @@ inherit( Object, BalloonChargeDescriber, {
    * "Has zero net charge, showing no charges." or
    * "Has zero net charge, many pairs of positive and negative charges"
    *
+   * @public
+   *
    * @returns {string}
    */
-  getHasRelativeChargeDescription: function() {
+  getHasRelativeChargeDescription() {
     const balloonCharge = this.balloonModel.chargeProperty.get();
     const chargesShown = this.showChargesProperty.get();
     let chargeDescription = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
@@ -385,17 +395,17 @@ inherit( Object, BalloonChargeDescriber, {
     }
 
     return chargeDescription;
-  },
+  }
 
   /**
    * Reset flags that track state between descriptions.
    * @public
    */
-  reset: function() {
+  reset() {
     this.previousForceMagnitude = 0;
     this.previousForceMagnitudeNormalized = 0;
   }
-}, {
+
 
   //--------------------------------------------------------------------------
   // statics
@@ -407,12 +417,13 @@ inherit( Object, BalloonChargeDescriber, {
    * "several more negative charges than positive charges" or
    * "showing several negative charges"
    *
+   * @public
+   *
    * @param {BalloonModel} balloonModel
    * @param {string} showCharges - one of 'all', 'none, 'diff'
-   *
    * @returns {string}
    */
-  getRelativeChargeDescription: function( balloonModel, showCharges ) {
+  static getRelativeChargeDescription( balloonModel, showCharges ) {
     let description;
     const chargeValue = Math.abs( balloonModel.chargeProperty.get() );
 
@@ -438,7 +449,7 @@ inherit( Object, BalloonChargeDescriber, {
     }
 
     return description;
-  },
+  }
 
   /**
    * Get the relative charge with the accessible label, something like
@@ -448,9 +459,11 @@ inherit( Object, BalloonChargeDescriber, {
    *
    * Dependent on the charge view.
    *
+   * @public
+   *
    * @returns {string}
    */
-  getRelativeChargeDescriptionWithLabel: function( balloonModel, showCharges, label ) {
+  static getRelativeChargeDescriptionWithLabel( balloonModel, showCharges, label ) {
     let description;
     const relativeCharge = BalloonChargeDescriber.getRelativeChargeDescription( balloonModel, showCharges );
     assert && assert( showCharges !== 'none', 'relative description with label should never be read when no charges are shown' );
@@ -474,6 +487,8 @@ inherit( Object, BalloonChargeDescriber, {
 
     return description;
   }
-} );
+}
+
+balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );
 
 export default BalloonChargeDescriber;
