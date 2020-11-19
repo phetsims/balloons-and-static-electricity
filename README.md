@@ -42,6 +42,7 @@ git clone https://github.com/phetsims/sun.git
 git clone https://github.com/phetsims/tambo.git
 git clone https://github.com/phetsims/tandem.git
 git clone https://github.com/phetsims/tappi.git
+git clone https://github.com/phetsims/twixt.git
 git clone https://github.com/phetsims/utterance-queue.git
 git clone https://github.com/phetsims/vibe.git
 ```
