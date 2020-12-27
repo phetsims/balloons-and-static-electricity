@@ -45,7 +45,7 @@ class PlusChargeNode extends Node {
   
   /**
    * @param {Vector2} position
-   * @pararm {Tandem} tandem
+   * @param {Tandem} tandem
    */
   constructor( position, tandem ) {
   
