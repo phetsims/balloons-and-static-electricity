@@ -251,7 +251,7 @@ class BalloonModel {
     this.plusCharges = [];
     this.minusCharges = [];
   
-    // @private {BASEMdodel}
+    // @private {BASEModel}
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
   
     // neutral pair of charges
