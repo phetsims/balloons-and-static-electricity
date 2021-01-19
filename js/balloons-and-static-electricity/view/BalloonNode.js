@@ -241,7 +241,7 @@ class BalloonNode extends Node {
   
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
-    const grabDragInteraction = new GrabDragInteraction( balloonImageNode, {
+    const grabDragInteraction = new GrabDragInteraction( balloonImageNode, this.keyboardDragHandler, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
   
@@ -264,8 +264,6 @@ class BalloonNode extends Node {
   
       // hides the interactionCueNode cue if this returns true
       showDragCueNode: () => model.positionProperty.get().equals( model.positionProperty.initialValue ),
-  
-      listenersForDrag: [ this.keyboardDragHandler ],
   
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
