@@ -24,7 +24,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -142,26 +141,14 @@ class BalloonNode extends Node {
 
     // static charges
     for ( let i = 0; i < model.plusCharges.length; i++ ) {
-      const plusChargeNode = new PlusChargeNode(
-        model.plusCharges[ i ].position,
-        Tandem.OPT_OUT
-      );
-      originalChargesNode.addChild( plusChargeNode );
-
-      const minusChargeNode = new MinusChargeNode(
-        model.minusCharges[ i ].position,
-        Tandem.OPT_OUT
-      );
-      originalChargesNode.addChild( minusChargeNode );
+      originalChargesNode.addChild( new PlusChargeNode( model.plusCharges[ i ].position ) );
+      originalChargesNode.addChild( new MinusChargeNode( model.minusCharges[ i ].position ) );
     }
 
     //possible charges
     const addedNodes = []; // track in a local array to update visibility with charge
     for ( let i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
-      const addedMinusChargeNode = new MinusChargeNode(
-        model.minusCharges[ i ].position,
-        Tandem.OPT_OUT
-      );
+      const addedMinusChargeNode = new MinusChargeNode( model.minusCharges[ i ].position );
       addedMinusChargeNode.visible = false;
       addedChargesNode.addChild( addedMinusChargeNode );
 

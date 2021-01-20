@@ -45,11 +45,10 @@ class PlusChargeNode extends Node {
 
   /**
    * @param {Vector2} position
-   * @param {Tandem} tandem
    */
-  constructor( position, tandem ) {
+  constructor( position ) {
 
-    super( { pickable: false, tandem: tandem } );
+    super( { pickable: false } );
 
     this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
 

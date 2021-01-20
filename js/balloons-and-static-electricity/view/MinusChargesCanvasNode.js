@@ -8,7 +8,6 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -23,7 +22,7 @@ let chargeNode = null;
 // see https://github.com/phetsims/phet-io-wrappers/issues/97
 const getChargeNode = () => {
   if ( !chargeNode ) {
-    chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), Tandem.GLOBAL.createTandem( 'chargeNode' ), {
+    chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), {
       scale: scale
     } );
   }
@@ -35,7 +34,7 @@ class MinusChargesCanvasNode extends CanvasNode {
   /**
    * @param {number} wallX - x position of the wall, to offset charge positions
    * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
-   * @param {Array.<MovablePointChargeModel} charges
+   * @param {Array.<MovablePointChargeModel>} charges
    * @param {[object]} options
    */
   constructor( wallX, wallBounds, charges, options ) {

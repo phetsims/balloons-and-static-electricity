@@ -41,14 +41,12 @@ class MinusChargeNode extends Node {
 
   /**
    * @param {Vector2} position
-   * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( position, tandem, options ) {
+  constructor( position, options ) {
 
     options = merge( {
-      pickable: false,
-      tandem: tandem
+      pickable: false
     }, options );
 
     super( options );

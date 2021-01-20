@@ -78,12 +78,10 @@ class SweaterNode extends Node {
 
     // draw plus and minus charges
     this.sweaterModel.plusCharges.forEach( plusCharge => {
-      const plusChargeNode = new PlusChargeNode( plusCharge.position, Tandem.OPT_OUT );
-      this.plusChargesNode.addChild( plusChargeNode );
+      this.plusChargesNode.addChild( new PlusChargeNode( plusCharge.position ) );
     } );
     this.sweaterModel.minusCharges.forEach( minusCharge => {
-      const minusChargeNode = new MinusChargeNode( minusCharge.position, Tandem.OPT_OUT );
-      this.minusChargesNode.addChild( minusChargeNode );
+      this.minusChargesNode.addChild( new MinusChargeNode( minusCharge.position ) );
     } );
 
     this.addChild( this.plusChargesNode );

@@ -9,7 +9,6 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import wallImage from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -55,8 +54,7 @@ class WallNode extends Node {
 
     //draw plusCharges on the wall
     wallModel.plusCharges.forEach( entry => {
-      const plusChargeNode = new PlusChargeNode( entry.position, Tandem.OPT_OUT );
-      plusChargesNode.addChild( plusChargeNode );
+      plusChargesNode.addChild( new PlusChargeNode( entry.position ) );
     } );
     this.addChild( plusChargesNode );
 
