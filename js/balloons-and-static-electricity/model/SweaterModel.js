@@ -82,11 +82,11 @@ class SweaterModel {
    * @param {Tandem} tandem
    */
   constructor( x, y, tandem ) {
-  
+
     // public (read-only) - dimensions of the sweater, empirically determined to match design spec
     this.width = 305;
     this.height = 385;
-  
+
     // @public {number} - charge on the sweater
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
@@ -94,21 +94,21 @@ class SweaterModel {
       range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
       phetioReadOnly: true
     } );
-  
-  
+
+
     // @public
     this.x = x;
     this.y = y;
-  
+
     // @public {Vector2} - position of center of the sweater
     this.center = new Vector2( this.x + this.width / 2, this.y + this.height / 2 );
-  
+
     // @public (read-only) {Vector2} - position of the left edge of the sweater
     this.left = new Vector2( this.x, this.y + this.height / 2 );
-  
+
     // @public {Bounds2} bounds containing the sweater
     this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
-  
+
     // @private {Shape} create an approximate shape of the charged area of the sweater based on the position of the
     // charges. This is used for accurate detection of when the balloons are over the charged area, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/240.  This algorithm works by dividing the
@@ -122,7 +122,7 @@ class SweaterModel {
       const slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
       CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
         let angle = chargePairPosition.minus( this.center ).angle;
-  
+
         // convert negative angles
         if ( angle < 0 ) {
           angle += 2 * Math.PI;
@@ -131,25 +131,25 @@ class SweaterModel {
           if ( !shapeDefiningPoints[ sliceNumber ] ||
                ( chargePairPosition.distance( this.center ) >
                  shapeDefiningPoints[ sliceNumber ].distance( this.center ) ) ) {
-  
+
             // this point is either the first one in this slice or further out than the previous one, so use it
             shapeDefiningPoints[ sliceNumber ] = chargePairPosition;
           }
         }
       } );
     } );
-  
+
     // @public {Shape} - area on the sweater where charges exist
     this.chargedArea = new Shape().moveToPoint( shapeDefiningPoints[ 0 ] );
     for ( let i = 1; i < shapeDefiningPoints.length; i++ ) {
       this.chargedArea.lineToPoint( shapeDefiningPoints[ i ] );
     }
     this.chargedArea.close();
-  
+
     // arrays of plus and minus charges on the sweater, created from positions array above
     this.plusCharges = [];
     this.minusCharges = [];
-  
+
     const plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
     const minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
     CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
@@ -160,7 +160,7 @@ class SweaterModel {
         false
       );
       this.plusCharges.push( plusCharge );
-  
+
       //minus
       const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
@@ -170,7 +170,7 @@ class SweaterModel {
       );
       this.minusCharges.push( minusCharge );
     } );
-  
+
     this.reset();
   }
 

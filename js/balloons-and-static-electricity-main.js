@@ -41,13 +41,13 @@ simLauncher.launch( () => {
   new Sim( balloonsAndStaticElectricityTitleString, [
     new Screen(
       () => new BASEModel(
-          768,
-          504,
-          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ),
+        768,
+        504,
+        balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ),
       model => new BASEView(
-          model,
-          balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
-        ),
+        model,
+        balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
+      ),
       {
         backgroundColorProperty: BASEConstants.backgroundColorProperty,
         tandem: balloonsAndStaticElectricityScreenTandem,

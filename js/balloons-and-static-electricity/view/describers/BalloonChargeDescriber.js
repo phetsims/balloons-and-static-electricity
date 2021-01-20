@@ -49,7 +49,7 @@ class BalloonChargeDescriber {
    * @param {string} otherAccessibleName - the accessible name for the other balloon in this sim
    */
   constructor( model, balloonModel, accessibleName, otherAccessibleName ) {
-  
+
     // @private
     this.model = model;
     this.balloonModel = balloonModel;
@@ -57,16 +57,16 @@ class BalloonChargeDescriber {
     this.accessibleName = accessibleName;
     this.otherAccessibleName = otherAccessibleName;
     this.showChargesProperty = model.showChargesProperty;
-  
+
     // @private - Allows us to track the change in the balloon's induced charge, useful for describing how the charges
     // move towards or away their resting positions
     this.previousForceMagnitude = 0;
-  
+
     // @private - The previous magnitude of force delta normalized, so we can track whether induced charge increases or
     // decreases between when a description of induced charge change is triggered. Useful for describing how induced
     // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
     this.previousForceMagnitudeNormalized = 0;
-  
+
     // listeners, no need to unlink
     // if the balloon is no longer inducing charge, reset reference forces until balloon begins to induce charge again
     balloonModel.inducingChargeProperty.link( inducingCharge => {
@@ -74,19 +74,18 @@ class BalloonChargeDescriber {
         this.resetReferenceForces();
       }
     } );
-  
+
     // when the balloon touches the wall, values that help describe change in charges
     balloonModel.touchingWallProperty.link( () => {
       this.resetReferenceForces();
     } );
-  
+
     // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
     // in the wall
     balloonModel.isDraggedProperty.link( () => {
       this.resetReferenceForces();
     } );
   }
-
 
 
   /**

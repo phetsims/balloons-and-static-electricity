@@ -131,11 +131,11 @@ class BalloonModel {
    * @param {Tandem} tandem
    */
   constructor( x, y, balloonsAndStaticElectricityModel, defaultVisibility, tandem ) {
-  
-  
+
+
     //------------------------------------------------
     // Properties
-  
+
     // @public {number} - charge on the balloon, range goes from negative values to 0.
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
@@ -143,99 +143,99 @@ class BalloonModel {
       tandem: tandem.createTandem( 'chargeProperty' ),
       phetioReadOnly: true
     } );
-  
+
     // @public {Vector2}
     // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
     this.velocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'velocityProperty' ),
       useDeepEquality: true
     } );
-  
+
     // @public {boolean}
     this.isVisibleProperty = new BooleanProperty( defaultVisibility, {
       tandem: tandem.createTandem( 'isVisibleProperty' )
     } );
-  
+
     // @public {boolean}
     this.isDraggedProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isDraggedProperty' )
     } );
-  
+
     // @public {boolean} - whether or not this balloon is being dragged with a mouse or touch pointer, in which case
     // we want to reduce the frequency of alerts and avoid describing very small position changes.
     this.draggingWithPointer = false;
-  
+
     // @public {Vector2} - position of the upper left corner of the rectangle that encloses the balloon
     this.positionProperty = new Vector2Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'positionProperty' ),
       useDeepEquality: true
     } );
-  
+
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
       useDeepEquality: true
     } );
-  
+
     // @public {boolean} - whether or not the balloon is on the sweater
     this.onSweaterProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'onSweaterProperty' )
     } );
-  
+
     // @public {boolean} - whether or not the balloon is touching the wall
     this.touchingWallProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'touchingWallProperty' )
     } );
-  
+
     // @private string - the current column of the play area the balloon is in
     this.playAreaColumnProperty = new Property( null );
-  
+
     // @private string - the current row of the play area that the balloon is in
     this.playAreaRowProperty = new Property( null );
-  
+
     // @private {string|null} - if the balloon is in a landmark position, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
     this.playAreaLandmarkProperty = new Property( null );
-  
+
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null, {
       tandem: tandem.createTandem( 'directionProperty' ),
       phetioType: Property.PropertyIO( NullableIO( StringIO ) )
     } );
-  
+
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
     this.inducingChargeProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'inducingChargeProperty' )
     } );
-  
+
     //------------------------------------------------
-  
+
     // @private - array of instantaneous velocity of balloon last 5 ticks
     // then we calculate average velocity and compares it with threshold velocity to check if we catch minus charge from sweater
     this.xVelocityArray = [ 0, 0, 0, 0, 0 ];
     this.xVelocityArray.counter = 0;
-  
+
     // @private {boolean} - whether or not the balloon is currently 'jumping', moving through a position in the play
     // area without dragging or an applied force
     this.jumping = false;
-  
+
     // @public {boolean} - flag that indicates whether the balloon has successfully been picked up since the last
     // reset of the model
     this.successfulPickUp = false;
-  
+
     // @public (read-only) dimensions of the balloon
     this.width = BALLOON_WIDTH;
     this.height = BALLOON_HEIGHT;
-  
+
     // @public {MovablePointChargeModel} - the closest minus charge to the balloon which is in the wall
     this.closestChargeInWall = null;
-  
+
     // @public {number} - in ms, the amount of time that has passed since balloon has been released
     this.timeSinceRelease = 0;
-  
+
     // @public (read-only) - the old position of the balloon, used throughout the model and view to calculate
     // changes in position
     this.oldPosition = this.positionProperty.get().copy();
-  
+
     // @private - positions of neutral atoms on balloon, don't change during simulation
     this.positionsOfStartCharges = [
       [ 44, 50 ],
@@ -243,25 +243,25 @@ class BalloonModel {
       [ 44, 140 ],
       [ 88, 140 ]
     ];
-  
+
     // @public - will emit an event when the balloon is reset
     this.resetEmitter = new Emitter();
-  
+
     // @public {Array.<PointChargeModel>}
     this.plusCharges = [];
     this.minusCharges = [];
-  
+
     // @private {BASEModel}
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
-  
+
     // neutral pair of charges
     const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
     const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
     this.positionsOfStartCharges.forEach( entry => {
-  
+
       const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
       this.plusCharges.push( plusCharge );
-  
+
       // minus charges at same position of positive charge, shifted down and to the right by charge radius
       const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
@@ -271,13 +271,13 @@ class BalloonModel {
       );
       this.minusCharges.push( minusCharge );
     } );
-  
+
     // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( entry => {
       const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
       this.minusCharges.push( minusCharge );
     } );
-  
+
     // @public (read-only) model bounds, updated when position changes
     this.bounds = new Bounds2(
       this.positionProperty.get().x,
@@ -285,36 +285,36 @@ class BalloonModel {
       this.positionProperty.get().x + this.width,
       this.positionProperty.get().y + this.height
     );
-  
+
     // when position changes, update bounds of balloon in play area, direction of movement, and whether or not the
     // the balloon is touching an object - no need to dispose as balloons exist for life of sim
     this.positionProperty.link( ( position, oldPosition ) => {
       this.bounds.setMinMax( position.x, position.y, position.x + this.width, position.y + this.height );
-  
+
       if ( oldPosition ) {
-  
+
         // the direction from the old position to the newPosition
         this.directionProperty.set( BalloonModel.getDirection( position, oldPosition ) );
-  
+
         // update whether or not the balloon is on the sweater
         if ( this.onSweater() !== this.onSweaterProperty.get() ) {
           this.onSweaterProperty.set( this.onSweater() );
         }
-  
+
         // update whether or not we are touching the wall
         if ( this.touchingWall() !== this.touchingWallProperty.get() ) {
           this.touchingWallProperty.set( this.touchingWall() );
         }
       }
     } );
-  
+
     // when the balloon is released, reset the timer that indicates when balloon was released
     this.isDraggedProperty.link( isDragged => {
       if ( !isDragged ) {
         this.timeSinceRelease = 0;
       }
     } );
-  
+
     this.reset();
   }
 

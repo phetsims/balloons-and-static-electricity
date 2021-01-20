@@ -12,7 +12,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 class TetherNode extends Path {
-  
+
   /**
    * @param  {BalloonModel} balloonModel
    * @param  {Vector2} anchorPoint
@@ -20,16 +20,16 @@ class TetherNode extends Path {
    * @param  {Tandem} tandem
    */
   constructor( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
-  
+
     super( null, {
       stroke: '#000000',
       lineWidth: 1,
       pickable: false,
       tandem: tandem
     } );
-  
+
     const anchorPointCopy = anchorPoint.copy();
-  
+
     balloonModel.positionProperty.link( position => {
       const attachmentPoint = position.plus( tetherPointOffset );
       this.shape = new Shape()

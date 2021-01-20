@@ -18,21 +18,21 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
 class PlayAreaGridNode extends Node {
-  
+
   /**
    * @param {Bounds2} layoutBounds - layout bounds of the screen view
    */
   constructor( layoutBounds, tandem ) {
-  
+
     super( { pickable: false } );
     const blueOptions = { fill: 'rgba(0,0,255,0.5)' };
     const greyOptions = { fill: 'rgba(200,200,200,0.5)' };
     const redOptions = { fill: 'rgba(250,0,50,0.45)' };
-  
+
     const columns = PlayAreaMap.COLUMN_RANGES;
     const rows = PlayAreaMap.ROW_RANGES;
     const landmarks = PlayAreaMap.LANDMARK_RANGES;
-  
+
     // draw each column
     let i = 0;
     let range;
@@ -49,7 +49,7 @@ class PlayAreaGridNode extends Node {
         i++;
       }
     }
-  
+
     // draw each row
     for ( range in rows ) {
       if ( rows.hasOwnProperty( range ) ) {
@@ -62,7 +62,7 @@ class PlayAreaGridNode extends Node {
         i++;
       }
     }
-  
+
     // draw rectangles around the landmark regions
     for ( range in landmarks ) {
       if ( landmarks.hasOwnProperty( range ) ) {
@@ -72,7 +72,7 @@ class PlayAreaGridNode extends Node {
         this.addChild( new Rectangle( minValue, 0, landmarkWidth, PlayAreaMap.HEIGHT, redOptions ) );
       }
     }
-  
+
     // draw the lines to along critical balloon positions along both x and y
     const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
     const xPositions = PlayAreaMap.X_POSITIONS;
@@ -83,7 +83,7 @@ class PlayAreaGridNode extends Node {
         this.addChild( new Line( xPositions[ position ], 0, xPositions[ position ], PlayAreaMap.HEIGHT, lineOptions ) );
       }
     }
-  
+
     for ( position in yPositions ) {
       if ( yPositions.hasOwnProperty( position ) ) {
         this.addChild( new Line( 0, yPositions[ position ], PlayAreaMap.WIDTH, yPositions[ position ], lineOptions ) );

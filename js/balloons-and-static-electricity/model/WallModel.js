@@ -30,13 +30,13 @@ class WallModel {
    * @param {Tandem} tandem
    */
   constructor( x, width, height, yellowBalloon, greenBalloon, tandem ) {
-  
+
     //------------------------------------------------
     // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
     this.isVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'isVisibleProperty' )
     } );
-  
+
     // @public (read-only)
     this.y = 0; // the top position of the wall
     this.x = x; // the left position of the wall
@@ -44,30 +44,30 @@ class WallModel {
     this.numY = 18; // number of rows with charges
     this.width = width;
     this.height = height;
-  
+
     // @public {Bounds2} bounds containing the wall
     this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
-  
+
     // @private {number} - scaling factors for calculating positions for induced charge
     this.dx = Utils.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
-  
+
     // @private {array.<PointChargeModel>}
     this.plusCharges = [];
     const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
-  
+
     // @private {array.<MovablePointChargeModel>}
     this.minusCharges = [];
     const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
-  
+
     for ( let i = 0; i < this.numX; i++ ) {
       for ( let k = 0; k < this.numY; k++ ) {
-  
+
         //plus
         const position = this.calculatePosition( i, k );
         const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
         this.plusCharges.push( plusCharge );
-  
+
         //minus
         const minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
@@ -78,19 +78,19 @@ class WallModel {
         this.minusCharges.push( minusCharge );
       }
     }
-  
+
     const updateChargePositions = () => {
-  
+
       // value for k for calculating forces, chosen so that motion of the balloon looks like Java version
       const k = 10000;
-  
+
       // calculate force from Balloon to each charge in the wall, we subtract by the PointChargeModel radius
       // to make the force look correct because each charge is minus charge is shifted down by that much initially
       this.minusCharges.forEach( entry => {
         const ch = entry;
         let dv1 = new Vector2( 0, 0 );
         let dv2 = new Vector2( 0, 0 );
-  
+
         const defaultPosition = ch.positionProperty.initialValue;
         if ( yellowBalloon.isVisibleProperty.get() ) {
           dv1 = BalloonModel.getForce(
@@ -119,7 +119,7 @@ class WallModel {
     greenBalloon.isVisibleProperty.link( updateChargePositions );
     yellowBalloon.chargeProperty.link( updateChargePositions );
     greenBalloon.chargeProperty.link( updateChargePositions );
-  
+
     // if a balloon was stuck to the wall and visible when the wall becomes invisible, we need to
     // notify that the balloon was released by reseting the timer
     const balloons = [ yellowBalloon, greenBalloon ];

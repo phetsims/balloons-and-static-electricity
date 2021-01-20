@@ -28,10 +28,10 @@ class PointChargeModel {
    * @param phetioState
    */
   constructor( x, y, tandem, phetioState ) {
-  
+
     // @public (read-only) - position of this charge
     this.position = new Vector2( x, y );
-  
+
     // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'movedProperty' ),

@@ -81,7 +81,7 @@ class BalloonDescriber {
    * @param {string} otherAccessibleLabel - accessible name for the other balloon being described
    */
   constructor( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
-  
+
     // @private
     this.model = model;
     this.wall = wall;
@@ -89,27 +89,27 @@ class BalloonDescriber {
     this.accessibleName = accessibleLabel;
     this.otherAccessibleName = otherAccessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
-  
+
     // @private - manages descriptions about the balloon related to charge
     this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
-  
+
     // @private - manages descriptions about the  balloon related to balloon movement and position
     this.movementDescriber = new BalloonPositionDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
-  
+
     // @private - used to track previous values after an interaction so that we can accurately describe how
     // the model has changed
     this.describedChargeRange = null;
-  
+
     // @private (a11y) {boolean} - a flag that manages whether or not we should alert the first charge pickup of the
     // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
     // "Balloon picks up negative charges from sweater"
     this.alertFirstPickup = false;
-  
+
     // @private (a11y) {boolean} - a flag that manages how often we should announce a charge
     // pickup alert, every time interval of CHARGE_DESCRIPTION_REFRESH_RATE, this is set to true so we don't
     // alert every time the balloon picks up a charges.
     this.alertNextPickup = false;
-  
+
     // @private - variables tracking state and how it changes between description steps, see step() below
     this.describedVelocity = balloon.velocityProperty.get();
     this.describedDragVelocity = balloon.dragVelocityProperty.get();
@@ -120,7 +120,7 @@ class BalloonDescriber {
     this.describedWallVisible = wall.isVisibleProperty.get();
     this.describedDirection = null;
     this.describedCharge = 0;
-  
+
     // @private {Utterance} - utterances to be sent to the queue, with a bit of a delay they won't spam
     // the user if they hit the queue to frequently
     const utteranceOptions = { alertStableDelay: 500 };
@@ -129,47 +129,47 @@ class BalloonDescriber {
     this.inducedChargeChangeUtterance = new Utterance( utteranceOptions );
     this.noChargePickupUtterance = new Utterance( utteranceOptions );
     this.chargePickupUtterance = new Utterance( utteranceOptions );
-  
+
     // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
     this.oldDragPosition = balloon.positionProperty.get().copy();
-  
+
     // @private - monitors position delta in a single drag
     this.dragDelta = new Vector2( 0, 0 );
-  
+
     // @private - used to watch how much charge is picked up in a single drag action
     this.chargeOnStartDrag = balloon.chargeProperty.get();
-  
+
     // @private - used to determine how much charge is picked up in a single drag action
     this.chargeOnEndDrag = balloon.chargeProperty.get();
-  
+
     // @private - time since an alert related to charge pickup has been announced
     this.timeSinceChargeAlert = 0;
-  
+
     // @private {boolean} - every time we drag, mark this as true so we know to describe a lack of charge pick up
     // on the sweater. Once this rub has been described, set to false
     this.rubAlertDirty = false;
-  
+
     // @private {boolean} - whether or not we describe direction changes. After certain interactions we do not want
     // to describe the direction, or the direction is included implicitly in another alert
     this.describeDirection = true;
-  
+
     // @private {boolean} - flag that indicates that user actions have lead to it being time for a "wall rub" to be
     // described
     this.describeWallRub = false;
-  
+
     // @private {boolean} - a flag that tracks if the initial movement of the balloon after release has
     // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
     // the balloon is sticking to the wall. True so we get non alert on start up
     this.initialMovementDescribed = true;
-  
+
     // @private {boolean} - timer tracking amount of time between release alerts, used to space out alerts describing
     // continuous independent movement like "Moving left...Moving left...Moving left...", and so on
     this.timeSinceReleaseAlert = 0;
-  
+
     // @private {boolean} - flag that will prevent the firing of the "no movement" alert, set to true with toggling
     // balloon visibility as a special case so we don't trigger this alert when added to the play area
     this.preventNoMovementAlert = false;
-  
+
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( isVisible => {
@@ -177,41 +177,41 @@ class BalloonDescriber {
       this.initialMovementDescribed = false;
       this.preventNoMovementAlert = true;
     } );
-  
+
     // pdom - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( onSweater => {
       if ( balloon.isDraggedProperty.get() ) {
         getUtteranceQueue().addToBack( this.movementDescriber.getOnSweaterString( onSweater ) );
       }
-  
+
       // entering sweater, indicate that we need to alert the next charge pickup
       this.alertFirstPickup = true;
     } );
-  
+
     // @private {number} distance the balloon has moved since we last sent an alert to the utteranceQueue. After a
     // successful alert we don't send any alerts to the utterance queue until we have substantial balloon movement
     // to avoid a pile-up of alerts.
     this.distanceSinceDirectionAlert = 0;
-  
+
     // @private {Vector2} the position of the balloon when we send an alert to the utteranceQueue. After a successful
     // alert, we don't alert again until there is sufficient movement to avoid a pile-up of alerts
     this.positionOnAlert = this.balloonModel.positionProperty.get();
-  
+
     this.balloonModel.positionProperty.link( position => {
       this.distanceSinceDirectionAlert = position.minus( this.positionOnAlert ).magnitude;
     } );
-  
+
     // when drag velocity starts from zero, or hits zero, update charge counts on start/end drag so we can determine
     // how much charge has been picked up in a single interaction
     this.balloonModel.dragVelocityProperty.link( ( velocity, oldVelocity ) => {
       if ( oldVelocity ) {
         if ( oldVelocity.equals( Vector2.ZERO ) ) {
-  
+
           // we just started dragging
           this.chargeOnStartDrag = balloon.chargeProperty.get();
         }
         else if ( velocity.equals( Vector2.ZERO ) ) {
-  
+
           // we just finished a drag interaction
           this.chargeOnEndDrag = balloon.chargeProperty.get();
         }

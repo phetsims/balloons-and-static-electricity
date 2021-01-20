@@ -62,16 +62,16 @@ class WallDescriber {
    * @param {BASEmodel} model
    */
   constructor( model ) {
-  
+
     // @private {WallModel}
     this.wallModel = model.wall;
-  
+
     // @private {BalloonModel}
     this.yellowBalloon = model.greenBalloon;
-  
+
     // @private {BalloonModel}
     this.greenBalloon = model.greenBalloon;
-  
+
     // @private showChargesProperty
     this.showChargesProperty = model.showChargesProperty;
   }

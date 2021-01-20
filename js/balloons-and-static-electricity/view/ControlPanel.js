@@ -62,23 +62,23 @@ const BOTTOM_CONTROL_SPACING = 10;
 const CONTROLS_FONT = new PhetFont( 15 );
 
 class ControlPanel extends Node {
-  
+
   /**
    * @param {BASEModel} model
    * @param {Bounds2} layoutBounds
    * @param {Tandem} tandem
    */
   constructor( model, layoutBounds, tandem ) {
-  
+
     // super constructor
     super();
-  
+
     // options for text in the wall toggle button
     const textOptions = {
       font: CONTROLS_FONT,
       maxWidth: 100
     };
-  
+
     // content for Add/Remove wall button.
     const addWallText = new MultiLineText( addWallString, merge( {
       tandem: tandem.createTandem( 'addWallText' )
@@ -87,7 +87,7 @@ class ControlPanel extends Node {
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
     }, textOptions ) );
-  
+
     // @private
     this.wallButton = new BooleanRectangularToggleButton( removeWallText, addWallText, model.wall.isVisibleProperty, {
       baseColor: 'rgb( 255, 200, 0 )',
@@ -95,21 +95,21 @@ class ControlPanel extends Node {
         model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
       },
       tandem: tandem.createTandem( 'wallButton' ),
-  
+
       // pdom
       descriptionContent: removeWallDescriptionString,
       innerContent: removeWallString,
       appendDescription: true
     } );
-  
+
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     model.wall.isVisibleProperty.lazyLink( wallVisible => {
       this.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
-  
+
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
       phet.joist.sim.utteranceQueue.addToBack( alertDescription );
     } );
-  
+
     // Radio buttons related to charges
     const RADIO_BUTTON_TEXT_OPTIONS = {
       font: CONTROLS_FONT,
@@ -142,13 +142,13 @@ class ControlPanel extends Node {
     } ], {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
-  
+
       // pdom
       containerTagName: 'div',
       labelContent: chargeSettingsLabelString,
       descriptionContent: chargeSettingsDescriptionString
     } );
-  
+
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
     model.showChargesProperty.lazyLink( value => {
@@ -162,11 +162,11 @@ class ControlPanel extends Node {
       else if ( value === 'diff' ) {
         alertString = showChargeDifferencesAlertString;
       }
-  
+
       assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
       phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
-  
+
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
     const yellowBalloonImage = new Image( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
@@ -179,7 +179,7 @@ class ControlPanel extends Node {
       scale: scale,
       tandem: twoBalloonIconTandem
     } );
-  
+
     const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     const oneBalloonIcon = new Node( {
       children: [
@@ -191,7 +191,7 @@ class ControlPanel extends Node {
       scale: scale,
       tandem: oneBalloonIconTandem
     } );
-  
+
     let showSecondBalloonSelector = null;
     if ( !BASEQueryParameters.hideBalloonSwitch ) {
       showSecondBalloonSelector = new TwoSceneSelectionNode(
@@ -210,7 +210,7 @@ class ControlPanel extends Node {
         }
       );
     }
-  
+
     // 'Reset Balloons' button
     const resetBalloonToggleNode = new BooleanToggleNode(
       new Text( resetBalloonsString, {
@@ -225,21 +225,21 @@ class ControlPanel extends Node {
       { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
     );
     const resetBalloonButtonListener = () => {
-  
+
       // disable other alerts until after we are finished resetting the balloons
       if ( phet.joist.sim ) {
         phet.joist.sim.utteranceQueue.enabled = false;
       }
-  
+
       model.sweater.reset();
       model.balloons.forEach( balloon => {
         balloon.reset( true );
       } );
-  
+
       if ( phet.joist.sim ) {
         phet.joist.sim.utteranceQueue.enabled = true;
       }
-  
+
       // alert to assistive technology
       phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
@@ -250,12 +250,12 @@ class ControlPanel extends Node {
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
       tandem: tandem.createTandem( 'resetBalloonButton' ),
-  
+
       // pdom
       containerTagName: 'div',
       appendDescription: true
     } );
-  
+
     // create the accessible description for the reset balloon button
     const generateDescriptionString = balloonVisible => {
       const balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
@@ -265,40 +265,40 @@ class ControlPanel extends Node {
         positions: positionDescriptionString
       } );
     };
-  
+
     // update the button description when the green balloon is made visible
     model.greenBalloon.isVisibleProperty.link( isVisible => {
       resetBalloonButton.descriptionContent = generateDescriptionString( isVisible );
       resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
-  
+
     const balloonsPanel = new VBox( {
       spacing: 2,
       children: showSecondBalloonSelector ? [ showSecondBalloonSelector, resetBalloonButton ] : [ resetBalloonButton ],
-  
+
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: balloonSettingsLabelString
     } );
-  
+
     //Add the controls at the right, with the reset all button and the wall button
     const resetAllButton = new ResetAllButton( {
       listener: model.reset.bind( model ),
       scale: 0.96,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-  
+
     const controls = new HBox( {
       spacing: 14,
       align: 'bottom',
       children: [ resetAllButton, this.wallButton ]
     } );
-  
+
     // more than other controls so the reset button touch area doesn't overlap the nav bar
     controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
     controls.right = layoutBounds.maxX - 4.5;// so "Remove Wall" button looks centered with wall
-  
+
     let visibilityControls;
     let controlsLeft;
     if ( BASEQueryParameters.hideChargeControls ) {
@@ -312,7 +312,7 @@ class ControlPanel extends Node {
       ];
       controlsLeft = 70;
     }
-  
+
     this.addChild( new HBox( {
       spacing: 50,
       children: visibilityControls,
@@ -321,9 +321,9 @@ class ControlPanel extends Node {
       bottom: layoutBounds.maxY - BOTTOM_CONTROL_SPACING
     } ) );
     this.addChild( controls );
-  
+
     this.accessibleOrder = [ this.wallButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
-  
+
   }
 }
 

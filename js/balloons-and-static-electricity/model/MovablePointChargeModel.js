@@ -15,7 +15,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import PointChargeModel from './PointChargeModel.js';
 
 class MovablePointChargeModel extends PointChargeModel {
-  
+
   /**
    * @param {number} x
    * @param {number} y
@@ -23,9 +23,9 @@ class MovablePointChargeModel extends PointChargeModel {
    * @param {boolean} phetioState
    */
   constructor( x, y, tandem, phetioState ) {
-  
+
     super( x, y, tandem, phetioState );
-  
+
     // @public {Vector2} - position of the point charge
     this.positionProperty = new Vector2Property( this.position, {
       tandem: tandem.createTandem( 'positionProperty' ),

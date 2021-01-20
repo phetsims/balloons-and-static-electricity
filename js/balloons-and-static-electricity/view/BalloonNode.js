@@ -58,7 +58,7 @@ class BalloonNode extends Node {
   constructor( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
     options = merge( {
       cursor: 'pointer',
-  
+
       // pdom - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
       containerTagName: 'div',
@@ -66,38 +66,38 @@ class BalloonNode extends Node {
       labelTagName: 'h3',
       labelContent: accessibleLabelString
     }, options );
-  
+
     assert && assert( !options.tandem, 'required param' );
     options.tandem = tandem;
-  
+
     // super constructor
     super( options );
-  
+
     // @private
     this.model = model;
     this.globalModel = globalModel;
-  
+
     // pdom - a type that generates descriptions for the balloon
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
-  
+
     // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
     this.jumpingUtterance = new Utterance();
-  
+
     const originalChargesNode = new Node( {
       pickable: false,
       tandem: tandem.createTandem( 'originalChargesNode' )
     } );
     const addedChargesNode = new Node( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
-  
+
     const property = {
-  
+
       //Set only to the legal positions in the frame
       set: position => { model.positionProperty.set( globalModel.checkBalloonRestrictions( position, model.width, model.height ) ); },
-  
+
       //Get the position of the model
       get: () => model.positionProperty.get()
     };
-  
+
     /**
      * Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting
      * velocities.
@@ -107,10 +107,10 @@ class BalloonNode extends Node {
       model.velocityProperty.set( new Vector2( 0, 0 ) );
       model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
     };
-  
+
     //When dragging, move the balloon
     const dragHandler = new MovableDragHandler( property, {
-  
+
       // When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: () => {
@@ -125,20 +125,20 @@ class BalloonNode extends Node {
       },
       tandem: tandem.createTandem( 'dragHandler' )
     } );
-  
+
     this.addInputListener( dragHandler );
-  
+
     const balloonImageNode = new Image( imgsrc, {
       tandem: tandem.createTandem( 'balloonImageNode' )
     } );
-  
+
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
-  
+
     // custom elliptical touch/mouse areas so the balloon is easier to grab when under the other balloon
     this.mouseArea = Shape.ellipse( balloonImageNode.centerX, balloonImageNode.centerY, balloonImageNode.width / 2, balloonImageNode.height / 2, 0 );
     this.touchArea = this.mouseArea;
-  
+
     // static charges
     const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
@@ -148,14 +148,14 @@ class BalloonNode extends Node {
         plusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( plusChargeNode );
-  
+
       const minusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].position,
         minusChargeNodesTandemGroup.createNextTandem()
       );
       originalChargesNode.addChild( minusChargeNode );
     }
-  
+
     //possible charges
     const addedNodes = []; // track in a local array to update visibility with charge
     const addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
@@ -166,26 +166,26 @@ class BalloonNode extends Node {
       );
       addedMinusChargeNode.visible = false;
       addedChargesNode.addChild( addedMinusChargeNode );
-  
+
       addedNodes.push( addedMinusChargeNode );
     }
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
-  
+
     //if change charge, show more minus charges
     model.chargeProperty.link( chargeVal => {
       const numVisibleMinusCharges = Math.abs( chargeVal );
-  
+
       for ( let i = 0; i < addedNodes.length; i++ ) {
         addedNodes[ i ].visible = i < numVisibleMinusCharges;
       }
     } );
-  
+
     // link the position of this node to the model
     model.positionProperty.link( position => {
       this.translation = position;
     } );
-  
+
     //show charges based on showCharges property
     globalModel.showChargesProperty.link( value => {
       if ( value === 'diff' ) {
@@ -198,10 +198,10 @@ class BalloonNode extends Node {
         addedChargesNode.visible = visiblity;
       }
     } );
-  
+
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
-  
+
     // pdom - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
     const updateAccessibleDescription = () => {
@@ -211,7 +211,7 @@ class BalloonNode extends Node {
     model.chargeProperty.link( updateAccessibleDescription );
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
-  
+
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
     // information
     const boundaryUtterance = new Utterance();
@@ -224,7 +224,7 @@ class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: event => {
-  
+
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
           const attemptedDirection = this.getAttemptedMovementDirection( event.domEvent.keyCode );
@@ -233,41 +233,41 @@ class BalloonNode extends Node {
         }
       }
     } );
-  
+
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
     // a keyboard
     const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
-  
+
     // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
     // content for the interaction is underneath this node
     const grabDragInteraction = new GrabDragInteraction( balloonImageNode, this.keyboardDragHandler, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
-  
+
       grabCueOptions: {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
-  
+
       keyboardHelpText: grabBalloonKeyboardHelpString,
-  
+
       onGrab: () => {
         model.isDraggedProperty.set( true );
       },
-  
+
       onRelease: () => {
         endDragListener();
-  
+
         // reset the key state of the drag handler by interrupting the drag
         this.keyboardDragHandler.interrupt();
       },
-  
+
       // hides the interactionCueNode cue if this returns true
       showDragCueNode: () => model.positionProperty.get().equals( model.positionProperty.initialValue ),
-  
+
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
-  
+
     // jump to the wall on 'J + W'
     this.keyboardDragHandler.addHotkeys( [
       {
@@ -295,21 +295,21 @@ class BalloonNode extends Node {
         }
       }
     ] );
-  
+
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( isVisible => {
       this.keyboardDragHandler._dragBounds = this.getDragBounds();
     } );
-  
+
     model.resetEmitter.addListener( () => {
-  
+
       // if reset, release the balloon from dragging
       dragHandler.interrupt();
-  
+
       this.describer.reset();
       grabDragInteraction.reset();
     } );
-  
+
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
       const parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
       this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) );

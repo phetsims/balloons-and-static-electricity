@@ -38,23 +38,23 @@ const icon = new Node( {
 const sharedMinusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
 class MinusChargeNode extends Node {
-  
+
   /**
    * @param {Vector2} position
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
   constructor( position, tandem, options ) {
-  
+
     options = merge( {
       pickable: false,
       tandem: tandem
     }, options );
-  
+
     super( options );
-  
+
     this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
-  
+
     this.addChild( sharedMinusChargeNode );
   }
 }

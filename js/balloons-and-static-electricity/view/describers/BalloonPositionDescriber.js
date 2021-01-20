@@ -147,7 +147,7 @@ class BalloonPositionDescriber {
    * @param {string} otherAccessibleName - reference to the other balloon being described
    */
   constructor( balloonDescriber, model, balloonModel, accessibleName, otherAccessibleName ) {
-  
+
     // @private - for use in instance functions
     this.model = model;
     this.wall = model.wall;

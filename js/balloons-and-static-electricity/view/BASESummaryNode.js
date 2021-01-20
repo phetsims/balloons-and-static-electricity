@@ -44,7 +44,7 @@ const initialObjectPositionsString = BASEA11yStrings.initialObjectPositions.valu
 const simOpeningString = BASEA11yStrings.simOpening.value;
 
 class BASESummaryNode extends Node {
-  
+
   /**
    * @param {BASEModel} model
    * @param yellowBalloonNode
@@ -53,27 +53,27 @@ class BASESummaryNode extends Node {
    * @param {Tandem} tandem
    */
   constructor( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
-  
-  
+
+
     super( {
       tandem: tandem
     } );
-  
+
     // pull out model elements for readability
     this.yellowBalloon = model.yellowBalloon;
     this.greenBalloon = model.greenBalloon;
-  
+
     this.yellowBalloonDescriber = yellowBalloonNode.describer;
     this.greenBalloonDescriber = greenBalloonNode.describer;
-  
+
     // @private
     this.model = model;
     this.wall = model.wall;
-  
+
     // opening paragraph for the simulation
     const openingSummaryNode = new Node( { tagName: 'p', innerContent: simOpeningString } );
     this.addChild( openingSummaryNode );
-  
+
     // list of dynamic description content that will update with the state of the simulation
     const listNode = new Node( { tagName: 'ul' } );
     const roomObjectsNode = new Node( { tagName: 'li' } );
@@ -81,7 +81,7 @@ class BASESummaryNode extends Node {
     const balloonChargeNode = new Node( { tagName: 'li' } );
     const sweaterWallChargeNode = new Node( { tagName: 'li' } );
     const inducedChargeNode = new Node( { tagName: 'li' } );
-  
+
     // structure the accessible content
     this.addChild( listNode );
     listNode.addChild( roomObjectsNode );
@@ -90,38 +90,38 @@ class BASESummaryNode extends Node {
     listNode.addChild( sweaterWallChargeNode );
     listNode.addChild( inducedChargeNode );
     this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
-  
+
     // update the description that covers the visible objects in the play area
     Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], ( balloonVisible, wallVisible ) => {
       roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
-  
+
     const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) => {
       const chargesVisible = showCharges !== 'none';
       balloonChargeNode.accessibleVisible = chargesVisible;
       sweaterWallChargeNode.accessibleVisible = chargesVisible;
-  
+
       // update labels if charges are shown
       if ( chargesVisible ) {
         balloonChargeNode.innerContent = this.getBalloonChargeDescription();
         sweaterWallChargeNode.innerContent = this.getSweaterAndWallChargeDescription();
       }
     } );
-  
+
     const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( inducedChargeProperties, ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
-  
+
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
       const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
       inducedChargeNode.accessibleVisible = showInducingItem;
-  
+
       if ( showInducingItem ) {
         inducedChargeNode.innerContent = this.getInducedChargeDescription();
       }
     } );
-  
+
     // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
     // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
     Property.multilink(
@@ -134,7 +134,7 @@ class BASESummaryNode extends Node {
                               this.greenBalloon.positionProperty.initialValue === greenPosition &&
                               this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
                               model.wall.isVisibleProperty.initialValue === wallVisible;
-  
+
         objectPositionsNode.accessibleVisible = initialValues;
       }
     );

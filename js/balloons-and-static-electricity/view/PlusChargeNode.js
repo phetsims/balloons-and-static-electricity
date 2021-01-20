@@ -42,17 +42,17 @@ const icon = new Node( {
 const sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
 
 class PlusChargeNode extends Node {
-  
+
   /**
    * @param {Vector2} position
    * @param {Tandem} tandem
    */
   constructor( position, tandem ) {
-  
+
     super( { pickable: false, tandem: tandem } );
-  
+
     this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
-  
+
     this.addChild( sharedPlusChargeNode );
   }
 }
