@@ -9,6 +9,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import wallImage from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -53,9 +54,8 @@ class WallNode extends Node {
     plusChargesNode.translate( -wallModel.x, 0 );
 
     //draw plusCharges on the wall
-    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
     wallModel.plusCharges.forEach( entry => {
-      const plusChargeNode = new PlusChargeNode( entry.position, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( entry.position, Tandem.OPT_OUT );
       plusChargesNode.addChild( plusChargeNode );
     } );
     this.addChild( plusChargesNode );
