@@ -16,6 +16,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -255,34 +256,24 @@ class BalloonModel {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
-
-    // TODO: https://github.com/phetsims/balloons-and-static-electricity/issues/477 does this need to be instrumented?
-    const plusChargesTandemGroup = tandem.createTandem( 'plusCharges' );
-    const minusChargesTandemGroup = tandem.createTandem( 'minusCharges' );
-
-    let index = 0;
     this.positionsOfStartCharges.forEach( entry => {
-
-      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createTandem( `plusCharge${index}` ), false );
+      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], Tandem.OPT_OUT, false );
       this.plusCharges.push( plusCharge );
 
       // minus charges at same position of positive charge, shifted down and to the right by charge radius
       const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
-        minusChargesTandemGroup.createTandem( `minusCharge${index}` ),
+        Tandem.OPT_OUT,
         false
       );
       this.minusCharges.push( minusCharge );
-
-      index++;
     } );
 
     // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( entry => {
-      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createTandem( `minusCharge${index}` ), true );
+      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], Tandem.OPT_OUT, false );
       this.minusCharges.push( minusCharge );
-      index++;
     } );
 
     // @public (read-only) model bounds, updated when position changes
