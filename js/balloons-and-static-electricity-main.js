@@ -43,10 +43,10 @@ simLauncher.launch( () => {
       () => new BASEModel(
         768,
         504,
-        balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityModel' ) ),
+        balloonsAndStaticElectricityScreenTandem.createTandem( 'model' ) ),
       model => new BASEView(
         model,
-        balloonsAndStaticElectricityScreenTandem.createTandem( 'balloonsAndStaticElectricityView' )
+        balloonsAndStaticElectricityScreenTandem.createTandem( 'view' )
       ),
       {
         backgroundColorProperty: BASEConstants.backgroundColorProperty,
