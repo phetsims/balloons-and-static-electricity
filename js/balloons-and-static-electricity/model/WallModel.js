@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
@@ -54,28 +55,30 @@ class WallModel {
 
     // @private {array.<PointChargeModel>}
     this.plusCharges = [];
-    const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
 
     // @private {array.<MovablePointChargeModel>}
     this.minusCharges = [];
-    const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
 
+    const minusCharges = tandem.createTandem( 'minusCharges' );
+
+    let index = 0;
     for ( let i = 0; i < this.numX; i++ ) {
       for ( let k = 0; k < this.numY; k++ ) {
 
         //plus
         const position = this.calculatePosition( i, k );
-        const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
+        const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], Tandem.OPT_OUT, false );
         this.plusCharges.push( plusCharge );
 
         //minus
         const minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
           position[ 1 ] - PointChargeModel.RADIUS,
-          minusChargesTandemGroup.createNextTandem(),
+          minusCharges.createTandem( `minusCharge${index}` ),
           false
         );
         this.minusCharges.push( minusCharge );
+        index++;
       }
     }
 
