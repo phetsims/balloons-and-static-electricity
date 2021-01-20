@@ -150,13 +150,13 @@ class SweaterModel {
     this.plusCharges = [];
     this.minusCharges = [];
 
-    const plusChargesGroupTandem = tandem.createGroupTandem( 'plusCharges' );
-    const minusChargesGroupTandem = tandem.createGroupTandem( 'minusCharges' );
-    CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
+    const plusChargesGroupTandem = tandem.createTandem( 'plusCharges' );
+    const minusChargesGroupTandem = tandem.createTandem( 'minusCharges' );
+    CHARGE_PAIR_POSITIONS.forEach( ( chargePairPosition, index ) => {
       const plusCharge = new PointChargeModel(
         chargePairPosition.x,
         chargePairPosition.y,
-        plusChargesGroupTandem.createNextTandem(),
+        plusChargesGroupTandem.createTandem( `plusCharge${index}` ),
         false
       );
       this.plusCharges.push( plusCharge );
@@ -165,7 +165,7 @@ class SweaterModel {
       const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
         chargePairPosition.y + PointChargeModel.RADIUS,
-        minusChargesGroupTandem.createNextTandem(),
+        minusChargesGroupTandem.createTandem( `minusCharge${index}` ),
         true
       );
       this.minusCharges.push( minusCharge );
@@ -173,7 +173,6 @@ class SweaterModel {
 
     this.reset();
   }
-
 
   /**
    * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
@@ -207,7 +206,7 @@ class SweaterModel {
    *
    * @public
    * @param {PointChargeModel} charge
-   * @param {BalloonModel}
+   * @param {BalloonModel} balloon
    */
   moveChargeTo( charge, balloon ) {
     charge.movedProperty.set( true );
