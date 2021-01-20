@@ -24,6 +24,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -140,29 +141,26 @@ class BalloonNode extends Node {
     this.touchArea = this.mouseArea;
 
     // static charges
-    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
-    const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     for ( let i = 0; i < model.plusCharges.length; i++ ) {
       const plusChargeNode = new PlusChargeNode(
         model.plusCharges[ i ].position,
-        plusChargeNodesTandemGroup.createNextTandem()
+        Tandem.OPT_OUT
       );
       originalChargesNode.addChild( plusChargeNode );
 
       const minusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].position,
-        minusChargeNodesTandemGroup.createNextTandem()
+        Tandem.OPT_OUT
       );
       originalChargesNode.addChild( minusChargeNode );
     }
 
     //possible charges
     const addedNodes = []; // track in a local array to update visibility with charge
-    const addedChargeNodesTandemGroup = tandem.createGroupTandem( 'addedChargeNodes' );
     for ( let i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       const addedMinusChargeNode = new MinusChargeNode(
         model.minusCharges[ i ].position,
-        addedChargeNodesTandemGroup.createNextTandem()
+        Tandem.OPT_OUT
       );
       addedMinusChargeNode.visible = false;
       addedChargesNode.addChild( addedMinusChargeNode );
