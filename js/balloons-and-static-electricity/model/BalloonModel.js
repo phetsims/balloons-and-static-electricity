@@ -255,27 +255,34 @@ class BalloonModel {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
-    const plusChargesTandemGroup = tandem.createGroupTandem( 'plusCharges' );
-    const minusChargesTandemGroup = tandem.createGroupTandem( 'minusCharges' );
+
+    // TODO: https://github.com/phetsims/balloons-and-static-electricity/issues/477 does this need to be instrumented?
+    const plusChargesTandemGroup = tandem.createTandem( 'plusCharges' );
+    const minusChargesTandemGroup = tandem.createTandem( 'minusCharges' );
+
+    let index = 0;
     this.positionsOfStartCharges.forEach( entry => {
 
-      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createNextTandem(), false );
+      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], plusChargesTandemGroup.createTandem( `plusCharge${index}` ), false );
       this.plusCharges.push( plusCharge );
 
       // minus charges at same position of positive charge, shifted down and to the right by charge radius
       const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
         entry[ 1 ] + PointChargeModel.RADIUS,
-        minusChargesTandemGroup.createNextTandem(),
+        minusChargesTandemGroup.createTandem( `minusCharge${index}` ),
         false
       );
       this.minusCharges.push( minusCharge );
+
+      index++;
     } );
 
     // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( entry => {
-      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createNextTandem(), true );
+      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], minusChargesTandemGroup.createTandem( `minusCharge${index}` ), true );
       this.minusCharges.push( minusCharge );
+      index++;
     } );
 
     // @public (read-only) model bounds, updated when position changes
