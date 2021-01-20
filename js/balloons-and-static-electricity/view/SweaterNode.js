@@ -77,14 +77,12 @@ class SweaterNode extends Node {
     }
 
     // draw plus and minus charges
-    const plusChargeNodesTandemGroup = tandem.createGroupTandem( 'plusChargeNodes' );
-    const minusChargeNodesTandemGroup = tandem.createGroupTandem( 'minusChargeNodes' );
     this.sweaterModel.plusCharges.forEach( plusCharge => {
-      const plusChargeNode = new PlusChargeNode( plusCharge.position, plusChargeNodesTandemGroup.createNextTandem() );
+      const plusChargeNode = new PlusChargeNode( plusCharge.position, Tandem.OPT_OUT );
       this.plusChargesNode.addChild( plusChargeNode );
     } );
     this.sweaterModel.minusCharges.forEach( minusCharge => {
-      const minusChargeNode = new MinusChargeNode( minusCharge.position, minusChargeNodesTandemGroup.createNextTandem() );
+      const minusChargeNode = new MinusChargeNode( minusCharge.position, Tandem.OPT_OUT );
       this.minusChargesNode.addChild( minusChargeNode );
     } );
 
