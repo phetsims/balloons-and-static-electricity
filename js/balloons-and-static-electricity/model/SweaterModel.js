@@ -150,13 +150,13 @@ class SweaterModel {
     this.plusCharges = [];
     this.minusCharges = [];
 
-    const plusChargesGroupTandem = tandem.createTandem( 'plusCharges' );
-    const minusChargesGroupTandem = tandem.createTandem( 'minusCharges' );
-    CHARGE_PAIR_POSITIONS.forEach( ( chargePairPosition, index ) => {
+    const plusChargesGroupTandem = tandem.createTandem('plusCharges').createGroupTandem( 'plusCharge' );
+    const minusChargesGroupTandem = tandem.createTandem('minusCharges').createGroupTandem( 'minusCharge' );
+    CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
       const plusCharge = new PointChargeModel(
         chargePairPosition.x,
         chargePairPosition.y,
-        plusChargesGroupTandem.createTandem( `plusCharge${index}` ),
+        plusChargesGroupTandem.createNextTandem(),
         false
       );
       this.plusCharges.push( plusCharge );
@@ -165,7 +165,7 @@ class SweaterModel {
       const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
         chargePairPosition.y + PointChargeModel.RADIUS,
-        minusChargesGroupTandem.createTandem( `minusCharge${index}` ),
+        minusChargesGroupTandem.createNextTandem(),
         true
       );
       this.minusCharges.push( minusCharge );
