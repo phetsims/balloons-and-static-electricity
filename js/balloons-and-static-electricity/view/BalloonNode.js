@@ -24,21 +24,27 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import grabBalloonSound from '../../../sounds/grab-magnet_mp3.js';
+import releaseBalloonSound from '../../../sounds/release-magnet_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
+import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
-import BalloonDescriber from './describers/BalloonDescriber.js';
 
 // pdom - critical x positions for the balloon
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
+// constants
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
+const GRAB_RELEASE_SOUND_LEVEL = 0.2; // empirically determined
 
 class BalloonNode extends Node {
 
@@ -106,18 +112,28 @@ class BalloonNode extends Node {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
       model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
+      releaseBalloonSoundPlayer.play();
     };
 
-    //When dragging, move the balloon
+    // Sound generators for grab and release of the balloons.
+    const grabBalloonSoundPlayer = new SoundClip( grabBalloonSound, {
+      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
+    } );
+    soundManager.addSoundGenerator( grabBalloonSoundPlayer );
+    const releaseBalloonSoundPlayer = new SoundClip( releaseBalloonSound, {
+      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
+    } );
+    soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
+
+    // When dragging, move the balloon.
     const dragHandler = new MovableDragHandler( property, {
 
       // When dragging across it in a mobile device, pick it up
       allowTouchSnag: true,
       startDrag: () => {
         model.draggingWithPointer = true;
-        if ( !model.isDraggedProperty.get() ) {
-          model.isDraggedProperty.set( true );
-        }
+        model.isDraggedProperty.set( true );
+        grabBalloonSoundPlayer.play();
       },
       endDrag: () => {
         endDragListener();
@@ -238,6 +254,7 @@ class BalloonNode extends Node {
 
       onGrab: () => {
         model.isDraggedProperty.set( true );
+        grabBalloonSoundPlayer.play();
       },
 
       onRelease: () => {

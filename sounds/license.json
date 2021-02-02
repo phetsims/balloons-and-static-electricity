@@ -1,0 +1,18 @@
+{
+  "grab-magnet.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "This sound was copied from Faraday's law and it is temporary, see "
+  },
+  "release-magnet.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  }
+}
