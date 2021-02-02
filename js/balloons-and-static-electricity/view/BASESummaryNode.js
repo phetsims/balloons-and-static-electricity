@@ -99,8 +99,8 @@ class BASESummaryNode extends Node {
     const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
     Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) => {
       const chargesVisible = showCharges !== 'none';
-      balloonChargeNode.accessibleVisible = chargesVisible;
-      sweaterWallChargeNode.accessibleVisible = chargesVisible;
+      balloonChargeNode.pdomVisible = chargesVisible;
+      sweaterWallChargeNode.pdomVisible = chargesVisible;
 
       // update labels if charges are shown
       if ( chargesVisible ) {
@@ -115,7 +115,7 @@ class BASESummaryNode extends Node {
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
       const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
-      inducedChargeNode.accessibleVisible = showInducingItem;
+      inducedChargeNode.pdomVisible = showInducingItem;
 
       if ( showInducingItem ) {
         inducedChargeNode.innerContent = this.getInducedChargeDescription();
@@ -135,7 +135,7 @@ class BASESummaryNode extends Node {
                               this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
                               model.wall.isVisibleProperty.initialValue === wallVisible;
 
-        objectPositionsNode.accessibleVisible = initialValues;
+        objectPositionsNode.pdomVisible = initialValues;
       }
     );
   }
