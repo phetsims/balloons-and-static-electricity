@@ -225,7 +225,7 @@ class TwoSceneSelectionNode extends Node {
 
     // considered "checked" for accessibility when node B is selected
     const propertyListener = value => {
-      this.setAccessibleChecked( value === valueB );
+      this.setPDOMChecked( value === valueB );
     };
 
     // listener that highlights the unselected button when mouse is over
