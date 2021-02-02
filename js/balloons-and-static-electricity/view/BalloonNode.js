@@ -11,14 +11,15 @@
  * @author John Blanco
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
@@ -51,15 +52,14 @@ class BalloonNode extends Node {
   /**
    * Constructor for the balloon
    *
-   * @param  {number} x
-   * @param  {number} y
-   * @param  {BalloonModel} model
-   * @param  {Image} imgsrc - image source from the image plugin
-   * @param  {BASEModel} globalModel
+   * @param {BalloonModel} model
+   * @param {Image} imgsrc - image source from the image plugin
+   * @param {BASEModel} globalModel
    * @param {string} accessibleLabelString - the accessible label for this balloon
    * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
    * @param {Bounds2} layoutBounds - layout bounds of the ScreenView containing this node
-   * @param  {Tandem} tandem
+   * @param {Tandem} tandem
+   * @param {Object} [options]
    */
   constructor( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
     options = merge( {
@@ -95,19 +95,7 @@ class BalloonNode extends Node {
     } );
     const addedChargesNode = new Node( { pickable: false, tandem: tandem.createTandem( 'addedChargesNode' ) } );
 
-    const property = {
-
-      //Set only to the legal positions in the frame
-      set: position => { model.positionProperty.set( globalModel.checkBalloonRestrictions( position, model.width, model.height ) ); },
-
-      //Get the position of the model
-      get: () => model.positionProperty.get()
-    };
-
-    /**
-     * Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting
-     * velocities.
-     */
+    // Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting velocities.
     const endDragListener = () => {
       model.isDraggedProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
@@ -115,7 +103,7 @@ class BalloonNode extends Node {
       releaseBalloonSoundPlayer.play();
     };
 
-    // Sound generators for grab and release of the balloons.
+    // Create the sound generators for grab and release of the balloons.
     const grabBalloonSoundPlayer = new SoundClip( grabBalloonSound, {
       initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
     } );
@@ -125,23 +113,36 @@ class BalloonNode extends Node {
     } );
     soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
 
-    // When dragging, move the balloon.
-    const dragHandler = new MovableDragHandler( property, {
+    // Set up the bounds Property that will keep track of where the balloon can be dragged.
+    const boundsWithoutWall = new Bounds2( 0, 0, globalModel.width - model.width, globalModel.height - model.height );
+    const boundsWithWall = new Bounds2(
+      0,
+      0,
+      globalModel.width - globalModel.wallWidth - model.width,
+      globalModel.height - model.height
+    );
+    const balloonDragBoundsProperty = new Property( boundsWithWall );
+    globalModel.wall.isVisibleProperty.link( isWallVisible => {
+      balloonDragBoundsProperty.set( isWallVisible ? boundsWithWall : boundsWithoutWall );
+    } );
 
-      // When dragging across it in a mobile device, pick it up
+    // drag handling
+    const dragHandler = new DragListener( {
+
+      positionProperty: model.positionProperty,
+      dragBoundsProperty: balloonDragBoundsProperty,
       allowTouchSnag: true,
-      startDrag: () => {
+      start: () => {
         model.draggingWithPointer = true;
         model.isDraggedProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
-      endDrag: () => {
+      end: () => {
         endDragListener();
         model.draggingWithPointer = false;
       },
       tandem: tandem.createTandem( 'dragHandler' )
     } );
-
     this.addInputListener( dragHandler );
 
     const balloonImageNode = new Image( imgsrc, {
