@@ -322,7 +322,7 @@ class ControlPanel extends Node {
     } ) );
     this.addChild( controls );
 
-    this.accessibleOrder = [ this.wallButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
+    this.pdomOrder = [ this.wallButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
 
   }
 }

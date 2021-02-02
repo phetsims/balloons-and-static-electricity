@@ -67,7 +67,7 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     } );
 
     // the reading order for screen readers
-    this.accessibleOrder = [ balloonGrabHelpSection, moveBalloonHelpSection, generalNavigationHelpSection ];
+    this.pdomOrder = [ balloonGrabHelpSection, moveBalloonHelpSection, generalNavigationHelpSection ];
   }
 }
 

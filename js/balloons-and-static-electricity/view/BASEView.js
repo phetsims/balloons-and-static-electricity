@@ -144,7 +144,7 @@ class BASEView extends ScreenView {
     } );
 
     // set the accessible order: sweater, balloons wall
-    this.pdomPlayAreaNode.accessibleOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
+    this.pdomPlayAreaNode.pdomOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
 
     //--------------------------------------------------------------------------
     // debugging
