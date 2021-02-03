@@ -170,53 +170,6 @@ class BASEModel {
     const balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude ) < BalloonModel.BALLOON_WIDTH;
     return balloonsAdjacent && this.bothBalloonsVisible();
   }
-
-  /**
-   * Check if a balloon is outside world borders and return it to border if outside.
-   * @public
-   *
-   * @param {Vector2} position
-   * @param {number} objWidth - width of balloon
-   * @param {number} objHeight - height of balloon
-   *
-   * @returns {Vector2}
-   */
-  checkBalloonRestrictions( position, objWidth, objHeight ) {
-
-    //flag to check if we outside borders
-    let isOutBounds = false;
-
-    // if wall visible, right bound will be smaller by width of wall
-    const rightBound = this.playAreaBounds.width;
-
-    //if more than maxRight position - set maxRight position
-    if ( position.x + objWidth > rightBound ) {
-      position.x = rightBound - objWidth;
-      isOutBounds = true;
-    }
-
-    //if less then top border set y to minTop position
-    if ( position.y < 0 ) {
-      position.y = 0;
-      isOutBounds = true;
-    }
-    else if ( position.y + objHeight > this.height ) {
-
-      //if larger then bottom border set y to maxTop position
-      position.y = this.height - objHeight;
-      isOutBounds = true;
-    }
-
-    //if smaller then left border set x to minLeft position
-    if ( position.x < 0 ) {
-      position.x = 0;
-      isOutBounds = true;
-    }
-
-    //set flag
-    position.isOutBounds = isOutBounds;
-    return position;
-  }
 }
 
 
