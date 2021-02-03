@@ -225,10 +225,11 @@ class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: event => {
+        const key = event.domEvent.key.toLowerCase();
 
         // if already touching a boundary when dragging starts, announce an indication of this
-        if ( this.attemptToMoveBeyondBoundary( event.domEvent.keyCode ) ) {
-          const attemptedDirection = this.getAttemptedMovementDirection( event.domEvent.keyCode );
+        if ( this.attemptToMoveBeyondBoundary( key ) ) {
+          const attemptedDirection = this.getAttemptedMovementDirection( key );
           boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
           phet.joist.sim.utteranceQueue.addToBack( boundaryUtterance );
         }
@@ -359,35 +360,36 @@ class BalloonNode extends Node {
    * Determine if the user attempted to move beyond the play area bounds with the keyboard.
    *
    * @public
+   * @param {KeyDef} key
    *
    * @returns {boolean}
    */
-  attemptToMoveBeyondBoundary( keyCode ) {
+  attemptToMoveBeyondBoundary( key ) {
     return (
-      ( KeyboardDragListener.isLeftMovementKey( keyCode ) && this.model.isTouchingLeftBoundary() ) ||
-      ( KeyboardDragListener.isUpMovementKey( keyCode ) && this.model.isTouchingTopBoundary() ) ||
-      ( KeyboardDragListener.isRightMovementKey( keyCode ) && this.model.isTouchingRightBoundary() ) ||
-      ( KeyboardDragListener.isDownMovementKey( keyCode ) && this.model.isTouchingBottomBoundary() )
+      ( KeyboardDragListener.isLeftMovementKey( key ) && this.model.isTouchingLeftBoundary() ) ||
+      ( KeyboardDragListener.isUpMovementKey( key ) && this.model.isTouchingTopBoundary() ) ||
+      ( KeyboardDragListener.isRightMovementKey( key ) && this.model.isTouchingRightBoundary() ) ||
+      ( KeyboardDragListener.isDownMovementKey( key ) && this.model.isTouchingBottomBoundary() )
     );
   }
 
   /**
    * @public
-   * @param {number} keyCode
+   * @param {KeyDef} key
    * @returns {string}
    */
-  getAttemptedMovementDirection( keyCode ) {
+  getAttemptedMovementDirection( key ) {
     let direction;
-    if ( KeyboardDragListener.isLeftMovementKey( keyCode ) ) {
+    if ( KeyboardDragListener.isLeftMovementKey( key ) ) {
       direction = BalloonDirectionEnum.LEFT;
     }
-    else if ( KeyboardDragListener.isRightMovementKey( keyCode ) ) {
+    else if ( KeyboardDragListener.isRightMovementKey( key ) ) {
       direction = BalloonDirectionEnum.RIGHT;
     }
-    else if ( KeyboardDragListener.isUpMovementKey( keyCode ) ) {
+    else if ( KeyboardDragListener.isUpMovementKey( key ) ) {
       direction = BalloonDirectionEnum.UP;
     }
-    else if ( KeyboardDragListener.isDownMovementKey( keyCode ) ) {
+    else if ( KeyboardDragListener.isDownMovementKey( key ) ) {
       direction = BalloonDirectionEnum.DOWN;
     }
 
