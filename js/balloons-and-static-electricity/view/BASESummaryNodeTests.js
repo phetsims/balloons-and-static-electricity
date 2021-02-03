@@ -27,9 +27,9 @@ QUnit.test( 'Summary tests', assert => {
   const view = window.baseView;
 
   // create a wallNode for testing
-  const wallNode = new WallNode( model, view.layoutBounds, Tandem.GENERAL.createTandem( 'wallNode' ) );
+  const wallNode = new WallNode( model, view.layoutBounds, Tandem.ROOT_TEST.createTandem( 'wallNode' ) );
 
-  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.GENERAL.createTandem( 'summaryNode' ) );
+  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.ROOT_TEST.createTandem( 'summaryNode' ) );
 
   // verify first item in summary, description of items in the room
   model.reset();
@@ -152,7 +152,7 @@ QUnit.test( 'Summary tests', assert => {
   let actualFourthItem = summaryNode.getInducedChargeDescription();
   assert.equal( actualFourthItem, expectedFourthItem );
 
-  // test both balloons when they are adjacent 
+  // test both balloons when they are adjacent
   model.yellowBalloon.chargeProperty.set( -10 );
   model.greenBalloon.chargeProperty.set( -10 );
   model.greenBalloon.isVisibleProperty.set( true );
