@@ -50,10 +50,8 @@ const GRAB_RELEASE_SOUND_LEVEL = 0.2; // empirically determined
 class BalloonNode extends Node {
 
   /**
-   * Constructor for the balloon
-   *
    * @param {BalloonModel} model
-   * @param {Image} imgsrc - image source from the image plugin
+   * @param {Image} imageSource - image source from the image plugin
    * @param {BASEModel} globalModel
    * @param {string} accessibleLabelString - the accessible label for this balloon
    * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
@@ -61,7 +59,15 @@ class BalloonNode extends Node {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, imgsrc, globalModel, accessibleLabelString, otherAccessibleLabelString, layoutBounds, tandem, options ) {
+  constructor( model,
+               imageSource,
+               globalModel,
+               accessibleLabelString,
+               otherAccessibleLabelString,
+               layoutBounds,
+               tandem,
+               options ) {
+
     options = merge( {
       cursor: 'pointer',
 
@@ -145,7 +151,7 @@ class BalloonNode extends Node {
     } );
     this.addInputListener( dragHandler );
 
-    const balloonImageNode = new Image( imgsrc, {
+    const balloonImageNode = new Image( imageSource, {
       tandem: tandem.createTandem( 'balloonImageNode' )
     } );
 
@@ -321,24 +327,23 @@ class BalloonNode extends Node {
     }
   }
 
-
   /**
-   * Step the describer, which uses polling to determine the next alerts describing interactions with the balloon.
-   *
-   * @public
+   * Step the model forward in time.
    * @param  {number} dt
+   * @public
    */
   step( dt ) {
+
+    // Step the describer, which uses polling to determine the next alerts describing interactions with the balloon.
     this.describer.step( dt );
   }
 
   /**
-   * Jump the balloon to a new position, first muting the utteranceQueue, then updating position,
-   * then clearing the queue and enabling it once more.  Finally, we will add a custom utterance
-   * to the queue describing the jump interaction.
-   * @public
-   *
+   * Jump the balloon to a new position, first muting the utteranceQueue, then updating position, then clearing the
+   * queue and enabling it once more.  Finally, we will add a custom utterance to the queue describing the jump
+   * interaction.
    * @param  {Vector2} center - new center position for the balloon
+   * @public
    */
   jumpBalloon( center ) {
     this.model.jumping = true;
@@ -359,11 +364,9 @@ class BalloonNode extends Node {
 
   /**
    * Determine if the user attempted to move beyond the play area bounds with the keyboard.
-   *
-   * @public
    * @param {KeyDef} key
-   *
    * @returns {boolean}
+   * @public
    */
   attemptToMoveBeyondBoundary( key ) {
     return (
@@ -375,9 +378,9 @@ class BalloonNode extends Node {
   }
 
   /**
-   * @public
    * @param {KeyDef} key
    * @returns {string}
+   * @public
    */
   getAttemptedMovementDirection( key ) {
     let direction;
@@ -400,9 +403,8 @@ class BalloonNode extends Node {
 
   /**
    * Gets the available bounds for dragging, which will change when the wall becomes invisible.
-   *
-   * @private
    * @returns {Bounds2}
+   * @private
    */
   getDragBounds() {
     const modelBounds = this.globalModel.playAreaBounds;
