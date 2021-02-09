@@ -50,7 +50,6 @@ const DIRECTION_MAP = {
 };
 const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
-
 // collection of charge positions on the balloon, relative to the top left corners
 // charges will appear in these positions as the balloon collects electrons
 const POSITIONS = [
@@ -132,7 +131,6 @@ class BalloonModel {
    * @param {Tandem} tandem
    */
   constructor( x, y, balloonsAndStaticElectricityModel, defaultVisibility, tandem ) {
-
 
     //------------------------------------------------
     // Properties
@@ -316,7 +314,6 @@ class BalloonModel {
     this.reset();
   }
 
-
   /**
    * Return true if the balloon is near the wall without touching it, and the wall is visible.
    * @public
@@ -334,10 +331,7 @@ class BalloonModel {
    */
   onSweater() {
     const sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
-    if ( sweaterBounds.intersectsBounds( this.bounds ) ) {
-      return true;
-    }
-    else { return false; }
+    return sweaterBounds.intersectsBounds( this.bounds );
   }
 
   /**
@@ -1053,7 +1047,6 @@ class BalloonModel {
     return direction;
   }
 }
-
 
 // @static - value for Coulomb's constant used in the calculations but NOT THE ACTUAL VALUE.  It has been tweaked in
 // order to get the visual behavior that we need in the sim.
