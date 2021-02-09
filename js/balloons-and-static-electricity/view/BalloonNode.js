@@ -168,7 +168,7 @@ class BalloonNode extends Node {
       originalChargesNode.addChild( new MinusChargeNode( model.minusCharges[ i ].position ) );
     }
 
-    //possible charges
+    // possible charges
     const addedNodes = []; // track in a local array to update visibility with charge
     for ( let i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       const addedMinusChargeNode = new MinusChargeNode( model.minusCharges[ i ].position );
@@ -180,7 +180,7 @@ class BalloonNode extends Node {
     this.addChild( originalChargesNode );
     this.addChild( addedChargesNode );
 
-    //if change charge, show more minus charges
+    // if change charge, show more minus charges
     model.chargeProperty.link( chargeVal => {
       const numVisibleMinusCharges = Math.abs( chargeVal );
 
@@ -194,7 +194,7 @@ class BalloonNode extends Node {
       this.translation = position;
     } );
 
-    //show charges based on showCharges property
+    // show charges based on showCharges property
     globalModel.showChargesProperty.link( value => {
       if ( value === 'diff' ) {
         originalChargesNode.visible = false;
