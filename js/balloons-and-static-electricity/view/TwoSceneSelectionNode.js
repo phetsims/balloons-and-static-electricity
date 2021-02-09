@@ -28,6 +28,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import SunConstants from '../../../../sun/js/SunConstants.js';
+import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -200,8 +201,13 @@ class TwoSceneSelectionNode extends Node {
       setStyles( this.enabledProperty.get() );
     } );
 
+    // sound players
+    const soundPlayerForOneBalloon = multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 4 );
+    const soundPlayerForTwoBalloons = multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 5 );
+
     const upFunction = () => {
       const newValue = property.get() === valueA ? valueB : valueA;
+      newValue ? soundPlayerForTwoBalloons.play() : soundPlayerForOneBalloon.play();
       property.set( newValue );
       setStyles( this.enabledProperty.get() );
     };
