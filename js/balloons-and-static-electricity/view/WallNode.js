@@ -22,6 +22,7 @@ class WallNode extends Node {
 
   /**
    * @param {BASEModel} model
+   * @param {number} layoutHeight
    * @param {Tandem} tandem
    */
   constructor( model, layoutHeight, tandem ) {
@@ -52,14 +53,14 @@ class WallNode extends Node {
     const plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
     plusChargesNode.translate( -wallModel.x, 0 );
 
-    //draw plusCharges on the wall
+    // draw plusCharges on the wall
     wallModel.plusCharges.forEach( entry => {
       plusChargesNode.addChild( new PlusChargeNode( entry.position ) );
     } );
     this.addChild( plusChargesNode );
 
-    // the minus charges on the wall - with Canvas for performance, bounds widened so that charges are fully
-    // visible in wider layouts, see #409
+    // The minus charges on the wall and rendered using Canvas for performance, bounds widened so that charges are fully
+    // visible in wider layouts, see #409.
     const wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
     const minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
     this.addChild( minusChargesNode );
@@ -68,7 +69,7 @@ class WallNode extends Node {
       this.visible = isVisible;
     } );
 
-    //show charges based on draw  property
+    //s how charges based on draw property
     model.showChargesProperty.link( value => {
       plusChargesNode.visible = ( value === 'all' );
       minusChargesNode.visible = ( value === 'all' );
@@ -85,7 +86,7 @@ class WallNode extends Node {
     model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
 
-    // update minus charges indicating induced charge when balloons move
+    // Update minus charges indicating induced charge when balloons move.
     model.yellowBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
     model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
   }

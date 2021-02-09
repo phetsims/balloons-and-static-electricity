@@ -53,7 +53,6 @@ class MinusChargesCanvasNode extends CanvasNode {
     this.chargeImageNode = getChargeNode().rasterized( { wrap: false } );
   }
 
-
   /**
    * Draw charges at their correct positions indicating induced charge.
    *
