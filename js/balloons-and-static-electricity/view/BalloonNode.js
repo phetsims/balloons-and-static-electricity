@@ -36,6 +36,7 @@ import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
+import BalloonVelocitySoundGenerator from './BalloonVelocitySoundGenerator.js';
 import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
@@ -207,6 +208,9 @@ class BalloonNode extends Node {
       }
     } );
 
+    // sound generation for drift velocity
+    soundManager.addSoundGenerator( new BalloonVelocitySoundGenerator( model.velocityProperty ) );
+
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
 
@@ -317,10 +321,6 @@ class BalloonNode extends Node {
 
       this.describer.reset();
       grabDragInteraction.reset();
-    } );
-
-    model.velocityProperty.link( velocity => {
-      console.log( 'velocity.magnitude = ' + velocity.magnitude );
     } );
 
     // Handle a query parameter that adds a line and a marker at the "charge center".  This can be useful for debugging.
