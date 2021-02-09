@@ -143,7 +143,7 @@ class BalloonModel {
       phetioReadOnly: true
     } );
 
-    // @public {Vector2}
+    // @public {Vector2} - The velocity of the balloon when moving freely, i.e. NOT when it is being dragged.
     // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
     this.velocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'velocityProperty' ),
@@ -282,8 +282,8 @@ class BalloonModel {
       this.positionProperty.get().y + this.height
     );
 
-    // when position changes, update bounds of balloon in play area, direction of movement, and whether or not the
-    // the balloon is touching an object - no need to dispose as balloons exist for life of sim
+    // When the position changes, update the bounds of balloon, direction of movement, and whether or not the the
+    // balloon is touching an object.  No need to dispose as balloons exist for life of sim.
     this.positionProperty.link( ( position, oldPosition ) => {
       this.bounds.setMinMax( position.x, position.y, position.x + this.width, position.y + this.height );
 
@@ -304,8 +304,16 @@ class BalloonModel {
       }
     } );
 
-    // when the balloon is released, reset the timer that indicates when balloon was released
-    this.isDraggedProperty.link( isDragged => {
+    this.isDraggedProperty.lazyLink( isDragged => {
+
+      // When the user starts dragging a balloon, set its non-dragging velocity to zero.
+      if ( isDragged ){
+
+        // Use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2.
+        this.velocityProperty.set( new Vector2( 0, 0 ) );
+      }
+
+      // When the balloon is released, reset the timer that indicates when it was released.
       if ( !isDragged ) {
         this.timeSinceRelease = 0;
       }

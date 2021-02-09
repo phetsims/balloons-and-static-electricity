@@ -220,8 +220,7 @@ class BalloonNode extends Node {
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
-    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more
-    // information
+    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
     const boundaryUtterance = new Utterance();
     this.keyboardDragHandler = new KeyboardDragListener( {
       downDelta: 0,
@@ -320,6 +319,11 @@ class BalloonNode extends Node {
       grabDragInteraction.reset();
     } );
 
+    model.velocityProperty.link( velocity => {
+      console.log( 'velocity.magnitude = ' + velocity.magnitude );
+    } );
+
+    // Handle a query parameter that adds a line and a marker at the "charge center".  This can be useful for debugging.
     if ( BASEQueryParameters.showBalloonChargeCenter ) {
       const parentToLocalChargeCenter = this.parentToLocalPoint( model.getChargeCenter() );
       this.addChild( new Rectangle( 0, 0, 5, 5, { fill: 'green', center: parentToLocalChargeCenter } ) );
