@@ -36,6 +36,7 @@ import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
+import BalloonOnSweaterSoundGenerator from './BalloonOnSweaterSoundGenerator.js';
 import BalloonVelocitySoundGenerator from './BalloonVelocitySoundGenerator.js';
 import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
@@ -210,6 +211,11 @@ class BalloonNode extends Node {
 
     // sound generation for drift velocity
     soundManager.addSoundGenerator( new BalloonVelocitySoundGenerator( model.velocityProperty ) );
+
+    // sound generation for when the balloon is being rubbed on the sweater
+    soundManager.addSoundGenerator(
+      new BalloonOnSweaterSoundGenerator( model.dragVelocityProperty, model.onSweaterProperty )
+    );
 
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );

@@ -16,7 +16,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 const INITIAL_CENTER_FREQUENCY = 500;
 
 // function for mapping the speed of the balloon to the center frequency of the filter
-const mapSpeedToFrequency = new LinearFunction( 0, 2, INITIAL_CENTER_FREQUENCY, INITIAL_CENTER_FREQUENCY * 2, true );
+const mapSpeedToFrequency = new LinearFunction( 0, 3, INITIAL_CENTER_FREQUENCY, INITIAL_CENTER_FREQUENCY * 2, true );
 
 class BalloonVelocitySoundGenerator extends NoiseGenerator {
 
@@ -30,7 +30,7 @@ class BalloonVelocitySoundGenerator extends NoiseGenerator {
     options = merge( {
         noiseType: 'pink',
         centerFrequency: INITIAL_CENTER_FREQUENCY,
-        qFactor: 200,
+        qFactor: 400,
 
         // The output level has to be far higher than normal, since so much of the noise energy ends up getting filtered
         // out.
