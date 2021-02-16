@@ -1,5 +1,5 @@
 {
-  "balloon-grab.mp3": {
+  "balloon-grab-002.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "balloon-grab-001.mp3": {
+  "balloon-grab-003.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "balloon-release.mp3": {
+  "balloon-grab-004.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -23,7 +23,39 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "balloon-release-001.mp3": {
+  "balloon-grab-005.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "balloon-release-002.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "balloon-release-003.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "balloon-release-004.mp3": {
+    "text": [
+      "Copyright 2002-2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "balloon-release-005.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -48,22 +80,6 @@
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
   "carrier-002.wav": {
-    "text": [
-      "Copyright 2002-2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "grab-magnet.mp3": {
-    "text": [
-      "Copyright 2002-2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "This sound was copied from Faraday's law and it is temporary, see "
-  },
-  "release-magnet.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
