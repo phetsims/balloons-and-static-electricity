@@ -1,7 +1,7 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * BalloonOnSweaterSoundGenerator is used to produces a sound effect for when a balloon is rubbing on the sweater.  It
+ * BalloonRubbingSoundGenerator is used to produces a sound effect for when a balloon is rubbing on the something.  It
  * is meant to be somewhat realistic as opposed to "cartoonish", so it uses a filtered noise generator.
  *
  * @author John Blanco
@@ -22,14 +22,15 @@ const UPDATE_PERIOD = 100; // ms
 const SMOOTHED_SPEED_TAPER_RATE = 0.01; // model units per second, empirically determined
 const MAP_DRAG_SPEED_TO_OUTPUT_LEVEL = new LinearFunction( 0, 2, 0, 1, true );
 
-class BalloonOnSweaterSoundGenerator extends NoiseGenerator {
+class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
   /**
    * {Property.<number>} dragVelocityProperty - velocity of the balloon drag
    * {Property.<boolean>} onSweaterProperty - whether the balloon is on the sweater
+   * {Property.<boolean>} touchingWallProperty - whether the balloon is touching the wall
    * {Object} [options]
    */
-  constructor( dragVelocityProperty, onSweaterProperty, options ) {
+  constructor( dragVelocityProperty, onSweaterProperty, touchingWallProperty, options ) {
 
     options = merge( {
       noiseType: 'brown',
@@ -38,7 +39,7 @@ class BalloonOnSweaterSoundGenerator extends NoiseGenerator {
 
       // {number} - The amount of sound produced by this sound generator varies based on what's going on with the input
       //            properties, and this value sets the maximum.
-      maxOutputLevel: 0.4
+      maxOutputLevel: 0.8
 
     }, options );
 
@@ -69,9 +70,9 @@ class BalloonOnSweaterSoundGenerator extends NoiseGenerator {
 
     // Use the smoothed speed and the on-sweater information to set the volume and pitch of the output.
     Property.multilink(
-      [ smoothedSpeedProperty, onSweaterProperty ],
-      ( smoothedDragSpeed, onSweater ) => {
-        if ( smoothedDragSpeed > 0 && onSweater ) {
+      [ smoothedSpeedProperty, onSweaterProperty, touchingWallProperty ],
+      ( smoothedDragSpeed, onSweater, touchingWall ) => {
+        if ( smoothedDragSpeed > 0 && ( onSweater || touchingWall ) ){
 
           // Start the production of the sound if needed.
           if ( !this.isPlaying ) {
@@ -94,7 +95,7 @@ class BalloonOnSweaterSoundGenerator extends NoiseGenerator {
           }
           this.setBandpassFilterCenterFrequency( CENTER_FREQUENCY + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
         }
-        else if ( ( smoothedDragSpeed === 0 || !onSweater ) && this.isPlaying ) {
+        else if ( ( smoothedDragSpeed === 0 || !( onSweater || touchingWall ) ) && this.isPlaying ) {
 
           // The smoothed speed has dropped to zero, turn off sound production.
           this.stop();
@@ -104,6 +105,6 @@ class BalloonOnSweaterSoundGenerator extends NoiseGenerator {
   }
 }
 
-balloonsAndStaticElectricity.register( 'BalloonOnSweaterSoundGenerator', BalloonOnSweaterSoundGenerator );
+balloonsAndStaticElectricity.register( 'BalloonRubbingSoundGenerator', BalloonRubbingSoundGenerator );
 
-export default BalloonOnSweaterSoundGenerator;
+export default BalloonRubbingSoundGenerator;
