@@ -91,9 +91,6 @@ class ControlPanel extends Node {
     // @private
     this.wallButton = new BooleanRectangularToggleButton( removeWallText, addWallText, model.wall.isVisibleProperty, {
       baseColor: 'rgb( 255, 200, 0 )',
-      listener: () => {
-        model.wall.isVisibleProperty.set( !model.wall.isVisibleProperty.get() );
-      },
       tandem: tandem.createTandem( 'wallButton' ),
 
       // pdom
