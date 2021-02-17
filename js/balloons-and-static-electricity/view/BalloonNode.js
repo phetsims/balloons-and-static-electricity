@@ -247,7 +247,7 @@ class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: event => {
-        const key = event.domEvent.key.toLowerCase();
+        const key = KeyboardUtils.getKeyDef( event.domEvent );
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( key ) ) {
