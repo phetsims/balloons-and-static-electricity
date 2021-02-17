@@ -203,18 +203,16 @@ class BalloonNode extends Node {
         addedChargesNode.visible = true;
       }
       else {
-        const visiblity = ( value === 'all' );
-        originalChargesNode.visible = visiblity;
-        addedChargesNode.visible = visiblity;
+        const visibility = ( value === 'all' );
+        originalChargesNode.visible = visibility;
+        addedChargesNode.visible = visibility;
       }
     } );
 
     // sound generation for drift velocity
-    soundManager.addSoundGenerator( new BalloonVelocitySoundGenerator(
-      model.velocityProperty,
-      model.onSweaterProperty,
-      model.touchingWallProperty
-    ) );
+    soundManager.addSoundGenerator(
+      new BalloonVelocitySoundGenerator( model.velocityProperty, model.onSweaterProperty, model.touchingWallProperty )
+    );
 
     // sound generation for when the balloon is being rubbed on the sweater
     soundManager.addSoundGenerator(
