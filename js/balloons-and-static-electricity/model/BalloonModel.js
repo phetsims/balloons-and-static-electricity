@@ -144,8 +144,7 @@ class BalloonModel {
     } );
 
     // @public {Vector2} - The velocity of the balloon when moving freely, i.e. NOT when it is being dragged.
-    // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
-    this.velocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
+    this.velocityProperty = new Vector2Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
       useDeepEquality: true
     } );
@@ -308,9 +307,7 @@ class BalloonModel {
 
       // When the user starts dragging a balloon, set its non-dragging velocity to zero.
       if ( isDragged ){
-
-        // Use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2.
-        this.velocityProperty.set( new Vector2( 0, 0 ) );
+        this.velocityProperty.set( Vector2.ZERO );
       }
 
       // When the balloon is released, reset the timer that indicates when it was released.
@@ -912,9 +909,7 @@ class BalloonModel {
       this.velocityProperty.set( newVelocity );
     }
     else {
-
-      // use new Vector2( 0, 0 ) instead of Vector2.ZERO so equality check won't be thwarted by ImmutableVector2
-      this.velocityProperty.set( new Vector2( 0, 0 ) );
+      this.velocityProperty.set( Vector2.ZERO );
     }
   }
 
