@@ -28,14 +28,8 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import grabBalloonSound from '../../../sounds/balloon-grab-002_mp3.js';
-// import grabBalloonSound from '../../../sounds/balloon-grab-003_mp3.js';
-// import grabBalloonSound from '../../../sounds/balloon-grab-004_mp3.js';
-// import grabBalloonSound from '../../../sounds/balloon-grab-005_mp3.js';
-import releaseBalloonSound from '../../../sounds/balloon-release-002_mp3.js';
-// import releaseBalloonSound from '../../../sounds/balloon-release-003_mp3.js';
-// import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
-// import releaseBalloonSound from '../../../sounds/balloon-release-005_mp3.js';
+import grabBalloonSound from '../../../sounds/balloon-grab-004_mp3.js';
+import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -53,7 +47,7 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
 // constants
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
-const GRAB_RELEASE_SOUND_LEVEL = 0.2; // empirically determined
+const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
 class BalloonNode extends Node {
 
