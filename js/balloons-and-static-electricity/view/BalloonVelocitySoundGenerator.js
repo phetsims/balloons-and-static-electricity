@@ -7,6 +7,7 @@
  * @author John Blanco
  */
 
+import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -24,9 +25,11 @@ class BalloonVelocitySoundGenerator extends SoundClip {
   /**
    * {Property.<number>} balloonVelocityProperty - velocity of the balloon when drifting (i.e. when it is not being
    * dragged by a user).
+   * {Property.<boolean>} onSweaterProperty - whether the balloon is on the sweater
+   * {Property.<boolean>} touchingWallProperty - whether the balloon is touching the wall
    * {Object} [options]
    */
-  constructor( balloonVelocityProperty, options ) {
+  constructor( balloonVelocityProperty, onSweaterProperty, touchingWallProperty, options ) {
 
     options = merge(
       {
@@ -50,10 +53,13 @@ class BalloonVelocitySoundGenerator extends SoundClip {
 
     super( driftVelocityLoop, options );
 
-    // Monitor the balloon velocity and modify the output sound as changes occur.
-    balloonVelocityProperty.lazyLink( velocity => {
-      const speed = velocity.magnitude;
-      if ( speed > 0 ) {
+    // Monitor the balloon velocity and modify the output sound as changes occur.  If the balloon is on the sweater or
+    // the wall, no sound should be produced.
+    const outputUpdaterMultilink = Property.multilink(
+      [ balloonVelocityProperty, onSweaterProperty, touchingWallProperty ],
+      ( balloonVelocity, onSweater, touchingWall ) => {
+      const speed = balloonVelocity.magnitude;
+      if ( speed > 0 && !( onSweater || touchingWall ) ) {
         if ( !this.isPlaying ) {
 
           // Before starting playback, set the playback rate immediately, otherwise there can be a bit of the "chirp"
@@ -73,11 +79,24 @@ class BalloonVelocitySoundGenerator extends SoundClip {
         // Set the output level based on the velocity.
         this.setOutputLevel( mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel );
       }
-      else if ( speed === 0 && this.isPlaying ) {
+      else if ( ( speed === 0 || onSweater || touchingWall ) && this.isPlaying ) {
         this.stop();
         this.setOutputLevel( 0 );
       }
     } );
+
+    this.disposeBalloonVelocitySoundGenerator = () => {
+      outputUpdaterMultilink.dispose();
+    };
+  }
+
+  /**
+   * release memory references
+   * @public
+   */
+  dispose(){
+    this.disposeBalloonVelocitySoundGenerator();
+    super.dispose();
   }
 }
 
