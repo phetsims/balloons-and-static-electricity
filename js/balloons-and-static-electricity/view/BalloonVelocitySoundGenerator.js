@@ -12,8 +12,6 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import driftVelocityLoop from '../../../sounds/carrier-000_wav.js';
-// import driftVelocityLoop from '../../../sounds/carrier-001_wav.js';
-// import driftVelocityLoop from '../../../sounds/carrier-002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // function for mapping the speed of the balloon to the playback rate of the carrier sound, empirically determined
@@ -35,6 +33,9 @@ class BalloonVelocitySoundGenerator extends SoundClip {
       {
         loop: true,
 
+        // {WrappedAudioBuffer} - sound to use as the basis for the drifting velocity
+        basisSound: driftVelocityLoop,
+
         // {number) The output level is set as a function of the speed at which the balloon is moving.  This value
         // specifies the maximum value.  It will generally be between 0 and 1.
         maxOutputLevel: 0.5
@@ -51,7 +52,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
     // Start the initial output level at zero so that the sound will fade in smoothly the first time it is played.
     options.initialOutputLevel = 0;
 
-    super( driftVelocityLoop, options );
+    super( options.basisSound, options );
 
     // Monitor the balloon velocity and modify the output sound as changes occur.  If the balloon is on the sweater or
     // the wall, no sound should be produced.

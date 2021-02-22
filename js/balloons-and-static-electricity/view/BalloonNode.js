@@ -75,6 +75,9 @@ class BalloonNode extends Node {
     options = merge( {
       cursor: 'pointer',
 
+      // {Object} - options passed to the drift velocity sound generator
+      balloonVelocitySoundGeneratorOptions: {},
+
       // pdom - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
       containerTagName: 'div',
@@ -213,7 +216,12 @@ class BalloonNode extends Node {
 
     // sound generation for drift velocity
     soundManager.addSoundGenerator(
-      new BalloonVelocitySoundGenerator( model.velocityProperty, model.onSweaterProperty, model.touchingWallProperty )
+      new BalloonVelocitySoundGenerator(
+        model.velocityProperty,
+        model.onSweaterProperty,
+        model.touchingWallProperty,
+        options.balloonVelocitySoundGeneratorOptions
+      )
     );
 
     // sound generation for when the balloon is being rubbed on the sweater

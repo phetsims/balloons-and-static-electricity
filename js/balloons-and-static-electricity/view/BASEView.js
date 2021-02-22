@@ -17,12 +17,13 @@ import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPo
 import soundManager from '../../../../tambo/js/soundManager.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
+import greenBalloonDriftVelocityLoop from '../../../sounds/carrier-002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
-import BASESummaryNode from './BASESummaryNode.js';
 import BalloonNode from './BalloonNode.js';
+import BASESummaryNode from './BASESummaryNode.js';
 import ControlPanel from './ControlPanel.js';
 import PlayAreaGridNode from './PlayAreaGridNode.js';
 import SweaterNode from './SweaterNode.js';
@@ -77,9 +78,16 @@ class BASEView extends ScreenView {
 
     const controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
-    this.yellowBalloonNode = new BalloonNode( model.yellowBalloon, balloonYellow, model, yellowBalloonLabelString, greenBalloonLabelString, this.layoutBounds, tandem.createTandem( 'yellowBalloonNode' ), {
-      labelContent: yellowBalloonLabelString
-    } );
+    this.yellowBalloonNode = new BalloonNode(
+      model.yellowBalloon,
+      balloonYellow,
+      model,
+      yellowBalloonLabelString,
+      greenBalloonLabelString,
+      this.layoutBounds,
+      tandem.createTandem( 'yellowBalloonNode' ),
+      { labelContent: yellowBalloonLabelString }
+    );
     const tetherAnchorPoint = new Vector2(
       model.yellowBalloon.positionProperty.get().x + 30, // a bit to the side of directly below the starting position
       this.layoutBounds.height
@@ -90,9 +98,19 @@ class BASEView extends ScreenView {
       new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
       tandem.createTandem( 'yellowBalloonTetherNode' )
     );
-    this.greenBalloonNode = new BalloonNode( model.greenBalloon, balloonGreen, model, greenBalloonLabelString, yellowBalloonLabelString, this.layoutBounds, tandem.createTandem( 'greenBalloonNode' ), {
-      labelContent: greenBalloonLabelString
-    } );
+    this.greenBalloonNode = new BalloonNode(
+      model.greenBalloon,
+      balloonGreen,
+      model,
+      greenBalloonLabelString,
+      yellowBalloonLabelString,
+      this.layoutBounds,
+      tandem.createTandem( 'greenBalloonNode' ),
+      {
+        labelContent: greenBalloonLabelString,
+        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoop }
+      }
+    );
     this.greenBalloonTetherNode = new TetherNode(
       model.greenBalloon,
       tetherAnchorPoint,
