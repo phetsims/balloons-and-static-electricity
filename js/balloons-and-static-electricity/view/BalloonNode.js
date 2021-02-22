@@ -234,11 +234,18 @@ class BalloonNode extends Node {
       initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
-    model.onSweaterProperty.link( onSweater => {
-      if ( onSweater && !model.isDraggedProperty.value ) {
+    model.velocityProperty.lazyLink( ( currentVelocity, previousVelocity ) => {
+      const currentSpeed = currentVelocity.magnitude;
+      const previousSpeed = previousVelocity.magnitude;
+      if ( currentSpeed === 0 && previousSpeed > 0 && model.onSweaterProperty.value ){
         balloonHitsSweaterSoundClip.play();
       }
     } );
+    // model.onSweaterProperty.link( onSweater => {
+    //   if ( onSweater && !model.isDraggedProperty.value ) {
+    //     balloonHitsSweaterSoundClip.play();
+    //   }
+    // } );
 
     // sound generation for when the balloon hits the wall
     const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
