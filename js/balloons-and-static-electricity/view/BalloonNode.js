@@ -29,8 +29,9 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import grabBalloonSound from '../../../sounds/balloon-grab-004_mp3.js';
-import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
 import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
+import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
+import balloonHitsWallSound from '../../../sounds/wall-contact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -228,6 +229,17 @@ class BalloonNode extends Node {
     model.onSweaterProperty.link( onSweater => {
       if ( onSweater && !model.isDraggedProperty.value ) {
         balloonHitsSweaterSoundClip.play();
+      }
+    } );
+
+    // sound generation for when the balloon hits the wall
+    const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
+      initialOutputLevel: 0.2
+    } );
+    soundManager.addSoundGenerator( balloonHitsWallSoundClip );
+    model.touchingWallProperty.link( touchingWall => {
+      if ( touchingWall  ) {
+        balloonHitsWallSoundClip.play();
       }
     } );
 
