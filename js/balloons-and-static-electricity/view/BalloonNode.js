@@ -264,7 +264,7 @@ class BalloonNode extends Node {
     // pdom - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
     const updateAccessibleDescription = () => {
-      this.descriptionContent = this.describer.getBalloonDescription( model );
+      this.descriptionContent = this.describer.getBalloonDescription();
     };
     model.positionProperty.link( updateAccessibleDescription );
     model.chargeProperty.link( updateAccessibleDescription );
@@ -357,7 +357,7 @@ class BalloonNode extends Node {
     ] );
 
     // update the drag bounds when wall visibility changes
-    globalModel.wall.isVisibleProperty.link( isVisible => {
+    globalModel.wall.isVisibleProperty.link( () => {
       this.keyboardDragHandler._dragBounds = this.getDragBounds();
     } );
 
