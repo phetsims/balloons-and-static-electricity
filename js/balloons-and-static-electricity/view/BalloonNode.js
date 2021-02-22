@@ -30,6 +30,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import grabBalloonSound from '../../../sounds/balloon-grab-004_mp3.js';
 import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
+import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -218,6 +219,17 @@ class BalloonNode extends Node {
     soundManager.addSoundGenerator(
       new BalloonRubbingSoundGenerator( model.dragVelocityProperty, model.onSweaterProperty, model.touchingWallProperty )
     );
+
+    // sound generation for when the balloon contacts the sweater
+    const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {
+      initialOutputLevel: 0.1
+    } );
+    soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
+    model.onSweaterProperty.link( onSweater => {
+      if ( onSweater && !model.isDraggedProperty.value ) {
+        balloonHitsSweaterSoundClip.play();
+      }
+    } );
 
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
