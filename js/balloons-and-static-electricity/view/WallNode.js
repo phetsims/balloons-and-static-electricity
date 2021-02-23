@@ -20,10 +20,6 @@ import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
 import WallDescriber from './describers/WallDescriber.js';
 import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
-// import chargeDeflectionSound from '../../../../tambo/sounds/grab_mp3.js';
-// import chargeDeflectionSound from '../../../../tambo/sounds/bright-marimba-short_mp3.js';
-// import chargeDeflectionSound from '../../../../tambo/sounds/slider-click-01_mp3.js';
-// import chargeDeflectionSound from '../../../../tambo/sounds/slider-click-01_mp3.js';
 
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
