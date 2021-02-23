@@ -13,14 +13,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
 import greenBalloonDriftVelocityLoop from '../../../sounds/carrier-002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
-import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonNode from './BalloonNode.js';
 import BASESummaryNode from './BASESummaryNode.js';
@@ -144,21 +141,6 @@ class BASEView extends ScreenView {
       else if ( greenDragged ) {
         greenBalloonLayerNode.moveToFront();
       }
-    } );
-
-    // sound generation
-    const popSoundGenerator = new PitchedPopGenerator( {
-      // enableControlProperties: [ resetNotInProgressProperty ],
-      initialOutputLevel: 0.3
-    } );
-    soundManager.addSoundGenerator( popSoundGenerator );
-    model.balloons.forEach( balloon => {
-      balloon.chargeProperty.lazyLink( charge => {
-        const chargeAbsoluteValue = Math.abs( charge );
-        if ( chargeAbsoluteValue > 0 ) {
-          popSoundGenerator.playPop( chargeAbsoluteValue / BASEConstants.MAX_BALLOON_CHARGE );
-        }
-      } );
     } );
 
     // set the accessible order: sweater, balloons wall

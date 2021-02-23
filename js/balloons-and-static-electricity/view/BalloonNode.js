@@ -25,6 +25,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -34,6 +35,7 @@ import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
 import balloonHitsWallSound from '../../../sounds/wall-contact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
@@ -214,6 +216,19 @@ class BalloonNode extends Node {
       }
     } );
 
+    // sound generation for charges moving on to this balloon
+    const popSoundGenerator = new PitchedPopGenerator( {
+      // enableControlProperties: [ model.showChargesProperty ],
+      initialOutputLevel: 0.3
+    } );
+    soundManager.addSoundGenerator( popSoundGenerator );
+    model.chargeProperty.lazyLink( charge => {
+      const chargeAbsoluteValue = Math.abs( charge );
+      if ( chargeAbsoluteValue > 0 ) {
+        popSoundGenerator.playPop( chargeAbsoluteValue / BASEConstants.MAX_BALLOON_CHARGE );
+      }
+    } );
+
     // sound generation for drift velocity
     soundManager.addSoundGenerator(
       new BalloonVelocitySoundGenerator(
@@ -237,7 +252,7 @@ class BalloonNode extends Node {
     model.velocityProperty.lazyLink( ( currentVelocity, previousVelocity ) => {
       const currentSpeed = currentVelocity.magnitude;
       const previousSpeed = previousVelocity.magnitude;
-      if ( currentSpeed === 0 && previousSpeed > 0 && model.onSweaterProperty.value ){
+      if ( currentSpeed === 0 && previousSpeed > 0 && model.onSweaterProperty.value ) {
         balloonHitsSweaterSoundClip.play();
       }
     } );
@@ -253,7 +268,7 @@ class BalloonNode extends Node {
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
     model.touchingWallProperty.link( touchingWall => {
-      if ( touchingWall  ) {
+      if ( touchingWall ) {
         balloonHitsWallSoundClip.play();
       }
     } );
