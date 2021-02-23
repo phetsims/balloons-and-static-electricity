@@ -65,12 +65,12 @@ class WallModel {
     for ( let i = 0; i < this.numX; i++ ) {
       for ( let k = 0; k < this.numY; k++ ) {
 
-        //plus
+        // plus
         const position = this.calculatePosition( i, k );
         const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], Tandem.OPT_OUT, false );
         this.plusCharges.push( plusCharge );
 
-        //minus
+        // minus
         const minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
           position[ 1 ] - PointChargeModel.RADIUS,
