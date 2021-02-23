@@ -22,12 +22,11 @@ class BalloonVelocitySoundGenerator extends SoundClip {
 
   /**
    * {Property.<number>} balloonVelocityProperty - velocity of the balloon when drifting (i.e. when it is not being
-   * dragged by a user).
-   * {Property.<boolean>} onSweaterProperty - whether the balloon is on the sweater
+   *                                               dragged by a user).
    * {Property.<boolean>} touchingWallProperty - whether the balloon is touching the wall
    * {Object} [options]
    */
-  constructor( balloonVelocityProperty, onSweaterProperty, touchingWallProperty, options ) {
+  constructor( balloonVelocityProperty, touchingWallProperty, options ) {
 
     options = merge(
       {
@@ -57,10 +56,10 @@ class BalloonVelocitySoundGenerator extends SoundClip {
     // Monitor the balloon velocity and modify the output sound as changes occur.  If the balloon is on the sweater or
     // the wall, no sound should be produced.
     const outputUpdaterMultilink = Property.multilink(
-      [ balloonVelocityProperty, onSweaterProperty, touchingWallProperty ],
+      [ balloonVelocityProperty, touchingWallProperty ],
       ( balloonVelocity, onSweater, touchingWall ) => {
       const speed = balloonVelocity.magnitude;
-      if ( speed > 0 && !( onSweater || touchingWall ) ) {
+      if ( speed > 0 && !touchingWall ) {
         if ( !this.isPlaying ) {
 
           // Before starting playback, set the playback rate immediately, otherwise there can be a bit of the "chirp"
@@ -80,7 +79,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
         // Set the output level based on the velocity.
         this.setOutputLevel( mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel );
       }
-      else if ( ( speed === 0 || onSweater || touchingWall ) && this.isPlaying ) {
+      else if ( ( speed === 0 || touchingWall ) && this.isPlaying ) {
         this.stop();
         this.setOutputLevel( 0 );
       }
