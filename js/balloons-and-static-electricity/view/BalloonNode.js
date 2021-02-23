@@ -11,6 +11,7 @@
  * @author John Blanco
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -216,9 +217,15 @@ class BalloonNode extends Node {
       }
     } );
 
+    // {Property.<boolean> - a value that reflects whether charges are being shown on the balloon
+    const chargesShownOnBalloonProperty = new DerivedProperty(
+      [ globalModel.showChargesProperty ],
+      showCharges => showCharges !== 'none'
+    );
+
     // sound generation for charges moving on to this balloon
     const popSoundGenerator = new PitchedPopGenerator( {
-      // enableControlProperties: [ model.showChargesProperty ],
+      enableControlProperties: [ chargesShownOnBalloonProperty ],
       initialOutputLevel: 0.3
     } );
     soundManager.addSoundGenerator( popSoundGenerator );
