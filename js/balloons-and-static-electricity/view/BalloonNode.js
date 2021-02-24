@@ -260,15 +260,10 @@ class BalloonNode extends Node {
         balloonHitsSweaterSoundClip.play();
       }
     } );
-    // model.onSweaterProperty.link( onSweater => {
-    //   if ( onSweater && !model.isDraggedProperty.value ) {
-    //     balloonHitsSweaterSoundClip.play();
-    //   }
-    // } );
 
     // sound generation for when the balloon hits the wall
     const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
-      initialOutputLevel: 0.2
+      initialOutputLevel: 0.6
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
     model.touchingWallProperty.link( touchingWall => {
