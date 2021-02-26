@@ -72,7 +72,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
     Property.multilink(
       [ smoothedSpeedProperty, onSweaterProperty, touchingWallProperty ],
       ( smoothedDragSpeed, onSweater, touchingWall ) => {
-        if ( smoothedDragSpeed > 0 && ( onSweater || touchingWall ) ){
+        if ( smoothedDragSpeed > 0 && ( onSweater || touchingWall ) ) {
 
           // Start the production of the sound if needed.
           if ( !this.isPlaying ) {

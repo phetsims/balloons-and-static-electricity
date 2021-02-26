@@ -58,32 +58,32 @@ class BalloonVelocitySoundGenerator extends SoundClip {
     const outputUpdaterMultilink = Property.multilink(
       [ balloonVelocityProperty, touchingWallProperty ],
       ( balloonVelocity, onSweater, touchingWall ) => {
-      const speed = balloonVelocity.magnitude;
-      if ( speed > 0 && !touchingWall ) {
-        if ( !this.isPlaying ) {
+        const speed = balloonVelocity.magnitude;
+        if ( speed > 0 && !touchingWall ) {
+          if ( !this.isPlaying ) {
 
-          // Before starting playback, set the playback rate immediately, otherwise there can be a bit of the "chirp"
-          // sound.
-          this.setPlaybackRate( mapSpeedToPlaybackRate( speed, 0 ) );
+            // Before starting playback, set the playback rate immediately, otherwise there can be a bit of the "chirp"
+            // sound.
+            this.setPlaybackRate( mapSpeedToPlaybackRate( speed, 0 ) );
 
-          // Start the sound playing.
-          this.play();
+            // Start the sound playing.
+            this.play();
+          }
+          else {
+
+            // Set the playback rate.  This will use the nominal time constant, which should lead to a reasonably smooth
+            // transition of the rate as the velocity changes.
+            this.setPlaybackRate( mapSpeedToPlaybackRate( speed ) );
+          }
+
+          // Set the output level based on the velocity.
+          this.setOutputLevel( mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel );
         }
-        else{
-
-          // Set the playback rate.  This will use the nominal time constant, which should lead to a reasonably smooth
-          // transition of the rate as the velocity changes.
-          this.setPlaybackRate( mapSpeedToPlaybackRate( speed ) );
+        else if ( ( speed === 0 || touchingWall ) && this.isPlaying ) {
+          this.stop();
+          this.setOutputLevel( 0 );
         }
-
-        // Set the output level based on the velocity.
-        this.setOutputLevel( mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel );
-      }
-      else if ( ( speed === 0 || touchingWall ) && this.isPlaying ) {
-        this.stop();
-        this.setOutputLevel( 0 );
-      }
-    } );
+      } );
 
     this.disposeBalloonVelocitySoundGenerator = () => {
       outputUpdaterMultilink.dispose();
@@ -94,7 +94,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
    * release memory references
    * @public
    */
-  dispose(){
+  dispose() {
     this.disposeBalloonVelocitySoundGenerator();
     super.dispose();
   }

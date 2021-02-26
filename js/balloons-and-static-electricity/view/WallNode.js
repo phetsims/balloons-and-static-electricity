@@ -87,7 +87,7 @@ class WallNode extends Node {
     const maxDeflectedXPosition = 739; // empirically determined
 
     _.times( model.wall.numY, index => {
-      if ( index % 3 === 0 ){
+      if ( index % 3 === 0 ) {
         const xPositionProperty = new DerivedProperty(
           [ model.wall.minusCharges[ index ].positionProperty ],
           positionVector => positionVector.x

@@ -306,7 +306,7 @@ class BalloonModel {
     this.isDraggedProperty.lazyLink( isDragged => {
 
       // When the user starts dragging a balloon, set its non-dragging velocity to zero.
-      if ( isDragged ){
+      if ( isDragged ) {
         this.velocityProperty.set( Vector2.ZERO );
       }
 
