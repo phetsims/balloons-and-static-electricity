@@ -81,6 +81,9 @@ class BalloonNode extends Node {
       // {Object} - options passed to the drift velocity sound generator
       balloonVelocitySoundGeneratorOptions: {},
 
+      // {Object} - options passed to the balloon rubbing sound generator
+      balloonRubbingSoundGeneratorOptions: {},
+
       // pdom - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
       containerTagName: 'div',
@@ -244,9 +247,12 @@ class BalloonNode extends Node {
     ) );
 
     // sound generation for when the balloon is being rubbed on the sweater
-    soundManager.addSoundGenerator(
-      new BalloonRubbingSoundGenerator( model.dragVelocityProperty, model.onSweaterProperty, model.touchingWallProperty )
-    );
+    soundManager.addSoundGenerator( new BalloonRubbingSoundGenerator(
+      model.dragVelocityProperty,
+      model.onSweaterProperty,
+      model.touchingWallProperty,
+      options.balloonRubbingSoundGeneratorOptions
+    ) );
 
     // sound generation for when the balloon contacts the sweater
     const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {

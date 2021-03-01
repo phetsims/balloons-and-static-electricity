@@ -16,7 +16,7 @@ import NoiseGenerator from '../../../../tambo/js/sound-generators/NoiseGenerator
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
-const CENTER_FREQUENCY = 900; // Hz
+const DEFAULT_CENTER_FREQUENCY = 800; // Hz
 const FREQUENCY_CHANGE_WITH_DIRECTION = 100; // Hz
 const UPDATE_PERIOD = 100; // ms
 const SMOOTHED_SPEED_TAPER_RATE = 0.01; // model units per second, empirically determined
@@ -34,7 +34,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
     options = merge( {
       noiseType: 'brown',
-      centerFrequency: CENTER_FREQUENCY,
+      centerFrequency: DEFAULT_CENTER_FREQUENCY,
       qFactor: 2,
 
       // {number} - The amount of sound produced by this sound generator varies based on what's going on with the input
@@ -93,7 +93,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
           else if ( dragVelocity.y < 0 ) {
             sign = -1;
           }
-          this.setBandpassFilterCenterFrequency( CENTER_FREQUENCY + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
+          this.setBandpassFilterCenterFrequency( options.centerFrequency + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
         }
         else if ( ( smoothedDragSpeed === 0 || !( onSweater || touchingWall ) ) && this.isPlaying ) {
 
@@ -104,6 +104,9 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
     );
   }
 }
+
+// statics
+BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY = DEFAULT_CENTER_FREQUENCY;
 
 balloonsAndStaticElectricity.register( 'BalloonRubbingSoundGenerator', BalloonRubbingSoundGenerator );
 

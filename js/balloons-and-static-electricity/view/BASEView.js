@@ -20,6 +20,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonNode from './BalloonNode.js';
+import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BASESummaryNode from './BASESummaryNode.js';
 import ControlPanel from './ControlPanel.js';
 import PlayAreaGridNode from './PlayAreaGridNode.js';
@@ -83,7 +84,9 @@ class BASEView extends ScreenView {
       greenBalloonLabelString,
       this.layoutBounds,
       tandem.createTandem( 'yellowBalloonNode' ),
-      { labelContent: yellowBalloonLabelString }
+      {
+        labelContent: yellowBalloonLabelString
+      }
     );
     const tetherAnchorPoint = new Vector2(
       model.yellowBalloon.positionProperty.get().x + 30, // a bit to the side of directly below the starting position
@@ -105,7 +108,10 @@ class BASEView extends ScreenView {
       tandem.createTandem( 'greenBalloonNode' ),
       {
         labelContent: greenBalloonLabelString,
-        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoop }
+        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoop },
+        balloonRubbingSoundGeneratorOptions: {
+          centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25
+        }
       }
     );
     this.greenBalloonTetherNode = new TetherNode(
