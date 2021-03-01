@@ -99,7 +99,7 @@ class WallNode extends Node {
             sound: chargeDeflectionSound,
             playbackRateRange: new Range( 1, 2 ),
             numBins: 15,
-            initialOutputLevel: 0.2,
+            initialOutputLevel: 0, // TODO: turned off for a dev version with no deflection sound
             outOfRangeValuesOK: true
           }
         );
