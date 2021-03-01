@@ -30,9 +30,9 @@ import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPo
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import grabBalloonSound from '../../../sounds/balloon-grab-004_mp3.js';
+import grabBalloonSound from '../../../sounds/balloon-grab-006_mp3.js';
 import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
-import releaseBalloonSound from '../../../sounds/balloon-release-004_mp3.js';
+import releaseBalloonSound from '../../../sounds/balloon-release-006_mp3.js';
 import balloonHitsWallSound from '../../../sounds/wall-contact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
