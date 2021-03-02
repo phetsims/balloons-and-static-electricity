@@ -77,6 +77,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Create an amplitude modulator and put it in the signal path.  This is used to modulate the output sound when a
     // charged balloon is being dragged along the wall.
     const amplitudeModulator = new AmplitudeModulator();
+    amplitudeModulator.frequencyProperty.set( 4 );
     amplitudeModulator.connect( outputLevelGainNode );
 
     // Create and hook up the two sound clips that will be cross faded based on the amount of deflection.
@@ -157,7 +158,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       if ( chargesMovingProperty.value &&
            ( ( balloons[ 0 ].touchingWallProperty.value && balloons[ 0 ].dragVelocityProperty.value.magnitude > 0 ) ||
              ( balloons[ 1 ].touchingWallProperty.value && balloons[ 1 ].dragVelocityProperty.value.magnitude > 0 ) ) ) {
-        modulationDepth = 0.9;
+        modulationDepth = 1.0;
       }
       amplitudeModulator.depthProperty.set( modulationDepth );
     };
