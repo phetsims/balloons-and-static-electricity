@@ -17,10 +17,10 @@ import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-// import smallDeflectionSound from '../../../sounds/charges-wall-electronic-hum-loop_wav.js';
-// import largeDeflectionSound from '../../../sounds/charges-wall-saturated-electronic-hum-loop_wav.js';
-import smallDeflectionSound from '../../../sounds/charges-wall-sine-wave-loop_wav.js';
-import largeDeflectionSound from '../../../sounds/charges-wall-saturated-sine-wave-loop_wav.js';
+import smallDeflectionSound from '../../../sounds/charges-wall-electronic-hum-loop_wav.js';
+import largeDeflectionSound from '../../../sounds/charges-wall-saturated-electronic-hum-loop_wav.js';
+// import smallDeflectionSound from '../../../sounds/charges-wall-sine-wave-loop_wav.js';
+// import largeDeflectionSound from '../../../sounds/charges-wall-saturated-sine-wave-loop_wav.js';
 
 // const
 const CHARGES_STILL_TIME = 0.5; // number of seconds where, if no charge motion is detected, charges are considered still
