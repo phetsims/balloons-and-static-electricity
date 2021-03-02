@@ -170,6 +170,7 @@ class BASEView extends ScreenView {
   step( dt ) {
     this.greenBalloonNode.step( dt );
     this.yellowBalloonNode.step( dt );
+    this.wallNode.step( dt );
 
     // step the audio
     this.audioView && this.audioView.step( dt );

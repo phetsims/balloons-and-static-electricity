@@ -6,20 +6,17 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import DiscreteSoundGenerator from '../../../../tambo/js/sound-generators/DiscreteSoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import wallImage from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import ChargeDeflectionSoundGenerator from './ChargeDeflectionSoundGenerator.js';
+import WallDescriber from './describers/WallDescriber.js';
 import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
-import WallDescriber from './describers/WallDescriber.js';
-import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
@@ -80,32 +77,22 @@ class WallNode extends Node {
       minusChargesNode.visible = ( value === 'all' );
     } );
 
-    // TODO: The following is a temporary prototype of sound generation for changes in the wall.  It's mostly a proof
-    //       of concept at this point, and will be replaced with something more thought out shortly.  See
-    //       https://github.com/phetsims/balloons-and-static-electricity/issues/486.
-    const nonDeflectedXPosition = model.wall.minusCharges[ 0 ].positionProperty.value.x;
-    const maxDeflectedXPosition = 739; // empirically determined
+    // max charge deflection for the minus charges, experimentally determined
+    const maxChargeDeflection = 50;
 
-    _.times( model.wall.numY, index => {
-      if ( index % 3 === 0 ) {
-        const xPositionProperty = new DerivedProperty(
-          [ model.wall.minusCharges[ index ].positionProperty ],
-          positionVector => positionVector.x
-        );
-        const deflectionSoundGenerator = new DiscreteSoundGenerator(
-          xPositionProperty,
-          new Range( nonDeflectedXPosition, maxDeflectedXPosition ),
-          {
-            sound: chargeDeflectionSound,
-            playbackRateRange: new Range( 1, 2 ),
-            numBins: 15,
-            initialOutputLevel: 0, // TODO: turned off for a dev version with no deflection sound
-            outOfRangeValuesOK: true
-          }
-        );
-        soundManager.addSoundGenerator( deflectionSoundGenerator );
+    // @private - sound generator for the deflection of the charges in the wall
+    this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
+      model.wall.minusCharges.slice( 0, model.wall.numY ), // use just the leftmost minus charges for this
+      maxChargeDeflection,
+      model.balloons,
+      model.wall.isVisibleProperty,
+      {
+
+        // Prevent sound from being produced until the balloon is close enough to the wall.
+        minBalloonXValue: 400
       }
-    } );
+    );
+    soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
 
     // pdom - when the balloons change position, update the description of the induced charge in the wall
     const updateWallDescription = () => {
@@ -121,6 +108,14 @@ class WallNode extends Node {
     // Update minus charges indicating induced charge when balloons move.
     model.yellowBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
     model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
+  }
+
+  /**
+   * @param {number} dt
+   * @public
+   */
+  step( dt ) {
+    this.chargeDeflectionSoundGenerator.step( dt );
   }
 }
 
