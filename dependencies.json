@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.21 Mon Mar 01 2021 14:26:10 GMT-0700 (Mountain Standard Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.22 Tue Mar 02 2021 16:43:36 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "5094299b1cee992348a372ca5fbccbce84fa5ae6",
+    "sha": "b9349941398f3382b5e5701f54665cbf8e74c375",
     "branch": "master"
   },
   "brand": {
@@ -29,7 +29,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "affbb90a76aa328fa398c4dfdd447dddff8c3cbd",
+    "sha": "4dd7178f3bf6c6c38136bdafe25a35bbfc0e085b",
     "branch": "master"
   },
   "kite": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "39aff596cfbd546d49eda13cb44b7f9e5292a384",
+    "sha": "3a90f8a2c3e9e1a18de75741737f3f6462a32d92",
     "branch": "master"
   },
   "phetcommon": {
@@ -73,15 +73,15 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "24ba025e177bd9806f7d8197e2555016b2126bca",
+    "sha": "65ea5be620b30c994c8ad67ffc2208fe1d52da84",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "33336eccbae6840b91dbc7ea3603b55373115c53",
+    "sha": "09e77b5453fff2ce57c589c9c7752e380ec3ee1e",
     "branch": "master"
   },
   "studio": {
-    "sha": "9b563e6663497fc6bf22f64fb2411a7fda97aa63",
+    "sha": "ee33ea885cca829d8f01cf3c7ffd4c00e75a2ea3",
     "branch": "master"
   },
   "sun": {
@@ -89,7 +89,7 @@
     "branch": "master"
   },
   "tambo": {
-    "sha": "e254238e7678c0905a4f14ccb13db7cad115f414",
+    "sha": "aefdb376811565089aa8f5307e00442a921287eb",
     "branch": "master"
   },
   "tandem": {
