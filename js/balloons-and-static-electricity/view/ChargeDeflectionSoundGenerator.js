@@ -44,21 +44,7 @@ const SOURCE_SOUNDS = [
   chargesSynthLoopOctaveUp
 ];
 
-// constants the determine which of the provided charges are monitored when in one of the INDIVIDUAL modes
-// const INDIVIDUAL_MODE_CHARGE_SPACING = 4;
-// const INDIVIDUAL_MODE_CHARGE_OFFSET = 3;
-
-// const INDIVIDUAL_MODE_CHARGE_SPACING = 9;
-// const INDIVIDUAL_MODE_CHARGE_OFFSET = 9;
-
-// const INDIVIDUAL_MODE_CHARGE_SPACING = 1;
-// const INDIVIDUAL_MODE_CHARGE_OFFSET = 0;
-
-// const INDIVIDUAL_MODE_CHARGE_SPACING = 2;
-// const INDIVIDUAL_MODE_CHARGE_OFFSET = 1;
-
-const INDIVIDUAL_MODE_CHARGE_SPACING = 3;
-const INDIVIDUAL_MODE_CHARGE_OFFSET = 1;
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
@@ -71,12 +57,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
    */
   constructor( wallCharges, maxChargeDeflection, balloons, isWallVisibleProperty, options ) {
 
+    assert && assert( balloons.length === 2, 'this assumes 2 balloons, found ' + balloons.length );
+
     // TODO: Much of the code below is in a prototype state while the sound design team works through a set of options
     //       that have been brainstormed.  Once a general approach has been decided upon, there will just be a single
     //       mode of sound generation, and all others should be eliminated.  See
     //       https://github.com/phetsims/balloons-and-static-electricity/issues/486.
 
-    assert && assert( balloons.length === 2, 'this assumes 2 balloons, found ' + balloons.length );
+    assert && assert( wallCharges.length >= NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES );
 
     options = merge( {
       soundGenerationMode: SoundGenerationMode.COLLECTIVE_CROSS_FADE,
@@ -172,20 +160,15 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // sound generation mode where sounds are hooked to individual charges and the pitch is varied based on deflection
     else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_PITCH ) {
 
-      // Calculate the number of sound generators to create based on the spacing and offset.
-      const numberOfPitchVaryingSoundGenerators = Utils.roundSymmetric(
-        ( wallCharges.length - INDIVIDUAL_MODE_CHARGE_OFFSET ) / INDIVIDUAL_MODE_CHARGE_SPACING
-      );
-
       // Create the sound generators.
-      _.times( numberOfPitchVaryingSoundGenerators, () => {
+      _.times( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES, () => {
         const soundClip = new SoundClip(
           SOURCE_SOUNDS[ options.soundIndex ],
           {
             loop: true,
 
             // Each sound generator will contribute a fraction of the overall sound.
-            initialOutputLevel: 1 / numberOfPitchVaryingSoundGenerators
+            initialOutputLevel: 1 / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES
           }
         );
         soundClip.connect( amplitudeModulator.getConnectionPoint() );
@@ -212,17 +195,11 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // sound generation mode where sounds are hooked to individual charges and cross faded based on deflection
     else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_CROSS_FADE ) {
 
-      // Calculate the number of sound generators to create based on the spacing and offset.
-      const numberOfCrossFadingSoundPairs = Utils.roundSymmetric(
-        ( wallCharges.length - INDIVIDUAL_MODE_CHARGE_OFFSET ) / INDIVIDUAL_MODE_CHARGE_SPACING
-      );
-
       // Output level for the individual sound generators, lower for larger number of sound generators.
-      const initialOutputLevel = 1 / ( numberOfCrossFadingSoundPairs * 2 );
-      console.log( 'initialOutputLevel = ' + initialOutputLevel );
+      const initialOutputLevel = 1 / ( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES * 2 );
 
       // Create the sound generator cross-fade pairs.
-      _.times( numberOfCrossFadingSoundPairs, () => {
+      _.times( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES, () => {
 
         // The larger the number of sound generators is, the small contribution each one makes to the overall sound.
         const smallDeflectionSoundClip = new SoundClip(
@@ -328,7 +305,8 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         pitchChangingSoundGenerators.forEach( ( soundGenerator, index ) => {
 
           // Figure out the charge to which this sound generator corresponds.
-          const chargeIndex = index * INDIVIDUAL_MODE_CHARGE_SPACING + INDIVIDUAL_MODE_CHARGE_OFFSET;
+          const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
+          const chargeIndex = Utils.roundSymmetric( ( index + 0.499 ) * spacing );
 
           // How deflected is this charge?
           const normalizedDeflection =
@@ -347,8 +325,9 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
         individualCrossFadeSoundGeneratorPairs.forEach( ( soundGeneratorPair, index ) => {
 
-          // Figure out the charge to which this sound generator corresponds.
-          const chargeIndex = index * INDIVIDUAL_MODE_CHARGE_SPACING + INDIVIDUAL_MODE_CHARGE_OFFSET;
+          // Figure out the charge to which this sound generator pair corresponds.
+          const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
+          const chargeIndex = Utils.roundSymmetric( ( index + 0.499 ) * spacing );
 
           // How deflected is this charge?
           const normalizedDeflection =
