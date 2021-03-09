@@ -44,7 +44,7 @@ const SOURCE_SOUNDS = [
   chargesSynthLoopOctaveUp
 ];
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 1;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
