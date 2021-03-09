@@ -11,6 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -18,6 +19,10 @@ import AmplitudeModulator from '../../../../tambo/js/AmplitudeModulator.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import chargesOrganLoop from '../../../sounds/charges-organ-loop_wav.js';
+import chargesOrganLoopOctaveUp from '../../../sounds/charges-organ-loop-one-octave-up_wav.js';
+import chargesSynthLoop from '../../../sounds/charges-synthy-loop_wav.js';
+import chargesSynthLoopOctaveUp from '../../../sounds/charges-synthy-loop-one-octave-up_wav.js';
 import electronicHumUnsaturated from '../../../sounds/charges-wall-electronic-hum-loop_wav.js';
 import electronicHumSaturated from '../../../sounds/charges-wall-saturated-electronic-hum-loop_wav.js';
 import sineWaveSaturated from '../../../sounds/charges-wall-saturated-sine-wave-loop_wav.js';
@@ -32,7 +37,11 @@ const SOURCE_SOUNDS = [
   electronicHumUnsaturated,
   electronicHumSaturated,
   sineWaveUnsaturated,
-  sineWaveSaturated
+  sineWaveSaturated,
+  chargesOrganLoop,
+  chargesOrganLoopOctaveUp,
+  chargesSynthLoop,
+  chargesSynthLoopOctaveUp
 ];
 
 // constants the determine which of the provided charges are monitored when in one of the INDIVIDUAL modes
@@ -140,8 +149,8 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         [ chargesMovingProperty, chargedBalloonCloseEnoughProperty ],
         ( chargesMoving, chargedBalloonCloseEnough ) => {
           if ( chargedBalloonCloseEnough && chargesMoving && !smallDeflectionSoundClip.isPlaying ) {
-            smallDeflectionSoundClip.play();
-            largeDeflectionSoundClip.play();
+            smallDeflectionSoundClip.play( dotRandom.nextDouble() * 0.1 );
+            largeDeflectionSoundClip.play( dotRandom.nextDouble() * 0.1 );
           }
           else if ( smallDeflectionSoundClip.isPlaying ) {
             smallDeflectionSoundClip.stop();
@@ -190,7 +199,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           const shouldBePlaying = chargesMoving && chargedBalloonCloseEnough;
           pitchChangingSoundGenerators.forEach( soundGenerator => {
             if ( shouldBePlaying && !soundGenerator.isPlaying ) {
-              soundGenerator.play();
+              soundGenerator.play( dotRandom.nextDouble() * 0.1 );
             }
             else if ( !shouldBePlaying && soundGenerator.isPlaying ) {
               soundGenerator.stop();
@@ -204,15 +213,18 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_CROSS_FADE ) {
 
       // Calculate the number of sound generators to create based on the spacing and offset.
-      const numberOfPitchVaryingSoundGenerators = Utils.roundSymmetric(
+      const numberOfCrossFadingSoundPairs = Utils.roundSymmetric(
         ( wallCharges.length - INDIVIDUAL_MODE_CHARGE_OFFSET ) / INDIVIDUAL_MODE_CHARGE_SPACING
       );
 
+      // Output level for the individual sound generators, lower for larger number of sound generators.
+      const initialOutputLevel = 1 / ( numberOfCrossFadingSoundPairs * 2 );
+      console.log( 'initialOutputLevel = ' + initialOutputLevel );
+
       // Create the sound generator cross-fade pairs.
-      _.times( numberOfPitchVaryingSoundGenerators, () => {
+      _.times( numberOfCrossFadingSoundPairs, () => {
 
         // The larger the number of sound generators is, the small contribution each one makes to the overall sound.
-        const initialOutputLevel = 1 / numberOfPitchVaryingSoundGenerators;
         const smallDeflectionSoundClip = new SoundClip(
           SOURCE_SOUNDS[ options.soundIndex ],
           {
@@ -242,8 +254,8 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           const shouldBePlaying = chargesMoving && chargedBalloonCloseEnough;
           individualCrossFadeSoundGeneratorPairs.forEach( soundGeneratorPair => {
             if ( shouldBePlaying ) {
-              soundGeneratorPair.smallDeflectionSoundClip.play();
-              soundGeneratorPair.largeDeflectionSoundClip.play();
+              soundGeneratorPair.smallDeflectionSoundClip.play( dotRandom.nextDouble() * 0.1 );
+              soundGeneratorPair.largeDeflectionSoundClip.play( dotRandom.nextDouble() * 0.1 );
             }
             else {
               soundGeneratorPair.smallDeflectionSoundClip.stop();
@@ -297,12 +309,13 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
       // Update the amplitude modulator depth.  This effect is used when a balloon is being dragged along the edge of
       // the wall, thus changing the charges, but not doing much to the max deflection.
-      if ( options.soundGenerationMode === SoundGenerationMode.COLLECTIVE_CROSS_FADE ) {
+      if ( options.soundGenerationMode === SoundGenerationMode.COLLECTIVE_CROSS_FADE ||
+           options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_CROSS_FADE ) {
         let modulationDepth = 0;
         if ( chargesMovingProperty.value &&
              ( ( balloons[ 0 ].touchingWallProperty.value && balloons[ 0 ].dragVelocityProperty.value.magnitude > 0 ) ||
                ( balloons[ 1 ].touchingWallProperty.value && balloons[ 1 ].dragVelocityProperty.value.magnitude > 0 ) ) ) {
-          modulationDepth = 1.0;
+          modulationDepth = 0.8;
         }
         amplitudeModulator.depthProperty.set( modulationDepth );
       }

@@ -91,7 +91,7 @@ class WallNode extends Node {
         soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_PITCH,
         // soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_CROSS_FADE,
 
-        soundIndex: 2,
+        soundIndex: 6,
 
         // Prevent sound from being produced until the balloon is close enough to the wall.
         minBalloonXValue: 400
