@@ -10,8 +10,8 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import StringIO from '../../../../tandem/js/types/StringIO.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
@@ -30,9 +30,8 @@ class BASEModel {
   constructor( width, height, tandem ) {
 
     // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
-    this.showChargesProperty = new Property( 'all', {
-      tandem: tandem.createTandem( 'showChargesProperty' ),
-      phetioType: Property.PropertyIO( StringIO )
+    this.showChargesProperty = new StringProperty( 'all', {
+      tandem: tandem.createTandem( 'showChargesProperty' )
     } );
 
     // @public {boolean} - whether or not the two balloons are considered 'next to' each other, primarily used for a11y
