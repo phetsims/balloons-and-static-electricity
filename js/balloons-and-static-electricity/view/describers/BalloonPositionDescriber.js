@@ -670,7 +670,7 @@ class BalloonPositionDescriber {
   getDraggingDirectionDescription( direction ) {
     const movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
 
-    assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
+    assert && assert( movementString, `no direction description found for balloon moving direction ${direction}` );
     return movementString;
   }
 
@@ -685,7 +685,7 @@ class BalloonPositionDescriber {
   getReleaseDirectionDescription( direction ) {
     const movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction ];
 
-    assert && assert( movementString, 'no direction description found for balloon moving direction ' + direction );
+    assert && assert( movementString, `no direction description found for balloon moving direction ${direction}` );
     return movementString;
   }
 
@@ -756,7 +756,7 @@ class BalloonPositionDescriber {
       nearestObjectString = ( balloonCenterY < centerPlayAreaY ) ? centerOfPlayAreaString : bottomEdgeOfPlayAreaString;
     }
 
-    assert && assert( nearestObjectString, 'no nearest object found for movement direction: ' + balloonDirection );
+    assert && assert( nearestObjectString, `no nearest object found for movement direction: ${balloonDirection}` );
     const alert = StringUtils.fillIn( closerToObjectPatternString, {
       object: nearestObjectString
     } );

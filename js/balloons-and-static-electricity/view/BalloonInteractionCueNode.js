@@ -133,7 +133,7 @@ class BalloonInteractionCueNode extends Node {
       box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
 
-    assert && assert( box, 'No box created for direction ' + direction );
+    assert && assert( box, `No box created for direction ${direction}` );
     return box;
   }
 }

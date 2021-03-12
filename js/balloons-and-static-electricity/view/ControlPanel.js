@@ -160,7 +160,7 @@ class ControlPanel extends Node {
         alertString = showChargeDifferencesAlertString;
       }
 
-      assert && assert( alertString, 'no interactive alert for showChargesProperty value ' + value );
+      assert && assert( alertString, `no interactive alert for showChargesProperty value ${value}` );
       phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
 

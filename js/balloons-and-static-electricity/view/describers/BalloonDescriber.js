@@ -377,7 +377,7 @@ class BalloonDescriber {
       this.describedChargeRange = BASEDescriber.getDescribedChargeRange( newCharge );
     }
 
-    assert && assert( description, 'no charge pickup alert generated for charge view ' + shownCharges );
+    assert && assert( description, `no charge pickup alert generated for charge view ${shownCharges}` );
     return description;
   }
 

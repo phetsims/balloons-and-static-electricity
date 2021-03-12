@@ -263,15 +263,15 @@ class BalloonChargeDescriber {
     // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
     // charge in the wall, but there must be some change since the last description
     const forceDelta = forceMagnitude - this.previousForceMagnitude;
-    assert && assert( forceDelta !== 0, 'induced charge did not change since last description, debugging info: ' +
-                                        'forceMagnitude: ' + forceMagnitude + ', ' +
-                                        'previousForceMagnitude: ' + this.previousForceMagnitude + ', ' +
-                                        'greenBalloonVisible: ' + this.model.greenBalloon.isVisibleProperty.get() + ', ' +
-                                        'yellowBalloonInducingCharge: ' + this.model.yellowBalloon.inducingChargeProperty.get() + ', ' +
-                                        'greenBalloonInducingCharge: ' + this.model.greenBalloon.inducingChargeProperty.get() + ', ' +
-                                        'yellowBalloonTouchingWall: ' + this.model.yellowBalloon.touchingWallProperty.get() + ', ' +
-                                        'greenBalloonTouchingWall: ' + this.model.greenBalloon.touchingWallProperty.get() + ', ' +
-                                        'wallVisible: ' + wallVisible
+    assert && assert( forceDelta !== 0, `${'induced charge did not change since last description, debugging info: ' +
+                                        'forceMagnitude: '}${forceMagnitude}, ` +
+                                        `previousForceMagnitude: ${this.previousForceMagnitude}, ` +
+                                        `greenBalloonVisible: ${this.model.greenBalloon.isVisibleProperty.get()}, ` +
+                                        `yellowBalloonInducingCharge: ${this.model.yellowBalloon.inducingChargeProperty.get()}, ` +
+                                        `greenBalloonInducingCharge: ${this.model.greenBalloon.inducingChargeProperty.get()}, ` +
+                                        `yellowBalloonTouchingWall: ${this.model.yellowBalloon.touchingWallProperty.get()}, ` +
+                                        `greenBalloonTouchingWall: ${this.model.greenBalloon.touchingWallProperty.get()}, ` +
+                                        `wallVisible: ${wallVisible}`
     );
 
     // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
@@ -440,7 +440,7 @@ class BalloonChargeDescriber {
       else if ( showCharges === 'diff' ) {
         stringPattern = balloonChargeDifferencesPatternString;
       }
-      assert && assert( stringPattern, 'stringPattern not found for showChargesProperty value ' + showCharges );
+      assert && assert( stringPattern, `stringPattern not found for showChargesProperty value ${showCharges}` );
 
       description = StringUtils.fillIn( stringPattern, {
         amount: relativeChargesString

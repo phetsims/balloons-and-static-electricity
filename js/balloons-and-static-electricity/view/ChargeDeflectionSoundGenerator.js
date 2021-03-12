@@ -57,7 +57,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
    */
   constructor( wallCharges, maxChargeDeflection, balloons, isWallVisibleProperty, options ) {
 
-    assert && assert( balloons.length === 2, 'this assumes 2 balloons, found ' + balloons.length );
+    assert && assert( balloons.length === 2, `this assumes 2 balloons, found ${balloons.length}` );
 
     // TODO: Much of the code below is in a prototype state while the sound design team works through a set of options
     //       that have been brainstormed.  Once a general approach has been decided upon, there will just be a single

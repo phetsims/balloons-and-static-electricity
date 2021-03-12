@@ -375,7 +375,7 @@ const BASEDescriber = {
       }
     }
 
-    assert && assert( range, 'no charge range found for charge ' + charge );
+    assert && assert( range, `no charge range found for charge ${charge}` );
     return range;
   },
 
