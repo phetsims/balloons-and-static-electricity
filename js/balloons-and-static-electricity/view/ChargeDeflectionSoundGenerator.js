@@ -19,10 +19,15 @@ import AmplitudeModulator from '../../../../tambo/js/AmplitudeModulator.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import chargesOrganLoop from '../../../sounds/charges-organ-loop_wav.js';
+import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
+import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
+import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
+import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
+import chargesInWallReverseBlip from '../../../sounds/charges-in-wall-reverse-blip_mp3.js';
 import chargesOrganLoopOctaveUp from '../../../sounds/charges-organ-loop-one-octave-up_wav.js';
-import chargesSynthLoop from '../../../sounds/charges-synthy-loop_wav.js';
+import chargesOrganLoop from '../../../sounds/charges-organ-loop_wav.js';
 import chargesSynthLoopOctaveUp from '../../../sounds/charges-synthy-loop-one-octave-up_wav.js';
+import chargesSynthLoop from '../../../sounds/charges-synthy-loop_wav.js';
 import electronicHumUnsaturated from '../../../sounds/charges-wall-electronic-hum-loop_wav.js';
 import electronicHumSaturated from '../../../sounds/charges-wall-saturated-electronic-hum-loop_wav.js';
 import sineWaveSaturated from '../../../sounds/charges-wall-saturated-sine-wave-loop_wav.js';
@@ -31,9 +36,14 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 
 // const
 const CHARGES_STILL_TIME = 0.5; // number of seconds where, if no charge motion is detected, charges are considered still
-const SoundGenerationMode = Enumeration.byKeys( [ 'COLLECTIVE_CROSS_FADE', 'INDIVIDUAL_PITCH', 'INDIVIDUAL_CROSS_FADE' ] );
+const SoundGenerationMode = Enumeration.byKeys( [
+  'COLLECTIVE_CROSS_FADE',
+  'INDIVIDUAL_PITCH',
+  'INDIVIDUAL_CROSS_FADE',
+  'INDIVIDUAL_DISCRETE'
+] );
 
-const SOURCE_SOUNDS = [
+const CONTINUOUS_SOURCE_SOUNDS = [
   electronicHumUnsaturated,
   electronicHumSaturated,
   sineWaveUnsaturated,
@@ -44,7 +54,17 @@ const SOURCE_SOUNDS = [
   chargesSynthLoopOctaveUp
 ];
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 1;
+const DISCRETE_SOURCE_SOUNDS = [
+  chargesInWallBlip,
+  chargesInWallBlip001,
+  chargesInWallBlip002,
+  chargesInWallReverseBlip,
+  chargeDeflectionSound
+];
+
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
+const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 10;
+const FIRST_BIN_SIZE = 0.1;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
@@ -68,17 +88,24 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
     options = merge( {
       soundGenerationMode: SoundGenerationMode.COLLECTIVE_CROSS_FADE,
-      initialOutputLevel: 0.2,
+      initialOutputLevel: 0.5,
       enableControlProperties: [ isWallVisibleProperty ],
 
-      // {number} - index of the sound, or first sound of a cross-fade pair, to be used for sound generation
-      soundIndex: 0,
+      // {number} - Index of the sound, or first sound of a cross-fade pair, to be used in continuous sound generators,
+      // i.e. sound generators that use loops.
+      continuousSoundIndex: 0,
+
+      // {number} - Index of the sound used for discrete sound generators.
+      discreteSoundIndex: 0,
 
       // {number} - a multiplier for how much the pitch should change when using pitch changes to indicate deflection
       pitchMultiplier: 2,
 
       // {number} - a minimum value for the X position of charged balloon, below which no sound is produced
-      minBalloonXValue: 0
+      minBalloonXValue: 0,
+
+      // {number} - identifies the algorithm used to map bins to a playback rate (i.e. pitch)
+      binToPlaybackRateAlgorithmIndex: 0
 
     }, options );
 
@@ -89,6 +116,10 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
     // {Vector2[]} - list of previous charge positions, used to detect whether motion has occurred
     const previousChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+
+    // {number[]} - Bin number, based on normalized deflection, where each charge was mapped at the end of the previous
+    // step.
+    const chargeDeflectionBins = [];
 
     // Property that tracks whether the charges have moved recently, updated by step function
     const chargesMovingProperty = new BooleanProperty( false );
@@ -123,13 +154,30 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // mode, only populated in that mode
     const individualCrossFadeSoundGeneratorPairs = [];
 
+    // {SoundClip[]} - sound generators used in INDIVIDUAL_DISCRETE mode, only populated in that mode
+    const discreteSoundGenerators = [];
+
+    // Closure for mapping a sound generator index to a charge, necessary because there may be fewer sound generators
+    // than charges.
+    const getChargeForSoundGenerator = soundGeneratorIndex => {
+      const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
+      return Utils.roundSymmetric( ( soundGeneratorIndex + 0.499 ) * spacing );
+    };
+
+    // closure for calculating normalized charge deflection for a specified charge index
+    const getNormalizedChargeDeflection = chargeIndex =>
+      Math.min(
+        originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value ) / maxChargeDeflection,
+        1
+      );
+
     // sound generation mode where the produced sound cross fades between two sounds based on the most deflected charge
     if ( options.soundGenerationMode === SoundGenerationMode.COLLECTIVE_CROSS_FADE ) {
 
       // Create and hook up the two sound clips that will be cross faded based on the amount of deflection.
-      const smallDeflectionSoundClip = new SoundClip( SOURCE_SOUNDS[ options.soundIndex ], { loop: true } );
+      const smallDeflectionSoundClip = new SoundClip( CONTINUOUS_SOURCE_SOUNDS[ options.continuousSoundIndex ], { loop: true } );
       smallDeflectionSoundClip.connect( amplitudeModulator.getConnectionPoint() );
-      const largeDeflectionSoundClip = new SoundClip( SOURCE_SOUNDS[ options.soundIndex + 1 ], { loop: true } );
+      const largeDeflectionSoundClip = new SoundClip( CONTINUOUS_SOURCE_SOUNDS[ options.continuousSoundIndex + 1 ], { loop: true } );
       largeDeflectionSoundClip.connect( amplitudeModulator.getConnectionPoint() );
 
       // Start and stop the loops based on whether charges are moving and the balloon positions are valid.
@@ -163,7 +211,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       // Create the sound generators.
       _.times( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES, () => {
         const soundClip = new SoundClip(
-          SOURCE_SOUNDS[ options.soundIndex ],
+          CONTINUOUS_SOURCE_SOUNDS[ options.soundIndex ],
           {
             loop: true,
 
@@ -203,7 +251,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
         // The larger the number of sound generators is, the small contribution each one makes to the overall sound.
         const smallDeflectionSoundClip = new SoundClip(
-          SOURCE_SOUNDS[ options.soundIndex ],
+          CONTINUOUS_SOURCE_SOUNDS[ options.soundIndex ],
           {
             loop: true,
             initialOutputLevel: initialOutputLevel
@@ -211,7 +259,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         );
         smallDeflectionSoundClip.connect( amplitudeModulator.getConnectionPoint() );
         const largeDeflectionSoundClip = new SoundClip(
-          SOURCE_SOUNDS[ options.soundIndex + 1 ],
+          CONTINUOUS_SOURCE_SOUNDS[ options.soundIndex + 1 ],
           {
             loop: true,
             initialOutputLevel: initialOutputLevel
@@ -243,6 +291,36 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       );
     }
 
+      // Sound generation mode where individual charge positions are monitored and sounds are played when certain
+    // threshold values are crossed.
+    else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_DISCRETE ) {
+
+      // Set the initial bins for each charge.
+      wallCharges.forEach( ( wallCharge, index ) => {
+        chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( index ) );
+      } );
+
+      // Create the discrete sound generators.
+      _.times( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES, () => {
+        const soundClip = new SoundClip(
+          DISCRETE_SOURCE_SOUNDS[ options.discreteSoundIndex ],
+          {
+            // Each sound generator will contribute a fraction of the overall sound.
+            initialOutputLevel: 1 / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES,
+
+            // Only allow sounds to play when the balloon is close enough to the wall.
+            enableControlProperties: [ chargedBalloonCloseEnoughProperty ],
+
+            // We're going to be changing the playback rate as charges get more deflected, but those changes shouldn't
+            // affect sounds that are already playing.
+            rateChangesAffectPlayingSounds: false
+          }
+        );
+        soundClip.connect( this.masterGainNode );
+        discreteSoundGenerators.push( soundClip );
+      } );
+    }
+
     // countdown time for determining when the charges have stopped moving
     let chargesStillCountdown = 0;
 
@@ -261,12 +339,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         // Calculate normalized deflection and update the max.
         const normalizedDeflection = wallChargePosition.distance( originalChargePositions[ index ] ) / maxChargeDeflection;
         maxDeflectionNormalized = Math.max( normalizedDeflection, maxDeflectionNormalized );
-
-        // Check for changes versus the previous charge positions.
-        if ( !wallChargePosition.equals( previousChargePositions[ index ] ) ) {
-          chargesMovedThisStep = true;
-          previousChargePositions[ index ].set( wallChargePosition );
-        }
       } );
 
       // Update the current maximum deflection.
@@ -305,13 +377,10 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         pitchChangingSoundGenerators.forEach( ( soundGenerator, index ) => {
 
           // Figure out the charge to which this sound generator corresponds.
-          const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
-          const chargeIndex = Utils.roundSymmetric( ( index + 0.499 ) * spacing );
+          const chargeIndex = getChargeForSoundGenerator( index );
 
           // How deflected is this charge?
-          const normalizedDeflection =
-            originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value ) /
-            maxChargeDeflection;
+          const normalizedDeflection = getNormalizedChargeDeflection( chargeIndex );
 
           // Set the pitch for this sound generator based on the deflection.
           soundGenerator.setPlaybackRate( 1 + ( normalizedDeflection * ( options.pitchMultiplier - 1 ) ) );
@@ -326,19 +395,53 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         individualCrossFadeSoundGeneratorPairs.forEach( ( soundGeneratorPair, index ) => {
 
           // Figure out the charge to which this sound generator pair corresponds.
-          const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
-          const chargeIndex = Utils.roundSymmetric( ( index + 0.499 ) * spacing );
+          const chargeIndex = getChargeForSoundGenerator( index );
 
           // How deflected is this charge?
-          const normalizedDeflection =
-            originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value ) /
-            maxChargeDeflection;
+          const normalizedDeflection = getNormalizedChargeDeflection( chargeIndex );
 
           // Set the cross fade for this pair.
           soundGeneratorPair.smallDeflectionSoundClip.setOutputLevel( 1 - normalizedDeflection );
           soundGeneratorPair.largeDeflectionSoundClip.setOutputLevel( normalizedDeflection );
         } );
       }
+
+      // If in discrete mode, check for any crossings of the thresholds that would cause sounds to be played.
+      if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_DISCRETE ) {
+
+        discreteSoundGenerators.forEach( ( discreteSoundGenerator, index ) => {
+
+          // Figure out the charge to which this sound generator corresponds.
+          const chargeIndex = getChargeForSoundGenerator( index );
+
+          const binForThisCharge = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( chargeIndex ) );
+          if ( binForThisCharge !== chargeDeflectionBins[ chargeIndex ] ) {
+
+            // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
+            // play the sound.
+            const playbackRate = 1 + binForThisCharge / NUMBER_OF_BINS_FOR_DISCRETE_MODES;
+            discreteSoundGenerator.setPlaybackRate( playbackRate, 0 );
+            discreteSoundGenerator.play();
+          }
+        } );
+
+        // Update the bins for all wall charges.
+        wallCharges.forEach( ( wallCharge, index ) => {
+          chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( index ) );
+        } );
+      }
+
+      // Update the wall charge positions.
+      wallCharges.forEach( ( wallCharge, index ) => {
+
+        const wallChargePosition = wallCharge.positionProperty.value;
+
+        // Check for changes versus the previous charge positions.
+        if ( !wallChargePosition.equals( previousChargePositions[ index ] ) ) {
+          chargesMovedThisStep = true;
+          previousChargePositions[ index ].set( wallChargePosition );
+        }
+      } );
     };
 
     // @private {function}
@@ -365,6 +468,33 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     super.dispose();
   }
 }
+
+/**
+ * bin mapping algorithm
+ *
+ * @param normalizedDeflection
+ * @returns {number}
+ */
+const mapNormalizedDeflectionToBin = normalizedDeflection => {
+
+  // input parameter checking
+  assert && assert( normalizedDeflection >= 0 );
+  assert && assert( normalizedDeflection <= 1 );
+
+  let bin = 0;
+  if ( normalizedDeflection > FIRST_BIN_SIZE ) {
+
+    // This charge is not in the first bin.  Which is it in?
+    const binningRange = 1 - FIRST_BIN_SIZE;
+    const upperBinSize = binningRange / ( NUMBER_OF_BINS_FOR_DISCRETE_MODES - 1 );
+    bin = Math.min(
+      Math.floor( ( normalizedDeflection - FIRST_BIN_SIZE ) / upperBinSize ) + 1,
+      NUMBER_OF_BINS_FOR_DISCRETE_MODES - 1
+    );
+  }
+
+  return bin;
+};
 
 // statics
 ChargeDeflectionSoundGenerator.SoundGenerationMode = SoundGenerationMode;

@@ -88,10 +88,12 @@ class WallNode extends Node {
       model.wall.isVisibleProperty,
       {
         // soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.COLLECTIVE_CROSS_FADE,
-        soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_PITCH,
+        // soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_PITCH,
         // soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_CROSS_FADE,
+        soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_DISCRETE,
 
-        soundIndex: 2,
+        continuousSoundIndex: 0,
+        discreteSoundIndex: 0,
 
         // Prevent sound from being produced until the balloon is close enough to the wall.
         minBalloonXValue: 400
