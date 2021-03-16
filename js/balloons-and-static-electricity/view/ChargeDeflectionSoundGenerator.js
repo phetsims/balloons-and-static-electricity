@@ -20,6 +20,7 @@ import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
+import brightMarimbaSound from '../../../../tambo/sounds/bright-marimba-short_mp3.js';
 import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
 import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
 import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
@@ -59,11 +60,81 @@ const DISCRETE_SOURCE_SOUNDS = [
   chargesInWallBlip001,
   chargesInWallBlip002,
   chargesInWallReverseBlip,
-  chargeDeflectionSound
+  chargeDeflectionSound,
+  brightMarimbaSound
 ];
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
-const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 10;
+const TWELFTH_ROOT_OF_TWO = Math.pow( 2, 1 / 12 );
+const MAJOR_SCALE_MULTIPLIERS = [
+  1,
+  Math.pow( TWELFTH_ROOT_OF_TWO, 2 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 4 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 5 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 7 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 9 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 11 )
+];
+const MAJOR_CHORD_MULTIPLIERS = [
+  1,
+  Math.pow( TWELFTH_ROOT_OF_TWO, 4 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 7 )
+];
+const MAJOR_7TH_CHORD_MULTIPLIERS = [
+  1,
+  Math.pow( TWELFTH_ROOT_OF_TWO, 4 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 7 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 11 )
+];
+const PENTATONIC_SCALE_MULTIPLIERS = [
+  1,
+  Math.pow( TWELFTH_ROOT_OF_TWO, 2 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 4 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 7 ),
+  Math.pow( TWELFTH_ROOT_OF_TWO, 9 )
+];
+
+const BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS = [
+
+  // fixed (mostly for testing)
+  () => 1,
+
+  // simple linear, full octave
+  bin => 1 + bin / NUMBER_OF_BINS_FOR_DISCRETE_MODES,
+
+  // simple linear, half octave
+  bin => 1 + ( bin / NUMBER_OF_BINS_FOR_DISCRETE_MODES ) / 2,
+
+  // major scale
+  bin => {
+    const multiplier = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + 1;
+    const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
+    return MAJOR_SCALE_MULTIPLIERS[ index ] * multiplier;
+  },
+
+  // major chord (no extensions)
+  bin => {
+    const multiplier = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length ) + 1;
+    const index = bin % MAJOR_CHORD_MULTIPLIERS.length;
+    return MAJOR_CHORD_MULTIPLIERS[ index ] * multiplier;
+  },
+
+  // major 7th chord
+  bin => {
+    const multiplier = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length ) + 1;
+    const index = bin % MAJOR_7TH_CHORD_MULTIPLIERS.length;
+    return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * multiplier;
+  },
+
+  // pentatonic scale
+  bin => {
+    const multiplier = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + 1;
+    const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
+    return PENTATONIC_SCALE_MULTIPLIERS[ index ] * multiplier;
+  }
+];
+
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 9;
+const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 7;
 const FIRST_BIN_SIZE = 0.1;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
@@ -105,7 +176,10 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       minBalloonXValue: 0,
 
       // {number} - identifies the algorithm used to map bins to a playback rate (i.e. pitch)
-      binToPlaybackRateAlgorithmIndex: 0
+      binToPlaybackRateAlgorithmIndex: 0,
+
+      // {number} - index into array of algorithms used to map a bin to a playback rate
+      binToPlaybackRateAlgorithm: 0
 
     }, options );
 
@@ -419,7 +493,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
             // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
             // play the sound.
-            const playbackRate = 1 + binForThisCharge / NUMBER_OF_BINS_FOR_DISCRETE_MODES;
+            const playbackRate = BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS[ options.binToPlaybackRateAlgorithm ]( binForThisCharge );
             discreteSoundGenerator.setPlaybackRate( playbackRate, 0 );
             discreteSoundGenerator.play();
           }
