@@ -106,36 +106,36 @@ const BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS = [
 
   // major scale
   bin => {
-    const multiplier = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + 1;
     const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
-    return MAJOR_SCALE_MULTIPLIERS[ index ] * multiplier;
+    return MAJOR_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   },
 
   // major chord (no extensions)
   bin => {
-    const multiplier = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length );
     const index = bin % MAJOR_CHORD_MULTIPLIERS.length;
-    return MAJOR_CHORD_MULTIPLIERS[ index ] * multiplier;
+    return MAJOR_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   },
 
   // major 7th chord
   bin => {
-    const multiplier = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length ) + 1;
     const index = bin % MAJOR_7TH_CHORD_MULTIPLIERS.length;
-    return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * multiplier;
+    return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   },
 
   // pentatonic scale
   bin => {
-    const multiplier = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + 1;
     const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
-    return PENTATONIC_SCALE_MULTIPLIERS[ index ] * multiplier;
+    return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   }
 ];
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 9;
-const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 7;
-const FIRST_BIN_SIZE = 0.1;
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
+const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 12;
+const FIRST_BIN_SIZE = 0.05;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 

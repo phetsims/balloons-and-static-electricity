@@ -93,8 +93,25 @@ class WallNode extends Node {
         soundGenerationMode: ChargeDeflectionSoundGenerator.SoundGenerationMode.INDIVIDUAL_DISCRETE,
 
         continuousSoundIndex: 0,
-        discreteSoundIndex: 5,
-        binToPlaybackRateAlgorithm: 5,
+
+        // REF - Discrete Sounds
+        // 0 = chargesInWallBlip,
+        // 1 = chargesInWallBlip001,
+        // 2 = chargesInWallBlip002,
+        // 3 = chargesInWallReverseBlip,
+        // 4 = chargeDeflectionSound,
+        // 5 = brightMarimbaSound
+        discreteSoundIndex: 4,
+
+        // REF - Bin-to-Pitch Mapping
+        // 0 = constant
+        // 1 = continuous 1 octave
+        // 2 = continuous 1/2 octave
+        // 3 = major scale
+        // 4 = major chord (no extensions)
+        // 5 = major 7th chord
+        // 6 = pentatonic scale
+        binToPlaybackRateAlgorithm: 3,
 
         // Prevent sound from being produced until the balloon is close enough to the wall.
         minBalloonXValue: 400
