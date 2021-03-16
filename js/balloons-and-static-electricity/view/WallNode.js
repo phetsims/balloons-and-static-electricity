@@ -101,7 +101,8 @@ class WallNode extends Node {
         // 3 = chargesInWallReverseBlip,
         // 4 = chargeDeflectionSound,
         // 5 = brightMarimbaSound
-        discreteSoundIndex: 4,
+        // 6 = balloonRelease
+        discreteSoundIndex: 1,
 
         // REF - Bin-to-Pitch Mapping
         // 0 = constant

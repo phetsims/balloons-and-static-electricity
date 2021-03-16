@@ -22,6 +22,7 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 import brightMarimbaSound from '../../../../tambo/sounds/bright-marimba-short_mp3.js';
 import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
+import balloonRelease from '../../../sounds/balloon-release-006_mp3.js';
 import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
 import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
 import chargesInWallReverseBlip from '../../../sounds/charges-in-wall-reverse-blip_mp3.js';
@@ -61,7 +62,8 @@ const DISCRETE_SOURCE_SOUNDS = [
   chargesInWallBlip002,
   chargesInWallReverseBlip,
   chargeDeflectionSound,
-  brightMarimbaSound
+  brightMarimbaSound,
+  balloonRelease
 ];
 
 const TWELFTH_ROOT_OF_TWO = Math.pow( 2, 1 / 12 );
@@ -106,7 +108,7 @@ const BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS = [
 
   // major scale
   bin => {
-    const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length );
     const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
     return MAJOR_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   },
@@ -120,21 +122,21 @@ const BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS = [
 
   // major 7th chord
   bin => {
-    const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length );
     const index = bin % MAJOR_7TH_CHORD_MULTIPLIERS.length;
     return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   },
 
   // pentatonic scale
   bin => {
-    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + 1;
+    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length );
     const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
     return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   }
 ];
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 6;
-const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 12;
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 4;
+const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 10;
 const FIRST_BIN_SIZE = 0.05;
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
@@ -365,7 +367,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       );
     }
 
-      // Sound generation mode where individual charge positions are monitored and sounds are played when certain
+    // Sound generation mode where individual charge positions are monitored and sounds are played when certain
     // threshold values are crossed.
     else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_DISCRETE ) {
 
