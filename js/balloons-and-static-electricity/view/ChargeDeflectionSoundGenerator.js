@@ -367,7 +367,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       );
     }
 
-    // Sound generation mode where individual charge positions are monitored and sounds are played when certain
+      // Sound generation mode where individual charge positions are monitored and sounds are played when certain
     // threshold values are crossed.
     else if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_DISCRETE ) {
 
