@@ -123,11 +123,12 @@ const octaveOffsetProperty = new Property( 0 );
 const outputLevelProperty = new Property( 0.5 );
 
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
-// organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
+// organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.  Each of the algorithms
+// map a bin to a playback rate.
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms = new Map( [
-  [ 'No pitch change', () => 1 ],
-  [ 'Linear one octave', bin => 1 + bin / numBinsProperty.value ],
-  [ 'Linear half octave', bin => 1 + ( bin / numBinsProperty.value ) / 2 ],
+  [ 'No pitch change', () => 1 + octaveOffsetProperty.value ],
+  [ 'Linear one octave', bin => 1 + bin / numBinsProperty.value + octaveOffsetProperty.value ],
+  [ 'Linear half octave', bin => 1 + ( bin / numBinsProperty.value ) / 2 + octaveOffsetProperty.value ],
   [ 'Major scale', bin => {
     const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + octaveOffsetProperty.value;
     const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
