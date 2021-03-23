@@ -120,6 +120,8 @@ const numBinsProperty = new Property( 10 );
 // An offset for the octave used for the more musical pitch mapping algorithms.
 const octaveOffsetProperty = new Property( 0 );
 
+const outputLevelProperty = new Property( 0.5 );
+
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms = new Map( [
@@ -168,7 +170,10 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configuratio
   discreteSoundBinZeroProportionProperty: new Property( 1 ),
 
   // Octave offset used for the more musical pitch-mapping algorithms.  1 means an octave up, -1 an octave down.
-  discreteSoundsOctaveOffsetProperty: octaveOffsetProperty
+  discreteSoundsOctaveOffsetProperty: octaveOffsetProperty,
+
+  // Overall output level for this sound generator.
+  overallOutputLevelProperty: outputLevelProperty
 };
 
 //=====================================================================================================================
@@ -195,7 +200,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
     options = merge( {
       soundGenerationMode: SoundGenerationMode.COLLECTIVE_CROSS_FADE,
-      initialOutputLevel: 0.5,
+      initialOutputLevel: outputLevelProperty.value,
       enableControlProperties: [ isWallVisibleProperty ],
 
       // {number} - Index of the sound, or first sound of a cross-fade pair, to be used in continuous sound generators,
@@ -220,6 +225,11 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     }, options );
 
     super( options );
+
+    // Change the output level when the configuration parameter changes.
+    outputLevelProperty.lazyLink( outputLevel => {
+      this.setOutputLevel( outputLevel );
+    } );
 
     // {Vector2[]} - list of original, non-deflected charge positions, used to determine the amount of deflection
     const originalChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
@@ -440,6 +450,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           );
           soundClip.connect( this.masterGainNode );
           discreteSoundGenerators.push( soundClip );
+        } );
+      } );
+
+      // Adjust the volume of the individual discrete sound generators based on how many of them are being used.
+      globalConfigProps.numberOfDiscreteSoundGeneratorsProperty.link( numberInUse => {
+        const outputLevel = 1 / Math.pow( numberInUse, 0.5 );
+        discreteSoundGenerators.forEach( dsg => {
+          dsg.setOutputLevel( outputLevel );
         } );
       } );
     }

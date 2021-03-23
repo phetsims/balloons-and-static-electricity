@@ -136,6 +136,22 @@ class SoundOptionsDialogContent extends Node {
       spacing: 10
     } );
 
+    // Slider for the controlling the overall output level.
+    const outputLevelSlider = new HSlider( globalConfigProps.overallOutputLevelProperty, new Range( 0, 1 ) );
+
+    // Add tick marks to slider.
+    _.times( 2, index => {
+      outputLevelSlider.addMajorTick(
+        index,
+        new Text( index === 0 ? 'min' : 'max', TEXT_OPTIONS )
+      );
+    } );
+
+    // Put the slider into a horizontal box with a label.
+    const overallOutputLevelControl = new HBox( {
+      children: [ new Text( 'Output level: ', TEXT_OPTIONS ), outputLevelSlider ],
+      spacing: 10
+    } );
 
     // Add a vertical box with the controls.
     this.addChild( new VBox( {
@@ -145,7 +161,8 @@ class SoundOptionsDialogContent extends Node {
         pitchMappingAlgorithmSelector,
         octaveOffsetControl,
         numBinsController,
-        firstBinProportionateSizeController
+        firstBinProportionateSizeController,
+        overallOutputLevelControl
       ],
       spacing: 20,
       align: 'left'
