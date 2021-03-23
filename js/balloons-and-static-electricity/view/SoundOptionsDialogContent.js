@@ -19,6 +19,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import HSlider from '../../../../sun/js/HSlider.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
@@ -79,6 +80,21 @@ class SoundOptionsDialogContent extends Node {
       spacing: 10
     } );
 
+    // Slider for the octave offset used in conjunction with pitch mapping.
+    const octaveOffsetSlider = new HSlider( globalConfigProps.discreteSoundsOctaveOffsetProperty, new Range( -2, 2 ) );
+
+    // Add tick marks to slider.
+    _.times( 5, index => {
+      const tickMarkValue = index - 2;
+      octaveOffsetSlider.addMajorTick( tickMarkValue, new Text( tickMarkValue.toString(), TEXT_OPTIONS ) );
+    } );
+
+    // Put the slider into a horizontal box with a label.
+    const octaveOffsetControl = new HBox( {
+      children: [ new Text( 'Octave offset: ', TEXT_OPTIONS ), octaveOffsetSlider ],
+      spacing: 10
+    } );
+
     // Add a number picker to control the number of sound generators
     const numSoundGeneratorsNumberPicker = new NumberPicker(
       globalConfigProps.numberOfDiscreteSoundGeneratorsProperty,
@@ -120,12 +136,14 @@ class SoundOptionsDialogContent extends Node {
       spacing: 10
     } );
 
+
     // Add a vertical box with the controls.
     this.addChild( new VBox( {
       children: [
+        numSoundGeneratorsSelector,
         sourceSoundSelector,
         pitchMappingAlgorithmSelector,
-        numSoundGeneratorsSelector,
+        octaveOffsetControl,
         numBinsController,
         firstBinProportionateSizeController
       ],

@@ -22,8 +22,11 @@ import brightMarimbaSound from '../../../../tambo/sounds/bright-marimba-short_mp
 import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 import balloonRelease from '../../../sounds/balloon-release-006_mp3.js';
 import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
+import chargesInWallBlip001Muffled from '../../../sounds/charges-in-wall-blip-001-muffled_mp3.js';
 import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
+import chargesInWallBlip002Muffled from '../../../sounds/charges-in-wall-blip-002-muffled_mp3.js';
 import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
+import chargesInWallBlipMuffled from '../../../sounds/charges-in-wall-blip-muffled_mp3.js';
 import chargesInWallReverseBlip from '../../../sounds/charges-in-wall-reverse-blip_mp3.js';
 import chargesOrganLoopOctaveUp from '../../../sounds/charges-organ-loop-one-octave-up_wav.js';
 import chargesOrganLoop from '../../../sounds/charges-organ-loop_wav.js';
@@ -100,8 +103,11 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo = {};
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoundSources = new Map( [
   [ 'chargesInWallBlip', chargesInWallBlip ],
+  [ 'chargesInWallBlipMuffled', chargesInWallBlipMuffled ],
   [ 'chargesInWallBlip001', chargesInWallBlip001 ],
+  [ 'chargesInWallBlip001Muffled', chargesInWallBlip001Muffled ],
   [ 'chargesInWallBlip002', chargesInWallBlip002 ],
+  [ 'chargesInWallBlip002Muffled', chargesInWallBlip002Muffled ],
   [ 'chargesInWallReverseBlip', chargesInWallReverseBlip ],
   [ 'chargeDeflectionSound', chargeDeflectionSound ],
   [ 'brightMarimbaSound', brightMarimbaSound ],
@@ -111,6 +117,9 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoun
 // The number of bins used in the discrete mode.
 const numBinsProperty = new Property( 10 );
 
+// An offset for the octave used for the more musical pitch mapping algorithms.
+const octaveOffsetProperty = new Property( 0 );
+
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms = new Map( [
@@ -118,22 +127,22 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitc
   [ 'Linear one octave', bin => 1 + bin / numBinsProperty.value ],
   [ 'Linear half octave', bin => 1 + ( bin / numBinsProperty.value ) / 2 ],
   [ 'Major scale', bin => {
-    const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length );
+    const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length ) + octaveOffsetProperty.value;
     const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
     return MAJOR_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   } ],
   [ 'Major chord', bin => {
-    const octave = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length );
+    const octave = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length ) + octaveOffsetProperty.value;
     const index = bin % MAJOR_CHORD_MULTIPLIERS.length;
     return MAJOR_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   } ],
   [ 'Major 7th chord', bin => {
-    const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length );
+    const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length ) + octaveOffsetProperty.value;
     const index = bin % MAJOR_7TH_CHORD_MULTIPLIERS.length;
     return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   } ],
   [ 'Pentatonic scale', bin => {
-    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length );
+    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + octaveOffsetProperty.value;
     const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
     return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
   } ]
@@ -150,13 +159,16 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configuratio
   ),
 
   // number of sound generators, can't be more than the number of charges
-  numberOfDiscreteSoundGeneratorsProperty: new Property( 2 ),
+  numberOfDiscreteSoundGeneratorsProperty: new Property( 3 ),
 
   // number of discrete bins that the charge positions are placed into
   discreteSoundNumberOfBinsProperty: numBinsProperty,
 
   // proportionate size of the first bin, often smaller than the others so that initial translation occur more quickly
-  discreteSoundBinZeroProportionProperty: new Property( 1 )
+  discreteSoundBinZeroProportionProperty: new Property( 1 ),
+
+  // Octave offset used for the more musical pitch-mapping algorithms.  1 means an octave up, -1 an octave down.
+  discreteSoundsOctaveOffsetProperty: octaveOffsetProperty
 };
 
 //=====================================================================================================================
