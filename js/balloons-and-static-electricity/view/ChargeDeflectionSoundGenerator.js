@@ -12,17 +12,16 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import AmplitudeModulator from '../../../../tambo/js/AmplitudeModulator.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 import brightMarimbaSound from '../../../../tambo/sounds/bright-marimba-short_mp3.js';
-import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
+import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 import balloonRelease from '../../../sounds/balloon-release-006_mp3.js';
+import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
 import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
 import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
 import chargesInWallReverseBlip from '../../../sounds/charges-in-wall-reverse-blip_mp3.js';
@@ -56,16 +55,6 @@ const CONTINUOUS_SOURCE_SOUNDS = [
   chargesSynthLoopOctaveUp
 ];
 
-const DISCRETE_SOURCE_SOUNDS = [
-  chargesInWallBlip,
-  chargesInWallBlip001,
-  chargesInWallBlip002,
-  chargesInWallReverseBlip,
-  chargeDeflectionSound,
-  brightMarimbaSound,
-  balloonRelease
-];
-
 const TWELFTH_ROOT_OF_TWO = Math.pow( 2, 1 / 12 );
 const MAJOR_SCALE_MULTIPLIERS = [
   1,
@@ -95,49 +84,84 @@ const PENTATONIC_SCALE_MULTIPLIERS = [
   Math.pow( TWELFTH_ROOT_OF_TWO, 9 )
 ];
 
-const BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS = [
+const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 4;
 
-  // fixed (mostly for testing)
-  () => 1,
+//=====================================================================================================================
+// Global configuration, used in Options dialog for sound design testing.
+// https://github.com/phetsims/balloons-and-static-electricity/issues/486
+//=====================================================================================================================
 
-  // simple linear, full octave
-  bin => 1 + bin / NUMBER_OF_BINS_FOR_DISCRETE_MODES,
+if ( !phet.ballonsAndStaticElectricity ) {
+  phet.ballonsAndStaticElectricity = {};
+}
+phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo = {};
 
-  // simple linear, half octave
-  bin => 1 + ( bin / NUMBER_OF_BINS_FOR_DISCRETE_MODES ) / 2,
+// Map of names to wrapped audio buffers that can be used as sound sources for the discrete sound generators.  This is
+// organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
+phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoundSources = new Map( [
+  [ 'chargesInWallBlip', chargesInWallBlip ],
+  [ 'chargesInWallBlip001', chargesInWallBlip001 ],
+  [ 'chargesInWallBlip002', chargesInWallBlip002 ],
+  [ 'chargesInWallReverseBlip', chargesInWallReverseBlip ],
+  [ 'chargeDeflectionSound', chargeDeflectionSound ],
+  [ 'brightMarimbaSound', brightMarimbaSound ],
+  [ 'balloonRelease', balloonRelease ]
+] );
 
-  // major scale
-  bin => {
+// The number of bins used in the discrete mode.
+const numBinsProperty = new Property( 10 );
+
+// Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
+// organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
+phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms = new Map( [
+  [ 'No pitch change', () => 1 ],
+  [ 'Linear one octave', bin => 1 + bin / numBinsProperty.value ],
+  [ 'Linear half octave', bin => 1 + ( bin / numBinsProperty.value ) / 2 ],
+  [ 'Major scale', bin => {
     const octave = Math.floor( bin / MAJOR_SCALE_MULTIPLIERS.length );
     const index = bin % MAJOR_SCALE_MULTIPLIERS.length;
     return MAJOR_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-  },
-
-  // major chord (no extensions)
-  bin => {
+  } ],
+  [ 'Major chord', bin => {
     const octave = Math.floor( bin / MAJOR_CHORD_MULTIPLIERS.length );
     const index = bin % MAJOR_CHORD_MULTIPLIERS.length;
     return MAJOR_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-  },
-
-  // major 7th chord
-  bin => {
+  } ],
+  [ 'Major 7th chord', bin => {
     const octave = Math.floor( bin / MAJOR_7TH_CHORD_MULTIPLIERS.length );
     const index = bin % MAJOR_7TH_CHORD_MULTIPLIERS.length;
     return MAJOR_7TH_CHORD_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-  },
-
-  // pentatonic scale
-  bin => {
+  } ],
+  [ 'Pentatonic scale', bin => {
     const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length );
     const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
     return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-  }
-];
+  } ]
+] );
 
-const NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES = 4;
-const NUMBER_OF_BINS_FOR_DISCRETE_MODES = 10;
-const FIRST_BIN_SIZE = 0.05;
+phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties = {
+
+  // {Property.<WrappedAudioBuffer>}
+  discreteSoundSourceProperty: new Property( chargesInWallBlip ),
+
+  // {Property.<Function(bin)>}
+  discreteSoundPitchAlgorithmProperty: new Property(
+    phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms.get( 'Major scale' )
+  ),
+
+  // number of sound generators, can't be more than the number of charges
+  numberOfDiscreteSoundGeneratorsProperty: new Property( 2 ),
+
+  // number of discrete bins that the charge positions are placed into
+  discreteSoundNumberOfBinsProperty: numBinsProperty,
+
+  // proportionate size of the first bin, often smaller than the others so that initial translation occur more quickly
+  discreteSoundBinZeroProportionProperty: new Property( 1 )
+};
+
+//=====================================================================================================================
+// End of global configuration.
+//=====================================================================================================================
 
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
@@ -156,8 +180,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     //       that have been brainstormed.  Once a general approach has been decided upon, there will just be a single
     //       mode of sound generation, and all others should be eliminated.  See
     //       https://github.com/phetsims/balloons-and-static-electricity/issues/486.
-
-    assert && assert( wallCharges.length >= NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES );
 
     options = merge( {
       soundGenerationMode: SoundGenerationMode.COLLECTIVE_CROSS_FADE,
@@ -231,13 +253,16 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     const individualCrossFadeSoundGeneratorPairs = [];
 
     // {SoundClip[]} - sound generators used in INDIVIDUAL_DISCRETE mode, only populated in that mode
-    const discreteSoundGenerators = [];
+    let discreteSoundGenerators = [];
+
+    // convenience variable
+    const globalConfigProps = phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties;
 
     // Closure for mapping a sound generator index to a charge, necessary because there may be fewer sound generators
     // than charges.
     const getChargeForSoundGenerator = soundGeneratorIndex => {
-      const spacing = wallCharges.length / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES;
-      return Utils.roundSymmetric( ( soundGeneratorIndex + 0.499 ) * spacing );
+      const spacing = wallCharges.length / ( globalConfigProps.numberOfDiscreteSoundGeneratorsProperty.value + 1 );
+      return Math.floor( ( soundGeneratorIndex + 1 ) * spacing );
     };
 
     // closure for calculating normalized charge deflection for a specified charge index
@@ -376,24 +401,34 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( index ) );
       } );
 
-      // Create the discrete sound generators.
-      _.times( NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES, () => {
-        const soundClip = new SoundClip(
-          DISCRETE_SOURCE_SOUNDS[ options.discreteSoundIndex ],
-          {
-            // Each sound generator will contribute a fraction of the overall sound.
-            initialOutputLevel: 1 / NUMBER_OF_SOUND_GENERATORS_IN_INDIVIDUAL_MODES,
+      // Create the discrete sound generators.  We create enough for all of the charges to be sonified, but only use as
+      // many as is currently configured.
+      phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties
+        .discreteSoundSourceProperty.link( soundSource => {
 
-            // Only allow sounds to play when the balloon is close enough to the wall.
-            enableControlProperties: [ chargedBalloonCloseEnoughProperty ],
+        // Get rid of any previously created sound generators.
+        discreteSoundGenerators.forEach( soundGenerator => {
+          soundGenerator.disconnect( this.masterGainNode );
+          soundGenerator.dispose();
+        } );
+        discreteSoundGenerators = [];
 
-            // We're going to be changing the playback rate as charges get more deflected, but those changes shouldn't
-            // affect sounds that are already playing.
-            rateChangesAffectPlayingSounds: false
-          }
-        );
-        soundClip.connect( this.masterGainNode );
-        discreteSoundGenerators.push( soundClip );
+        // Create the sound generators that will produce the individual discrete sounds.
+        _.times( wallCharges.length, () => {
+          const soundClip = new SoundClip(
+            soundSource,
+            {
+              // Only allow sounds to play when the balloon is close enough to the wall.
+              enableControlProperties: [ chargedBalloonCloseEnoughProperty ],
+
+              // We're going to be changing the playback rate as charges get more deflected, but those changes shouldn't
+              // affect sounds that are already playing.
+              rateChangesAffectPlayingSounds: false
+            }
+          );
+          soundClip.connect( this.masterGainNode );
+          discreteSoundGenerators.push( soundClip );
+        } );
       } );
     }
 
@@ -485,7 +520,11 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       // If in discrete mode, check for any crossings of the thresholds that would cause sounds to be played.
       if ( options.soundGenerationMode === SoundGenerationMode.INDIVIDUAL_DISCRETE ) {
 
-        discreteSoundGenerators.forEach( ( discreteSoundGenerator, index ) => {
+        // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
+        // has changed bins since the last time we checked.
+        _.times( globalConfigProps.numberOfDiscreteSoundGeneratorsProperty.value, index => {
+
+          const discreteSoundGenerator = discreteSoundGenerators[ index ];
 
           // Figure out the charge to which this sound generator corresponds.
           const chargeIndex = getChargeForSoundGenerator( index );
@@ -495,7 +534,8 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
             // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
             // play the sound.
-            const playbackRate = BIN_TO_PLAYBACK_RATE_MAPPING_FUNCTIONS[ options.binToPlaybackRateAlgorithm ]( binForThisCharge );
+            const mappingFunction = phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties.discreteSoundPitchAlgorithmProperty.value;
+            const playbackRate = mappingFunction( binForThisCharge );
             discreteSoundGenerator.setPlaybackRate( playbackRate, 0 );
             discreteSoundGenerator.play();
           }
@@ -557,15 +597,23 @@ const mapNormalizedDeflectionToBin = normalizedDeflection => {
   assert && assert( normalizedDeflection >= 0 );
   assert && assert( normalizedDeflection <= 1 );
 
+  const unadjustedBinSize = 1 / numBinsProperty.value;
+
+  // The size of the first bin can be adjusted to make initial movements happen earlier (or later, I suppose).
+  const firstBinSize =
+    unadjustedBinSize *
+    phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties
+      .discreteSoundBinZeroProportionProperty.value;
+
+  const adjustedBinSize = ( 1 - firstBinSize ) / ( numBinsProperty.value - 1 );
+
   let bin = 0;
-  if ( normalizedDeflection > FIRST_BIN_SIZE ) {
+  if ( normalizedDeflection > firstBinSize ) {
 
     // This charge is not in the first bin.  Which is it in?
-    const binningRange = 1 - FIRST_BIN_SIZE;
-    const upperBinSize = binningRange / ( NUMBER_OF_BINS_FOR_DISCRETE_MODES - 1 );
     bin = Math.min(
-      Math.floor( ( normalizedDeflection - FIRST_BIN_SIZE ) / upperBinSize ) + 1,
-      NUMBER_OF_BINS_FOR_DISCRETE_MODES - 1
+      Math.floor( ( normalizedDeflection - firstBinSize ) / adjustedBinSize ) + 1,
+      numBinsProperty.value - 1
     );
   }
 

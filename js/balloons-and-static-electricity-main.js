@@ -9,6 +9,7 @@
 import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
+import SoundOptionsDialogContent from './balloons-and-static-electricity/view/SoundOptionsDialogContent.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
@@ -16,7 +17,10 @@ import BASEKeyboardHelpContent from './balloons-and-static-electricity/view/BASE
 import BASEView from './balloons-and-static-electricity/view/BASEView.js';
 import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 
+// constants
 const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
+const SOUND_OPTIONS_DIALOG_CONTENT = new SoundOptionsDialogContent();
+
 
 simLauncher.launch( () => {
 
@@ -32,7 +36,8 @@ simLauncher.launch( () => {
       graphicArts: 'Sharon Siman-Tov',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
     },
-    hasKeyboardHelpContent: true
+    hasKeyboardHelpContent: true,
+    createOptionsDialogContent: () => SOUND_OPTIONS_DIALOG_CONTENT
   };
 
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
