@@ -21,11 +21,8 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import brightMarimbaSound from '../../../../tambo/sounds/bright-marimba-short_mp3.js';
 import chargeDeflectionSound from '../../../../tambo/sounds/release_mp3.js';
 import balloonRelease from '../../../sounds/balloon-release-006_mp3.js';
-import chargesInWallBlip001 from '../../../sounds/charges-in-wall-blip-001_mp3.js';
 import chargesInWallBlip001Muffled from '../../../sounds/charges-in-wall-blip-001-muffled_mp3.js';
-import chargesInWallBlip002 from '../../../sounds/charges-in-wall-blip-002_mp3.js';
 import chargesInWallBlip002Muffled from '../../../sounds/charges-in-wall-blip-002-muffled_mp3.js';
-import chargesInWallBlip from '../../../sounds/charges-in-wall-blip_mp3.js';
 import chargesInWallBlipMuffled from '../../../sounds/charges-in-wall-blip-muffled_mp3.js';
 import chargesInWallReverseBlip from '../../../sounds/charges-in-wall-reverse-blip_mp3.js';
 import chargesOrganLoopOctaveUp from '../../../sounds/charges-organ-loop-one-octave-up_wav.js';
@@ -102,16 +99,13 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo = {};
 // Map of names to wrapped audio buffers that can be used as sound sources for the discrete sound generators.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoundSources = new Map( [
-  [ 'chargesInWallBlip', chargesInWallBlip ],
+  [ 'chargeDeflectionSound', chargeDeflectionSound ],
   [ 'chargesInWallBlipMuffled', chargesInWallBlipMuffled ],
-  [ 'chargesInWallBlip001', chargesInWallBlip001 ],
   [ 'chargesInWallBlip001Muffled', chargesInWallBlip001Muffled ],
-  [ 'chargesInWallBlip002', chargesInWallBlip002 ],
   [ 'chargesInWallBlip002Muffled', chargesInWallBlip002Muffled ],
   [ 'chargesInWallReverseBlip', chargesInWallReverseBlip ],
-  [ 'chargeDeflectionSound', chargeDeflectionSound ],
-  [ 'brightMarimbaSound', brightMarimbaSound ],
-  [ 'balloonRelease', balloonRelease ]
+  [ 'balloonRelease', balloonRelease ],
+  [ 'brightMarimbaSound', brightMarimbaSound ]
 ] );
 
 // The number of bins used in the discrete mode.
@@ -154,7 +148,7 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitc
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties = {
 
   // {Property.<WrappedAudioBuffer>}
-  discreteSoundSourceProperty: new Property( chargesInWallBlip ),
+  discreteSoundSourceProperty: new Property( chargeDeflectionSound ),
 
   // {Property.<Function(bin)>}
   discreteSoundPitchAlgorithmProperty: new Property(
