@@ -15,6 +15,7 @@ import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
@@ -156,6 +157,10 @@ class SoundOptionsDialogContent extends Node {
     // Add a vertical box with the controls.
     this.addChild( new VBox( {
       children: [
+        new RichText( 'Options for the Charges-in-the-Wall<br>Sound Generator:', {
+          font: new PhetFont( 32 ),
+          weight: 'bold'
+        } ),
         numSoundGeneratorsSelector,
         sourceSoundSelector,
         pitchMappingAlgorithmSelector,
