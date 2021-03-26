@@ -69,7 +69,7 @@ class TwoSceneSelectionNode extends Node {
       deselectedContentOpacity: 0.6,
       overButtonOpacity: 0.8,
       overContentOpacity: 0.8,
-      disabledOpacity: SunConstants.DISABLED_OPACITY,
+      opacityWhenDisabled: SunConstants.DISABLED_OPACITY, // Don't collide with Node.disabledOpacity option
 
       selectedStroke: 'black',
       deselectedStroke: new Color( 50, 50, 50 ),
@@ -185,7 +185,7 @@ class TwoSceneSelectionNode extends Node {
       deselectedButton.lineWidth = options.deselectedLineWidth;
 
       if ( !enabled ) {
-        this.opacity = options.disabledOpacity;
+        this.opacity = options.opacityWhenDisabled;
 
         selectedButton.fill = options.baseColor;
         deselectedButton.fill = options.baseColor;
