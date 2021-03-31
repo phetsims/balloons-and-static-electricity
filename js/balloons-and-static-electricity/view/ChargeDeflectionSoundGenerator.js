@@ -79,12 +79,12 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoun
 ] );
 
 // The number of bins used in the discrete mode.
-const numBinsProperty = new Property( 10 );
+const numBinsProperty = new Property( 8 );
 
 // An offset for the octave used for the more musical pitch mapping algorithms.
-const octaveOffsetProperty = new Property( 0 );
+const octaveOffsetProperty = new Property( 0.2 );
 
-const outputLevelProperty = new Property( 0.5 );
+const outputLevelProperty = new Property( 0.25 );
 
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.  Each of the algorithms
@@ -118,11 +118,11 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitc
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties = {
 
   // {Property.<WrappedAudioBuffer>}
-  discreteSoundSourceProperty: new Property( chargeDeflectionSound ),
+  discreteSoundSourceProperty: new Property( chargesInWallBlip002Muffled ),
 
   // {Property.<Function(bin)>}
   discreteSoundPitchAlgorithmProperty: new Property(
-    phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms.get( 'Major scale' )
+    phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitchMappingAlgorithms.get( 'Pentatonic scale' )
   ),
 
   // number of sound generators, can't be more than the number of charges
