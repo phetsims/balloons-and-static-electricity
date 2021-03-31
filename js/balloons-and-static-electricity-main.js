@@ -19,7 +19,7 @@ import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityS
 
 // constants
 const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
-const SOUND_OPTIONS_DIALOG_CONTENT = new SoundOptionsDialogContent();
+const SOUND_OPTIONS_DIALOG_CONTENT = new SoundOptionsDialogContent( Tandem.GENERAL_VIEW.createTandem( 'soundOptionsDialog' ) );
 
 
 simLauncher.launch( () => {

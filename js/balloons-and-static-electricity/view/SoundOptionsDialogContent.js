@@ -28,7 +28,7 @@ const TEXT_OPTIONS = { font: new PhetFont( 24 ) };
 
 class SoundOptionsDialogContent extends Node {
 
-  constructor() {
+  constructor( tandem ) {
 
     super();
 
@@ -49,7 +49,7 @@ class SoundOptionsDialogContent extends Node {
       soundSourceComboBoxItems,
       globalConfigProps.discreteSoundSourceProperty,
       this,
-      { buttonFill: 'rgb( 218, 236, 255 )' }
+      { buttonFill: 'rgb( 218, 236, 255 )', tandem: tandem.createTandem( 'soundSourceComboBox' ) }
     );
 
     // Put the combo box together with a label.
@@ -72,7 +72,7 @@ class SoundOptionsDialogContent extends Node {
       pitchMappingAlgorithmComboBoxItems,
       globalConfigProps.discreteSoundPitchAlgorithmProperty,
       this,
-      { buttonFill: 'rgb( 218, 236, 255 )' }
+      { buttonFill: 'rgb( 218, 236, 255 )', tandem: tandem.createTandem( 'pitchMappingAlgorithmComboBox' ) }
     );
 
     // Put the combo box together with a label.
@@ -82,7 +82,9 @@ class SoundOptionsDialogContent extends Node {
     } );
 
     // Slider for the octave offset used in conjunction with pitch mapping.
-    const octaveOffsetSlider = new HSlider( globalConfigProps.discreteSoundsOctaveOffsetProperty, new Range( -2, 2 ) );
+    const octaveOffsetSlider = new HSlider( globalConfigProps.discreteSoundsOctaveOffsetProperty, new Range( -2, 2 ), {
+      tandem: tandem.createTandem( 'octaveOffsetSlider' )
+    } );
 
     // Add tick marks to slider.
     _.times( 5, index => {
@@ -99,7 +101,8 @@ class SoundOptionsDialogContent extends Node {
     // Add a number picker to control the number of sound generators
     const numSoundGeneratorsNumberPicker = new NumberPicker(
       globalConfigProps.numberOfDiscreteSoundGeneratorsProperty,
-      new Property( new Range( 1, 18 ) ) // hard coded to work with what we know the range to be
+      new Property( new Range( 1, 18 ) ), // hard coded to work with what we know the range to be
+      { tandem: tandem.createTandem( 'numSoundGeneratorsNumberPicker' ) }
     );
 
     // Put the number picker together with a label.
@@ -111,7 +114,8 @@ class SoundOptionsDialogContent extends Node {
     // Add a number picker to control the number of discrete bins
     const numBinsNumberPicker = new NumberPicker(
       globalConfigProps.discreteSoundNumberOfBinsProperty,
-      new Property( new Range( 2, 20 ) ) // educated guess
+      new Property( new Range( 2, 20 ) ), // educated guess
+      { tandem: tandem.createTandem( 'numBinsNumberPicker' ) }
     );
 
     // Put the number picker together with a label.
@@ -127,7 +131,8 @@ class SoundOptionsDialogContent extends Node {
       {
         incrementFunction: value => value + 0.05,
         decrementFunction: value => value - 0.05,
-        decimalPlaces: 2
+        decimalPlaces: 2,
+        tandem: tandem.createTandem( 'firstBinProportionateSizePicker' )
       }
     );
 
@@ -138,7 +143,9 @@ class SoundOptionsDialogContent extends Node {
     } );
 
     // Slider for the controlling the overall output level.
-    const outputLevelSlider = new HSlider( globalConfigProps.overallOutputLevelProperty, new Range( 0, 1 ) );
+    const outputLevelSlider = new HSlider( globalConfigProps.overallOutputLevelProperty, new Range( 0, 1 ), {
+      tandem: tandem.createTandem( 'outputLevelSlider' )
+    } );
 
     // Add tick marks to slider.
     _.times( 2, index => {
