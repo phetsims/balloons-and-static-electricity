@@ -7,10 +7,11 @@
  * @author John Blanco
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NoiseGenerator from '../../../../tambo/js/sound-generators/NoiseGenerator.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -19,7 +20,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 const DEFAULT_CENTER_FREQUENCY = 800; // Hz
 const FREQUENCY_CHANGE_WITH_DIRECTION = 100; // Hz
 const UPDATE_PERIOD = 100; // ms
-const SMOOTHED_SPEED_TAPER_RATE = 0.01; // model units per second, empirically determined
+const SMOOTHED_VELOCITY_TAPER_RATE = 0.01; // model units per second, empirically determined
 const MAP_DRAG_SPEED_TO_OUTPUT_LEVEL = new LinearFunction( 0, 2, 0, 1, true );
 
 class BalloonRubbingSoundGenerator extends NoiseGenerator {
@@ -46,33 +47,37 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
     super( options );
 
     // property that moves up instantly with the drag velocity but tapers off more slowly
-    const smoothedSpeedProperty = new NumberProperty( 0 );
+    const smoothedDragVelocityProperty = new Vector2Property( Vector2.ZERO );
 
-    // Watch for sudden increases in the drag speed and bump up the smoothed speed when they occur.
+    // Watch for sudden increases in the drag velocity and bump up the smoothed velocity when they occur.
     dragVelocityProperty.link( dragVelocity => {
-      const dragSpeed = dragVelocity.magnitude;
-      if ( dragSpeed > smoothedSpeedProperty.value ) {
-        smoothedSpeedProperty.set( dragSpeed );
+      if ( dragVelocity.magnitude > smoothedDragVelocityProperty.value.magnitude ) {
+        smoothedDragVelocityProperty.set( dragVelocityProperty.value );
       }
     } );
 
-    // Use a timer to make the smoothed speed taper off more slowly than the drag velocity property tends to.
+    // Use a timer to make the smoothed velocity taper off more slowly than the drag velocity property tends to.
     let previousTime = phet.joist.elapsedTime;
     stepTimer.setInterval( () => {
       const dt = phet.joist.elapsedTime - previousTime;
-      if ( smoothedSpeedProperty.value > 0 ) {
-        smoothedSpeedProperty.set(
-          Math.max( smoothedSpeedProperty.value - dt * SMOOTHED_SPEED_TAPER_RATE, dragVelocityProperty.value.magnitude )
+      if ( smoothedDragVelocityProperty.value.magnitude > 0 ) {
+        const smoothedVelocityMagnitude = Math.max(
+          smoothedDragVelocityProperty.value.magnitude - dt * SMOOTHED_VELOCITY_TAPER_RATE,
+          dragVelocityProperty.value.magnitude
         );
+        smoothedDragVelocityProperty.set( smoothedDragVelocityProperty.value.withMagnitude( smoothedVelocityMagnitude ) );
       }
       previousTime = phet.joist.elapsedTime;
     }, UPDATE_PERIOD );
 
-    // Use the smoothed speed and the on-sweater information to set the volume and pitch of the output.
+    // Use the smoothed velocity with the on-sweater and on-wall information to set the volume and pitch of the output.
     Property.multilink(
-      [ smoothedSpeedProperty, onSweaterProperty, touchingWallProperty ],
-      ( smoothedDragSpeed, onSweater, touchingWall ) => {
-        if ( smoothedDragSpeed > 0 && ( onSweater || touchingWall ) ) {
+      [ smoothedDragVelocityProperty, onSweaterProperty, touchingWallProperty ],
+      ( smoothedDragVelocity, onSweater, touchingWall ) => {
+
+        // Test whether the balloon is being dragged over the sweater or against the wall.
+        if ( ( smoothedDragVelocity.magnitude > 0 && onSweater ) ||
+             ( Math.abs( smoothedDragVelocity.y ) > 0 && touchingWall ) ) {
 
           // Start the production of the sound if needed.
           if ( !this.isPlaying ) {
@@ -80,7 +85,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
           }
 
           // Set the output level.
-          this.setOutputLevel( MAP_DRAG_SPEED_TO_OUTPUT_LEVEL( smoothedDragSpeed ) * options.maxOutputLevel );
+          this.setOutputLevel( MAP_DRAG_SPEED_TO_OUTPUT_LEVEL( smoothedDragVelocity.magnitude ) * options.maxOutputLevel );
 
           // Set the pitch based on the direction in which the balloon is being dragged.
           const dragVelocity = dragVelocityProperty.value;
@@ -95,9 +100,9 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
           }
           this.setBandpassFilterCenterFrequency( options.centerFrequency + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
         }
-        else if ( ( smoothedDragSpeed === 0 || !( onSweater || touchingWall ) ) && this.isPlaying ) {
+        else if ( ( smoothedDragVelocity.magnitude === 0 || !( onSweater || touchingWall ) ) && this.isPlaying ) {
 
-          // The smoothed speed has dropped to zero, turn off sound production.
+          // The smoothed velocity has dropped to zero, turn off sound production.
           this.stop();
         }
       }
