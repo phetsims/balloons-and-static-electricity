@@ -77,7 +77,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
         // Test whether the balloon is being dragged over the sweater or against the wall.
         if ( ( smoothedDragVelocity.magnitude > 0 && onSweater ) ||
-             ( Math.abs( smoothedDragVelocity.y ) > 0 && touchingWall ) ) {
+             ( Math.abs( smoothedDragVelocity.y ) > 0 && Math.abs( smoothedDragVelocity.x ) === 0 && touchingWall ) ) {
 
           // Start the production of the sound if needed.
           if ( !this.isPlaying ) {
