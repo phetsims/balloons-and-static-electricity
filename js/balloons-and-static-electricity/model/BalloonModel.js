@@ -745,7 +745,7 @@ class BalloonModel {
 
     // Prevent a fuzzer error that tries to drag the balloon before step is called.
     if ( !this.oldPosition ) {
-      return;
+      return false;
     }
     const vx = ( this.positionProperty.get().x - this.oldPosition.x ) / dt;
     const vy = ( this.positionProperty.get().y - this.oldPosition.y ) / dt;
