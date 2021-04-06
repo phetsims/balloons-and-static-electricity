@@ -122,16 +122,6 @@ class BalloonNode extends Node {
       releaseBalloonSoundPlayer.play();
     };
 
-    // Create the sound generators for grab and release of the balloons.
-    const grabBalloonSoundPlayer = new SoundClip( grabBalloonSound, {
-      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
-    } );
-    soundManager.addSoundGenerator( grabBalloonSoundPlayer );
-    const releaseBalloonSoundPlayer = new SoundClip( releaseBalloonSound, {
-      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
-    } );
-    soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
-
     // Set up the bounds Property that will keep track of where the balloon can be dragged.
     const boundsWithoutWall = new Bounds2( 0, 0, globalModel.width - model.width, globalModel.height - model.height );
     const boundsWithWall = new Bounds2(
@@ -144,6 +134,16 @@ class BalloonNode extends Node {
     globalModel.wall.isVisibleProperty.link( isWallVisible => {
       balloonDragBoundsProperty.set( isWallVisible ? boundsWithWall : boundsWithoutWall );
     } );
+
+    // Create the sound generators for grab and release of the balloons.
+    const grabBalloonSoundPlayer = new SoundClip( grabBalloonSound, {
+      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
+    } );
+    soundManager.addSoundGenerator( grabBalloonSoundPlayer );
+    const releaseBalloonSoundPlayer = new SoundClip( releaseBalloonSound, {
+      initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
+    } );
+    soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
 
     // drag handling
     const dragHandler = new DragListener( {
@@ -272,11 +272,24 @@ class BalloonNode extends Node {
       initialOutputLevel: 0.6
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
-    model.touchingWallProperty.link( touchingWall => {
-      if ( touchingWall ) {
+    model.positionProperty.lazyLink( ( position, previousPosition ) => {
+
+      // Test whether the balloon has come into contact with an edge and play a sound if so.
+      const dragBounds = balloonDragBoundsProperty.value;
+      if ( position.x >= dragBounds.maxX && previousPosition.x < dragBounds.maxX ) {
+        balloonHitsWallSoundClip.play();
+      }
+      else if ( position.x <= dragBounds.minX && previousPosition.x > dragBounds.minX ) {
+        balloonHitsWallSoundClip.play();
+      }
+      if ( position.y >= dragBounds.maxY && previousPosition.y < dragBounds.maxY ) {
+        balloonHitsWallSoundClip.play();
+      }
+      else if ( position.y <= dragBounds.minY && previousPosition.y > dragBounds.minY ) {
         balloonHitsWallSoundClip.play();
       }
     } );
+
 
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );

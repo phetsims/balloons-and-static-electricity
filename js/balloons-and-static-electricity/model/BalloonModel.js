@@ -296,7 +296,7 @@ class BalloonModel {
           this.onSweaterProperty.set( this.onSweater() );
         }
 
-        // update whether or not we are touching the wall
+        // Update whether or not we are touching the wall.
         if ( this.touchingWall() !== this.touchingWallProperty.get() ) {
           this.touchingWallProperty.set( this.touchingWall() );
         }
