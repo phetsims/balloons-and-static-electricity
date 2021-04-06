@@ -29,6 +29,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import generalBoundaryBoopSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import grabBalloonSound from '../../../sounds/balloon-grab-006_mp3.js';
 import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
@@ -267,29 +268,39 @@ class BalloonNode extends Node {
       }
     } );
 
-    // sound generation for when the balloon hits the wall
+    // Add the sound generation for when the balloon hits the wall or the drag bounds.
     const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
       initialOutputLevel: 0.6
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
+    const balloonHitsBoundarySoundClip = new SoundClip( generalBoundaryBoopSound, {
+      initialOutputLevel: 0.6
+    } );
+    soundManager.addSoundGenerator( balloonHitsBoundarySoundClip );
     model.positionProperty.lazyLink( ( position, previousPosition ) => {
 
       // Test whether the balloon has come into contact with an edge and play a sound if so.
       const dragBounds = balloonDragBoundsProperty.value;
       if ( position.x >= dragBounds.maxX && previousPosition.x < dragBounds.maxX ) {
-        balloonHitsWallSoundClip.play();
+
+        // A different sound is played based on whether the balloon has hit the wall or the drag bounds.
+        if ( globalModel.wall.isVisibleProperty.value ) {
+          balloonHitsWallSoundClip.play();
+        }
+        else {
+          balloonHitsBoundarySoundClip.play();
+        }
       }
       else if ( position.x <= dragBounds.minX && previousPosition.x > dragBounds.minX ) {
-        balloonHitsWallSoundClip.play();
+        balloonHitsBoundarySoundClip.play();
       }
       if ( position.y >= dragBounds.maxY && previousPosition.y < dragBounds.maxY ) {
-        balloonHitsWallSoundClip.play();
+        balloonHitsBoundarySoundClip.play();
       }
       else if ( position.y <= dragBounds.minY && previousPosition.y > dragBounds.minY ) {
-        balloonHitsWallSoundClip.play();
+        balloonHitsBoundarySoundClip.play();
       }
     } );
-
 
     // pdom
     balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
