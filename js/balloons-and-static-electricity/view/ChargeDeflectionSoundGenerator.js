@@ -82,9 +82,9 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discreteSoun
 const numBinsProperty = new Property( 8 );
 
 // An offset for the octave used for the more musical pitch mapping algorithms.
-const octaveOffsetProperty = new Property( -0.4 );
+const octaveOffsetProperty = new Property( 0.2 );
 
-const outputLevelProperty = new Property( 0.4 );
+const outputLevelProperty = new Property( 0.25 );
 
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.  Each of the algorithms
@@ -118,7 +118,7 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.discretePitc
 phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configurationProperties = {
 
   // {Property.<WrappedAudioBuffer>}
-  discreteSoundSourceProperty: new Property( chargeDeflectionSound ),
+  discreteSoundSourceProperty: new Property( chargesInWallBlip002Muffled ),
 
   // {Property.<Function(bin)>}
   discreteSoundPitchAlgorithmProperty: new Property(
@@ -126,13 +126,13 @@ phet.ballonsAndStaticElectricity.chargeDeflectionSoundGeneratorInfo.configuratio
   ),
 
   // number of sound generators, can't be more than the number of charges
-  numberOfDiscreteSoundGeneratorsProperty: new Property( 4 ),
+  numberOfDiscreteSoundGeneratorsProperty: new Property( 3 ),
 
   // number of discrete bins that the charge positions are placed into
   discreteSoundNumberOfBinsProperty: numBinsProperty,
 
   // proportionate size of the first bin, often smaller than the others so that initial translation occur more quickly
-  discreteSoundBinZeroProportionProperty: new Property( 0.75 ),
+  discreteSoundBinZeroProportionProperty: new Property( 0.6 ),
 
   // Octave offset used for the more musical pitch-mapping algorithms.  1 means an octave up, -1 an octave down.
   discreteSoundsOctaveOffsetProperty: octaveOffsetProperty,
