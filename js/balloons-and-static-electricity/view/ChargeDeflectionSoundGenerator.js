@@ -151,10 +151,9 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * @param {MovablePointChargeModel[]} wallCharges
    * @param {number} maxChargeDeflection - the max amount that the charges are expected to move
    * @param {BalloonModel[]} balloons - the balloons modeled in the sim
-   * @param {Property.<boolean>} isWallVisibleProperty
    * @param {Object} [options]
    */
-  constructor( wallCharges, maxChargeDeflection, balloons, isWallVisibleProperty, options ) {
+  constructor( wallCharges, maxChargeDeflection, balloons, options ) {
 
     assert && assert( balloons.length === 2, `this assumes 2 balloons, found ${balloons.length}` );
 
@@ -165,7 +164,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
     options = merge( {
       initialOutputLevel: outputLevelProperty.value,
-      enableControlProperties: [ isWallVisibleProperty ],
 
       // {number} - a minimum value for the X position of charged balloon, below which no sound is produced
       minBalloonXValue: 0

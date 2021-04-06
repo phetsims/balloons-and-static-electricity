@@ -6,6 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -85,10 +86,14 @@ class WallNode extends Node {
       model.wall.minusCharges.slice( 0, model.wall.numY ), // use just the leftmost minus charges for this
       maxChargeDeflection,
       model.balloons,
-      model.wall.isVisibleProperty,
       {
         // Prevent sound from being produced until the balloon is close enough to the wall.
-        minBalloonXValue: 400
+        minBalloonXValue: 400,
+
+        enableControlProperties: [
+          model.wall.isVisibleProperty,
+          new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
+        ]
       }
     );
     soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
