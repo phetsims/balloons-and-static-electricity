@@ -53,6 +53,7 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
 // constants
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
+// @Ashton-Morris - This is a sound parameter that can be adjusted.
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
 class BalloonNode extends Node {
@@ -230,6 +231,7 @@ class BalloonNode extends Node {
     // sound generation for charges moving on to this balloon
     const popSoundGenerator = new PitchedPopGenerator( {
       enableControlProperties: [ chargesShownOnBalloonProperty ],
+      // @Ashton-Morris - This is a sound parameter that can be adjusted.
       initialOutputLevel: 0.3
     } );
     soundManager.addSoundGenerator( popSoundGenerator );
@@ -257,6 +259,7 @@ class BalloonNode extends Node {
 
     // sound generation for when the balloon contacts the sweater
     const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {
+      // @Ashton-Morris - This is a sound parameter that can be adjusted.
       initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
@@ -270,10 +273,12 @@ class BalloonNode extends Node {
 
     // Add the sound generation for when the balloon hits the wall or the drag bounds.
     const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
+      // @Ashton-Morris - This is a sound parameter that can be adjusted.
       initialOutputLevel: 0.6
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
     const balloonHitsBoundarySoundClip = new SoundClip( generalBoundaryBoopSound, {
+      // @Ashton-Morris - This is a sound parameter that can be adjusted.
       initialOutputLevel: 0.6
     } );
     soundManager.addSoundGenerator( balloonHitsBoundarySoundClip );

@@ -45,7 +45,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
     // options checking
     assert && assert(
       !options.initialOutputLevel,
-      'initialOutputLevel should not be specified for this sound generator'
+      'initialOutputLevel should not be specified for this sound generator, use maxOutputLevel instead'
     );
 
     // Start the initial output level at zero so that the sound will fade in smoothly the first time it is played.
