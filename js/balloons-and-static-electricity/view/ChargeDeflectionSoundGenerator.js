@@ -84,8 +84,7 @@ const numBinsProperty = new Property( 8 );
 // An offset for the octave used for the more musical pitch mapping algorithms.
 const octaveOffsetProperty = new Property( 0.2 );
 
-// @Ashton-Morris - This is a sound parameter that can be adjusted.
-const outputLevelProperty = new Property( 0.75 );
+const outputLevelProperty = new Property( 0.55 );
 
 // Map of strings to algorithms that will map a numerical bin number to a playback rate for a sound generator.  This is
 // organized in this way so that it can be fed into a combo box in SoundOptionsDialogContent.  Each of the algorithms

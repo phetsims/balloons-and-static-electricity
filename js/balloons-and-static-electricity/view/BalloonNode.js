@@ -259,8 +259,7 @@ class BalloonNode extends Node {
 
     // sound generation for when the balloon contacts the sweater
     const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {
-      // @Ashton-Morris - This is a sound parameter that can be adjusted.
-      initialOutputLevel: 0.1
+      initialOutputLevel: 0.075
     } );
     soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
     model.velocityProperty.lazyLink( ( currentVelocity, previousVelocity ) => {
@@ -273,13 +272,11 @@ class BalloonNode extends Node {
 
     // Add the sound generation for when the balloon hits the wall or the drag bounds.
     const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
-      // @Ashton-Morris - This is a sound parameter that can be adjusted.
-      initialOutputLevel: 0.6
+      initialOutputLevel: 0.15
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
     const balloonHitsBoundarySoundClip = new SoundClip( generalBoundaryBoopSound, {
-      // @Ashton-Morris - This is a sound parameter that can be adjusted.
-      initialOutputLevel: 0.6
+      initialOutputLevel: 0.4
     } );
     soundManager.addSoundGenerator( balloonHitsBoundarySoundClip );
     model.positionProperty.lazyLink( ( position, previousPosition ) => {
