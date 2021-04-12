@@ -26,10 +26,10 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import generalBoundaryBoopSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import grabBalloonSound from '../../../sounds/balloon-grab-006_mp3.js';
 import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
@@ -275,10 +275,6 @@ class BalloonNode extends Node {
       initialOutputLevel: 0.15
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
-    const balloonHitsBoundarySoundClip = new SoundClip( generalBoundaryBoopSound, {
-      initialOutputLevel: 0.4
-    } );
-    soundManager.addSoundGenerator( balloonHitsBoundarySoundClip );
     model.positionProperty.lazyLink( ( position, previousPosition ) => {
 
       // Test whether the balloon has come into contact with an edge and play a sound if so.
@@ -290,17 +286,17 @@ class BalloonNode extends Node {
           balloonHitsWallSoundClip.play();
         }
         else {
-          balloonHitsBoundarySoundClip.play();
+          boundaryReachedSoundPlayer.play();
         }
       }
       else if ( position.x <= dragBounds.minX && previousPosition.x > dragBounds.minX ) {
-        balloonHitsBoundarySoundClip.play();
+        boundaryReachedSoundPlayer.play();
       }
       if ( position.y >= dragBounds.maxY && previousPosition.y < dragBounds.maxY ) {
-        balloonHitsBoundarySoundClip.play();
+        boundaryReachedSoundPlayer.play();
       }
       else if ( position.y <= dragBounds.minY && previousPosition.y > dragBounds.minY ) {
-        balloonHitsBoundarySoundClip.play();
+        boundaryReachedSoundPlayer.play();
       }
     } );
 
