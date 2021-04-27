@@ -53,7 +53,6 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
 // constants
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
-// @Ashton-Morris - This is a sound parameter that can be adjusted.
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
 class BalloonNode extends Node {
@@ -231,7 +230,6 @@ class BalloonNode extends Node {
     // sound generation for charges moving on to this balloon
     const popSoundGenerator = new PitchedPopGenerator( {
       enableControlProperties: [ chargesShownOnBalloonProperty ],
-      // @Ashton-Morris - This is a sound parameter that can be adjusted.
       initialOutputLevel: 0.3
     } );
     soundManager.addSoundGenerator( popSoundGenerator );
