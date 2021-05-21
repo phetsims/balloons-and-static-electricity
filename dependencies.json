@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.0-dev.29 Thu May 20 2021 10:38:13 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.5.0-dev.30 Fri May 21 2021 16:14:03 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "de7a3ea9efb149f43f7016d5ea12724afeafb573",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "balloons-and-static-electricity": {
-    "sha": "9fb8bd0970c1d8e5dcb463bebe733e8a963c0a81",
+    "sha": "7b55d4ae8b9a9265f813af839196edefbbf85d2c",
     "branch": "master"
   },
   "brand": {
@@ -69,11 +69,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "33b7682cb5908e8f2cae0fe90f5f278f627a89cb",
+    "sha": "d992b483b609c1fc0b03840139b6d92b1a6c1159",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "1fd925e75f09d9143fe3a939af0c52bb823c9d5e",
+    "sha": "b00426ecf0d80844f5ad44ee84ebecd64d6c146e",
     "branch": "master"
   },
   "sherpa": {
@@ -85,8 +85,8 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "6e7ae61bc20d1013cf7565977fb56c0d19533c33",
-    "branch": "master"
+    "sha": "5fc757c678ed34394e03c4faafa7fa021cfe348e",
+    "branch": "preferences"
   },
   "tambo": {
     "sha": "803102c7e6bf2ee28b63723e64e967e3c71e2392",
