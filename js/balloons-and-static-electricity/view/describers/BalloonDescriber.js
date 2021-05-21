@@ -20,15 +20,17 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
+import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import AriaHerald from '../../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
-import BASEDescriber from './BASEDescriber.js';
 import BalloonChargeDescriber from './BalloonChargeDescriber.js';
 import BalloonPositionDescriber from './BalloonPositionDescriber.js';
+import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
@@ -125,10 +127,26 @@ class BalloonDescriber {
     // the user if they hit the queue to frequently
     const utteranceOptions = { alertStableDelay: 500 };
     this.directionUtterance = new Utterance( utteranceOptions );
-    this.movementUtterance = new Utterance( utteranceOptions );
+    this.movementUtterance = new Utterance( merge( utteranceOptions, {
+
+      // trying to make movement alerts assertive to reduce pile up of alerts while dragging the balloon, see
+      // https://github.com/phetsims/balloons-and-static-electricity/issues/491
+      announcerOptions: {
+        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+      }
+    } ) );
     this.inducedChargeChangeUtterance = new Utterance( utteranceOptions );
     this.noChargePickupUtterance = new Utterance( utteranceOptions );
     this.chargePickupUtterance = new Utterance( utteranceOptions );
+
+    // @private {Utterance} utterances for specific events that let us make things assertive/polite
+    this.grabReleaseUtterance = new Utterance( {
+
+      // grab/release alerts are assertive, see https://github.com/phetsims/balloons-and-static-electricity/issues/491
+      announcerOptions: {
+        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+      }
+    } );
 
     // @private - used to determine change in position during a single drag movement, copied to avoid reference issues
     this.oldDragPosition = balloon.positionProperty.get().copy();
@@ -911,7 +929,8 @@ class BalloonDescriber {
 
       if ( nextIsDragged ) {
         utterance = this.movementDescriber.getGrabbedAlert();
-        this.sendAlert( utterance );
+        this.grabReleaseUtterance.alert = utterance;
+        this.sendAlert( this.grabReleaseUtterance );
 
         // we have been picked up successfully, start describing direction
         this.describeDirection = true;
