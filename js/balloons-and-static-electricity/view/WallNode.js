@@ -87,7 +87,7 @@ class WallNode extends Node {
       maxChargeDeflection,
       model.balloons,
       {
-        initialOutputLevel: 0.6,
+        initialOutputLevel: 0.3,
 
         // Prevent sound from being produced until the balloon is close enough to the wall.
         minBalloonXValue: 400,
