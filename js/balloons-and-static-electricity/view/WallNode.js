@@ -89,11 +89,7 @@ class WallNode extends Node {
       {
         initialOutputLevel: 0.3,
 
-        // Prevent sound from being produced until the balloon is close enough to the wall.
-        minBalloonXValue: 400,
-
         enableControlProperties: [
-          model.wall.isVisibleProperty,
           new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
         ]
       }

@@ -10,7 +10,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -53,17 +52,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
     assert && assert( balloons.length === 2, `this assumes 2 balloons, found ${balloons.length}` );
 
-    // TODO: Much of the code below is in a prototype state while the sound design team works through a set of options
-    //       that have been brainstormed.  Once a general approach has been decided upon, there will just be a single
-    //       mode of sound generation, and all others should be eliminated.  See
-    //       https://github.com/phetsims/balloons-and-static-electricity/issues/486.
-
-    options = merge( {
-
-      // {number} - a minimum value for the X position of charged balloon, below which no sound is produced
-      minBalloonXValue: 0
-    }, options );
-
     super( options );
 
     // {Vector2[]} - list of original, non-deflected charge positions, used to determine the amount of deflection
@@ -87,12 +75,11 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     const outputLevelGainNode = phetAudioContext.createGain();
     outputLevelGainNode.connect( this.masterGainNode );
 
-    // A Property that is only true when a charged balloon is past the minimum X value, used as a gating function to
-    // prevent sound generation when the balloons are far from the wall.
-    const chargedBalloonCloseEnoughProperty = new DerivedProperty(
-      balloons.map( balloon => balloon.positionProperty ),
-      ( pos0, pos1 ) => ( pos0.x > options.minBalloonXValue && balloons[ 0 ].chargeProperty.value < 0 ) ||
-                        ( pos1.x > options.minBalloonXValue && balloons[ 1 ].chargeProperty.value < 0 )
+    // A Property that is true when one or both of the balloons are considered to be statically inducing charges in the
+    // wall.
+    const chargeInducedByBalloonsProperty = new DerivedProperty(
+      balloons.map( balloon => balloon.inducingChargeProperty ),
+      ( inducingCharge0, inducingCharge1 ) => inducingCharge0 || inducingCharge1
     );
 
     // {SoundClip[]} - sound generators used in INDIVIDUAL_DISCRETE mode, only populated in that mode
@@ -123,7 +110,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         chargesInWallBlip002Muffled,
         {
           // Only allow sounds to play when the balloon is close enough to the wall.
-          enableControlProperties: [ chargedBalloonCloseEnoughProperty ],
+          enableControlProperties: [ chargeInducedByBalloonsProperty ],
 
           // We're going to be changing the playback rate as charges get more deflected, but those changes shouldn't
           // affect sounds that are already playing.
