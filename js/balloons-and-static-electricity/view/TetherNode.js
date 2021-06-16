@@ -1,4 +1,4 @@
-// Copyright 2017-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * A node that looks like a tether that holds the balloon to the ground. The use of the word 'string' has been avoided

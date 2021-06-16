@@ -1,4 +1,4 @@
-// Copyright 2013-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * Model of a balloon, which can have charge, position and velocity.

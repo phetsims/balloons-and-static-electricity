@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * Content for the "Keyboard Shortcuts" dialog that can be brought up from the sim navigation bar.

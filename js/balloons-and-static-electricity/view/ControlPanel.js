@@ -1,4 +1,4 @@
-// Copyright 2013-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * All buttons and control elements for Balloons and Static Electricity.

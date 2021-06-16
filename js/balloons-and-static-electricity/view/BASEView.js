@@ -1,4 +1,4 @@
-// Copyright 2013-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * main view class for the simulation

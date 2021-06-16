@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Unit tests for balloons-and-static-electricity.

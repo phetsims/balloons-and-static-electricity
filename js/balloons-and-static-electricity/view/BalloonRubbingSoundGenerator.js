@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * BalloonRubbingSoundGenerator is used to produces a sound effect for when a balloon is rubbing on the something.  It

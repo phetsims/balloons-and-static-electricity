@@ -1,4 +1,4 @@
-// Copyright 2017-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Single position of all accessibility strings.  These strings are not meant to be translatable yet.  Rosetta needs

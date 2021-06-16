@@ -1,4 +1,4 @@
-// Copyright 2017-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * Manages descriptions for the entire simulation Balloons and Static Electricity.  Has functions that put together

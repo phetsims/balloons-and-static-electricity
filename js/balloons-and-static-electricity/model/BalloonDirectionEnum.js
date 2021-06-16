@@ -1,4 +1,4 @@
-// Copyright 2016-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Possible directions for the balloon in Balloons and Static Electricity, balloon can move up, down, left, right,

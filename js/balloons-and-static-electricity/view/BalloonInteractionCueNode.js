@@ -1,4 +1,4 @@
-// Copyright 2017-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * A node that provides an interaction cue for dragging the balloon in Balloons and Static Electricity. Includes arrow

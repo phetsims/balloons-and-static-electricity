@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * ChargeDeflectionSoundGenerator produces sounds based on how much deflection a set of charges are experiencing and how

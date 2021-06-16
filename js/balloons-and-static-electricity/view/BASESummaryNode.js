@@ -1,4 +1,4 @@
-// Copyright 2016-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * screen summary for this sim.  The screen summary is composed of a dynamic list of descriptions
