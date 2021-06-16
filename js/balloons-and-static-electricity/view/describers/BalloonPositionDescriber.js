@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2016-2021, University of Colorado Boulder
 
 /**
  * Manages all descriptions related to the balloon's position. This file is quite large, but further separation felt

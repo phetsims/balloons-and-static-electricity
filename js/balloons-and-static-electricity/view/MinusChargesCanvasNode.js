@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * A canvas node for minus charges in the wall. This was added as a performance enhancement for #409.

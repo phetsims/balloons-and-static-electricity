@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2017-2021, University of Colorado Boulder
 
 /**
  * A single point change, which has a position.  These charges are meant to move dynamically, and

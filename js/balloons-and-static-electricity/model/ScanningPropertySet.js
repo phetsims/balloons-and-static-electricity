@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Set of Properties that indicate that a finger is over an something while a user is scanning for elements in the view.

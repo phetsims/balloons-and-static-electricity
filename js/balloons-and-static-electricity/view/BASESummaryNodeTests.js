@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Tests for summary descriptions for balloons-and-static-electricity. These descriptions are invisible, but

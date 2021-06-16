@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2016-2021, University of Colorado Boulder
 
 /**
  * Creates a scene selection switch for two scenes.  The visual is styled similar to radio

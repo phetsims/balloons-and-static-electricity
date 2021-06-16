@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Generates descriptions about to the balloon's charge, which is dependent on which charges are visible
