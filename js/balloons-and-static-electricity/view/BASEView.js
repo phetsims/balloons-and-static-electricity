@@ -7,12 +7,14 @@
  * @author John Blanco
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
 import greenBalloonDriftVelocityLoop from '../../../sounds/carrier-002_wav.js';
@@ -22,6 +24,7 @@ import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonNode from './BalloonNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BASESummaryNode from './BASESummaryNode.js';
+import ChargeDeflectionSoundGenerator from './ChargeDeflectionSoundGenerator.js';
 import ControlPanel from './ControlPanel.js';
 import PlayAreaGridNode from './PlayAreaGridNode.js';
 import SweaterNode from './SweaterNode.js';
@@ -149,6 +152,20 @@ class BASEView extends ScreenView {
       }
     } );
 
+    // @private - sound generator for the deflection of the charges in the wall
+    this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
+      model.wall,
+      model.balloons,
+      {
+        initialOutputLevel: 0.3,
+
+        enableControlProperties: [
+          new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
+        ]
+      }
+    );
+    soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
+
     // set the accessible order: sweater, balloons wall
     this.pdomPlayAreaNode.pdomOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
 
@@ -170,7 +187,7 @@ class BASEView extends ScreenView {
   step( dt ) {
     this.greenBalloonNode.step( dt );
     this.yellowBalloonNode.step( dt );
-    this.wallNode.step( dt );
+    this.chargeDeflectionSoundGenerator.step( dt );
 
     // step the audio
     this.audioView && this.audioView.step( dt );

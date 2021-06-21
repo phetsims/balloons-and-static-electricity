@@ -6,15 +6,12 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import wallImage from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
-import ChargeDeflectionSoundGenerator from './ChargeDeflectionSoundGenerator.js';
 import WallDescriber from './describers/WallDescriber.js';
 import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
@@ -78,24 +75,6 @@ class WallNode extends Node {
       minusChargesNode.visible = ( value === 'all' );
     } );
 
-    // max charge deflection for the minus charges, experimentally determined
-    const maxChargeDeflection = 50;
-
-    // @private - sound generator for the deflection of the charges in the wall
-    this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
-      model.wall.minusCharges.slice( 0, model.wall.numY ), // use just the leftmost minus charges for this
-      maxChargeDeflection,
-      model.balloons,
-      {
-        initialOutputLevel: 0.3,
-
-        enableControlProperties: [
-          new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
-        ]
-      }
-    );
-    soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
-
     // pdom - when the balloons change position, update the description of the induced charge in the wall
     const updateWallDescription = () => {
       this.setDescriptionContent( this.wallDescriber.getWallDescription( model.yellowBalloon, model.greenBalloon, model.getBalloonsAdjacent() ) );
@@ -110,14 +89,6 @@ class WallNode extends Node {
     // Update minus charges indicating induced charge when balloons move.
     model.yellowBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
     model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
-  }
-
-  /**
-   * @param {number} dt
-   * @public
-   */
-  step( dt ) {
-    this.chargeDeflectionSoundGenerator.step( dt );
   }
 }
 

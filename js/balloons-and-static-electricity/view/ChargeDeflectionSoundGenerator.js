@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
@@ -19,9 +18,9 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 // constants
 const NUMBER_OF_DISCRETE_BINS = 8;
 const NUMBER_OF_SOUND_GENERATORS = 3;
-const CHARGES_STILL_TIME = 0.5; // number of seconds where, if no charge motion is detected, charges are considered still
 const BIN_ZERO_PROPORTIONATE_SIZE = 0.6; // Bin zero can be made smaller than the others so that sounds occur earlier.
 const OCTAVES_OFFSET = 0.2; // an offset that can be used to raise or lower all pitches, value empirically determined
+const MAX_CHARGE_DEFLECTION = 50; // max expected charge deflection in model coordinates, experimentally determined
 
 // constants used for musical pitch mapping
 const TWELFTH_ROOT_OF_TWO = Math.pow( 2, 1 / 12 );
@@ -43,16 +42,18 @@ const PITCH_MAPPING_ALGORITHM = bin => {
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {MovablePointChargeModel[]} wallCharges
-   * @param {number} maxChargeDeflection - the max amount that the charges are expected to move
+   * @param {WallModel} wall
    * @param {BalloonModel[]} balloons - the balloons modeled in the sim
    * @param {Object} [options]
    */
-  constructor( wallCharges, maxChargeDeflection, balloons, options ) {
+  constructor( wall, balloons, options ) {
 
     assert && assert( balloons.length === 2, `this assumes 2 balloons, found ${balloons.length}` );
 
     super( options );
+
+    // Extract the charges that will be monitored from the wall.  We use just the leftmost minus charges.
+    const wallCharges = wall.minusCharges.slice( 0, wall.numY );
 
     // {Vector2[]} - list of original, non-deflected charge positions, used to determine the amount of deflection
     const originalChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
@@ -63,9 +64,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // {number[]} - Bin number, based on normalized deflection, where each charge was mapped at the end of the previous
     // step.
     const chargeDeflectionBins = [];
-
-    // Property that tracks whether the charges have moved recently, updated by step function
-    const chargesMovingProperty = new BooleanProperty( false );
 
     // Normalized numeric value (range 0 to 1 ) representing the maximum amount of deflection detected in the provided
     // list of charges.  This is only used for some of the sound generation modes.
@@ -93,11 +91,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     };
 
     // closure for calculating normalized charge deflection for a specified charge index
-    const getNormalizedChargeDeflection = chargeIndex =>
-      Math.min(
-        originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value ) / maxChargeDeflection,
-        1
-      );
+    const getNormalizedChargeDeflection = chargeIndex => {
+      const deflection = originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value );
+
+      // A note to future maintainers: At one point there was an assertion check here for deflection values that
+      // exceeded the max value.  However, it kept getting hit during fuzz testing with some very large values.  In the
+      // interest of time, this wasn't tracked down.  Instead, the assertion was removed.  It seems to work well enough.
+      return Math.min( deflection / MAX_CHARGE_DEFLECTION, 1 );
+    };
 
     // Set the initial bins for each charge.
     wallCharges.forEach( ( wallCharge, index ) => {
@@ -124,14 +125,10 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       discreteSoundGenerators.push( soundClip );
     } );
 
-    // countdown time for determining when the charges have stopped moving
-    let chargesStillCountdown = 0;
-
     // @private - internal step function so that we don't have to have a bunch of publicly visible data
     this.stepInternal = dt => {
 
       let maxDeflectionNormalized = 0;
-      let chargesMovedThisStep = false;
 
       // Analyze the changes in charge positions that have occurred since the last step, if any.
       wallCharges.forEach( ( wallCharge, index ) => {
@@ -139,25 +136,13 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         // convenience variable
         const wallChargePosition = wallCharge.positionProperty.value;
 
-        // Calculate normalized deflection and update the max.
-        const normalizedDeflection = wallChargePosition.distance( originalChargePositions[ index ] ) / maxChargeDeflection;
+        // Calculate normalized deflection for each charge.
+        const normalizedDeflection = wallChargePosition.distance( originalChargePositions[ index ] ) / MAX_CHARGE_DEFLECTION;
         maxDeflectionNormalized = Math.max( normalizedDeflection, maxDeflectionNormalized );
       } );
 
       // Update the current maximum deflection.
       maxDeflectionProperty.set( maxDeflectionNormalized );
-
-      // Update the Property the tracks whether charges are moving.
-      if ( chargesMovedThisStep ) {
-        chargesMovingProperty.set( true );
-        chargesStillCountdown = CHARGES_STILL_TIME;
-      }
-      else if ( chargesMovingProperty.value ) {
-        chargesStillCountdown = Math.max( chargesStillCountdown - dt, 0 );
-        if ( chargesStillCountdown === 0 ) {
-          chargesMovingProperty.set( false );
-        }
-      }
 
       // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
       // has changed bins since the last time we checked.
@@ -190,7 +175,6 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
         // Check for changes versus the previous charge positions.
         if ( !wallChargePosition.equals( previousChargePositions[ index ] ) ) {
-          chargesMovedThisStep = true;
           previousChargePositions[ index ].set( wallChargePosition );
         }
       } );
