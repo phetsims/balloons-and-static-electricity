@@ -8,7 +8,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -32,13 +31,6 @@ const PENTATONIC_SCALE_MULTIPLIERS = [
   Math.pow( TWELFTH_ROOT_OF_TWO, 9 )
 ];
 
-// function for mapping a bin to a playback rate
-const PITCH_MAPPING_ALGORITHM = bin => {
-  const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;
-  const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
-  return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-};
-
 class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
   /**
@@ -55,19 +47,16 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Extract the charges that will be monitored from the wall.  We use just the leftmost minus charges.
     const wallCharges = wall.minusCharges.slice( 0, wall.numY );
 
-    // {Vector2[]} - list of original, non-deflected charge positions, used to determine the amount of deflection
-    const originalChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+    // @private {Vector2[]} - list of original, non-deflected charge positions, used to determine the amount of deflection
+    this.originalChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
 
-    // {Vector2[]} - list of previous charge positions, used to detect whether motion has occurred
-    const previousChargePositions = wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+    // {Vector2[]} - A list of previous charge positions prior to most recent keyboard drag event, used to detect
+    // whether the charges have moved.
+    this.chargePositionsBeforeBalloonDrag = [ ...this.originalChargePositions ];
 
-    // {number[]} - Bin number, based on normalized deflection, where each charge was mapped at the end of the previous
-    // step.
-    const chargeDeflectionBins = [];
-
-    // Normalized numeric value (range 0 to 1 ) representing the maximum amount of deflection detected in the provided
-    // list of charges.  This is only used for some of the sound generation modes.
-    const maxDeflectionProperty = new NumberProperty( 0 );
+    // @private {number[]} - Bin number, based on normalized deflection, where each charge was mapped at during the
+    // most recent update.
+    this.chargeDeflectionBins = [];
 
     // Create an internal gain stage that will be used to control the output level.
     const outputLevelGainNode = phetAudioContext.createGain();
@@ -80,30 +69,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       ( inducingCharge0, inducingCharge1 ) => inducingCharge0 || inducingCharge1
     );
 
-    // {SoundClip[]} - sound generators used in INDIVIDUAL_DISCRETE mode, only populated in that mode
-    const discreteSoundGenerators = [];
+    // @private {SoundClip[]} - sound generators used used to produce the individual sounds
+    this.soundGenerators = [];
 
-    // Closure for mapping a sound generator index to a charge, necessary because there may be fewer sound generators
-    // than charges.
-    const getChargeForSoundGenerator = soundGeneratorIndex => {
-      const spacing = wallCharges.length / ( NUMBER_OF_SOUND_GENERATORS + 1 );
-      return Math.floor( ( soundGeneratorIndex + 1 ) * spacing );
-    };
-
-    // closure for calculating normalized charge deflection for a specified charge index
-    const getNormalizedChargeDeflection = chargeIndex => {
-      const deflection = originalChargePositions[ chargeIndex ].distance( wallCharges[ chargeIndex ].positionProperty.value );
-
-      // A note to future maintainers: At one point there was an assertion check here for deflection values that
-      // exceeded the max value.  However, it kept getting hit during fuzz testing with some very large values.  In the
-      // interest of time, this wasn't tracked down.  Instead, the assertion was removed.  It seems to work well enough.
-      return Math.min( deflection / MAX_CHARGE_DEFLECTION, 1 );
-    };
+    // @private {MovablePointChargeModel[]} - array of point charges, needed by methods
+    this.wallCharges = wallCharges;
 
     // Set the initial bins for each charge.
-    wallCharges.forEach( ( wallCharge, index ) => {
-      chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( index ) );
-    } );
+    this.updateChargeDeflectionBins();
 
     // Create the sound generators that will produce the individual discrete sounds.
     _.times( wallCharges.length, () => {
@@ -122,63 +95,8 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
         }
       );
       soundClip.connect( this.masterGainNode );
-      discreteSoundGenerators.push( soundClip );
+      this.soundGenerators.push( soundClip );
     } );
-
-    // @private - internal step function so that we don't have to have a bunch of publicly visible data
-    this.stepInternal = dt => {
-
-      let maxDeflectionNormalized = 0;
-
-      // Analyze the changes in charge positions that have occurred since the last step, if any.
-      wallCharges.forEach( ( wallCharge, index ) => {
-
-        // convenience variable
-        const wallChargePosition = wallCharge.positionProperty.value;
-
-        // Calculate normalized deflection for each charge.
-        const normalizedDeflection = wallChargePosition.distance( originalChargePositions[ index ] ) / MAX_CHARGE_DEFLECTION;
-        maxDeflectionNormalized = Math.max( normalizedDeflection, maxDeflectionNormalized );
-      } );
-
-      // Update the current maximum deflection.
-      maxDeflectionProperty.set( maxDeflectionNormalized );
-
-      // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
-      // has changed bins since the last time we checked.
-      _.times( NUMBER_OF_SOUND_GENERATORS, index => {
-
-        const discreteSoundGenerator = discreteSoundGenerators[ index ];
-
-        // Figure out the charge to which this sound generator corresponds.
-        const chargeIndex = getChargeForSoundGenerator( index );
-
-        const binForThisCharge = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( chargeIndex ) );
-        if ( binForThisCharge !== chargeDeflectionBins[ chargeIndex ] ) {
-
-          // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
-          // play the sound.
-          discreteSoundGenerator.setPlaybackRate( PITCH_MAPPING_ALGORITHM( binForThisCharge ), 0 );
-          discreteSoundGenerator.play();
-        }
-      } );
-
-      // Update the bins for all wall charges.
-      wallCharges.forEach( ( wallCharge, index ) => {
-        chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( getNormalizedChargeDeflection( index ) );
-      } );
-
-      // Update the wall charge positions.
-      wallCharges.forEach( ( wallCharge, index ) => {
-
-        const wallChargePosition = wallCharge.positionProperty.value;
-
-        // Check for changes versus the previous charge positions.
-        if ( !wallChargePosition.equals( previousChargePositions[ index ] ) ) {
-          previousChargePositions[ index ].set( wallChargePosition );
-        }
-      } );
-    };
 
     // @private {function}
     this.disposeChargeDeflectionSoundGenerator = () => {
@@ -187,12 +105,136 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
   }
 
   /**
-   * step the time-dependent behavior
-   * @param {number} dt - time change in seconds
+   * Get a normalized value representing how deflected the specified charge is.
+   * @param {number} chargeIndex
+   * @returns {number}
+   * @private
+   */
+  getNormalizedChargeDeflection( chargeIndex ) {
+    const deflection =
+      this.originalChargePositions[ chargeIndex ].distance( this.wallCharges[ chargeIndex ].positionProperty.value );
+
+    // A note to future maintainers: At one point there was an assertion check here for deflection values that
+    // exceeded the max value.  However, it kept getting hit during fuzz testing with some very large values.  In the
+    // interest of time, this wasn't tracked down.  Instead, the assertion was removed.  It seems to work well enough.
+
+    return Math.min( deflection / MAX_CHARGE_DEFLECTION, 1 );
+  }
+
+  /**
+   * Update the previous charge positions to match the current ones.
+   * @private
+   */
+  updatePreviousChargePositions() {
+    this.chargePositionsBeforeBalloonDrag = this.wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+  }
+
+  /**
+   * Get the charge for the specified sound generator index.
+   * @param soundGeneratorIndex
+   * @returns {number}
+   * @private
+   */
+  getChargeForSoundGenerator( soundGeneratorIndex ) {
+    assert && assert( soundGeneratorIndex < NUMBER_OF_SOUND_GENERATORS, 'soundGeneratorIndex out of range' );
+    const spacing = this.wallCharges.length / ( NUMBER_OF_SOUND_GENERATORS + 1 );
+    return Math.floor( ( soundGeneratorIndex + 1 ) * spacing );
+  }
+
+  /**
+   * Update the list of bins into which each of the charges falls according to its normalized position.
+   * @private
+   */
+  updateChargeDeflectionBins() {
+    this.wallCharges.forEach( ( wallCharge, index ) => {
+      this.chargeDeflectionBins[ index ] = mapNormalizedDeflectionToBin( this.getNormalizedChargeDeflection( index ) );
+    } );
+  }
+
+  /**
+   * A drag handling method for when a balloon is dragged using a pointer (i.e. a mouse or touch event).  This method
+   * determines whether the user's actions have changed the charge positions in the wall in such a way that sound should
+   * be produced.
    * @public
    */
-  step( dt ) {
-    this.stepInternal( dt );
+  balloonDraggedByPointer() {
+
+    // Make a list of the previous charge bins.
+    const previousChargeDeflectionBins = [ ...this.chargeDeflectionBins ];
+
+    // Update the charge deflection bins.
+    this.updateChargeDeflectionBins();
+
+    // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
+    // has changed bins since the last time we checked.
+    _.times( NUMBER_OF_SOUND_GENERATORS, index => {
+
+      const discreteSoundGenerator = this.soundGenerators[ index ];
+
+      // Figure out the charge to which this sound generator corresponds.
+      const chargeIndex = this.getChargeForSoundGenerator( index );
+
+      if ( previousChargeDeflectionBins[ chargeIndex ] !== this.chargeDeflectionBins[ chargeIndex ] ) {
+
+        // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
+        // play the sound.
+        discreteSoundGenerator.setPlaybackRate( mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] ), 0 );
+        discreteSoundGenerator.play();
+      }
+    } );
+
+    // Update the charge positions for the next drag event.
+    this.chargePositionsBeforeBalloonDrag = this.wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+  }
+
+  /**
+   * A drag handling method for when a balloon is dragged using keyboard interaction.  This method determines whether
+   * the user's actions have changed the charge positions in the wall in such a way that sound should be produced.
+   * @public
+   */
+  balloonDraggedByKeyboard() {
+    this.updateChargeDeflectionBins();
+    const currentChargePositions = this.wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
+    let playDelay = 0;
+
+    // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
+    // has moved since the last time we checked and, if so, play a sound.
+    _.times( NUMBER_OF_SOUND_GENERATORS, index => {
+
+      // If there are already too many sounds playing, bail out.
+      const totalPlayingSoundClipInstances = this.soundGenerators.reduce(
+        ( totalPlayingInstances, sg ) => sg.getNumberOfPlayingInstances() + totalPlayingInstances,
+        0
+      );
+      if ( totalPlayingSoundClipInstances > NUMBER_OF_SOUND_GENERATORS ) {
+        return;
+      }
+
+      const discreteSoundGenerator = this.soundGenerators[ index ];
+
+      // Figure out the charge to which this sound generator corresponds.
+      const chargeIndex = this.getChargeForSoundGenerator( index );
+
+      // Check whether the charge associated with this sound generator has moved.
+      if ( !currentChargePositions[ chargeIndex ].equals( this.chargePositionsBeforeBalloonDrag[ chargeIndex ] ) ) {
+
+        const playbackRateForBin = mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] );
+        const intoBin = mapNormalizedDeflectionToBinOffset( this.getNormalizedChargeDeflection( chargeIndex ) );
+
+        discreteSoundGenerator.setPlaybackRate( playbackRateForBin + intoBin * TWELFTH_ROOT_OF_TWO, 0 );
+        discreteSoundGenerator.play( playDelay );
+        playDelay += 0.1;
+      }
+    } );
+
+    this.chargePositionsBeforeBalloonDrag = currentChargePositions;
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.chargePositionsBeforeBalloonDrag = [ ...this.originalChargePositions ];
   }
 
   /**
@@ -208,10 +250,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 /**
  * bin mapping algorithm
  *
- * @param normalizedDeflection
- * @returns {number}
+ * @param {number} normalizedDeflection
+ * @returns {Object} - Of the form: {
+ *   bin: {number} - discrete bin into which the provided value has been mapped
+ *   proportionateOffsetIntoBin: {number} - offset in terms of proportion (0 to 1) into which the provided value extends
+ *                                          into the bin in which it was placed
+ * }
  */
-const mapNormalizedDeflectionToBin = normalizedDeflection => {
+const mapNormalizedDeflectionToBinAndOffset = normalizedDeflection => {
 
   // input parameter checking
   assert && assert( normalizedDeflection >= 0 );
@@ -219,12 +265,13 @@ const mapNormalizedDeflectionToBin = normalizedDeflection => {
 
   const unadjustedBinSize = 1 / NUMBER_OF_DISCRETE_BINS;
 
-  // The size of the first bin can be adjusted to make initial movements happen earlier (or later, I suppose).
+  // The size of the first bin can be adjusted so that initial movements change bins earlier (or later, I suppose).
   const firstBinSize = unadjustedBinSize * BIN_ZERO_PROPORTIONATE_SIZE;
 
   const adjustedBinSize = ( 1 - firstBinSize ) / ( NUMBER_OF_DISCRETE_BINS - 1 );
 
   let bin = 0;
+  let proportionateOffsetIntoBin = 0;
   if ( normalizedDeflection > firstBinSize ) {
 
     // This charge is not in the first bin.  Which is it in?
@@ -232,9 +279,47 @@ const mapNormalizedDeflectionToBin = normalizedDeflection => {
       Math.floor( ( normalizedDeflection - firstBinSize ) / adjustedBinSize ) + 1,
       NUMBER_OF_DISCRETE_BINS - 1
     );
+
+    // Calculate how far, proportionately, the provided value extends into the bin into which it has been placed.
+    proportionateOffsetIntoBin = ( normalizedDeflection - ( ( bin - 1 ) * adjustedBinSize + firstBinSize ) ) / adjustedBinSize;
+  }
+  else {
+    proportionateOffsetIntoBin = normalizedDeflection / firstBinSize;
   }
 
-  return bin;
+  return {
+    bin: bin,
+    proportionateOffsetIntoBin: proportionateOffsetIntoBin
+  };
+};
+
+/**
+ * Get the bin into which the provided normalized deflection value should be mapped.
+ * @param {number} normalizedDeflection
+ * @returns {number}
+ */
+const mapNormalizedDeflectionToBin = normalizedDeflection => {
+  return mapNormalizedDeflectionToBinAndOffset( normalizedDeflection ).bin;
+};
+
+/**
+ * Get the proportional offset into the bin in which the provided normalized deflection value maps.
+ * @param {number} normalizedDeflection
+ * @returns {number}
+ */
+const mapNormalizedDeflectionToBinOffset = normalizedDeflection => {
+  return mapNormalizedDeflectionToBinAndOffset( normalizedDeflection ).proportionateOffsetIntoBin;
+};
+
+/**
+ * map bin number to a playback rate for a sound clip
+ * @param {number} bin
+ * @returns {number}
+ */
+const mapBinToPlaybackRate = bin => {
+  const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;
+  const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
+  return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
 };
 
 balloonsAndStaticElectricity.register( 'ChargeDeflectionSoundGenerator', ChargeDeflectionSoundGenerator );

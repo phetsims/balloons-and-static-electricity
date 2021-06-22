@@ -58,7 +58,7 @@ class BASEView extends ScreenView {
     this.pdomPlayAreaNode.addChild( sweaterNode );
     this.pdomPlayAreaNode.addChild( this.wallNode );
 
-    //Show black to the right side of the wall so it doesn't look like empty space over there
+    // Show black to the right side of the wall so it doesn't look like empty space over there.
     this.addChild( new Rectangle(
       model.wall.x + this.wallNode.wallNode.width,
       0,
@@ -79,6 +79,20 @@ class BASEView extends ScreenView {
 
     const controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
+    // @private - sound generator for the deflection of the charges in the wall
+    this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
+      model.wall,
+      model.balloons,
+      {
+        initialOutputLevel: 0.3,
+
+        enableControlProperties: [
+          new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
+        ]
+      }
+    );
+    soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
+
     this.yellowBalloonNode = new BalloonNode(
       model.yellowBalloon,
       balloonYellow,
@@ -88,7 +102,9 @@ class BASEView extends ScreenView {
       this.layoutBounds,
       tandem.createTandem( 'yellowBalloonNode' ),
       {
-        labelContent: yellowBalloonLabelString
+        labelContent: yellowBalloonLabelString,
+        pointerDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByPointer.bind( this.chargeDeflectionSoundGenerator ),
+        keyboardDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard.bind( this.chargeDeflectionSoundGenerator )
       }
     );
     const tetherAnchorPoint = new Vector2(
@@ -114,7 +130,9 @@ class BASEView extends ScreenView {
         balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoop },
         balloonRubbingSoundGeneratorOptions: {
           centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25
-        }
+        },
+        pointerDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByPointer.bind( this.chargeDeflectionSoundGenerator ),
+        keyboardDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard.bind( this.chargeDeflectionSoundGenerator )
       }
     );
     this.greenBalloonTetherNode = new TetherNode(
@@ -152,20 +170,6 @@ class BASEView extends ScreenView {
       }
     } );
 
-    // @private - sound generator for the deflection of the charges in the wall
-    this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
-      model.wall,
-      model.balloons,
-      {
-        initialOutputLevel: 0.3,
-
-        enableControlProperties: [
-          new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
-        ]
-      }
-    );
-    soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );
-
     // set the accessible order: sweater, balloons wall
     this.pdomPlayAreaNode.pdomOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
 
@@ -180,17 +184,13 @@ class BASEView extends ScreenView {
   }
 
   /**
-   * Step the view.  For accessibility, we want to step the 'AudioView' and the keyboard drag handlers.
+   * Step the view.
    * @param {number} dt
    * @public
    */
   step( dt ) {
     this.greenBalloonNode.step( dt );
     this.yellowBalloonNode.step( dt );
-    this.chargeDeflectionSoundGenerator.step( dt );
-
-    // step the audio
-    this.audioView && this.audioView.step( dt );
   }
 
   /**

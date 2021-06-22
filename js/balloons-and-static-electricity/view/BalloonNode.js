@@ -85,6 +85,12 @@ class BalloonNode extends Node {
       // {Object} - options passed to the balloon rubbing sound generator
       balloonRubbingSoundGeneratorOptions: {},
 
+      // {function} - additional method to call at end of pointer drag
+      pointerDrag: _.noop,
+
+      // {function} - additional method to call at end of keyboard drag
+      keyboardDrag: _.noop,
+
       // pdom - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
       containerTagName: 'div',
@@ -157,6 +163,7 @@ class BalloonNode extends Node {
         model.isDraggedProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
+      drag: options.pointerDrag,
       end: () => {
         endDragListener();
         model.draggingWithPointer = false;
@@ -330,7 +337,8 @@ class BalloonNode extends Node {
           boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
           phet.joist.sim.utteranceQueue.addToBack( boundaryUtterance );
         }
-      }
+      },
+      drag: options.keyboardDrag
     } );
 
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
