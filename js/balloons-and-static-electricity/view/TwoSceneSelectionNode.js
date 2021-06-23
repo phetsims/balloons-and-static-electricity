@@ -26,8 +26,8 @@ import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import SceneryConstants from '../../../../scenery/js/SceneryConstants.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import SunConstants from '../../../../sun/js/SunConstants.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -69,7 +69,7 @@ class TwoSceneSelectionNode extends Node {
       deselectedContentOpacity: 0.6,
       overButtonOpacity: 0.8,
       overContentOpacity: 0.8,
-      opacityWhenDisabled: SunConstants.DISABLED_OPACITY, // Don't collide with Node.disabledOpacity option
+      opacityWhenDisabled: SceneryConstants.DISABLED_OPACITY, // Don't collide with Node.disabledOpacity option
 
       selectedStroke: 'black',
       deselectedStroke: new Color( 50, 50, 50 ),
