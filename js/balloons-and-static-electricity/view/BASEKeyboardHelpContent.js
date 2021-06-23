@@ -98,7 +98,7 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
 }
 
 /**
- * Help section for how to move the balloon or use hot keys to make the balloon jump to positions.
+ * Help section for how to move the balloon or use hotkeys to make the balloon jump to positions.
  */
 class MoveBalloonHelpSection extends KeyboardHelpSection {
 
@@ -116,7 +116,7 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     const shiftAndWasdRowIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdRowIcon );
     const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
 
-    // hot key rows for how to jump the balloon
+    // hotkey rows for how to jump the balloon
     const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
     const jumpToWallRow = KeyboardHelpSection.createJumpKeyRow( 'W', jumpCloseToWallLabelString, jumpsCloseToWwallDescriptionString );
     const jumpNearWallRow = KeyboardHelpSection.createJumpKeyRow( 'N', jumpNearWallLabelString, jumpsNearWallDescriptionString );
