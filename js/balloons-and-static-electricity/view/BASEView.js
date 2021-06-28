@@ -79,7 +79,7 @@ class BASEView extends ScreenView {
 
     const controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
 
-    // @private - sound generator for the deflection of the charges in the wall
+    // @private - sound generator for the deflection of the charges in the wall, never disposed
     this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
       model.wall,
       model.balloons,
@@ -103,8 +103,12 @@ class BASEView extends ScreenView {
       tandem.createTandem( 'yellowBalloonNode' ),
       {
         labelContent: yellowBalloonLabelString,
-        pointerDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByPointer.bind( this.chargeDeflectionSoundGenerator ),
-        keyboardDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard.bind( this.chargeDeflectionSoundGenerator )
+        pointerDrag: () => {
+          this.chargeDeflectionSoundGenerator.balloonDraggedByPointer( model.yellowBalloon );
+        },
+        keyboardDrag: () => {
+          this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard( model.yellowBalloon );
+        }
       }
     );
     const tetherAnchorPoint = new Vector2(
@@ -131,8 +135,12 @@ class BASEView extends ScreenView {
         balloonRubbingSoundGeneratorOptions: {
           centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25
         },
-        pointerDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByPointer.bind( this.chargeDeflectionSoundGenerator ),
-        keyboardDrag: this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard.bind( this.chargeDeflectionSoundGenerator )
+        pointerDrag: () => {
+          this.chargeDeflectionSoundGenerator.balloonDraggedByPointer( model.greenBalloon );
+        },
+        keyboardDrag: () => {
+          this.chargeDeflectionSoundGenerator.balloonDraggedByKeyboard( model.greenBalloon );
+        }
       }
     );
     this.greenBalloonTetherNode = new TetherNode(
