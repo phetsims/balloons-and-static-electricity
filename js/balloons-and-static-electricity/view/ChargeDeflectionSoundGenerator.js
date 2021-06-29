@@ -11,7 +11,7 @@
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import chargesInWallBlip002Muffled from '../../../sounds/charges-in-wall-blip-002-muffled_mp3.js';
+import chargeDeflectionBaseSound from '../../../sounds/charge-deflection_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
@@ -78,7 +78,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Create the sound generators that will produce the individual discrete sounds.
     _.times( NUMBER_OF_SOUND_GENERATORS, () => {
       const soundClip = new SoundClip(
-        chargesInWallBlip002Muffled,
+        chargeDeflectionBaseSound,
         {
           // We're going to be changing the playback rate as charges get more deflected, but those changes shouldn't
           // affect sounds that are already playing.
