@@ -197,6 +197,9 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Only play sounds if the changes are associated with the balloon that is being dragged.
     if ( balloon.inducingChargeProperty.value ) {
 
+      // array to keep track of used playback rates to avoid duplication
+      const usedPlaybackRates = [];
+
       // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
       // has moved since the last time we checked and, if so, play a sound.
       _.times( NUMBER_OF_SOUND_GENERATORS, index => {
@@ -218,11 +221,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           if ( !currentChargePositions[ chargeIndex ].equals( this.previousChargePositions[ chargeIndex ] ) ) {
 
             const playbackRateForBin = mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] );
-            const intoBin = mapNormalizedDeflectionToBinOffset( this.getNormalizedChargeDeflection( chargeIndex ) );
 
-            soundGenerator.setPlaybackRate( playbackRateForBin + intoBin * TWELFTH_ROOT_OF_TWO, 0 );
-            soundGenerator.play( playDelay );
-            playDelay += 0.1;
+            // Only play if the same playback rate hasn't already been kicked off.
+            if ( !usedPlaybackRates.includes( playbackRateForBin ) ) {
+              soundGenerator.setPlaybackRate( playbackRateForBin, 0 );
+              soundGenerator.play( playDelay );
+              playDelay += 0.1;
+              usedPlaybackRates.push( playbackRateForBin );
+            }
           }
         }
       } );
@@ -240,16 +246,11 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 }
 
 /**
- * bin mapping algorithm
- *
+ * Get the bin into which the provided normalized deflection value should be mapped.
  * @param {number} normalizedDeflection
- * @returns {Object} - Of the form: {
- *   bin: {number} - discrete bin into which the provided value has been mapped
- *   proportionateOffsetIntoBin: {number} - offset in terms of proportion (0 to 1) into which the provided value extends
- *                                          into the bin in which it was placed
- * }
+ * @returns {number}
  */
-const mapNormalizedDeflectionToBinAndOffset = normalizedDeflection => {
+const mapNormalizedDeflectionToBin = normalizedDeflection => {
 
   // input parameter checking
   assert && assert( normalizedDeflection >= 0 );
@@ -257,13 +258,12 @@ const mapNormalizedDeflectionToBinAndOffset = normalizedDeflection => {
 
   const unadjustedBinSize = 1 / NUMBER_OF_DISCRETE_BINS;
 
-  // The size of the first bin can be adjusted so that initial movements change bins earlier (or later, I suppose).
+  // The size of the first bin can be adjusted to make initial movements happen earlier (or later, I suppose).
   const firstBinSize = unadjustedBinSize * BIN_ZERO_PROPORTIONATE_SIZE;
 
   const adjustedBinSize = ( 1 - firstBinSize ) / ( NUMBER_OF_DISCRETE_BINS - 1 );
 
   let bin = 0;
-  let proportionateOffsetIntoBin = 0;
   if ( normalizedDeflection > firstBinSize ) {
 
     // This charge is not in the first bin.  Which is it in?
@@ -271,36 +271,9 @@ const mapNormalizedDeflectionToBinAndOffset = normalizedDeflection => {
       Math.floor( ( normalizedDeflection - firstBinSize ) / adjustedBinSize ) + 1,
       NUMBER_OF_DISCRETE_BINS - 1
     );
-
-    // Calculate how far, proportionately, the provided value extends into the bin into which it has been placed.
-    proportionateOffsetIntoBin = ( normalizedDeflection - ( ( bin - 1 ) * adjustedBinSize + firstBinSize ) ) / adjustedBinSize;
-  }
-  else {
-    proportionateOffsetIntoBin = normalizedDeflection / firstBinSize;
   }
 
-  return {
-    bin: bin,
-    proportionateOffsetIntoBin: proportionateOffsetIntoBin
-  };
-};
-
-/**
- * Get the bin into which the provided normalized deflection value should be mapped.
- * @param {number} normalizedDeflection
- * @returns {number}
- */
-const mapNormalizedDeflectionToBin = normalizedDeflection => {
-  return mapNormalizedDeflectionToBinAndOffset( normalizedDeflection ).bin;
-};
-
-/**
- * Get the proportional offset into the bin in which the provided normalized deflection value maps.
- * @param {number} normalizedDeflection
- * @returns {number}
- */
-const mapNormalizedDeflectionToBinOffset = normalizedDeflection => {
-  return mapNormalizedDeflectionToBinAndOffset( normalizedDeflection ).proportionateOffsetIntoBin;
+  return bin;
 };
 
 /**
