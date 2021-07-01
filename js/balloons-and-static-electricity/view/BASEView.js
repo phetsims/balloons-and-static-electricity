@@ -55,8 +55,8 @@ class BASEView extends ScreenView {
     // @public (for QUnit tests)
     this.wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
-    this.pdomPlayAreaNode.addChild( sweaterNode );
-    this.pdomPlayAreaNode.addChild( this.wallNode );
+    this.addChild( sweaterNode );
+    this.addChild( this.wallNode );
 
     // Show black to the right side of the wall so it doesn't look like empty space over there.
     this.addChild( new Rectangle(
@@ -157,8 +157,8 @@ class BASEView extends ScreenView {
     // combine the balloon content into single nodes so that they are easily layerable
     const greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     const yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-    this.pdomPlayAreaNode.addChild( yellowBalloonLayerNode );
-    this.pdomPlayAreaNode.addChild( greenBalloonLayerNode );
+    this.addChild( yellowBalloonLayerNode );
+    this.addChild( greenBalloonLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( isVisible => {
@@ -166,7 +166,7 @@ class BASEView extends ScreenView {
       this.greenBalloonTetherNode.visible = isVisible;
     } );
 
-    this.pdomControlAreaNode.addChild( controlPanel );
+    this.addChild( controlPanel );
 
     // when one of the balloons is picked up, move its content and cue nodes to front
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], ( yellowDragged, greenDragged ) => {
@@ -178,8 +178,9 @@ class BASEView extends ScreenView {
       }
     } );
 
-    // set the accessible order: sweater, balloons wall
+    // pdom - assign components to the appropriate sections and specify order
     this.pdomPlayAreaNode.pdomOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
+    this.pdomControlAreaNode.pdomOrder = [ controlPanel ];
 
     //--------------------------------------------------------------------------
     // debugging
