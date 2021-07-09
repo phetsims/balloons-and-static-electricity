@@ -17,7 +17,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
-import greenBalloonDriftVelocityLoop from '../../../sounds/carrier-002_wav.js';
+import greenBalloonDriftVelocityLoopSound from '../../../sounds/carrier-002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -131,7 +131,7 @@ class BASEView extends ScreenView {
       tandem.createTandem( 'greenBalloonNode' ),
       {
         labelContent: greenBalloonLabelString,
-        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoop },
+        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoopSound },
         balloonRubbingSoundGeneratorOptions: {
           centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25
         },
