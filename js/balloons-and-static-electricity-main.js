@@ -32,6 +32,7 @@ simLauncher.launch( () => {
       qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan,<br>Liam Mulhall, Oliver Orejola, ' +
                         'Benjamin Roberts, Jacob Romero, Bryan Yoelin',
       graphicArts: 'Sharon Siman-Tov',
+      soundDesign: 'Ashton Morris',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
     },
     hasKeyboardHelpContent: true,
