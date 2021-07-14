@@ -20,6 +20,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import MouseHighlighting from '../../../../scenery/js/accessibility/voicing/MouseHighlighting.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -58,6 +59,7 @@ const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 class BalloonNode extends Node {
 
   /**
+   * @mixes MouseHighlighting
    * @param {BalloonModel} model
    * @param {Image} imageSource - image source from the image plugin
    * @param {BASEModel} globalModel
@@ -104,6 +106,9 @@ class BalloonNode extends Node {
 
     // super constructor
     super( options );
+
+    // interactive highlights - initialize the trait
+    this.initializeMouseHighlighting();
 
     // @private
     this.model = model;
@@ -512,6 +517,8 @@ class BalloonNode extends Node {
     return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
   }
 }
+
+MouseHighlighting.compose( BalloonNode );
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
