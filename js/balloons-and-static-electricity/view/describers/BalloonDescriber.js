@@ -126,7 +126,7 @@ class BalloonDescriber {
     // @private {Utterance} - utterances to be sent to the queue, with a bit of a delay they won't spam
     // the user if they hit the queue to frequently
     const utteranceOptions = { alertStableDelay: 500 };
-    this.directionUtterance = new Utterance( utteranceOptions );
+    this.directionUtterance = new Utterance();
     this.movementUtterance = new Utterance( merge( utteranceOptions, {
 
       // trying to make movement alerts assertive to reduce pile up of alerts while dragging the balloon, see

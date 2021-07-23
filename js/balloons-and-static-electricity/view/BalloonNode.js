@@ -357,6 +357,10 @@ class BalloonNode extends Node {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
 
+      // BASE needs to control the ordering of all alerts after a release happens, so prevent
+      // the default release alert
+      // alertOnRelease: false,
+
       grabCueOptions: {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
