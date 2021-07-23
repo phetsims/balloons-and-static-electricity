@@ -96,8 +96,8 @@ class BASESummaryNode extends Node {
       roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-    Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible ) => {
+    const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ];
+    Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
       const chargesVisible = showCharges !== 'none';
       balloonChargeNode.pdomVisible = chargesVisible;
       sweaterWallChargeNode.pdomVisible = chargesVisible;
