@@ -246,6 +246,9 @@ class BalloonDescriber {
     this.chargeDescriber.reset();
     this.describedChargeRange = null;
 
+    this.alertFirstPickup = false;
+    this.alertNextPickup = false;
+
     // reset all variables tracking previous descriptions
     this.describedVelocity = this.balloonModel.velocityProperty.get();
     this.describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
@@ -254,6 +257,8 @@ class BalloonDescriber {
     this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
     this.describedIsDragged = this.balloonModel.isDraggedProperty.get();
     this.describedWallVisible = this.wall.isVisibleProperty.get();
+    this.describedDirection = null;
+    this.describedCharge = 0;
 
     this.oldDragPosition = this.balloonModel.positionProperty.get().copy();
     this.dragDelta = new Vector2( 0, 0 );
@@ -265,6 +270,10 @@ class BalloonDescriber {
     this.describeWallRub = false;
     this.initialMovementDescribed = true;
     this.timeSinceReleaseAlert = 0;
+    this.preventNoMovementAlert = false;
+
+    this.distanceSinceDirectionAlert = 0;
+    this.positionOnAlert = this.balloonModel.positionProperty.get();
   }
 
   /**

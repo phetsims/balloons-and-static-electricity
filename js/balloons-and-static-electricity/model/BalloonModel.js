@@ -689,6 +689,7 @@ class BalloonModel {
     this.chargeProperty.reset();
     this.velocityProperty.reset();
     this.positionProperty.reset();
+    this.directionProperty.reset();
     if ( !notResetVisibility ) {
       this.isVisibleProperty.reset();
     }
