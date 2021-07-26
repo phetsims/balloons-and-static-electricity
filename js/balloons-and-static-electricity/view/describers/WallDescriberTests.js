@@ -49,7 +49,7 @@ QUnit.test( 'WallDescriber tests', assert => {
   window.baseModel.greenBalloon.setCenter( window.baseModel.yellowBalloon.getCenter() );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges. ' +
-                        'Negative charges in upper wall move away from balloons a lot. Positive charges do not move.';
+                        'Negative charges in upper wall move away from balloons a little bit. Positive charges do not move.';
   assert.equal( actualDescription, expectedDescription );
 
   // both balloons inducing charge in upper wall, no charges shown

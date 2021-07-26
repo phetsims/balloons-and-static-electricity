@@ -189,7 +189,7 @@ QUnit.test( 'Interactive grab alert for balloon', assert => {
   window.baseModel.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP ) );
   actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
   expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. Each balloon has several more negative charges than positive charges. ' +
-                        'Negative charges in upper wall move away from balloons quite a lot. Positive charges do not move. ' +
+                        'Negative charges in upper wall move away from balloons a lot. Positive charges do not move. ' +
                         'Wall has many pairs of negative and positive charges.';
   assert.equal( actualDescription, expectedDescription, 'grab alert test 16' );
 
@@ -201,7 +201,7 @@ QUnit.test( 'Interactive grab alert for balloon', assert => {
   actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
   expectedDescription = 'Grabbed. At lower wall, next to Green Balloon. Yellow Balloon has several more negative charges than positive charges. ' +
                         'Green Balloon has a few more negative charges than positive charges. ' +
-                        'Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move. ' +
+                        'Negative charges in lower wall move away from balloons a lot. Positive charges do not move. ' +
                         'Wall has many pairs of negative and positive charges.';
   assert.equal( actualDescription, expectedDescription, 'grab alert test 17' );
 
@@ -213,7 +213,7 @@ QUnit.test( 'Interactive grab alert for balloon', assert => {
   actualDescription = balloonNode.describer.movementDescriber.getGrabbedAlert();
   expectedDescription = 'Grabbed. At upper wall, next to Green Balloon. Yellow Balloon has several more negative charges than positive charges. ' +
                         'Green Balloon has no more negative charges than positive charges. ' +
-                        'Negative charges in upper wall move away from Yellow Balloon a lot. Positive charges do not move. ' +
+                        'Negative charges in upper wall move away from Yellow Balloon a little bit. Positive charges do not move. ' +
                         'Wall has many pairs of negative and positive charges.';
   assert.equal( actualDescription, expectedDescription, 'grab alert test 18' );
 
@@ -435,7 +435,7 @@ QUnit.test( 'Balloon rubbing on wall', assert => {
   window.baseModel.yellowBalloon.chargeProperty.set( -20 );
   window.baseModel.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP + 1 ) );
   actualAlert = balloonNode.describer.getWallRubbingDescription();
-  expectedAlert = 'At upper wall. No transfer of charge. Negative charges in upper wall move away from Yellow Balloon a lot. Positive charges do not move.';
+  expectedAlert = 'At upper wall. No transfer of charge. Negative charges in upper wall move away from Yellow Balloon a little bit. Positive charges do not move.';
   assert.equal( actualAlert, expectedAlert, 'wall rub test 2' );
 
   // charged balloon rubbing along upper wall, no charges shown
@@ -472,7 +472,7 @@ QUnit.test( 'Two Balloons rubbing on wall', assert => {
   window.baseModel.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP + 1 ) );
   window.baseModel.greenBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP + 1 ) );
   let actualAlert = balloonNode.describer.getWallRubbingDescription();
-  let expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from balloons a lot. Positive charges do not move.';
+  let expectedAlert = 'At upper wall, next to Green Balloon. No transfer of charge. Negative charges in upper wall move away from balloons a little bit. Positive charges do not move.';
   assert.equal( actualAlert, expectedAlert, 'wall rub, two balloons, test 1' );
 
   // only one balloon has charge, all charges shown - nudge the balloon so that induced Properties update

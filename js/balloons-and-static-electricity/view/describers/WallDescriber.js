@@ -44,15 +44,15 @@ const positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMove.
 // constants
 const INDUCED_CHARGE_DESCRIPTION_MAP = {
   A_LITTLE_BIT: {
-    range: new Range( 0, 10 ),
+    range: new Range( 0, 20 ),
     description: aLittleBitString
   },
   A_LOT: {
-    range: new Range( 10, 20 ),
+    range: new Range( 20, 35 ),
     description: aLotString
   },
   QUITE_A_LOT: {
-    range: new Range( 20, Number.MAX_VALUE ),
+    range: new Range( 35, Number.MAX_VALUE ),
     description: quiteALotString
   }
 };
