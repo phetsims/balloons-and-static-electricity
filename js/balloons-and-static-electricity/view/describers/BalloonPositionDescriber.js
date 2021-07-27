@@ -621,7 +621,6 @@ class BalloonPositionDescriber {
         inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
       }
 
-      inducedChargeString = WallDescriber.getInducedChargeDescription( this.balloonModel, this.accessibleName, wallVisible );
       inducedChargeString = StringUtils.fillIn( singleStatementPatternString, { statement: inducedChargeString } );
 
       description = StringUtils.fillIn( noChangeWithInducedChargePatternString, {
