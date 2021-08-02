@@ -754,7 +754,9 @@ class BalloonDescriber {
     if ( !this.shortMovementFromPointer() ) {
 
       // alerts related to balloon direction
-      if ( this.describeDirection && this.describedDirection !== this.balloonModel.directionProperty.get() ) {
+      if ( this.describeDirection &&
+           this.balloonModel.directionProperty.get() &&
+           this.describedDirection !== this.balloonModel.directionProperty.get() ) {
 
         if ( this.balloonModel.isDraggedProperty.get() || model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
           this.directionUtterance.alert = this.movementDescriber.getDirectionChangedDescription();
