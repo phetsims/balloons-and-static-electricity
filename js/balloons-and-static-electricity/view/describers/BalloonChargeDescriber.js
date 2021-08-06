@@ -263,16 +263,6 @@ class BalloonChargeDescriber {
     // change in force magnitude on charges in the wall - sign determines if balloon is inducing more or less
     // charge in the wall, but there must be some change since the last description
     const forceDelta = forceMagnitude - this.previousForceMagnitude;
-    assert && assert( forceDelta !== 0, `${'induced charge did not change since last description, debugging info: ' +
-                                        'forceMagnitude: '}${forceMagnitude}, ` +
-                                        `previousForceMagnitude: ${this.previousForceMagnitude}, ` +
-                                        `greenBalloonVisible: ${this.model.greenBalloon.isVisibleProperty.get()}, ` +
-                                        `yellowBalloonInducingCharge: ${this.model.yellowBalloon.inducingChargeProperty.get()}, ` +
-                                        `greenBalloonInducingCharge: ${this.model.greenBalloon.inducingChargeProperty.get()}, ` +
-                                        `yellowBalloonTouchingWall: ${this.model.yellowBalloon.touchingWallProperty.get()}, ` +
-                                        `greenBalloonTouchingWall: ${this.model.greenBalloon.touchingWallProperty.get()}, ` +
-                                        `wallVisible: ${wallVisible}`
-    );
 
     // if the sign of the change in force hasn't changed, then the balloon has continued to apply force on
     // wall charges in the same direction since the last time this change was described
@@ -285,7 +275,13 @@ class BalloonChargeDescriber {
     const chargePositionString = BASEDescriber.getPositionDescription( chargePosition, wallVisible );
 
     let movementString;
-    if ( forceDelta > 0 ) {
+    if ( forceDelta === 0 ) {
+
+      // it is possible that in a drag sequence the balloon has moved such that there
+      // is no change in force or charges since they were last described
+      descriptionString = WallDescriber.getNoChangeInChargesDescription( chargePositionString );
+    }
+    else if ( forceDelta > 0 ) {
       if ( continuedDirection ) {
 
         // the charges are continuing to move away from the balloon
