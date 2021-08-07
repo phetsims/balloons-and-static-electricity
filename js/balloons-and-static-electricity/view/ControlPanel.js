@@ -9,19 +9,19 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
-import Panel from '../../../../sun/js/Panel.js';
-import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import BooleanRectangularToggleButton from '../../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Panel from '../../../../sun/js/Panel.js';
+import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import balloonGreen from '../../../images/balloon-green_png.js';
 import balloonYellow from '../../../images/balloon-yellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -224,18 +224,14 @@ class ControlPanel extends Node {
     const resetBalloonButtonListener = () => {
 
       // disable other alerts until after we are finished resetting the balloons
-      if ( phet.joist.sim ) {
-        phet.joist.sim.utteranceQueue.enabled = false;
-      }
+      this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = false; } );
 
       model.sweater.reset();
       model.balloons.forEach( balloon => {
         balloon.reset( true );
       } );
 
-      if ( phet.joist.sim ) {
-        phet.joist.sim.utteranceQueue.enabled = true;
-      }
+      this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = true; } );
 
       // alert to assistive technology
       phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {

@@ -460,7 +460,7 @@ class BalloonNode extends Node {
     this.model.setCenter( center );
 
     // clear the queue of utterances that collected as position changed
-    phet.joist.sim.utteranceQueue.clear();
+    this.forEachUtteranceQueue( utteranceQueue => utteranceQueue.clear() );
 
     // Send a custom alert, depending on where the balloon was moved to
     this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
