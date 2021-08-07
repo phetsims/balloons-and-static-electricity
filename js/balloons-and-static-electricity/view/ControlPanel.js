@@ -104,7 +104,7 @@ class ControlPanel extends Node {
       this.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-      phet.joist.sim.utteranceQueue.addToBack( alertDescription );
+      this.alertDescriptionUtterance( alertDescription );
     } );
 
     // Radio buttons related to charges

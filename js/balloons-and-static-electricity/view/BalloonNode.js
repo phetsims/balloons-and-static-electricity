@@ -340,7 +340,7 @@ class BalloonNode extends Node {
         if ( this.attemptToMoveBeyondBoundary( key ) ) {
           const attemptedDirection = this.getAttemptedMovementDirection( key );
           boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
-          phet.joist.sim.utteranceQueue.addToBack( boundaryUtterance );
+          this.alertDescriptionUtterance( boundaryUtterance );
         }
       },
       drag: options.keyboardDrag
@@ -464,7 +464,7 @@ class BalloonNode extends Node {
 
     // Send a custom alert, depending on where the balloon was moved to
     this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
-    phet.joist.sim.utteranceQueue.addToBack( this.jumpingUtterance );
+    this.alertDescriptionUtterance( this.jumpingUtterance );
 
     // reset forces in tracked values in describer that determine description for induced charge change
     this.describer.chargeDescriber.resetReferenceForces();
