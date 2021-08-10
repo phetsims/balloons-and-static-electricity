@@ -26,6 +26,7 @@ import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragL
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
@@ -355,9 +356,14 @@ class BalloonNode extends Node {
     const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
 
-    // attach the GrabDragInteraction to the image node, which is a child of this node so that the accessible
-    // content for the interaction is underneath this node
-    const grabDragInteraction = new GrabDragInteraction( balloonImageNode, this.keyboardDragHandler, {
+    // Attach the GrabDragInteraction to a child of this Node so that the accessible
+    // content for the interaction is underneath this node. Cannot attach to the balloonImageNode
+    // because it is important that that Node be pickable: false for the touch areas. The Node takes
+    // the shape of the touchArea so that bounds do not interfere or extend beyond the elliptical touch
+    // area shape.
+    const grabDragTargetNode = new Path( this.touchArea );
+    this.addChild( grabDragTargetNode );
+    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragHandler, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
 
