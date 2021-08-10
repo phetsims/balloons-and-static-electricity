@@ -178,7 +178,11 @@ class BalloonNode extends Node {
     this.addInputListener( dragHandler );
 
     const balloonImageNode = new Image( imageSource, {
-      tandem: tandem.createTandem( 'balloonImageNode' )
+      tandem: tandem.createTandem( 'balloonImageNode' ),
+
+      // the balloonImageNode is not pickable so that mouse and touch areas which are smaller than the bounds
+      // of the image can be used by setting them on the parent of the image
+      pickable: false
     } );
 
     // now add the balloon, so that the tether is behind it in the z order
