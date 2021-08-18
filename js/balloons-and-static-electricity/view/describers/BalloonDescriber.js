@@ -22,6 +22,7 @@
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import AlertManager from '../../../../../scenery-phet/js/accessibility/describers/AlertManager.js';
 import AriaHerald from '../../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
@@ -67,22 +68,18 @@ const CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
 // in ms, time between alerts that tell user balloon continues to move due to force
 const RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
 
-// wrap in a function because phet.joist.sim doesn't exist at import time
-const getUtteranceQueue = () => {
-  assert && assert( phet.joist && phet.joist.sim && phet.joist.sim.utteranceQueue, 'utteranceQueue needed for BalloonDescriber' );
-  assert && assert( phet.joist.sim.utteranceQueue instanceof phet.utteranceQueue.UtteranceQueue, 'UtteranceQueue type expected' );
-  return phet.joist.sim.utteranceQueue;
-};
-
-class BalloonDescriber {
+class BalloonDescriber extends AlertManager {
   /**
    * @param {BASEModel} model
    * @param {WallModel} wall
    * @param {BalloonModel} balloon
    * @param {string} accessibleLabel - accessible name for the balloon being described
    * @param {string} otherAccessibleLabel - accessible name for the other balloon being described
+   * @param {Node} nodeToAlertWith - need a connected Node to alert to a description UtteranceQueue
    */
-  constructor( model, wall, balloon, accessibleLabel, otherAccessibleLabel ) {
+  constructor( model, wall, balloon, accessibleLabel, otherAccessibleLabel, nodeToAlertWith ) {
+
+    super( nodeToAlertWith );
 
     // @private
     this.model = model;
@@ -91,6 +88,7 @@ class BalloonDescriber {
     this.accessibleName = accessibleLabel;
     this.otherAccessibleName = otherAccessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
+    this.nodeToAlertWith = nodeToAlertWith;
 
     // @private - manages descriptions about the balloon related to charge
     this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
@@ -191,7 +189,7 @@ class BalloonDescriber {
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( isVisible => {
-      getUtteranceQueue().addToBack( this.getVisibilityChangedDescription() );
+      this.alertDescriptionUtterance( this.getVisibilityChangedDescription() );
       this.initialMovementDescribed = false;
       this.preventNoMovementAlert = true;
     } );
@@ -199,7 +197,7 @@ class BalloonDescriber {
     // pdom - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( onSweater => {
       if ( balloon.isDraggedProperty.get() ) {
-        getUtteranceQueue().addToBack( this.movementDescriber.getOnSweaterString( onSweater ) );
+        this.alertDescriptionUtterance( this.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -284,7 +282,7 @@ class BalloonDescriber {
    * @param {AlertableDef} alertable
    */
   sendAlert( alertable ) {
-    getUtteranceQueue().addToBack( alertable );
+    this.alertDescriptionUtterance( alertable );
     this.positionOnAlert = this.balloonModel.positionProperty.get();
   }
 

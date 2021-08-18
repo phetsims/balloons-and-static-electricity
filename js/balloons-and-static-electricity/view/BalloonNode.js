@@ -116,7 +116,7 @@ class BalloonNode extends Node {
     this.globalModel = globalModel;
 
     // pdom - a type that generates descriptions for the balloon
-    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString );
+    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString, this );
 
     // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
     this.jumpingUtterance = new Utterance();
