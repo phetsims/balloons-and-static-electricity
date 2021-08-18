@@ -161,7 +161,7 @@ class ControlPanel extends Node {
       }
 
       assert && assert( alertString, `no interactive alert for showChargesProperty value ${value}` );
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -234,7 +234,7 @@ class ControlPanel extends Node {
       this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = true; } );
 
       // alert to assistive technology
-      phet.joist.sim.utteranceQueue.addToBack( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+      this.alertDescriptionUtterance( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };
