@@ -83,7 +83,9 @@ class BalloonNode extends Node {
       cursor: 'pointer',
 
       // {Object} - options passed to the drift velocity sound generator
-      balloonVelocitySoundGeneratorOptions: {},
+      balloonVelocitySoundGeneratorOptions: {
+        enableControlProperties: [ model.isVisibleProperty ]
+      },
 
       // {Object} - options passed to the balloon rubbing sound generator
       balloonRubbingSoundGeneratorOptions: {},
