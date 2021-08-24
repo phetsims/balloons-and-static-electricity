@@ -27,7 +27,6 @@ import PointChargeModel from './PointChargeModel.js';
 
 // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
 const VELOCITY_ARRAY_LENGTH = 5;
-const THRESHOLD_SPEED = 0.0125;
 const BALLOON_WIDTH = 134;
 const BALLOON_HEIGHT = 222;
 
@@ -772,7 +771,7 @@ class BalloonModel {
     this.dragVelocityProperty.set( new Vector2( vx, vy ) );
 
     let chargeFound = false;
-    if ( speed >= THRESHOLD_SPEED ) {
+    if ( speed > 0 ) {
       chargeFound = model.sweater.checkAndTransferCharges( this );
     }
 
