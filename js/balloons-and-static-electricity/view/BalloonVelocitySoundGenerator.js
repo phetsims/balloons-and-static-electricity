@@ -14,9 +14,8 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import driftVelocityLoopSound from '../../../sounds/carrier-000_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-// function for mapping the speed of the balloon to the playback rate of the carrier sound, empirically determined
-const mapSpeedToPlaybackRate = new LinearFunction( 0, 3, 0.5, 2, true );
-const mapSpeedToOutputLevel = new LinearFunction( 0, 3, 0.2, 1, false );
+// constants
+const MIN_PLAYBACK_RATE_CHANGE = 0.02;
 
 class BalloonVelocitySoundGenerator extends SoundClip {
 
@@ -60,20 +59,27 @@ class BalloonVelocitySoundGenerator extends SoundClip {
       ( balloonVelocity, onSweater, touchingWall ) => {
         const speed = balloonVelocity.magnitude;
         if ( speed > 0 && !touchingWall ) {
+
+          const targetPlaybackRate = mapSpeedToPlaybackRate( speed );
+
           if ( !this.isPlaying ) {
 
-            // Before starting playback, set the playback rate immediately, otherwise there can be a bit of the "chirp"
-            // sound.
-            this.setPlaybackRate( mapSpeedToPlaybackRate( speed, 0 ) );
+            // Before starting playback, set the playback rate immediately, otherwise a sort of "chirp" sound can occur.
+            this.setPlaybackRate( targetPlaybackRate, 0 );
 
             // Start the sound playing.
             this.play();
           }
           else {
 
-            // Set the playback rate.  This will use the nominal time constant, which should lead to a reasonably smooth
-            // transition of the rate as the velocity changes.
-            this.setPlaybackRate( mapSpeedToPlaybackRate( speed ) );
+            // Set the playback rate if the difference is above the threshold.  The thresholding is done because setting
+            // it too frequently can cause performance issues, see
+            // https://github.com/phetsims/balloons-and-static-electricity/issues/527.
+            if ( Math.abs( targetPlaybackRate - this.playbackRate ) >= MIN_PLAYBACK_RATE_CHANGE ) {
+
+              // Set the playback rate.  This uses a relatively long time constant to make the changes sound smooth.
+              this.setPlaybackRate( targetPlaybackRate, 0.1 );
+            }
           }
 
           // Set the output level based on the velocity.
@@ -83,7 +89,8 @@ class BalloonVelocitySoundGenerator extends SoundClip {
           this.stop();
           this.setOutputLevel( 0 );
         }
-      } );
+      }
+    );
 
     this.disposeBalloonVelocitySoundGenerator = () => {
       outputUpdaterMultilink.dispose();
@@ -100,6 +107,11 @@ class BalloonVelocitySoundGenerator extends SoundClip {
   }
 }
 
-balloonsAndStaticElectricity.register( 'BalloonVelocitySoundGenerator', BalloonVelocitySoundGenerator );
+// function for mapping the speed of the balloon to the playback rate of the carrier sound, empirically determined
+const mapSpeedToPlaybackRate = new LinearFunction( 0, 3, 0.5, 2, true );
 
+// function for mapping the speed of the balloon to the output level
+const mapSpeedToOutputLevel = new LinearFunction( 0, 3, 0.2, 1, false );
+
+balloonsAndStaticElectricity.register( 'BalloonVelocitySoundGenerator', BalloonVelocitySoundGenerator );
 export default BalloonVelocitySoundGenerator;
