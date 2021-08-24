@@ -189,8 +189,8 @@ class SweaterModel {
     // check each minus charge to see whether it should be moved to the balloon
     this.minusCharges.forEach( minusCharge => {
 
-      // used too check if an eliptical shape contains the charge, but reverted to checking the balloon's
-      // rectangular bounds, which is faster and sufficient for this simulation, see #409
+      // This used to check if an elliptical shape contains the charge, but was reverted to checking the balloon's
+      // rectangular bounds, which is faster and sufficient for this simulation, see #409.
       if ( !minusCharge.movedProperty.get() && balloon.bounds.containsPoint( minusCharge.position ) ) {
         this.moveChargeTo( minusCharge, balloon );
         chargeMoved = true;
