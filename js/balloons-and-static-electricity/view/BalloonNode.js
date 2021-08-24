@@ -110,9 +110,6 @@ class BalloonNode extends Node {
     // super constructor
     super( options );
 
-    // interactive highlights - initialize the trait
-    this.initializeMouseHighlighting();
-
     // @private
     this.model = model;
     this.globalModel = globalModel;
@@ -363,7 +360,7 @@ class BalloonNode extends Node {
     // because it is important that that Node be pickable: false for the touch areas. The Node takes
     // the shape of the touchArea so that bounds do not interfere or extend beyond the elliptical touch
     // area shape.
-    const grabDragTargetNode = new Path( this.touchArea );
+    const grabDragTargetNode = new MouseHighlightingInteractionNode( this.touchArea );
     this.addChild( grabDragTargetNode );
     const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragHandler, {
       objectToGrabString: accessibleLabelString,
@@ -534,7 +531,24 @@ class BalloonNode extends Node {
   }
 }
 
-MouseHighlighting.compose( BalloonNode );
+/**
+ * A node that mixes MouseHighlighting to support Interactive Highlights. The GrabDragInteraction implements
+ * the highlights used for interaction and they are applied to a child of this Node. In order to use the
+ * same highlights, MouseHIghlighting is composed with the same Node that uses GrabDragInteraction.
+ */
+class MouseHighlightingInteractionNode extends Path {
+
+  /**
+   * @param {Shape} shape
+   * @param {Object} [options]
+   */
+  constructor( shape, options ) {
+    super( shape, options );
+    this.initializeMouseHighlighting( options );
+  }
+}
+
+MouseHighlighting.compose( MouseHighlightingInteractionNode );
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 
