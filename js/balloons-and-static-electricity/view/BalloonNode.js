@@ -20,7 +20,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
-import MouseHighlighting from '../../../../scenery/js/accessibility/voicing/MouseHighlighting.js';
+import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -60,7 +60,7 @@ const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 class BalloonNode extends Node {
 
   /**
-   * @mixes MouseHighlighting
+   * @mixes InteractiveHighlighting
    * @param {BalloonModel} model
    * @param {Image} imageSource - image source from the image plugin
    * @param {BASEModel} globalModel
@@ -360,7 +360,7 @@ class BalloonNode extends Node {
     // because it is important that that Node be pickable: false for the touch areas. The Node takes
     // the shape of the touchArea so that bounds do not interfere or extend beyond the elliptical touch
     // area shape.
-    const grabDragTargetNode = new MouseHighlightingInteractionNode( this.touchArea );
+    const grabDragTargetNode = new InteractiveHighlightInteractionNode( this.touchArea );
     this.addChild( grabDragTargetNode );
     const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragHandler, {
       objectToGrabString: accessibleLabelString,
@@ -532,11 +532,11 @@ class BalloonNode extends Node {
 }
 
 /**
- * A node that mixes MouseHighlighting to support Interactive Highlights. The GrabDragInteraction implements
+ * A node that mixes InteractiveHighlighting to support Interactive Highlights. The GrabDragInteraction implements
  * the highlights used for interaction and they are applied to a child of this Node. In order to use the
- * same highlights, MouseHIghlighting is composed with the same Node that uses GrabDragInteraction.
+ * same highlights, InteractiveHighlighting is composed with the same Node that uses GrabDragInteraction.
  */
-class MouseHighlightingInteractionNode extends Path {
+class InteractiveHighlightInteractionNode extends Path {
 
   /**
    * @param {Shape} shape
@@ -544,11 +544,11 @@ class MouseHighlightingInteractionNode extends Path {
    */
   constructor( shape, options ) {
     super( shape, options );
-    this.initializeMouseHighlighting( options );
+    this.initializeInteractiveHighlighting( options );
   }
 }
 
-MouseHighlighting.compose( MouseHighlightingInteractionNode );
+InteractiveHighlighting.compose( InteractiveHighlightInteractionNode );
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 

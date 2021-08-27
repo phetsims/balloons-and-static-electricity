@@ -20,7 +20,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import MouseHighlighting from '../../../../scenery/js/accessibility/voicing/MouseHighlighting.js';
+import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
 import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
@@ -104,7 +104,7 @@ class TwoSceneSelectionNode extends Node {
 
     super( options );
 
-    this.initializeMouseHighlighting();
+    this.initializeInteractiveHighlighting();
 
     // place the nodes in an align group so that the two buttons will have identical sizing
     const buttonAlignGroup = new AlignGroup();
@@ -268,7 +268,7 @@ class TwoSceneSelectionNode extends Node {
   }
 }
 
-MouseHighlighting.compose( TwoSceneSelectionNode );
+InteractiveHighlighting.compose( TwoSceneSelectionNode );
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
