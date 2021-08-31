@@ -15,7 +15,8 @@ import driftVelocityLoopSound from '../../../sounds/carrier-000_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
-const MIN_PLAYBACK_RATE_CHANGE = 0.02;
+const MIN_PLAYBACK_RATE_CHANGE = 0.03;
+const MIN_OUTPUT_LEVEL_CHANGE = 0.05;
 
 class BalloonVelocitySoundGenerator extends SoundClip {
 
@@ -61,11 +62,15 @@ class BalloonVelocitySoundGenerator extends SoundClip {
         if ( speed > 0 && !touchingWall ) {
 
           const targetPlaybackRate = mapSpeedToPlaybackRate( speed );
+          const targetOutputLevel = mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel;
 
           if ( !this.isPlaying ) {
 
             // Before starting playback, set the playback rate immediately, otherwise a sort of "chirp" sound can occur.
             this.setPlaybackRate( targetPlaybackRate, 0 );
+
+            // Also set the output level immediately.
+            this.setOutputLevel( targetOutputLevel, 0 );
 
             // Start the sound playing.
             this.play();
@@ -73,17 +78,19 @@ class BalloonVelocitySoundGenerator extends SoundClip {
           else {
 
             // Set the playback rate if the difference is above the threshold.  The thresholding is done because setting
-            // it too frequently can cause performance issues, see
+            // it too frequently can cause performance issues that result in crackling sounds, see
             // https://github.com/phetsims/balloons-and-static-electricity/issues/527.
             if ( Math.abs( targetPlaybackRate - this.playbackRate ) >= MIN_PLAYBACK_RATE_CHANGE ) {
 
               // Set the playback rate.  This uses a relatively long time constant to make the changes sound smooth.
-              this.setPlaybackRate( targetPlaybackRate, 0.1 );
+              this.setPlaybackRate( targetPlaybackRate, 0.5 );
+            }
+
+            // Same story as above for the output level, i.e. don't change it too frequently.
+            if ( Math.abs( targetOutputLevel - this.outputLevel ) >= MIN_OUTPUT_LEVEL_CHANGE ) {
+              this.setOutputLevel( targetOutputLevel );
             }
           }
-
-          // Set the output level based on the velocity.
-          this.setOutputLevel( mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel );
         }
         else if ( ( speed === 0 || touchingWall ) && this.isPlaying ) {
           this.stop();
