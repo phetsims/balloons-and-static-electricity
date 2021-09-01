@@ -79,8 +79,9 @@ class BalloonDescriber extends Alerter {
    */
   constructor( model, wall, balloon, accessibleLabel, otherAccessibleLabel, nodeToAlertWith ) {
 
-    super( nodeToAlertWith );
-
+    super( {
+      descriptionAlertNode: nodeToAlertWith
+    } );
     // @private
     this.model = model;
     this.wall = wall;
