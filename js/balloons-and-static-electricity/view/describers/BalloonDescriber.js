@@ -22,7 +22,7 @@
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import AlertManager from '../../../../../scenery-phet/js/accessibility/describers/AlertManager.js';
+import Alerter from '../../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import AriaHerald from '../../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
@@ -68,7 +68,7 @@ const CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
 // in ms, time between alerts that tell user balloon continues to move due to force
 const RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
 
-class BalloonDescriber extends AlertManager {
+class BalloonDescriber extends Alerter {
   /**
    * @param {BASEModel} model
    * @param {WallModel} wall
