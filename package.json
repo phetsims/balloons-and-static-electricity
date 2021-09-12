@@ -33,7 +33,8 @@
       "wrappers": [
         "phet-io-wrapper-haptics"
       ]
-    }
+    },
+    "supportsOutputJS": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
