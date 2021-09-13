@@ -65,10 +65,10 @@ class ControlPanel extends Node {
 
   /**
    * @param {BASEModel} model
-   * @param {Bounds2} layoutBounds
+   * @param {BASEView} view
    * @param {Tandem} tandem
    */
-  constructor( model, layoutBounds, tandem ) {
+  constructor( model, view, tandem ) {
 
     // super constructor
     super();
@@ -231,6 +231,9 @@ class ControlPanel extends Node {
         balloon.reset( true );
       } );
 
+      // Make sure the balloons are correctly layered in the view.
+      view.setDefaultBalloonZOrder();
+
       this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = true; } );
 
       // alert to assistive technology
@@ -277,7 +280,10 @@ class ControlPanel extends Node {
 
     //Add the controls at the right, with the reset all button and the wall button
     const resetAllButton = new ResetAllButton( {
-      listener: model.reset.bind( model ),
+      listener: () => {
+        model.reset();
+        view.setDefaultBalloonZOrder();
+      },
       scale: 0.96,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -287,6 +293,8 @@ class ControlPanel extends Node {
       align: 'bottom',
       children: [ resetAllButton, this.wallButton ]
     } );
+
+    const layoutBounds = view.layoutBounds;
 
     // more than other controls so the reset button touch area doesn't overlap the nav bar
     controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
