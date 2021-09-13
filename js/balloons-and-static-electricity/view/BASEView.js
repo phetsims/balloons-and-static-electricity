@@ -77,7 +77,7 @@ class BASEView extends ScreenView {
       { fill: 'black', tandem: tandem.createTandem( 'spaceToLeftOfWall' ) }
     ) );
 
-    const controlPanel = new ControlPanel( model, this.layoutBounds, tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new ControlPanel( model, this, tandem.createTandem( 'controlPanel' ) );
 
     // @private - sound generator for the deflection of the charges in the wall, never disposed
     this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
@@ -154,11 +154,13 @@ class BASEView extends ScreenView {
     const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, this.wallNode, tandem.createTandem( 'screenSummaryNode' ) );
     this.setScreenSummaryContent( screenSummaryNode );
 
-    // combine the balloon content into single nodes so that they are easily layerable
-    const greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
-    const yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-    this.addChild( yellowBalloonLayerNode );
-    this.addChild( greenBalloonLayerNode );
+    // @private {Node} - layer on which the green balloon resides.
+    this.greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
+    this.addChild( this.greenBalloonLayerNode );
+
+    // @private {Node} - layer on which the yellow balloon resides.
+    this.yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
+    this.addChild( this.yellowBalloonLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( isVisible => {
@@ -168,18 +170,23 @@ class BASEView extends ScreenView {
 
     this.addChild( controlPanel );
 
-    // when one of the balloons is picked up, move its content and cue nodes to front
+    // When one of the balloons is picked up, move its content and cue nodes to the front.
     Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], ( yellowDragged, greenDragged ) => {
       if ( yellowDragged ) {
-        yellowBalloonLayerNode.moveToFront();
+        this.yellowBalloonLayerNode.moveToFront();
       }
       else if ( greenDragged ) {
-        greenBalloonLayerNode.moveToFront();
+        this.greenBalloonLayerNode.moveToFront();
       }
     } );
 
     // pdom - assign components to the appropriate sections and specify order
-    this.pdomPlayAreaNode.pdomOrder = [ sweaterNode, yellowBalloonLayerNode, greenBalloonLayerNode, this.wallNode ];
+    this.pdomPlayAreaNode.pdomOrder = [
+      sweaterNode,
+      this.yellowBalloonLayerNode,
+      this.greenBalloonLayerNode,
+      this.wallNode
+    ];
     this.pdomControlAreaNode.pdomOrder = [ controlPanel ];
 
     //--------------------------------------------------------------------------
@@ -200,6 +207,14 @@ class BASEView extends ScreenView {
   step( dt ) {
     this.greenBalloonNode.step( dt );
     this.yellowBalloonNode.step( dt );
+  }
+
+  /**
+   * Set the default layering of the balloons, generally used to restore initial view state.
+   * @public
+   */
+  setDefaultBalloonZOrder() {
+    this.greenBalloonLayerNode.moveToFront();
   }
 
   /**
