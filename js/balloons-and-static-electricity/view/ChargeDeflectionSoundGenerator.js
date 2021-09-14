@@ -69,6 +69,9 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // @private {SoundClip[]} - sound generators used used to produce the individual sounds
     this.soundGenerators = [];
 
+    // @private {Map.<MovablePointChargeModel,SoundGenerator>}
+    this.chargeToSoundGeneratorMap = new Map();
+
     // @private {MovablePointChargeModel[]} - array of point charges, needed by methods
     this.wallCharges = wallCharges;
 
@@ -76,7 +79,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     this.updateChargeDeflectionBins();
 
     // Create the sound generators that will produce the individual discrete sounds.
-    _.times( NUMBER_OF_SOUND_GENERATORS, () => {
+    _.times( NUMBER_OF_SOUND_GENERATORS, index => {
       const soundClip = new SoundClip(
         chargeDeflectionBaseSound,
         {
@@ -90,6 +93,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       );
       soundClip.connect( this.masterGainNode );
       this.soundGenerators.push( soundClip );
+      this.chargeToSoundGeneratorMap.set( this.getChargeForSoundGeneratorIndex( index ), soundClip );
     } );
   }
 
@@ -121,14 +125,14 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
   /**
    * Get the charge that corresponds to the specified sound generator index.
-   * @param soundGeneratorIndex
+   * @param {number} soundGeneratorIndex
    * @returns {number}
    * @private
    */
-  getChargeForSoundGenerator( soundGeneratorIndex ) {
+  getChargeForSoundGeneratorIndex( soundGeneratorIndex ) {
     assert && assert( soundGeneratorIndex < NUMBER_OF_SOUND_GENERATORS, 'soundGeneratorIndex out of range' );
     const spacing = this.wallCharges.length / ( NUMBER_OF_SOUND_GENERATORS + 1 );
-    return Math.floor( ( soundGeneratorIndex + 1 ) * spacing );
+    return this.wallCharges[ Math.floor( ( soundGeneratorIndex + 1 ) * spacing ) ];
   }
 
   /**
@@ -159,21 +163,21 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Only play sounds if the changes are associated with the balloon that is being dragged.
     if ( balloon.inducingChargeProperty.value ) {
 
-      // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
-      // has changed bins since the last time we checked.
-      _.times( NUMBER_OF_SOUND_GENERATORS, index => {
+      const sonifiedCharges = Array.from( this.chargeToSoundGeneratorMap.keys() );
 
-        const discreteSoundGenerator = this.soundGenerators[ index ];
+      sonifiedCharges.forEach( charge => {
 
-        // Figure out the charge to which this sound generator corresponds.
-        const chargeIndex = this.getChargeForSoundGenerator( index );
+        // Get the index for this charge.
+        const chargeIndex = this.wallCharges.indexOf( charge );
 
         if ( previousChargeDeflectionBins[ chargeIndex ] !== this.chargeDeflectionBins[ chargeIndex ] ) {
 
+          const soundGenerator = this.chargeToSoundGeneratorMap.get( charge );
+
           // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
           // play the sound.
-          discreteSoundGenerator.setPlaybackRate( mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] ), 0 );
-          discreteSoundGenerator.play();
+          soundGenerator.setPlaybackRate( mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] ), 0 );
+          soundGenerator.play();
         }
       } );
     }
@@ -200,32 +204,43 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       // array to keep track of used playback rates to avoid duplication
       const usedPlaybackRates = [];
 
-      // For each active sound generator, first determine the charge to which it maps, then figure out if that charge
-      // has moved since the last time we checked and, if so, play a sound.
-      _.times( NUMBER_OF_SOUND_GENERATORS, index => {
+      // Count how many sound instances are currently being played.
+      let totalPlayingSoundClipInstances = this.soundGenerators.reduce(
+        ( totalPlayingInstances, sg ) => sg.getNumberOfPlayingInstances() + totalPlayingInstances,
+        0
+      );
 
-        // Count how many sound instances are currently being played.
-        const totalPlayingSoundClipInstances = this.soundGenerators.reduce(
-          ( totalPlayingInstances, sg ) => sg.getNumberOfPlayingInstances() + totalPlayingInstances,
-          0
-        );
+      // Create an ordered list of the charges that have sound generators associated with them.  The list is sorted
+      // based on how close each charge is to the center of the balloon.  This is needed to avoid situations where some
+      // of the sound generators don't get played when lots of movement is occurring, which leads to inconsistent
+      // behavior based on where the balloon is.  See
+      // https://github.com/phetsims/balloons-and-static-electricity/issues/533.
+      const sortedSonifiedCharges = Array.from( this.chargeToSoundGeneratorMap.keys() ).sort( ( charge1, charge2 ) => {
+        const balloonCenter = balloon.getCenter();
+        return charge1.position.distance( balloonCenter ) - charge2.position.distance( balloonCenter );
+      } );
 
-        // Only play the sound if there aren't already too many playing.
+      // For each charge that has an associated sound generator, figure out if that charge has moved since the last drag
+      // event and, if so, play a sound.
+      sortedSonifiedCharges.forEach( charge => {
+
+        // Don't even consider playing a sound if there are already too many playing.  This helps to keep things from
+        // sounding too chaotic.
         if ( totalPlayingSoundClipInstances < NUMBER_OF_SOUND_GENERATORS ) {
-          const soundGenerator = this.soundGenerators[ index ];
 
-          // Figure out the charge to which this sound generator corresponds.
-          const chargeIndex = this.getChargeForSoundGenerator( index );
+          const chargeIndex = this.wallCharges.indexOf( charge );
 
-          // Check whether the charge associated with this sound generator has moved.
-          if ( !currentChargePositions[ chargeIndex ].equals( this.previousChargePositions[ chargeIndex ] ) ) {
+          // Check whether the charge has moved since the last drag.
+          if ( !charge.position.equals( this.previousChargePositions[ chargeIndex ] ) ) {
 
             const playbackRateForBin = mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] );
 
-            // Only play if the same playback rate hasn't already been kicked off.
+            // Only play the sound if the same playback rate hasn't already been kicked off on another charge.
             if ( !usedPlaybackRates.includes( playbackRateForBin ) ) {
+              const soundGenerator = this.chargeToSoundGeneratorMap.get( charge );
               soundGenerator.setPlaybackRate( playbackRateForBin, 0 );
               soundGenerator.play( playDelay );
+              totalPlayingSoundClipInstances += 1;
               playDelay += 0.1;
               usedPlaybackRates.push( playbackRateForBin );
             }
