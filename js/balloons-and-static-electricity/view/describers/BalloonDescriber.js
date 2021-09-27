@@ -23,7 +23,7 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import AriaHerald from '../../../../../utterance-queue/js/AriaHerald.js';
+import AriaLiveAnnouncer from '../../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
@@ -131,7 +131,7 @@ class BalloonDescriber extends Alerter {
       // trying to make movement alerts assertive to reduce pile up of alerts while dragging the balloon, see
       // https://github.com/phetsims/balloons-and-static-electricity/issues/491
       announcerOptions: {
-        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
       }
     } ) );
     this.inducedChargeChangeUtterance = new Utterance( utteranceOptions );
@@ -143,7 +143,7 @@ class BalloonDescriber extends Alerter {
 
       // grab/release alerts are assertive, see https://github.com/phetsims/balloons-and-static-electricity/issues/491
       announcerOptions: {
-        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
       }
     } );
 
