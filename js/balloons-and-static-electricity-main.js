@@ -29,8 +29,9 @@ simLauncher.launch( () => {
       leadDesign: 'Noah Podolefsky & Sam Reid',
       softwareDevelopment: 'Sam Reid, John Blanco',
       team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul,<br>Kathy Perkins, Taliesin Smith',
-      qualityAssurance: 'Steele Dalton, Bryce Griebenow, Ethan Johnson, Elise Morgan,<br>Liam Mulhall, Oliver Orejola, ' +
-                        'Benjamin Roberts, Jacob Romero, Bryan Yoelin',
+      qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson,<br>' +
+                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero,<br>' +
+                        'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
       graphicArts: 'Sharon Siman-Tov',
       soundDesign: 'Ashton Morris',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
