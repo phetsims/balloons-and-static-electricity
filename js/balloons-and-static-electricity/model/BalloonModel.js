@@ -884,7 +884,18 @@ class BalloonModel {
 
         // trying to go beyond right bound
         newPosition.x = rightBound - this.width;
-        newVelocity.x = newVelocity.x > 0 ? 0 : newVelocity.x;
+
+        if ( newVelocity.x > 0 ) {
+          newVelocity.x = 0;
+
+          // If this balloon is pushing up against the wall and it is being stopped from moving in the X direction as a
+          // result, stop it from moving in the Y direction too.  This is realistic, since there would likely be a fair
+          // amount of friction at the balloon/wall interface, and helps to prevent some odd behaviors, see
+          // https://github.com/phetsims/balloons-and-static-electricity/issues/544.
+          if ( this.touchingWallProperty.value ) {
+            newVelocity.y = 0;
+          }
+        }
       }
       if ( newPosition.y + this.height >= model.playAreaBounds.maxY ) {
 
