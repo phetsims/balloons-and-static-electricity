@@ -95,6 +95,16 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
       this.soundGenerators.push( soundClip );
       this.chargeToSoundGeneratorMap.set( this.getChargeForSoundGeneratorIndex( index ), soundClip );
     } );
+
+    // Monitor the balloons for drift motion (i.e. motion not caused by the user dragging them) and produce sound if
+    // this motion causes changes in the positions of the wall charges.
+    balloons.forEach( balloon => {
+      balloon.positionProperty.link( () => {
+        if ( !balloon.isDraggedProperty.value && balloon.inducingChargeProperty.value ) {
+          this.produceSoundForBinChanges( balloon );
+        }
+      } );
+    } );
   }
 
   /**
@@ -153,6 +163,16 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * @public
    */
   balloonDraggedByPointer( balloon ) {
+    this.produceSoundForBinChanges( balloon );
+  }
+
+  /**
+   * Check all of the charges that have sound generators associated with them and, if the charge has moved to a new
+   * bin, produce the corresponding sound.  This also updates the bin positions.
+   * @param balloon
+   * @private
+   */
+  produceSoundForBinChanges( balloon ) {
 
     // Make a list of the previous charge bins.
     const previousChargeDeflectionBins = [ ...this.chargeDeflectionBins ];
@@ -194,6 +214,16 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * @public
    */
   balloonDraggedByKeyboard( balloon ) {
+    this.produceSoundForChargeMotion( balloon );
+  }
+
+  /**
+   * Check whether any of the charges in the wall have moved since the last update and, if so, produce a sound that
+   * indicates this.  The balloon is checked to make sure that it is actually inducing charge in the wall.
+   * @param {BalloonModel} balloon
+   * @private
+   */
+  produceSoundForChargeMotion( balloon ) {
     this.updateChargeDeflectionBins();
     const currentChargePositions = this.wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
     let playDelay = 0;
