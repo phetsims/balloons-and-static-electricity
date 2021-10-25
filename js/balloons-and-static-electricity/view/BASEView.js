@@ -170,15 +170,21 @@ class BASEView extends ScreenView {
 
     this.addChild( controlPanel );
 
+    // Make sure that we start with the correct z-order for the balloons.
+    this.setDefaultBalloonZOrder();
+
     // When one of the balloons is picked up, move its content and cue nodes to the front.
-    Property.multilink( [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ], ( yellowDragged, greenDragged ) => {
-      if ( yellowDragged ) {
-        this.yellowBalloonLayerNode.moveToFront();
+    Property.multilink(
+      [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ],
+      ( yellowDragged, greenDragged ) => {
+        if ( yellowDragged ) {
+          this.yellowBalloonLayerNode.moveToFront();
+        }
+        else if ( greenDragged ) {
+          this.greenBalloonLayerNode.moveToFront();
+        }
       }
-      else if ( greenDragged ) {
-        this.greenBalloonLayerNode.moveToFront();
-      }
-    } );
+    );
 
     // pdom - assign components to the appropriate sections and specify order
     this.pdomPlayAreaNode.pdomOrder = [
@@ -214,7 +220,7 @@ class BASEView extends ScreenView {
    * @public
    */
   setDefaultBalloonZOrder() {
-    this.greenBalloonLayerNode.moveToFront();
+    this.yellowBalloonLayerNode.moveToFront();
   }
 
   /**
