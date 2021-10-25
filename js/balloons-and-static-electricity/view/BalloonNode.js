@@ -188,9 +188,24 @@ class BalloonNode extends Node {
     // now add the balloon, so that the tether is behind it in the z order
     this.addChild( balloonImageNode );
 
-    // custom elliptical touch/mouse areas so the balloon is easier to grab when under the other balloon
-    this.mouseArea = Shape.ellipse( balloonImageNode.centerX, balloonImageNode.centerY, balloonImageNode.width / 2, balloonImageNode.height / 2, 0 );
-    this.touchArea = this.mouseArea;
+    // Create a custom touch/mouse area that matches the shape of the balloons reasonably well.  This was created to
+    // match the artwork as it is at the time of this writing, and if the artwork changes, this may need to change too.
+    const mainBodyEllipse = Shape.ellipse(
+      balloonImageNode.centerX,
+      balloonImageNode.centerY * 0.91,
+      balloonImageNode.width * 0.51,
+      balloonImageNode.height * 0.465,
+      0
+    );
+    const nubRect = Shape.rectangle(
+      balloonImageNode.centerX - balloonImageNode.width * 0.05,
+      balloonImageNode.height * 0.9,
+      balloonImageNode.width * 0.1,
+      balloonImageNode.height * 0.1
+    );
+    const pointerAreaShape = Shape.union( [ mainBodyEllipse, nubRect ] );
+    this.mouseArea = pointerAreaShape;
+    this.touchArea = pointerAreaShape;
 
     // static charges
     for ( let i = 0; i < model.plusCharges.length; i++ ) {
