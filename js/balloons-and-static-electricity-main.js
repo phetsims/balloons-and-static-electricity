@@ -28,9 +28,9 @@ simLauncher.launch( () => {
     credits: {
       leadDesign: 'Noah Podolefsky & Sam Reid',
       softwareDevelopment: 'Sam Reid, John Blanco',
-      team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul,<br>Kathy Perkins, Taliesin Smith',
-      qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson,<br>' +
-                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero,<br>' +
+      team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul, Kathy Perkins, Taliesin Smith',
+      qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson, ' +
+                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero, ' +
                         'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
       graphicArts: 'Sharon Siman-Tov',
       soundDesign: 'Ashton Morris',
