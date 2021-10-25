@@ -261,7 +261,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           const chargeIndex = this.wallCharges.indexOf( charge );
 
           // Check whether the charge has moved since the last drag.
-          if ( !charge.position.equals( this.previousChargePositions[ chargeIndex ] ) ) {
+          if ( !charge.positionProperty.value.equals( this.previousChargePositions[ chargeIndex ] ) ) {
 
             const playbackRateForBin = mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] );
 
