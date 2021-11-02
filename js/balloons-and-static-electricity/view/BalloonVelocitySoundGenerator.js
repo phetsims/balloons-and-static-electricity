@@ -61,8 +61,8 @@ class BalloonVelocitySoundGenerator extends SoundClip {
         const speed = balloonVelocity.magnitude;
         if ( speed > 0 && !touchingWall ) {
 
-          const targetPlaybackRate = mapSpeedToPlaybackRate( speed );
-          const targetOutputLevel = mapSpeedToOutputLevel( speed, 0.1 ) * options.maxOutputLevel;
+          const targetPlaybackRate = mapSpeedToPlaybackRate.evaluate( speed );
+          const targetOutputLevel = mapSpeedToOutputLevel.evaluate( speed, 0.1 ) * options.maxOutputLevel;
 
           if ( !this.isPlaying ) {
 
