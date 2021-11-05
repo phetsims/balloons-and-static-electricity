@@ -23,7 +23,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "balloons-and-static-electricity",
-      "version": "1.6.0-dev.1",
+      "version": "1.6.0-dev.2",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -142,6 +142,7 @@
     script.type = type;
     script.src = preloadURL;
     script.async = false;
+    script.setAttribute( 'crossorigin', 'use-credentials' );
     document.head.appendChild( script );
   };
 
