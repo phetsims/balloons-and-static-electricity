@@ -82,7 +82,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
           // Set the output level based on the drag speed.
           this.setOutputLevel(
-            MAP_SMOOTHED_SPEED_TO_OUTPUT_LEVEL.evaluate( smoothedDragVelocity.magnitude ) * options.maxOutputLevel
+            MAP_SMOOTHED_SPEED_TO_OUTPUT_LEVEL( smoothedDragVelocity.magnitude ) * options.maxOutputLevel
           );
 
           // Set the pitch based on the direction in which the balloon is being dragged.
