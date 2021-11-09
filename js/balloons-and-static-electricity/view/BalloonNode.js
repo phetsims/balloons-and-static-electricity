@@ -278,13 +278,15 @@ class BalloonNode extends Node {
       options.balloonVelocitySoundGeneratorOptions
     ) );
 
-    // sound generation for when the balloon is being rubbed on the sweater
-    soundManager.addSoundGenerator( new BalloonRubbingSoundGenerator(
+    // @private {BalloonRubbingSoundGenerator} - Sound generation for when the balloon is being rubbed on the sweater or
+    // against the wall.
+    this.balloonRubbingSoundGenerator = new BalloonRubbingSoundGenerator(
       model.dragVelocityProperty,
       model.onSweaterProperty,
       model.touchingWallProperty,
       options.balloonRubbingSoundGeneratorOptions
-    ) );
+    );
+    soundManager.addSoundGenerator( this.balloonRubbingSoundGenerator );
 
     // sound generation for when the balloon contacts the sweater
     const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {
@@ -470,6 +472,8 @@ class BalloonNode extends Node {
    * @public
    */
   step( dt ) {
+
+    this.balloonRubbingSoundGenerator.step( dt );
 
     // Step the describer, which uses polling to determine the next alerts describing interactions with the balloon.
     this.describer.step( dt );
