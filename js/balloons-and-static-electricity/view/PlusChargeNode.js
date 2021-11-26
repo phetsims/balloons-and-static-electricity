@@ -6,10 +6,10 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
+import { Circle } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { RadialGradient } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';

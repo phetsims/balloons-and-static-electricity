@@ -11,10 +11,10 @@ import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Path } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 

@@ -8,9 +8,9 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Path } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';

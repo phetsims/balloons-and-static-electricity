@@ -7,7 +7,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import { CanvasNode } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
