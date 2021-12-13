@@ -18,16 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import { FocusHighlightFromNode } from '../../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../../scenery/js/imports.js';
-import { InteractiveHighlighting } from '../../../../scenery/js/imports.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
-import { KeyboardDragListener } from '../../../../scenery/js/imports.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Line } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, FocusHighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardUtils, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -567,8 +558,9 @@ class InteractiveHighlightInteractionNode extends Path {
    * @param {Object} [options]
    */
   constructor( shape, options ) {
-    super( shape, options );
-    this.initializeInteractiveHighlighting( options );
+    super( shape );
+    this.initializeInteractiveHighlighting();
+    this.mutate( options );
   }
 }
 
