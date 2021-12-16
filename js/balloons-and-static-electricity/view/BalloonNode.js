@@ -335,6 +335,8 @@ class BalloonNode extends Node {
     model.isDraggedProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
+    const dragBoundsProperty = new Property( this.getDragBounds() );
+
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
     let successfulKeyboardDrag = false; // used to hide the "drag" cue once a successful keyboard drag happens
     const boundaryUtterance = new Utterance();
@@ -343,7 +345,7 @@ class BalloonNode extends Node {
       shiftDownDelta: 0,
       dragVelocity: 300, // in view coordinates per second
       shiftDragVelocity: 100, // in view coordinates per second
-      dragBounds: this.getDragBounds(),
+      dragBoundsProperty: dragBoundsProperty,
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: event => {
@@ -434,7 +436,7 @@ class BalloonNode extends Node {
 
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( () => {
-      this.keyboardDragHandler._dragBounds = this.getDragBounds();
+      dragBoundsProperty.value = this.getDragBounds();
     } );
 
     model.resetEmitter.addListener( () => {
