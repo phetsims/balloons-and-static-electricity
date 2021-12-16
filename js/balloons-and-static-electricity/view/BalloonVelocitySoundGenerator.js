@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import driftVelocityLoopSound from '../../../sounds/carrier-000_wav.js';
+import carrier000_wav from '../../../sounds/carrier000_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
@@ -33,7 +33,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
         loop: true,
 
         // {WrappedAudioBuffer} - sound to use as the basis for the drifting velocity
-        basisSound: driftVelocityLoopSound,
+        basisSound: carrier000_wav,
 
         // {number) The output level is set as a function of the speed at which the balloon is moving.  This value
         // specifies the maximum value.  It will generally be between 0 and 1.

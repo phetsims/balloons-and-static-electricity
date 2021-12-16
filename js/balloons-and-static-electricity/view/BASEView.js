@@ -12,12 +12,11 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import balloonGreen from '../../../images/balloon-green_png.js';
-import balloonYellow from '../../../images/balloon-yellow_png.js';
-import greenBalloonDriftVelocityLoopSound from '../../../sounds/carrier-002_wav.js';
+import balloonGreen_png from '../../../images/balloonGreen_png.js';
+import balloonYellow_png from '../../../images/balloonYellow_png.js';
+import carrier002_wav from '../../../sounds/carrier002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -95,7 +94,7 @@ class BASEView extends ScreenView {
 
     this.yellowBalloonNode = new BalloonNode(
       model.yellowBalloon,
-      balloonYellow,
+      balloonYellow_png,
       model,
       yellowBalloonLabelString,
       greenBalloonLabelString,
@@ -123,7 +122,7 @@ class BASEView extends ScreenView {
     );
     this.greenBalloonNode = new BalloonNode(
       model.greenBalloon,
-      balloonGreen,
+      balloonGreen_png,
       model,
       greenBalloonLabelString,
       yellowBalloonLabelString,
@@ -131,7 +130,7 @@ class BASEView extends ScreenView {
       tandem.createTandem( 'greenBalloonNode' ),
       {
         labelContent: greenBalloonLabelString,
-        balloonVelocitySoundGeneratorOptions: { basisSound: greenBalloonDriftVelocityLoopSound },
+        balloonVelocitySoundGeneratorOptions: { basisSound: carrier002_wav },
         balloonRubbingSoundGeneratorOptions: {
           centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25
         },

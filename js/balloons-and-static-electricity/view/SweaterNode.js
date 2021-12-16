@@ -12,7 +12,7 @@ import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import sweater from '../../../images/sweater_png.js';
+import sweater_png from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -47,7 +47,7 @@ class SweaterNode extends Node {
     this.sweaterModel = model.sweater;
 
     // create the sweater image
-    const sweaterImageNode = new Image( sweater, { tandem: tandem.createTandem( 'sweater' ) } );
+    const sweaterImageNode = new Image( sweater_png, { tandem: tandem.createTandem( 'sweater' ) } );
 
     // Balloons and Static Electricity has unit tests which run outside of the context of simLauncher and hence not all
     // images may have dimensions by now.

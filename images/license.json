@@ -1,5 +1,5 @@
 {
-  "balloon-green.png": {
+  "balloonGreen.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Noah Podolefsky or Sharon Siman-Tov"
   },
-  "balloon-yellow.png": {
+  "balloonYellow.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],

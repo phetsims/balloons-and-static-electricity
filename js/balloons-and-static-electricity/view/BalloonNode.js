@@ -24,10 +24,10 @@ import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPo
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import grabBalloonSound from '../../../sounds/balloon-grab-006_mp3.js';
-import balloonHitsSweaterSound from '../../../sounds/balloon-hit-sweater_mp3.js';
-import releaseBalloonSound from '../../../sounds/balloon-release-006_mp3.js';
-import balloonHitsWallSound from '../../../sounds/wall-contact_mp3.js';
+import balloonGrab006_mp3 from '../../../sounds/balloonGrab006_mp3.js';
+import balloonHitSweater_mp3 from '../../../sounds/balloonHitSweater_mp3.js';
+import balloonRelease006_mp3 from '../../../sounds/balloonRelease006_mp3.js';
+import wallContact_mp3 from '../../../sounds/wallContact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
@@ -139,11 +139,11 @@ class BalloonNode extends Node {
     } );
 
     // Create the sound generators for grab and release of the balloons.
-    const grabBalloonSoundPlayer = new SoundClip( grabBalloonSound, {
+    const grabBalloonSoundPlayer = new SoundClip( balloonGrab006_mp3, {
       initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
     } );
     soundManager.addSoundGenerator( grabBalloonSoundPlayer );
-    const releaseBalloonSoundPlayer = new SoundClip( releaseBalloonSound, {
+    const releaseBalloonSoundPlayer = new SoundClip( balloonRelease006_mp3, {
       initialOutputLevel: GRAB_RELEASE_SOUND_LEVEL
     } );
     soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
@@ -280,7 +280,7 @@ class BalloonNode extends Node {
     soundManager.addSoundGenerator( this.balloonRubbingSoundGenerator );
 
     // sound generation for when the balloon contacts the sweater
-    const balloonHitsSweaterSoundClip = new SoundClip( balloonHitsSweaterSound, {
+    const balloonHitsSweaterSoundClip = new SoundClip( balloonHitSweater_mp3, {
       initialOutputLevel: 0.075
     } );
     soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
@@ -293,7 +293,7 @@ class BalloonNode extends Node {
     } );
 
     // Add the sound generation for when the balloon hits the wall or the drag bounds.
-    const balloonHitsWallSoundClip = new SoundClip( balloonHitsWallSound, {
+    const balloonHitsWallSoundClip = new SoundClip( wallContact_mp3, {
       initialOutputLevel: 0.15
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );

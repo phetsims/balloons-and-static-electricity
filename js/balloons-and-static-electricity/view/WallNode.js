@@ -9,7 +9,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import wallImage from '../../../images/wall_png.js';
+import wall_png from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import WallDescriber from './describers/WallDescriber.js';
@@ -46,7 +46,7 @@ class WallNode extends Node {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    this.wallNode = new Image( wallImage, { tandem: tandem.createTandem( 'wallNode' ) } );
+    this.wallNode = new Image( wall_png, { tandem: tandem.createTandem( 'wallNode' ) } );
 
     this.addChild( this.wallNode );
 

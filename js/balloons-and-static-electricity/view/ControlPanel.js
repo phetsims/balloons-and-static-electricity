@@ -22,8 +22,8 @@ import BooleanRectangularToggleButton from '../../../../sun/js/buttons/BooleanRe
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import balloonGreen from '../../../images/balloon-green_png.js';
-import balloonYellow from '../../../images/balloon-yellow_png.js';
+import balloonGreen_png from '../../../images/balloonGreen_png.js';
+import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -166,11 +166,11 @@ class ControlPanel extends Node {
 
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
-    const yellowBalloonImage = new Image( balloonYellow, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    const yellowBalloonImage = new Image( balloonYellow_png, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
     const twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
     const twoBalloonIcon = new Node( {
       children: [
-        new Image( balloonGreen, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
+        new Image( balloonGreen_png, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
       ],
       scale: scale,
@@ -180,7 +180,7 @@ class ControlPanel extends Node {
     const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     const oneBalloonIcon = new Node( {
       children: [
-        new Image( balloonYellow, {
+        new Image( balloonYellow_png, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
           tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
         } )

@@ -1,5 +1,5 @@
 {
-  "balloon-grab-006.mp3": {
+  "balloonGrab006.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "balloon-hit-sweater.mp3": {
+  "balloonHitSweater.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "balloon-release-006.mp3": {
+  "balloonRelease-006.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "carrier-000.wav": {
+  "carrier000.wav": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -31,7 +31,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "carrier-002.wav": {
+  "carrier002.wav": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -39,7 +39,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "charge-deflection.mp3": {
+  "chargeDeflection.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -47,7 +47,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "wall-contact.mp3": {
+  "wallContact.mp3": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
