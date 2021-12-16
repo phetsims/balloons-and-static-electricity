@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import GeneralKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
@@ -51,7 +51,7 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const balloonGrabHelpSection = new BalloonGrabHelpSection( {
       labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
-    const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
+    const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
       labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
     const moveBalloonHelpSection = new MoveBalloonHelpSection( {
@@ -62,12 +62,12 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     KeyboardHelpSection.alignHelpSectionIcons( [ balloonGrabHelpSection, moveBalloonHelpSection ] );
 
     // left aligned sections, and section about how to move the grabbed balloon are horizontally aligned
-    super( [ balloonGrabHelpSection, moveBalloonHelpSection ], [ generalNavigationHelpSection ], {
+    super( [ balloonGrabHelpSection, moveBalloonHelpSection ], [ basicActionsHelpSection ], {
       columnSpacing: 27
     } );
 
     // the reading order for screen readers
-    this.pdomOrder = [ balloonGrabHelpSection, moveBalloonHelpSection, generalNavigationHelpSection ];
+    this.pdomOrder = [ balloonGrabHelpSection, moveBalloonHelpSection, basicActionsHelpSection ];
   }
 }
 
