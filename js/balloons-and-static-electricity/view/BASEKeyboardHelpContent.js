@@ -85,9 +85,10 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContent = KeyboardHelpSection.labelWithIcon( grabOrReleaseBalloonLabelString, icons, grabOrReleaseBalloonDescriptionString, {
+    const labelWithContent = KeyboardHelpSection.labelWithIcon( grabOrReleaseBalloonLabelString, icons, {
+      labelInnerContent: grabOrReleaseBalloonDescriptionString,
       iconOptions: {
-        tagName: 'p' // it is the only item so it is a p rather than an li
+        tagName: 'p' // it is the only item so it is a p rather than a li
       }
     } );
 
@@ -108,7 +109,9 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
   constructor( options ) {
 
     const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
-    const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, moveGrabbedBalloonDescriptionString );
+    const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {
+      labelInnerContent: moveGrabbedBalloonDescriptionString
+    } );
 
     const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
     const shiftAndArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
@@ -119,10 +122,18 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     } );
 
     // hotkey rows for how to jump the balloon
-    const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );
-    const jumpToWallRow = KeyboardHelpSection.createJumpKeyRow( 'W', jumpCloseToWallLabelString, jumpsCloseToWwallDescriptionString );
-    const jumpNearWallRow = KeyboardHelpSection.createJumpKeyRow( 'N', jumpNearWallLabelString, jumpsNearWallDescriptionString );
-    const jumpToCenterRow = KeyboardHelpSection.createJumpKeyRow( 'C', jumpToCenterLabelString, jumpstoCenterDescriptionString );
+    const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, {
+      labelInnerContent: jumpsCloseToSweaterDescriptionString
+    } );
+    const jumpToWallRow = KeyboardHelpSection.createJumpKeyRow( 'W', jumpCloseToWallLabelString, {
+      labelInnerContent: jumpsCloseToWwallDescriptionString
+    } );
+    const jumpNearWallRow = KeyboardHelpSection.createJumpKeyRow( 'N', jumpNearWallLabelString, {
+      labelInnerContent: jumpsNearWallDescriptionString
+    } );
+    const jumpToCenterRow = KeyboardHelpSection.createJumpKeyRow( 'C', jumpToCenterLabelString, {
+      labelInnerContent: jumpstoCenterDescriptionString
+    } );
 
     // all rows contained in a left aligned vbox
     const rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
