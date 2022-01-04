@@ -7,11 +7,11 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
+import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -114,7 +114,9 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     const shiftAndArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
     const wasdRowIcon = KeyboardHelpIconFactory.wasdRowIcon();
     const shiftAndWasdRowIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdRowIcon );
-    const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], moveSlowerDescriptionString );
+    const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
+      labelInnerContent: moveSlowerDescriptionString
+    } );
 
     // hotkey rows for how to jump the balloon
     const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, jumpsCloseToSweaterDescriptionString );

@@ -859,7 +859,7 @@ const BASEA11yStrings = {
     value: 'Move grabbed balloon up, left, down, or right with Arrow keys or with letter keys W, A, S, or D.'
   },
   moveSlowerDescription: {
-    value: 'Move slower with shift plus Arrow keys or Shift plus letter keys W, A, S, or D.'
+    value: 'Move slower with Shift plus Arrow keys or Shift plus letter keys W, A, S, or D.'
   },
   jumpsCloseToSweaterDescription: {
     value: 'Jump close to sweater with J plus S.'
