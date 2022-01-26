@@ -102,9 +102,10 @@ class TwoSceneSelectionNode extends Node {
       appendDescription: true
     }, options );
 
-    super( options );
+    super();
 
-    this.initializeInteractiveHighlighting();
+    // Separate call to support mutating InteractiveHighlight options
+    this.mutate( options );
 
     // place the nodes in an align group so that the two buttons will have identical sizing
     const buttonAlignGroup = new AlignGroup();
@@ -267,8 +268,6 @@ class TwoSceneSelectionNode extends Node {
     this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
   }
 }
-
-InteractiveHighlighting.compose( TwoSceneSelectionNode );
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
 
