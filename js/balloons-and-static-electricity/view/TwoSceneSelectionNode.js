@@ -37,7 +37,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
-class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
+class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
 
   /**
    * @param {Property} property
@@ -102,10 +102,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
       appendDescription: true
     }, options );
 
-    super();
-
-    // Separate call to support mutating InteractiveHighlight options
-    this.mutate( options );
+    super( options );
 
     // place the nodes in an align group so that the two buttons will have identical sizing
     const buttonAlignGroup = new AlignGroup();
