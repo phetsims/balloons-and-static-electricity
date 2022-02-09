@@ -407,7 +407,7 @@ class BalloonNode extends Node {
     } );
 
     // jump to the wall on 'J + W'
-    this.keyboardDragHandler.hotkeys = ( [
+    this.keyboardDragHandler.hotkeys = [
       {
         keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_W ],
         callback: () => {
@@ -432,7 +432,7 @@ class BalloonNode extends Node {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
       }
-    ] );
+    ];
 
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( () => {
