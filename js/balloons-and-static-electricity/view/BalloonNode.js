@@ -407,7 +407,7 @@ class BalloonNode extends Node {
     } );
 
     // jump to the wall on 'J + W'
-    this.keyboardDragHandler.addHotkeys( [
+    this.keyboardDragHandler.hotkeys = ( [
       {
         keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_W ],
         callback: () => {
