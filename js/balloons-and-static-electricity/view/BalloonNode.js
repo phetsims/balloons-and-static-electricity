@@ -359,7 +359,8 @@ class BalloonNode extends Node {
           this.alertDescriptionUtterance( boundaryUtterance );
         }
       },
-      drag: options.keyboardDrag
+      drag: options.keyboardDrag,
+      tandem: tandem.createTandem( 'keyboardDragListener' )
     } );
 
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
