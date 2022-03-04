@@ -18,7 +18,7 @@
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { InteractiveHighlighting } from '../../../../scenery/js/imports.js';
 import { DownUpListener } from '../../../../scenery/js/imports.js';

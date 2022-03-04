@@ -8,7 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import { HBox } from '../../../../scenery/js/imports.js';

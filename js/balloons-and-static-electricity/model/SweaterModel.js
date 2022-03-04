@@ -10,7 +10,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PointChargeModel from './PointChargeModel.js';
 
