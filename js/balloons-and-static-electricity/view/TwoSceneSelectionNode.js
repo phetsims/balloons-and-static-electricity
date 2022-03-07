@@ -216,6 +216,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
     // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
     const firedEmitter = new Emitter( {
       tandem: options.tandem.createTandem( 'firedEmitter' ),
+      phetioDocumentation: 'emits to change the selection',
       phetioEventType: EventType.USER
     } );
     firedEmitter.addListener( upFunction );
