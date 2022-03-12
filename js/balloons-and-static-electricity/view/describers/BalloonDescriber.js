@@ -280,7 +280,7 @@ class BalloonDescriber extends Alerter {
    *
    * @public
    *
-   * @param {AlertableDef} alertable
+   * @param {IAlertable} alertable
    */
   sendAlert( alertable ) {
     this.alertDescriptionUtterance( alertable );
