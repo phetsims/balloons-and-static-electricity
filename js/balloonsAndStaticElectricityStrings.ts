@@ -9,26 +9,26 @@ import balloonsAndStaticElectricity from './balloonsAndStaticElectricity.js';
 
 type StringsType = {
   'balloons-and-static-electricity': {
-    'title': string
-  },
+    'title': string;
+  };
   'BalloonApplet': {
-    'ShowChargeDifferences': string,
-    'ShowAllCharges': string,
-    'ShowNoCharges': string
-  },
-  'removeWall': string,
-  'addWall': string,
-  'resetBalloon': string,
-  'resetBalloons': string,
-  'grabOrReleaseBalloonHeading': string,
-  'grabOrReleaseBalloonLabel': string,
-  'moveOrJumpGrabbedBalloonHeading': string,
-  'moveGrabbedBalloonLabel': string,
-  'moveSlowerLabel': string,
-  'jumpCloseToSweaterLabel': string,
-  'jumpCloseToWallLabel': string,
-  'jumpNearWallLabel': string,
-  'jumpToCenterLabel': string
+    'ShowChargeDifferences': string;
+    'ShowAllCharges': string;
+    'ShowNoCharges': string;
+  };
+  'removeWall': string;
+  'addWall': string;
+  'resetBalloon': string;
+  'resetBalloons': string;
+  'grabOrReleaseBalloonHeading': string;
+  'grabOrReleaseBalloonLabel': string;
+  'moveOrJumpGrabbedBalloonHeading': string;
+  'moveGrabbedBalloonLabel': string;
+  'moveSlowerLabel': string;
+  'jumpCloseToSweaterLabel': string;
+  'jumpCloseToWallLabel': string;
+  'jumpNearWallLabel': string;
+  'jumpToCenterLabel': string;
 };
 
 const balloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
