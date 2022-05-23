@@ -9,7 +9,7 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -92,12 +92,12 @@ class BASESummaryNode extends Node {
     this.addChild( new Node( { tagName: 'p', innerContent: grabBalloonToPlayString } ) );
 
     // update the description that covers the visible objects in the play area
-    Property.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], ( balloonVisible, wallVisible ) => {
+    Multilink.multilink( [ this.greenBalloon.isVisibleProperty, this.wall.isVisibleProperty ], ( balloonVisible, wallVisible ) => {
       roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
     const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ];
-    Property.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
+    Multilink.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
       const chargesVisible = showCharges !== 'none';
       balloonChargeNode.pdomVisible = chargesVisible;
       sweaterWallChargeNode.pdomVisible = chargesVisible;
@@ -110,7 +110,7 @@ class BASESummaryNode extends Node {
     } );
 
     const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-    Property.multilink( inducedChargeProperties, ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
+    Multilink.multilink( inducedChargeProperties, ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
@@ -124,7 +124,7 @@ class BASESummaryNode extends Node {
 
     // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
     // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
-    Property.multilink(
+    Multilink.multilink(
       [ this.yellowBalloon.positionProperty,
         this.greenBalloon.positionProperty,
         this.greenBalloon.isVisibleProperty,

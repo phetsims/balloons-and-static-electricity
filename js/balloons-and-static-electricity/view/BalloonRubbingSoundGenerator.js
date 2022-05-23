@@ -7,7 +7,7 @@
  * @author John Blanco
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -67,7 +67,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
     } );
 
     // Use the smoothed velocity with the on-sweater and on-wall information to set the volume and pitch of the output.
-    Property.multilink(
+    Multilink.multilink(
       [ dragVelocityProperty, this.clampedSmoothedDragVelocityProperty, onSweaterProperty, touchingWallProperty ],
       ( dragVelocity, smoothedDragVelocity, onSweater, touchingWall ) => {
 

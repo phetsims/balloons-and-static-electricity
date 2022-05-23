@@ -7,7 +7,7 @@
  * @author John Blanco
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -55,7 +55,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
 
     // Monitor the balloon velocity and modify the output sound as changes occur.  If the balloon is on the sweater or
     // the wall, no sound should be produced.
-    const outputUpdaterMultilink = Property.multilink(
+    const outputUpdaterMultilink = Multilink.multilink(
       [ balloonVelocityProperty, touchingWallProperty ],
       ( balloonVelocity, onSweater, touchingWall ) => {
         const speed = balloonVelocity.magnitude;

@@ -10,6 +10,7 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -99,7 +100,7 @@ class BASEModel {
       } );
 
       // update whether the balloon is currently inducing charge in the wall
-      Property.multilink( [ this.wall.isVisibleProperty, balloon.positionProperty ], ( wallVisible, position ) => {
+      Multilink.multilink( [ this.wall.isVisibleProperty, balloon.positionProperty ], ( wallVisible, position ) => {
         balloon.inducingChargeProperty.set( balloon.inducingCharge( wallVisible ) );
       } );
     } );

@@ -7,7 +7,7 @@
  * @author John Blanco
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Path } from '../../../../scenery/js/imports.js';
@@ -111,7 +111,7 @@ class SweaterNode extends Node {
     // pdom - construct a type that manages descriptions depending on the state of the model
     const sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
-    Property.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], ( showCharges, charge ) => {
+    Multilink.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], ( showCharges, charge ) => {
       updateChargesVisibilityOnSweater( charge );
 
       this.setDescriptionContent( sweaterDescriber.getSweaterDescription( showCharges ) );

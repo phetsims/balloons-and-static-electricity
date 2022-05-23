@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
@@ -63,7 +63,7 @@ class BalloonInteractionCueNode extends Node {
 
     // add listeners to update visibility of nodes when position changes and when the wall is made
     // visible/invisible
-    Property.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], ( position, visible ) => {
+    Multilink.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], ( position, visible ) => {
 
       // get the max x positions depending on if the wall is visible
       let centerXRightBoundary;

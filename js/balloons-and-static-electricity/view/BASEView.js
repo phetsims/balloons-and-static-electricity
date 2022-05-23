@@ -8,7 +8,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -173,7 +173,7 @@ class BASEView extends ScreenView {
     this.setDefaultBalloonZOrder();
 
     // When one of the balloons is picked up, move its content and cue nodes to the front.
-    Property.multilink(
+    Multilink.multilink(
       [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ],
       ( yellowDragged, greenDragged ) => {
         if ( yellowDragged ) {
