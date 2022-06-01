@@ -20,15 +20,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { InteractiveHighlighting } from '../../../../scenery/js/imports.js';
-import { DownUpListener } from '../../../../scenery/js/imports.js';
-import { PressListener } from '../../../../scenery/js/imports.js';
-import { AlignGroup } from '../../../../scenery/js/imports.js';
-import { LayoutBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { SceneryConstants } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { AlignGroup, Color, DownUpListener, FlowBox, InteractiveHighlighting, Node, Path, PressListener, SceneryConstants } from '../../../../scenery/js/imports.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -51,7 +43,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
 
     options = merge( {
 
-      // LayoutBox options - buttons oriented with a layout box
+      // FlowBox options - buttons oriented with a FlowBox
       spacing: 10,
       orientation: 'horizontal',
       align: 'center',
@@ -142,7 +134,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
     aButtonPath.addChild( aBox );
     bButtonPath.addChild( bBox );
 
-    const buttonBox = new LayoutBox( {
+    const buttonBox = new FlowBox( {
       spacing: options.spacing,
       orientation: options.orientation,
       align: options.align,
