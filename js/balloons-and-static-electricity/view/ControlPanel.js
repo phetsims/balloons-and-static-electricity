@@ -89,7 +89,7 @@ class ControlPanel extends Node {
     }, textOptions ) );
 
     // @private
-    this.wallButton = new BooleanRectangularToggleButton( removeWallText, addWallText, model.wall.isVisibleProperty, {
+    this.wallButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
       baseColor: 'rgb( 255, 200, 0 )',
       tandem: tandem.createTandem( 'wallButton' ),
 
