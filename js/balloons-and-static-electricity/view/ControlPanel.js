@@ -209,7 +209,7 @@ class ControlPanel extends Node {
     }
 
     // 'Reset Balloons' button
-    const resetBalloonToggleNode = new BooleanToggleNode(
+    const resetBalloonToggleNode = new BooleanToggleNode( model.greenBalloon.isVisibleProperty,
       new Text( resetBalloonsString, {
         font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonsText' )
@@ -217,10 +217,7 @@ class ControlPanel extends Node {
       new Text( resetBalloonString, {
         font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonText' )
-      } ),
-      model.greenBalloon.isVisibleProperty,
-      { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) }
-    );
+      } ), { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) } );
     const resetBalloonButtonListener = () => {
 
       // disable other alerts until after we are finished resetting the balloons
