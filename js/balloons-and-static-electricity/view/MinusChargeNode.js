@@ -7,14 +7,11 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { RadialGradient } from '../../../../scenery/js/imports.js';
+import { Circle, Node, RadialGradient, Rectangle } from '../../../../scenery/js/imports.js';
+import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
-import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
 
 const RADIUS = PointChargeModel.RADIUS;
 

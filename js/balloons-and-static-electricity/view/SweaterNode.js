@@ -8,17 +8,15 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { Image, Node, Path } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater_png from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
+import SweaterDescriber from './describers/SweaterDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
-import SweaterDescriber from './describers/SweaterDescriber.js';
 
 const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
