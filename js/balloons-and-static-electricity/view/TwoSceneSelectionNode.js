@@ -56,18 +56,23 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
       pressedColor: DEFAULT_FILL.colorUtilsDarker( 0.4 ),
 
       // Opacity can be set separately for the buttons and button content.
-      selectedButtonOpacity: 1,
-      deselectedButtonOpacity: 0.6,
-      selectedContentOpacity: 1,
-      deselectedContentOpacity: 0.6,
-      overButtonOpacity: 0.8,
-      overContentOpacity: 0.8,
+
       opacityWhenDisabled: SceneryConstants.DISABLED_OPACITY, // Don't collide with Node.disabledOpacity option
 
-      selectedStroke: 'black',
-      deselectedStroke: new Color( 50, 50, 50 ),
-      selectedLineWidth: 1.5,
-      deselectedLineWidth: 1,
+      buttonAppearanceStrategyOptions: {
+        selectedButtonOpacity: 1,
+        deselectedButtonOpacity: 0.6,
+        selectedStroke: 'black',
+        deselectedStroke: new Color( 50, 50, 50 ),
+        selectedLineWidth: 1.5,
+        deselectedLineWidth: 1,
+        overButtonOpacity: 0.8
+      },
+      contentAppearanceStrategyOptions: {
+        overContentOpacity: 0.8,
+        selectedContentOpacity: 1,
+        deselectedContentOpacity: 0.6
+      },
 
       // These margins are *within* each button, relative to the largest of the two icons
       buttonContentXMargin: 5,
@@ -165,17 +170,17 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
         deselectedContent = nodeA;
       }
 
-      selectedButton.stroke = options.selectedStroke;
-      deselectedButton.stroke = options.deselectedStroke;
+      selectedButton.stroke = options.buttonAppearanceStrategyOptions.selectedStroke;
+      deselectedButton.stroke = options.buttonAppearanceStrategyOptions.deselectedStroke;
 
-      selectedButton.opacity = options.selectedButtonOpacity;
-      deselectedButton.opacity = options.deselectedButtonOpacity;
+      selectedButton.opacity = options.buttonAppearanceStrategyOptions.selectedButtonOpacity;
+      deselectedButton.opacity = options.buttonAppearanceStrategyOptions.deselectedButtonOpacity;
 
-      selectedContent.opacity = options.selectedContentOpacity;
-      deselectedContent.opacity = options.deselectedContentOpacity;
+      selectedContent.opacity = options.contentAppearanceStrategyOptions.selectedContentOpacity;
+      deselectedContent.opacity = options.contentAppearanceStrategyOptions.deselectedContentOpacity;
 
-      selectedButton.lineWidth = options.selectedLineWidth;
-      deselectedButton.lineWidth = options.deselectedLineWidth;
+      selectedButton.lineWidth = options.buttonAppearanceStrategyOptions.selectedLineWidth;
+      deselectedButton.lineWidth = options.buttonAppearanceStrategyOptions.deselectedLineWidth;
 
       if ( !enabled ) {
         this.opacity = options.opacityWhenDisabled;
@@ -236,8 +241,12 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
       const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
       const otherContent = property.get() === valueA ? nodeB : nodeA;
 
-      const buttonOpacity = highlighted ? options.overButtonOpacity : options.deselectedButtonOpacity;
-      const contentOpacity = highlighted ? options.overContentOpacity : options.deselectedContentOpacity;
+      const buttonOpacity = highlighted ?
+                            options.buttonAppearanceStrategyOptions.overButtonOpacity :
+                            options.buttonAppearanceStrategyOptions.deselectedButtonOpacity;
+      const contentOpacity = highlighted ?
+                             options.contentAppearanceStrategyOptions.overContentOpacity :
+                             options.contentAppearanceStrategyOptions.deselectedContentOpacity;
 
       otherButton.opacity = buttonOpacity;
       otherContent.opacity = contentOpacity;
