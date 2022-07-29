@@ -49,13 +49,13 @@ class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
     //  the sections of help content
     const balloonGrabHelpSection = new BalloonGrabHelpSection( {
-      labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+      textMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
-      labelMaxWidth: GENERAL_CONTENT_MAX_WIDTH
+      textMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
     const moveBalloonHelpSection = new MoveBalloonHelpSection( {
-      labelMaxWidth: BALLOON_CONTENT_MAX_WIDTH
+      textMaxWidth: BALLOON_CONTENT_MAX_WIDTH
     } );
 
     // vertically align the left sections
