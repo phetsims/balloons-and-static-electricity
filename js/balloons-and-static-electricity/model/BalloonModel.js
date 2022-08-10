@@ -196,7 +196,7 @@ class BalloonModel {
     // @public {string|null} - the direction of movement, can be one of BalloonDirectionEnum
     this.directionProperty = new Property( null, {
       tandem: tandem.createTandem( 'directionProperty' ),
-      phetioType: Property.PropertyIO( NullableIO( StringIO ) )
+      phetioValueType: NullableIO( StringIO )
     } );
 
     // @public {boolean} - whether or not the balloon is currently inducing a charge in the wall
