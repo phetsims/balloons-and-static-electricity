@@ -552,7 +552,7 @@ class BalloonNode extends Node {
  * the highlights used for interaction and they are applied to a child of this Node. In order to use the
  * same highlights, InteractiveHighlighting is composed with the same Node that uses GrabDragInteraction.
  */
-class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path, 1 ) {}
+class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path ) {}
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
 

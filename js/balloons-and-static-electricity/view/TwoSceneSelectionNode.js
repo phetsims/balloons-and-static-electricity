@@ -29,7 +29,7 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
-class TwoSceneSelectionNode extends InteractiveHighlighting( Node, 0 ) {
+class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
   /**
    * @param {Property} property
