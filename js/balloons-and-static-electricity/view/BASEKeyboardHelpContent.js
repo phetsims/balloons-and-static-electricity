@@ -8,6 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
@@ -85,7 +86,7 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContent = KeyboardHelpSection.labelWithIcon( grabOrReleaseBalloonLabelString, icons, {
+    const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( grabOrReleaseBalloonLabelString, icons, {
       labelInnerContent: grabOrReleaseBalloonDescriptionString,
       iconOptions: {
         tagName: 'p' // it is the only item so it is a p rather than a li
@@ -109,7 +110,7 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
   constructor( options ) {
 
     const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
-    const labelWithContent = KeyboardHelpSection.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {
+    const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {
       labelInnerContent: moveGrabbedBalloonDescriptionString
     } );
 
@@ -117,21 +118,21 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     const shiftAndArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
     const wasdRowIcon = KeyboardHelpIconFactory.wasdRowIcon();
     const shiftAndWasdRowIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdRowIcon );
-    const labelWithIconList = KeyboardHelpSection.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
+    const labelWithIconList = KeyboardHelpSectionRow.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
       labelInnerContent: moveSlowerDescriptionString
     } );
 
     // hotkey rows for how to jump the balloon
-    const jumpToSweaterRow = KeyboardHelpSection.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, {
+    const jumpToSweaterRow = KeyboardHelpSectionRow.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, {
       labelInnerContent: jumpsCloseToSweaterDescriptionString
     } );
-    const jumpToWallRow = KeyboardHelpSection.createJumpKeyRow( 'W', jumpCloseToWallLabelString, {
+    const jumpToWallRow = KeyboardHelpSectionRow.createJumpKeyRow( 'W', jumpCloseToWallLabelString, {
       labelInnerContent: jumpsCloseToWwallDescriptionString
     } );
-    const jumpNearWallRow = KeyboardHelpSection.createJumpKeyRow( 'N', jumpNearWallLabelString, {
+    const jumpNearWallRow = KeyboardHelpSectionRow.createJumpKeyRow( 'N', jumpNearWallLabelString, {
       labelInnerContent: jumpsNearWallDescriptionString
     } );
-    const jumpToCenterRow = KeyboardHelpSection.createJumpKeyRow( 'C', jumpToCenterLabelString, {
+    const jumpToCenterRow = KeyboardHelpSectionRow.createJumpKeyRow( 'C', jumpToCenterLabelString, {
       labelInnerContent: jumpstoCenterDescriptionString
     } );
 
