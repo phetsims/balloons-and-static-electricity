@@ -17,7 +17,7 @@ import BASEView from './balloons-and-static-electricity/view/BASEView.js';
 import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
 
 // constants
-const balloonsAndStaticElectricityTitleString = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].title;
+const balloonsAndStaticElectricityTitleStringProperty = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].titleStringProperty;
 
 simLauncher.launch( () => {
 
@@ -41,7 +41,7 @@ simLauncher.launch( () => {
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
   //Create and start the sim
-  new Sim( balloonsAndStaticElectricityTitleString, [
+  new Sim( balloonsAndStaticElectricityTitleStringProperty, [
     new Screen(
       () => new BASEModel(
         768,
