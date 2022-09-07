@@ -14,10 +14,10 @@ import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
 import BASEKeyboardHelpContent from './balloons-and-static-electricity/view/BASEKeyboardHelpContent.js';
 import BASEView from './balloons-and-static-electricity/view/BASEView.js';
-import balloonsAndStaticElectricityStrings from './balloonsAndStaticElectricityStrings.js';
+import BalloonsAndStaticElectricityStrings from './BalloonsAndStaticElectricityStrings.js';
 
 // constants
-const balloonsAndStaticElectricityTitleStringProperty = balloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].titleStringProperty;
+const balloonsAndStaticElectricityTitleStringProperty = BalloonsAndStaticElectricityStrings[ 'balloons-and-static-electricity' ].titleStringProperty;
 
 simLauncher.launch( () => {
 

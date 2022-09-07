@@ -21,19 +21,19 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
+import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import TwoSceneSelectionNode from './TwoSceneSelectionNode.js';
 
-const addWallString = balloonsAndStaticElectricityStrings.addWall;
-const balloonAppletShowAllChargesString = balloonsAndStaticElectricityStrings.BalloonApplet.ShowAllCharges;
-const balloonAppletShowChargeDifferencesString = balloonsAndStaticElectricityStrings.BalloonApplet.ShowChargeDifferences;
-const balloonAppletShowNoChargesString = balloonsAndStaticElectricityStrings.BalloonApplet.ShowNoCharges;
-const removeWallString = balloonsAndStaticElectricityStrings.removeWall;
-const resetBalloonsString = balloonsAndStaticElectricityStrings.resetBalloons;
-const resetBalloonString = balloonsAndStaticElectricityStrings.resetBalloon;
+const addWallString = BalloonsAndStaticElectricityStrings.addWall;
+const balloonAppletShowAllChargesString = BalloonsAndStaticElectricityStrings.BalloonApplet.ShowAllCharges;
+const balloonAppletShowChargeDifferencesString = BalloonsAndStaticElectricityStrings.BalloonApplet.ShowChargeDifferences;
+const balloonAppletShowNoChargesString = BalloonsAndStaticElectricityStrings.BalloonApplet.ShowNoCharges;
+const removeWallString = BalloonsAndStaticElectricityStrings.removeWall;
+const resetBalloonsString = BalloonsAndStaticElectricityStrings.resetBalloons;
+const resetBalloonString = BalloonsAndStaticElectricityStrings.resetBalloon;
 
 const twoBalloonExperimentLabelString = BASEA11yStrings.twoBalloonExperimentLabel.value;
 const chargeSettingsLabelString = BASEA11yStrings.chargeSettingsLabel.value;

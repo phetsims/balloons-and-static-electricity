@@ -49,8 +49,8 @@ type StringsType = {
   'jumpToCenterLabelStringProperty': TReadOnlyProperty<string>;
 };
 
-const balloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
+const BalloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
 
-balloonsAndStaticElectricity.register( 'balloonsAndStaticElectricityStrings', balloonsAndStaticElectricityStrings );
+balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityStrings', BalloonsAndStaticElectricityStrings );
 
-export default balloonsAndStaticElectricityStrings;
+export default BalloonsAndStaticElectricityStrings;

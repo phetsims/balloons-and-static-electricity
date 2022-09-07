@@ -14,18 +14,18 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-import balloonsAndStaticElectricityStrings from '../../balloonsAndStaticElectricityStrings.js';
+import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 
-const grabOrReleaseBalloonHeadingString = balloonsAndStaticElectricityStrings.grabOrReleaseBalloonHeading;
-const grabOrReleaseBalloonLabelString = balloonsAndStaticElectricityStrings.grabOrReleaseBalloonLabel;
-const jumpCloseToSweaterLabelString = balloonsAndStaticElectricityStrings.jumpCloseToSweaterLabel;
-const jumpCloseToWallLabelString = balloonsAndStaticElectricityStrings.jumpCloseToWallLabel;
-const jumpNearWallLabelString = balloonsAndStaticElectricityStrings.jumpNearWallLabel;
-const jumpToCenterLabelString = balloonsAndStaticElectricityStrings.jumpToCenterLabel;
-const moveGrabbedBalloonLabelString = balloonsAndStaticElectricityStrings.moveGrabbedBalloonLabel;
-const moveOrJumpGrabbedBalloonHeadingString = balloonsAndStaticElectricityStrings.moveOrJumpGrabbedBalloonHeading;
-const moveSlowerLabelString = balloonsAndStaticElectricityStrings.moveSlowerLabel;
+const grabOrReleaseBalloonHeadingString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonHeading;
+const grabOrReleaseBalloonLabelString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonLabel;
+const jumpCloseToSweaterLabelString = BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabel;
+const jumpCloseToWallLabelString = BalloonsAndStaticElectricityStrings.jumpCloseToWallLabel;
+const jumpNearWallLabelString = BalloonsAndStaticElectricityStrings.jumpNearWallLabel;
+const jumpToCenterLabelString = BalloonsAndStaticElectricityStrings.jumpToCenterLabel;
+const moveGrabbedBalloonLabelString = BalloonsAndStaticElectricityStrings.moveGrabbedBalloonLabel;
+const moveOrJumpGrabbedBalloonHeadingString = BalloonsAndStaticElectricityStrings.moveOrJumpGrabbedBalloonHeading;
+const moveSlowerLabelString = BalloonsAndStaticElectricityStrings.moveSlowerLabel;
 
 const grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
 const moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
