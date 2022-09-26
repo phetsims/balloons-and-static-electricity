@@ -5,48 +5,48 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import LinkableProperty from '../../axon/js/LinkableProperty.js';
 import balloonsAndStaticElectricity from './balloonsAndStaticElectricity.js';
 
 type StringsType = {
   'balloons-and-static-electricity': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
   };
   'BalloonApplet': {
     'ShowChargeDifferences': string;
-    'ShowChargeDifferencesStringProperty': TReadOnlyProperty<string>;
+    'ShowChargeDifferencesStringProperty': LinkableProperty<string>;
     'ShowAllCharges': string;
-    'ShowAllChargesStringProperty': TReadOnlyProperty<string>;
+    'ShowAllChargesStringProperty': LinkableProperty<string>;
     'ShowNoCharges': string;
-    'ShowNoChargesStringProperty': TReadOnlyProperty<string>;
+    'ShowNoChargesStringProperty': LinkableProperty<string>;
   };
   'removeWall': string;
-  'removeWallStringProperty': TReadOnlyProperty<string>;
+  'removeWallStringProperty': LinkableProperty<string>;
   'addWall': string;
-  'addWallStringProperty': TReadOnlyProperty<string>;
+  'addWallStringProperty': LinkableProperty<string>;
   'resetBalloon': string;
-  'resetBalloonStringProperty': TReadOnlyProperty<string>;
+  'resetBalloonStringProperty': LinkableProperty<string>;
   'resetBalloons': string;
-  'resetBalloonsStringProperty': TReadOnlyProperty<string>;
+  'resetBalloonsStringProperty': LinkableProperty<string>;
   'grabOrReleaseBalloonHeading': string;
-  'grabOrReleaseBalloonHeadingStringProperty': TReadOnlyProperty<string>;
+  'grabOrReleaseBalloonHeadingStringProperty': LinkableProperty<string>;
   'grabOrReleaseBalloonLabel': string;
-  'grabOrReleaseBalloonLabelStringProperty': TReadOnlyProperty<string>;
+  'grabOrReleaseBalloonLabelStringProperty': LinkableProperty<string>;
   'moveOrJumpGrabbedBalloonHeading': string;
-  'moveOrJumpGrabbedBalloonHeadingStringProperty': TReadOnlyProperty<string>;
+  'moveOrJumpGrabbedBalloonHeadingStringProperty': LinkableProperty<string>;
   'moveGrabbedBalloonLabel': string;
-  'moveGrabbedBalloonLabelStringProperty': TReadOnlyProperty<string>;
+  'moveGrabbedBalloonLabelStringProperty': LinkableProperty<string>;
   'moveSlowerLabel': string;
-  'moveSlowerLabelStringProperty': TReadOnlyProperty<string>;
+  'moveSlowerLabelStringProperty': LinkableProperty<string>;
   'jumpCloseToSweaterLabel': string;
-  'jumpCloseToSweaterLabelStringProperty': TReadOnlyProperty<string>;
+  'jumpCloseToSweaterLabelStringProperty': LinkableProperty<string>;
   'jumpCloseToWallLabel': string;
-  'jumpCloseToWallLabelStringProperty': TReadOnlyProperty<string>;
+  'jumpCloseToWallLabelStringProperty': LinkableProperty<string>;
   'jumpNearWallLabel': string;
-  'jumpNearWallLabelStringProperty': TReadOnlyProperty<string>;
+  'jumpNearWallLabelStringProperty': LinkableProperty<string>;
   'jumpToCenterLabel': string;
-  'jumpToCenterLabelStringProperty': TReadOnlyProperty<string>;
+  'jumpToCenterLabelStringProperty': LinkableProperty<string>;
 };
 
 const BalloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
