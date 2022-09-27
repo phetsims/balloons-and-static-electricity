@@ -109,7 +109,7 @@ class ControlPanel extends Node {
       maxWidth: 200
     };
     const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
-      node: new Text(
+      createNode: tandem => new Text(
         balloonAppletShowAllChargesString,
         merge( { tandem: tandem.createTandem( 'allChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
@@ -117,7 +117,7 @@ class ControlPanel extends Node {
       tandemName: 'showAllChargesRadioButton',
       labelContent: balloonAppletShowAllChargesString
     }, {
-      node: new Text(
+      createNode: tandem => new Text(
         balloonAppletShowNoChargesString,
         merge( { tandem: tandem.createTandem( 'noChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
@@ -125,7 +125,7 @@ class ControlPanel extends Node {
       tandemName: 'showNoChargesRadioButton',
       labelContent: balloonAppletShowNoChargesString
     }, {
-      node: new Text(
+      createNode: tandem => new Text(
         balloonAppletShowChargeDifferencesString,
         merge( { tandem: tandem.createTandem( 'differentialChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
       ),
