@@ -25,8 +25,7 @@
     ],
     "simFeatures": {
       "supportsSound": true,
-      "supportsInteractiveDescription": true,
-      "supportsInteractiveHighlights": true
+      "supportsInteractiveDescription": true
     },
     "simulation": true,
     "phet-io": {
