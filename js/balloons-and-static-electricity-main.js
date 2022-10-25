@@ -54,7 +54,7 @@ simLauncher.launch( () => {
       {
         backgroundColorProperty: BASEConstants.backgroundColorProperty,
         tandem: balloonsAndStaticElectricityScreenTandem,
-        keyboardHelpNode: new BASEKeyboardHelpContent()
+        createKeyboardHelpNode: () => new BASEKeyboardHelpContent()
       }
     )
   ], simOptions ).start();
