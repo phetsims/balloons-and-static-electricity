@@ -34,8 +34,7 @@ simLauncher.launch( () => {
       graphicArts: 'Sharon Siman-Tov',
       soundDesign: 'Ashton Morris',
       thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
-    },
-    hasKeyboardHelpContent: true
+    }
   };
 
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
