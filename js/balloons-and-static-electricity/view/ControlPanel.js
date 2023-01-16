@@ -192,9 +192,7 @@ class ControlPanel extends Node {
         false,
         true,
         oneBalloonIcon,
-        twoBalloonIcon,
-        {
-          // TODO: (phet-io data stream) The 'fired' event for this tandem doesn't make sense with a 'value' of boolean in the parameters.
+        twoBalloonIcon, {
           tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
           maskFill: BASEConstants.backgroundColorProperty,
           ariaLabel: twoBalloonExperimentLabelString,
