@@ -145,7 +145,7 @@ class BalloonModel {
     // @public {Vector2} - The velocity of the balloon when moving freely, i.e. NOT when it is being dragged.
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
     // @public {boolean}
@@ -165,13 +165,13 @@ class BalloonModel {
     // @public {Vector2} - position of the upper left corner of the rectangle that encloses the balloon
     this.positionProperty = new Vector2Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'positionProperty' ),
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
     // @public {Vector2} - velocity of the balloon while dragging
     this.dragVelocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
     // @public {boolean} - whether or not the balloon is on the sweater

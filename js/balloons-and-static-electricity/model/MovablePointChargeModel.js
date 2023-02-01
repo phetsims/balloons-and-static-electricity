@@ -30,7 +30,7 @@ class MovablePointChargeModel extends PointChargeModel {
     this.positionProperty = new Vector2Property( this.position, {
       tandem: tandem.createTandem( 'positionProperty' ),
       phetioState: phetioState,
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
   }
 
