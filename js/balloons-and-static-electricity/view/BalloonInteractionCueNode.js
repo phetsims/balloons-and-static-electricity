@@ -114,19 +114,19 @@ class BalloonInteractionCueNode extends Node {
     let keyIcon;
     let box;
     if ( direction === 'up' ) {
-      keyIcon = new LetterKeyNode( 'W', LETTER_KEY_OPTIONS );
+      keyIcon = LetterKeyNode.w( LETTER_KEY_OPTIONS );
       box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'left' ) {
-      keyIcon = new LetterKeyNode( 'A', LETTER_KEY_OPTIONS );
+      keyIcon = LetterKeyNode.a( LETTER_KEY_OPTIONS );
       box = new HBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'right' ) {
-      keyIcon = new LetterKeyNode( 'D', LETTER_KEY_OPTIONS );
+      keyIcon = LetterKeyNode.d( LETTER_KEY_OPTIONS );
       box = new HBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
     else if ( direction === 'down' ) {
-      keyIcon = new LetterKeyNode( 'S', LETTER_KEY_OPTIONS );
+      keyIcon = LetterKeyNode.s( LETTER_KEY_OPTIONS );
       box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
 
