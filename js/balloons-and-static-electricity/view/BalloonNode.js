@@ -164,7 +164,7 @@ class BalloonNode extends Node {
         endDragListener();
         model.draggingWithPointer = false;
       },
-      tandem: tandem.createTandem( 'dragHandler' )
+      tandem: tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragHandler );
 
