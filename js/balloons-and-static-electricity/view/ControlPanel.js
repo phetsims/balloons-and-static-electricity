@@ -10,9 +10,8 @@
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox, Image, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Image, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import BooleanRectangularToggleButton from '../../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -76,10 +75,14 @@ class ControlPanel extends Node {
     };
 
     // content for Add/Remove wall button.
-    const addWallText = new MultiLineText( addWallString, merge( {
+    const addWallText = new RichText( addWallString, merge( {
+      replaceNewlines: true,
+      align: 'center',
       tandem: tandem.createTandem( 'addWallText' )
     }, textOptions ) );
-    const removeWallText = new MultiLineText( removeWallString, merge( {
+    const removeWallText = new RichText( removeWallString, merge( {
+      replaceNewlines: true,
+      align: 'center',
       center: addWallText.center,
       tandem: tandem.createTandem( 'removeWallText' )
     }, textOptions ) );
