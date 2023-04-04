@@ -8,9 +8,9 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
-import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -96,6 +96,13 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
     super( grabOrReleaseBalloonHeadingString, [ labelWithContent ], merge( {
       a11yContentTagName: null // just a paragraph for this section, no list
     }, options ) );
+
+    this.disposeEmitter.addListener( () => {
+      labelWithContent.dispose();
+      icons.dispose();
+      spaceKeyNode.dispose();
+      enterKeyNode.dispose();
+    } );
   }
 }
 
@@ -140,6 +147,7 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     const rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
     super( moveOrJumpGrabbedBalloonHeadingString, rows, options );
+    this.disposeEmitter.addListener( () => rows.forEach( row => row.dispose() ) );
   }
 }
 
