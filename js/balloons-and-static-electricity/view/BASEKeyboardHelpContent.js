@@ -37,7 +37,7 @@ const jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescription.
 
 // constants
 // the english strings are shorter for the balloon help content, so we restrict that content width for i18n more
-// so that the whole content will fit in dev bounds 
+// so that the whole content will fit in dev bounds
 const BALLOON_CONTENT_MAX_WIDTH = 174;
 const GENERAL_CONTENT_MAX_WIDTH = 214;
 
@@ -96,13 +96,6 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
     super( grabOrReleaseBalloonHeadingString, [ labelWithContent ], merge( {
       a11yContentTagName: null // just a paragraph for this section, no list
     }, options ) );
-
-    this.disposeEmitter.addListener( () => {
-      labelWithContent.dispose();
-      icons.dispose();
-      spaceKeyNode.dispose();
-      enterKeyNode.dispose();
-    } );
   }
 }
 
@@ -147,7 +140,6 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     const rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
 
     super( moveOrJumpGrabbedBalloonHeadingString, rows, options );
-    this.disposeEmitter.addListener( () => rows.forEach( row => row.dispose() ) );
   }
 }
 
