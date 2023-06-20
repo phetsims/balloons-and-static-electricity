@@ -5,48 +5,48 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import balloonsAndStaticElectricity from './balloonsAndStaticElectricity.js';
 
 type StringsType = {
   'balloons-and-static-electricity': {
     'title': string;
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
   };
   'BalloonApplet': {
     'ShowChargeDifferences': string;
-    'ShowChargeDifferencesStringProperty': LinkableProperty<string>;
+    'ShowChargeDifferencesStringProperty': LocalizedStringProperty;
     'ShowAllCharges': string;
-    'ShowAllChargesStringProperty': LinkableProperty<string>;
+    'ShowAllChargesStringProperty': LocalizedStringProperty;
     'ShowNoCharges': string;
-    'ShowNoChargesStringProperty': LinkableProperty<string>;
+    'ShowNoChargesStringProperty': LocalizedStringProperty;
   };
   'removeWall': string;
-  'removeWallStringProperty': LinkableProperty<string>;
+  'removeWallStringProperty': LocalizedStringProperty;
   'addWall': string;
-  'addWallStringProperty': LinkableProperty<string>;
+  'addWallStringProperty': LocalizedStringProperty;
   'resetBalloon': string;
-  'resetBalloonStringProperty': LinkableProperty<string>;
+  'resetBalloonStringProperty': LocalizedStringProperty;
   'resetBalloons': string;
-  'resetBalloonsStringProperty': LinkableProperty<string>;
+  'resetBalloonsStringProperty': LocalizedStringProperty;
   'grabOrReleaseBalloonHeading': string;
-  'grabOrReleaseBalloonHeadingStringProperty': LinkableProperty<string>;
+  'grabOrReleaseBalloonHeadingStringProperty': LocalizedStringProperty;
   'grabOrReleaseBalloonLabel': string;
-  'grabOrReleaseBalloonLabelStringProperty': LinkableProperty<string>;
+  'grabOrReleaseBalloonLabelStringProperty': LocalizedStringProperty;
   'moveOrJumpGrabbedBalloonHeading': string;
-  'moveOrJumpGrabbedBalloonHeadingStringProperty': LinkableProperty<string>;
+  'moveOrJumpGrabbedBalloonHeadingStringProperty': LocalizedStringProperty;
   'moveGrabbedBalloonLabel': string;
-  'moveGrabbedBalloonLabelStringProperty': LinkableProperty<string>;
+  'moveGrabbedBalloonLabelStringProperty': LocalizedStringProperty;
   'moveSlowerLabel': string;
-  'moveSlowerLabelStringProperty': LinkableProperty<string>;
+  'moveSlowerLabelStringProperty': LocalizedStringProperty;
   'jumpCloseToSweaterLabel': string;
-  'jumpCloseToSweaterLabelStringProperty': LinkableProperty<string>;
+  'jumpCloseToSweaterLabelStringProperty': LocalizedStringProperty;
   'jumpCloseToWallLabel': string;
-  'jumpCloseToWallLabelStringProperty': LinkableProperty<string>;
+  'jumpCloseToWallLabelStringProperty': LocalizedStringProperty;
   'jumpNearWallLabel': string;
-  'jumpNearWallLabelStringProperty': LinkableProperty<string>;
+  'jumpNearWallLabelStringProperty': LocalizedStringProperty;
   'jumpToCenterLabel': string;
-  'jumpToCenterLabelStringProperty': LinkableProperty<string>;
+  'jumpToCenterLabelStringProperty': LocalizedStringProperty;
 };
 
 const BalloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
