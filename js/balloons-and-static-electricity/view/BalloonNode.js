@@ -18,7 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import { DragListener, FocusHighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardUtils, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardUtils, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -323,7 +323,7 @@ class BalloonNode extends Node {
     } );
 
     // pdom
-    balloonImageNode.focusHighlight = new FocusHighlightFromNode( balloonImageNode );
+    balloonImageNode.focusHighlight = new HighlightFromNode( balloonImageNode );
 
     // pdom - when the balloon charge, position, or model.showChargesProperty changes, the balloon needs a new
     // description for assistive technology
