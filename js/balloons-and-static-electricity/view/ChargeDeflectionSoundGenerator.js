@@ -66,7 +66,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     const outputLevelGainNode = phetAudioContext.createGain();
     outputLevelGainNode.connect( this.masterGainNode );
 
-    // @private {SoundClip[]} - sound generators used used to produce the individual sounds
+    // @private {SoundClip[]} - sound generators used to produce the individual sounds
     this.soundGenerators = [];
 
     // @private {Map.<MovablePointChargeModel,SoundGenerator>}
