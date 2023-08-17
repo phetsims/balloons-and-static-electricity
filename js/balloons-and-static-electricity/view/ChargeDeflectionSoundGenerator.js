@@ -64,7 +64,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // Create an internal gain stage that will be used to adjust the gain level since multiple inputs are being combined
     // to produce the overall output signal.
     const outputLevelGainNode = phetAudioContext.createGain();
-    outputLevelGainNode.connect( this.masterGainNode );
+    outputLevelGainNode.connect( this.mainGainNode );
 
     // @private {SoundClip[]} - sound generators used to produce the individual sounds
     this.soundGenerators = [];
@@ -91,7 +91,7 @@ class ChargeDeflectionSoundGenerator extends SoundGenerator {
           initialOutputLevel: 1 / NUMBER_OF_SOUND_GENERATORS
         }
       );
-      soundClip.connect( this.masterGainNode );
+      soundClip.connect( this.mainGainNode );
       this.soundGenerators.push( soundClip );
       this.chargeToSoundGeneratorMap.set( this.getChargeForSoundGeneratorIndex( index ), soundClip );
     } );
