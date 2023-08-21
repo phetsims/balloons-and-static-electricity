@@ -21,10 +21,11 @@ version.<br>
 
 For instance, constant k is 0.1 when calculating forces between the balloon
 and the sweater, and 10000 when calculating the forces between the balloon
-and the wall.  In addition, the force between objects is actually calculated
+and the wall. In addition, the force between objects is actually calculated
 with<br>
 
 F = kq<sub>1</sub>q<sub>2</sub>/r<sup>3</sup><br>
 
 so that the acceleration of the balloon is exaggerated. For more details
-on the implementation of this simulation, please see https://github.com/phetsims/balloons-and-static-electricity/blob/main/doc/implementation-notes.md
+on the implementation of this simulation, please
+see https://github.com/phetsims/balloons-and-static-electricity/blob/main/doc/implementation-notes.md
