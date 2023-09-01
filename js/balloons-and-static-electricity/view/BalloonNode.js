@@ -149,7 +149,7 @@ class BalloonNode extends Node {
     soundManager.addSoundGenerator( releaseBalloonSoundPlayer );
 
     // drag handling
-    const dragHandler = new DragListener( {
+    const dragListener = new DragListener( {
 
       positionProperty: model.positionProperty,
       dragBoundsProperty: balloonDragBoundsProperty,
@@ -166,7 +166,7 @@ class BalloonNode extends Node {
       },
       tandem: tandem.createTandem( 'dragListener' )
     } );
-    this.addInputListener( dragHandler );
+    this.addInputListener( dragListener );
 
     const balloonImageNode = new Image( imageSource, {
       tandem: tandem.createTandem( 'balloonImageNode' ),
@@ -340,7 +340,7 @@ class BalloonNode extends Node {
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
     let successfulKeyboardDrag = false; // used to hide the "drag" cue once a successful keyboard drag happens
     const boundaryUtterance = new Utterance();
-    this.keyboardDragHandler = new KeyboardDragListener( {
+    this.keyboardDragListener = new KeyboardDragListener( {
       dragVelocity: 300, // in view coordinates per second
       shiftDragVelocity: 100, // in view coordinates per second
       dragBoundsProperty: dragBoundsProperty,
@@ -373,7 +373,7 @@ class BalloonNode extends Node {
     // area shape.
     const grabDragTargetNode = new InteractiveHighlightInteractionNode( this.touchArea );
     this.addChild( grabDragTargetNode );
-    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragHandler, {
+    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
 
@@ -396,7 +396,7 @@ class BalloonNode extends Node {
         endDragListener();
 
         // reset the key state of the drag handler by interrupting the drag
-        this.keyboardDragHandler.interrupt();
+        this.keyboardDragListener.interrupt();
       },
 
       // hides the interactionCueNode cue node after a successful drag
@@ -406,7 +406,7 @@ class BalloonNode extends Node {
     } );
 
     // jump to the wall on 'J + W'
-    this.keyboardDragHandler.hotkeys = [
+    this.keyboardDragListener.hotkeys = [
       {
         keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_W ],
         callback: () => {
@@ -441,7 +441,7 @@ class BalloonNode extends Node {
     model.resetEmitter.addListener( () => {
 
       // if reset, release the balloon from dragging
-      dragHandler.interrupt();
+      dragListener.interrupt();
 
       // reset so the "drag" cue shows up again for the GrabDragInteraction
       successfulKeyboardDrag = false;

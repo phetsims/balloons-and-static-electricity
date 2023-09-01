@@ -45,27 +45,27 @@ class SweaterNode extends Node {
     this.sweaterModel = model.sweater;
 
     // create the sweater image
-    const sweaterImageNode = new Image( sweater_png, { tandem: tandem.createTandem( 'sweater' ) } );
+    const sweater = new Image( sweater_png, { tandem: tandem.createTandem( 'sweater' ) } );
 
-    // Balloons and Static Electricity has unit tests which run outside of the context of simLauncher and hence not all
+    // Balloons and Static Electricity has unit tests which run outside the context of simLauncher and hence not all
     // images may have dimensions by now.
-    if ( sweaterImageNode.width > 0 && sweaterImageNode.height > 0 ) {
+    if ( sweater.width > 0 && sweater.height > 0 ) {
 
       // scale image to match model, then set position
-      sweaterImageNode.scale(
-        this.sweaterModel.width / sweaterImageNode.width,
-        this.sweaterModel.height / sweaterImageNode.height
+      sweater.scale(
+        this.sweaterModel.width / sweater.width,
+        this.sweaterModel.height / sweater.height
       );
     }
     else {
       assert && assert( window.hasOwnProperty( 'QUnit' ), 'Images should have dimensions unless we are running a unit test' );
     }
 
-    sweaterImageNode.left = this.sweaterModel.x;
-    sweaterImageNode.top = this.sweaterModel.y;
+    sweater.left = this.sweaterModel.x;
+    sweater.top = this.sweaterModel.y;
 
     // add the sweater image
-    this.addChild( sweaterImageNode );
+    this.addChild( sweater );
 
     // show the charge area
     if ( BASEQueryParameters.showSweaterChargedArea ) {
