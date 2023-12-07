@@ -1,5 +1,5 @@
 {
-  "comment": "# balloons-and-static-electricity 1.5.12 Mon Sep 25 2023 15:39:43 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# balloons-and-static-electricity 1.5.13-rc.1 Thu Dec 07 2023 13:10:07 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "e75b4c86795e2f54a9b28b1c9237f031e11fb5c1",
+    "sha": "e0afb4f60c201ed46e669679cc71e1ba83c0bd5e",
     "branch": "1.5"
   },
   "brand": {
