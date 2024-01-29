@@ -341,8 +341,8 @@ class BalloonNode extends Node {
     let successfulKeyboardDrag = false; // used to hide the "drag" cue once a successful keyboard drag happens
     const boundaryUtterance = new Utterance();
     this.keyboardDragListener = new KeyboardDragListener( {
-      dragVelocity: 300, // in view coordinates per second
-      shiftDragVelocity: 100, // in view coordinates per second
+      dragSpeed: 300, // in view coordinates per second
+      shiftDragSpeed: 100, // in view coordinates per second
       dragBoundsProperty: dragBoundsProperty,
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,

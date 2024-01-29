@@ -478,15 +478,15 @@ class BalloonPositionDescriber {
 
     // percent of progress through the region
     const progressThroughCell = this.balloonModel.getProgressThroughRegion();
-    const dragVelocity = this.balloonModel.dragVelocityProperty.get().magnitude;
+    const dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
     const movingDiagonally = this.balloonModel.movingDiagonally();
 
-    if ( dragVelocity > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 && !movingDiagonally ) {
+    if ( dragSpeed > SLOW_BALLOON_SPEED && progressThroughCell >= 0.66 && !movingDiagonally ) {
 
       // if drag velocity fast and progress through the cell is greater than 60%, announce progress towards destination
       alert = this.getPlayAreaDragProgressDescription();
     }
-    else if ( dragVelocity < SLOW_BALLOON_SPEED && progressThroughCell >= 0.5 && !movingDiagonally ) {
+    else if ( dragSpeed < SLOW_BALLOON_SPEED && progressThroughCell >= 0.5 && !movingDiagonally ) {
 
       // when drag velocity slow and progress through cell greater than 0.5, announce progress towards destination
       alert = this.getPlayAreaDragProgressDescription();
