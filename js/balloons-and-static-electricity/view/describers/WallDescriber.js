@@ -1,4 +1,4 @@
-// Copyright 2017-2021, University of Colorado Boulder
+// Copyright 2017-2024, University of Colorado Boulder
 
 /**
  * A view type that observes the WallModel and builds descriptions which can be read by assistive technology.
