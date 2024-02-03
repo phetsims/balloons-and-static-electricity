@@ -80,7 +80,7 @@ class WallDescriber {
   /**
    * Get the full description for the wall including its position, net charge, and induced charge.  This is used
    * as the general description for the wall which an AT user can read at any time with the virtual cursor.
-   * The content is dependent on the view snackType of charges (model.showchargesProperty).
+   * The content is dependent on the view representation of charges (model.showchargesProperty).
    *
    * @public
    * @param  {BalloonModel} yellowBalloon
