@@ -7,6 +7,7 @@
  * @author John Blanco
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -21,18 +22,11 @@ class TetherNode extends Path {
    */
   constructor( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
 
-    super( null, {
-      stroke: '#000000',
-      lineWidth: 1,
-      pickable: false,
-      tandem: tandem
-    } );
-
     const anchorPointCopy = anchorPoint.copy();
 
-    balloonModel.positionProperty.link( position => {
+    super( new DerivedProperty( [ balloonModel.positionProperty ], position => {
       const attachmentPoint = position.plus( tetherPointOffset );
-      this.shape = new Shape()
+      return new Shape()
         .moveToPoint( anchorPointCopy )
         .quadraticCurveTo(
           attachmentPoint.x,
@@ -40,6 +34,11 @@ class TetherNode extends Path {
           attachmentPoint.x,
           attachmentPoint.y
         );
+    } ), {
+      stroke: '#000000',
+      lineWidth: 1,
+      pickable: false,
+      tandem: tandem
     } );
   }
 }
