@@ -18,7 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardUtils, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -346,13 +346,12 @@ class BalloonNode extends Node {
       dragBoundsProperty: dragBoundsProperty,
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
-      start: event => {
-        const key = KeyboardUtils.getEventCode( event.domEvent );
+      start: ( event, listener ) => {
         successfulKeyboardDrag = true;
 
         // if already touching a boundary when dragging starts, announce an indication of this
-        if ( this.attemptToMoveBeyondBoundary( key ) ) {
-          const attemptedDirection = this.getAttemptedMovementDirection( key );
+        if ( this.attemptToMoveBeyondBoundary( listener ) ) {
+          const attemptedDirection = this.getAttemptedMovementDirection( listener );
           boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
           this.alertDescriptionUtterance( boundaryUtterance );
         }
@@ -366,6 +365,24 @@ class BalloonNode extends Node {
     const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
     interactionCueNode.center = balloonImageNode.center;
 
+    const hotkeyListener = new KeyboardListener( {
+      keys: [ 'j+w', 'j+s', 'j+n', 'j+c' ],
+      fire: ( event, keysPressed ) => {
+        if ( keysPressed === 'j+w' ) {
+          this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
+        }
+        else if ( keysPressed === 'j+s' ) {
+          this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
+        }
+        else if ( keysPressed === 'j+n' ) {
+          this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_WALL, model.getCenterY() ) );
+        }
+        else if ( keysPressed === 'j+c' ) {
+          this.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
+        }
+      }
+    } );
+
     // Attach the GrabDragInteraction to a child of this Node so that the accessible
     // content for the interaction is underneath this node. Cannot attach to the balloonImageNode
     // because it is important that that Node be pickable: false for the touch areas. The Node takes
@@ -376,6 +393,7 @@ class BalloonNode extends Node {
     const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
+      listenersForDragState: [ hotkeyListener ],
 
       // BASE needs to control the ordering of all alerts after a release happens, so prevent
       // the default release alert
@@ -404,34 +422,6 @@ class BalloonNode extends Node {
 
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
-
-    // jump to the wall on 'J + W'
-    this.keyboardDragListener.setHotkeys( [
-      {
-        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_W ],
-        callback: () => {
-          this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
-        }
-      },
-      {
-        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_S ],
-        callback: () => {
-          this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
-        }
-      },
-      {
-        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_N ],
-        callback: () => {
-          this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_WALL, model.getCenterY() ) );
-        }
-      },
-      {
-        keys: [ KeyboardUtils.KEY_J, KeyboardUtils.KEY_C ],
-        callback: () => {
-          this.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
-        }
-      }
-    ] );
 
     // update the drag bounds when wall visibility changes
     globalModel.wall.isVisibleProperty.link( () => {
@@ -497,36 +487,34 @@ class BalloonNode extends Node {
 
   /**
    * Determine if the user attempted to move beyond the play area bounds with the keyboard.
-   * @param {string} key
-   * @returns {boolean}
    * @public
    */
-  attemptToMoveBeyondBoundary( key ) {
+  attemptToMoveBeyondBoundary( listener ) {
     return (
-      ( KeyboardDragListener.isLeftMovementKey( key ) && this.model.isTouchingLeftBoundary() ) ||
-      ( KeyboardDragListener.isUpMovementKey( key ) && this.model.isTouchingTopBoundary() ) ||
-      ( KeyboardDragListener.isRightMovementKey( key ) && this.model.isTouchingRightBoundary() ) ||
-      ( KeyboardDragListener.isDownMovementKey( key ) && this.model.isTouchingBottomBoundary() )
+      ( listener.movingLeft() && this.model.isTouchingLeftBoundary() ) ||
+      ( listener.movingUp() && this.model.isTouchingTopBoundary() ) ||
+      ( listener.movingRight() && this.model.isTouchingRightBoundary() ) ||
+      ( listener.movingDown() && this.model.isTouchingBottomBoundary() )
     );
   }
 
   /**
-   * @param {string} key
+   * @param {KeyboardDragListener} listener
    * @returns {string}
    * @public
    */
-  getAttemptedMovementDirection( key ) {
+  getAttemptedMovementDirection( listener ) {
     let direction;
-    if ( KeyboardDragListener.isLeftMovementKey( key ) ) {
+    if ( listener.movingLeft() ) {
       direction = BalloonDirectionEnum.LEFT;
     }
-    else if ( KeyboardDragListener.isRightMovementKey( key ) ) {
+    else if ( listener.movingRight() ) {
       direction = BalloonDirectionEnum.RIGHT;
     }
-    else if ( KeyboardDragListener.isUpMovementKey( key ) ) {
+    else if ( listener.movingUp() ) {
       direction = BalloonDirectionEnum.UP;
     }
-    else if ( KeyboardDragListener.isDownMovementKey( key ) ) {
+    else if ( listener.movingDown() ) {
       direction = BalloonDirectionEnum.DOWN;
     }
 
