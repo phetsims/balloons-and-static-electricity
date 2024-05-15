@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "fa62c402663986a21963eab42b3f939612b5a1c7",
+    "sha": "327c528b2382d82b6503f75387d4afadf4a0a2ac",
     "branch": "1.3-phetio"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "fdfeb7f1a9a4cd195cdc9cfb0cb71b5b6e3fa71d",
+    "sha": "1bbfb1b27457ac9355bc28117a3d31c03dd6cb4d",
     "branch": "HEAD"
   },
   "dot": {
