@@ -75,7 +75,7 @@ class BalloonNode extends Node {
 
       // {Object} - options passed to the drift velocity sound generator
       balloonVelocitySoundGeneratorOptions: {
-        enableControlProperties: [ model.isVisibleProperty ]
+        enabledProperty: model.isVisibleProperty
       },
 
       // {Object} - options passed to the balloon rubbing sound generator
@@ -251,7 +251,7 @@ class BalloonNode extends Node {
 
     // sound generation for charges moving on to this balloon
     const popSoundGenerator = new PitchedPopGenerator( {
-      enableControlProperties: [ chargesShownOnBalloonProperty ],
+      enabledProperty: chargesShownOnBalloonProperty,
       initialOutputLevel: 0.3
     } );
     soundManager.addSoundGenerator( popSoundGenerator );
