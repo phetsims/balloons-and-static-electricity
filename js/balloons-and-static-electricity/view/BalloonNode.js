@@ -19,7 +19,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
 import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
-import boundaryReachedSoundPlayer from '../../../../tambo/js/shared-sound-players/boundaryReachedSoundPlayer.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -297,6 +297,7 @@ class BalloonNode extends Node {
       initialOutputLevel: 0.15
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
+    const boundaryReachedSoundPlayer = sharedSoundPlayers.get( 'boundaryReached' );
     model.positionProperty.lazyLink( ( position, previousPosition ) => {
 
       // Test whether the balloon has come into contact with an edge and play a sound if so.
