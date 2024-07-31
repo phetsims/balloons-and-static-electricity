@@ -18,7 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle, HotkeyData } from '../../../../scenery/js/imports.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -29,6 +29,7 @@ import balloonHitSweater_mp3 from '../../../sounds/balloonHitSweater_mp3.js';
 import balloonRelease006_mp3 from '../../../sounds/balloonRelease006_mp3.js';
 import wallContact_mp3 from '../../../sounds/wallContact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
+import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -367,18 +368,23 @@ class BalloonNode extends Node {
     interactionCueNode.center = balloonImageNode.center;
 
     const hotkeyListener = new KeyboardListener( {
-      keys: [ 'j+w', 'j+s', 'j+n', 'j+c' ],
+      keyStringProperties: HotkeyData.combineKeyStringProperties( [
+        BalloonNode.JUMP_WALL_HOTKEY_DATA,
+        BalloonNode.JUMP_CENTER_HOTKEY_DATA,
+        BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA,
+        BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA
+      ] ),
       fire: ( event, keysPressed ) => {
-        if ( keysPressed === 'j+w' ) {
+        if ( BalloonNode.JUMP_WALL_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }
-        else if ( keysPressed === 'j+s' ) {
+        else if ( BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_SWEATER, model.getCenterY() ) );
         }
-        else if ( keysPressed === 'j+n' ) {
+        else if ( BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_NEAR_WALL, model.getCenterY() ) );
         }
-        else if ( keysPressed === 'j+c' ) {
+        else if ( BalloonNode.JUMP_CENTER_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_CENTER_PLAY_AREA, model.getCenterY() ) );
         }
       }
@@ -534,6 +540,34 @@ class BalloonNode extends Node {
     const balloonHeight = this.model.height;
     return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
   }
+
+  static JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'j+w' ) ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWwallDescription,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  static JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'j+c' ) ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpstoCenterDescription,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  static JUMP_NEAR_SWEATER_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'j+s' ) ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToSweaterDescription,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  static JUMP_NEAR_WALL_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'j+n' ) ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpNearWallLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsNearWallDescription,
+    repoName: balloonsAndStaticElectricity.name
+  } );
 }
 
 /**

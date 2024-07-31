@@ -16,13 +16,10 @@ import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import BalloonNode from './BalloonNode.js';
 
 const grabOrReleaseBalloonHeadingString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonHeading;
 const grabOrReleaseBalloonLabelString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonLabel;
-const jumpCloseToSweaterLabelString = BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabel;
-const jumpCloseToWallLabelString = BalloonsAndStaticElectricityStrings.jumpCloseToWallLabel;
-const jumpNearWallLabelString = BalloonsAndStaticElectricityStrings.jumpNearWallLabel;
-const jumpToCenterLabelString = BalloonsAndStaticElectricityStrings.jumpToCenterLabel;
 const moveGrabbedBalloonLabelString = BalloonsAndStaticElectricityStrings.moveGrabbedBalloonLabel;
 const moveOrJumpGrabbedBalloonHeadingString = BalloonsAndStaticElectricityStrings.moveOrJumpGrabbedBalloonHeading;
 const moveSlowerLabelString = BalloonsAndStaticElectricityStrings.moveSlowerLabel;
@@ -30,10 +27,6 @@ const moveSlowerLabelString = BalloonsAndStaticElectricityStrings.moveSlowerLabe
 const grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
 const moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
 const moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
-const jumpsCloseToSweaterDescriptionString = BASEA11yStrings.jumpsCloseToSweaterDescription.value;
-const jumpsCloseToWwallDescriptionString = BASEA11yStrings.jumpsCloseToWwallDescription.value;
-const jumpsNearWallDescriptionString = BASEA11yStrings.jumpsNearWallDescription.value;
-const jumpstoCenterDescriptionString = BASEA11yStrings.jumpstoCenterDescription.value;
 
 // constants
 // the english strings are shorter for the balloon help content, so we restrict that content width for i18n more
@@ -123,18 +116,10 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     } );
 
     // hotkey rows for how to jump the balloon
-    const jumpToSweaterRow = KeyboardHelpSectionRow.createJumpKeyRow( 'S', jumpCloseToSweaterLabelString, {
-      labelInnerContent: jumpsCloseToSweaterDescriptionString
-    } );
-    const jumpToWallRow = KeyboardHelpSectionRow.createJumpKeyRow( 'W', jumpCloseToWallLabelString, {
-      labelInnerContent: jumpsCloseToWwallDescriptionString
-    } );
-    const jumpNearWallRow = KeyboardHelpSectionRow.createJumpKeyRow( 'N', jumpNearWallLabelString, {
-      labelInnerContent: jumpsNearWallDescriptionString
-    } );
-    const jumpToCenterRow = KeyboardHelpSectionRow.createJumpKeyRow( 'C', jumpToCenterLabelString, {
-      labelInnerContent: jumpstoCenterDescriptionString
-    } );
+    const jumpToSweaterRow = KeyboardHelpSectionRow.fromHotkeyData( BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA );
+    const jumpToWallRow = KeyboardHelpSectionRow.fromHotkeyData( BalloonNode.JUMP_WALL_HOTKEY_DATA );
+    const jumpNearWallRow = KeyboardHelpSectionRow.fromHotkeyData( BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA );
+    const jumpToCenterRow = KeyboardHelpSectionRow.fromHotkeyData( BalloonNode.JUMP_CENTER_HOTKEY_DATA );
 
     // all rows contained in a left aligned vbox
     const rows = [ labelWithContent, labelWithIconList, jumpToSweaterRow, jumpToWallRow, jumpNearWallRow, jumpToCenterRow ];
