@@ -13,7 +13,7 @@ import PlayAreaMap from '../model/PlayAreaMap.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BalloonModel from '../model/BalloonModel.js';
 import Property from '../../../../axon/js/Property.js';
-import WASDCueNode from '../../../../scenery-phet/js/accessibility/nodes/BalloonInteractionCueNode.js';
+import WASDCueNode from '../../../../scenery-phet/js/accessibility/nodes/WASDCueNode.js';
 
 export default class BalloonInteractionCueNode extends WASDCueNode {
 
