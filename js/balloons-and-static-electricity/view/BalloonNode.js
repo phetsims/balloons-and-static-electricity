@@ -18,7 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/GrabDragInteraction.js';
-import { DragListener, HighlightFromNode, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle, HotkeyData } from '../../../../scenery/js/imports.js';
+import { DragListener, HighlightFromNode, HotkeyData, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardListener, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -364,7 +364,7 @@ class BalloonNode extends Node {
 
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
     // a keyboard
-    const interactionCueNode = new BalloonInteractionCueNode( globalModel, model, this, layoutBounds );
+    const interactionCueNode = new BalloonInteractionCueNode( globalModel.wall.isVisibleProperty, model );
     interactionCueNode.center = balloonImageNode.center;
 
     const hotkeyListener = new KeyboardListener( {

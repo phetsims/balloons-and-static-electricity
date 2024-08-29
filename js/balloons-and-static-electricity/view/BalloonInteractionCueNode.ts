@@ -14,6 +14,9 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import BalloonModel from '../model/BalloonModel.js';
+import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 
 // constants
 const ARROW_HEIGHT = 15; // dimensions for the arrow icons
@@ -34,13 +37,7 @@ const DIRECTION_ANGLES = {
 
 class BalloonInteractionCueNode extends Node {
 
-  /**
-   * @param {BASEModel} model
-   * @param {BalloonModel} balloonModel
-   * @param {BalloonNode} balloonNode
-   * @param {Bounds2} layoutBounds
-   */
-  constructor( model, balloonModel, balloonNode, layoutBounds ) {
+  public constructor( wallIsVisibleProperty: TReadOnlyProperty<boolean>, balloonModel: BalloonModel ) {
 
     super();
 
@@ -60,7 +57,7 @@ class BalloonInteractionCueNode extends Node {
 
     // add listeners to update visibility of nodes when position changes and when the wall is made
     // visible/invisible
-    Multilink.multilink( [ balloonModel.positionProperty, model.wall.isVisibleProperty ], ( position, visible ) => {
+    Multilink.multilink( [ balloonModel.positionProperty, wallIsVisibleProperty ], ( position, visible ) => {
 
       // get the max x positions depending on if the wall is visible
       let centerXRightBoundary;
@@ -90,13 +87,8 @@ class BalloonInteractionCueNode extends Node {
   /**
    * Create a node that looks like a keyboard letter key next to an arrow indicating the direction the balloon
    * would move if that key is pressed.
-   *
-   * @private
-   *
-   * @param {string} direction - 'up'|'down'|'left'|'right'
-   * @returns {Node}
    */
-  createMovementKeyNode( direction ) {
+  private createMovementKeyNode( direction: 'up' | 'down' | 'left' | 'right' ): Node {
 
     // create the arrow icon
     const arrowShape = new Shape();
@@ -111,8 +103,8 @@ class BalloonInteractionCueNode extends Node {
     } );
 
     // create the letter key nodes and place in the correct layout box
-    let keyIcon;
-    let box;
+    let keyIcon: TextKeyNode;
+    let box: Node;
     if ( direction === 'up' ) {
       keyIcon = LetterKeyNode.w( LETTER_KEY_OPTIONS );
       box = new VBox( { children: [ arrowIcon, keyIcon ], spacing: KEY_ARROW_SPACING } );
@@ -130,8 +122,8 @@ class BalloonInteractionCueNode extends Node {
       box = new VBox( { children: [ keyIcon, arrowIcon ], spacing: KEY_ARROW_SPACING } );
     }
 
-    assert && assert( box, `No box created for direction ${direction}` );
-    return box;
+    assert && assert( box!, `No box created for direction ${direction}` );
+    return box!;
   }
 }
 
