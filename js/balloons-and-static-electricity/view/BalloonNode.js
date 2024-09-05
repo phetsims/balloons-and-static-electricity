@@ -400,7 +400,7 @@ class BalloonNode extends Node {
     const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
-      listenersWhileDraggable: [ hotkeyListener ],
+      listenersWhileGrabbed: [ hotkeyListener ],
 
       // BASE needs to control the ordering of all alerts after a release happens, so prevent
       // the default release alert
