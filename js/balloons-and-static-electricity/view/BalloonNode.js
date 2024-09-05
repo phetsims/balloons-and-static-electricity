@@ -340,7 +340,6 @@ class BalloonNode extends Node {
     const dragBoundsProperty = new Property( this.getDragBounds() );
 
     // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
-    let successfulKeyboardDrag = false; // used to hide the "drag" cue once a successful keyboard drag happens
     const boundaryUtterance = new Utterance();
     this.keyboardDragListener = new KeyboardDragListener( {
       dragSpeed: 300, // in view coordinates per second
@@ -349,7 +348,8 @@ class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       shiftKeyMultiplier: 0.25,
       start: ( event, listener ) => {
-        successfulKeyboardDrag = true;
+
+        grabDragInteraction.grabDragModel.grabDragUsageTracker.shouldShowDragCue = false;
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( listener ) ) {
@@ -424,9 +424,6 @@ class BalloonNode extends Node {
         this.keyboardDragListener.interrupt();
       },
 
-      // hides the interactionCueNode cue node after a successful drag
-      showDragCueNode: () => !successfulKeyboardDrag,
-
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
 
@@ -439,9 +436,6 @@ class BalloonNode extends Node {
 
       // if reset, release the balloon from dragging
       dragListener.interrupt();
-
-      // reset so the "drag" cue shows up again for the GrabDragInteraction
-      successfulKeyboardDrag = false;
 
       this.describer.reset();
       grabDragInteraction.reset();
