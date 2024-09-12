@@ -9,7 +9,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Image, Node, Path } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
 import sweater_png from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -117,7 +117,7 @@ class SweaterNode extends Node {
 
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
     // due to the fact that the movedProperty state could get loaded before the chargeProperty state.
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.phetioStateEngine.stateSetEmitter.addListener( () => {
+    phetioStateSetEmitter.addListener( () => {
       updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
     } );
   }
