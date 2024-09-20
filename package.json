@@ -37,6 +37,18 @@
     "published": true
   },
   "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
+    "extends": "../chipper/eslint/sim_eslintrc.js",
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "parserOptions": {
+          "project": [
+            "../balloons-and-static-electricity/tsconfig.json"
+          ]
+        }
+      }
+    ]
   }
 }

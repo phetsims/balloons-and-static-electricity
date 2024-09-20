@@ -5,5 +5,19 @@
     "images/**/*",
     "mipmaps/**/*",
     "sounds/**/*"
+  ],
+  "references": [
+    {
+      "path": "../vibe/tsconfig.json"
+    },
+    {
+      "path": "../tappi/tsconfig.json"
+    },
+    {
+      "path": "../griddle/tsconfig.json"
+    },
+    {
+      "path": "../chipper/tsconfig/buildjson"
+    }
   ]
 }
