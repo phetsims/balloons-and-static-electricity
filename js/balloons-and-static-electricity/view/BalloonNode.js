@@ -351,8 +351,6 @@ class BalloonNode extends Node {
       shiftKeyMultiplier: 0.25,
       start: ( event, listener ) => {
 
-        grabDragInteraction.grabDragModel.grabDragUsageTracker.shouldShowDragCue = false;
-
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( listener ) ) {
           const attemptedDirection = this.getAttemptedMovementDirection( listener );
