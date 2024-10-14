@@ -100,6 +100,7 @@ class BASEView extends ScreenView {
       yellowBalloonLabelString,
       greenBalloonLabelString,
       this.layoutBounds,
+      this,
       tandem.createTandem( 'yellowBalloonNode' ),
       {
         labelContent: yellowBalloonLabelString,
@@ -128,6 +129,7 @@ class BASEView extends ScreenView {
       greenBalloonLabelString,
       yellowBalloonLabelString,
       this.layoutBounds,
+      this,
       tandem.createTandem( 'greenBalloonNode' ),
       {
         labelContent: greenBalloonLabelString,

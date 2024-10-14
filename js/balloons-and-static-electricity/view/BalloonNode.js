@@ -59,6 +59,7 @@ class BalloonNode extends Node {
    * @param {string} accessibleLabelString - the accessible label for this balloon
    * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
    * @param {Bounds2} layoutBounds - layout bounds of the ScreenView containing this node
+   * @param {Node} cueParent - parent Node for interaction cues of GrabDragInteraction
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
@@ -68,6 +69,7 @@ class BalloonNode extends Node {
                accessibleLabelString,
                otherAccessibleLabelString,
                layoutBounds,
+               cueParent,
                tandem,
                options ) {
 
@@ -365,7 +367,6 @@ class BalloonNode extends Node {
     // made visible when the balloon is picked up with a keyboard for the first time to show how a user can drag with
     // a keyboard
     const interactionCueNode = new BalloonInteractionCueNode( globalModel.wall.isVisibleProperty, model );
-    interactionCueNode.center = balloonImageNode.center;
 
     const hotkeyListener = new KeyboardListener( {
       keyStringProperties: HotkeyData.combineKeyStringProperties( [
@@ -397,7 +398,8 @@ class BalloonNode extends Node {
     // area shape.
     const grabDragTargetNode = new InteractiveHighlightInteractionNode( this.touchArea );
     this.addChild( grabDragTargetNode );
-    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, {
+
+    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, cueParent, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
       listenersWhileGrabbed: [ hotkeyListener ],
