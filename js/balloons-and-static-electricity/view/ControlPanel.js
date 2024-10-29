@@ -118,7 +118,9 @@ class ControlPanel extends Node {
       ),
       value: 'all',
       tandemName: 'showAllChargesRadioButton',
-      labelContent: balloonAppletShowAllChargesString
+      options: {
+        accessibleName: balloonAppletShowAllChargesString
+      }
     }, {
       createNode: tandem => new Text(
         balloonAppletShowNoChargesString,
@@ -126,7 +128,9 @@ class ControlPanel extends Node {
       ),
       value: 'none',
       tandemName: 'showNoChargesRadioButton',
-      labelContent: balloonAppletShowNoChargesString
+      options: {
+        accessibleName: balloonAppletShowNoChargesString
+      }
     }, {
       createNode: tandem => new Text(
         balloonAppletShowChargeDifferencesString,
@@ -134,15 +138,19 @@ class ControlPanel extends Node {
       ),
       value: 'diff',
       tandemName: 'showChargeDifferencesRadioButton',
-      labelContent: balloonAppletShowChargeDifferencesString
+      options: {
+        accessibleName: balloonAppletShowChargeDifferencesString
+      }
     } ], {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
       // pdom
       containerTagName: 'div',
-      labelContent: chargeSettingsLabelString,
-      descriptionContent: chargeSettingsDescriptionString
+      options: {
+        accessibleName: chargeSettingsLabelString,
+        helpText: chargeSettingsDescriptionString
+      }
     } );
 
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
