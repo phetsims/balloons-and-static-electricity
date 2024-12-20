@@ -518,6 +518,11 @@ class BalloonModel {
       difference = this.getCenter().y - range.min;
     }
 
+    // TODO: This seems too downstream to be a good solution. Why don't we apply to the above cases during phet-io-state fuzz? https://github.com/phetsims/balloons-and-static-electricity/issues/575
+    if ( !range ) {
+      return 0;
+    }
+
     // determine how far we are through the region
     let progress = difference / range.getLength();
 
