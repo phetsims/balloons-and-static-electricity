@@ -32,7 +32,8 @@ class BASEModel {
 
     // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new StringProperty( 'all', {
-      tandem: tandem.createTandem( 'showChargesProperty' )
+      tandem: tandem.createTandem( 'showChargesProperty' ),
+      phetioFeatured: true
     } );
 
     // @public {boolean} - whether or not the two balloons are considered 'next to' each other, primarily used for a11y
