@@ -6,7 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
-import { Circle, Node, RadialGradient, Rectangle } from '../../../../scenery/js/imports.js';
+import { Circle, Node, RadialGradient, rasterized, Rectangle } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -36,7 +36,7 @@ const icon = new Node( {
     } )
   ]
 } );
-const sharedPlusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
+const sharedPlusChargeNode = rasterized( icon, { resolution: BASEConstants.IMAGE_SCALE } );
 
 class PlusChargeNode extends Node {
 

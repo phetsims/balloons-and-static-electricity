@@ -7,8 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Circle, Node, RadialGradient, Rectangle } from '../../../../scenery/js/imports.js';
-import '../../../../scenery/js/nodes/Image.js'; // to support static call to rasterize, see https://github.com/phetsims/chipper/issues/871
+import { Circle, Node, RadialGradient, rasterized, Rectangle } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -32,7 +31,7 @@ const icon = new Node( {
     } )
   ]
 } );
-const sharedMinusChargeNode = icon.rasterized( { resolution: BASEConstants.IMAGE_SCALE } );
+const sharedMinusChargeNode = rasterized( icon, { resolution: BASEConstants.IMAGE_SCALE } );
 
 class MinusChargeNode extends Node {
 
