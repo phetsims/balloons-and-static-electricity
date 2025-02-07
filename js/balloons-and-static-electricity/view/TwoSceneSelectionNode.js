@@ -18,9 +18,17 @@
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { AlignGroup, Color, DownUpListener, FlowBox, InteractiveHighlighting, Node, Path, PressListener, SceneryConstants } from '../../../../scenery/js/imports.js';
+import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
+import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
+import FlowBox from '../../../../scenery/js/layout/nodes/FlowBox.js';
+import PressListener from '../../../../scenery/js/listeners/PressListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import SceneryConstants from '../../../../scenery/js/SceneryConstants.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';

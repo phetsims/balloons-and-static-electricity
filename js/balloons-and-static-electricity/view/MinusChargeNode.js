@@ -7,7 +7,11 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Circle, Node, RadialGradient, rasterized, Rectangle } from '../../../../scenery/js/imports.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
+import { rasterized } from '../../../../scenery/js/util/rasterized.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
