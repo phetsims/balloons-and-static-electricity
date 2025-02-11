@@ -10,7 +10,7 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
-import { rasterized } from '../../../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -40,7 +40,7 @@ const icon = new Node( {
     } )
   ]
 } );
-const sharedPlusChargeNode = rasterized( icon, { resolution: BASEConstants.IMAGE_SCALE } );
+const sharedPlusChargeNode = rasterizeNode( icon, { resolution: BASEConstants.IMAGE_SCALE } );
 
 class PlusChargeNode extends Node {
 

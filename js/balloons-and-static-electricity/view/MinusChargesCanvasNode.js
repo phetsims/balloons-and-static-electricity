@@ -8,7 +8,7 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import { rasterized } from '../../../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -51,7 +51,7 @@ class MinusChargesCanvasNode extends CanvasNode {
     this.wallX = wallX;
 
     // @private - created synchronously so that it can be drawn immediately in paintCanvas
-    this.chargeImageNode = rasterized( getChargeNode(), { wrap: false } );
+    this.chargeImageNode = rasterizeNode( getChargeNode(), { wrap: false } );
   }
 
   /**

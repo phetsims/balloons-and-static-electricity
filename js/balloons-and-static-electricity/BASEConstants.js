@@ -15,7 +15,7 @@ const BASEConstants = {
   MAX_BALLOON_CHARGE: 57, // max number of charges the balloon can have
   COULOMBS_LAW_CONSTANT: 10000, // used when calculating force, value chosen so sim looks like Java version
 
-  // in view coordinates, to match the layout of charge images before using rasterized(), because
+  // in view coordinates, to match the layout of charge images before using rasterizeNode(), because
   // node.toImage() automatically added some padding, see
   // https://github.com/phetsims/balloons-and-static-electricity/issues/434
   IMAGE_PADDING: 1,
