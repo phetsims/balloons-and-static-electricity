@@ -154,7 +154,7 @@ class ControlPanel extends Node {
       containerTagName: 'div',
       options: {
         accessibleName: chargeSettingsLabelString,
-        helpText: chargeSettingsDescriptionString
+        accessibleHelpText: chargeSettingsDescriptionString
       }
     } );
 
