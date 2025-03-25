@@ -7,6 +7,7 @@
  * @author John Blanco
  */
 
+import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import balloonsAndStaticElectricity from '../balloonsAndStaticElectricity.js';
 
 const BASEQueryParameters = QueryStringMachine.getAll( {
