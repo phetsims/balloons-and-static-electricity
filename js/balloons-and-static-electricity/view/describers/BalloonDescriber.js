@@ -190,7 +190,7 @@ class BalloonDescriber extends Alerter {
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( isVisible => {
-      this.alertDescriptionUtterance( this.getVisibilityChangedDescription() );
+      this.addAccessibleResponse( this.getVisibilityChangedDescription() );
       this.initialMovementDescribed = false;
       this.preventNoMovementAlert = true;
     } );
@@ -198,7 +198,7 @@ class BalloonDescriber extends Alerter {
     // pdom - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( onSweater => {
       if ( balloon.isDraggedProperty.get() ) {
-        this.alertDescriptionUtterance( this.movementDescriber.getOnSweaterString( onSweater ) );
+        this.addAccessibleResponse( this.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -283,7 +283,7 @@ class BalloonDescriber extends Alerter {
    * @param {TAlertable} alertable
    */
   sendAlert( alertable ) {
-    this.alertDescriptionUtterance( alertable );
+    this.addAccessibleResponse( alertable );
     this.positionOnAlert = this.balloonModel.positionProperty.get();
   }
 

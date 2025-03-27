@@ -108,7 +108,7 @@ class ControlPanel extends Node {
       this.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
-      this.alertDescriptionUtterance( alertDescription );
+      this.addAccessibleResponse( alertDescription );
     } );
 
     // Radio buttons related to charges
@@ -173,7 +173,7 @@ class ControlPanel extends Node {
       }
 
       assert && assert( alertString, `no interactive alert for showChargesProperty value ${value}` );
-      this.alertDescriptionUtterance( alertString );
+      this.addAccessibleResponse( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
@@ -244,7 +244,7 @@ class ControlPanel extends Node {
       this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = true; } );
 
       // alert to assistive technology
-      this.alertDescriptionUtterance( StringUtils.fillIn( resetBalloonsAlertPatternString, {
+      this.addAccessibleResponse( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
       } ) );
     };
