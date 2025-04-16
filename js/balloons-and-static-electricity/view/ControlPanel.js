@@ -280,9 +280,7 @@ class ControlPanel extends Node {
       children: showSecondBalloonSelector ? [ showSecondBalloonSelector, resetBalloonButton ] : [ resetBalloonButton ],
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: balloonSettingsLabelString
+      accessibleHeading: balloonSettingsLabelString
     } );
 
     //Add the controls at the right, with the reset all button and the wall button

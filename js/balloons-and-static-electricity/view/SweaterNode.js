@@ -34,9 +34,7 @@ class SweaterNode extends Node {
       pickable: false,
 
       // pdom
-      tagName: 'div', // sweater is just a div
-      labelTagName: 'h3', // label is identified as a heading of level 3
-      labelContent: sweaterLabelString
+      accessibleHeading: sweaterLabelString
     } );
 
     this.plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );

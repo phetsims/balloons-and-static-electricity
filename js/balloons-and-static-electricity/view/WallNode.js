@@ -31,9 +31,7 @@ class WallNode extends Node {
       pickable: false,
 
       // accessibility options
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: wallLabelString
+      accessibleHeading: wallLabelString
     } );
 
     // @private

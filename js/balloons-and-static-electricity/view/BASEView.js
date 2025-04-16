@@ -104,7 +104,6 @@ class BASEView extends ScreenView {
       this,
       tandem.createTandem( 'yellowBalloonNode' ),
       {
-        labelContent: yellowBalloonLabelString,
         pointerDrag: () => {
           this.chargeDeflectionSoundGenerator.balloonDraggedByPointer( model.yellowBalloon );
         },
@@ -133,7 +132,6 @@ class BASEView extends ScreenView {
       this,
       tandem.createTandem( 'greenBalloonNode' ),
       {
-        labelContent: greenBalloonLabelString,
         balloonVelocitySoundGeneratorOptions: { basisSound: carrier002_wav },
         balloonRubbingSoundGeneratorOptions: {
           centerFrequency: BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY * 1.25

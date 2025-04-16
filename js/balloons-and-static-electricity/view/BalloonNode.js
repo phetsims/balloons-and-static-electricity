@@ -104,8 +104,7 @@ class BalloonNode extends Node {
       // most of the keyboard navigation
       containerTagName: 'div',
       tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: accessibleLabelString
+      accessibleHeading: accessibleLabelString
     }, options );
 
     assert && assert( !options.tandem, 'required param' );
