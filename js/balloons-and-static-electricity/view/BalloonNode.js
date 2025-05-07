@@ -411,10 +411,6 @@ class BalloonNode extends Node {
       dragCueNode: interactionCueNode,
       listenersWhileGrabbed: [ hotkeyListener ],
 
-      // BASE needs to control the ordering of all alerts after a release happens, so prevent
-      // the default release alert
-      // alertOnRelease: false,
-
       grabCueOptions: {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
@@ -432,6 +428,9 @@ class BalloonNode extends Node {
         // reset the key state of the drag handler by interrupting the drag
         this.keyboardDragListener.interrupt();
       },
+
+      // The grabbed response is created by the describer during step so prevent the default grabbed response.
+      createGrabbedResponse: () => null,
 
       tandem: tandem.createTandem( 'grabDragInteraction' )
     } );
