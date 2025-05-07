@@ -415,7 +415,7 @@ class BalloonNode extends Node {
         centerTop: balloonImageNode.centerBottom.plusXY( 0, 10 )
       },
 
-      keyboardHelpText: grabBalloonKeyboardHelpString,
+      accessibleHelpText: grabBalloonKeyboardHelpString,
 
       onGrab: () => {
         model.isDraggedProperty.set( true );
