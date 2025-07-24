@@ -544,28 +544,28 @@ class BalloonNode extends Node {
   }
 
   static JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'j+w' ) ],
+    keys: [ 'j+w' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
     keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWwallDescription,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   static JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'j+c' ) ],
+    keys: [ 'j+c' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
     keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpstoCenterDescription,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   static JUMP_NEAR_SWEATER_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'j+s' ) ],
+    keys: [ 'j+s' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabelStringProperty,
     keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToSweaterDescription,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   static JUMP_NEAR_WALL_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'j+n' ) ],
+    keys: [ 'j+n' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpNearWallLabelStringProperty,
     keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsNearWallDescription,
     repoName: balloonsAndStaticElectricity.name
