@@ -23,20 +23,6 @@ simLauncher.launch( () => {
 
   const tandem = Tandem.ROOT;
 
-  const simOptions = {
-    credits: {
-      leadDesign: 'Noah Podolefsky & Sam Reid',
-      softwareDevelopment: 'Sam Reid, John Blanco',
-      team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul,<br>Kathy Perkins, Taliesin Smith',
-      qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson,<br>' +
-                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero,<br>' +
-                        'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
-      graphicArts: 'Sharon Siman-Tov',
-      soundDesign: 'Ashton Morris',
-      thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
-    }
-  };
-
   const balloonsAndStaticElectricityScreenTandem = tandem.createTandem( 'balloonsAndStaticElectricityScreen' );
 
   //Create and start the sim
@@ -56,5 +42,17 @@ simLauncher.launch( () => {
         createKeyboardHelpNode: () => new BASEKeyboardHelpContent()
       }
     )
-  ], simOptions ).start();
+  ], {
+    credits: {
+      leadDesign: 'Noah Podolefsky & Sam Reid',
+      softwareDevelopment: 'Sam Reid, John Blanco',
+      team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul,<br>Kathy Perkins, Taliesin Smith',
+      qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson,<br>' +
+                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero,<br>' +
+                        'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
+      graphicArts: 'Sharon Siman-Tov',
+      soundDesign: 'Ashton Morris',
+      thanks: 'Thanks to Mobile Learner Labs for working with the PhET development team to convert this simulation to HTML5.'
+    }
+  } ).start();
 } );
