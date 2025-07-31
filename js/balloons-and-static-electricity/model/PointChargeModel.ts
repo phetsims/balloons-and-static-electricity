@@ -12,56 +12,48 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
 const RADIUS = 8;
 
-//1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
+// 1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
 const CHARGE = -1.754;
 
 class PointChargeModel {
-  /**
-   * @param {number} x
-   * @param {number} y
-   * @param {Tandem} tandem
-   * @param phetioState
-   */
-  constructor( x, y, tandem, phetioState ) {
 
-    // @public (read-only) - position of this charge
+  // position of this charge
+  public readonly position: Vector2;
+
+  // whether the charge has been moved from sweater to balloon
+  public readonly movedProperty: BooleanProperty;
+
+  // static properties
+  public static readonly RADIUS = RADIUS;
+  public static readonly CHARGE = CHARGE;
+
+  public constructor( x: number, y: number, tandem: Tandem, phetioState: boolean ) {
+
     this.position = new Vector2( x, y );
 
-    // @public {boolean} - whether or not the charge has been moved from sweater to balloon
     this.movedProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'movedProperty' ),
       phetioState: phetioState
     } );
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.movedProperty.reset();
   }
 
   /**
    * Get center of charge.
-   *
-   * @public
-   * @returns {Vector2}
    */
-  getCenter() {
-    return new Vector2( this.position.x + this.radius, this.position.y + this.radius );
+  public getCenter(): Vector2 {
+    return new Vector2( this.position.x + PointChargeModel.RADIUS, this.position.y + PointChargeModel.RADIUS );
   }
-
 }
-
-
-// @public static properties
-PointChargeModel.RADIUS = RADIUS;
-PointChargeModel.CHARGE = CHARGE;
 
 balloonsAndStaticElectricity.register( 'PointChargeModel', PointChargeModel );
 
