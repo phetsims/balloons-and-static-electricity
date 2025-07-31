@@ -7,10 +7,13 @@
  * @author John Blanco
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import carrier000_wav from '../../../sounds/carrier000_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
@@ -18,24 +21,29 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 const MIN_PLAYBACK_RATE_CHANGE = 0.03;
 const MIN_OUTPUT_LEVEL_CHANGE = 0.05;
 
+type BalloonVelocitySoundGeneratorOptions = SoundClipOptions & {
+  maxOutputLevel?: number;
+};
+
 class BalloonVelocitySoundGenerator extends SoundClip {
 
-  /**
-   * {Property.<number>} balloonVelocityProperty - velocity of the balloon when drifting (i.e. when it is not being
-   *                                               dragged by a user).
-   * {Property.<boolean>} touchingWallProperty - whether the balloon is touching the wall
-   * {Object} [options]
-   */
-  constructor( balloonVelocityProperty, touchingWallProperty, options ) {
+  private readonly disposeBalloonVelocitySoundGenerator: () => void;
 
-    options = merge(
+  /**
+   * @param balloonVelocityProperty - velocity of the balloon when drifting (i.e. when it is not being dragged by a user)
+   * @param touchingWallProperty - whether the balloon is touching the wall
+   * @param options
+   */
+  public constructor( balloonVelocityProperty: Property<Vector2>, touchingWallProperty: BooleanProperty, options?: BalloonVelocitySoundGeneratorOptions ) {
+
+    const resolvedOptions = merge(
       {
         loop: true,
 
-        // {WrappedAudioBuffer} - sound to use as the basis for the drifting velocity
+        // sound to use as the basis for the drifting velocity
         basisSound: carrier000_wav,
 
-        // {number) The output level is set as a function of the speed at which the balloon is moving.  This value
+        // The output level is set as a function of the speed at which the balloon is moving.  This value
         // specifies the maximum value.  It will generally be between 0 and 1.
         maxOutputLevel: 0.5
       },
@@ -44,25 +52,25 @@ class BalloonVelocitySoundGenerator extends SoundClip {
 
     // options checking
     assert && assert(
-      !options.initialOutputLevel,
+      !resolvedOptions.initialOutputLevel,
       'initialOutputLevel should not be specified for this sound generator, use maxOutputLevel instead'
     );
 
     // Start the initial output level at zero so that the sound will fade in smoothly the first time it is played.
-    options.initialOutputLevel = 0;
+    resolvedOptions.initialOutputLevel = 0;
 
-    super( options.basisSound, options );
+    super( resolvedOptions.basisSound, resolvedOptions );
 
     // Monitor the balloon velocity and modify the output sound as changes occur.  If the balloon is on the sweater or
     // the wall, no sound should be produced.
     const outputUpdaterMultilink = Multilink.multilink(
       [ balloonVelocityProperty, touchingWallProperty ],
-      ( balloonVelocity, onSweater, touchingWall ) => {
+      ( balloonVelocity: Vector2, touchingWall: boolean ) => {
         const speed = balloonVelocity.magnitude;
         if ( speed > 0 && !touchingWall ) {
 
           const targetPlaybackRate = mapSpeedToPlaybackRate.evaluate( speed );
-          const targetOutputLevel = mapSpeedToOutputLevel.evaluate( speed, 0.1 ) * options.maxOutputLevel;
+          const targetOutputLevel = mapSpeedToOutputLevel.evaluate( speed ) * resolvedOptions.maxOutputLevel;
 
           if ( !this.isPlaying ) {
 
@@ -104,11 +112,7 @@ class BalloonVelocitySoundGenerator extends SoundClip {
     };
   }
 
-  /**
-   * release memory references
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeBalloonVelocitySoundGenerator();
     super.dispose();
   }
