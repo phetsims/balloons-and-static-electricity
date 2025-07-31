@@ -13,6 +13,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
@@ -22,49 +23,74 @@ import WallModel from './WallModel.js';
 
 class BASEModel {
 
+  // charge visibility setting, valid values of 'all', 'none', 'diff'
+  public readonly showChargesProperty: StringProperty;
+
+  // whether or not the two balloons are considered 'next to' each other, primarily used for a11y
+  public readonly balloonsAdjacentProperty: Property<boolean>;
+
+  public readonly width: number;
+  public readonly height: number;
+
+  public readonly wallWidth = 80;
+
+  // Model of the sweater, position empirically determined to match design
+  public readonly sweater: SweaterModel;
+
+  public readonly playAreaBounds: Bounds2;
+  public readonly yellowBalloon: BalloonModel;
+  public readonly greenBalloon: BalloonModel;
+
+  // set of Properties that indicate where the user is while scanning for objects in the play area
+  public readonly scanningPropertySet: ScanningPropertySet;
+
+  // Model of the wall
+  public readonly wall: WallModel;
+
+  // broadcasts an event when we step the model
+  public readonly stepEmitter: Emitter<[ number ]>;
+
+  // static properties
+  public static readonly LEFT = 'LEFT';
+  public static readonly RIGHT = 'RIGHT';
+  public static readonly UP = 'UP';
+  public static readonly DOWN = 'DOWN';
+  public static readonly UP_LEFT = 'UP_LEFT';
+  public static readonly UP_RIGHT = 'UP_RIGHT';
+  public static readonly DOWN_LEFT = 'DOWN_LEFT';
+  public static readonly DOWN_RIGHT = 'DOWN_RIGHT';
+
   /**
    * Constructor for main model for the Balloons and Static Electricity sim.
-   * @param {number} width
-   * @param {number} height
-   * @param {Tandem} tandem
    */
-  constructor( width, height, tandem ) {
+  public constructor( width: number, height: number, tandem: Tandem ) {
 
-    // @public {string} - charge visibility setting, valid values of 'all', 'none', 'diff'
     this.showChargesProperty = new StringProperty( 'all', {
       tandem: tandem.createTandem( 'showChargesProperty' ),
       phetioFeatured: true
     } );
 
-    // @public {boolean} - whether or not the two balloons are considered 'next to' each other, primarily used for a11y
     this.balloonsAdjacentProperty = new Property( false );
 
-    // @public (read-only)
     this.width = width;
     this.height = height;
 
-    // @public {read-only}
-    this.wallWidth = 80;
-
-    // @public (read-only) - Model of the sweater, position empirically determined to match design
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
-    // @public
     this.playAreaBounds = new Bounds2( 0, 0, width - this.wallWidth, height );
     this.yellowBalloon = new BalloonModel( 440, 100, this, true, tandem.createTandem( 'yellowBalloon' ) );
     this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
 
     // assign 'other' balloon references
+    // @ts-expect-error - other property is dynamically added
     this.yellowBalloon.other = this.greenBalloon;
+    // @ts-expect-error - other property is dynamically added
     this.greenBalloon.other = this.yellowBalloon;
 
-    // @public - set of Properties that indicate where the user is while scanning for objects in the play area
     this.scanningPropertySet = new ScanningPropertySet();
 
-    // @public (read-only) - Model of the wall
     this.wall = new WallModel( width - this.wallWidth, this.wallWidth, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
-    // @public - broadcasts an event when we step the model
     this.stepEmitter = new Emitter( {
       parameters: [ { valueType: 'number' } ]
     } );
@@ -90,9 +116,11 @@ class BASEModel {
         this.balloonsAdjacentProperty.set( this.getBalloonsAdjacent() );
 
         // update the balloon play area row and column
-        balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );
-        balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter() ) );
-        balloon.playAreaLandmarkProperty.set( PlayAreaMap.getPlayAreaLandmark( balloon.getCenter() ) );
+        balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter() ) );
+        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
+        balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );
+        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
+        balloon.playAreaLandmarkProperty.set( PlayAreaMap.getPlayAreaLandmark( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );
       } );
 
       // when wall visibility changes, update the Properties indicating induced charge and which charges are visible
@@ -112,18 +140,15 @@ class BASEModel {
 
   /**
    * Get all of the ballons in an array, for ease of iterating over them.
-   * @returns {BalloonModel[]}
    */
-  get balloons() {
+  public get balloons(): BalloonModel[] {
     return [ this.yellowBalloon, this.greenBalloon ];
   }
 
   /**
    * Called by the animation loop.
-   * @public
-   * @param {number} dt
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.balloons.forEach( balloon => {
       if ( balloon.isVisibleProperty.get() ) {
         balloon.step( this, dt );
@@ -135,16 +160,15 @@ class BASEModel {
 
   /**
    * Reset the entire model.
-   * @public
    */
-  reset() {
+  public reset(): void {
 
-    //Reset the properties in this model
+    // Reset the properties in this model
     this.showChargesProperty.reset();
 
-    //Reset balloons, resetChildren don't get them
+    // Reset balloons, resetChildren don't get them
     this.balloons.forEach( balloon => {
-      balloon.reset();
+      balloon.reset( false );
     } );
 
     this.sweater.reset();
@@ -153,35 +177,19 @@ class BASEModel {
 
   /**
    * Return true when both balloons are visible.
-   * @public
-   *
-   * @returns {boolean}
    */
-  bothBalloonsVisible() {
+  public bothBalloonsVisible(): boolean {
     return this.greenBalloon.isVisibleProperty.get() && this.yellowBalloon.isVisibleProperty.get();
   }
 
   /**
    * Returns true when both balloons are visible and adjacent to each other.
-   * @public
-   *
-   * @returns {boolean}
    */
-  getBalloonsAdjacent() {
+  public getBalloonsAdjacent(): boolean {
     const balloonsAdjacent = ( this.yellowBalloon.getCenter().minus( this.greenBalloon.getCenter() ).magnitude ) < BalloonModel.BALLOON_WIDTH;
     return balloonsAdjacent && this.bothBalloonsVisible();
   }
 }
-
-
-BASEModel.LEFT = 'LEFT';
-BASEModel.RIGHT = 'RIGHT';
-BASEModel.UP = 'UP';
-BASEModel.DOWN = 'DOWN';
-BASEModel.UP_LEFT = 'UP_LEFT';
-BASEModel.UP_RIGHT = 'UP_RIGHT';
-BASEModel.DOWN_LEFT = 'DOWN_LEFT';
-BASEModel.DOWN_RIGHT = 'DOWN_RIGHT';
 
 balloonsAndStaticElectricity.register( 'BASEModel', BASEModel );
 
