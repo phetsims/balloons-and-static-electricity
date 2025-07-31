@@ -7,7 +7,7 @@
  * @author Vasily Shakhov (Mlearner)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -22,6 +22,7 @@ import BooleanRectangularToggleButton from '../../../../sun/js/buttons/BooleanRe
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -29,6 +30,8 @@ import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectric
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
+import BASEModel from '../model/BASEModel.js';
+import BASEView from './BASEView.js';
 import TwoSceneSelectionNode from './TwoSceneSelectionNode.js';
 
 const addWallString = BalloonsAndStaticElectricityStrings.addWall;
@@ -63,12 +66,10 @@ const CONTROLS_FONT = new PhetFont( 15 );
 
 class ControlPanel extends Node {
 
-  /**
-   * @param {BASEModel} model
-   * @param {BASEView} view
-   * @param {Tandem} tandem
-   */
-  constructor( model, view, tandem ) {
+  // Add/Remove wall button
+  private readonly wallButton: BooleanRectangularToggleButton;
+
+  public constructor( model: BASEModel, view: BASEView, tandem: Tandem ) {
 
     // super constructor
     super();
@@ -80,19 +81,22 @@ class ControlPanel extends Node {
     };
 
     // content for Add/Remove wall button.
-    const addWallText = new RichText( addWallString, merge( {
+    const addWallText = new RichText( addWallString, {
       replaceNewlines: true,
-      align: 'center',
+      align: 'center' as const,
+      font: textOptions.font,
+      maxWidth: textOptions.maxWidth,
       tandem: tandem.createTandem( 'addWallText' )
-    }, textOptions ) );
-    const removeWallText = new RichText( removeWallString, merge( {
+    } );
+    const removeWallText = new RichText( removeWallString, {
       replaceNewlines: true,
-      align: 'center',
+      align: 'center' as const,
       center: addWallText.center,
+      font: textOptions.font,
+      maxWidth: textOptions.maxWidth,
       tandem: tandem.createTandem( 'removeWallText' )
-    }, textOptions ) );
+    } );
 
-    // @private
     this.wallButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
       baseColor: 'rgb( 255, 200, 0 )',
       tandem: tandem.createTandem( 'wallButton' ),
@@ -117,9 +121,13 @@ class ControlPanel extends Node {
       maxWidth: 200
     };
     const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
-      createNode: tandem => new Text(
+      createNode: ( tandem: Tandem ) => new Text(
         balloonAppletShowAllChargesString,
-        merge( { tandem: tandem.createTandem( 'allChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        {
+          font: RADIO_BUTTON_TEXT_OPTIONS.font,
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
+          tandem: tandem.createTandem( 'allChargesText' )
+        }
       ),
       value: 'all',
       tandemName: 'showAllChargesRadioButton',
@@ -127,9 +135,13 @@ class ControlPanel extends Node {
         accessibleName: balloonAppletShowAllChargesString
       }
     }, {
-      createNode: tandem => new Text(
+      createNode: ( tandem: Tandem ) => new Text(
         balloonAppletShowNoChargesString,
-        merge( { tandem: tandem.createTandem( 'noChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        {
+          font: RADIO_BUTTON_TEXT_OPTIONS.font,
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
+          tandem: tandem.createTandem( 'noChargesText' )
+        }
       ),
       value: 'none',
       tandemName: 'showNoChargesRadioButton',
@@ -137,9 +149,13 @@ class ControlPanel extends Node {
         accessibleName: balloonAppletShowNoChargesString
       }
     }, {
-      createNode: tandem => new Text(
+      createNode: ( tandem: Tandem ) => new Text(
         balloonAppletShowChargeDifferencesString,
-        merge( { tandem: tandem.createTandem( 'differentialChargesText' ) }, RADIO_BUTTON_TEXT_OPTIONS )
+        {
+          font: RADIO_BUTTON_TEXT_OPTIONS.font,
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
+          tandem: tandem.createTandem( 'differentialChargesText' )
+        }
       ),
       value: 'diff',
       tandemName: 'showChargeDifferencesRadioButton',
@@ -150,7 +166,7 @@ class ControlPanel extends Node {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
-      // pdom
+      // @ts-expect-error - containerTagName is not in the type definition but is used for accessibility
       containerTagName: 'div',
       options: {
         accessibleName: chargeSettingsLabelString,
@@ -160,8 +176,8 @@ class ControlPanel extends Node {
 
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
-    model.showChargesProperty.lazyLink( value => {
-      let alertString;
+    model.showChargesProperty.lazyLink( ( value: string ) => {
+      let alertString: string | undefined;
       if ( value === 'all' ) {
         alertString = showAllChargesAlertString;
       }
@@ -173,16 +189,16 @@ class ControlPanel extends Node {
       }
 
       assert && assert( alertString, `no interactive alert for showChargesProperty value ${value}` );
-      this.addAccessibleResponse( alertString );
+      this.addAccessibleResponse( alertString! );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
-    const yellowBalloonImage = new Image( balloonYellow_png, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    const yellowBalloonImage = new Image( balloonYellow_png as IntentionalAny, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
     const twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
     const twoBalloonIcon = new Node( {
       children: [
-        new Image( balloonGreen_png, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
+        new Image( balloonGreen_png as IntentionalAny, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
       ],
       scale: scale,
@@ -192,7 +208,7 @@ class ControlPanel extends Node {
     const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     const oneBalloonIcon = new Node( {
       children: [
-        new Image( balloonYellow_png, {
+        new Image( balloonYellow_png as IntentionalAny, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
           tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
         } )
@@ -201,7 +217,7 @@ class ControlPanel extends Node {
       tandem: oneBalloonIconTandem
     } );
 
-    let showSecondBalloonSelector = null;
+    let showSecondBalloonSelector: TwoSceneSelectionNode | null = null;
     if ( !BASEQueryParameters.hideBalloonSwitch ) {
       showSecondBalloonSelector = new TwoSceneSelectionNode(
         model.greenBalloon.isVisibleProperty,
@@ -260,7 +276,7 @@ class ControlPanel extends Node {
     } );
 
     // create the accessible description for the reset balloon button
-    const generateDescriptionString = balloonVisible => {
+    const generateDescriptionString = ( balloonVisible: boolean ): string => {
       const balloonDescriptionString = balloonVisible ? balloonsString : balloonString;
       const positionDescriptionString = balloonVisible ? positionsString : positionString;
       return StringUtils.fillIn( resetBalloonsDescriptionPatternString, {
@@ -270,7 +286,7 @@ class ControlPanel extends Node {
     };
 
     // update the button description when the green balloon is made visible
-    model.greenBalloon.isVisibleProperty.link( isVisible => {
+    model.greenBalloon.isVisibleProperty.link( ( isVisible: boolean ) => {
       resetBalloonButton.descriptionContent = generateDescriptionString( isVisible );
       resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
@@ -305,8 +321,8 @@ class ControlPanel extends Node {
     controls.bottom = layoutBounds.maxY - BOTTOM_CONTROL_SPACING;
     controls.right = layoutBounds.maxX - 4.5;// so "Remove Wall" button looks centered with wall
 
-    let visibilityControls;
-    let controlsLeft;
+    let visibilityControls: ( Panel | VBox )[];
+    let controlsLeft: number;
     if ( BASEQueryParameters.hideChargeControls ) {
       visibilityControls = [ balloonsPanel ];
       controlsLeft = layoutBounds.width / 2 - balloonsPanel.width / 2;
