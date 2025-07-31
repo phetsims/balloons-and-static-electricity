@@ -24,7 +24,7 @@ class WallNode extends Node {
 
   private readonly model: BASEModel;
   private readonly wallDescriber: WallDescriber;
-  private readonly wallNode: Image;
+  public readonly wallNode: Image;
 
   public constructor( model: BASEModel, layoutHeight: number, tandem: Tandem ) {
 

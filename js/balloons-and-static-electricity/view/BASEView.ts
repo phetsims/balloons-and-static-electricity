@@ -15,12 +15,15 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import carrier002_wav from '../../../sounds/carrier002_wav.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
+import BASEModel from '../model/BASEModel.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import BalloonNode from './BalloonNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BASESummaryNode from './BASESummaryNode.js';
@@ -39,11 +42,28 @@ const BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
 
 class BASEView extends ScreenView {
 
+  // for QUnit tests
+  public readonly wallNode: WallNode;
+
+  // sound generator for the deflection of the charges in the wall, never disposed
+  private readonly chargeDeflectionSoundGenerator: ChargeDeflectionSoundGenerator;
+  
+  private readonly yellowBalloonNode: BalloonNode;
+  private readonly yellowBalloonTetherNode: TetherNode;
+  private readonly greenBalloonNode: BalloonNode;
+  private readonly greenBalloonTetherNode: TetherNode;
+
+  // layer on which the green balloon resides
+  private readonly greenBalloonLayerNode: Node;
+
+  // layer on which the yellow balloon resides
+  private readonly yellowBalloonLayerNode: Node;
+
   /**
-   * @param {BASEModel} model
-   * @param {Tandem} tandem
+   * @param model
+   * @param tandem
    */
-  constructor( model, tandem ) {
+  public constructor( model: BASEModel, tandem: Tandem ) {
 
     super( {
 
@@ -56,7 +76,6 @@ class BASEView extends ScreenView {
 
     const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
 
-    // @public (for QUnit tests)
     this.wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
 
     this.addChild( sweaterNode );
@@ -83,7 +102,6 @@ class BASEView extends ScreenView {
 
     const controlPanel = new ControlPanel( model, this, tandem.createTandem( 'controlPanel' ) );
 
-    // @private - sound generator for the deflection of the charges in the wall, never disposed
     this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
       model.wall,
       model.balloons,
@@ -96,7 +114,7 @@ class BASEView extends ScreenView {
 
     this.yellowBalloonNode = new BalloonNode(
       model.yellowBalloon,
-      balloonYellow_png,
+      balloonYellow_png as IntentionalAny,
       model,
       yellowBalloonLabelString,
       greenBalloonLabelString,
@@ -124,7 +142,7 @@ class BASEView extends ScreenView {
     );
     this.greenBalloonNode = new BalloonNode(
       model.greenBalloon,
-      balloonGreen_png,
+      balloonGreen_png as IntentionalAny,
       model,
       greenBalloonLabelString,
       yellowBalloonLabelString,
@@ -153,13 +171,12 @@ class BASEView extends ScreenView {
 
     // created after all other view objects so we can access each describer
     const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, this.wallNode, tandem.createTandem( 'screenSummaryNode' ) );
+    // @ts-expect-error - BASESummaryNode extends Node but setScreenSummaryContent expects ScreenSummaryContent
     this.setScreenSummaryContent( screenSummaryNode );
 
-    // @private {Node} - layer on which the green balloon resides.
     this.greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
     this.addChild( this.greenBalloonLayerNode );
 
-    // @private {Node} - layer on which the yellow balloon resides.
     this.yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
     this.addChild( this.yellowBalloonLayerNode );
 
@@ -208,19 +225,17 @@ class BASEView extends ScreenView {
 
   /**
    * Step the view.
-   * @param {number} dt
-   * @public
+   * @param dt
    */
-  step( dt ) {
+  public override step( dt: number ): void {
     this.greenBalloonNode.step( dt );
     this.yellowBalloonNode.step( dt );
   }
 
   /**
    * Set the default layering of the balloons, generally used to restore initial view state.
-   * @public
    */
-  setDefaultBalloonZOrder() {
+  public setDefaultBalloonZOrder(): void {
     this.yellowBalloonLayerNode.moveToFront();
   }
 
@@ -229,11 +244,9 @@ class BASEView extends ScreenView {
    * be held on the bottom of the navigation bar so that the balloon's tether and wall are always cut
    * off by the navigation bar, see #77.
    *
-   * @param {Bounds2} viewBounds
-   * @public (joist-internal)
-   * @override
+   * @param viewBounds
    */
-  layout( viewBounds ) {
+  public override layout( viewBounds: Bounds2 ): void {
     this.resetTransform();
 
     const scale = this.getLayoutScale( viewBounds );
