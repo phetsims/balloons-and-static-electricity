@@ -21,17 +21,14 @@ const BalloonDirectionEnum = {
 
   /**
    * Returns true if direction is one of the primary relative directions "up", "down", "left", "right".
-   *
-   * @param {string} direction - one of BalloonDirectionEnum
-   * @returns {Boolean}
    */
-  isRelativeDirection( direction ) {
+  isRelativeDirection( direction: string ): boolean {
     return direction === BalloonDirectionEnum.LEFT ||
            direction === BalloonDirectionEnum.RIGHT ||
            direction === BalloonDirectionEnum.UP ||
            direction === BalloonDirectionEnum.DOWN;
   }
-};
+} as const;
 
 // verify that enum is immutable, without the runtime penalty in production code
 if ( assert ) { Object.freeze( BalloonDirectionEnum ); }
