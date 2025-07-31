@@ -6,22 +6,25 @@
  * @author Jesse Greenberg
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
+import MovablePointChargeModel from '../model/MovablePointChargeModel.js';
 import PointChargeModel from '../model/PointChargeModel.js';
 import MinusChargeNode from './MinusChargeNode.js';
 
 // Node converted to image to be drawn in canvas - scale up the node, then back down when converting to image so it
 // doesn't look fuzzy
 const scale = 3.0;
-let chargeNode = null;
+let chargeNode: MinusChargeNode | null = null;
 
 // This is to prevent an instrumented phet-io instance from being created outside of a constructor,
 // see https://github.com/phetsims/phet-io-wrappers/issues/97
-const getChargeNode = () => {
+const getChargeNode = (): MinusChargeNode => {
   if ( !chargeNode ) {
     chargeNode = new MinusChargeNode( new Vector2( 0, 0 ), {
       scale: scale
@@ -32,35 +35,32 @@ const getChargeNode = () => {
 
 class MinusChargesCanvasNode extends CanvasNode {
 
+  private readonly charges: MovablePointChargeModel[];
+  private readonly wallX: number;
+  private readonly chargeImageNode: IntentionalAny;
+
   /**
-   * @param {number} wallX - x position of the wall, to offset charge positions
-   * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
-   * @param {Array.<MovablePointChargeModel>} charges
+   * @param wallX - x position of the wall, to offset charge positions
+   * @param wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
+   * @param charges
    */
-  constructor( wallX, wallBounds, charges ) {
+  public constructor( wallX: number, wallBounds: Bounds2, charges: MovablePointChargeModel[] ) {
 
     super();
     this.setCanvasBounds( wallBounds );
     this.invalidatePaint();
 
-    // @private {Array.<MovablePointChargeNode>}
     this.charges = charges;
-
-    // @private {number}
     this.wallX = wallX;
 
-    // @private - created synchronously so that it can be drawn immediately in paintCanvas
+    // created synchronously so that it can be drawn immediately in paintCanvas
     this.chargeImageNode = rasterizeNode( getChargeNode(), { wrap: false } );
   }
 
   /**
    * Draw charges at their correct positions indicating induced charge.
-   *
-   * @param {CanvasRenderingContext2D} context
-   * @override
-   * @public
    */
-  paintCanvas( context ) {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
     // we scaled up the node before converting to image so that it looks less pixelated, so now we need to
     // scale it back down
