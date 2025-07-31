@@ -11,18 +11,18 @@
  @author Jesse Greenberg
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
 class PlayAreaGridNode extends Node {
 
-  /**
-   * @param {Bounds2} layoutBounds - layout bounds of the screen view
-   */
-  constructor( layoutBounds, tandem ) {
+  public constructor( layoutBounds: Bounds2, tandem: Tandem ) {
 
     super( { pickable: false } );
     const blueOptions = { fill: 'rgba(0,0,255,0.5)' };
@@ -35,14 +35,14 @@ class PlayAreaGridNode extends Node {
 
     // draw each column
     let i = 0;
-    let range;
-    let minValue;
-    let maxValue;
+    let range: string;
+    let minValue: number;
+    let maxValue: number;
     for ( range in columns ) {
       if ( columns.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
-          minValue = Math.max( layoutBounds.minX, columns[ range ].min );
-          maxValue = Math.min( layoutBounds.maxX, columns[ range ].max );
+          minValue = Math.max( layoutBounds.minX, ( columns as IntentionalAny )[ range ].min );
+          maxValue = Math.min( layoutBounds.maxX, ( columns as IntentionalAny )[ range ].max );
           const width = maxValue - minValue;
           this.addChild( new Rectangle( minValue, 0, width, PlayAreaMap.HEIGHT, blueOptions ) );
         }
@@ -54,8 +54,8 @@ class PlayAreaGridNode extends Node {
     for ( range in rows ) {
       if ( rows.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
-          minValue = Math.max( layoutBounds.minY, rows[ range ].min );
-          maxValue = Math.min( layoutBounds.maxY, rows[ range ].max );
+          minValue = Math.max( layoutBounds.minY, ( rows as IntentionalAny )[ range ].min );
+          maxValue = Math.min( layoutBounds.maxY, ( rows as IntentionalAny )[ range ].max );
           const height = maxValue - minValue;
           this.addChild( new Rectangle( 0, minValue, PlayAreaMap.WIDTH, height, greyOptions ) );
         }
@@ -66,8 +66,8 @@ class PlayAreaGridNode extends Node {
     // draw rectangles around the landmark regions
     for ( range in landmarks ) {
       if ( landmarks.hasOwnProperty( range ) ) {
-        minValue = Math.max( layoutBounds.minX, landmarks[ range ].min );
-        maxValue = Math.min( layoutBounds.maxX, landmarks[ range ].max );
+        minValue = Math.max( layoutBounds.minX, ( landmarks as IntentionalAny )[ range ].min );
+        maxValue = Math.min( layoutBounds.maxX, ( landmarks as IntentionalAny )[ range ].max );
         const landmarkWidth = maxValue - minValue;
         this.addChild( new Rectangle( minValue, 0, landmarkWidth, PlayAreaMap.HEIGHT, redOptions ) );
       }
@@ -77,16 +77,16 @@ class PlayAreaGridNode extends Node {
     const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
     const xPositions = PlayAreaMap.X_POSITIONS;
     const yPositions = PlayAreaMap.Y_POSITIONS;
-    let position;
+    let position: string;
     for ( position in xPositions ) {
       if ( xPositions.hasOwnProperty( position ) ) {
-        this.addChild( new Line( xPositions[ position ], 0, xPositions[ position ], PlayAreaMap.HEIGHT, lineOptions ) );
+        this.addChild( new Line( ( xPositions as IntentionalAny )[ position ], 0, ( xPositions as IntentionalAny )[ position ], PlayAreaMap.HEIGHT, lineOptions ) );
       }
     }
 
     for ( position in yPositions ) {
       if ( yPositions.hasOwnProperty( position ) ) {
-        this.addChild( new Line( 0, yPositions[ position ], PlayAreaMap.WIDTH, yPositions[ position ], lineOptions ) );
+        this.addChild( new Line( 0, ( yPositions as IntentionalAny )[ position ], PlayAreaMap.WIDTH, ( yPositions as IntentionalAny )[ position ], lineOptions ) );
       }
     }
   }
