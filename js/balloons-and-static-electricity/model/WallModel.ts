@@ -22,42 +22,48 @@ const FORCE_MAGNITUDE_THRESHOLD = 2;
 
 class WallModel {
 
-  /**
-   * @param {number} x
-   * @param {number} width
-   * @param {number} height
-   * @param {Balloon} yellowBalloon
-   * @param {Balloon} greenBalloon
-   * @param {Tandem} tandem
-   */
-  constructor( x, width, height, yellowBalloon, greenBalloon, tandem ) {
+  // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+  public readonly isVisibleProperty: BooleanProperty;
 
-    //------------------------------------------------
-    // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+  // the top position of the wall
+  public readonly y = 0;
+
+  // the left position of the wall
+  public readonly x: number;
+
+  // number of columns with charges
+  public readonly numX = 3;
+
+  // number of rows with charges
+  public readonly numY = 18;
+
+  public readonly width: number;
+  public readonly height: number;
+
+  // bounds containing the wall
+  public readonly bounds: Bounds2;
+
+  // scaling factors for calculating positions for induced charge
+  private readonly dx: number;
+  private readonly dy: number;
+
+  private readonly plusCharges: PointChargeModel[] = [];
+  private readonly minusCharges: MovablePointChargeModel[] = [];
+
+  public constructor( x: number, width: number, height: number, yellowBalloon: BalloonModel, greenBalloon: BalloonModel, tandem: Tandem ) {
+
     this.isVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'isVisibleProperty' )
     } );
 
-    // @public (read-only)
-    this.y = 0; // the top position of the wall
-    this.x = x; // the left position of the wall
-    this.numX = 3; // number of columns with charges
-    this.numY = 18; // number of rows with charges
+    this.x = x;
     this.width = width;
     this.height = height;
 
-    // @public {Bounds2} bounds containing the wall
     this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
 
-    // @private {number} - scaling factors for calculating positions for induced charge
     this.dx = Utils.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
-
-    // @private {array.<PointChargeModel>}
-    this.plusCharges = [];
-
-    // @private {array.<MovablePointChargeModel>}
-    this.minusCharges = [];
 
     const minusCharges = tandem.createTandem( 'minusCharges' );
 
@@ -139,11 +145,12 @@ class WallModel {
   }
 
 
-  // Reset the entire model
-  // @public
-  reset() {
+  /**
+   * Reset the entire model
+   */
+  public reset(): void {
 
-    //Reset the properties in this model
+    // Reset the properties in this model
     this.isVisibleProperty.reset();
     this.minusCharges.forEach( entry => {
       entry.reset();
@@ -152,14 +159,8 @@ class WallModel {
 
   /**
    * Function that will place charges on wall's grid.
-   * @private
-   *
-   * @param {number} i - column number
-   * @param {number} k - row number
-   *
-   * @returns {Array.<number>} - an array containing the x and y values for the charge
    */
-  calculatePosition( i, k ) {
+  private calculatePosition( i: number, k: number ): [ number, number ] {
     const y0 = i % 2 === 0 ? this.dy / 2 : 1;
     return [ i * this.dx + PointChargeModel.RADIUS + 1, k * this.dy + y0 ];
   }
@@ -167,15 +168,12 @@ class WallModel {
   /**
    * Get the minus charge that is the closest in the wall to the balloon, relative to the charge's initial
    * position.
-   * @public
-   *
-   * @returns {MovablePointChargeModel}
    */
-  getClosestChargeToBalloon( balloon ) {
+  public getClosestChargeToBalloon( balloon: BalloonModel ): MovablePointChargeModel {
     const minusCharges = this.minusCharges;
 
     // get the minus charge that is closest to the balloon
-    let closestCharge = null;
+    let closestCharge: MovablePointChargeModel | null = null;
     let chargeDistance = Number.POSITIVE_INFINITY;
     const balloonChargeCenter = balloon.getChargeCenter();
 
@@ -190,18 +188,14 @@ class WallModel {
     }
     assert && assert( closestCharge, 'Unable to find charge closest to balloon' );
 
-    return closestCharge;
+    return closestCharge!;
   }
 
   /**
    * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
    * inspection.
-   * @public
-   *
-   * @param {Vector2} force - force applied on this charge
-   * @returns {boolean}
    */
-  forceIndicatesInducedCharge( force ) {
+  public forceIndicatesInducedCharge( force: Vector2 ): boolean {
     return force.magnitude > FORCE_MAGNITUDE_THRESHOLD;
   }
 }
