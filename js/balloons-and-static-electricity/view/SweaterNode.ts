@@ -12,10 +12,13 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater_png from '../../../images/sweater_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
+import BASEModel from '../model/BASEModel.js';
+import SweaterModel from '../model/SweaterModel.js';
 import SweaterDescriber from './describers/SweaterDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
@@ -24,11 +27,12 @@ const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
 
 class SweaterNode extends Node {
-  /**
-   * @param {BASEModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model, tandem ) {
+
+  private readonly plusChargesNode: Node;
+  private readonly minusChargesNode: Node;
+  private readonly sweaterModel: SweaterModel;
+
+  public constructor( model: BASEModel, tandem: Tandem ) {
 
     super( {
       pickable: false,
@@ -86,7 +90,7 @@ class SweaterNode extends Node {
     this.addChild( this.minusChargesNode );
 
     // show all, none or charge difference
-    const updateChargesVisibilityOnSweater = value => {
+    const updateChargesVisibilityOnSweater = () => {
       if ( model.showChargesProperty.get() === 'none' ) {
         this.plusChargesNode.visible = false;
         this.minusChargesNode.visible = false;
@@ -110,7 +114,7 @@ class SweaterNode extends Node {
     const sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
     Multilink.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], ( showCharges, charge ) => {
-      updateChargesVisibilityOnSweater( charge );
+      updateChargesVisibilityOnSweater();
 
       this.setDescriptionContent( sweaterDescriber.getSweaterDescription( showCharges ) );
     } );
@@ -118,7 +122,7 @@ class SweaterNode extends Node {
     // When setting the state using phet-io, we must update the charge visibility, otherwise they can get out of sync
     // due to the fact that the movedProperty state could get loaded before the chargeProperty state.
     phetioStateSetEmitter.addListener( () => {
-      updateChargesVisibilityOnSweater( model.showChargesProperty.get() );
+      updateChargesVisibilityOnSweater();
     } );
   }
 }
