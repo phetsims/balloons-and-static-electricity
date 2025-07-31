@@ -6,6 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -44,10 +45,7 @@ const sharedPlusChargeNode = rasterizeNode( icon, { resolution: BASEConstants.IM
 
 class PlusChargeNode extends Node {
 
-  /**
-   * @param {Vector2} position
-   */
-  constructor( position ) {
+  public constructor( position: Vector2 ) {
 
     super( { pickable: false } );
 
