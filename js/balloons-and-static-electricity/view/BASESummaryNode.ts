@@ -12,8 +12,14 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import BASEModel from '../model/BASEModel.js';
+import BalloonModel from '../model/BalloonModel.js';
+import WallModel from '../model/WallModel.js';
+import BalloonNode from './BalloonNode.js';
 import BASEDescriber from './describers/BASEDescriber.js';
 import SweaterDescriber from './describers/SweaterDescriber.js';
 import WallDescriber from './describers/WallDescriber.js';
@@ -45,15 +51,14 @@ const simOpeningString = BASEA11yStrings.simOpening.value;
 
 class BASESummaryNode extends Node {
 
-  /**
-   * @param {BASEModel} model
-   * @param yellowBalloonNode
-   * @param greenBalloonNode
-   * @param wallNode
-   * @param {Tandem} tandem
-   */
-  constructor( model, yellowBalloonNode, greenBalloonNode, wallNode, tandem ) {
+  private readonly yellowBalloon: BalloonModel;
+  private readonly greenBalloon: BalloonModel;
+  private readonly yellowBalloonDescriber: IntentionalAny;
+  private readonly greenBalloonDescriber: IntentionalAny;
+  private readonly model: BASEModel;
+  private readonly wall: WallModel;
 
+  public constructor( model: BASEModel, yellowBalloonNode: BalloonNode, greenBalloonNode: BalloonNode, wallNode: Node, tandem: Tandem ) {
 
     super( {
       tandem: tandem
@@ -66,7 +71,6 @@ class BASESummaryNode extends Node {
     this.yellowBalloonDescriber = yellowBalloonNode.describer;
     this.greenBalloonDescriber = greenBalloonNode.describer;
 
-    // @private
     this.model = model;
     this.wall = model.wall;
 
@@ -97,7 +101,8 @@ class BASESummaryNode extends Node {
     } );
 
     const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ];
-    Multilink.multilink( chargeProperties, ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
+    // @ts-expect-error - Too many properties for Multilink type inference
+    Multilink.multilink( chargeProperties, ( yellowBalloonCharge: number, greenBalloonCharge: number, greenBalloonVisible: boolean, showCharges: string, wallVisible: boolean, sweaterCharge: number ) => {
       const chargesVisible = showCharges !== 'none';
       balloonChargeNode.pdomVisible = chargesVisible;
       sweaterWallChargeNode.pdomVisible = chargesVisible;
@@ -110,7 +115,8 @@ class BASESummaryNode extends Node {
     } );
 
     const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-    Multilink.multilink( inducedChargeProperties, ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
+    // @ts-expect-error - Too many properties for Multilink type inference
+    Multilink.multilink( inducedChargeProperties, ( yellowPosition: IntentionalAny, greenPosition: IntentionalAny, greenVisible: boolean, showCharges: string, wallVisible: boolean ) => {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
@@ -129,7 +135,7 @@ class BASESummaryNode extends Node {
         this.greenBalloon.positionProperty,
         this.greenBalloon.isVisibleProperty,
         model.wall.isVisibleProperty
-      ], ( yellowPosition, greenPosition, greenVisible, wallVisible ) => {
+      ], ( yellowPosition: IntentionalAny, greenPosition: IntentionalAny, greenVisible: boolean, wallVisible: boolean ) => {
         const initialValues = this.yellowBalloon.positionProperty.initialValue === yellowPosition &&
                               this.greenBalloon.positionProperty.initialValue === greenPosition &&
                               this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
@@ -151,12 +157,9 @@ class BASESummaryNode extends Node {
    * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
    *   positive charges."
    *
-   * @private
-   *
-   * @returns {string}
    */
-  getSweaterAndWallChargeDescription() {
-    let description;
+  private getSweaterAndWallChargeDescription(): string {
+    let description: string;
 
     const chargesShown = this.model.showChargesProperty.get();
     const wallVisible = this.model.wall.isVisibleProperty.get();
@@ -204,12 +207,9 @@ class BASESummaryNode extends Node {
    * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
    * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
    *
-   * @private
-   *
-   * @returns {string}
    */
-  getBalloonChargeDescription() {
-    let description;
+  private getBalloonChargeDescription(): string {
+    let description: string;
 
     const yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
     const greenChargeRange = BASEDescriber.getDescribedChargeRange( this.greenBalloon.chargeProperty.get() );
@@ -264,12 +264,9 @@ class BASESummaryNode extends Node {
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
    *
-   * @private
-   *
-   * @returns {string}
    */
-  getInducedChargeDescription() {
-    let description;
+  private getInducedChargeDescription(): string {
+    let description = '';
 
     const yellowBalloon = this.yellowBalloon;
     const yellowBalloonDescriber = this.yellowBalloonDescriber;
@@ -342,12 +339,10 @@ class BASESummaryNode extends Node {
   /**
    * Get a description of the objects that are currently visible in the sim.
    *
-   * @private
-   * @param  {Property.<boolean>} balloonVisible
-   * @param  {Property.<boolean>} wallVisible
-   * @returns {string}
+   * @param balloonVisible
+   * @param wallVisible
    */
-  static getVisibleObjectsDescription( balloonVisible, wallVisible ) {
+  private static getVisibleObjectsDescription( balloonVisible: boolean, wallVisible: boolean ): string {
     let patternString;
     if ( wallVisible ) {
       patternString = balloonVisible ? summaryYellowGreenSweaterWallPatternString : summaryYellowSweaterWallPatternString;
