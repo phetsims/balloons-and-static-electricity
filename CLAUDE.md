@@ -143,7 +143,7 @@ When converting JavaScript files to TypeScript in PhET projects:
 ## Conversion Process Summary
 
 1. `git mv file.js file.ts` (preserves git history)
-2. **Commit the rename immediately**: `git add file.ts && git commit -m "Rename file.js to .ts, see https://github.com/phetsims/charges-and-fields/issues/208"`
+2. **Commit the rename immediately**: `git add file.ts && git commit -m "Convert to TypeScript (file rename only), see https://github.com/phetsims/balloons-and-static-electricity/issues/577"`
 3. Run `grunt type-check` and `grunt lint --fix` to see all issues
 4. Add necessary imports (especially Tandem)
 5. Add property declarations with types and access modifiers
