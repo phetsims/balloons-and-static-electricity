@@ -13,10 +13,12 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import merge from '../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/grab-drag/GrabDragInteraction.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -44,6 +46,9 @@ import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
+type BalloonDirection = string;
+import BalloonModel from '../model/BalloonModel.js';
+import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
@@ -59,68 +64,126 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
+type BalloonNodeOptions = {
+  balloonVelocitySoundGeneratorOptions?: {
+    enabledProperty?: BooleanProperty;
+    basisSound?: IntentionalAny;
+  };
+  balloonRubbingSoundGeneratorOptions?: {
+    centerFrequency?: number;
+  };
+  pointerDrag?: () => void;
+  keyboardDrag?: () => void;
+};
+
 class BalloonNode extends Node {
+
+  private readonly model: BalloonModel;
+  private readonly globalModel: BASEModel;
+  
+  // pdom - a type that generates descriptions for the balloon
+  public readonly describer: IntentionalAny;
+  
+  // the utterance to be sent to the utteranceQueue when a jumping action occurs
+  private readonly jumpingUtterance: Utterance;
+  
+  // Sound generation for when the balloon is being rubbed on the sweater or against the wall.
+  private readonly balloonRubbingSoundGenerator: BalloonRubbingSoundGenerator;
+  
+  // the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
+  private readonly keyboardDragListener: KeyboardDragListener;
+
+  public static readonly JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'j+w' ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWwallDescription.value,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  public static readonly JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'j+c' ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpstoCenterDescription.value,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  public static readonly JUMP_NEAR_SWEATER_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'j+s' ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToSweaterDescription.value,
+    repoName: balloonsAndStaticElectricity.name
+  } );
+
+  public static readonly JUMP_NEAR_WALL_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'j+n' ],
+    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpNearWallLabelStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsNearWallDescription.value,
+    repoName: balloonsAndStaticElectricity.name
+  } );
 
   /**
    * @mixes InteractiveHighlighting
-   * @param {BalloonModel} model
-   * @param {Image} imageSource - image source from the image plugin
-   * @param {BASEModel} globalModel
-   * @param {string} accessibleLabelString - the accessible label for this balloon
-   * @param {string} otherAccessibleLabelString - the accessible label for the "other" balloon
-   * @param {Bounds2} layoutBounds - layout bounds of the ScreenView containing this node
-   * @param {Node} cueParent - parent Node for interaction cues of GrabDragInteraction
-   * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param model
+   * @param imageSource - image source from the image plugin
+   * @param globalModel
+   * @param accessibleLabelString - the accessible label for this balloon
+   * @param otherAccessibleLabelString - the accessible label for the "other" balloon
+   * @param layoutBounds - layout bounds of the ScreenView containing this node
+   * @param cueParent - parent Node for interaction cues of GrabDragInteraction
+   * @param tandem
+   * @param options
    */
-  constructor( model,
-               imageSource,
-               globalModel,
-               accessibleLabelString,
-               otherAccessibleLabelString,
-               layoutBounds,
-               cueParent,
-               tandem,
-               options ) {
+  public constructor( model: BalloonModel,
+               imageSource: IntentionalAny,
+               globalModel: BASEModel,
+               accessibleLabelString: string,
+               otherAccessibleLabelString: string,
+               layoutBounds: Bounds2,
+               cueParent: Node,
+               tandem: Tandem,
+               options?: BalloonNodeOptions ) {
 
-    options = merge( {
-      cursor: 'pointer',
+     
+    const resolvedOptions = {
+      cursor: 'pointer' as const,
 
-      // {Object} - options passed to the drift velocity sound generator
+      // options passed to the drift velocity sound generator
       balloonVelocitySoundGeneratorOptions: {
         enabledProperty: model.isVisibleProperty
       },
 
-      // {Object} - options passed to the balloon rubbing sound generator
+      // options passed to the balloon rubbing sound generator
       balloonRubbingSoundGeneratorOptions: {},
 
-      // {function} - additional method to call at end of pointer drag
-      pointerDrag: _.noop,
+      // additional method to call at end of pointer drag
+      pointerDrag: () => { /* intentionally empty */ },
 
-      // {function} - additional method to call at end of keyboard drag
-      keyboardDrag: _.noop,
+      // additional method to call at end of keyboard drag
+      keyboardDrag: () => { /* intentionally empty */ },
 
       // pdom - this node will act as a container for more accessible content, its children will implement
       // most of the keyboard navigation
       containerTagName: 'div',
       tagName: 'div',
       accessibleHeading: accessibleLabelString
-    }, options );
-
-    assert && assert( !options.tandem, 'required param' );
-    options.tandem = tandem;
+      
+    };
 
     // super constructor
-    super( options );
+    super( {
+      cursor: resolvedOptions.cursor,
+      containerTagName: resolvedOptions.containerTagName,
+      tagName: resolvedOptions.tagName,
+      accessibleHeading: resolvedOptions.accessibleHeading,
+      tandem: tandem
+    } );
 
-    // @private
     this.model = model;
     this.globalModel = globalModel;
 
-    // pdom - a type that generates descriptions for the balloon
+    // @ts-expect-error - BalloonDescriber expects a Node but we are passing BalloonNode which extends Node
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString, this );
 
-    // @private - the utterance to be sent to the utteranceQueue when a jumping action occurs
     this.jumpingUtterance = new Utterance();
 
     const originalChargesNode = new Node( {
@@ -171,7 +234,7 @@ class BalloonNode extends Node {
         model.isDraggedProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
-      drag: options.pointerDrag,
+      drag: options?.pointerDrag || resolvedOptions.pointerDrag,
       end: () => {
         endDragListener();
         model.draggingWithPointer = false;
@@ -217,7 +280,7 @@ class BalloonNode extends Node {
     }
 
     // possible charges
-    const addedNodes = []; // track in a local array to update visibility with charge
+    const addedNodes: MinusChargeNode[] = []; // track in a local array to update visibility with charge
     for ( let i = model.plusCharges.length; i < model.minusCharges.length; i++ ) {
       const addedMinusChargeNode = new MinusChargeNode( model.minusCharges[ i ].position );
       addedMinusChargeNode.visible = false;
@@ -255,7 +318,7 @@ class BalloonNode extends Node {
       }
     } );
 
-    // {Property.<boolean> - a value that reflects whether charges are being shown on the balloon
+    // a value that reflects whether charges are being shown on the balloon
     const chargesShownOnBalloonProperty = new DerivedProperty(
       [ globalModel.showChargesProperty ],
       showCharges => showCharges !== 'none'
@@ -278,16 +341,14 @@ class BalloonNode extends Node {
     soundManager.addSoundGenerator( new BalloonVelocitySoundGenerator(
       model.velocityProperty,
       model.touchingWallProperty,
-      options.balloonVelocitySoundGeneratorOptions
+      options?.balloonVelocitySoundGeneratorOptions || resolvedOptions.balloonVelocitySoundGeneratorOptions
     ) );
 
-    // @private {BalloonRubbingSoundGenerator} - Sound generation for when the balloon is being rubbed on the sweater or
-    // against the wall.
     this.balloonRubbingSoundGenerator = new BalloonRubbingSoundGenerator(
       model.dragVelocityProperty,
       model.onSweaterProperty,
       model.touchingWallProperty,
-      options.balloonRubbingSoundGeneratorOptions
+      options?.balloonRubbingSoundGeneratorOptions || resolvedOptions.balloonRubbingSoundGeneratorOptions
     );
     soundManager.addSoundGenerator( this.balloonRubbingSoundGenerator );
 
@@ -296,7 +357,7 @@ class BalloonNode extends Node {
       initialOutputLevel: 0.075
     } );
     soundManager.addSoundGenerator( balloonHitsSweaterSoundClip );
-    model.velocityProperty.lazyLink( ( currentVelocity, previousVelocity ) => {
+    model.velocityProperty.lazyLink( ( currentVelocity: Vector2, previousVelocity: Vector2 ) => {
       const currentSpeed = currentVelocity.magnitude;
       const previousSpeed = previousVelocity.magnitude;
       if ( currentSpeed === 0 && previousSpeed > 0 && model.onSweaterProperty.value ) {
@@ -310,7 +371,7 @@ class BalloonNode extends Node {
     } );
     soundManager.addSoundGenerator( balloonHitsWallSoundClip );
     const boundaryReachedSoundPlayer = sharedSoundPlayers.get( 'boundaryReached' );
-    model.positionProperty.lazyLink( ( position, previousPosition ) => {
+    model.positionProperty.lazyLink( ( position: Vector2, previousPosition: Vector2 ) => {
 
       // Test whether the balloon has come into contact with an edge and play a sound if so.
       const dragBounds = balloonDragBoundsProperty.value;
@@ -350,15 +411,15 @@ class BalloonNode extends Node {
 
     const dragBoundsProperty = new Property( this.getDragBounds() );
 
-    // @private - the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
     const boundaryUtterance = new Utterance();
     this.keyboardDragListener = new KeyboardDragListener( {
       dragSpeed: 300, // in view coordinates per second
       shiftDragSpeed: 100, // in view coordinates per second
       dragBoundsProperty: dragBoundsProperty,
       positionProperty: model.positionProperty,
+      // @ts-expect-error - shiftKeyMultiplier is not in the type definition but is used in the implementation
       shiftKeyMultiplier: 0.25,
-      start: ( event, listener ) => {
+      start: ( event: IntentionalAny, listener: KeyboardDragListener ) => {
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( listener ) ) {
@@ -367,7 +428,7 @@ class BalloonNode extends Node {
           this.addAccessibleResponse( boundaryUtterance );
         }
       },
-      drag: options.keyboardDrag,
+      drag: options?.keyboardDrag || resolvedOptions.keyboardDrag,
       tandem: tandem.createTandem( 'keyboardDragListener' )
     } );
 
@@ -382,7 +443,7 @@ class BalloonNode extends Node {
         BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA,
         BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA
       ] ),
-      fire: ( event, keysPressed ) => {
+      fire: ( event: IntentionalAny, keysPressed: IntentionalAny ) => {
         if ( BalloonNode.JUMP_WALL_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }
@@ -459,10 +520,9 @@ class BalloonNode extends Node {
 
   /**
    * Step the model forward in time.
-   * @param  {number} dt
-   * @public
+   * @param dt
    */
-  step( dt ) {
+  public step( dt: number ): void {
 
     this.balloonRubbingSoundGenerator.step( dt );
 
@@ -474,10 +534,10 @@ class BalloonNode extends Node {
    * Jump the balloon to a new position, first muting the utteranceQueue, then updating position, then clearing the
    * queue and enabling it once more.  Finally, we will add a custom utterance to the queue describing the jump
    * interaction.
-   * @param  {Vector2} center - new center position for the balloon
-   * @public
+   * @param center - new center position for the balloon
    */
-  jumpBalloon( center ) {
+  public jumpBalloon( center: Vector2 ): void {
+    // @ts-expect-error - jumping is private but we need to access it
     this.model.jumping = true;
 
     // release balloon so that the jump is not associated with velocity
@@ -496,9 +556,8 @@ class BalloonNode extends Node {
 
   /**
    * Determine if the user attempted to move beyond the play area bounds with the keyboard.
-   * @public
    */
-  attemptToMoveBeyondBoundary( listener ) {
+  public attemptToMoveBeyondBoundary( listener: KeyboardDragListener ): boolean {
     return (
       ( listener.movingLeft() && this.model.isTouchingLeftBoundary() ) ||
       ( listener.movingUp() && this.model.isTouchingTopBoundary() ) ||
@@ -508,12 +567,10 @@ class BalloonNode extends Node {
   }
 
   /**
-   * @param {KeyboardDragListener} listener
-   * @returns {string}
-   * @public
+   * @param listener
    */
-  getAttemptedMovementDirection( listener ) {
-    let direction;
+  public getAttemptedMovementDirection( listener: KeyboardDragListener ): BalloonDirection {
+    let direction: BalloonDirection | undefined;
     if ( listener.movingLeft() ) {
       direction = BalloonDirectionEnum.LEFT;
     }
@@ -528,48 +585,19 @@ class BalloonNode extends Node {
     }
 
     assert && assert( direction );
-    return direction;
+    return direction!;
   }
 
   /**
    * Gets the available bounds for dragging, which will change when the wall becomes invisible.
-   * @returns {Bounds2}
-   * @private
    */
-  getDragBounds() {
+  private getDragBounds(): Bounds2 {
     const modelBounds = this.globalModel.playAreaBounds;
     const balloonWidth = this.model.width;
     const balloonHeight = this.model.height;
     return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
   }
 
-  static JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
-    keys: [ 'j+w' ],
-    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWwallDescription,
-    repoName: balloonsAndStaticElectricity.name
-  } );
-
-  static JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
-    keys: [ 'j+c' ],
-    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpstoCenterDescription,
-    repoName: balloonsAndStaticElectricity.name
-  } );
-
-  static JUMP_NEAR_SWEATER_HOTKEY_DATA = new HotkeyData( {
-    keys: [ 'j+s' ],
-    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToSweaterDescription,
-    repoName: balloonsAndStaticElectricity.name
-  } );
-
-  static JUMP_NEAR_WALL_HOTKEY_DATA = new HotkeyData( {
-    keys: [ 'j+n' ],
-    keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpNearWallLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsNearWallDescription,
-    repoName: balloonsAndStaticElectricity.name
-  } );
 }
 
 /**
