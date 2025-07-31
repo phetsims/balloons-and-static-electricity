@@ -116,6 +116,7 @@ class BASEModel {
         this.balloonsAdjacentProperty.set( this.getBalloonsAdjacent() );
 
         // update the balloon play area row and column
+        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter() ) );
         // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
         balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );

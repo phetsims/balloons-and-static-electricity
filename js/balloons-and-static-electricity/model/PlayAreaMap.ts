@@ -15,6 +15,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
@@ -54,12 +55,10 @@ const Y_BOUNDARY_POSITIONS = {
  * Create a range of the play area, optionally taking a previous range. If provided, the range that is returned will
  * start from the max value of the previous range.
  *
- * @param {number} width - desired width of the next range
- * @param {Range} [previousRange] - if provided, next range will start from max of this range
- *
- * @returns {Range}
+ * @param width - desired width of the next range
+ * @param previousRange - if provided, next range will start from max of this range
  */
-const createNextRange = ( width, previousRange ) => {
+const createNextRange = ( width: number, previousRange?: Range ): Range => {
   const min = previousRange ? previousRange.max : 0;
   return new Range( min, min + width );
 };
@@ -69,10 +68,9 @@ const createNextRange = ( width, previousRange ) => {
  * that is critical and has more important information. It is generally more narrow than the larger regions of the
  * PlayArea that define how the balloon's position should be described.
  *
- * @param {number} xPosition - center of the landmark
- * @returns {Range}
+ * @param xPosition - center of the landmark
  */
-const createLandmarkRange = xPosition => {
+const createLandmarkRange = ( xPosition: number ): Range => {
   return new Range( xPosition - HALF_LANDMARK_WIDTH, xPosition + HALF_LANDMARK_WIDTH );
 };
 
@@ -147,20 +145,17 @@ const PlayAreaMap = {
 
   /**
    * Get the column of the play area for the a given position in the model, including landmark positions.
-   *
-   * @param  {Vector2} position
-   * @returns {string}
    */
-  getPlayAreaColumn( position, wallVisible ) {
+  getPlayAreaColumn( position: Vector2, wallVisible: boolean ): string {
     const columns = COLUMN_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
     // loops
     const columnsKeys = Object.keys( columns );
 
-    let column;
+    let column: string | undefined;
     for ( let i = 0; i < columnsKeys.length; i++ ) {
-      if ( columns[ columnsKeys[ i ] ].contains( position.x ) ) {
+      if ( columns[ columnsKeys[ i ] as keyof typeof columns ].contains( position.x ) ) {
         column = columnsKeys[ i ];
       }
     }
@@ -171,25 +166,22 @@ const PlayAreaMap = {
       column = 'WALL';
     }
 
-    return column;
+    return column!;
   },
 
   /**
    * Get the landmark of the play area for the a given position in the model.
-   *
-   * @param  {Vector2} position
-   * @returns {string}
    */
-  getPlayAreaLandmark( position, wallVisible ) {
+  getPlayAreaLandmark( position: Vector2, wallVisible: boolean ): string | null {
     const landmarks = LANDMARK_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
     // loops
     const landmarksKeys = Object.keys( landmarks );
 
-    let landmark = null;
+    let landmark: string | null = null;
     for ( let i = 0; i < landmarksKeys.length; i++ ) {
-      if ( landmarks[ landmarksKeys[ i ] ].contains( position.x ) ) {
+      if ( landmarks[ landmarksKeys[ i ] as keyof typeof landmarks ].contains( position.x ) ) {
         landmark = landmarksKeys[ i ];
       }
     }
@@ -204,43 +196,37 @@ const PlayAreaMap = {
 
   /**
    * Get a row in the play area that contains the position in the model.
-   *
-   * @param  {Vector2} position
-   * @returns {strint}
    */
-  getPlayAreaRow( position ) {
+  getPlayAreaRow( position: Vector2 ): string {
     const rows = PlayAreaMap.ROW_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
     const rowKeys = Object.keys( rows );
 
-    let row;
+    let row: string | undefined;
     let i;
     for ( i = 0; i < rowKeys.length; i++ ) {
-      if ( rows[ rowKeys[ i ] ].contains( position.y ) ) {
+      if ( rows[ rowKeys[ i ] as keyof typeof rows ].contains( position.y ) ) {
         row = rowKeys[ i ];
       }
     }
     assert && assert( row, 'item should be in a row of the play area' );
 
-    return row;
+    return row!;
   },
 
   /**
    * Returns true if the position is determined to be in one of the landmark columns. These are the ranges
    * that surround critical x positions.
-   *
-   * @param {Vector2} position
-   * @returns {boolean}
    */
-  inLandmarkColumn( position ) {
+  inLandmarkColumn( position: Vector2 ): boolean {
     const landmarks = PlayAreaMap.LANDMARK_RANGES;
 
     // loop through keys manually to prevent many closures from being created during object iteration in for loops
     const landmarkKeys = Object.keys( landmarks );
     let inLandmarkColumn = false;
     for ( let i = 0; i < landmarkKeys.length; i++ ) {
-      if ( landmarks[ landmarkKeys[ i ] ].contains( position.x ) ) {
+      if ( landmarks[ landmarkKeys[ i ] as keyof typeof landmarks ].contains( position.x ) ) {
         inLandmarkColumn = true;
         break;
       }
