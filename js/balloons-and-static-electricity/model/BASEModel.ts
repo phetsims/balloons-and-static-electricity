@@ -82,9 +82,7 @@ class BASEModel {
     this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
 
     // assign 'other' balloon references
-    // @ts-expect-error - other property is dynamically added
     this.yellowBalloon.other = this.greenBalloon;
-    // @ts-expect-error - other property is dynamically added
     this.greenBalloon.other = this.yellowBalloon;
 
     this.scanningPropertySet = new ScanningPropertySet();
@@ -116,11 +114,8 @@ class BASEModel {
         this.balloonsAdjacentProperty.set( this.getBalloonsAdjacent() );
 
         // update the balloon play area row and column
-        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
         balloon.playAreaRowProperty.set( PlayAreaMap.getPlayAreaRow( balloon.getCenter() ) );
-        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
         balloon.playAreaColumnProperty.set( PlayAreaMap.getPlayAreaColumn( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );
-        // @ts-expect-error - PlayAreaMap methods return string but properties expect string | null
         balloon.playAreaLandmarkProperty.set( PlayAreaMap.getPlayAreaLandmark( balloon.getCenter(), this.wall.isVisibleProperty.get() ) );
       } );
 
