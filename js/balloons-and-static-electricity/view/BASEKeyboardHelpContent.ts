@@ -13,6 +13,7 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -34,12 +35,9 @@ const moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
 const BALLOON_CONTENT_MAX_WIDTH = 174;
 const GENERAL_CONTENT_MAX_WIDTH = 214;
 
-/**
- * Constructor.
- * @constructor
- */
 class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
-  constructor() {
+  
+  public constructor() {
 
     //  the sections of help content
     const balloonGrabHelpSection = new BalloonGrabHelpSection( {
@@ -72,10 +70,7 @@ balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHe
  */
 class BalloonGrabHelpSection extends KeyboardHelpSection {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( options?: IntentionalAny ) {
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
@@ -97,10 +92,7 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
  */
 class MoveBalloonHelpSection extends KeyboardHelpSection {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( options?: IntentionalAny ) {
 
     const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
     const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {

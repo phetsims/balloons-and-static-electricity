@@ -46,7 +46,6 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
    */
   public constructor( dragVelocityProperty: Vector2Property, onSweaterProperty: BooleanProperty, touchingWallProperty: BooleanProperty, options?: BalloonRubbingSoundGeneratorOptions ) {
 
-     
     const resolvedOptions = merge( {
       noiseType: 'brown',
       centerFrequency: DEFAULT_CENTER_FREQUENCY,
