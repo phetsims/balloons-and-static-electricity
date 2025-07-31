@@ -9,9 +9,11 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import wall_png from '../../../images/wall_png.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import BASEModel from '../model/BASEModel.js';
 import WallDescriber from './describers/WallDescriber.js';
 import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
@@ -20,12 +22,11 @@ const wallLabelString = BASEA11yStrings.wallLabel.value;
 
 class WallNode extends Node {
 
-  /**
-   * @param {BASEModel} model
-   * @param {number} layoutHeight
-   * @param {Tandem} tandem
-   */
-  constructor( model, layoutHeight, tandem ) {
+  private readonly model: BASEModel;
+  private readonly wallDescriber: WallDescriber;
+  private readonly wallNode: Image;
+
+  public constructor( model: BASEModel, layoutHeight: number, tandem: Tandem ) {
 
     super( {
       pickable: false,
@@ -34,7 +35,6 @@ class WallNode extends Node {
       accessibleHeading: wallLabelString
     } );
 
-    // @private
     this.model = model;
     const wallModel = model.wall;
 

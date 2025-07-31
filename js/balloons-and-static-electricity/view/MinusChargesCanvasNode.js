@@ -36,11 +36,10 @@ class MinusChargesCanvasNode extends CanvasNode {
    * @param {number} wallX - x position of the wall, to offset charge positions
    * @param {Bounds2} wallBounds - bounds of the wall in view coordinates, passed as canvasBounds
    * @param {Array.<MovablePointChargeModel>} charges
-   * @param {[object]} options
    */
-  constructor( wallX, wallBounds, charges, options ) {
+  constructor( wallX, wallBounds, charges ) {
 
-    super( options );
+    super();
     this.setCanvasBounds( wallBounds );
     this.invalidatePaint();
 

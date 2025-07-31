@@ -47,8 +47,8 @@ class WallModel {
   private readonly dx: number;
   private readonly dy: number;
 
-  private readonly plusCharges: PointChargeModel[] = [];
-  private readonly minusCharges: MovablePointChargeModel[] = [];
+  public readonly plusCharges: PointChargeModel[] = [];
+  public readonly minusCharges: MovablePointChargeModel[] = [];
 
   public constructor( x: number, width: number, height: number, yellowBalloon: BalloonModel, greenBalloon: BalloonModel, tandem: Tandem ) {
 
