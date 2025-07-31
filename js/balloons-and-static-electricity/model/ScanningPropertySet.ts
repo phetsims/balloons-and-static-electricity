@@ -10,9 +10,14 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 class ScanningPropertySet {
-  constructor() {
 
-    // @public - is the finger over one of these objects?
+  // is the finger over one of these objects?
+  public readonly yellowBalloonDetectedProperty: BooleanProperty;
+  public readonly sweaterDetectedProperty: BooleanProperty;
+  public readonly wallDetectedProperty: BooleanProperty;
+
+  public constructor() {
+
     this.yellowBalloonDetectedProperty = new BooleanProperty( false );
     this.sweaterDetectedProperty = new BooleanProperty( false );
     this.wallDetectedProperty = new BooleanProperty( false );
