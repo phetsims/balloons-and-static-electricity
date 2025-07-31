@@ -11,8 +11,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PointChargeModel from './PointChargeModel.js';
+import BalloonModel from './BalloonModel.js';
 
 // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
 const CHARGE_PAIR_POSITIONS = [
@@ -76,18 +78,35 @@ const CHARGE_PAIR_POSITIONS = [
 ];
 
 class SweaterModel {
-  /**
-   * @param {number} x
-   * @param {number} y
-   * @param {Tandem} tandem
-   */
-  constructor( x, y, tandem ) {
 
-    // public (read-only) - dimensions of the sweater, empirically determined to match design spec
-    this.width = 305;
-    this.height = 385;
+  // dimensions of the sweater, empirically determined to match design spec
+  public readonly width = 305;
+  public readonly height = 385;
 
-    // @public {number} - charge on the sweater
+  // charge on the sweater
+  public readonly chargeProperty: NumberProperty;
+
+  public readonly x: number;
+  public readonly y: number;
+
+  // position of center of the sweater
+  public readonly center: Vector2;
+
+  // position of the left edge of the sweater
+  public readonly left: Vector2;
+
+  // bounds containing the sweater
+  public readonly bounds: Bounds2;
+
+  // area on the sweater where charges exist
+  public readonly chargedArea: Shape;
+
+  // arrays of plus and minus charges on the sweater
+  public readonly plusCharges: PointChargeModel[] = [];
+  public readonly minusCharges: PointChargeModel[] = [];
+
+  public constructor( x: number, y: number, tandem: Tandem ) {
+
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
       numberType: 'Integer',
@@ -95,27 +114,22 @@ class SweaterModel {
       phetioReadOnly: true
     } );
 
-
-    // @public
     this.x = x;
     this.y = y;
 
-    // @public {Vector2} - position of center of the sweater
     this.center = new Vector2( this.x + this.width / 2, this.y + this.height / 2 );
 
-    // @public (read-only) {Vector2} - position of the left edge of the sweater
     this.left = new Vector2( this.x, this.y + this.height / 2 );
 
-    // @public {Bounds2} bounds containing the sweater
     this.bounds = new Bounds2( this.x, this.y, this.width, this.height );
 
-    // @private {Shape} create an approximate shape of the charged area of the sweater based on the position of the
+    // create an approximate shape of the charged area of the sweater based on the position of the
     // charges. This is used for accurate detection of when the balloons are over the charged area, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/240.  This algorithm works by dividing the
     // unit circle into a set of slices and finding the charge position that is furthest from the center in that
     // slice, then building a shape from that set of points.
     const numSlices = 9; // this number can be adjusted to get a more refined shape to enclose the charges
-    const shapeDefiningPoints = [];
+    const shapeDefiningPoints: Vector2[] = [];
     const sliceWidth = ( 2 * Math.PI ) / numSlices; // in radians
     _.times( numSlices ).forEach( sliceNumber => {
       shapeDefiningPoints.push( this.center.copy() );
@@ -139,16 +153,11 @@ class SweaterModel {
       } );
     } );
 
-    // @public {Shape} - area on the sweater where charges exist
     this.chargedArea = new Shape().moveToPoint( shapeDefiningPoints[ 0 ] );
     for ( let i = 1; i < shapeDefiningPoints.length; i++ ) {
       this.chargedArea.lineToPoint( shapeDefiningPoints[ i ] );
     }
     this.chargedArea.close();
-
-    // arrays of plus and minus charges on the sweater, created from positions array above
-    this.plusCharges = [];
-    this.minusCharges = [];
 
     const plusChargesGroupTandem = tandem.createTandem( 'plusCharges' ).createGroupTandem( 'plusCharge', 0 );
     const minusChargesGroupTandem = tandem.createTandem( 'minusCharges' ).createGroupTandem( 'minusCharge', 0 );
@@ -161,7 +170,7 @@ class SweaterModel {
       );
       this.plusCharges.push( plusCharge );
 
-      //minus
+      // minus
       const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
         chargePairPosition.y + PointChargeModel.RADIUS,
@@ -177,12 +186,8 @@ class SweaterModel {
   /**
    * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
    * charges from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved.
-   *
-   * @public
-   * @param  {BalloonModel} balloon
-   * @returns {boolean} chargeMoved - was a charge moved to the balloon?
    */
-  checkAndTransferCharges( balloon ) {
+  public checkAndTransferCharges( balloon: BalloonModel ): boolean {
     // track whether or not at least once charge was moved
     let chargeMoved = false;
 
@@ -203,12 +208,8 @@ class SweaterModel {
   /**
    * Move a charge from sweater to balloon. Done by updating charge Properties, this sim doesn't actually
    * transfer charges from one object to another.
-   *
-   * @public
-   * @param {PointChargeModel} charge
-   * @param {BalloonModel} balloon
    */
-  moveChargeTo( charge, balloon ) {
+  public moveChargeTo( charge: PointChargeModel, balloon: BalloonModel ): void {
     charge.movedProperty.set( true );
     balloon.chargeProperty.set( balloon.chargeProperty.get() - 1 );
     this.chargeProperty.set( this.chargeProperty.get() + 1 );
@@ -216,10 +217,8 @@ class SweaterModel {
 
   /**
    * Reset the SweaterModel.
-   *
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.minusCharges.forEach( entry => {
       entry.movedProperty.set( false );
     } );
