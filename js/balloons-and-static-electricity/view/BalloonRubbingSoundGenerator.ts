@@ -7,12 +7,13 @@
  * @author John Blanco
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import NoiseGenerator from '../../../../tambo/js/sound-generators/NoiseGenerator.js';
+import NoiseGenerator, { NoiseGeneratorOptions } from '../../../../tambo/js/sound-generators/NoiseGenerator.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
@@ -23,32 +24,42 @@ const MAX_TAPER_TIME = 0.2; // in seconds
 const MAX_SMOOTHED_SPEED = SMOOTHED_VELOCITY_TAPER_RATE * MAX_TAPER_TIME;
 const MAP_SMOOTHED_SPEED_TO_OUTPUT_LEVEL = new LinearFunction( 0, MAX_SMOOTHED_SPEED, 0, 1, true );
 
+type BalloonRubbingSoundGeneratorOptions = NoiseGeneratorOptions & {
+  maxOutputLevel?: number;
+};
+
 class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
-  /**
-   * {Property.<number>} dragVelocityProperty - velocity of the balloon drag
-   * {Property.<boolean>} onSweaterProperty - whether the balloon is on the sweater
-   * {Property.<boolean>} touchingWallProperty - whether the balloon is touching the wall
-   * {Object} [options]
-   */
-  constructor( dragVelocityProperty, onSweaterProperty, touchingWallProperty, options ) {
+  // A Property that moves up instantly with the drag velocity but tapers off more slowly, used to prevent
+  // the sound generator from doing a bunch of stops and starts during drag operations.  This is also clamped so that
+  // it doesn't get so large that it takes a long time to taper off.
+  private readonly clampedSmoothedDragVelocityProperty: Vector2Property;
 
-    options = merge( {
+  // static properties
+  public static readonly DEFAULT_CENTER_FREQUENCY = DEFAULT_CENTER_FREQUENCY;
+
+  /**
+   * @param dragVelocityProperty - velocity of the balloon drag
+   * @param onSweaterProperty - whether the balloon is on the sweater
+   * @param touchingWallProperty - whether the balloon is touching the wall
+   * @param options
+   */
+  public constructor( dragVelocityProperty: Vector2Property, onSweaterProperty: BooleanProperty, touchingWallProperty: BooleanProperty, options?: BalloonRubbingSoundGeneratorOptions ) {
+
+     
+    const resolvedOptions = merge( {
       noiseType: 'brown',
       centerFrequency: DEFAULT_CENTER_FREQUENCY,
       qFactor: 2,
 
-      // {number} - The amount of sound produced by this sound generator varies based on what's going on with the input
-      //            properties, and this value sets the maximum.
+      // The amount of sound produced by this sound generator varies based on what's going on with the input
+      // properties, and this value sets the maximum.
       maxOutputLevel: 0.3
 
     }, options );
 
-    super( options );
+    super( resolvedOptions );
 
-    // @private - A Property that moves up instantly with the drag velocity but tapers off more slowly, used to prevent
-    // the sound generator from doing a bunch of stops and starts during drag operations.  This is also clamped so that
-    // it doesn't get so large that it takes a long time to taper off.
     this.clampedSmoothedDragVelocityProperty = new Vector2Property( Vector2.ZERO );
 
     // a vector that is reused when evaluating drag velocity changes, used to reduce memory allocations.
@@ -82,7 +93,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
           // Set the output level based on the drag speed.
           this.setOutputLevel(
-            MAP_SMOOTHED_SPEED_TO_OUTPUT_LEVEL.evaluate( smoothedDragVelocity.magnitude ) * options.maxOutputLevel
+            MAP_SMOOTHED_SPEED_TO_OUTPUT_LEVEL.evaluate( smoothedDragVelocity.magnitude ) * resolvedOptions.maxOutputLevel
           );
 
           // Set the pitch based on the direction in which the balloon is being dragged.
@@ -95,7 +106,7 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
           else if ( dragVelocity.y < 0 ) {
             sign = -1;
           }
-          this.setBandpassFilterCenterFrequency( options.centerFrequency + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
+          this.setBandpassFilterCenterFrequency( resolvedOptions.centerFrequency + sign * FREQUENCY_CHANGE_WITH_DIRECTION );
         }
         else if ( ( smoothedDragVelocity.magnitude === 0 || !( onSweater || touchingWall ) ) && this.isPlaying ) {
 
@@ -107,10 +118,9 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
   }
 
   /**
-   * @param {number} dt - time change in seconds
-   * @public
+   * @param dt - time change in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     if ( this.clampedSmoothedDragVelocityProperty.value.magnitude > 0 ) {
       const taperedMagnitude = Math.max(
         this.clampedSmoothedDragVelocityProperty.value.magnitude - dt * SMOOTHED_VELOCITY_TAPER_RATE,
@@ -122,9 +132,6 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
     }
   }
 }
-
-// statics
-BalloonRubbingSoundGenerator.DEFAULT_CENTER_FREQUENCY = DEFAULT_CENTER_FREQUENCY;
 
 balloonsAndStaticElectricity.register( 'BalloonRubbingSoundGenerator', BalloonRubbingSoundGenerator );
 
