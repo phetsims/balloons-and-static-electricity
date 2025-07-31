@@ -8,19 +8,16 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
+import BalloonModel from '../model/BalloonModel.js';
 
 class TetherNode extends Path {
 
-  /**
-   * @param  {BalloonModel} balloonModel
-   * @param  {Vector2} anchorPoint
-   * @param  {Vector2} tetherPointOffset
-   * @param  {Tandem} tandem
-   */
-  constructor( balloonModel, anchorPoint, tetherPointOffset, tandem ) {
+  public constructor( balloonModel: BalloonModel, anchorPoint: Vector2, tetherPointOffset: Vector2, tandem: Tandem ) {
 
     const anchorPointCopy = anchorPoint.copy();
 
