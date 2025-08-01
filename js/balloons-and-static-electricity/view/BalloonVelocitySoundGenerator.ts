@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * BalloonVelocitySoundGenerator is used to produce a sound that corresponds to the drifting velocity of the balloon.

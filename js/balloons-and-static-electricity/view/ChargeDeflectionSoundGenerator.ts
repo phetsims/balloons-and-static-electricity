@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * ChargeDeflectionSoundGenerator produces sounds based on how much deflection (i.e. movement relative to the nominal

@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * BalloonRubbingSoundGenerator is used to produces a sound effect for when a balloon is rubbing on the something.  It
