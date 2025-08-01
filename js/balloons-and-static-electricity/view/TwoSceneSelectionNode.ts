@@ -20,7 +20,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -35,7 +35,7 @@ import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-type TwoSceneSelectionNodeOptions = NodeOptions & {
+type SelfOptions = {
   spacing?: number;
   orientation?: 'horizontal' | 'vertical';
   align?: 'center' | 'left' | 'right' | 'top' | 'bottom' | 'origin';
@@ -65,16 +65,16 @@ type TwoSceneSelectionNodeOptions = NodeOptions & {
   mouseAreaXDilation?: number;
   mouseAreaYDilation?: number;
 };
+type TwoSceneSelectionNodeOptions = NodeOptions & SelfOptions;
 
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
 class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
-  public constructor( property: Property<T>, valueA: T, valueB: T, nodeA: Node, nodeB: Node, options: TwoSceneSelectionNodeOptions ) {
+  public constructor( property: Property<T>, valueA: T, valueB: T, nodeA: Node, nodeB: Node, providedOptions: TwoSceneSelectionNodeOptions ) {
 
-    // eslint-disable-next-line phet/bad-typescript-text
-    options = merge( {
+    const options = optionize<TwoSceneSelectionNodeOptions, SelfOptions, NodeOptions>()( {
 
       // FlowBox options - buttons oriented with a FlowBox
       spacing: 10,
@@ -130,7 +130,7 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
       tagName: 'input',
       inputType: 'checkbox',
       appendDescription: true
-    }, options );
+    }, providedOptions );
 
     super( options );
 
@@ -149,12 +149,12 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
     // aBox.bounds === bBox.bounds since we are using AlignGroup
     const rectShape = Shape.roundRect(
-      -xMargin!,
-      -yMargin!,
-      aBox.width + 2 * xMargin!,
-      aBox.height + 2 * yMargin!,
-      cornerRadius!,
-      cornerRadius!
+      -xMargin,
+      -yMargin,
+      aBox.width + 2 * xMargin,
+      aBox.height + 2 * yMargin,
+      cornerRadius,
+      cornerRadius
     );
     const aButtonPath = new Path( rectShape );
     const bButtonPath = new Path( rectShape );
@@ -174,8 +174,8 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
     const buttonBox = new FlowBox( {
       spacing: options.spacing,
-      orientation: options.orientation!,
-      align: options.align!,
+      orientation: options.orientation,
+      align: options.align,
       children: [ aButton, bButton ],
       resize: false
     } );
@@ -203,17 +203,17 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
         deselectedContent = nodeA;
       }
 
-      selectedButton.stroke = options.buttonAppearanceStrategyOptions!.selectedStroke!;
-      deselectedButton.stroke = options.buttonAppearanceStrategyOptions!.deselectedStroke!;
+      selectedButton.stroke = options.buttonAppearanceStrategyOptions.selectedStroke!;
+      deselectedButton.stroke = options.buttonAppearanceStrategyOptions.deselectedStroke!;
 
-      selectedButton.opacity = options.buttonAppearanceStrategyOptions!.selectedButtonOpacity!;
-      deselectedButton.opacity = options.buttonAppearanceStrategyOptions!.deselectedButtonOpacity!;
+      selectedButton.opacity = options.buttonAppearanceStrategyOptions.selectedButtonOpacity!;
+      deselectedButton.opacity = options.buttonAppearanceStrategyOptions.deselectedButtonOpacity!;
 
-      selectedContent.opacity = options.contentAppearanceStrategyOptions!.selectedContentOpacity!;
-      deselectedContent.opacity = options.contentAppearanceStrategyOptions!.deselectedContentOpacity!;
+      selectedContent.opacity = options.contentAppearanceStrategyOptions.selectedContentOpacity!;
+      deselectedContent.opacity = options.contentAppearanceStrategyOptions.deselectedContentOpacity!;
 
-      selectedButton.lineWidth = options.buttonAppearanceStrategyOptions!.selectedLineWidth!;
-      deselectedButton.lineWidth = options.buttonAppearanceStrategyOptions!.deselectedLineWidth!;
+      selectedButton.lineWidth = options.buttonAppearanceStrategyOptions.selectedLineWidth!;
+      deselectedButton.lineWidth = options.buttonAppearanceStrategyOptions.deselectedLineWidth!;
 
       if ( !enabled ) {
         this.opacity = options.opacityWhenDisabled!;
@@ -245,7 +245,7 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
     // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
     const firedEmitter = new Emitter( {
-      tandem: options.tandem!.createTandem( 'firedEmitter' ),
+      tandem: options.tandem.createTandem( 'firedEmitter' ),
       phetioDocumentation: 'emits to change the selection',
       phetioEventType: EventType.USER
     } );
@@ -268,18 +268,18 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
     // listener that highlights the unselected button when mouse is over
     const highlightListener = new PressListener( {
-      tandem: options.tandem!.createTandem( 'highlightListener' )
+      tandem: options.tandem.createTandem( 'highlightListener' )
     } );
     highlightListener.isHighlightedProperty.link( ( highlighted: boolean ) => {
       const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
       const otherContent = property.get() === valueA ? nodeB : nodeA;
 
       const buttonOpacity = highlighted ?
-                            options.buttonAppearanceStrategyOptions!.overButtonOpacity :
-                            options.buttonAppearanceStrategyOptions!.deselectedButtonOpacity;
+                            options.buttonAppearanceStrategyOptions.overButtonOpacity :
+                            options.buttonAppearanceStrategyOptions.deselectedButtonOpacity;
       const contentOpacity = highlighted ?
-                             options.contentAppearanceStrategyOptions!.overContentOpacity :
-                             options.contentAppearanceStrategyOptions!.deselectedContentOpacity;
+                             options.contentAppearanceStrategyOptions.overContentOpacity :
+                             options.contentAppearanceStrategyOptions.deselectedContentOpacity;
 
       otherButton.opacity = buttonOpacity!;
       otherContent.opacity = contentOpacity!;
@@ -296,8 +296,8 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
     this.addInputListener( clickListener );
 
     // set mouse and touch areas
-    this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation!, options.mouseAreaYDilation! );
-    this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation!, options.touchAreaYDilation! );
+    this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
+    this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
   }
 }
 
