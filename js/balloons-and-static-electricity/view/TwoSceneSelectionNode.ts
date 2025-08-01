@@ -18,14 +18,16 @@
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
+import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import FlowBox from '../../../../scenery/js/layout/nodes/FlowBox.js';
 import PressListener from '../../../../scenery/js/listeners/PressListener.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import SceneryConstants from '../../../../scenery/js/SceneryConstants.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -34,21 +36,45 @@ import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
+type TwoSceneSelectionNodeOptions = NodeOptions & {
+  spacing?: number;
+  orientation?: 'horizontal' | 'vertical';
+  align?: 'center' | 'left' | 'right' | 'top' | 'bottom' | 'origin';
+  maskFill?: Color | string | null;
+  baseColor?: Color;
+  pressedColor?: Color;
+  opacityWhenDisabled?: number;
+  buttonAppearanceStrategyOptions?: {
+    selectedButtonOpacity?: number;
+    deselectedButtonOpacity?: number;
+    selectedStroke?: Color | string;
+    deselectedStroke?: Color | string;
+    selectedLineWidth?: number;
+    deselectedLineWidth?: number;
+    overButtonOpacity?: number;
+  };
+  contentAppearanceStrategyOptions?: {
+    overContentOpacity?: number;
+    selectedContentOpacity?: number;
+    deselectedContentOpacity?: number;
+  };
+  buttonContentXMargin?: number;
+  buttonContentYMargin?: number;
+  cornerRadius?: number;
+  touchAreaXDilation?: number;
+  touchAreaYDilation?: number;
+  mouseAreaXDilation?: number;
+  mouseAreaYDilation?: number;
+};
+
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
 class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
-  /**
-   * @param {Property} property
-   * @param {Object} valueA - valid value for the property
-   * @param {Object} valueB - alternate valid value for the property
-   * @param {Node} nodeA
-   * @param {Node} nodeB
-   * @param {Object} [options]
-   */
-  constructor( property, valueA, valueB, nodeA, nodeB, options ) {
+  public constructor( property: Property<IntentionalAny>, valueA: IntentionalAny, valueB: IntentionalAny, nodeA: Node, nodeB: Node, options: TwoSceneSelectionNodeOptions ) {
 
+    // eslint-disable-next-line phet/bad-typescript-text
     options = merge( {
 
       // FlowBox options - buttons oriented with a FlowBox
@@ -124,12 +150,12 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
     // aBox.bounds === bBox.bounds since we are using AlignGroup
     const rectShape = Shape.roundRect(
-      -xMargin,
-      -yMargin,
-      aBox.width + 2 * xMargin,
-      aBox.height + 2 * yMargin,
-      cornerRadius,
-      cornerRadius
+      -xMargin!,
+      -yMargin!,
+      aBox.width + 2 * xMargin!,
+      aBox.height + 2 * yMargin!,
+      cornerRadius!,
+      cornerRadius!
     );
     const aButtonPath = new Path( rectShape );
     const bButtonPath = new Path( rectShape );
@@ -149,8 +175,8 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
     const buttonBox = new FlowBox( {
       spacing: options.spacing,
-      orientation: options.orientation,
-      align: options.align,
+      orientation: options.orientation!,
+      align: options.align!,
       children: [ aButton, bButton ],
       resize: false
     } );
@@ -158,12 +184,12 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
     // depending on whether or not the button is enabled
-    const setStyles = enabled => {
+    const setStyles = ( enabled: boolean ) => {
 
-      let selectedButton;
-      let deselectedButton;
-      let selectedContent;
-      let deselectedContent;
+      let selectedButton: Path;
+      let deselectedButton: Path;
+      let selectedContent: Node;
+      let deselectedContent: Node;
 
       if ( property.get() === valueA ) {
         selectedButton = aButtonPath;
@@ -178,30 +204,30 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
         deselectedContent = nodeA;
       }
 
-      selectedButton.stroke = options.buttonAppearanceStrategyOptions.selectedStroke;
-      deselectedButton.stroke = options.buttonAppearanceStrategyOptions.deselectedStroke;
+      selectedButton.stroke = options.buttonAppearanceStrategyOptions!.selectedStroke!;
+      deselectedButton.stroke = options.buttonAppearanceStrategyOptions!.deselectedStroke!;
 
-      selectedButton.opacity = options.buttonAppearanceStrategyOptions.selectedButtonOpacity;
-      deselectedButton.opacity = options.buttonAppearanceStrategyOptions.deselectedButtonOpacity;
+      selectedButton.opacity = options.buttonAppearanceStrategyOptions!.selectedButtonOpacity!;
+      deselectedButton.opacity = options.buttonAppearanceStrategyOptions!.deselectedButtonOpacity!;
 
-      selectedContent.opacity = options.contentAppearanceStrategyOptions.selectedContentOpacity;
-      deselectedContent.opacity = options.contentAppearanceStrategyOptions.deselectedContentOpacity;
+      selectedContent.opacity = options.contentAppearanceStrategyOptions!.selectedContentOpacity!;
+      deselectedContent.opacity = options.contentAppearanceStrategyOptions!.deselectedContentOpacity!;
 
-      selectedButton.lineWidth = options.buttonAppearanceStrategyOptions.selectedLineWidth;
-      deselectedButton.lineWidth = options.buttonAppearanceStrategyOptions.deselectedLineWidth;
+      selectedButton.lineWidth = options.buttonAppearanceStrategyOptions!.selectedLineWidth!;
+      deselectedButton.lineWidth = options.buttonAppearanceStrategyOptions!.deselectedLineWidth!;
 
       if ( !enabled ) {
-        this.opacity = options.opacityWhenDisabled;
+        this.opacity = options.opacityWhenDisabled!;
 
-        selectedButton.fill = options.baseColor;
-        deselectedButton.fill = options.baseColor;
+        selectedButton.fill = options.baseColor!;
+        deselectedButton.fill = options.baseColor!;
       }
       else {
-        selectedButton.fill = options.baseColor;
-        deselectedButton.fill = options.baseColor;
+        selectedButton.fill = options.baseColor!;
+        deselectedButton.fill = options.baseColor!;
       }
     };
-    property.link( value => {
+    property.link( ( value: IntentionalAny ) => {
 
       // update the button look and its accessible pressed state
       setStyles( this.enabledProperty.get() );
@@ -220,7 +246,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
 
     // Internal emitter for the PhET-iO data stream, see https://github.com/phetsims/sun/issues/396
     const firedEmitter = new Emitter( {
-      tandem: options.tandem.createTandem( 'firedEmitter' ),
+      tandem: options.tandem!.createTandem( 'firedEmitter' ),
       phetioDocumentation: 'emits to change the selection',
       phetioEventType: EventType.USER
     } );
@@ -232,32 +258,32 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
       },
       down: () => {
         const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
-        otherButton.fill = options.pressedColor;
+        otherButton.fill = options.pressedColor!;
       }
     } );
 
     // considered "checked" for accessibility when node B is selected
-    const propertyListener = value => {
+    const propertyListener = ( value: IntentionalAny ) => {
       this.setPDOMChecked( value === valueB );
     };
 
     // listener that highlights the unselected button when mouse is over
     const highlightListener = new PressListener( {
-      tandem: options.tandem.createTandem( 'highlightListener' )
+      tandem: options.tandem!.createTandem( 'highlightListener' )
     } );
-    highlightListener.isHighlightedProperty.link( highlighted => {
+    highlightListener.isHighlightedProperty.link( ( highlighted: boolean ) => {
       const otherButton = property.get() === valueA ? bButtonPath : aButtonPath;
       const otherContent = property.get() === valueA ? nodeB : nodeA;
 
       const buttonOpacity = highlighted ?
-                            options.buttonAppearanceStrategyOptions.overButtonOpacity :
-                            options.buttonAppearanceStrategyOptions.deselectedButtonOpacity;
+                            options.buttonAppearanceStrategyOptions!.overButtonOpacity :
+                            options.buttonAppearanceStrategyOptions!.deselectedButtonOpacity;
       const contentOpacity = highlighted ?
-                             options.contentAppearanceStrategyOptions.overContentOpacity :
-                             options.contentAppearanceStrategyOptions.deselectedContentOpacity;
+                             options.contentAppearanceStrategyOptions!.overContentOpacity :
+                             options.contentAppearanceStrategyOptions!.deselectedContentOpacity;
 
-      otherButton.opacity = buttonOpacity;
-      otherContent.opacity = contentOpacity;
+      otherButton.opacity = buttonOpacity!;
+      otherContent.opacity = contentOpacity!;
     } );
 
     // listener that is called when the button is pressed with 'enter' or 'spacebar'
@@ -271,8 +297,8 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
     this.addInputListener( clickListener );
 
     // set mouse and touch areas
-    this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation, options.mouseAreaYDilation );
-    this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
+    this.mouseArea = this.bounds.dilatedXY( options.mouseAreaXDilation!, options.mouseAreaYDilation! );
+    this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation!, options.touchAreaYDilation! );
   }
 }
 
