@@ -19,6 +19,7 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -39,7 +40,7 @@ type SelfOptions = {
   spacing?: number;
   orientation?: 'horizontal' | 'vertical';
   align?: 'center' | 'left' | 'right' | 'top' | 'bottom' | 'origin';
-  maskFill?: Color | string | null;
+  maskFill?: TReadOnlyProperty<Color> | null;
   baseColor?: Color;
   pressedColor?: Color;
   opacityWhenDisabled?: number;

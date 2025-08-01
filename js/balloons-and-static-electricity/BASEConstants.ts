@@ -6,11 +6,12 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../axon/js/Property.js';
+import Color from '../../../scenery/js/util/Color.js';
+import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import balloonsAndStaticElectricity from '../balloonsAndStaticElectricity.js';
 
 const BASEConstants = {
-  backgroundColorProperty: new Property( 'rgb( 151, 208, 255 )' ),
+  backgroundColorProperty: new ColorProperty( new Color( 151, 208, 255 ) ),
   msScaleFactor: 1000, // to convert seconds to milliseconds, used throughout the view
   MAX_BALLOON_CHARGE: 57, // max number of charges the balloon can have
   COULOMBS_LAW_CONSTANT: 10000, // used when calculating force, value chosen so sim looks like Java version

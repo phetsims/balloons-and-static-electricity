@@ -83,6 +83,5 @@ QUnit.done( () => {
   delete window.baseModel;
   delete window.baseView;
 
-  // @ts-expect-error
-  document.body.removeChild( document.getElementById( iframe.id ) );
+  document.body.removeChild( document.getElementById( iframe.id )! );
 } );

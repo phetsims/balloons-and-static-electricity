@@ -225,8 +225,6 @@ class ControlPanel extends Node {
         oneBalloonIcon,
         twoBalloonIcon, {
           tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
-
-          // @ts-expect-error
           maskFill: BASEConstants.backgroundColorProperty,
           ariaLabel: twoBalloonExperimentLabelString,
           containerTagName: 'div',
