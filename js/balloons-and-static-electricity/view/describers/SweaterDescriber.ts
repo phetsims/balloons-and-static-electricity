@@ -54,9 +54,6 @@ export default class SweaterDescriber {
 
   /**
    * Manages all descriptions relating to the sweater.
-   *
-   * @param model
-   * @param sweaterModel
    */
   public constructor( model: BASEModel, sweaterModel: SweaterModel ) {
     this.model = model;
@@ -71,8 +68,6 @@ export default class SweaterDescriber {
    * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
    * "At left edge of Play Area. Has positive net charge, no more negative charges, only positive charges." or
    * "At left edge of Play Area. Has positive net charge, several more positive charges than negative charges."
-   *
-   * @param showCharges
    */
   public getSweaterDescription( showCharges: string ): string {
 
@@ -195,8 +190,6 @@ export default class SweaterDescriber {
    * Get the relative charge on the sweater.  Usually just returns the relative description
    * from BASEDescriber, but if all charges are gone, the sweater uses a special
    * word to indicate this.
-   *
-   * @param charge
    */
   public static getRelativeChargeDescription( charge: number ): string {
 
@@ -211,9 +204,6 @@ export default class SweaterDescriber {
   /**
    * Get an alert describing the sweater when it runs out of charges.  Dependent on the
    * charge visibility.
-   *
-   * @param charge
-   * @param shownCharges
    */
   public static getNoMoreChargesAlert( charge: number, shownCharges: string ): string {
     let alert = '';
@@ -233,8 +223,6 @@ export default class SweaterDescriber {
    * Get a description of the net charge of the sweater, will return either
    * "Sweater has positive net charge." or
    * "Sweater has neutral net charge."
-   *
-   * @param sweaterCharge
    */
   public static getNetChargeDescription( sweaterCharge: number ): string {
     const relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
@@ -248,11 +236,6 @@ export default class SweaterDescriber {
    * dependent on charge visibility setting. Will return something like
    * "More pairs of charges up and to the left". or
    * "More pairs of hidden charges down".
-   *
-   * @param balloon
-   * @param sweaterCharge
-   * @param sweaterCharges
-   * @param shownCharges
    */
   public static getMoreChargesDescription( balloon: BalloonModel, sweaterCharge: number, sweaterCharges: PointChargeModel[], shownCharges: string ): string {
     assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );

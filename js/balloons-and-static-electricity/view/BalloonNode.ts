@@ -518,7 +518,6 @@ export default class BalloonNode extends Node {
 
   /**
    * Step the model forward in time.
-   * @param dt
    */
   public step( dt: number ): void {
 
@@ -563,9 +562,6 @@ export default class BalloonNode extends Node {
     );
   }
 
-  /**
-   * @param listener
-   */
   public getAttemptedMovementDirection( listener: KeyboardDragListener ): BalloonDirection {
     let direction: BalloonDirection | undefined;
     if ( listener.movingLeft() ) {

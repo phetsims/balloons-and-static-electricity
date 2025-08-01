@@ -528,7 +528,6 @@ export default class BalloonModel {
   /**
    * Set the center position of the balloon. Sets the position Property but with an offset to account
    * for the balloon dimensions.
-   * @param center
    */
   public setCenter( center: Vector2 ): void {
     this.positionProperty.set( new Vector2(
@@ -695,9 +694,6 @@ export default class BalloonModel {
   /**
    * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
    * that indicates whether a charge was picked up.
-   * @param model
-   * @param dt
-   * @returns chargeFound
    */
   public dragBalloon( model: BASEModel, dt: number ): boolean {
 
@@ -738,7 +734,6 @@ export default class BalloonModel {
 
   /**
    * Get the force between this balloon and the sweater.
-   * @param sweaterModel
    */
   public getSweaterForce( sweaterModel: SweaterModel ): Vector2 {
     return BalloonModel.getForce(
@@ -936,7 +931,6 @@ export default class BalloonModel {
 
   /**
    * Get the force on a balloon from the closest charge to the balloon in the wall.
-   * @param balloon
    */
   public static getForceToClosestWallCharge( balloon: BalloonModel ): Vector2 {
     return BalloonModel.getForce(

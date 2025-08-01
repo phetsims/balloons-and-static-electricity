@@ -337,9 +337,6 @@ export default class BASESummaryNode extends ScreenSummaryContent {
 
   /**
    * Get a description of the objects that are currently visible in the sim.
-   *
-   * @param balloonVisible
-   * @param wallVisible
    */
   public static getVisibleObjectsDescription( balloonVisible: boolean, wallVisible: boolean ): string {
     let patternString;

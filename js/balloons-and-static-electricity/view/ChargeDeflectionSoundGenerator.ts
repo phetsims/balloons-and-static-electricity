@@ -147,7 +147,6 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
   /**
    * Get the charge that corresponds to the specified sound generator index.
-   * @param soundGeneratorIndex
    */
   private getChargeForSoundGeneratorIndex( soundGeneratorIndex: number ): MovablePointChargeModel {
     assert && assert( soundGeneratorIndex < NUMBER_OF_SOUND_GENERATORS, 'soundGeneratorIndex out of range' );
@@ -168,16 +167,14 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * A drag handler method for when a balloon is dragged using a pointer (i.e. a mouse or touch event).  This method
    * determines whether the user's actions have changed the charge positions in the wall in such a way that sound should
    * be produced and, if so, it produces the sound.
-   * @param balloon
    */
   public balloonDraggedByPointer( balloon: BalloonModel ): void {
     this.produceSoundForBinChanges( balloon );
   }
 
   /**
-   * Check all of the charges that have sound generators associated with them and, if the charge has moved to a new
+   * Check all the charges that have sound generators associated with them and, if the charge has moved to a new
    * bin, produce the corresponding sound.  This also updates the bin positions.
-   * @param balloon
    */
   private produceSoundForBinChanges( balloon: BalloonModel ): void {
 
@@ -217,7 +214,6 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * A drag handler method for when a balloon is dragged using the keyboard or some other non-pointer interaction.  This
    * method determines whether the user's actions have changed the charge positions in the wall in such a way that sound
    * should be produced.
-   * @param balloon
    */
   public balloonDraggedByKeyboard( balloon: BalloonModel ): void {
     this.produceSoundForChargeMotion( balloon );
@@ -296,7 +292,6 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
 /**
  * Get the bin into which the provided normalized deflection value should be mapped.
- * @param normalizedDeflection
  */
 const mapNormalizedDeflectionToBin = ( normalizedDeflection: number ): number => {
 
@@ -326,7 +321,6 @@ const mapNormalizedDeflectionToBin = ( normalizedDeflection: number ): number =>
 
 /**
  * map bin number to a playback rate for a sound clip
- * @param bin
  */
 const mapBinToPlaybackRate = ( bin: number ): number => {
   const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;

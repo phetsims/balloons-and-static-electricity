@@ -250,7 +250,7 @@ const BASEDescriber = {
 
   /**
    * Get the position description for the balloon. This is not a full description, but a short
-   * descsription. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
+   * description. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
    *
    * @param position - position of the balloon, relative to its center
    * @param wallVisible
@@ -329,8 +329,6 @@ const BASEDescriber = {
   /**
    * Get a fragment that describes the relative charge for an objet, like 'a few' or 'several', to be used in
    * string patterns
-   *
-   * @param charge
    */
   getRelativeChargeDescription( charge: number ): string {
 
@@ -355,8 +353,6 @@ const BASEDescriber = {
   /**
    * For a given charge, get the described range. Useful for comparing ranges before and after
    * a charge pickup. Descriptions are generated relative to the absolute value of the charge.
-   *
-   * @param charge
    */
   getDescribedChargeRange( charge: number ): Range {
 
@@ -378,9 +374,6 @@ const BASEDescriber = {
 
   /**
    * Returns true if both balloons the same described charge range.
-   *
-   * @param balloonA
-   * @param balloonB
    */
   getBalloonsVisibleWithSameChargeRange( balloonA: BalloonModel, balloonB: BalloonModel ): boolean {
     const rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
@@ -395,6 +388,7 @@ const BASEDescriber = {
   /**
    * Get a direction description from one of BalloonDirectionEnum. Something like down', or 'up and to the left'.
    *
+   * TODO: https://github.com/phetsims/balloons-and-static-electricity/issues/577
    * @param direction - one of BalloonDirectionEnum
    */
   getDirectionDescription( direction: string ): string {
@@ -406,8 +400,6 @@ const BASEDescriber = {
    * like
    * "Each balloon has negative net charge." or
    * "Each balloon has zero net charge."
-   *
-   * @param charge
    */
   getNetChargeDescriptionWithLabel( charge: number ): string {
     const chargeAmountString = charge < 0 ? negativeString : zeroString;
@@ -423,9 +415,6 @@ const BASEDescriber = {
    *
    * "no charges shown" or
    * "showing many pairs of positive and negative charges"
-   *
-   * @param chargesShown
-   * @param numberOfCharges
    */
   getNeutralChargesShownDescription( chargesShown: string, numberOfCharges: number ): string {
     let description: string;

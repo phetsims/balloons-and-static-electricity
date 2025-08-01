@@ -58,10 +58,6 @@ export default class BASEView extends ScreenView {
   // layer on which the yellow balloon resides
   private readonly yellowBalloonLayerNode: Node;
 
-  /**
-   * @param model
-   * @param tandem
-   */
   public constructor( model: BASEModel, tandem: Tandem ) {
 
     super( {
@@ -223,7 +219,6 @@ export default class BASEView extends ScreenView {
 
   /**
    * Step the view.
-   * @param dt
    */
   public override step( dt: number ): void {
     this.greenBalloonNode.step( dt );
@@ -241,8 +236,6 @@ export default class BASEView extends ScreenView {
    * Custom layout function for this view. It is most natural for this simulation for the view to
    * be held on the bottom of the navigation bar so that the balloon's tether and wall are always cut
    * off by the navigation bar, see #77.
-   *
-   * @param viewBounds
    */
   public override layout( viewBounds: Bounds2 ): void {
     this.resetTransform();
