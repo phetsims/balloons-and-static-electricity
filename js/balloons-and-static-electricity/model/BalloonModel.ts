@@ -169,7 +169,7 @@ class BalloonModel {
   private yVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
 
   // whether or not the balloon is currently 'jumping'
-  private jumping = false;
+  public jumping = false;
 
   // flag that indicates whether the balloon has successfully been picked up since the last reset
   public successfulPickUp = false;

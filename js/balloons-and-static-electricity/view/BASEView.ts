@@ -49,7 +49,7 @@ class BASEView extends ScreenView {
   
   public readonly yellowBalloonNode: BalloonNode;
   private readonly yellowBalloonTetherNode: TetherNode;
-  private readonly greenBalloonNode: BalloonNode;
+  public readonly greenBalloonNode: BalloonNode;
   private readonly greenBalloonTetherNode: TetherNode;
 
   // layer on which the green balloon resides
@@ -75,7 +75,7 @@ class BASEView extends ScreenView {
 
     const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
 
-    this.wallNode = new WallNode( model, this.layoutBounds.height, tandem.createTandem( 'wall' ) );
+    this.wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
 
     this.addChild( sweaterNode );
     this.addChild( this.wallNode );

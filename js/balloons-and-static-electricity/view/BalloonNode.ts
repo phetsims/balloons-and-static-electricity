@@ -538,7 +538,6 @@ class BalloonNode extends Node {
    * @param center - new center position for the balloon
    */
   public jumpBalloon( center: Vector2 ): void {
-    // @ts-expect-error - jumping is private but we need to access it
     this.model.jumping = true;
 
     // release balloon so that the jump is not associated with velocity

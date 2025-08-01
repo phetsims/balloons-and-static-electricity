@@ -321,7 +321,6 @@ class BalloonChargeDescriber {
   public describeInducedChargeChange(): boolean {
     const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
     const wallVisible = this.wall.isVisibleProperty.get();
-    // @ts-expect-error - accessing private property for internal logic
     const jumping = this.balloonModel.jumping;
     return !jumping &&
            !this.balloonModel.touchingWall() &&

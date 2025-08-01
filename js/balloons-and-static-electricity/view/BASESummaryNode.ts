@@ -101,9 +101,8 @@ class BASESummaryNode extends Node {
       roomObjectsNode.innerContent = BASESummaryNode.getVisibleObjectsDescription( balloonVisible, wallVisible );
     } );
 
-    const chargeProperties = [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ];
-    // @ts-expect-error - Too many properties for Multilink type inference
-    Multilink.multilink( chargeProperties, ( yellowBalloonCharge: number, greenBalloonCharge: number, greenBalloonVisible: boolean, showCharges: string, wallVisible: boolean, sweaterCharge: number ) => {
+    Multilink.multilink( [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ],
+      ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
       const chargesVisible = showCharges !== 'none';
       balloonChargeNode.pdomVisible = chargesVisible;
       sweaterWallChargeNode.pdomVisible = chargesVisible;
@@ -340,7 +339,7 @@ class BASESummaryNode extends Node {
    * @param balloonVisible
    * @param wallVisible
    */
-  private static getVisibleObjectsDescription( balloonVisible: boolean, wallVisible: boolean ): string {
+  public static getVisibleObjectsDescription( balloonVisible: boolean, wallVisible: boolean ): string {
     let patternString;
     if ( wallVisible ) {
       patternString = balloonVisible ? summaryYellowGreenSweaterWallPatternString : summaryYellowSweaterWallPatternString;

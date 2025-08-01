@@ -9,13 +9,15 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BASESummaryNode from './BASESummaryNode.js';
+import BASEView from './BASEView.js';
 import WallNode from './WallNode.js';
 
 declare const window: {
-  baseModel: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  baseView: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  baseModel: BASEModel;
+  baseView: BASEView;
 };
 
 QUnit.module( 'BASESummaryNode', {
@@ -32,7 +34,7 @@ QUnit.test( 'Summary tests', assert => {
   const view = window.baseView;
 
   // create a wallNode for testing
-  const wallNode = new WallNode( model, view.layoutBounds, Tandem.ROOT_TEST.createTandem( 'wallNode' ) );
+  const wallNode = new WallNode( model, Tandem.ROOT_TEST.createTandem( 'wallNode' ) );
 
   const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.ROOT_TEST.createTandem( 'summaryNode' ) );
 
@@ -41,14 +43,12 @@ QUnit.test( 'Summary tests', assert => {
 
   // on load, yellow balloon, sweater, and removable wall
   let expectedFirstItem = 'Currently, room has a yellow balloon, a sweater, and a removable wall.';
-  // @ts-expect-error - accessing private method for testing
   let actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
   assert.equal( actualFirstItem, expectedFirstItem, 'first summary item incorrect on load' );
 
   // yellow balloon and sweater
   model.wall.isVisibleProperty.set( false );
   expectedFirstItem = 'Currently, room has a yellow balloon, and a sweater.';
-  // @ts-expect-error - accessing private method for testing
   actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
   assert.equal( actualFirstItem, expectedFirstItem );
 
@@ -56,14 +56,12 @@ QUnit.test( 'Summary tests', assert => {
   model.wall.isVisibleProperty.set( true );
   model.greenBalloon.isVisibleProperty.set( true );
   expectedFirstItem = 'Currently, room has a yellow balloon, a green balloon, a sweater, and a removable wall.';
-  // @ts-expect-error - accessing private method for testing
   actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
   assert.equal( actualFirstItem, expectedFirstItem );
 
   // yellow balloon, green balloon, and sweater
   model.wall.isVisibleProperty.set( false );
   expectedFirstItem = 'Currently, room has a yellow balloon, a green balloon, and a sweater.';
-  // @ts-expect-error - accessing private method for testing
   actualFirstItem = BASESummaryNode.getVisibleObjectsDescription( model.greenBalloon.isVisibleProperty.get(), model.wall.isVisibleProperty.get() );
   assert.equal( actualFirstItem, expectedFirstItem );
 
@@ -90,7 +88,7 @@ QUnit.test( 'Summary tests', assert => {
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
-  // when both balloons visible, showing charge differences, all charges showns
+  // when both balloons visible, showing charge differences, all charges shown
   model.greenBalloon.isVisibleProperty.set( false );
   expectedSecondItem = 'Yellow Balloon has zero net charge, showing no charges.';
   // @ts-expect-error - accessing private method for testing

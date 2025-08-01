@@ -854,7 +854,6 @@ class BalloonDescriber extends Alerter {
       if ( model.isDraggedProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) && !this.shortMovementFromPointer() ) {
 
         // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new position)
-        // @ts-expect-error - accessing private property for internal logic
         if ( !model.jumping ) {
 
           // how much balloon has moved in a single drag
@@ -911,9 +910,7 @@ class BalloonDescriber extends Alerter {
         }
 
         // if velocity has just become zero after a jump, we just completed a jumping interaction
-        // @ts-expect-error - accessing private property for internal logic
         if ( model.jumping ) {
-          // @ts-expect-error - accessing private property for internal logic
           model.jumping = false;
         }
 
@@ -925,7 +922,6 @@ class BalloonDescriber extends Alerter {
     // describe any updates that might come from the balloon touches or leaves the wall - don't describe if we are
     // currently touching the balloon since the jump will generate a unique alert
     if ( this.describedTouchingWall !== nextTouchingWall ) {
-      // @ts-expect-error - accessing private property for internal logic
       if ( !model.jumping ) {
         if ( nextTouchingWall ) {
           if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
