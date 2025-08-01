@@ -163,7 +163,6 @@ export default class ControlPanel extends Node {
     } ], {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
-      containerTagName: 'div',
       accessibleName: chargeSettingsLabelString,
       accessibleHelpText: chargeSettingsDescriptionString
     } );
