@@ -9,11 +9,10 @@
 import merge from '../../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import KeyboardHelpSection, { KeyboardHelpSectionOptions } from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
@@ -36,7 +35,7 @@ const BALLOON_CONTENT_MAX_WIDTH = 174;
 const GENERAL_CONTENT_MAX_WIDTH = 214;
 
 class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
-  
+
   public constructor() {
 
     //  the sections of help content
@@ -70,7 +69,7 @@ balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHe
  */
 class BalloonGrabHelpSection extends KeyboardHelpSection {
 
-  public constructor( options?: IntentionalAny ) {
+  public constructor( options?: KeyboardHelpSectionOptions ) {
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
@@ -92,7 +91,7 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
  */
 class MoveBalloonHelpSection extends KeyboardHelpSection {
 
-  public constructor( options?: IntentionalAny ) {
+  public constructor( options?: KeyboardHelpSectionOptions ) {
 
     const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
     const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {

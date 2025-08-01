@@ -17,7 +17,6 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/grab-drag/GrabDragInteraction.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -35,6 +34,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import balloonGrab006_mp3 from '../../../sounds/balloonGrab006_mp3.js';
@@ -69,7 +69,7 @@ const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 type BalloonNodeOptions = {
   balloonVelocitySoundGeneratorOptions?: {
     enabledProperty?: BooleanProperty;
-    basisSound?: IntentionalAny;
+    basisSound?: WrappedAudioBuffer;
   };
   balloonRubbingSoundGeneratorOptions?: {
     centerFrequency?: number;
@@ -444,7 +444,7 @@ class BalloonNode extends Node {
         BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA,
         BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA
       ] ),
-      fire: ( event: unknown, keysPressed: IntentionalAny ) => {
+      fire: ( event, keysPressed ) => {
         if ( BalloonNode.JUMP_WALL_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }

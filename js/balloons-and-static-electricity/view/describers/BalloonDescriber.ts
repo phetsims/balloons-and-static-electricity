@@ -19,9 +19,9 @@
  * @author Jesse Greenberg
  */
 
+import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import IntentionalAny from '../../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
@@ -93,7 +93,7 @@ class BalloonDescriber extends Alerter {
 
   // used to track previous values after an interaction so that we can accurately describe how
   // the model has changed
-  private describedChargeRange: IntentionalAny | null;
+  private describedChargeRange: Range | null;
 
   // a flag that manages whether or not we should alert the first charge pickup of the
   // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
