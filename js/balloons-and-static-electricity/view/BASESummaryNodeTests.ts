@@ -70,28 +70,24 @@ QUnit.test( 'Summary tests', assert => {
 
   // on load
   let expectedSecondItem = 'Yellow Balloon has zero net charge, a few pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   let actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
   // when both balloons are visible
   model.greenBalloon.isVisibleProperty.set( true );
   expectedSecondItem = 'Each balloon has zero net charge, a few pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
   // when both balloons visible, showing charge differences, charge difference shown
   model.showChargesProperty.set( 'diff' );
   expectedSecondItem = 'Each balloon has zero net charge, showing no charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
   // when both balloons visible, showing charge differences, all charges shown
   model.greenBalloon.isVisibleProperty.set( false );
   expectedSecondItem = 'Yellow Balloon has zero net charge, showing no charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
@@ -102,13 +98,11 @@ QUnit.test( 'Summary tests', assert => {
   model.greenBalloon.chargeProperty.set( -5 );
 
   expectedSecondItem = 'Each balloon has negative net charge, a few more negative charges than positive charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
   model.showChargesProperty.set( 'diff' );
   expectedSecondItem = 'Each balloon has negative net charge, showing a few negative charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 
@@ -118,7 +112,6 @@ QUnit.test( 'Summary tests', assert => {
   model.greenBalloon.chargeProperty.set( -0 );
   expectedSecondItem = 'Yellow Balloon has negative net charge, several more negative charges than positive charges. ' +
                        'Green Balloon has zero net charge, a few pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   actualSecondItem = summaryNode.getBalloonChargeDescription();
   assert.equal( actualSecondItem, expectedSecondItem );
 

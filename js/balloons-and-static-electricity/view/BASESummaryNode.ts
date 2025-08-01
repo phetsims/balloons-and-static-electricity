@@ -204,8 +204,9 @@ class BASESummaryNode extends Node {
    * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
    * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
    *
+   * Just public for unit tests
    */
-  private getBalloonChargeDescription(): string {
+  public getBalloonChargeDescription(): string {
     let description: string;
 
     const yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
