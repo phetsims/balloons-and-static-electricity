@@ -50,14 +50,13 @@ import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import BalloonModel from '../model/BalloonModel.js';
 import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
+import { BalloonDirection } from '../model/PlayAreaMapTypes.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BalloonVelocitySoundGenerator from './BalloonVelocitySoundGenerator.js';
 import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
-
-type BalloonDirection = string;
 
 // pdom - critical x positions for the balloon
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;

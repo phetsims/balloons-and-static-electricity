@@ -17,6 +17,7 @@ import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import { BalloonDirection } from '../../model/PlayAreaMapTypes.js';
 import WallModel from '../../model/WallModel.js';
 import BalloonDescriber from './BalloonDescriber.js';
 import BASEDescriber from './BASEDescriber.js';
@@ -340,13 +341,11 @@ export default class BalloonPositionDescriber {
     return describedBalloonPosition;
   }
 
-
   /**
    * Get a short description of the balloon's position at a boundary when there is an attempted drag beyond
    * the boundary.  Will return something like "At bottom" or "At top".
-   * TODO: type for attemptedDirection, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
    */
-  public getTouchingBoundaryDescription( attemptedDirection: string ): string {
+  public getTouchingBoundaryDescription( attemptedDirection: BalloonDirection ): string {
     assert && assert( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
     let boundaryString = '';
