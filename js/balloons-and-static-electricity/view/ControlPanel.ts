@@ -164,13 +164,9 @@ class ControlPanel extends Node {
     } ], {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
-
-      // @ts-expect-error
       containerTagName: 'div',
-      options: {
-        accessibleName: chargeSettingsLabelString,
-        accessibleHelpText: chargeSettingsDescriptionString
-      }
+      accessibleName: chargeSettingsLabelString,
+      accessibleHelpText: chargeSettingsDescriptionString
     } );
 
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
