@@ -11,7 +11,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -24,8 +24,7 @@ import WallModel from './WallModel.js';
 export default class BASEModel {
 
   // charge visibility setting, valid values of 'all', 'none', 'diff'
-  // TODO: Better type, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
-  public readonly showChargesProperty: StringProperty;
+  public readonly showChargesProperty: StringUnionProperty<'all' | 'none' | 'diff'>;
 
   // whether the two balloons are considered 'next to' each other, primarily used for a11y
   public readonly balloonsAdjacentProperty: Property<boolean>;
@@ -66,7 +65,8 @@ export default class BASEModel {
    */
   public constructor( width: number, height: number, tandem: Tandem ) {
 
-    this.showChargesProperty = new StringProperty( 'all', {
+    this.showChargesProperty = new StringUnionProperty<'all' | 'none' | 'diff'>( 'all', {
+      validValues: [ 'all', 'none', 'diff' ],
       tandem: tandem.createTandem( 'showChargesProperty' ),
       phetioFeatured: true
     } );

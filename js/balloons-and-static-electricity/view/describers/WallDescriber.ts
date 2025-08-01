@@ -5,7 +5,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import StringProperty from '../../../../../axon/js/StringProperty.js';
+import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
@@ -66,17 +66,12 @@ const INDUCED_CHARGE_DESCRIPTION_MAP = {
 export default class WallDescriber {
 
   private readonly wallModel: WallModel;
-  private readonly yellowBalloon: BalloonModel;
-  private readonly greenBalloon: BalloonModel;
-  private readonly showChargesProperty: StringProperty;
+  private readonly showChargesProperty: StringUnionProperty<'all' | 'none' | 'diff'>;
 
   public constructor( model: BASEModel ) {
     this.wallModel = model.wall;
-    this.yellowBalloon = model.yellowBalloon;
-    this.greenBalloon = model.greenBalloon;
     this.showChargesProperty = model.showChargesProperty;
   }
-
 
   /**
    * Get the full description for the wall including its position, net charge, and induced charge.  This is used
@@ -188,10 +183,8 @@ export default class WallDescriber {
       } );
     }
 
-    const descriptionString = wallChargeString;
-    return descriptionString;
+    return wallChargeString;
   }
-
 
   /**
    * Get a description of the wall charge that includes the label. Something like

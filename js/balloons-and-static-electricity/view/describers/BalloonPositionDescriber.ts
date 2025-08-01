@@ -826,7 +826,7 @@ export default class BalloonPositionDescriber {
       // if the balloon is inducing charge, or touching the sweater or wall we include a description for this
       const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
       const onSweater = this.balloonModel.onSweater();
-      if ( inducingChargeOrTouchingWall || onSweater && ( chargesShown !== 'none' ) ) {
+      if ( inducingChargeOrTouchingWall || onSweater ) {
         const otherObjectCharge = this.balloonDescriber.chargeDescriber.getOtherObjectChargeDescription();
         chargeDescription = StringUtils.fillIn( grabbedWithOtherChargePatternString, {
           balloonCharge: chargeDescription,
