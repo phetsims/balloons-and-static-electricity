@@ -11,6 +11,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -50,7 +51,7 @@ const summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPa
 const initialObjectPositionsString = BASEA11yStrings.initialObjectPositions.value;
 const simOpeningString = BASEA11yStrings.simOpening.value;
 
-class BASESummaryNode extends Node {
+class BASESummaryNode extends ScreenSummaryContent {
 
   private readonly yellowBalloon: BalloonModel;
   private readonly greenBalloon: BalloonModel;
@@ -61,9 +62,7 @@ class BASESummaryNode extends Node {
 
   public constructor( model: BASEModel, yellowBalloonNode: BalloonNode, greenBalloonNode: BalloonNode, wallNode: Node, tandem: Tandem ) {
 
-    super( {
-      tandem: tandem
-    } );
+    super();
 
     // pull out model elements for readability
     this.yellowBalloon = model.yellowBalloon;

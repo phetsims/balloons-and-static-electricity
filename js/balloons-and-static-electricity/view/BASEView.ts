@@ -170,7 +170,6 @@ class BASEView extends ScreenView {
 
     // created after all other view objects so we can access each describer
     const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode, this.wallNode, tandem.createTandem( 'screenSummaryNode' ) );
-    // @ts-expect-error - BASESummaryNode extends Node but setScreenSummaryContent expects ScreenSummaryContent
     this.setScreenSummaryContent( screenSummaryNode );
 
     this.greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
