@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
@@ -51,7 +52,7 @@ export default class BalloonChargeDescriber {
   private readonly wall: WallModel;
   private readonly accessibleName: string;
   private readonly otherAccessibleName: string;
-  private readonly showChargesProperty: BASEModel['showChargesProperty'];
+  private readonly showChargesProperty: StringUnionProperty<ShowChargesValues>;
 
   // Allows us to track the change in the balloon's induced charge, useful for describing how the charges
   // move towards or away their resting positions

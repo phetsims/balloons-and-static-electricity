@@ -19,6 +19,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
@@ -33,6 +34,7 @@ import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import ShowChargesValues from '../../model/ShowChargesValues.js';
 import WallModel from '../../model/WallModel.js';
 import BalloonChargeDescriber from './BalloonChargeDescriber.js';
 import BalloonPositionDescriber from './BalloonPositionDescriber.js';
@@ -80,8 +82,7 @@ export default class BalloonDescriber extends Alerter {
   private readonly balloonModel: BalloonModel;
   public readonly accessibleName: string;
   private readonly otherAccessibleName: string;
-  private readonly showChargesProperty: BASEModel['showChargesProperty'];
-  private readonly nodeToAlertWith: Node;
+  private readonly showChargesProperty: StringUnionProperty<ShowChargesValues>;
 
   // manages descriptions about the balloon related to charge
   public readonly chargeDescriber: BalloonChargeDescriber;
@@ -186,7 +187,6 @@ export default class BalloonDescriber extends Alerter {
     this.accessibleName = accessibleLabel;
     this.otherAccessibleName = otherAccessibleLabel;
     this.showChargesProperty = model.showChargesProperty;
-    this.nodeToAlertWith = nodeToAlertWith;
 
     this.chargeDescriber = new BalloonChargeDescriber( model, balloon, accessibleLabel, otherAccessibleLabel );
     this.movementDescriber = new BalloonPositionDescriber( this, model, balloon, accessibleLabel, otherAccessibleLabel );
