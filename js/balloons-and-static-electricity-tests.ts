@@ -12,16 +12,19 @@ import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
 import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
+import BASEView from './balloons-and-static-electricity/view/BASEView.js';
 
 const iframe = document.createElement( 'iframe' );
 iframe.id = 'testFrame';
 
 // declare that window has type any
 declare const window: {
-  baseModel: IntentionalAny;
-  baseView: IntentionalAny;
-} & IntentionalAny;
+  baseModel?: BASEModel;
+  baseView?: BASEView;
+  removeEventListener: ( type: string, f: ( event: MessageEvent<string>, resolve: () => void ) => void ) => void;
+  addEventListener: ( type: string, f: ( event: MessageEvent<string>, resolve: () => void ) => void ) => void;
+};
 
 // declare phet namespace on iframe's contentWindow
 type PhetWindow = {
@@ -29,8 +32,8 @@ type PhetWindow = {
     joist: {
       sim: {
         screens: Array<{
-          model: IntentionalAny;
-          view: IntentionalAny;
+          model: BASEModel;
+          view: BASEView;
         }>;
         activeProperty: {
           set: ( value: boolean ) => void;
