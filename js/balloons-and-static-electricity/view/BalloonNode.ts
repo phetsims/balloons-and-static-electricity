@@ -418,8 +418,6 @@ class BalloonNode extends Node {
       shiftDragSpeed: 100, // in view coordinates per second
       dragBoundsProperty: dragBoundsProperty,
       positionProperty: model.positionProperty,
-      // @ts-expect-error - shiftKeyMultiplier is not in the type definition but is used in the implementation
-      shiftKeyMultiplier: 0.25,
       start: ( event: unknown, listener: KeyboardDragListener ) => {
 
         // if already touching a boundary when dragging starts, announce an indication of this
