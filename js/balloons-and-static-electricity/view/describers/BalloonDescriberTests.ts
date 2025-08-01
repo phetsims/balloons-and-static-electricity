@@ -8,10 +8,10 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import IntentionalAny from '../../../../../phet-core/js/types/IntentionalAny.js';
 import BASEConstants from '../../BASEConstants.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import BalloonNode from '../BalloonNode.js';
 import BASEView from '../BASEView.js';
 
 declare const window: {
@@ -19,7 +19,7 @@ declare const window: {
   baseView: BASEView;
 };
 
-let balloonNode: IntentionalAny = null;
+let balloonNode: BalloonNode;
 QUnit.module( 'BalloonDescriber', {
   beforeEach: () => {
     balloonNode = window.baseView.yellowBalloonNode;

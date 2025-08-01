@@ -377,7 +377,7 @@ class BalloonDescriber extends Alerter {
    * on charge view, whether the balloon has picked up charges already since moving on to the
    * sweater, and the number of charges that the balloon has picked up.
    */
-  public getChargePickupDescription( firstPickup: boolean ): string {
+  public getChargePickupDescription( firstPickup = false ): string {
     let description = '';
     const shownCharges = this.showChargesProperty.get() as ShowChargesValues;
 
