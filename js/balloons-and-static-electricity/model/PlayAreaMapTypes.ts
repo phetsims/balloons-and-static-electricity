@@ -12,5 +12,5 @@ export type PlayAreaColumn = 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_O
 // Row type for play area regions  
 export type PlayAreaRow = 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA';
 
-// Direction type for balloon movement
-export type BalloonDirection = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+// Direction type for balloon movement - includes all cardinal and diagonal directions
+export type BalloonDirection = 'LEFT' | 'RIGHT' | 'UP' | 'DOWN' | 'UP_LEFT' | 'UP_RIGHT' | 'DOWN_LEFT' | 'DOWN_RIGHT';

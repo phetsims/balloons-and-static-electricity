@@ -15,6 +15,7 @@ import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import { BalloonDirection } from '../../model/PlayAreaMapTypes.js';
 
 // play area grid strings
 const leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
@@ -388,11 +389,10 @@ const BASEDescriber = {
   /**
    * Get a direction description from one of BalloonDirectionEnum. Something like down', or 'up and to the left'.
    *
-   * TODO: https://github.com/phetsims/balloons-and-static-electricity/issues/577
    * @param direction - one of BalloonDirectionEnum
    */
-  getDirectionDescription( direction: string ): string {
-    return DIRECTION_MAP[ direction as keyof typeof DIRECTION_MAP ];
+  getDirectionDescription( direction: BalloonDirection ): string {
+    return DIRECTION_MAP[ direction ];
   },
 
   /**

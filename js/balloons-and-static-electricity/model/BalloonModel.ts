@@ -23,6 +23,7 @@ import StringIO from '../../../../tandem/js/types/StringIO.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import BalloonDirectionEnum from './BalloonDirectionEnum.js';
+import { BalloonDirection } from './PlayAreaMapTypes.js';
 import type BASEModel from './BASEModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
@@ -932,8 +933,8 @@ export default class BalloonModel {
    * @param pointB
    * @returns one of BalloonDirectionEnum
    */
-  public static getDirection( pointA: Vector2, pointB: Vector2 ): string | null {
-    let direction;
+  public static getDirection( pointA: Vector2, pointB: Vector2 ): BalloonDirection | null {
+    let direction: BalloonDirection | undefined;
 
     const dx = pointA.x - pointB.x;
     const dy = pointA.y - pointB.y;
@@ -949,7 +950,7 @@ export default class BalloonModel {
       const key = DIRECTION_MAP_KEYS[ i ] as keyof typeof DIRECTION_MAP;
       const entry = DIRECTION_MAP[ key ];
       if ( entry.contains( angle ) ) {
-        direction = BalloonDirectionEnum[ key as keyof typeof BalloonDirectionEnum ] as string;
+        direction = key;
         break;
       }
     }

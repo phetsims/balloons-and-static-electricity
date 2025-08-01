@@ -252,6 +252,7 @@ export default class SweaterDescriber {
 
     // get the description of the direction to the closest charge
     const direction = BalloonModel.getDirection( charge.position, balloon.getCenter() );
+    assert && assert( direction, 'direction should not be null when called with valid positions' );
     const directionDescription = BASEDescriber.getDirectionDescription( direction! );
 
     const patternString = BalloonDirectionEnum.isRelativeDirection( direction! ) ? moreChargesFurtherPatternString : moreChargesPatternString;

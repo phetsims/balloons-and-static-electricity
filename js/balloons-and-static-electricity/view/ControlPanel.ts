@@ -169,7 +169,7 @@ export default class ControlPanel extends Node {
 
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
-    model.showChargesProperty.lazyLink( ( value: string ) => {
+    model.showChargesProperty.lazyLink( value => {
       let alertString: string | undefined;
       if ( value === 'all' ) {
         alertString = showAllChargesAlertString;
@@ -279,7 +279,7 @@ export default class ControlPanel extends Node {
     };
 
     // update the button description when the green balloon is made visible
-    model.greenBalloon.isVisibleProperty.link( ( isVisible: boolean ) => {
+    model.greenBalloon.isVisibleProperty.link( isVisible => {
       resetBalloonButton.descriptionContent = generateDescriptionString( isVisible );
       resetBalloonButton.innerContent = isVisible ? resetBalloonsString : resetBalloonString;
     } );
