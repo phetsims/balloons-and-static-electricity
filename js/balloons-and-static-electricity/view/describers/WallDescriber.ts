@@ -8,9 +8,7 @@
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
- 
-import merge from '../../../../../phet-core/js/merge.js';
-import IntentionalAny from '../../../../../phet-core/js/types/IntentionalAny.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
@@ -46,6 +44,8 @@ const zeroString = BASEA11yStrings.zero.value;
 const bothBalloonsString = BASEA11yStrings.bothBalloons.value;
 const wallInducedChargeSummaryPatternString = BASEA11yStrings.wallInducedChargeSummaryPattern.value;
 const positiveChargesDoNotMoveString = BASEA11yStrings.positiveChargesDoNotMove.value;
+
+type DescriptionOptions = { includeWallPosition?: boolean; includePositiveChargeInfo?: boolean };
 
 // constants
 const INDUCED_CHARGE_DESCRIPTION_MAP = {
@@ -262,12 +262,12 @@ class WallDescriber {
    * "Negative charges in wall move away from yellow balloon a little bit." or
    * "Negative charges in wall move away from yellow balloon a little bit. Positive charges do not move."
    */
-  public static getInducedChargeDescription( balloon: BalloonModel, balloonLabel: string, wallVisible: boolean, options?: IntentionalAny ): string {
-    // eslint-disable-next-line phet/bad-typescript-text
-    options = merge( {
+  public static getInducedChargeDescription( balloon: BalloonModel, balloonLabel: string, wallVisible: boolean, providedOptions?: DescriptionOptions ): string {
+
+    const options = optionize<DescriptionOptions>()( {
       includeWallPosition: true, // include position in the wall?
       includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
-    }, options || {} );
+    }, providedOptions );
 
     let descriptionString;
     const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
@@ -308,13 +308,12 @@ class WallDescriber {
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move."
    */
-  public static getCombinedInducedChargeDescription( balloon: BalloonModel, wallVisible: boolean, options?: IntentionalAny ): string {
+  public static getCombinedInducedChargeDescription( balloon: BalloonModel, wallVisible: boolean, providedOptions?: DescriptionOptions ): string {
 
-    // eslint-disable-next-line phet/bad-typescript-text
-    options = merge( {
+    const options = optionize<DescriptionOptions>()( {
       includeWallPosition: true,
       includePositiveChargeInfo: true
-    }, options || {} );
+    }, providedOptions );
     let descriptionString;
     const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
 
