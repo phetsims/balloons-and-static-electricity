@@ -3,7 +3,6 @@
 /**
  * All buttons and control elements for Balloons and Static Electricity.
  *
- * buttons and model control elements
  * @author Vasily Shakhov (Mlearner)
  */
 
