@@ -17,6 +17,7 @@
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
+import { PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
 
 // constants
 // when within this width of an X_POSITION, balloon is considered in a landmark
@@ -146,7 +147,7 @@ const PlayAreaMap = {
   /**
    * Get the column of the play area for the a given position in the model, including landmark positions.
    */
-  getPlayAreaColumn( position: Vector2, wallVisible: boolean ): 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' {
+  getPlayAreaColumn( position: Vector2, wallVisible: boolean ): PlayAreaColumn {
     const columns = COLUMN_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -166,12 +167,11 @@ const PlayAreaMap = {
       column = 'WALL';
     }
 
-    // TODO: This type is repeated a few times, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
-    return column as 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE';
+    return column as PlayAreaColumn;
   },
 
   /**
-   * Get the landmark of the play area for the a given position in the model.
+   * Get the landmark of the play area for a given position in the model.
    */
   getPlayAreaLandmark( position: Vector2, wallVisible: boolean ): string | null {
     const landmarks = LANDMARK_RANGES;
@@ -198,19 +198,17 @@ const PlayAreaMap = {
   /**
    * Get a row in the play area that contains the position in the model.
    */
-  getPlayAreaRow( position: Vector2 ): 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' {
+  getPlayAreaRow( position: Vector2 ): PlayAreaRow {
     const rows = PlayAreaMap.ROW_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
     const rowKeys = Object.keys( rows );
 
-    let row: 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | undefined;
+    let row: PlayAreaRow | undefined;
     let i;
     for ( i = 0; i < rowKeys.length; i++ ) {
       if ( rows[ rowKeys[ i ] as keyof typeof rows ].contains( position.y ) ) {
-
-        // TODO: This type is repeated a few times, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
-        row = rowKeys[ i ] as 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA';
+        row = rowKeys[ i ] as PlayAreaRow;
       }
     }
     assert && assert( row, 'item should be in a row of the play area' );

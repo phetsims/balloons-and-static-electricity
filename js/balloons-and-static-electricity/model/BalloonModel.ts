@@ -26,6 +26,7 @@ import BalloonDirectionEnum from './BalloonDirectionEnum.js';
 import type BASEModel from './BASEModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
+import { PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
 import PointChargeModel from './PointChargeModel.js';
 import SweaterModel from './SweaterModel.js';
 
@@ -151,10 +152,10 @@ export default class BalloonModel {
   public readonly touchingWallProperty: BooleanProperty;
 
   // the current column of the play area the balloon is in
-  public readonly playAreaColumnProperty: Property<'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' | null>;
+  public readonly playAreaColumnProperty: Property<PlayAreaColumn | null>;
 
   // the current row of the play area that the balloon is in
-  public readonly playAreaRowProperty: Property<'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | null>;
+  public readonly playAreaRowProperty: Property<PlayAreaRow | null>;
 
   // if the balloon is in a landmark position, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
   public readonly playAreaLandmarkProperty: Property<string | null>;
@@ -262,9 +263,9 @@ export default class BalloonModel {
       tandem: tandem.createTandem( 'touchingWallProperty' )
     } );
 
-    this.playAreaColumnProperty = new Property<'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' | null>( null );
+    this.playAreaColumnProperty = new Property<PlayAreaColumn | null>( null );
 
-    this.playAreaRowProperty = new Property<'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | null>( null );
+    this.playAreaRowProperty = new Property<PlayAreaRow | null>( null );
 
     this.playAreaLandmarkProperty = new Property<string | null>( null );
 
