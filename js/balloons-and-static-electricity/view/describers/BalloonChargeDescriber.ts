@@ -19,6 +19,7 @@ import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
+// TODO: This is duplicated in a few files, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
 type ShowChargesValues = 'all' | 'none' | 'diff';
 
 const summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralCharge.value;

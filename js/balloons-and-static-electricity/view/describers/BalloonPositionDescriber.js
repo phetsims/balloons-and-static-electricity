@@ -510,11 +510,9 @@ class BalloonPositionDescriber {
    *
    * @public
    *
-   * @param {Vector2} position - the current position of the balloon
-   * @param {Vector2} oldPosition - the previous position of the balloon
    * @returns {string}
    */
-  getInitialReleaseDescription( position, oldPosition ) {
+  getInitialReleaseDescription() {
 
     // the balloon is moving with some initial velocity, describe that
     const velocityString = this.getVelocityString();

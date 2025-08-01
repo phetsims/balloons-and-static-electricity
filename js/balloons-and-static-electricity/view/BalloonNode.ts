@@ -181,7 +181,6 @@ class BalloonNode extends Node {
     this.model = model;
     this.globalModel = globalModel;
 
-    // @ts-expect-error - BalloonDescriber expects a Node but we are passing BalloonNode which extends Node
     this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString, this );
 
     this.jumpingUtterance = new Utterance();
