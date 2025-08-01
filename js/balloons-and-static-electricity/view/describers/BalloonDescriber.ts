@@ -7,7 +7,7 @@
  *
  * Some alerts require polling because they have to be announced after a lack of property change after some interaction.
  * For instance, after a balloon is released, if it doesn't move due to an applied force we need to alert that there
- * was no movement. So BalloonDecriber manages the before/after values necessary to accomplish this. Property observers
+ * was no movement. So BalloonDescriber manages the before/after values necessary to accomplish this. Property observers
  * are used where possible, but for alerts that need to be timed around those that use polling, it is more
  * straight forward to have those use polling as well.
  *
@@ -55,7 +55,7 @@ const noChargePickupPatternString = BASEA11yStrings.noChargePickupPattern.value;
 const noChangeInChargesString = BASEA11yStrings.noChangeInCharges.value;
 const noChangeInNetChargeString = BASEA11yStrings.noChangeInNetCharge.value;
 const noChargePickupHintPatternString = BASEA11yStrings.noChargePickupHintPattern.value;
-const nochargePickupWithObjectChargeAndHint = BASEA11yStrings.nochargePickupWithObjectChargeAndHint.value;
+const noChargePickupWithObjectChargeAndHint = BASEA11yStrings.noChargePickupWithObjectChargeAndHint.value;
 const releaseHintString = BASEA11yStrings.releaseHint.value;
 const balloonAddedPatternString = BASEA11yStrings.balloonAddedPattern.value;
 const balloonRemovedPatternString = BASEA11yStrings.balloonRemovedPattern.value;
@@ -155,7 +155,7 @@ export default class BalloonDescriber extends Alerter {
 
   // a flag that tracks if the initial movement of the balloon after release has
   // been described. Gets reset whenever the balloon is picked up, and when the wall is removed while
-  // the balloon is sticking to the wall. True so we get non alert on start up
+  // the balloon is sticking to the wall. True so we get non-alert on start up
   private initialMovementDescribed: boolean;
 
   // timer tracking amount of time between release alerts, used to space out alerts describing
@@ -245,7 +245,7 @@ export default class BalloonDescriber extends Alerter {
 
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
-    balloon.isVisibleProperty.lazyLink( isVisible => {
+    balloon.isVisibleProperty.lazyLink( () => {
       this.addAccessibleResponse( this.getVisibilityChangedDescription() );
       this.initialMovementDescribed = false;
       this.preventNoMovementAlert = true;
@@ -389,7 +389,7 @@ export default class BalloonDescriber extends Alerter {
     else if ( firstPickup ) {
 
       // if this is the first charge picked up after moving onto sweater, generate
-      // a special description to announce that charges have been transfered
+      // a special description to announce that charges have been transferred
       description = this.getInitialChargePickupDescription();
     }
     else if ( !this.describedChargeRange || !newRange.equals( this.describedChargeRange ) ) {
@@ -398,7 +398,7 @@ export default class BalloonDescriber extends Alerter {
       // we will generate a special description that mentions the relative charges
       const sweaterCharge = this.model.sweater.chargeProperty.get();
 
-      // relative charge of balloon, as a sentance
+      // relative charge of balloon, as a sentence
       let relativeBalloonCharge = BalloonChargeDescriber.getRelativeChargeDescriptionWithLabel( this.balloonModel, shownCharges, this.accessibleName );
       relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, {
         statement: relativeBalloonCharge
@@ -516,7 +516,7 @@ export default class BalloonDescriber extends Alerter {
         let relativeBalloonCharge = this.chargeDescriber.getNetChargeDescriptionWithLabel();
         relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, { statement: relativeBalloonCharge } );
 
-        alert = StringUtils.fillIn( nochargePickupWithObjectChargeAndHint, {
+        alert = StringUtils.fillIn( noChargePickupWithObjectChargeAndHint, {
           noChange: noChangeInChargesString,
           balloonPosition: balloonPositionString,
           sweaterCharge: relativeSweaterCharge,
@@ -769,7 +769,7 @@ export default class BalloonDescriber extends Alerter {
         }
       }
 
-      // announce an alert that describes lack of charge pickup whil rubbing on sweater
+      // announce an alert that describes lack of charge pickup while rubbing on sweater
       if ( this.timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
         if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
           if ( this.rubAlertDirty ) {

@@ -44,9 +44,7 @@ export default class MovablePointChargeModel extends PointChargeModel {
    */
   public getDisplacement(): number {
     const initialPosition = this.positionProperty.initialValue;
-    const displacement = this.positionProperty.get().distance( initialPosition );
-
-    return displacement;
+    return this.positionProperty.get().distance( initialPosition );
   }
 
   /**

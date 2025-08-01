@@ -747,7 +747,7 @@ const BASEA11yStrings = {
   noChargePickupPattern: {
     value: '{{noChange}}. {{balloonPosition}}. {{moreChargesPosition}}'
   },
-  nochargePickupWithObjectChargeAndHint: {
+  noChargePickupWithObjectChargeAndHint: {
     value: '{{noChange}}. {{balloonPosition}}. {{sweaterCharge}} {{balloonCharge}} {{hint}}'
   },
   noChargePickupHintPattern: {
@@ -864,13 +864,13 @@ const BASEA11yStrings = {
   jumpsCloseToSweaterDescription: {
     value: 'Jump close to sweater with J plus S.'
   },
-  jumpsCloseToWwallDescription: {
+  jumpsCloseToWallDescription: {
     value: 'Jump to wall with J plus W.'
   },
   jumpsNearWallDescription: {
     value: 'Jump to near wall with J plus N.'
   },
-  jumpstoCenterDescription: {
+  jumpsToCenterDescription: {
     value: 'Jump to center with J plus C.'
   }
 };

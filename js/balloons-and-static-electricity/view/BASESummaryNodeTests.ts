@@ -8,12 +8,10 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import BASESummaryNode from './BASESummaryNode.js';
 import BASEView from './BASEView.js';
-import WallNode from './WallNode.js';
 
 declare const window: {
   baseModel: BASEModel;
@@ -33,10 +31,7 @@ QUnit.test( 'Summary tests', assert => {
   const model = window.baseModel;
   const view = window.baseView;
 
-  // create a wallNode for testing
-  const wallNode = new WallNode( model, Tandem.ROOT_TEST.createTandem( 'wallNode' ) );
-
-  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode, wallNode, Tandem.ROOT_TEST.createTandem( 'summaryNode' ) );
+  const summaryNode = new BASESummaryNode( model, view.yellowBalloonNode, view.greenBalloonNode );
 
   // verify first item in summary, description of items in the room
   model.reset();

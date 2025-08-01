@@ -82,7 +82,7 @@ export default class TwoSceneSelectionNode<T> extends InteractiveHighlighting( N
       orientation: 'horizontal',
       align: 'center',
 
-      // mask behind the buttons - if non null, hides everything behind
+      // mask behind the buttons - if non-null, hides everything behind
       maskFill: null,
 
       // The fill for the buttons - default is white
@@ -286,7 +286,7 @@ export default class TwoSceneSelectionNode<T> extends InteractiveHighlighting( N
       otherContent.opacity = contentOpacity!;
     } );
 
-    // listener that is called when the button is pressed with 'enter' or 'spacebar'
+    // listener that is called when the button is pressed with 'enter' or 'space'
     const clickListener = { click: upFunction };
 
     // add listeners

@@ -22,7 +22,7 @@ import MinusChargeNode from './MinusChargeNode.js';
 const scale = 3.0;
 let chargeNode: MinusChargeNode | null = null;
 
-// This is to prevent an instrumented phet-io instance from being created outside of a constructor,
+// This is to prevent an instrumented phet-io instance from being created outside a constructor,
 // see https://github.com/phetsims/phet-io-wrappers/issues/97
 const getChargeNode = (): MinusChargeNode => {
   if ( !chargeNode ) {
@@ -66,7 +66,7 @@ export default class MinusChargesCanvasNode extends CanvasNode {
     // scale it back down
     context.scale( 1 / scale, 1 / scale );
 
-    // draw all of the charges
+    // draw the charges
     for ( let i = 0; i < this.charges.length; i++ ) {
       const charge = this.charges[ i ];
       const chargePosition = charge.positionProperty.get();

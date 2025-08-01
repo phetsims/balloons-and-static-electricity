@@ -312,7 +312,7 @@ export default class BalloonModel {
       this.positionProperty.get().y + this.height
     );
 
-    // When the position changes, update the bounds of balloon, direction of movement, and whether the the
+    // When the position changes, update the bounds of balloon, direction of movement, and whether the
     // balloon is touching an object.  No need to dispose as balloons exist for life of sim.
     this.positionProperty.link( ( position, oldPosition ) => {
       this.bounds.setMinMax( position.x, position.y, position.x + this.width, position.y + this.height );
@@ -398,13 +398,6 @@ export default class BalloonModel {
   }
 
   /**
-   * Returns whether this balloon is at the right edge of the play area.
-   */
-  public atRightEdge(): boolean {
-    return this.getCenterX() === PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
-  }
-
-  /**
    * Returns whether this balloon is at the left edge of the play area.
    */
   public atLeftEdge(): boolean {
@@ -448,7 +441,7 @@ export default class BalloonModel {
   }
 
   /**
-   * Returns true if the balloon is movingv vertically, up or down
+   * Returns true if the balloon is moving vertically, up or down
    */
   public movingVertically(): boolean {
     const direction = this.directionProperty.get();
@@ -474,16 +467,6 @@ export default class BalloonModel {
     return direction === BalloonDirectionEnum.RIGHT ||
            direction === BalloonDirectionEnum.UP_RIGHT ||
            direction === BalloonDirectionEnum.DOWN_RIGHT;
-  }
-
-  /**
-   * Get whether the balloon is moving to the left.
-   */
-  public movingLeft(): boolean {
-    const direction = this.directionProperty.get();
-    return direction === BalloonDirectionEnum.LEFT ||
-           direction === BalloonDirectionEnum.UP_LEFT ||
-           direction === BalloonDirectionEnum.DOWN_LEFT;
   }
 
   /**
@@ -817,7 +800,7 @@ export default class BalloonModel {
         if ( newVelocity.x > 0 ) {
           newVelocity.x = 0;
 
-          // If this balloon is pushing up against the wall and it is being stopped from moving in the X direction as a
+          // If this balloon is pushing up against the wall, and it is being stopped from moving in the X direction as a
           // result, stop it from moving in the Y direction too.  This is realistic, since there would likely be a fair
           // amount of friction at the balloon/wall interface, and helps to prevent some odd behaviors, see
           // https://github.com/phetsims/balloons-and-static-electricity/issues/544.

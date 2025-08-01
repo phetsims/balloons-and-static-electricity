@@ -77,7 +77,7 @@ export default class WallDescriber {
   /**
    * Get the full description for the wall including its position, net charge, and induced charge.  This is used
    * as the general description for the wall which an AT user can read at any time with the virtual cursor.
-   * The content is dependent on the view representation of charges (model.showchargesProperty).
+   * The content is dependent on the view representation of charges (model.showChargesProperty).
    */
   public getWallDescription( yellowBalloon: BalloonModel, greenBalloon: BalloonModel, balloonsAdjacent: boolean ): string {
     let description;
@@ -112,13 +112,13 @@ export default class WallDescriber {
     let yellowBalloonInducedChargeString;
     let greenBalloonInducedChargeString;
 
-    const yellowInducingAndvisible = yellowBalloon.inducingChargeAndVisible();
+    const yellowInducingAndVisible = yellowBalloon.inducingChargeAndVisible();
     const greenInducingAndVisible = greenBalloon.inducingChargeAndVisible();
 
     // if all charges are shown, and a balloon is inducing charge, generate the description for induced charge which
     // can change depending on whether balloons are adjacent or whether both balloons are inducing at the same time
     if ( wallVisible && chargesShown === 'all' ) {
-      if ( yellowInducingAndvisible ) {
+      if ( yellowInducingAndVisible ) {
         yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible, {
           includePositiveChargeInfo: false
         } );
@@ -132,7 +132,7 @@ export default class WallDescriber {
 
       // if both are adjacent and visible, we can combine the induced charge description into a single
       // statement to reduce verbosity
-      if ( yellowInducingAndvisible && greenInducingAndVisible ) {
+      if ( yellowInducingAndVisible && greenInducingAndVisible ) {
         if ( balloonsAdjacent ) {
           inducedChargeString = WallDescriber.getCombinedInducedChargeDescription( yellowBalloon, wallVisible, {
             includePositiveChargeInfo: false
@@ -145,8 +145,8 @@ export default class WallDescriber {
           } );
         }
       }
-      else if ( yellowInducingAndvisible || greenInducingAndVisible ) {
-        if ( yellowInducingAndvisible ) {
+      else if ( yellowInducingAndVisible || greenInducingAndVisible ) {
+        if ( yellowInducingAndVisible ) {
           inducedChargeString = yellowBalloonInducedChargeString;
         }
         else if ( greenInducingAndVisible ) {

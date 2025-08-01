@@ -157,7 +157,7 @@ export default class BalloonChargeDescriber {
       }
       else {
 
-        // just the visible balloon, this description should not include the balloon's' label
+        // just the visible balloon, this description should not include the balloon's label
         description = StringUtils.fillIn( balloonRelativeChargeAllPatternString, {
           charge: BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown )
         } );

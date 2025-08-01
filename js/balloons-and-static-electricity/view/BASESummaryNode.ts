@@ -14,7 +14,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BalloonModel from '../model/BalloonModel.js';
@@ -60,7 +59,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
   private readonly model: BASEModel;
   private readonly wall: WallModel;
 
-  public constructor( model: BASEModel, yellowBalloonNode: BalloonNode, greenBalloonNode: BalloonNode, wallNode: Node, tandem: Tandem ) {
+  public constructor( model: BASEModel, yellowBalloonNode: BalloonNode, greenBalloonNode: BalloonNode ) {
 
     super();
 
@@ -101,7 +100,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
     } );
 
     Multilink.multilink( [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ],
-      ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
+      ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges ) => {
         const chargesVisible = showCharges !== 'none';
         balloonChargeNode.pdomVisible = chargesVisible;
         sweaterWallChargeNode.pdomVisible = chargesVisible;
@@ -125,7 +124,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
       }
     } );
 
-    // If all of the simulation objects are at their initial state, include the position summary phrase that lets the
+    // If all the simulation objects are at their initial state, include the position summary phrase that lets the
     // user know where objects are, see https://github.com/phetsims/balloons-and-static-electricity/issues/393
     Multilink.multilink(
       [ this.yellowBalloon.positionProperty,

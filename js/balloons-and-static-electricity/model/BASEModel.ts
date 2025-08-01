@@ -107,7 +107,7 @@ export default class BASEModel {
     this.balloons.forEach( balloon => {
 
       // when the balloon positions change, update the closest charge in the wall
-      balloon.positionProperty.link( position => {
+      balloon.positionProperty.link( () => {
 
         // find the closest charge in the wall
         balloon.closestChargeInWall = this.wall.getClosestChargeToBalloon( balloon );
@@ -122,12 +122,12 @@ export default class BASEModel {
       } );
 
       // when wall visibility changes, update the Properties indicating induced charge and which charges are visible
-      this.wall.isVisibleProperty.link( isVisible => {
+      this.wall.isVisibleProperty.link( () => {
         balloon.touchingWallProperty.set( balloon.touchingWall() );
       } );
 
       // update whether the balloon is currently inducing charge in the wall
-      Multilink.multilink( [ this.wall.isVisibleProperty, balloon.positionProperty ], ( wallVisible, position ) => {
+      Multilink.multilink( [ this.wall.isVisibleProperty, balloon.positionProperty ], wallVisible => {
         balloon.inducingChargeProperty.set( balloon.inducingCharge( wallVisible ) );
       } );
     } );
@@ -137,7 +137,7 @@ export default class BASEModel {
 
 
   /**
-   * Get all of the ballons in an array, for ease of iterating over them.
+   * Get all the ballons in an array, for ease of iterating over them.
    */
   public get balloons(): BalloonModel[] {
     return [ this.yellowBalloon, this.greenBalloon ];

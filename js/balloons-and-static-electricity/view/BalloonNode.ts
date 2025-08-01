@@ -97,14 +97,14 @@ export default class BalloonNode extends Node {
   public static readonly JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+w' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWwallDescription.value,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWallDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   public static readonly JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+c' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpstoCenterDescription.value,
+    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsToCenterDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 
@@ -595,7 +595,7 @@ export default class BalloonNode extends Node {
 
 /**
  * A node that mixes InteractiveHighlighting to support Interactive Highlights. The GrabDragInteraction implements
- * the highlights used for interaction and they are applied to a child of this Node. In order to use the
+ * the highlights used for interaction, and they are applied to a child of this Node. In order to use the
  * same highlights, InteractiveHighlighting is composed with the same Node that uses GrabDragInteraction.
  */
 class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path ) {}

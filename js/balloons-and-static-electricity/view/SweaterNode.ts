@@ -113,7 +113,7 @@ export default class SweaterNode extends Node {
     // pdom - construct a type that manages descriptions depending on the state of the model
     const sweaterDescriber = new SweaterDescriber( model, this.sweaterModel );
 
-    Multilink.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], ( showCharges, charge ) => {
+    Multilink.multilink( [ model.showChargesProperty, this.sweaterModel.chargeProperty ], showCharges => {
       updateChargesVisibilityOnSweater();
 
       this.setDescriptionContent( sweaterDescriber.getSweaterDescription( showCharges ) );

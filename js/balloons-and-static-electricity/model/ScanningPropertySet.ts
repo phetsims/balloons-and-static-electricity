@@ -1,7 +1,7 @@
 // Copyright 2019-2025, University of Colorado Boulder
 
 /**
- * Set of Properties that indicate that a finger is over an something while a user is scanning for elements in the view.
+ * Set of Properties that indicate that a finger is over something while a user is scanning for elements in the view.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */

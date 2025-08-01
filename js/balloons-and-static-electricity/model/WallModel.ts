@@ -130,7 +130,7 @@ export default class WallModel {
     greenBalloon.chargeProperty.link( updateChargePositions );
 
     // if a balloon was stuck to the wall and visible when the wall becomes invisible, we need to
-    // notify that the balloon was released by reseting the timer
+    // notify that the balloon was released by resetting the timer
     const balloons = [ yellowBalloon, greenBalloon ];
     this.isVisibleProperty.link( isVisible => {
       if ( !isVisible ) {
@@ -143,7 +143,6 @@ export default class WallModel {
       }
     } );
   }
-
 
   /**
    * Reset the entire model

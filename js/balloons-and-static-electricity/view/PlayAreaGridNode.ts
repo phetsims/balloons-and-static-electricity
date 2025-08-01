@@ -15,13 +15,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
 export default class PlayAreaGridNode extends Node {
 
-  public constructor( layoutBounds: Bounds2, tandem: Tandem ) {
+  public constructor( layoutBounds: Bounds2 ) {
 
     super( { pickable: false } );
     const blueOptions = { fill: 'rgba(0,0,255,0.5)' };

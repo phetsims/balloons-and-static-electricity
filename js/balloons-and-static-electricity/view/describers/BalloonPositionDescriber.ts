@@ -2,7 +2,7 @@
 
 /**
  * Manages all descriptions related to the balloon's position. This file is quite large, but further separation felt
- * forced so I decided to keep all in this file. Used by BalloonDescriber, which manages descriptions from the other
+ * forced, so I decided to keep all in this file. Used by BalloonDescriber, which manages descriptions from the other
  * describers.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -60,7 +60,6 @@ const atBottomString = BASEA11yStrings.atBottom.value;
 const atRightEdgeString = BASEA11yStrings.atRightEdge.value;
 const onSweaterString = BASEA11yStrings.onSweater.value;
 const offSweaterString = BASEA11yStrings.offSweater.value;
-const balloonNewRegionPatternString = BASEA11yStrings.balloonNewRegionPattern.value;
 const closerToObjectPatternString = BASEA11yStrings.closerToObjectPattern.value;
 const sweaterString = BASEA11yStrings.sweater.value;
 const wallString = BASEA11yStrings.wall.value;
@@ -242,12 +241,10 @@ export default class BalloonPositionDescriber {
     const positionDescriptionString = this.getBalloonPositionDescription();
 
     const attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
-    const attractiveStateAndPositionString = StringUtils.fillIn( balloonPositionAttractiveStatePatternString, {
+    return StringUtils.fillIn( balloonPositionAttractiveStatePatternString, {
       attractiveState: attractiveStateDescriptionString,
       position: positionDescriptionString
     } );
-
-    return attractiveStateAndPositionString;
   }
 
   /**
@@ -288,7 +285,7 @@ export default class BalloonPositionDescriber {
    * Return a phrase describing the position of the balloon in the play area.  This is usually described relative
    * to the center of the balloon, unless the balloon is touching an object, in which case it will be relative to the
    * point where the objects are touching.  If the balloons are both visible and next to each other, a phrase like
-   * "next to {{balloon label}}" is added. Will return someting like
+   * "next to {{balloon label}}" is added. Will return something like
    *
    * "center of play area" or
    * "upper wall", or
@@ -419,7 +416,7 @@ export default class BalloonPositionDescriber {
     // cases where we do not want to announce the alert
     if ( this.balloonModel.movingRight() && playAreaLandmark === 'AT_NEAR_SWEATER' ) {
 
-      // if moving to the right and we enter the 'near sweater' landmark, ignore
+      // if moving to the right, and we enter the 'near sweater' landmark, ignore
       alert = null;
     }
     else if ( playAreaLandmark === 'AT_VERY_CLOSE_TO_WALL' || playAreaLandmark === 'AT_VERY_CLOSE_TO_RIGHT_EDGE' ) {
@@ -631,24 +628,6 @@ export default class BalloonPositionDescriber {
   }
 
   /**
-   * Get the dragging description while the balloon is moving through the play area being dragged and enters
-   * a new region in the play area.
-   */
-  public getPlayAreaDragNewRegionDescription(): string {
-
-    const nearOrAt = this.getPreposition();
-    const balloonCenter = this.balloonModel.getCenter();
-
-    const wallVisible = this.model.wall.isVisibleProperty.get();
-    const positionString = BASEDescriber.getPositionDescription( balloonCenter, wallVisible );
-
-    return StringUtils.fillIn( balloonNewRegionPatternString, {
-      nearOrAt: nearOrAt,
-      position: positionString
-    } );
-  }
-
-  /**
    * Get a progress string toward the sweater, wall, top edge, bottom edge, or center of play area.
    */
   private getPlayAreaDragProgressDescription(): string {
@@ -674,7 +653,7 @@ export default class BalloonPositionDescriber {
       }
       else {
 
-        // otherwise describe closer to wall or righe edge depending on wall visibility
+        // otherwise describe closer to wall or right edge depending on wall visibility
         nearestObjectString = this.model.wall.isVisibleProperty.get() ? wallString : rightEdgeOfPlayAreaString;
       }
     }

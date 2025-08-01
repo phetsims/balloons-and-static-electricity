@@ -139,13 +139,6 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
   }
 
   /**
-   * Update the previous charge positions to match the current ones.
-   */
-  private updatePreviousChargePositions(): void {
-    this.previousChargePositions = this.wallCharges.map( wallCharge => wallCharge.positionProperty.value.copy() );
-  }
-
-  /**
    * Get the charge that corresponds to the specified sound generator index.
    */
   private getChargeForSoundGeneratorIndex( soundGeneratorIndex: number ): MovablePointChargeModel {

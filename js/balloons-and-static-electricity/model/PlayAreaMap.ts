@@ -145,7 +145,7 @@ const PlayAreaMap = {
   HEIGHT: 504,
 
   /**
-   * Get the column of the play area for the a given position in the model, including landmark positions.
+   * Get the column of the play area for a given position in the model, including landmark positions.
    */
   getPlayAreaColumn( position: Vector2, wallVisible: boolean ): PlayAreaColumn {
     const columns = COLUMN_RANGES;

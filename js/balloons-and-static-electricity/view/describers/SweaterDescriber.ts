@@ -62,7 +62,7 @@ export default class SweaterDescriber {
 
 
   /**
-   * Get the descrition of the sweater, which includes its position in the play area, its net charge, and its
+   * Get the description of the sweater, which includes its position in the play area, its net charge, and its
    * relative proportion of positive and negative charges.  Will be dependent on what charges are visible.
    * "At left edge of Play Area. Has positive net charge, a few more positive charges than negative charges." or
    * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
