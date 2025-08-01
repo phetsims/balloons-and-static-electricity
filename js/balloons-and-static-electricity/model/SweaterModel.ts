@@ -13,8 +13,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-import PointChargeModel from './PointChargeModel.js';
 import BalloonModel from './BalloonModel.js';
+import PointChargeModel from './PointChargeModel.js';
 
 // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
 const CHARGE_PAIR_POSITIONS = [

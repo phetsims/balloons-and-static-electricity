@@ -12,10 +12,10 @@ import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import BalloonModel from '../../model/BalloonModel.js';
-import BASEDescriber from './BASEDescriber.js';
 import BASEModel from '../../model/BASEModel.js';
-import SweaterModel from '../../model/SweaterModel.js';
 import PointChargeModel from '../../model/PointChargeModel.js';
+import SweaterModel from '../../model/SweaterModel.js';
+import BASEDescriber from './BASEDescriber.js';
 
 // strings
 const sweaterPositionString = BASEA11yStrings.sweaterPosition.value;

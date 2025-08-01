@@ -46,7 +46,7 @@ class BASEView extends ScreenView {
 
   // sound generator for the deflection of the charges in the wall, never disposed
   private readonly chargeDeflectionSoundGenerator: ChargeDeflectionSoundGenerator;
-  
+
   public readonly yellowBalloonNode: BalloonNode;
   private readonly yellowBalloonTetherNode: TetherNode;
   public readonly greenBalloonNode: BalloonNode;

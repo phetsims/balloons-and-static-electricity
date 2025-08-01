@@ -69,7 +69,7 @@ class PlayAreaGridNode extends Node {
     const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
     const xPositions = PlayAreaMap.X_POSITIONS;
     const yPositions = PlayAreaMap.Y_POSITIONS;
-    
+
     Object.entries( xPositions ).forEach( ( [ key, xPosition ] ) => {
       this.addChild( new Line( xPosition, 0, xPosition, PlayAreaMap.HEIGHT, lineOptions ) );
     } );
