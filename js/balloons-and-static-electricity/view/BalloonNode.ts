@@ -11,14 +11,13 @@
  * @author John Blanco
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/grab-drag/GrabDragInteraction.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -27,6 +26,7 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
+import type { ImageableImage } from '../../../../scenery/js/nodes/Imageable.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -35,6 +35,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import PitchedPopGenerator from '../../../../tambo/js/sound-generators/PitchedPopGenerator.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import balloonGrab006_mp3 from '../../../sounds/balloonGrab006_mp3.js';
 import balloonHitSweater_mp3 from '../../../sounds/balloonHitSweater_mp3.js';
@@ -46,7 +47,6 @@ import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
-type BalloonDirection = string;
 import BalloonModel from '../model/BalloonModel.js';
 import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
@@ -56,6 +56,8 @@ import BalloonVelocitySoundGenerator from './BalloonVelocitySoundGenerator.js';
 import BalloonDescriber from './describers/BalloonDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
+
+type BalloonDirection = string;
 
 // pdom - critical x positions for the balloon
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;
@@ -80,16 +82,16 @@ class BalloonNode extends Node {
 
   private readonly model: BalloonModel;
   private readonly globalModel: BASEModel;
-  
+
   // pdom - a type that generates descriptions for the balloon
-  public readonly describer: IntentionalAny;
-  
+  public readonly describer: BalloonDescriber;
+
   // the utterance to be sent to the utteranceQueue when a jumping action occurs
   private readonly jumpingUtterance: Utterance;
-  
+
   // Sound generation for when the balloon is being rubbed on the sweater or against the wall.
   private readonly balloonRubbingSoundGenerator: BalloonRubbingSoundGenerator;
-  
+
   // the drag handler needs to be updated in a step function, see KeyboardDragHandler for more information
   private readonly keyboardDragListener: KeyboardDragListener;
 
@@ -134,16 +136,16 @@ class BalloonNode extends Node {
    * @param options
    */
   public constructor( model: BalloonModel,
-               imageSource: IntentionalAny,
-               globalModel: BASEModel,
-               accessibleLabelString: string,
-               otherAccessibleLabelString: string,
-               layoutBounds: Bounds2,
-               cueParent: Node,
-               tandem: Tandem,
-               options?: BalloonNodeOptions ) {
+                      imageSource: ImageableImage,
+                      globalModel: BASEModel,
+                      accessibleLabelString: string,
+                      otherAccessibleLabelString: string,
+                      layoutBounds: Bounds2,
+                      cueParent: Node,
+                      tandem: Tandem,
+                      options?: BalloonNodeOptions ) {
 
-     
+
     const resolvedOptions = {
       cursor: 'pointer' as const,
 
@@ -166,7 +168,7 @@ class BalloonNode extends Node {
       containerTagName: 'div',
       tagName: 'div',
       accessibleHeading: accessibleLabelString
-      
+
     };
 
     // super constructor
@@ -418,7 +420,7 @@ class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       // @ts-expect-error - shiftKeyMultiplier is not in the type definition but is used in the implementation
       shiftKeyMultiplier: 0.25,
-      start: ( event: IntentionalAny, listener: KeyboardDragListener ) => {
+      start: ( event: unknown, listener: KeyboardDragListener ) => {
 
         // if already touching a boundary when dragging starts, announce an indication of this
         if ( this.attemptToMoveBeyondBoundary( listener ) ) {
@@ -442,7 +444,7 @@ class BalloonNode extends Node {
         BalloonNode.JUMP_NEAR_SWEATER_HOTKEY_DATA,
         BalloonNode.JUMP_NEAR_WALL_HOTKEY_DATA
       ] ),
-      fire: ( event: IntentionalAny, keysPressed: IntentionalAny ) => {
+      fire: ( event: unknown, keysPressed: IntentionalAny ) => {
         if ( BalloonNode.JUMP_WALL_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           this.jumpBalloon( new Vector2( X_POSITIONS.AT_WALL, model.getCenterY() ) );
         }

@@ -813,11 +813,9 @@ class BalloonPositionDescriber {
       let chargeDescription;
 
       if ( this.model.getBalloonsAdjacent() ) {
-        // @ts-expect-error - accessing private property for internal logic
         chargeDescription = this.balloonDescriber.chargeDescriber.getCombinedRelativeChargeDescription();
       }
       else {
-        // @ts-expect-error - accessing private property for internal logic
         chargeDescription = this.balloonDescriber.chargeDescriber.getHasRelativeChargeDescription();
       }
 
@@ -829,7 +827,6 @@ class BalloonPositionDescriber {
       const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
       const onSweater = this.balloonModel.onSweater();
       if ( inducingChargeOrTouchingWall || onSweater && ( chargesShown !== 'none' ) ) {
-        // @ts-expect-error - accessing private property for internal logic
         const otherObjectCharge = this.balloonDescriber.chargeDescriber.getOtherObjectChargeDescription();
         chargeDescription = StringUtils.fillIn( grabbedWithOtherChargePatternString, {
           balloonCharge: chargeDescription,

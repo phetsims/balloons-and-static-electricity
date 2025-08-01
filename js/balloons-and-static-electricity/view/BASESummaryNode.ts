@@ -10,16 +10,17 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
-import BASEModel from '../model/BASEModel.js';
 import BalloonModel from '../model/BalloonModel.js';
+import BASEModel from '../model/BASEModel.js';
 import WallModel from '../model/WallModel.js';
 import BalloonNode from './BalloonNode.js';
+import BalloonDescriber from './describers/BalloonDescriber.js';
 import BASEDescriber from './describers/BASEDescriber.js';
 import SweaterDescriber from './describers/SweaterDescriber.js';
 import WallDescriber from './describers/WallDescriber.js';
@@ -53,8 +54,8 @@ class BASESummaryNode extends Node {
 
   private readonly yellowBalloon: BalloonModel;
   private readonly greenBalloon: BalloonModel;
-  private readonly yellowBalloonDescriber: IntentionalAny;
-  private readonly greenBalloonDescriber: IntentionalAny;
+  private readonly yellowBalloonDescriber: BalloonDescriber;
+  private readonly greenBalloonDescriber: BalloonDescriber;
   private readonly model: BASEModel;
   private readonly wall: WallModel;
 
@@ -114,9 +115,7 @@ class BASESummaryNode extends Node {
       }
     } );
 
-    const inducedChargeProperties = [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ];
-    // @ts-expect-error - Too many properties for Multilink type inference
-    Multilink.multilink( inducedChargeProperties, ( yellowPosition: IntentionalAny, greenPosition: IntentionalAny, greenVisible: boolean, showCharges: string, wallVisible: boolean ) => {
+    Multilink.multilink( [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ], ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
 
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
@@ -145,7 +144,6 @@ class BASESummaryNode extends Node {
       }
     );
   }
-
 
   /**
    * Get a description of the sweater and wall charge. Does not include induced charge. If the sweater has neutral

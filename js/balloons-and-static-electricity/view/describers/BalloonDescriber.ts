@@ -83,16 +83,16 @@ class BalloonDescriber extends Alerter {
   private readonly model: BASEModel;
   private readonly wall: WallModel;
   private readonly balloonModel: BalloonModel;
-  private readonly accessibleName: string;
+  public readonly accessibleName: string;
   private readonly otherAccessibleName: string;
   private readonly showChargesProperty: BASEModel['showChargesProperty'];
   private readonly nodeToAlertWith: Node;
 
   // manages descriptions about the balloon related to charge
-  private readonly chargeDescriber: BalloonChargeDescriber;
+  public readonly chargeDescriber: BalloonChargeDescriber;
 
   // manages descriptions about the  balloon related to balloon movement and position
-  private readonly movementDescriber: BalloonPositionDescriber;
+  public readonly movementDescriber: BalloonPositionDescriber;
 
   // used to track previous values after an interaction so that we can accurately describe how
   // the model has changed
