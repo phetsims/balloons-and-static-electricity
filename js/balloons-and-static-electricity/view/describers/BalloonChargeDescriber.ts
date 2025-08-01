@@ -313,7 +313,7 @@ class BalloonChargeDescriber {
   }
 
   /**
-   * Return whether or not change in induced charge should be described for the balloon. If the balloon not on
+   * Return whether change in induced charge should be described for the balloon. If the balloon not on
    * the wall and is inducing charge while all charges are visible we will always describe change. If we described
    * that the charges moved away from the balloon, we will always describe the return of induced charges at least
    * once.

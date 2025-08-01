@@ -146,7 +146,7 @@ const PlayAreaMap = {
   /**
    * Get the column of the play area for the a given position in the model, including landmark positions.
    */
-  getPlayAreaColumn( position: Vector2, wallVisible: boolean ): string {
+  getPlayAreaColumn( position: Vector2, wallVisible: boolean ): 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' {
     const columns = COLUMN_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
@@ -166,7 +166,8 @@ const PlayAreaMap = {
       column = 'WALL';
     }
 
-    return column!;
+    // TODO: This type is repeated a few times, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
+    return column as 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE';
   },
 
   /**
@@ -197,17 +198,19 @@ const PlayAreaMap = {
   /**
    * Get a row in the play area that contains the position in the model.
    */
-  getPlayAreaRow( position: Vector2 ): string {
+  getPlayAreaRow( position: Vector2 ): 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' {
     const rows = PlayAreaMap.ROW_RANGES;
 
     // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
     const rowKeys = Object.keys( rows );
 
-    let row: string | undefined;
+    let row: 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | undefined;
     let i;
     for ( i = 0; i < rowKeys.length; i++ ) {
       if ( rows[ rowKeys[ i ] as keyof typeof rows ].contains( position.y ) ) {
-        row = rowKeys[ i ];
+
+        // TODO: This type is repeated a few times, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
+        row = rowKeys[ i ] as 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA';
       }
     }
     assert && assert( row, 'item should be in a row of the play area' );

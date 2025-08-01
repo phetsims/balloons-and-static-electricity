@@ -107,7 +107,7 @@ class WallDescriber {
 
 
   /**
-   * Get the described charge in the wall, dependent on charge visibility, whether or not there is induced charge,
+   * Get the described charge in the wall, dependent on charge visibility, whether there is induced charge,
    * and which balloons are visible. This portion of the description does not include any wall position information.
    */
   public static getWallChargeDescription( yellowBalloon: BalloonModel, greenBalloon: BalloonModel, balloonsAdjacent: boolean, wallVisible: boolean, chargesShown: string ): string {

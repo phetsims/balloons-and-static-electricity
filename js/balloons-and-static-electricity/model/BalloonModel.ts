@@ -16,17 +16,18 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import BalloonDirectionEnum from './BalloonDirectionEnum.js';
+import type BASEModel from './BASEModel.js';
+import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import PointChargeModel from './PointChargeModel.js';
-import MovablePointChargeModel from './MovablePointChargeModel.js';
 import SweaterModel from './SweaterModel.js';
-import type BASEModel from './BASEModel.js';
 
 // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
 const VELOCITY_ARRAY_LENGTH = 5;
@@ -134,7 +135,7 @@ class BalloonModel {
   public readonly isVisibleProperty: BooleanProperty;
   public readonly isDraggedProperty: BooleanProperty;
 
-  // whether or not this balloon is being dragged with a mouse or touch pointer
+  // whether this balloon is being dragged with a mouse or touch pointer
   public draggingWithPointer = false;
 
   // position of the upper left corner of the rectangle that encloses the balloon
@@ -143,17 +144,17 @@ class BalloonModel {
   // velocity of the balloon while dragging
   public readonly dragVelocityProperty: Vector2Property;
 
-  // whether or not the balloon is on the sweater
+  // whether the balloon is on the sweater
   public readonly onSweaterProperty: BooleanProperty;
 
-  // whether or not the balloon is touching the wall
+  // whether the balloon is touching the wall
   public readonly touchingWallProperty: BooleanProperty;
 
   // the current column of the play area the balloon is in
-  public readonly playAreaColumnProperty: Property<string | null>;
+  public readonly playAreaColumnProperty: Property<'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' | null>;
 
   // the current row of the play area that the balloon is in
-  public readonly playAreaRowProperty: Property<string | null>;
+  public readonly playAreaRowProperty: Property<'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | null>;
 
   // if the balloon is in a landmark position, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
   public readonly playAreaLandmarkProperty: Property<string | null>;
@@ -161,14 +162,14 @@ class BalloonModel {
   // the direction of movement, can be one of BalloonDirectionEnum
   public readonly directionProperty: Property<string | null>;
 
-  // whether or not the balloon is currently inducing a charge in the wall
+  // whether the balloon is currently inducing a charge in the wall
   public readonly inducingChargeProperty: BooleanProperty;
 
   // array of instantaneous velocity of balloon last 5 ticks
   private xVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
   private yVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
 
-  // whether or not the balloon is currently 'jumping'
+  // whether the balloon is currently 'jumping'
   public jumping = false;
 
   // flag that indicates whether the balloon has successfully been picked up since the last reset
@@ -261,9 +262,9 @@ class BalloonModel {
       tandem: tandem.createTandem( 'touchingWallProperty' )
     } );
 
-    this.playAreaColumnProperty = new Property<string | null>( null );
+    this.playAreaColumnProperty = new Property<'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE' | null>( null );
 
-    this.playAreaRowProperty = new Property<string | null>( null );
+    this.playAreaRowProperty = new Property<'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA' | null>( null );
 
     this.playAreaLandmarkProperty = new Property<string | null>( null );
 
@@ -310,7 +311,7 @@ class BalloonModel {
       this.positionProperty.get().y + this.height
     );
 
-    // When the position changes, update the bounds of balloon, direction of movement, and whether or not the the
+    // When the position changes, update the bounds of balloon, direction of movement, and whether the the
     // balloon is touching an object.  No need to dispose as balloons exist for life of sim.
     this.positionProperty.link( ( position, oldPosition ) => {
       this.bounds.setMinMax( position.x, position.y, position.x + this.width, position.y + this.height );
@@ -320,12 +321,12 @@ class BalloonModel {
         // the direction from the old position to the newPosition
         this.directionProperty.set( BalloonModel.getDirection( position, oldPosition ) || null );
 
-        // update whether or not the balloon is on the sweater
+        // update whether the balloon is on the sweater
         if ( this.onSweater() !== this.onSweaterProperty.get() ) {
           this.onSweaterProperty.set( this.onSweater() );
         }
 
-        // Update whether or not we are touching the wall.
+        // Update whether we are touching the wall.
         if ( this.touchingWall() !== this.touchingWallProperty.get() ) {
           this.touchingWallProperty.set( this.touchingWall() );
         }
@@ -365,7 +366,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the center of the balloon is within the charged area of the sweater.
+   * Returns whether the center of the balloon is within the charged area of the sweater.
    */
   public centerInSweaterChargedArea(): boolean {
     return this.balloonsAndStaticElectricityModel.sweater.chargedArea.containsPoint( this.getCenter() );
@@ -387,7 +388,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the right edge of the balloon is at the wall position, regardless of
+   * Returns whether the right edge of the balloon is at the wall position, regardless of
    * balloon or wall visibility.  Useful for checking whether the balloon is at the wall position
    * when the wall is removed.
    */
@@ -396,21 +397,21 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not this balloon is at the right edge of the play area.
+   * Returns whether this balloon is at the right edge of the play area.
    */
   public atRightEdge(): boolean {
     return this.getCenterX() === PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
   }
 
   /**
-   * Returns whether or not this balloon is at the left edge of the play area.
+   * Returns whether this balloon is at the left edge of the play area.
    */
   public atLeftEdge(): boolean {
     return this.getCenterX() === PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
   }
 
   /**
-   * Returns whether or not this balloon is in the center of the play area horizontally. Does not consider vertical
+   * Returns whether this balloon is in the center of the play area horizontally. Does not consider vertical
    * position.
    */
   public inCenterPlayArea(): boolean {
@@ -418,7 +419,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is very close to an object in the play area. Will return true if the center
+   * Returns whether the balloon is very close to an object in the play area. Will return true if the center
    * is withing one of the "very close" ranges in the play area.
    */
   public veryCloseToObject(): boolean {
@@ -465,7 +466,7 @@ class BalloonModel {
   }
 
   /**
-   * Get whether or not the balloon is s moving to the right.
+   * Get whether the balloon is s moving to the right.
    */
   public movingRight(): boolean {
     const direction = this.directionProperty.get();
@@ -475,7 +476,7 @@ class BalloonModel {
   }
 
   /**
-   * Get whether or not the balloon is moving to the left.
+   * Get whether the balloon is moving to the left.
    */
   public movingLeft(): boolean {
     const direction = this.directionProperty.get();
@@ -495,14 +496,12 @@ class BalloonModel {
     let range;
     let difference;
     if ( this.movingHorizontally() || this.movingDiagonally() ) {
-      // @ts-expect-error
-      range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumnProperty.get() ];
-        difference = this.getCenter().x - range.min;
+      range = PlayAreaMap.COLUMN_RANGES[ this.playAreaColumnProperty.get()! ];
+      difference = this.getCenter().x - range.min;
     }
     else if ( this.movingVertically() ) {
-      // @ts-expect-error
-      range = PlayAreaMap.ROW_RANGES[ this.playAreaRowProperty.get() ];
-        difference = this.getCenter().y - range.min;
+      range = PlayAreaMap.ROW_RANGES[ this.playAreaRowProperty.get()! ];
+      difference = this.getCenter().y - range.min;
     }
 
     // TODO: This seems too downstream to be a good solution. Why don't we apply to the above cases during phet-io-state fuzz? https://github.com/phetsims/balloons-and-static-electricity/issues/575
@@ -510,8 +509,9 @@ class BalloonModel {
       return 0;
     }
 
+    affirm( difference !== undefined );
+
     // determine how far we are through the region
-    // @ts-expect-error
     let progress = difference / range.getLength();
 
     // progress is the difference of the calculated proportion if moving to the left or up
@@ -603,7 +603,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not this balloon has any charge. Just a helper function for convenience and readability.
+   * Returns whether this balloon has any charge. Just a helper function for convenience and readability.
    */
   public isCharged(): boolean {
 
@@ -693,7 +693,7 @@ class BalloonModel {
 
   /**
    * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
-   * that indicates whether or not a charge was picked up.
+   * that indicates whether a charge was picked up.
    * @param model
    * @param dt
    * @returns chargeFound
@@ -748,7 +748,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is touching the boundary of the play area, including the bottom, left
+   * Returns whether the balloon is touching the boundary of the play area, including the bottom, left
    * and top edges, or the right edge or wall depending on wall visibility.
    */
   public isTouchingBoundary(): boolean {
@@ -757,7 +757,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is touching the right boundary of the play area.  If the wall
+   * Returns whether the balloon is touching the right boundary of the play area.  If the wall
    * is visible, this will be the position where the balloon is touching the wall, otherwise it will
    * be the position where the balloon is touching the right edge of the play area.
    */
@@ -772,7 +772,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is touching the right most edge of the play area (should be impossible
+   * Returns whether the balloon is touching the right most edge of the play area (should be impossible
    * if the wall is invisible)
    */
   public isTouchingRightEdge(): boolean {
@@ -781,7 +781,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is touching the bottom boundary of the play area.
+   * Returns whether the balloon is touching the bottom boundary of the play area.
    */
   public isTouchingBottomBoundary(): boolean {
     return PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM === this.getCenterY();
@@ -792,7 +792,7 @@ class BalloonModel {
   }
 
   /**
-   * Returns whether or not the balloon is touching the top boundary of the play area.
+   * Returns whether the balloon is touching the top boundary of the play area.
    */
   public isTouchingTopBoundary(): boolean {
     return PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP === this.getCenterY();

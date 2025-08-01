@@ -27,7 +27,7 @@ class BASEModel {
   // TODO: Better type, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
   public readonly showChargesProperty: StringProperty;
 
-  // whether or not the two balloons are considered 'next to' each other, primarily used for a11y
+  // whether the two balloons are considered 'next to' each other, primarily used for a11y
   public readonly balloonsAdjacentProperty: Property<boolean>;
 
   public readonly width: number;
@@ -111,7 +111,7 @@ class BASEModel {
         // find the closest charge in the wall
         balloon.closestChargeInWall = this.wall.getClosestChargeToBalloon( balloon );
 
-        // update whether or not the two balloons are close to each other
+        // update whether the two balloons are close to each other
         this.balloonsAdjacentProperty.set( this.getBalloonsAdjacent() );
 
         // update the balloon play area row and column

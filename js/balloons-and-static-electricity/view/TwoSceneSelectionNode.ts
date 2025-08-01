@@ -182,7 +182,7 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
     this.addChild( buttonBox );
 
     // sets the styles of the buttons after an interaction, including the stroke, opacity, lineWidth, and fill,
-    // depending on whether or not the button is enabled
+    // depending on whether the button is enabled
     const setStyles = ( enabled: boolean ) => {
 
       let selectedButton: Path;

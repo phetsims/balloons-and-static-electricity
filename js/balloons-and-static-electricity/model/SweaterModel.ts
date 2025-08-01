@@ -185,10 +185,10 @@ class SweaterModel {
 
   /**
    * Check if the balloon is over a minus charge on the sweater.  If it is, and it is moving quickly enough, move the
-   * charges from the sweater to the balloon.  Returns boolean indicating whether or not a charge was moved.
+   * charges from the sweater to the balloon.  Returns boolean indicating whether a charge was moved.
    */
   public checkAndTransferCharges( balloon: BalloonModel ): boolean {
-    // track whether or not at least once charge was moved
+    // track whether at least once charge was moved
     let chargeMoved = false;
 
     // check each minus charge to see whether it should be moved to the balloon

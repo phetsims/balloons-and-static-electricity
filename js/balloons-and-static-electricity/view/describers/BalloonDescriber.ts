@@ -95,7 +95,7 @@ class BalloonDescriber extends Alerter {
   // the model has changed
   private describedChargeRange: Range | null;
 
-  // a flag that manages whether or not we should alert the first charge pickup of the
+  // a flag that manages whether we should alert the first charge pickup of the
   // balloon, will be set to true every time the balloon enters or leaves the sweater so that in this case, we hear
   // "Balloon picks up negative charges from sweater"
   private alertFirstPickup: boolean;
@@ -146,7 +146,7 @@ class BalloonDescriber extends Alerter {
   // on the sweater. Once this rub has been described, set to false
   private rubAlertDirty: boolean;
 
-  // whether or not we describe direction changes. After certain interactions we do not want
+  // whether we describe direction changes. After certain interactions we do not want
   // to describe the direction, or the direction is included implicitly in another alert
   private describeDirection: boolean;
 

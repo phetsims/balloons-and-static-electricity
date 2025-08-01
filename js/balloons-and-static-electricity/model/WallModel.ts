@@ -22,7 +22,7 @@ const FORCE_MAGNITUDE_THRESHOLD = 2;
 
 class WallModel {
 
-  // Properties of the model.  All user settings belong in the model, whether or not they are part of the physical model
+  // Properties of the model.  All user settings belong in the model, whether they are part of the physical model
   public readonly isVisibleProperty: BooleanProperty;
 
   // the top position of the wall
@@ -192,7 +192,7 @@ class WallModel {
   }
 
   /**
-   * Return whether or not the force applied to this charge indicates that charge is being induced. Determined by
+   * Return whether the force applied to this charge indicates that charge is being induced. Determined by
    * inspection.
    */
   public forceIndicatesInducedCharge( force: Vector2 ): boolean {

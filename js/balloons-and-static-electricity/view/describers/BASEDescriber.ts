@@ -318,7 +318,7 @@ const BASEDescriber = {
   },
 
   /**
-   * Returns whether or not the column is in one of the 'wall' columns, could  be at, near, or very close to wall.
+   * Returns whether the column is in one of the 'wall' columns, could  be at, near, or very close to wall.
    *
    * @param column - one of keys in POSITION_DESCRIPTION_MAP
    */
