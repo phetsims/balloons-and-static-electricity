@@ -10,7 +10,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -134,7 +134,7 @@ class BASESummaryNode extends Node {
         this.greenBalloon.positionProperty,
         this.greenBalloon.isVisibleProperty,
         model.wall.isVisibleProperty
-      ], ( yellowPosition: IntentionalAny, greenPosition: IntentionalAny, greenVisible: boolean, wallVisible: boolean ) => {
+      ], ( yellowPosition: Vector2, greenPosition: Vector2, greenVisible: boolean, wallVisible: boolean ) => {
         const initialValues = this.yellowBalloon.positionProperty.initialValue === yellowPosition &&
                               this.greenBalloon.positionProperty.initialValue === greenPosition &&
                               this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&

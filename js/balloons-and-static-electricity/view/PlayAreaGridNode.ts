@@ -41,8 +41,12 @@ class PlayAreaGridNode extends Node {
     for ( range in columns ) {
       if ( columns.hasOwnProperty( range ) ) {
         if ( i % 2 === 0 ) {
-          minValue = Math.max( layoutBounds.minX, ( columns as IntentionalAny )[ range ].min );
-          maxValue = Math.min( layoutBounds.maxX, ( columns as IntentionalAny )[ range ].max );
+
+          // @ts-expect-error
+          minValue = Math.max( layoutBounds.minX, columns[ range ].min );
+
+          // @ts-expect-error
+          maxValue = Math.min( layoutBounds.maxX, columns[ range ].max );
           const width = maxValue - minValue;
           this.addChild( new Rectangle( minValue, 0, width, PlayAreaMap.HEIGHT, blueOptions ) );
         }

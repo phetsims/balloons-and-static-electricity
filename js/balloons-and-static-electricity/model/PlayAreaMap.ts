@@ -120,7 +120,7 @@ const COLUMN_RANGES = {
   CENTER_PLAY_AREA: centerPlayAreaRange,
   RIGHT_PLAY_AREA: rightPlayAreaRange,
   RIGHT_EDGE: rightEdgeRange
-};
+} as const;
 
 // ranges that define the rows of the play area, exact heights chosen by inspection to match mockup in #222
 const upperPlayAreaRange = createNextRange( 172 );
@@ -130,7 +130,7 @@ const ROW_RANGES = {
   UPPER_PLAY_AREA: upperPlayAreaRange,
   CENTER_PLAY_AREA: centerPlayAreaRowRange,
   LOWER_PLAY_AREA: lowerPlayAreaRange
-};
+} as const;
 
 const PlayAreaMap = {
   X_POSITIONS: X_POSITIONS,
@@ -234,7 +234,7 @@ const PlayAreaMap = {
 
     return inLandmarkColumn;
   }
-};
+} as const;
 
 balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );
 

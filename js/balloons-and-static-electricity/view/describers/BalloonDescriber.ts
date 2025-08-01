@@ -26,7 +26,7 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import AriaLiveAnnouncer from '../../../../../utterance-queue/js/AriaLiveAnnouncer.js';
-import Utterance from '../../../../../utterance-queue/js/Utterance.js';
+import Utterance, { TAlertable } from '../../../../../utterance-queue/js/Utterance.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
@@ -39,9 +39,6 @@ import BalloonPositionDescriber from './BalloonPositionDescriber.js';
 import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
-
-// TAlertable type - using any for now due to import issues - TODO: https://github.com/phetsims/balloons-and-static-electricity/issues/577
-type TAlertable = IntentionalAny;
 
 type ShowChargesValues = 'all' | 'none' | 'diff';
 

@@ -23,7 +23,6 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import BalloonNode from './BalloonNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BASESummaryNode from './BASESummaryNode.js';
@@ -48,7 +47,7 @@ class BASEView extends ScreenView {
   // sound generator for the deflection of the charges in the wall, never disposed
   private readonly chargeDeflectionSoundGenerator: ChargeDeflectionSoundGenerator;
   
-  private readonly yellowBalloonNode: BalloonNode;
+  public readonly yellowBalloonNode: BalloonNode;
   private readonly yellowBalloonTetherNode: TetherNode;
   private readonly greenBalloonNode: BalloonNode;
   private readonly greenBalloonTetherNode: TetherNode;
@@ -114,7 +113,7 @@ class BASEView extends ScreenView {
 
     this.yellowBalloonNode = new BalloonNode(
       model.yellowBalloon,
-      balloonYellow_png as IntentionalAny,
+      balloonYellow_png,
       model,
       yellowBalloonLabelString,
       greenBalloonLabelString,
@@ -142,7 +141,7 @@ class BASEView extends ScreenView {
     );
     this.greenBalloonNode = new BalloonNode(
       model.greenBalloon,
-      balloonGreen_png as IntentionalAny,
+      balloonGreen_png,
       model,
       greenBalloonLabelString,
       yellowBalloonLabelString,

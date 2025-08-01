@@ -7,7 +7,6 @@
  * @author Vasily Shakhov (Mlearner)
  */
 
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -194,11 +193,11 @@ class ControlPanel extends Node {
 
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
-    const yellowBalloonImage = new Image( balloonYellow_png as IntentionalAny, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
+    const yellowBalloonImage = new Image( balloonYellow_png, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
     const twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
     const twoBalloonIcon = new Node( {
       children: [
-        new Image( balloonGreen_png as IntentionalAny, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
+        new Image( balloonGreen_png, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
         yellowBalloonImage
       ],
       scale: scale,
@@ -208,7 +207,7 @@ class ControlPanel extends Node {
     const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     const oneBalloonIcon = new Node( {
       children: [
-        new Image( balloonYellow_png as IntentionalAny, {
+        new Image( balloonYellow_png, {
           x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
           tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
         } )
@@ -217,7 +216,7 @@ class ControlPanel extends Node {
       tandem: oneBalloonIconTandem
     } );
 
-    let showSecondBalloonSelector: TwoSceneSelectionNode | null = null;
+    let showSecondBalloonSelector: TwoSceneSelectionNode<boolean> | null = null;
     if ( !BASEQueryParameters.hideBalloonSwitch ) {
       showSecondBalloonSelector = new TwoSceneSelectionNode(
         model.greenBalloon.isVisibleProperty,

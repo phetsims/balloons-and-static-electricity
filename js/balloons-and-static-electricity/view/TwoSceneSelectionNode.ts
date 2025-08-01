@@ -21,7 +21,6 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DownUpListener from '../../../../scenery/js/input/DownUpListener.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -70,9 +69,9 @@ type TwoSceneSelectionNodeOptions = NodeOptions & {
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
-class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
+class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
-  public constructor( property: Property<IntentionalAny>, valueA: IntentionalAny, valueB: IntentionalAny, nodeA: Node, nodeB: Node, options: TwoSceneSelectionNodeOptions ) {
+  public constructor( property: Property<T>, valueA: T, valueB: T, nodeA: Node, nodeB: Node, options: TwoSceneSelectionNodeOptions ) {
 
     // eslint-disable-next-line phet/bad-typescript-text
     options = merge( {
@@ -227,7 +226,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
         deselectedButton.fill = options.baseColor!;
       }
     };
-    property.link( ( value: IntentionalAny ) => {
+    property.link( () => {
 
       // update the button look and its accessible pressed state
       setStyles( this.enabledProperty.get() );
@@ -263,7 +262,7 @@ class TwoSceneSelectionNode extends InteractiveHighlighting( Node ) {
     } );
 
     // considered "checked" for accessibility when node B is selected
-    const propertyListener = ( value: IntentionalAny ) => {
+    const propertyListener = ( value: T ) => {
       this.setPDOMChecked( value === valueB );
     };
 

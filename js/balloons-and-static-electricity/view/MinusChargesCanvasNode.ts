@@ -8,8 +8,8 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
@@ -37,7 +37,7 @@ class MinusChargesCanvasNode extends CanvasNode {
 
   private readonly charges: MovablePointChargeModel[];
   private readonly wallX: number;
-  private readonly chargeImageNode: IntentionalAny;
+  private readonly chargeImageNode: Image;
 
   /**
    * @param wallX - x position of the wall, to offset charge positions
