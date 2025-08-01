@@ -12,7 +12,6 @@ import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
 import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 const iframe = document.createElement( 'iframe' );
 iframe.id = 'testFrame';
@@ -21,7 +20,7 @@ iframe.id = 'testFrame';
  * @param event
  * @param resolve - resolve function for the Promise this is passed to
  */
-const loadListener = ( event: IntentionalAny, resolve: IntentionalAny ) => {
+const loadListener = ( event: MessageEvent<string>, resolve: () => void ) => {
   if ( !event ) {
     return;
   }
