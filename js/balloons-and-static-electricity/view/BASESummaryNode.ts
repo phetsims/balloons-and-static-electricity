@@ -6,7 +6,7 @@
  * By breaking up the summary into a list of items, the user can find specific information about the
  * scene very quickly.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';

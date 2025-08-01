@@ -4,7 +4,7 @@
  * Generates descriptions about to the balloon's charge, which is dependent on which charges are visible
  * in the sim and the value of BASEModel.showChargesProperty.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';

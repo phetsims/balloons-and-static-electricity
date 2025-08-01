@@ -3,7 +3,7 @@
 /**
  * Constants used throughout the simulation.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Color from '../../../scenery/js/util/Color.js';

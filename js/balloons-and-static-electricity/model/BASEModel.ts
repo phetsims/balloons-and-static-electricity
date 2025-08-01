@@ -5,7 +5,7 @@
  *
  * @author Vasily Shakhov (Mlearner.com)
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Jesse Greenberg(PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';

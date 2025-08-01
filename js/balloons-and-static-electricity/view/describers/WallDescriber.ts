@@ -2,7 +2,7 @@
 
 /**
  * A view type that observes the WallModel and builds descriptions which can be read by assistive technology.
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import StringProperty from '../../../../../axon/js/StringProperty.js';

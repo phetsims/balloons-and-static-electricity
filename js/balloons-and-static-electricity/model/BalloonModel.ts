@@ -5,7 +5,7 @@
  *
  * @author Vasily Shakhov (Mlearner)
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Jesse Greenberg(PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

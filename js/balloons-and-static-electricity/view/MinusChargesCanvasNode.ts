@@ -3,7 +3,7 @@
 /**
  * A canvas node for minus charges in the wall. This was added as a performance enhancement for #409.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';

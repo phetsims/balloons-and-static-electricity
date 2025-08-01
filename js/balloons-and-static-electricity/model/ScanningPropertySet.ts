@@ -3,7 +3,7 @@
 /**
  * Set of Properties that indicate that a finger is over an something while a user is scanning for elements in the view.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

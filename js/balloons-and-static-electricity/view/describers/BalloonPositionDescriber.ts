@@ -5,7 +5,7 @@
  * forced so I decided to keep all in this file. Used by BalloonDescriber, which manages descriptions from the other
  * describers.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Range from '../../../../../dot/js/Range.js';

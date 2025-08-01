@@ -16,7 +16,7 @@
  * as it all pertains to general balloon description, so I decided to keep the remaining functions in this file for
  * easy discoverability.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Range from '../../../../../dot/js/Range.js';

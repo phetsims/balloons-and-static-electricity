@@ -3,7 +3,7 @@
 /**
  * A view type that presents the accessibility descriptions for the Sweater.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';

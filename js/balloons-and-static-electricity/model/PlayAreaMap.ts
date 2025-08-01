@@ -11,7 +11,7 @@
  * The X_POSITIONS define critical places in the play area and the landmarks are slim columns around these, with
  * width LANDMARK_WIDTH.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Range from '../../../../dot/js/Range.js';

@@ -13,7 +13,7 @@
  * may be obsoleted and replaced with a regular, accessible radio button group.  See
  * https://github.com/phetsims/balloons-and-static-electricity/issues/213 for the discussion on this topic.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco
  */
 

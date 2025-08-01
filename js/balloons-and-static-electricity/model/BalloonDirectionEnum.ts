@@ -4,7 +4,7 @@
  * Possible directions for the balloon in Balloons and Static Electricity, balloon can move up, down, left, right,
  * and along the diagonals of these orientations.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';

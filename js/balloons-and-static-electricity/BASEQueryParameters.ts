@@ -3,7 +3,7 @@
 /**
  * query parameters used in this sim
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco
  */
 

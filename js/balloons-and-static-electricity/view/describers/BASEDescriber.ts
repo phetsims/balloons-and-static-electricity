@@ -4,7 +4,7 @@
  * Manages descriptions for the entire simulation Balloons and Static Electricity.  Has functions that put together
  * strings for descriptions that are used throughout several view types.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Range from '../../../../../dot/js/Range.js';

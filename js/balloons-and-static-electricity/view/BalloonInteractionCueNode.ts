@@ -4,7 +4,7 @@
  * A node that provides an interaction cue for dragging the balloon in Balloons and Static Electricity. Includes arrow
  * and letter keys to indicate that the user can use WASD or arrow keys to move it around the play area.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';

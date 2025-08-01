@@ -8,7 +8,7 @@
  *
  * This is not instrumented for phet-io because external users will not see or use it.
  *
- @author Jesse Greenberg
+ @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
