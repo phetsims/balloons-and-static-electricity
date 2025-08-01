@@ -7,12 +7,14 @@
  * @author Jesse Greenberg
  */
 
+import Vector2 from '../../../../../dot/js/Vector2.js';
 import Range from '../../../../../dot/js/Range.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import BalloonModel from '../../model/BalloonModel.js';
 
 // play area grid strings
 const leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
@@ -190,25 +192,24 @@ const POSITION_DESCRIPTION_MAP = {
  * Generate a map from physical value to accessible descripton. Each described range has a length of
  * valueRange / descriptionArray.length
  *
- * @param {[].string} descriptionArray
- * @param {RangeWithValue} valueRange
- * @param {Object[]} [entries] - Additional entries to add to the mapped value range, will look something like
+ * @param descriptionArray
+ * @param valueRange
+ * @param entries - Additional entries to add to the mapped value range, will look something like
  *                             { description: {string}, range: {Range} }
- *
- * @returns {Object}
  */
-const generateDescriptionMapWithEntries = ( descriptionArray, valueRange, entries ) => {
+const generateDescriptionMapWithEntries = ( descriptionArray: string[], valueRange: Range, entries?: { description: string; range: Range }[] ): Record<string, { description: string; range: Range }> => {
   entries = entries || [];
-  const map = {};
+  const map: Record<string, { description: string; range: Range }> = {};
 
   let minValue = valueRange.min;
   for ( let i = 0; i < descriptionArray.length; i++ ) {
 
     const nextMin = minValue + valueRange.getLength() / descriptionArray.length;
 
-    map[ i ] = {};
-    map[ i ].description = descriptionArray[ i ];
-    map[ i ].range = new Range( minValue, nextMin );
+    map[ i ] = {
+      description: descriptionArray[ i ],
+      range: new Range( minValue, nextMin )
+    };
 
     // correct for any precision issues
     if ( i === descriptionArray.length - 1 ) {
@@ -251,10 +252,10 @@ const BASEDescriber = {
    * Get the position description for the balloon. This is not a full description, but a short
    * descsription. Regions are defined in PlayAreaMap.  This will get called very often and needs to be quick.
    *
-   * @param {Vector2} position - position of the balloon, relative to its center
-   * @returns {string}
+   * @param position - position of the balloon, relative to its center
+   * @param wallVisible
    */
-  getPositionDescription( position, wallVisible ) {
+  getPositionDescription( position: Vector2, wallVisible: boolean ): string {
 
     const landmarks = PlayAreaMap.LANDMARK_RANGES;
     const columns = PlayAreaMap.COLUMN_RANGES;
@@ -268,21 +269,21 @@ const BASEDescriber = {
     const landmarkKeys = Object.keys( landmarks );
     const positionKeys = Object.keys( positions );
 
-    let i;
-    let currentPosition;
-    let currentLandmark;
-    let currentColumn;
-    let currentRow;
+    let i: number;
+    let currentPosition: string | undefined;
+    let currentLandmark: string | undefined;
+    let currentColumn: string | undefined;
+    let currentRow: string | undefined;
 
     // critical x positions take priority, start there
     for ( i = 0; i < positionKeys.length; i++ ) {
-      if ( position.x === positions[ positionKeys[ i ] ] ) {
+      if ( position.x === positions[ positionKeys[ i ] as keyof typeof positions ] ) {
         currentPosition = positionKeys[ i ];
       }
     }
 
     for ( i = 0; i < landmarkKeys.length; i++ ) {
-      if ( landmarks[ landmarkKeys[ i ] ].contains( position.x ) ) {
+      if ( landmarks[ landmarkKeys[ i ] as keyof typeof landmarks ].contains( position.x ) ) {
         currentLandmark = landmarkKeys[ i ];
       }
     }
@@ -290,13 +291,13 @@ const BASEDescriber = {
     // landmark takes priority - only find column if we couldn't find landmark
     if ( !currentLandmark ) {
       for ( i = 0; i < columnsKeys.length; i++ ) {
-        if ( columns[ columnsKeys[ i ] ].contains( position.x ) ) {
+        if ( columns[ columnsKeys[ i ] as keyof typeof columns ].contains( position.x ) ) {
           currentColumn = columnsKeys[ i ];
         }
       }
     }
     for ( i = 0; i < rowKeys.length; i++ ) {
-      if ( rows[ rowKeys[ i ] ].contains( position.y ) ) {
+      if ( rows[ rowKeys[ i ] as keyof typeof rows ].contains( position.y ) ) {
         currentRow = rowKeys[ i ];
       }
     }
@@ -309,21 +310,19 @@ const BASEDescriber = {
     if ( wallVisible && ( currentColumn === 'RIGHT_EDGE' || currentColumn === 'AT_RIGHT_EDGE' ) ) {
       currentColumn = 'WALL';
     }
-    if ( !wallVisible && BASEDescriber.inWallColumn( currentColumn ) ) {
+    if ( !wallVisible && currentColumn && BASEDescriber.inWallColumn( currentColumn ) ) {
       currentColumn = 'RIGHT_PLAY_AREA';
     }
 
-    return POSITION_DESCRIPTION_MAP[ currentColumn ][ currentRow ];
+    return POSITION_DESCRIPTION_MAP[ currentColumn! as keyof typeof POSITION_DESCRIPTION_MAP ][ currentRow! as keyof typeof POSITION_DESCRIPTION_MAP[ keyof typeof POSITION_DESCRIPTION_MAP ] ];
   },
 
   /**
    * Returns whether or not the column is in one of the 'wall' columns, could  be at, near, or very close to wall.
-   * @private
    *
-   * @param {string} column - one of keys in POSITION_DESCRIPTION_MAP
-   * @returns {boolean}
+   * @param column - one of keys in POSITION_DESCRIPTION_MAP
    */
-  inWallColumn( column ) {
+  inWallColumn( column: string ): boolean {
     return ( column === 'AT_WALL' || column === 'AT_NEAR_WALL' || column === 'WALL' || column === 'AT_VERY_CLOSE_TO_WALL' );
   },
 
@@ -331,16 +330,15 @@ const BASEDescriber = {
    * Get a fragment that describes the relative charge for an objet, like 'a few' or 'several', to be used in
    * string patterns
    *
-   * @param  {number} charge
-   * @returns {string}
+   * @param charge
    */
-  getRelativeChargeDescription( charge ) {
+  getRelativeChargeDescription( charge: number ): string {
 
     // the description is mapped to the absolute value of charge
     const absCharge = Math.abs( charge );
 
     const keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
-    let description;
+    let description = '';
 
     for ( let i = 0; i < keys.length; i++ ) {
       const value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
@@ -358,15 +356,14 @@ const BASEDescriber = {
    * For a given charge, get the described range. Useful for comparing ranges before and after
    * a charge pickup. Descriptions are generated relative to the absolute value of the charge.
    *
-   * @param  {number} charge
-   * @returns {Range}
+   * @param charge
    */
-  getDescribedChargeRange( charge ) {
+  getDescribedChargeRange( charge: number ): Range {
 
     const describedCharge = Math.abs( charge );
     const keys = Object.keys( RELATIVE_CHARGE_DESCRIPTION_MAP );
 
-    let range;
+    let range!: Range;
     for ( let i = 0; i < keys.length; i++ ) {
       const value = RELATIVE_CHARGE_DESCRIPTION_MAP[ keys[ i ] ];
       if ( value.range.contains( describedCharge ) ) {
@@ -382,12 +379,10 @@ const BASEDescriber = {
   /**
    * Returns true if both balloons the same described charge range.
    *
-   * @param {BalloonModel} balloonA
-   * @param {BalloonModel} balloonB
-   *
-   * @returns {[type]} [description]
+   * @param balloonA
+   * @param balloonB
    */
-  getBalloonsVisibleWithSameChargeRange( balloonA, balloonB ) {
+  getBalloonsVisibleWithSameChargeRange( balloonA: BalloonModel, balloonB: BalloonModel ): boolean {
     const rangeA = BASEDescriber.getDescribedChargeRange( balloonA.chargeProperty.get() );
     const rangeB = BASEDescriber.getDescribedChargeRange( balloonB.chargeProperty.get() );
 
@@ -399,13 +394,11 @@ const BASEDescriber = {
 
   /**
    * Get a direction description from one of BalloonDirectionEnum. Something like down', or 'up and to the left'.
-   * @public
    *
-   * @param {string} direction - one of BalloonDirectionEnum
-   * @returns {string}
+   * @param direction - one of BalloonDirectionEnum
    */
-  getDirectionDescription( direction ) {
-    return DIRECTION_MAP[ direction ];
+  getDirectionDescription( direction: string ): string {
+    return DIRECTION_MAP[ direction as keyof typeof DIRECTION_MAP ];
   },
 
   /**
@@ -414,9 +407,9 @@ const BASEDescriber = {
    * "Each balloon has negative net charge." or
    * "Each balloon has zero net charge."
    *
-   * @returns {string}
+   * @param charge
    */
-  getNetChargeDescriptionWithLabel( charge ) {
+  getNetChargeDescriptionWithLabel( charge: number ): string {
     const chargeAmountString = charge < 0 ? negativeString : zeroString;
     return StringUtils.fillIn( balloonNetChargePatternStringWithLabel, {
       chargeAmount: chargeAmountString,
@@ -431,12 +424,11 @@ const BASEDescriber = {
    * "no charges shown" or
    * "showing many pairs of positive and negative charges"
    *
-   * @param {string} chargesShown
-   * @param {number} numberOfCharges
-   * @returns {string}
+   * @param chargesShown
+   * @param numberOfCharges
    */
-  getNeutralChargesShownDescription( chargesShown, numberOfCharges ) {
-    let description;
+  getNeutralChargesShownDescription( chargesShown: string, numberOfCharges: number ): string {
+    let description: string;
 
     const relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
     if ( chargesShown === 'all' ) {
