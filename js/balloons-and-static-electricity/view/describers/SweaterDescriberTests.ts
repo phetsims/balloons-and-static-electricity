@@ -14,6 +14,7 @@ import SweaterNode from '../SweaterNode.js';
 
 QUnit.module( 'SweaterDescriber', {
   beforeEach: () => {
+    // @ts-expect-error
     window.baseModel.reset();
   }
 } );
