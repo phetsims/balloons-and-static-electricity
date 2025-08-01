@@ -103,16 +103,16 @@ class BASESummaryNode extends Node {
 
     Multilink.multilink( [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ],
       ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges, wallVisible, sweaterCharge ) => {
-      const chargesVisible = showCharges !== 'none';
-      balloonChargeNode.pdomVisible = chargesVisible;
-      sweaterWallChargeNode.pdomVisible = chargesVisible;
+        const chargesVisible = showCharges !== 'none';
+        balloonChargeNode.pdomVisible = chargesVisible;
+        sweaterWallChargeNode.pdomVisible = chargesVisible;
 
-      // update labels if charges are shown
-      if ( chargesVisible ) {
-        balloonChargeNode.innerContent = this.getBalloonChargeDescription();
-        sweaterWallChargeNode.innerContent = this.getSweaterAndWallChargeDescription();
-      }
-    } );
+        // update labels if charges are shown
+        if ( chargesVisible ) {
+          balloonChargeNode.innerContent = this.getBalloonChargeDescription();
+          sweaterWallChargeNode.innerContent = this.getSweaterAndWallChargeDescription();
+        }
+      } );
 
     Multilink.multilink( [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ], ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
 
@@ -263,8 +263,9 @@ class BASESummaryNode extends Node {
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
    *
+   * public for unit tests
    */
-  private getInducedChargeDescription(): string {
+  public getInducedChargeDescription(): string {
     let description = '';
 
     const yellowBalloon = this.yellowBalloon;

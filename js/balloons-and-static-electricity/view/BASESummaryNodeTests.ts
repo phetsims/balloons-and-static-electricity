@@ -156,7 +156,6 @@ QUnit.test( 'Summary tests', assert => {
   model.yellowBalloon.chargeProperty.set( -20 );
   model.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, model.yellowBalloon.getCenter().y ) );
   let expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a little bit. Positive charges do not move.';
-  // @ts-expect-error - accessing private method for testing
   let actualFourthItem = summaryNode.getInducedChargeDescription();
   assert.equal( actualFourthItem, expectedFourthItem );
 
@@ -166,7 +165,6 @@ QUnit.test( 'Summary tests', assert => {
   model.greenBalloon.isVisibleProperty.set( true );
   model.greenBalloon.setCenter( model.yellowBalloon.getCenter() );
   expectedFourthItem = 'Negative charges in wall move away from balloons a little bit. Positive charges do not move.';
-  // @ts-expect-error - accessing private method for testing
   actualFourthItem = summaryNode.getInducedChargeDescription();
   assert.equal( actualFourthItem, expectedFourthItem );
 
@@ -176,7 +174,6 @@ QUnit.test( 'Summary tests', assert => {
   model.yellowBalloon.setCenter( new Vector2( model.yellowBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP ) );
   model.greenBalloon.setCenter( new Vector2( model.greenBalloon.getCenter().x, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM ) );
   expectedFourthItem = 'Negative charges in wall move away from Yellow Balloon a little bit, from Green Balloon a little bit. Positive charges do not move.';
-  // @ts-expect-error - accessing private method for testing
   actualFourthItem = summaryNode.getInducedChargeDescription();
   assert.equal( actualFourthItem, expectedFourthItem );
 } );

@@ -165,7 +165,7 @@ class ControlPanel extends Node {
       touchAreaXDilation: 5,
       tandem: tandem.createTandem( 'showChargesRadioButtonGroup' ),
 
-      // @ts-expect-error - containerTagName is not in the type definition but is used for accessibility
+      // @ts-expect-error
       containerTagName: 'div',
       options: {
         accessibleName: chargeSettingsLabelString,
