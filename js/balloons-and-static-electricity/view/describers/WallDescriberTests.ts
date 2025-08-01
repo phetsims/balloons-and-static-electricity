@@ -8,22 +8,26 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
+import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import BASEView from '../BASEView.js';
 import WallDescriber from './WallDescriber.js';
+
+declare const window: {
+  baseModel: BASEModel;
+  baseView: BASEView;
+};
 
 QUnit.module( 'WallDescriber', {
   beforeEach: () => {
 
-    // @ts-expect-error
     window.baseModel.reset();
   }
 } );
 
 QUnit.test( 'WallDescriber tests', assert => {
-  // @ts-expect-error
   window.baseModel.reset();
 
-  // @ts-expect-error
   const wallNode = window.baseView.wallNode;
 
   // on page load
@@ -32,18 +36,14 @@ QUnit.test( 'WallDescriber tests', assert => {
   assert.equal( actualDescription, expectedDescription );
 
   // yellow balloon neutral at wall, all charges shown
-  // @ts-expect-error
   window.baseModel.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP ) );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges.';
   assert.equal( actualDescription, expectedDescription );
 
   // yellow balloon inducing charge in upper wall, all charges shown
-  // @ts-expect-error
   window.baseModel.yellowBalloon.chargeProperty.set( -10 );
-  // @ts-expect-error
   window.baseModel.yellowBalloon.setCenter( new Vector2( PlayAreaMap.X_POSITIONS.AT_WALL, PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP + 1 ) );
-  // @ts-expect-error
   WallDescriber.getWallChargeDescription( window.baseModel.yellowBalloon, window.baseModel.greenBalloon, window.baseModel.balloonsAdjacentProperty.get(), window.baseModel.wall.isVisibleProperty.get(), 'all' );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges. ' +
@@ -51,11 +51,8 @@ QUnit.test( 'WallDescriber tests', assert => {
   assert.equal( actualDescription, expectedDescription );
 
   // both balloons inducing a charge in upper wall
-  // @ts-expect-error
   window.baseModel.greenBalloon.chargeProperty.set( -10 );
-  // @ts-expect-error
   window.baseModel.greenBalloon.isVisibleProperty.set( true );
-  // @ts-expect-error
   window.baseModel.greenBalloon.setCenter( window.baseModel.yellowBalloon.getCenter() );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area. Has zero net charge, many pairs of negative and positive charges. ' +
@@ -63,14 +60,12 @@ QUnit.test( 'WallDescriber tests', assert => {
   assert.equal( actualDescription, expectedDescription );
 
   // both balloons inducing charge in upper wall, no charges shown
-  // @ts-expect-error
   window.baseModel.showChargesProperty.set( 'none' );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area.';
   assert.equal( actualDescription, expectedDescription );
 
   // both balloons inducing charge in upper wall, charge differences shown
-  // @ts-expect-error
   window.baseModel.showChargesProperty.set( 'diff' );
   actualDescription = wallNode.descriptionContent;
   expectedDescription = 'At right edge of Play Area. Has zero net charge, showing no charges.';

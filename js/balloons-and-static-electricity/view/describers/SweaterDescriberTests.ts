@@ -10,11 +10,16 @@
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import BASEConstants from '../../BASEConstants.js';
 import BASEModel from '../../model/BASEModel.js';
+import BASEView from '../BASEView.js';
 import SweaterNode from '../SweaterNode.js';
+
+declare const window: {
+  baseModel: BASEModel;
+  baseView: BASEView;
+};
 
 QUnit.module( 'SweaterDescriber', {
   beforeEach: () => {
-    // @ts-expect-error
     window.baseModel.reset();
   }
 } );

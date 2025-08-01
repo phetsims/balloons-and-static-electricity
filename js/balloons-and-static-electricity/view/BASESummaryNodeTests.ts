@@ -120,21 +120,18 @@ QUnit.test( 'Summary tests', assert => {
 
   // on load
   let expectedThirdItem = 'Sweater and wall have zero net charge, each has many pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   let actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
   assert.equal( actualThirdItem, expectedThirdItem );
 
   // when wall is invisible
   model.wall.isVisibleProperty.set( false );
   expectedThirdItem = 'Sweater has zero net charge, many pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
   assert.equal( actualThirdItem, expectedThirdItem );
 
   // when showing charge differences
   model.showChargesProperty.set( 'diff' );
   expectedThirdItem = 'Sweater has zero net charge, showing no charges.';
-  // @ts-expect-error - accessing private method for testing
   actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
   assert.equal( actualThirdItem, expectedThirdItem );
 
@@ -144,7 +141,6 @@ QUnit.test( 'Summary tests', assert => {
   model.sweater.chargeProperty.set( 30 );
   expectedThirdItem = 'Sweater has positive net charge, several more positive charges than negative charges. ' +
                       'Wall has zero net charge, many pairs of negative and positive charges.';
-  // @ts-expect-error - accessing private method for testing
   actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
   assert.equal( actualThirdItem, expectedThirdItem );
 
@@ -152,7 +148,6 @@ QUnit.test( 'Summary tests', assert => {
   model.showChargesProperty.set( 'diff' );
   expectedThirdItem = 'Sweater has positive net charge, showing several positive charges. ' +
                       'Wall has zero net charge, showing no charges.';
-  // @ts-expect-error - accessing private method for testing
   actualThirdItem = summaryNode.getSweaterAndWallChargeDescription();
   assert.equal( actualThirdItem, expectedThirdItem );
 

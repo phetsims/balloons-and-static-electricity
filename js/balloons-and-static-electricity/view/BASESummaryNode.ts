@@ -154,8 +154,9 @@ class BASESummaryNode extends Node {
    * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
    *   positive charges."
    *
+   * public for unit tests
    */
-  private getSweaterAndWallChargeDescription(): string {
+  public getSweaterAndWallChargeDescription(): string {
     let description: string;
 
     const chargesShown = this.model.showChargesProperty.get();
