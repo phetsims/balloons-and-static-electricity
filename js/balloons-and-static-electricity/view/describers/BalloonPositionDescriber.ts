@@ -8,6 +8,7 @@
  * @author Jesse Greenberg
  */
 
+import Vector2 from '../../../../../dot/js/Vector2.js';
 import Range from '../../../../../dot/js/Range.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
@@ -16,6 +17,10 @@ import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
 import BASEDescriber from './BASEDescriber.js';
 import WallDescriber from './WallDescriber.js';
+import BalloonModel from '../../model/BalloonModel.js';
+import BASEModel from '../../model/BASEModel.js';
+import WallModel from '../../model/WallModel.js';
+import BalloonDescriber from './BalloonDescriber.js';
 
 const atWallString = BASEA11yStrings.atWall.value;
 const balloonStickingToString = BASEA11yStrings.balloonStickingTo.value;
@@ -139,16 +144,22 @@ const BALLOON_VELOCITY_MAP = {
 
 class BalloonPositionDescriber {
 
-  /**
-   * @param {BalloonDescriber} balloonDescriber - manages all balloon descriptions
-   * @param {BASEModel} model
-   * @param {BalloonModel} balloonModel
-   * @param {string} accessibleName - accessible name for this balloon being described
-   * @param {string} otherAccessibleName - reference to the other balloon being described
-   */
-  constructor( balloonDescriber, model, balloonModel, accessibleName, otherAccessibleName ) {
+  private readonly model: BASEModel;
+  private readonly wall: WallModel;
+  private readonly balloonModel: BalloonModel;
+  private readonly balloonDescriber: BalloonDescriber;
+  private readonly accessibleName: string;
+  private readonly otherAccessibleName: string;
 
-    // @private - for use in instance functions
+  /**
+   * @param balloonDescriber - manages all balloon descriptions
+   * @param model
+   * @param balloonModel
+   * @param accessibleName - accessible name for this balloon being described
+   * @param otherAccessibleName - reference to the other balloon being described
+   */
+  public constructor( balloonDescriber: BalloonDescriber, model: BASEModel, balloonModel: BalloonModel, accessibleName: string, otherAccessibleName: string ) {
+
     this.model = model;
     this.wall = model.wall;
     this.balloonModel = balloonModel;
@@ -157,15 +168,11 @@ class BalloonPositionDescriber {
     this.otherAccessibleName = otherAccessibleName;
   }
 
-
   /**
    * Get a description that describes the attractive state or proximity of the balloon, such as
    * "On...", "sticking to...", "Near..." and so on.
-   * @private
-   *
-   * @returns {string}
    */
-  getAttractiveStateOrProximityDescription() {
+  private getAttractiveStateOrProximityDescription(): string {
     let string = '';
 
     if ( this.balloonModel.onSweater() ) {
@@ -191,11 +198,8 @@ class BalloonPositionDescriber {
    * or position of balloon.
    *
    * NOTE: This function is undoubtedly horrible for i18n.
-   * @private
-   *
-   * @returns {string}
    */
-  getPreposition() {
+  private getPreposition(): string {
     let string = '';
 
     const wallVisible = this.wall.isVisibleProperty.get();
@@ -232,11 +236,8 @@ class BalloonPositionDescriber {
    * Returns a string that combines the balloon's attractive state and position descriptions. Something
    * like "On center of play area" or "Sticking to wall". This fragment is used in a number of different
    * contexts, so it doesn't include punctuation at the end.
-   * @public
-   *
-   * @returns {string}
    */
-  getAttractiveStateAndPositionDescription() {
+  public getAttractiveStateAndPositionDescription(): string {
     const positionDescriptionString = this.getBalloonPositionDescription();
 
     const attractiveStateDescriptionString = this.getAttractiveStateOrProximityDescription();
@@ -252,11 +253,8 @@ class BalloonPositionDescriber {
    * Get a description about how the balloon is sticking to an object with a label. This will form a full sentence.
    * Returns something like:
    * Yellow balloon, sticking to right arm of sweater.
-   * @public
-   *
-   * @returns {string}
    */
-  getAttractiveStateAndPositionDescriptionWithLabel() {
+  public getAttractiveStateAndPositionDescriptionWithLabel(): string {
 
     // to lower case since it is used elsewhere in the string
     const position = this.getAttractiveStateAndPositionDescription().toLowerCase();
@@ -274,11 +272,8 @@ class BalloonPositionDescriber {
    * Get a description of the balloon being "on" an item in the play area. Instead of getting
    * the attractive state of the balloon (like 'touching' or 'sticking' or 'near'), simply say
    * 'on' wherever the balloon is.
-   * @public
-   *
-   * @returns {string}
    */
-  getOnPositionDescription() {
+  public getOnPositionDescription(): string {
 
     const positionDescription = this.getBalloonPositionDescription();
 
@@ -298,11 +293,8 @@ class BalloonPositionDescriber {
    * "upper wall", or
    * "wall, next to Green Balloon", or
    * "right arm of sweater, next to Yellow Balloon"
-   * @public
-   *
-   * @returns {string}
    */
-  getBalloonPositionDescription() {
+  public getBalloonPositionDescription(): string {
     let description = this.getPositionDescriptionWithoutOverlap();
 
     // include information about how balloons are adjacent if necessary
@@ -323,12 +315,8 @@ class BalloonPositionDescriber {
    * "upper wall" or
    *
    * any of the other position descriptions for the PlayAreaMap.
-   *
-   * @private
-   *
-   * @returns {string}
    */
-  getPositionDescriptionWithoutOverlap() {
+  private getPositionDescriptionWithoutOverlap(): string {
     const describedBalloonPosition = this.getDescribedPoint();
     const wallVisible = this.wall.isVisibleProperty.get();
     return BASEDescriber.getPositionDescription( describedBalloonPosition, wallVisible );
@@ -338,12 +326,8 @@ class BalloonPositionDescriber {
    * Get the point on the balloon that should be described. Generally, this is the balloon center.  If the balloon
    * is touching the sweater or the wall, the point of touching should be described.  If near the wall, the described
    * point is the edge of the wall to accomplish a description like "Yellow balloon, Near upper wall".
-   *
-   * @private
-   *
-   * @returns {Vector2}
    */
-  getDescribedPoint() {
+  private getDescribedPoint(): Vector2 {
     let describedBalloonPosition;
 
     if ( this.balloonModel.onSweater() ) {
@@ -360,15 +344,12 @@ class BalloonPositionDescriber {
   /**
    * Get a short description of the balloon's position at a boundary when there is an attempted drag beyond
    * the boundary.  Will return something like "At bottom" or "At top".
-   *
-   * @public
-   *
-   * @returns {string}
+   * TODO: type for attemptedDirection, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
    */
-  getTouchingBoundaryDescription( attemptedDirection ) {
+  public getTouchingBoundaryDescription( attemptedDirection: string ): string {
     assert && assert( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
-    let boundaryString;
+    let boundaryString = '';
     if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BalloonDirectionEnum.DOWN ) {
       boundaryString = atBottomString;
     }
@@ -395,13 +376,8 @@ class BalloonPositionDescriber {
    * "On Sweater."
    * "On sweater, next to green balloon"
    * "Off sweater"
-   *
-   * @public
-   *
-   * @param {boolean} onSweater
-   * @returns {string}
    */
-  getOnSweaterString( onSweater ) {
+  public getOnSweaterString( onSweater: boolean ): string {
     let description;
 
     if ( onSweater ) {
@@ -432,14 +408,11 @@ class BalloonPositionDescriber {
    * Get a description of the balloon's dragging movement when it enters a landmark. Dependent on balloon velocity,
    * drag velocity, and movement direction. Depending on these variables, we might not announce this alert, so
    * this function can return null.
-   * @public
-   *
-   * @returns {string|null}
    */
-  getLandmarkDragDescription() {
+  public getLandmarkDragDescription(): string | null {
     const playAreaLandmark = this.balloonModel.playAreaLandmarkProperty.get();
     const dragSpeed = this.balloonModel.dragVelocityProperty.get().magnitude;
-    let alert = this.getAttractiveStateAndPositionDescription();
+    let alert: string | null = this.getAttractiveStateAndPositionDescription();
 
     // wrap as a single statement with punctuation
     alert = StringUtils.fillIn( singleStatementPatternString, { statement: alert } );
@@ -468,12 +441,8 @@ class BalloonPositionDescriber {
    * Will  be something like:
    * "At center of play area." or
    * "Closer to sweater."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getKeyboardMovementAlert() {
+  public getKeyboardMovementAlert(): string {
     let alert;
 
     // percent of progress through the region
@@ -507,16 +476,12 @@ class BalloonPositionDescriber {
    *
    * "Moves extremely slowly left." or
    * "Yellow balloon, moves slowly left."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getInitialReleaseDescription() {
+  public getInitialReleaseDescription(): string {
 
     // the balloon is moving with some initial velocity, describe that
     const velocityString = this.getVelocityString();
-    const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
+    const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get()! );
 
     let description;
     if ( this.model.bothBalloonsVisible() ) {
@@ -542,14 +507,10 @@ class BalloonPositionDescriber {
    * Will return something like
    * "Moving Left." or
    * "Moving Left. Near wall."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getContinuousReleaseDescription() {
+  public getContinuousReleaseDescription(): string {
     let description;
-    const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get() );
+    const directionString = this.getReleaseDirectionDescription( this.balloonModel.directionProperty.get()! );
 
     // describes movement and direction, including label if both balloons are visible
     if ( this.balloonModel.other.isVisibleProperty.get() ) {
@@ -581,12 +542,8 @@ class BalloonPositionDescriber {
    * are visible, we include information about the induced charge in the wall. Will return something like
    * "No change in position. Yellow balloon, on left side of Play Area." or
    * "No change in position. Yellow Balloon, at wall. Negative charges in wall move away from yellow balloon a lot."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getNoChangeReleaseDescription() {
+  public getNoChangeReleaseDescription(): string {
     let description;
 
     const attractiveStateAndPositionDescription = this.getAttractiveStateAndPositionDescriptionWithLabel();
@@ -632,18 +589,15 @@ class BalloonPositionDescriber {
 
   /**
    * Get a description of velocity for this balloon, one of "very slowly", "slowly", "quickly", "very quickly"
-   *
-   * @private
-   * @returns {string}
    */
-  getVelocityString() {
-    let velocityString;
+  private getVelocityString(): string {
+    let velocityString = '';
 
     const balloonVelocity = this.balloonModel.velocityProperty.get();
 
     const keys = Object.keys( BALLOON_VELOCITY_MAP );
     for ( let i = 0; i < keys.length; i++ ) {
-      const entry = BALLOON_VELOCITY_MAP[ keys[ i ] ];
+      const entry = BALLOON_VELOCITY_MAP[ keys[ i ] as keyof typeof BALLOON_VELOCITY_MAP ];
       if ( entry.range.contains( balloonVelocity.magnitude ) ) {
         velocityString = entry.description;
         break;
@@ -658,14 +612,9 @@ class BalloonPositionDescriber {
   /**
    * Get a movement description from the movement direction tracked in the model.  The direction
    * is one of BalloonDirectionEnum.
-   *
-   * @private
-   *
-   * @param {string} direction - one of BalloonDirectionEnum
-   * @returns {string}
    */
-  getDraggingDirectionDescription( direction ) {
-    const movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction ];
+  private getDraggingDirectionDescription( direction: string ): string {
+    const movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction as keyof typeof BALLOON_DIRECTION_DRAGGING_MAP ];
 
     assert && assert( movementString, `no direction description found for balloon moving direction ${direction}` );
     return movementString;
@@ -674,13 +623,9 @@ class BalloonPositionDescriber {
   /**
    * Get a description of the balloon movement direction when the balloon is not currently
    * being dragged.
-   *
-   * @public
-   *
-   * @param  {string} direction - one of BalloonDirectionEnum
    */
-  getReleaseDirectionDescription( direction ) {
-    const movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction ];
+  public getReleaseDirectionDescription( direction: string ): string {
+    const movementString = BALLOON_DIRECTION_RELEASE_MAP[ direction as keyof typeof BALLOON_DIRECTION_RELEASE_MAP ];
 
     assert && assert( movementString, `no direction description found for balloon moving direction ${direction}` );
     return movementString;
@@ -689,12 +634,8 @@ class BalloonPositionDescriber {
   /**
    * Get the dragging description while the balloon is moving through the play area being dragged and enters
    * a new region in the play area.
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getPlayAreaDragNewRegionDescription() {
+  public getPlayAreaDragNewRegionDescription(): string {
 
     const nearOrAt = this.getPreposition();
     const balloonCenter = this.balloonModel.getCenter();
@@ -710,12 +651,8 @@ class BalloonPositionDescriber {
 
   /**
    * Get a progress string toward the sweater, wall, top edge, bottom edge, or center of play area.
-   *
-   * @private
-   *
-   * @returns {string}
    */
-  getPlayAreaDragProgressDescription() {
+  private getPlayAreaDragProgressDescription(): string {
     let nearestObjectString;
 
     const centerPlayAreaX = PlayAreaMap.X_POSITIONS.AT_CENTER_PLAY_AREA;
@@ -769,24 +706,20 @@ class BalloonPositionDescriber {
    *
    * "Left." or
    * "Now Left."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getDirectionChangedDescription() {
+  public getDirectionChangedDescription(): string {
     let description;
 
     const direction = this.balloonModel.directionProperty.get();
     if ( this.balloonModel.isDraggedProperty.get() ) {
 
       // when dragged, just the direction
-      description = this.getDraggingDirectionDescription( direction );
+      description = this.getDraggingDirectionDescription( direction! );
     }
     else {
 
       // when not dragged, add 'Now' to direction
-      const directionString = this.getReleaseDirectionDescription( direction );
+      const directionString = this.getReleaseDirectionDescription( direction! );
       if ( this.model.bothBalloonsVisible() ) {
         description = StringUtils.fillIn( twoBalloonNowDirectionPatternString, {
           balloon: this.accessibleName,
@@ -810,12 +743,8 @@ class BalloonPositionDescriber {
    *
    * "Green balloon, at upper wall. In upper wall, no change in charges." or
    * "Green balloon, at wall. Negative charges in wall move away from yellow balloon a little bit."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getMovementStopsDescription() {
+  public getMovementStopsDescription(): string {
     let descriptionString;
 
     // the position string is used for all charge views, used as a single sentence
@@ -851,12 +780,8 @@ class BalloonPositionDescriber {
    * Returns true if the balloon is moving slow enough to warrant continuous movement descriptions, but fast enough
    * for the movement to be observable. This is to prevent this alert from firing indefinitely if the balloon has
    * some arbitrary velocity.
-   *
-   * @public
-   *
-   * @returns {boolean}
    */
-  balloonMovingAtContinuousDescriptionVelocity() {
+  public balloonMovingAtContinuousDescriptionVelocity(): boolean {
     const velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
     return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
            velocityMagnitude > 0.0005; // value chosen empirically, see #413
@@ -869,12 +794,8 @@ class BalloonPositionDescriber {
    * setting. If the balloon is inducing charge, information about induced charge will be included.
    * If the balloon is on the sweater, will include information about the charges on the sweater. After the
    * balloon has been picked up once, we don't need to describe help information until reset.
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getGrabbedAlert() {
+  public getGrabbedAlert(): string {
     let description;
 
     // charges visible in the view
@@ -892,9 +813,11 @@ class BalloonPositionDescriber {
       let chargeDescription;
 
       if ( this.model.getBalloonsAdjacent() ) {
+        // @ts-expect-error - accessing private property for internal logic
         chargeDescription = this.balloonDescriber.chargeDescriber.getCombinedRelativeChargeDescription();
       }
       else {
+        // @ts-expect-error - accessing private property for internal logic
         chargeDescription = this.balloonDescriber.chargeDescriber.getHasRelativeChargeDescription();
       }
 
@@ -906,6 +829,7 @@ class BalloonPositionDescriber {
       const inducingChargeOrTouchingWall = this.balloonModel.inducingChargeProperty.get() || this.balloonModel.touchingWall();
       const onSweater = this.balloonModel.onSweater();
       if ( inducingChargeOrTouchingWall || onSweater && ( chargesShown !== 'none' ) ) {
+        // @ts-expect-error - accessing private property for internal logic
         const otherObjectCharge = this.balloonDescriber.chargeDescriber.getOtherObjectChargeDescription();
         chargeDescription = StringUtils.fillIn( grabbedWithOtherChargePatternString, {
           balloonCharge: chargeDescription,
@@ -943,12 +867,8 @@ class BalloonPositionDescriber {
    * Get a description of where the balloon jumped to.  Depending on where the balloon goes, there
    * could be an indication of where the balloon is in the play area, and potentially the state of
    * the induced charge in the wall.
-   *
-   * @public
-   * @param  {Vector2} center
-   * @returns {string}
    */
-  getJumpingDescription( center ) {
+  public getJumpingDescription( center: Vector2 ): string {
     let description = '';
 
     // all jumping is in the x direction
@@ -998,7 +918,6 @@ class BalloonPositionDescriber {
     }
 
     // after jumping, reset induced charge description flags
-    this.inducedChargeDisplacementOnEnd = false;
     return description;
   }
 }
