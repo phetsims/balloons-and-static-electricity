@@ -14,13 +14,11 @@ import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import ShowChargesValues from '../../model/ShowChargesValues.js';
 import WallModel from '../../model/WallModel.js';
 import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
-
-// TODO: This is duplicated in a few files, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
-type ShowChargesValues = 'all' | 'none' | 'diff';
 
 const summaryBalloonNeutralChargeString = BASEA11yStrings.summaryBalloonNeutralCharge.value;
 const balloonNetChargePatternString = BASEA11yStrings.balloonNetChargePattern.value;
@@ -139,7 +137,7 @@ export default class BalloonChargeDescriber {
     // the relative charge, used in all cases
     const sameChargeRange = BASEDescriber.getBalloonsVisibleWithSameChargeRange( this.balloonModel, this.balloonModel.other );
 
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
 
     // if both balloons have the same charge range, describe together
     if ( sameChargeRange ) {
@@ -178,7 +176,7 @@ export default class BalloonChargeDescriber {
     assert && assert( onSweater || inducingChargeOrTouchingWall, 'only include this phrase when balloon is inducing charge or on sweater' );
     let description = '';
 
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
 
     // if balloon is inducing charge, describe that object
     if ( inducingChargeOrTouchingWall ) {
@@ -319,7 +317,7 @@ export default class BalloonChargeDescriber {
    * once.
    */
   public describeInducedChargeChange(): boolean {
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
     const wallVisible = this.wall.isVisibleProperty.get();
     const jumping = this.balloonModel.jumping;
     return !jumping &&
@@ -333,7 +331,7 @@ export default class BalloonChargeDescriber {
    * A description of the balloon's relative charge but modified slightly for the context of the screen summary.
    */
   public getSummaryRelativeChargeDescription(): string {
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
 
     if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'all' ) {
       return summaryBalloonNeutralChargeString;
@@ -351,7 +349,7 @@ export default class BalloonChargeDescriber {
    */
   public getHasRelativeChargeDescription(): string {
     const balloonCharge = this.balloonModel.chargeProperty.get();
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
     let chargeDescription = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
 
     if ( chargesShown === 'all' ) {

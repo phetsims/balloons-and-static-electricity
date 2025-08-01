@@ -15,6 +15,7 @@ import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import ShowChargesValues from '../../model/ShowChargesValues.js';
 import WallModel from '../../model/WallModel.js';
 import BASEDescriber from './BASEDescriber.js';
 
@@ -66,7 +67,7 @@ const INDUCED_CHARGE_DESCRIPTION_MAP = {
 export default class WallDescriber {
 
   private readonly wallModel: WallModel;
-  private readonly showChargesProperty: StringUnionProperty<'all' | 'none' | 'diff'>;
+  private readonly showChargesProperty: StringUnionProperty<ShowChargesValues>;
 
   public constructor( model: BASEModel ) {
     this.wallModel = model.wall;

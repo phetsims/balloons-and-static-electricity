@@ -40,8 +40,6 @@ import BASEDescriber from './BASEDescriber.js';
 import SweaterDescriber from './SweaterDescriber.js';
 import WallDescriber from './WallDescriber.js';
 
-type ShowChargesValues = 'all' | 'none' | 'diff';
-
 const balloonShowAllChargesPatternString = BASEA11yStrings.balloonShowAllChargesPattern.value;
 const balloonAtPositionPatternString = BASEA11yStrings.balloonAtPositionPattern.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
@@ -344,7 +342,7 @@ export default class BalloonDescriber extends Alerter {
    */
   public getBalloonDescription(): string {
     let description: string;
-    const showCharges = this.showChargesProperty.get() as ShowChargesValues;
+    const showCharges = this.showChargesProperty.get();
 
     let attractiveStateAndPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
     attractiveStateAndPositionString = StringUtils.fillIn( singleStatementPatternString, {
@@ -379,7 +377,7 @@ export default class BalloonDescriber extends Alerter {
    */
   public getChargePickupDescription( firstPickup = false ): string {
     let description = '';
-    const shownCharges = this.showChargesProperty.get() as ShowChargesValues;
+    const shownCharges = this.showChargesProperty.get();
 
     const newCharge = this.balloonModel.chargeProperty.get();
     const newRange = BASEDescriber.getDescribedChargeRange( newCharge );
@@ -446,7 +444,7 @@ export default class BalloonDescriber extends Alerter {
    */
   public getInitialChargePickupDescription(): string {
     let description = '';
-    const shownCharges = this.showChargesProperty.get() as ShowChargesValues;
+    const shownCharges = this.showChargesProperty.get();
 
     const picksUpCharges = StringUtils.fillIn( balloonPicksUpChargesPatternString, {
       balloon: this.accessibleName
@@ -478,7 +476,7 @@ export default class BalloonDescriber extends Alerter {
    */
   public getNoChargePickupDescription(): string {
     let alert = '';
-    const chargesShown = this.showChargesProperty.get() as ShowChargesValues;
+    const chargesShown = this.showChargesProperty.get();
 
     const balloonPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
     const sweaterCharge = this.model.sweater.chargeProperty.get();
@@ -561,7 +559,7 @@ export default class BalloonDescriber extends Alerter {
       statement: atPositionString
     } );
 
-    const shownCharges = this.showChargesProperty.get() as ShowChargesValues;
+    const shownCharges = this.showChargesProperty.get();
     const wallVisible = this.wall.isVisibleProperty.get();
     if ( shownCharges === 'none' ) {
       descriptionString = atPositionString;
@@ -673,7 +671,7 @@ export default class BalloonDescriber extends Alerter {
    * Dependent on the charge view.
    */
   public getLastChargePickupDescription(): string {
-    const shownCharges = this.showChargesProperty.get() as ShowChargesValues;
+    const shownCharges = this.showChargesProperty.get();
     const charge = this.balloonModel.chargeProperty.get();
 
     const sweaterChargeString = SweaterDescriber.getNoMoreChargesAlert( charge, shownCharges );

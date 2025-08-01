@@ -18,13 +18,14 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import ScanningPropertySet from './ScanningPropertySet.js';
+import ShowChargesValues, { ShowChargesConstValues } from './ShowChargesValues.js';
 import SweaterModel from './SweaterModel.js';
 import WallModel from './WallModel.js';
 
 export default class BASEModel {
 
   // charge visibility setting, valid values of 'all', 'none', 'diff'
-  public readonly showChargesProperty: StringUnionProperty<'all' | 'none' | 'diff'>;
+  public readonly showChargesProperty: StringUnionProperty<ShowChargesValues>;
 
   // whether the two balloons are considered 'next to' each other, primarily used for a11y
   public readonly balloonsAdjacentProperty: Property<boolean>;
@@ -65,8 +66,8 @@ export default class BASEModel {
    */
   public constructor( width: number, height: number, tandem: Tandem ) {
 
-    this.showChargesProperty = new StringUnionProperty<'all' | 'none' | 'diff'>( 'all', {
-      validValues: [ 'all', 'none', 'diff' ],
+    this.showChargesProperty = new StringUnionProperty<ShowChargesValues>( 'all', {
+      validValues: ShowChargesConstValues,
       tandem: tandem.createTandem( 'showChargesProperty' ),
       phetioFeatured: true
     } );
