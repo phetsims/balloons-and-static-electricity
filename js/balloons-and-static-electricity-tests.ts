@@ -12,26 +12,31 @@ import './balloons-and-static-electricity/view/BASESummaryNodeTests.js';
 import './balloons-and-static-electricity/view/describers/BalloonDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/SweaterDescriberTests.js';
 import './balloons-and-static-electricity/view/describers/WallDescriberTests.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 const iframe = document.createElement( 'iframe' );
 iframe.id = 'testFrame';
 
 /**
- * @param {DOMEvent} event
- * @param {function} resolve - resolve function for the Promise this is passed to
+ * @param event
+ * @param resolve - resolve function for the Promise this is passed to
  */
-const loadListener = ( event, resolve ) => {
+const loadListener = ( event: IntentionalAny, resolve: IntentionalAny ) => {
   if ( !event ) {
     return;
   }
   const data = JSON.parse( event.data );
 
   if ( data.type === 'load' ) {
+    // @ts-expect-error
     window.removeEventListener( 'message', loadListener );
+    // @ts-expect-error
     window.baseModel = iframe.contentWindow.phet.joist.sim.screens[ 0 ].model;
+    // @ts-expect-error
     window.baseView = iframe.contentWindow.phet.joist.sim.screens[ 0 ].view;
 
     // no animation or input for tests, all Properties are controlled directly through access to the model
+    // @ts-expect-error
     iframe.contentWindow.phet.joist.sim.activeProperty.set( false );
 
     resolve();
@@ -55,8 +60,11 @@ QUnit.begin( () => {
 } );
 
 QUnit.done( () => {
+  // @ts-expect-error
   delete window.baseModel;
+  // @ts-expect-error
   delete window.baseView;
 
+  // @ts-expect-error
   document.body.removeChild( document.getElementById( iframe.id ) );
 } );
