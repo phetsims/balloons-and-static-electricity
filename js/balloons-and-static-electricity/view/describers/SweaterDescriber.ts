@@ -13,6 +13,9 @@ import BASEConstants from '../../BASEConstants.js';
 import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEDescriber from './BASEDescriber.js';
+import BASEModel from '../../model/BASEModel.js';
+import SweaterModel from '../../model/SweaterModel.js';
+import PointChargeModel from '../../model/PointChargeModel.js';
 
 // strings
 const sweaterPositionString = BASEA11yStrings.sweaterPosition.value;
@@ -45,13 +48,17 @@ const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharge
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
 class SweaterDescriber {
+
+  private readonly model: BASEModel;
+  private readonly sweaterModel: SweaterModel;
+
   /**
    * Manages all descriptions relating to the sweater.
    *
-   * @param {BASEModel} model
-   * @param {Sweater} sweaterModel
+   * @param model
+   * @param sweaterModel
    */
-  constructor( model, sweaterModel ) {
+  public constructor( model: BASEModel, sweaterModel: SweaterModel ) {
     this.model = model;
     this.sweaterModel = sweaterModel;
   }
@@ -64,12 +71,10 @@ class SweaterDescriber {
    * "At left edge of Play Area. Has positive net charge, showing all positive charges." or
    * "At left edge of Play Area. Has positive net charge, no more negative charges, only positive charges." or
    * "At left edge of Play Area. Has positive net charge, several more positive charges than negative charges."
-   * @public
    *
-   * @param {Property.<string>} showCharges
-   * @returns {string}
+   * @param showCharges
    */
-  getSweaterDescription( showCharges ) {
+  public getSweaterDescription( showCharges: string ): string {
 
     // if we are not showing any charges, just return a description for the position
     if ( showCharges === 'none' ) {
@@ -142,14 +147,12 @@ class SweaterDescriber {
    * "Sweater has several more positive charges than negative charges." or
    * "Sweater has positive net charge, showing several positive charges." or
    * "Sweater has no more negative charges, only positive charges."
-   * @public
    *
-   * @param  {number} charge
-   * @param  {string} shownCharges
-   * @returns {string}
+   * @param charge
+   * @param shownCharges
    */
-  static getRelativeChargeDescriptionWithLabel( charge, shownCharges ) {
-    let description;
+  public static getRelativeChargeDescriptionWithLabel( charge: number, shownCharges: string ): string {
+    let description = '';
 
     // the relative charge on the sweater, something like 'several' or 'many'
     const absCharge = Math.abs( charge );
@@ -192,12 +195,10 @@ class SweaterDescriber {
    * Get the relative charge on the sweater.  Usually just returns the relative description
    * from BASEDescriber, but if all charges are gone, the sweater uses a special
    * word to indicate this.
-   * @public
    *
-   * @param {number} charge
-   * @returns {string}
+   * @param charge
    */
-  static getRelativeChargeDescription( charge ) {
+  public static getRelativeChargeDescription( charge: number ): string {
 
     if ( charge === BASEConstants.MAX_BALLOON_CHARGE ) {
       return allString;
@@ -210,13 +211,12 @@ class SweaterDescriber {
   /**
    * Get an alert describing the sweater when it runs out of charges.  Dependent on the
    * charge visibility.
-   * @public
    *
-   * @param  {string} shownCharges
-   * @returns {string}
+   * @param charge
+   * @param shownCharges
    */
-  static getNoMoreChargesAlert( charge, shownCharges ) {
-    let alert;
+  public static getNoMoreChargesAlert( charge: number, shownCharges: string ): string {
+    let alert = '';
     if ( shownCharges === 'all' ) {
       alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
         relativeCharge: sweaterNoMoreChargesString
@@ -233,12 +233,10 @@ class SweaterDescriber {
    * Get a description of the net charge of the sweater, will return either
    * "Sweater has positive net charge." or
    * "Sweater has neutral net charge."
-   * @public
    *
-   * @param {number} sweaterCharge
-   * @returns {string}
+   * @param sweaterCharge
    */
-  static getNetChargeDescription( sweaterCharge ) {
+  public static getNetChargeDescription( sweaterCharge: number ): string {
     const relativeChargeString = ( sweaterCharge === 0 ) ? neutralNetChargeString : positiveNetChargeString;
     return StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
       relativeCharge: relativeChargeString
@@ -250,18 +248,18 @@ class SweaterDescriber {
    * dependent on charge visibility setting. Will return something like
    * "More pairs of charges up and to the left". or
    * "More pairs of hidden charges down".
-   * @public
    *
-   * @param {BalloonModel} balloon
-   * @param {string} shownCharges
-   * @returns {string}
+   * @param balloon
+   * @param sweaterCharge
+   * @param sweaterCharges
+   * @param shownCharges
    */
-  static getMoreChargesDescription( balloon, sweaterCharge, sweaterCharges, shownCharges ) {
+  public static getMoreChargesDescription( balloon: BalloonModel, sweaterCharge: number, sweaterCharges: PointChargeModel[], shownCharges: string ): string {
     assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );
     assert && assert( shownCharges !== 'none', 'this description should not be used when no charges are shown' );
 
     // get the next charge to describe
-    let charge;
+    let charge!: PointChargeModel;
     for ( let i = 0; i < sweaterCharges.length; i++ ) {
       charge = sweaterCharges[ i ];
       if ( !charge.movedProperty.get() ) {
@@ -271,11 +269,11 @@ class SweaterDescriber {
 
     // get the description of the direction to the closest charge
     const direction = BalloonModel.getDirection( charge.position, balloon.getCenter() );
-    const directionDescription = BASEDescriber.getDirectionDescription( direction );
+    const directionDescription = BASEDescriber.getDirectionDescription( direction! );
 
-    const patternString = BalloonDirectionEnum.isRelativeDirection( direction ) ? moreChargesFurtherPatternString : moreChargesPatternString;
+    const patternString = BalloonDirectionEnum.isRelativeDirection( direction! ) ? moreChargesFurtherPatternString : moreChargesPatternString;
 
-    let moreChargesString;
+    let moreChargesString = '';
     if ( shownCharges === 'all' ) {
       moreChargesString = morePairsOfChargesString;
     }
@@ -295,11 +293,8 @@ class SweaterDescriber {
    * "Sweater has positive net charge, showing a few positive charges."
    * "Sweater has zero net charge, many pairs of positive and negative charges."
    * "Sweater has zero net charge, showing no charges."
-   * @public
-   *
-   * @returns {string}
    */
-  static getSummaryChargeDescription( chargesShown, charge ) {
+  public static getSummaryChargeDescription( chargesShown: string, charge: number ): string {
 
     // description of the sweater object, like "Sweater has zero net charge"
     const chargeSignString = charge > 0 ? positiveString : zeroString;
@@ -319,7 +314,7 @@ class SweaterDescriber {
     else if ( chargesShown === 'diff' ) {
       chargeString = ( charge === 0 ) ?
                      showingNoChargesString :
-                     chargeString = StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );
+                     StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );
     }
 
     return StringUtils.fillIn( summaryObjectChargePatternString, {

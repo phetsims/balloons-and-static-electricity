@@ -24,6 +24,7 @@ import WallModel from './WallModel.js';
 class BASEModel {
 
   // charge visibility setting, valid values of 'all', 'none', 'diff'
+  // TODO: Better type, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
   public readonly showChargesProperty: StringProperty;
 
   // whether or not the two balloons are considered 'next to' each other, primarily used for a11y

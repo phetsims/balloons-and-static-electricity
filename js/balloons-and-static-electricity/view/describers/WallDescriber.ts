@@ -5,13 +5,19 @@
  * @author Jesse Greenberg
  */
 
+import StringProperty from '../../../../../axon/js/StringProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
+ 
 import merge from '../../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
+import BalloonModel from '../../model/BalloonModel.js';
+import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
+import WallModel from '../../model/WallModel.js';
 import BASEDescriber from './BASEDescriber.js';
 
 // strings
@@ -58,21 +64,16 @@ const INDUCED_CHARGE_DESCRIPTION_MAP = {
 };
 
 class WallDescriber {
-  /**
-   * @param {BASEmodel} model
-   */
-  constructor( model ) {
 
-    // @private {WallModel}
+  private readonly wallModel: WallModel;
+  private readonly yellowBalloon: BalloonModel;
+  private readonly greenBalloon: BalloonModel;
+  private readonly showChargesProperty: StringProperty;
+
+  public constructor( model: BASEModel ) {
     this.wallModel = model.wall;
-
-    // @private {BalloonModel}
-    this.yellowBalloon = model.greenBalloon;
-
-    // @private {BalloonModel}
+    this.yellowBalloon = model.yellowBalloon;
     this.greenBalloon = model.greenBalloon;
-
-    // @private showChargesProperty
     this.showChargesProperty = model.showChargesProperty;
   }
 
@@ -81,13 +82,8 @@ class WallDescriber {
    * Get the full description for the wall including its position, net charge, and induced charge.  This is used
    * as the general description for the wall which an AT user can read at any time with the virtual cursor.
    * The content is dependent on the view representation of charges (model.showchargesProperty).
-   *
-   * @public
-   * @param  {BalloonModel} yellowBalloon
-   * @param  {BalloonModel} greenBalloon
-   * @returns {string}
    */
-  getWallDescription( yellowBalloon, greenBalloon, balloonsAdjacent ) {
+  public getWallDescription( yellowBalloon: BalloonModel, greenBalloon: BalloonModel, balloonsAdjacent: boolean ): string {
     let description;
 
     // if no charges are shown, the position is the only part of the description
@@ -113,11 +109,8 @@ class WallDescriber {
   /**
    * Get the described charge in the wall, dependent on charge visibility, whether or not there is induced charge,
    * and which balloons are visible. This portion of the description does not include any wall position information.
-   * @public
-   *
-   * @returns {string}
    */
-  static getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown ) {
+  public static getWallChargeDescription( yellowBalloon: BalloonModel, greenBalloon: BalloonModel, balloonsAdjacent: boolean, wallVisible: boolean, chargesShown: string ): string {
 
     let inducedChargeString;
     let yellowBalloonInducedChargeString;
@@ -203,16 +196,8 @@ class WallDescriber {
   /**
    * Get a description of the wall charge that includes the label. Something like
    * "Wall has no net charge, showing..."
-   * @public
-   *
-   * @param {BalloonModel} yellowBalloon
-   * @param {BalloonModel} greenBalloon
-   * @param {boolean} wallVisible
-   * @param {string} chargesShown
-   *
-   * @returns {string}
    */
-  static getWallChargeDescriptionWithLabel( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown ) {
+  public static getWallChargeDescriptionWithLabel( yellowBalloon: BalloonModel, greenBalloon: BalloonModel, balloonsAdjacent: boolean, wallVisible: boolean, chargesShown: string ): string {
     let description = WallDescriber.getWallChargeDescription( yellowBalloon, greenBalloon, balloonsAdjacent, wallVisible, chargesShown );
     description = description.toLowerCase();
 
@@ -224,18 +209,14 @@ class WallDescriber {
   /**
    * Get the induced charge amount description for the balloon, describing whether the charges are
    * "a little bit" displaced and so on.
-   * @public
-   *
-   * @param  {BalloonModel} balloon
-   * @returns {string}
    */
-  static getInducedChargeAmountDescription( balloon ) {
+  public static getInducedChargeAmountDescription( balloon: BalloonModel ): string {
 
-    let amountDescription;
+    let amountDescription = '';
     const descriptionKeys = Object.keys( INDUCED_CHARGE_DESCRIPTION_MAP );
     for ( let j = 0; j < descriptionKeys.length; j++ ) {
-      const value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] ];
-      if ( value.range.contains( balloon.closestChargeInWall.getDisplacement() ) ) {
+      const value = INDUCED_CHARGE_DESCRIPTION_MAP[ descriptionKeys[ j ] as keyof typeof INDUCED_CHARGE_DESCRIPTION_MAP ];
+      if ( balloon.closestChargeInWall && value.range.contains( balloon.closestChargeInWall.getDisplacement() ) ) {
         amountDescription = value.description;
       }
     }
@@ -245,12 +226,8 @@ class WallDescriber {
   /**
    * Get the description for induced charge when there is no induced charge. Something like
    * "In wall, no change in charges."
-   * @public
-   *
-   * @param {string} positionString
-   * @returns {string}
    */
-  static getNoChangeInChargesDescription( positionString ) {
+  public static getNoChangeInChargesDescription( positionString: string ): string {
     return StringUtils.fillIn( wallNoChangeInChargesPatternString, {
       position: positionString
     } );
@@ -259,14 +236,8 @@ class WallDescriber {
   /**
    * Get the induced charge description without the amount of induced charge. Will return something like
    * "Negative charges in wall move away from yellow balloon."
-   * @public
-   *
-   * @param {BalloonModel} balloon
-   * @param {string} balloonLabel
-   * @param {boolean} wallVisible
-   * @returns {string}
    */
-  static getInducedChargeDescriptionWithNoAmount( balloon, balloonLabel, wallVisible ) {
+  public static getInducedChargeDescriptionWithNoAmount( balloon: BalloonModel, balloonLabel: string, wallVisible: boolean ): string {
     let descriptionString;
 
     const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, true );
@@ -290,21 +261,13 @@ class WallDescriber {
    *
    * "Negative charges in wall move away from yellow balloon a little bit." or
    * "Negative charges in wall move away from yellow balloon a little bit. Positive charges do not move."
-   *
-   * @static
-   * @public
-   *
-   * @param {BalloonModel} balloon
-   * @param {string} balloonLabel
-   * @param {boolean} wallVisible
-   * @param {object} [options]
-   * @returns {string}
    */
-  static getInducedChargeDescription( balloon, balloonLabel, wallVisible, options ) {
+  public static getInducedChargeDescription( balloon: BalloonModel, balloonLabel: string, wallVisible: boolean, options?: IntentionalAny ): string {
+    // eslint-disable-next-line phet/bad-typescript-text
     options = merge( {
       includeWallPosition: true, // include position in the wall?
       includePositiveChargeInfo: true // include information about positive charges how positive charges do not move?
-    }, options );
+    }, options || {} );
 
     let descriptionString;
     const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
@@ -344,16 +307,14 @@ class WallDescriber {
    *
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in lower wall move away from balloons quite a lot. Positive charges do not move."
-   * @public
-   *
-   * @returns {string}
    */
-  static getCombinedInducedChargeDescription( balloon, wallVisible, options ) {
+  public static getCombinedInducedChargeDescription( balloon: BalloonModel, wallVisible: boolean, options?: IntentionalAny ): string {
 
+    // eslint-disable-next-line phet/bad-typescript-text
     options = merge( {
       includeWallPosition: true,
       includePositiveChargeInfo: true
-    }, options );
+    }, options || {} );
     let descriptionString;
     const chargePositionString = WallDescriber.getInducedChargePositionDescription( balloon, wallVisible, options.includeWallPosition );
 
@@ -387,15 +348,8 @@ class WallDescriber {
    * "wall"
    * "upper wall"
    * "lower wall"
-   *
-   * @param {[type]} balloon [description]
-   * @param wallVisible
-   * @param {[type]} includeWallPosition [description]
-   * @public
-   *
-   * @returns {[type]} [description]
    */
-  static getInducedChargePositionDescription( balloon, wallVisible, includeWallPosition ) {
+  public static getInducedChargePositionDescription( balloon: BalloonModel, wallVisible: boolean, includeWallPosition: boolean ): string {
     const chargePositionX = PlayAreaMap.X_POSITIONS.AT_WALL;
     const chargePositionY = includeWallPosition ? balloon.getCenterY() : PlayAreaMap.ROW_RANGES.CENTER_PLAY_AREA.getCenter();
     const chargePosition = new Vector2( chargePositionX, chargePositionY );
@@ -405,13 +359,8 @@ class WallDescriber {
   /**
    * Get a summary of charges in the wall, for the screen summary. The wall is always neutral, so only depends
    * on which charges are visible and number of pairs in the wall.
-   * @public
-   *
-   * @param {string} chargesShown - one of 'none'|'all'|'diff'
-   * @param numberOfCharges
-   * @returns {string}
    */
-  static getSummaryChargeDescription( chargesShown, numberOfCharges ) {
+  public static getSummaryChargeDescription( chargesShown: string, numberOfCharges: number ): string {
     const chargeString = BASEDescriber.getNeutralChargesShownDescription( chargesShown, numberOfCharges );
 
     const wallObjectString = StringUtils.fillIn( summaryObjectHasChargePatternString, {
