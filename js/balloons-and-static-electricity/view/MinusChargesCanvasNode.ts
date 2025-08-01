@@ -33,7 +33,7 @@ const getChargeNode = (): MinusChargeNode => {
   return chargeNode;
 };
 
-class MinusChargesCanvasNode extends CanvasNode {
+export default class MinusChargesCanvasNode extends CanvasNode {
 
   private readonly charges: MovablePointChargeModel[];
   private readonly wallX: number;
@@ -81,5 +81,3 @@ class MinusChargesCanvasNode extends CanvasNode {
 }
 
 balloonsAndStaticElectricity.register( 'MinusChargesCanvasNode', MinusChargesCanvasNode );
-
-export default MinusChargesCanvasNode;

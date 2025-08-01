@@ -75,7 +75,7 @@ const CHARGE_DESCRIPTION_REFRESH_RATE = 2000;
 // in ms, time between alerts that tell user balloon continues to move due to force
 const RELEASE_DESCRIPTION_REFRESH_RATE = 5000;
 
-class BalloonDescriber extends Alerter {
+export default class BalloonDescriber extends Alerter {
 
   private readonly model: BASEModel;
   private readonly wall: WallModel;
@@ -1031,5 +1031,3 @@ class BalloonDescriber extends Alerter {
 }
 
 balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );
-
-export default BalloonDescriber;

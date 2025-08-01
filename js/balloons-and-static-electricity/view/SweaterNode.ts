@@ -26,7 +26,7 @@ import PlusChargeNode from './PlusChargeNode.js';
 const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
 
-class SweaterNode extends Node {
+export default class SweaterNode extends Node {
 
   private readonly plusChargesNode: Node;
   private readonly minusChargesNode: Node;
@@ -128,4 +128,3 @@ class SweaterNode extends Node {
 }
 
 balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );
-export default SweaterNode;

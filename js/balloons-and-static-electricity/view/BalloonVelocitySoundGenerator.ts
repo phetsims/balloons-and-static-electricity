@@ -25,7 +25,7 @@ type BalloonVelocitySoundGeneratorOptions = SoundClipOptions & {
   maxOutputLevel?: number;
 };
 
-class BalloonVelocitySoundGenerator extends SoundClip {
+export default class BalloonVelocitySoundGenerator extends SoundClip {
 
   private readonly disposeBalloonVelocitySoundGenerator: () => void;
 
@@ -125,4 +125,3 @@ const mapSpeedToPlaybackRate = new LinearFunction( 0, 3, 0.5, 2, true );
 const mapSpeedToOutputLevel = new LinearFunction( 0, 3, 0.2, 1, false );
 
 balloonsAndStaticElectricity.register( 'BalloonVelocitySoundGenerator', BalloonVelocitySoundGenerator );
-export default BalloonVelocitySoundGenerator;

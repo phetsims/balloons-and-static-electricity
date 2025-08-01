@@ -15,7 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from '../model/BalloonModel.js';
 
-class TetherNode extends Path {
+export default class TetherNode extends Path {
 
   public constructor( balloonModel: BalloonModel, anchorPoint: Vector2, tetherPointOffset: Vector2, tandem: Tandem ) {
 
@@ -41,5 +41,3 @@ class TetherNode extends Path {
 }
 
 balloonsAndStaticElectricity.register( 'TetherNode', TetherNode );
-
-export default TetherNode;

@@ -47,7 +47,7 @@ const sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
 const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
-class SweaterDescriber {
+export default class SweaterDescriber {
 
   private readonly model: BASEModel;
   private readonly sweaterModel: SweaterModel;
@@ -325,5 +325,3 @@ class SweaterDescriber {
 }
 
 balloonsAndStaticElectricity.register( 'SweaterDescriber', SweaterDescriber );
-
-export default SweaterDescriber;

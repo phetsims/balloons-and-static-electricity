@@ -39,7 +39,7 @@ const yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
 // constants
 const BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
 
-class BASEView extends ScreenView {
+export default class BASEView extends ScreenView {
 
   // for QUnit tests
   public readonly wallNode: WallNode;
@@ -272,4 +272,3 @@ class BASEView extends ScreenView {
 }
 
 balloonsAndStaticElectricity.register( 'BASEView', BASEView );
-export default BASEView;

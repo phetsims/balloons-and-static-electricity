@@ -124,7 +124,7 @@ for ( let i = 0; i < POSITIONS.length; i++ ) {
 }
 const AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
 
-class BalloonModel {
+export default class BalloonModel {
 
   // charge on the balloon, range goes from negative values to 0
   public readonly chargeProperty: NumberProperty;
@@ -981,5 +981,3 @@ class BalloonModel {
 }
 
 balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );
-
-export default BalloonModel;

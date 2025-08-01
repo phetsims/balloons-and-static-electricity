@@ -77,7 +77,7 @@ const CHARGE_PAIR_POSITIONS = [
   new Vector2( 290, 337 )
 ];
 
-class SweaterModel {
+export default class SweaterModel {
 
   // dimensions of the sweater, empirically determined to match design spec
   public readonly width = 305;
@@ -227,5 +227,3 @@ class SweaterModel {
 }
 
 balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );
-
-export default SweaterModel;

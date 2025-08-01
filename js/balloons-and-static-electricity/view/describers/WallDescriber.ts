@@ -63,7 +63,7 @@ const INDUCED_CHARGE_DESCRIPTION_MAP = {
   }
 };
 
-class WallDescriber {
+export default class WallDescriber {
 
   private readonly wallModel: WallModel;
   private readonly yellowBalloon: BalloonModel;
@@ -375,5 +375,3 @@ class WallDescriber {
 }
 
 balloonsAndStaticElectricity.register( 'WallDescriber', WallDescriber );
-
-export default WallDescriber;

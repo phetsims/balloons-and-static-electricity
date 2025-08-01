@@ -20,7 +20,7 @@ import PlusChargeNode from './PlusChargeNode.js';
 
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
-class WallNode extends Node {
+export default class WallNode extends Node {
 
   private readonly model: BASEModel;
   private readonly wallDescriber: WallDescriber;
@@ -91,5 +91,3 @@ class WallNode extends Node {
 }
 
 balloonsAndStaticElectricity.register( 'WallNode', WallNode );
-
-export default WallNode;

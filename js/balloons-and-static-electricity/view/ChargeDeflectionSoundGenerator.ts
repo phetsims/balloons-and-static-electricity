@@ -35,7 +35,7 @@ const PENTATONIC_SCALE_MULTIPLIERS = [
   Math.pow( TWELFTH_ROOT_OF_TWO, 9 )
 ];
 
-class ChargeDeflectionSoundGenerator extends SoundGenerator {
+export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
   // list of original, non-deflected charge positions, used to determine the amount of deflection
   private readonly originalChargePositions: Vector2[];
@@ -335,4 +335,3 @@ const mapBinToPlaybackRate = ( bin: number ): number => {
 };
 
 balloonsAndStaticElectricity.register( 'ChargeDeflectionSoundGenerator', ChargeDeflectionSoundGenerator );
-export default ChargeDeflectionSoundGenerator;

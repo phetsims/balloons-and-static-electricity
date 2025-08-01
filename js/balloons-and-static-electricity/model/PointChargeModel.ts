@@ -21,7 +21,7 @@ const RADIUS = 8;
 // 1,754 = 100/57 - to get relevant to original java model, where we have 100 sweater's charges (in this model only 57 )
 const CHARGE = -1.754;
 
-class PointChargeModel {
+export default class PointChargeModel {
 
   // position of this charge
   public readonly position: Vector2;
@@ -56,5 +56,3 @@ class PointChargeModel {
 }
 
 balloonsAndStaticElectricity.register( 'PointChargeModel', PointChargeModel );
-
-export default PointChargeModel;

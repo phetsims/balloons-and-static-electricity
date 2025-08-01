@@ -20,7 +20,7 @@ import PointChargeModel from './PointChargeModel.js';
 // when charge displacement is larger than this, there is an appreciable induced charge
 const FORCE_MAGNITUDE_THRESHOLD = 2;
 
-class WallModel {
+export default class WallModel {
 
   // Properties of the model.  All user settings belong in the model, whether they are part of the physical model
   public readonly isVisibleProperty: BooleanProperty;
@@ -201,5 +201,3 @@ class WallModel {
 }
 
 balloonsAndStaticElectricity.register( 'WallModel', WallModel );
-
-export default WallModel;

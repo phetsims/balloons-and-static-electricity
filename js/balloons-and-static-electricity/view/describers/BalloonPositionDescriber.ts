@@ -142,7 +142,7 @@ const BALLOON_VELOCITY_MAP = {
   }
 };
 
-class BalloonPositionDescriber {
+export default class BalloonPositionDescriber {
 
   private readonly model: BASEModel;
   private readonly wall: WallModel;
@@ -920,5 +920,3 @@ class BalloonPositionDescriber {
 }
 
 balloonsAndStaticElectricity.register( 'BalloonPositionDescriber', BalloonPositionDescriber );
-
-export default BalloonPositionDescriber;

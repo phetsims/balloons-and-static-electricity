@@ -38,7 +38,7 @@ const icon = new Node( {
 } );
 const sharedMinusChargeNode = rasterizeNode( icon, { resolution: BASEConstants.IMAGE_SCALE } );
 
-class MinusChargeNode extends Node {
+export default class MinusChargeNode extends Node {
 
   public constructor( position: Vector2, options?: NodeOptions ) {
 
@@ -55,5 +55,3 @@ class MinusChargeNode extends Node {
 }
 
 balloonsAndStaticElectricity.register( 'MinusChargeNode', MinusChargeNode );
-
-export default MinusChargeNode;

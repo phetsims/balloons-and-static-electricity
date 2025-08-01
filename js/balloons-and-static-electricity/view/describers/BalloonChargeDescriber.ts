@@ -46,7 +46,7 @@ const returnALittleMoreString = BASEA11yStrings.returnALittleMore.value;
 const balloonHasChargePatternString = BASEA11yStrings.balloonHasChargePattern.value;
 const balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeShowingPattern.value;
 
-class BalloonChargeDescriber {
+export default class BalloonChargeDescriber {
 
   private readonly model: BASEModel;
   private readonly balloonModel: BalloonModel;
@@ -452,5 +452,3 @@ class BalloonChargeDescriber {
 }
 
 balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );
-
-export default BalloonChargeDescriber;

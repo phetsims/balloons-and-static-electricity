@@ -78,7 +78,7 @@ type BalloonNodeOptions = {
   keyboardDrag?: () => void;
 };
 
-class BalloonNode extends Node {
+export default class BalloonNode extends Node {
 
   private readonly model: BalloonModel;
   private readonly globalModel: BASEModel;
@@ -606,5 +606,3 @@ class BalloonNode extends Node {
 class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path ) {}
 
 balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );
-
-export default BalloonNode;

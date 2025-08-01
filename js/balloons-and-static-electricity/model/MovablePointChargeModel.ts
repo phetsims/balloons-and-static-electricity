@@ -15,7 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PointChargeModel from './PointChargeModel.js';
 
-class MovablePointChargeModel extends PointChargeModel {
+export default class MovablePointChargeModel extends PointChargeModel {
 
   // position of the point charge
   public readonly positionProperty: Vector2Property;
@@ -58,5 +58,3 @@ class MovablePointChargeModel extends PointChargeModel {
 }
 
 balloonsAndStaticElectricity.register( 'MovablePointChargeModel', MovablePointChargeModel );
-
-export default MovablePointChargeModel;

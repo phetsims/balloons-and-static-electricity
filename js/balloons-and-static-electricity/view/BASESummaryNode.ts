@@ -51,7 +51,7 @@ const summaryYellowSweaterPatternString = BASEA11yStrings.summaryYellowSweaterPa
 const initialObjectPositionsString = BASEA11yStrings.initialObjectPositions.value;
 const simOpeningString = BASEA11yStrings.simOpening.value;
 
-class BASESummaryNode extends ScreenSummaryContent {
+export default class BASESummaryNode extends ScreenSummaryContent {
 
   private readonly yellowBalloon: BalloonModel;
   private readonly greenBalloon: BalloonModel;
@@ -365,5 +365,3 @@ class BASESummaryNode extends ScreenSummaryContent {
 }
 
 balloonsAndStaticElectricity.register( 'BASESummaryNode', BASESummaryNode );
-
-export default BASESummaryNode;

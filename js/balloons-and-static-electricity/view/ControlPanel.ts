@@ -62,7 +62,7 @@ const resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescr
 const BOTTOM_CONTROL_SPACING = 10;
 const CONTROLS_FONT = new PhetFont( 15 );
 
-class ControlPanel extends Node {
+export default class ControlPanel extends Node {
 
   // Add/Remove wall button
   private readonly wallButton: BooleanRectangularToggleButton;
@@ -344,5 +344,3 @@ class ControlPanel extends Node {
 }
 
 balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
-
-export default ControlPanel;

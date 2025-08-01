@@ -21,7 +21,7 @@ import ScanningPropertySet from './ScanningPropertySet.js';
 import SweaterModel from './SweaterModel.js';
 import WallModel from './WallModel.js';
 
-class BASEModel {
+export default class BASEModel {
 
   // charge visibility setting, valid values of 'all', 'none', 'diff'
   // TODO: Better type, see https://github.com/phetsims/balloons-and-static-electricity/issues/577
@@ -189,5 +189,3 @@ class BASEModel {
 }
 
 balloonsAndStaticElectricity.register( 'BASEModel', BASEModel );
-
-export default BASEModel;

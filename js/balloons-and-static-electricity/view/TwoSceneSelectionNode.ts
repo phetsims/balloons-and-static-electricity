@@ -71,7 +71,7 @@ type TwoSceneSelectionNodeOptions = NodeOptions & SelfOptions;
 // constants
 const DEFAULT_FILL = new Color( 'white' );
 
-class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
+export default class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 
   public constructor( property: Property<T>, valueA: T, valueB: T, nodeA: Node, nodeB: Node, providedOptions: TwoSceneSelectionNodeOptions ) {
 
@@ -303,5 +303,3 @@ class TwoSceneSelectionNode<T> extends InteractiveHighlighting( Node ) {
 }
 
 balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );
-
-export default TwoSceneSelectionNode;

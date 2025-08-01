@@ -9,7 +9,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
-class ScanningPropertySet {
+export default class ScanningPropertySet {
 
   // is the finger over one of these objects?
   public readonly yellowBalloonDetectedProperty: BooleanProperty;
@@ -25,4 +25,3 @@ class ScanningPropertySet {
 }
 
 balloonsAndStaticElectricity.register( 'ScanningPropertySet', ScanningPropertySet );
-export default ScanningPropertySet;

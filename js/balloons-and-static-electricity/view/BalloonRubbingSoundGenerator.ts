@@ -28,7 +28,7 @@ type BalloonRubbingSoundGeneratorOptions = NoiseGeneratorOptions & {
   maxOutputLevel?: number;
 };
 
-class BalloonRubbingSoundGenerator extends NoiseGenerator {
+export default class BalloonRubbingSoundGenerator extends NoiseGenerator {
 
   // A Property that moves up instantly with the drag velocity but tapers off more slowly, used to prevent
   // the sound generator from doing a bunch of stops and starts during drag operations.  This is also clamped so that
@@ -133,5 +133,3 @@ class BalloonRubbingSoundGenerator extends NoiseGenerator {
 }
 
 balloonsAndStaticElectricity.register( 'BalloonRubbingSoundGenerator', BalloonRubbingSoundGenerator );
-
-export default BalloonRubbingSoundGenerator;

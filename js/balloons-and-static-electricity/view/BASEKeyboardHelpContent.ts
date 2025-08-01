@@ -34,7 +34,7 @@ const moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
 const BALLOON_CONTENT_MAX_WIDTH = 174;
 const GENERAL_CONTENT_MAX_WIDTH = 214;
 
-class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+export default class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   public constructor() {
 
@@ -118,5 +118,3 @@ class MoveBalloonHelpSection extends KeyboardHelpSection {
     super( moveOrJumpGrabbedBalloonHeadingString, rows, options );
   }
 }
-
-export default BASEKeyboardHelpContent;

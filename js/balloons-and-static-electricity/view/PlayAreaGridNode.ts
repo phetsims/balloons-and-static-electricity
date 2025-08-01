@@ -19,7 +19,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
-class PlayAreaGridNode extends Node {
+export default class PlayAreaGridNode extends Node {
 
   public constructor( layoutBounds: Bounds2, tandem: Tandem ) {
 
@@ -81,5 +81,3 @@ class PlayAreaGridNode extends Node {
 }
 
 balloonsAndStaticElectricity.register( 'PlayAreaGridNode', PlayAreaGridNode );
-
-export default PlayAreaGridNode;
