@@ -411,7 +411,7 @@ export default class BalloonNode extends Node {
 
     const dragBoundsProperty = new Property( this.getDragBounds() );
 
-    const boundaryUtterance = new Utterance();
+    // const boundaryUtterance = new Utterance();
     this.keyboardDragListener = new KeyboardDragListener( {
       dragSpeed: 300, // in view coordinates per second
       shiftDragSpeed: 100, // in view coordinates per second
@@ -419,12 +419,14 @@ export default class BalloonNode extends Node {
       positionProperty: model.positionProperty,
       start: ( event: unknown, listener: KeyboardDragListener ) => {
 
+        throw new Error( 'Testing keyboard fuzzBoard for https://github.com/phetsims/aqua/issues/134. Document.hasFocus() = ' + document.hasFocus() );
+
         // if already touching a boundary when dragging starts, announce an indication of this
-        if ( this.attemptToMoveBeyondBoundary( listener ) ) {
-          const attemptedDirection = this.getAttemptedMovementDirection( listener );
-          boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
-          this.addAccessibleResponse( boundaryUtterance );
-        }
+        // if ( this.attemptToMoveBeyondBoundary( listener ) ) {
+        //   const attemptedDirection = this.getAttemptedMovementDirection( listener );
+        //   boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
+        //   this.addAccessibleResponse( boundaryUtterance );
+        // }
       },
       drag: options?.keyboardDrag || resolvedOptions.keyboardDrag,
       tandem: tandem.createTandem( 'keyboardDragListener' )
