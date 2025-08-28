@@ -9,7 +9,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import WASDCueNode from '../../../../scenery-phet/js/accessibility/nodes/WASDCueNode.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from '../model/BalloonModel.js';
