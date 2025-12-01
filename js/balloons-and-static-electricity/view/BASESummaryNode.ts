@@ -102,8 +102,8 @@ export default class BASESummaryNode extends ScreenSummaryContent {
     Multilink.multilink( [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ],
       ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges ) => {
         const chargesVisible = showCharges !== 'none';
-        balloonChargeNode.pdomVisible = chargesVisible;
-        sweaterWallChargeNode.pdomVisible = chargesVisible;
+        balloonChargeNode.accessibleVisible = chargesVisible;
+        sweaterWallChargeNode.accessibleVisible = chargesVisible;
 
         // update labels if charges are shown
         if ( chargesVisible ) {
@@ -117,7 +117,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
       // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
       const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
-      inducedChargeNode.pdomVisible = showInducingItem;
+      inducedChargeNode.accessibleVisible = showInducingItem;
 
       if ( showInducingItem ) {
         inducedChargeNode.innerContent = this.getInducedChargeDescription();
@@ -137,7 +137,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
                               this.greenBalloon.isVisibleProperty.initialValue === greenVisible &&
                               model.wall.isVisibleProperty.initialValue === wallVisible;
 
-        objectPositionsNode.pdomVisible = initialValues;
+        objectPositionsNode.accessibleVisible = initialValues;
       }
     );
   }
