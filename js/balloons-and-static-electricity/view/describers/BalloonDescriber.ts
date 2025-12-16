@@ -246,7 +246,7 @@ export default class BalloonDescriber extends Alerter {
     // when visibility changes, generate the alert and be sure to describe initial movement the next time the
     // balloon is released or added to the play area
     balloon.isVisibleProperty.lazyLink( () => {
-      this.addAccessibleResponse( this.getVisibilityChangedDescription() );
+      this.addAccessibleContextResponse( this.getVisibilityChangedDescription() );
       this.initialMovementDescribed = false;
       this.preventNoMovementAlert = true;
     } );
@@ -254,7 +254,7 @@ export default class BalloonDescriber extends Alerter {
     // pdom - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( onSweater => {
       if ( balloon.isDraggedProperty.get() ) {
-        this.addAccessibleResponse( this.movementDescriber.getOnSweaterString( onSweater ) );
+        this.addAccessibleContextResponse( this.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
       // entering sweater, indicate that we need to alert the next charge pickup
@@ -323,7 +323,7 @@ export default class BalloonDescriber extends Alerter {
    * Send an alert to the utteranceQueue, but save the position when we do so to track
    */
   public sendAlert( alertable: TAlertable ): void {
-    this.addAccessibleResponse( alertable );
+    this.addAccessibleContextResponse( alertable );
     this.positionOnAlert = this.balloonModel.positionProperty.get();
   }
 

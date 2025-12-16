@@ -424,7 +424,7 @@ export default class BalloonNode extends Node {
         if ( this.attemptToMoveBeyondBoundary( listener ) ) {
           const attemptedDirection = this.getAttemptedMovementDirection( listener );
           boundaryUtterance.alert = this.describer.movementDescriber.getTouchingBoundaryDescription( attemptedDirection );
-          this.addAccessibleResponse( boundaryUtterance );
+          this.addAccessibleContextResponse( boundaryUtterance );
         }
       },
       drag: options?.keyboardDrag || resolvedOptions.keyboardDrag,
@@ -545,7 +545,7 @@ export default class BalloonNode extends Node {
 
     // Send a custom alert, depending on where the balloon was moved to
     this.jumpingUtterance.alert = this.describer.movementDescriber.getJumpingDescription( center );
-    this.addAccessibleResponse( this.jumpingUtterance );
+    this.addAccessibleContextResponse( this.jumpingUtterance );
 
     // reset forces in tracked values in describer that determine description for induced charge change
     this.describer.chargeDescriber.resetReferenceForces();
