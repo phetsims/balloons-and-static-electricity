@@ -847,31 +847,6 @@ const BASEA11yStrings = {
   },
   balloonPositionNearOtherPattern: {
     value: '{{position}}, next to {{otherBalloon}}'
-  },
-
-  //--------------------------------------------------------------------------
-  // Keyboard shortcuts help content strings
-  //--------------------------------------------------------------------------
-  grabOrReleaseBalloonDescription: {
-    value: 'Grab or release the balloon with Space or Enter keys.'
-  },
-  moveGrabbedBalloonDescription: {
-    value: 'Move grabbed balloon up, left, down, or right with Arrow keys or with letter keys W, A, S, or D.'
-  },
-  moveSlowerDescription: {
-    value: 'Move slower with Shift plus Arrow keys or Shift plus letter keys W, A, S, or D.'
-  },
-  jumpsCloseToSweaterDescription: {
-    value: 'Jump close to sweater with J plus S.'
-  },
-  jumpsCloseToWallDescription: {
-    value: 'Jump to wall with J plus W.'
-  },
-  jumpsNearWallDescription: {
-    value: 'Jump to near wall with J plus N.'
-  },
-  jumpsToCenterDescription: {
-    value: 'Jump to center with J plus C.'
   }
 };
 

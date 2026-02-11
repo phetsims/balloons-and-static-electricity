@@ -97,28 +97,24 @@ export default class BalloonNode extends Node {
   public static readonly JUMP_WALL_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+w' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToWallLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToWallDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   public static readonly JUMP_CENTER_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+c' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpToCenterLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsToCenterDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   public static readonly JUMP_NEAR_SWEATER_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+s' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpCloseToSweaterLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsCloseToSweaterDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 
   public static readonly JUMP_NEAR_WALL_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'j+n' ],
     keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.jumpNearWallLabelStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: BASEA11yStrings.jumpsNearWallDescription.value,
     repoName: balloonsAndStaticElectricity.name
   } );
 

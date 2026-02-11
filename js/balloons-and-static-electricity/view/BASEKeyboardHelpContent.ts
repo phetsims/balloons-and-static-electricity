@@ -6,27 +6,20 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
-import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
-import BASEA11yStrings from '../BASEA11yStrings.js';
 import BalloonNode from './BalloonNode.js';
 
 const grabOrReleaseBalloonHeadingString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonHeading;
-const grabOrReleaseBalloonLabelString = BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonLabel;
-const moveGrabbedBalloonLabelString = BalloonsAndStaticElectricityStrings.moveGrabbedBalloonLabel;
+const moveGrabbedBalloonLabelStringProperty = BalloonsAndStaticElectricityStrings.moveGrabbedBalloonLabelStringProperty;
 const moveOrJumpGrabbedBalloonHeadingString = BalloonsAndStaticElectricityStrings.moveOrJumpGrabbedBalloonHeading;
-const moveSlowerLabelString = BalloonsAndStaticElectricityStrings.moveSlowerLabel;
-
-const grabOrReleaseBalloonDescriptionString = BASEA11yStrings.grabOrReleaseBalloonDescription.value;
-const moveGrabbedBalloonDescriptionString = BASEA11yStrings.moveGrabbedBalloonDescription.value;
-const moveSlowerDescriptionString = BASEA11yStrings.moveSlowerDescription.value;
 
 // constants
 // the english strings are shorter for the balloon help content, so we restrict that content width for i18n more
@@ -66,23 +59,19 @@ balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHe
 
 /**
  * Inner class. Help section for how to grab and release the balloon.
+ *
+ * Note that this could use GrabReleaseKeyboardHelpSection, but I did not want to lose
+ * the existing translations for this content.
  */
 class BalloonGrabHelpSection extends KeyboardHelpSection {
-
   public constructor( options?: KeyboardHelpSectionOptions ) {
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( grabOrReleaseBalloonLabelString, icons, {
-      labelInnerContent: grabOrReleaseBalloonDescriptionString,
-      iconOptions: {
-        tagName: 'p' // it is the only item so it is a p rather than a li
-      }
-    } );
+    const labelWithContent = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'space', 'enter' ],
+      repoName: balloonsAndStaticElectricity.name,
+      keyboardHelpDialogLabelStringProperty: BalloonsAndStaticElectricityStrings.grabOrReleaseBalloonLabelStringProperty
+    } ) );
 
-    super( grabOrReleaseBalloonHeadingString, [ labelWithContent ], merge( {
-      a11yContentTagName: null // just a paragraph for this section, no list
-    }, options ) );
+    super( grabOrReleaseBalloonHeadingString, [ labelWithContent ] );
   }
 }
 
@@ -92,18 +81,12 @@ class BalloonGrabHelpSection extends KeyboardHelpSection {
 class MoveBalloonHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
-
-    const arrowOrWasdKeysIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
-    const labelWithContent = KeyboardHelpSectionRow.labelWithIcon( moveGrabbedBalloonLabelString, arrowOrWasdKeysIcon, {
-      labelInnerContent: moveGrabbedBalloonDescriptionString
+    const labelWithContent = KeyboardHelpSectionRow.fromHotkeyData( KeyboardDragListener.MOVE_HOTKEY_DATA, {
+      labelStringProperty: moveGrabbedBalloonLabelStringProperty
     } );
 
-    const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
-    const shiftAndArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
-    const wasdRowIcon = KeyboardHelpIconFactory.wasdRowIcon();
-    const shiftAndWasdRowIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdRowIcon );
-    const labelWithIconList = KeyboardHelpSectionRow.labelWithIconList( moveSlowerLabelString, [ shiftAndArrowKeysIcon, shiftAndWasdRowIcon ], {
-      labelInnerContent: moveSlowerDescriptionString
+    const labelWithIconList = KeyboardHelpSectionRow.fromHotkeyData( KeyboardDragListener.MOVE_SLOWER_HOTKEY_DATA, {
+      labelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveSlowerStringProperty
     } );
 
     // hotkey rows for how to jump the balloon
