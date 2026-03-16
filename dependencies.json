@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "6ca018d56bc556eb40710d581bddf8edb0f2b5c3",
+    "sha": "4f952b614fc210ca160b06f2fad69297e772d9f8",
     "branch": "1.5"
   },
   "brand": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "c074b13388cde621cc68c165d48a78a6fcebf255",
+    "sha": "85e56dd70a0b306f706e02824a2517e8ddf6e598",
     "branch": "HEAD"
   },
   "phetmarks": {
