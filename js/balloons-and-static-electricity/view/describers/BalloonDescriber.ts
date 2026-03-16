@@ -206,7 +206,7 @@ export default class BalloonDescriber extends Alerter {
     this.describedCharge = 0;
 
 
-    const utteranceOptions = { alertStableDelay: 500 };
+    const utteranceOptions = { alertDelay: 500 };
     this.directionUtterance = new Utterance();
 
     this.movementUtterance = new Utterance( merge( utteranceOptions, {
