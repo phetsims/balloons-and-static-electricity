@@ -11,7 +11,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import wall_png from '../../../images/wall_png.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEModel from '../model/BASEModel.js';
 import WallDescriber from './describers/WallDescriber.js';
@@ -89,5 +88,3 @@ export default class WallNode extends Node {
     model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
   }
 }
-
-balloonsAndStaticElectricity.register( 'WallNode', WallNode );

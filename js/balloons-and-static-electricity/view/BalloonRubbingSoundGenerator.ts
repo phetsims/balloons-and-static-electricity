@@ -14,7 +14,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NoiseGenerator, { NoiseGeneratorOptions } from '../../../../tambo/js/sound-generators/NoiseGenerator.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
 const DEFAULT_CENTER_FREQUENCY = 800; // Hz
@@ -131,5 +130,3 @@ export default class BalloonRubbingSoundGenerator extends NoiseGenerator {
     }
   }
 }
-
-balloonsAndStaticElectricity.register( 'BalloonRubbingSoundGenerator', BalloonRubbingSoundGenerator );

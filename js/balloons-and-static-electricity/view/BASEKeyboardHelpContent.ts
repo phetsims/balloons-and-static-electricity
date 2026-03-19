@@ -55,8 +55,6 @@ export default class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpConten
   }
 }
 
-balloonsAndStaticElectricity.register( 'BASEKeyboardHelpContent', BASEKeyboardHelpContent );
-
 /**
  * Inner class. Help section for how to grab and release the balloon.
  *

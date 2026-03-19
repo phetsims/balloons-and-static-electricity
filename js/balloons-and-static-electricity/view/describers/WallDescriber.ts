@@ -10,7 +10,6 @@ import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
@@ -367,5 +366,3 @@ export default class WallDescriber {
     } );
   }
 }
-
-balloonsAndStaticElectricity.register( 'WallDescriber', WallDescriber );

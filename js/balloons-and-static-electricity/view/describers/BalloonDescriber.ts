@@ -28,7 +28,6 @@ import Alerter from '../../../../../scenery-phet/js/accessibility/describers/Ale
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import AriaLiveAnnouncer from '../../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance, { TAlertable } from '../../../../../utterance-queue/js/Utterance.js';
-import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
@@ -1027,5 +1026,3 @@ export default class BalloonDescriber extends Alerter {
     this.describedCharge = nextCharge;
   }
 }
-
-balloonsAndStaticElectricity.register( 'BalloonDescriber', BalloonDescriber );

@@ -16,7 +16,6 @@
 
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import { PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
 
 // constants
@@ -236,7 +235,5 @@ const PlayAreaMap = {
     return inLandmarkColumn;
   }
 } as const;
-
-balloonsAndStaticElectricity.register( 'PlayAreaMap', PlayAreaMap );
 
 export default PlayAreaMap;

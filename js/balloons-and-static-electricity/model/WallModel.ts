@@ -11,7 +11,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PointChargeModel from './PointChargeModel.js';
@@ -198,5 +197,3 @@ export default class WallModel {
     return force.magnitude > FORCE_MAGNITUDE_THRESHOLD;
   }
 }
-
-balloonsAndStaticElectricity.register( 'WallModel', WallModel );

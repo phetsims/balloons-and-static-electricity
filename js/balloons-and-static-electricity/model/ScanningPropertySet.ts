@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 export default class ScanningPropertySet {
 
@@ -23,5 +22,3 @@ export default class ScanningPropertySet {
     this.wallDetectedProperty = new BooleanProperty( false );
   }
 }
-
-balloonsAndStaticElectricity.register( 'ScanningPropertySet', ScanningPropertySet );

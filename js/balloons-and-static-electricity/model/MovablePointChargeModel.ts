@@ -12,7 +12,6 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PointChargeModel from './PointChargeModel.js';
 
 export default class MovablePointChargeModel extends PointChargeModel {
@@ -54,5 +53,3 @@ export default class MovablePointChargeModel extends PointChargeModel {
     return new Vector2( this.positionProperty.get().x + PointChargeModel.RADIUS, this.positionProperty.get().y + PointChargeModel.RADIUS );
   }
 }
-
-balloonsAndStaticElectricity.register( 'MovablePointChargeModel', MovablePointChargeModel );

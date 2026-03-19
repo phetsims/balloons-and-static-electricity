@@ -12,7 +12,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import PointChargeModel from '../model/PointChargeModel.js';
 
@@ -54,5 +53,3 @@ export default class PlusChargeNode extends Node {
     this.addChild( sharedPlusChargeNode );
   }
 }
-
-balloonsAndStaticElectricity.register( 'PlusChargeNode', PlusChargeNode );

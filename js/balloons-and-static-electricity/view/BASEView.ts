@@ -19,7 +19,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import carrier002_wav from '../../../sounds/carrier002_wav.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
@@ -263,5 +262,3 @@ export default class BASEView extends ScreenView {
     this.visibleBoundsProperty.set( new Bounds2( -dx, -offsetY, width / scale - dx, height / scale - offsetY ) );
   }
 }
-
-balloonsAndStaticElectricity.register( 'BASEView', BASEView );

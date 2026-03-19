@@ -34,7 +34,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import EventType from '../../../../tandem/js/EventType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 type SelfOptions = {
   spacing?: number;
@@ -301,5 +300,3 @@ export default class TwoSceneSelectionNode<T> extends InteractiveHighlighting( N
     this.touchArea = this.bounds.dilatedXY( options.touchAreaXDilation, options.touchAreaYDilation );
   }
 }
-
-balloonsAndStaticElectricity.register( 'TwoSceneSelectionNode', TwoSceneSelectionNode );

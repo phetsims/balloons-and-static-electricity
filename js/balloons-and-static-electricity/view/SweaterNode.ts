@@ -14,7 +14,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater_png from '../../../images/sweater_png.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
@@ -126,5 +125,3 @@ export default class SweaterNode extends Node {
     } );
   }
 }
-
-balloonsAndStaticElectricity.register( 'SweaterNode', SweaterNode );

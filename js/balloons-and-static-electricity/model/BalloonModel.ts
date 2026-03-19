@@ -20,7 +20,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import BalloonDirectionEnum from './BalloonDirectionEnum.js';
 import { BalloonDirection } from './PlayAreaMapTypes.js';
@@ -958,5 +957,3 @@ export default class BalloonModel {
     return direction || null;
   }
 }
-
-balloonsAndStaticElectricity.register( 'BalloonModel', BalloonModel );

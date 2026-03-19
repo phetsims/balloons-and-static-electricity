@@ -15,7 +15,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
 export default class PlayAreaGridNode extends Node {
@@ -78,5 +77,3 @@ export default class PlayAreaGridNode extends Node {
     } );
   }
 }
-
-balloonsAndStaticElectricity.register( 'PlayAreaGridNode', PlayAreaGridNode );

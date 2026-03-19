@@ -54,6 +54,4 @@ type StringsType = {
 
 const BalloonsAndStaticElectricityStrings = getStringModule( 'BALLOONS_AND_STATIC_ELECTRICITY' ) as StringsType;
 
-balloonsAndStaticElectricity.register( 'BalloonsAndStaticElectricityStrings', BalloonsAndStaticElectricityStrings );
-
 export default BalloonsAndStaticElectricityStrings;

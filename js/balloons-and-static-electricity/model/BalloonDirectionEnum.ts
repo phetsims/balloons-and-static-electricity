@@ -7,8 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
-
 const BalloonDirectionEnum = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
@@ -32,7 +30,5 @@ const BalloonDirectionEnum = {
 
 // verify that enum is immutable, without the runtime penalty in production code
 if ( assert ) { Object.freeze( BalloonDirectionEnum ); }
-
-balloonsAndStaticElectricity.register( 'BalloonDirectionEnum', BalloonDirectionEnum );
 
 export default BalloonDirectionEnum;

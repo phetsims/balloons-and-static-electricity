@@ -12,7 +12,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import PointChargeModel from './PointChargeModel.js';
 
@@ -225,5 +224,3 @@ export default class SweaterModel {
     this.chargeProperty.set( 0 );
   }
 }
-
-balloonsAndStaticElectricity.register( 'SweaterModel', SweaterModel );

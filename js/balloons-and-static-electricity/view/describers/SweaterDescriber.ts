@@ -7,7 +7,6 @@
  */
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
@@ -307,5 +306,3 @@ export default class SweaterDescriber {
     } );
   }
 }
-
-balloonsAndStaticElectricity.register( 'SweaterDescriber', SweaterDescriber );

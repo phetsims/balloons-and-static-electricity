@@ -12,7 +12,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from '../model/BalloonModel.js';
 
 export default class TetherNode extends Path {
@@ -39,5 +38,3 @@ export default class TetherNode extends Path {
     } );
   }
 }
-
-balloonsAndStaticElectricity.register( 'TetherNode', TetherNode );

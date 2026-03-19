@@ -13,7 +13,6 @@ import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import chargeDeflection_mp3 from '../../../sounds/chargeDeflection_mp3.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from '../model/BalloonModel.js';
 import MovablePointChargeModel from '../model/MovablePointChargeModel.js';
 import WallModel from '../model/WallModel.js';
@@ -320,5 +319,3 @@ const mapBinToPlaybackRate = ( bin: number ): number => {
   const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
   return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
 };
-
-balloonsAndStaticElectricity.register( 'ChargeDeflectionSoundGenerator', ChargeDeflectionSoundGenerator );

@@ -10,7 +10,6 @@
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
@@ -432,7 +431,5 @@ const BASEDescriber = {
     return description;
   }
 };
-
-balloonsAndStaticElectricity.register( 'BASEDescriber', BASEDescriber );
 
 export default BASEDescriber;

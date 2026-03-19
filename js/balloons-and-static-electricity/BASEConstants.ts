@@ -8,7 +8,6 @@
 
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
-import balloonsAndStaticElectricity from '../balloonsAndStaticElectricity.js';
 
 const BASEConstants = {
   backgroundColorProperty: new ColorProperty( new Color( 151, 208, 255 ) ),
@@ -24,7 +23,5 @@ const BASEConstants = {
   // scale for image charges so they look less pixelated after being rasterized
   IMAGE_SCALE: 2
 };
-
-balloonsAndStaticElectricity.register( 'BASEConstants', BASEConstants );
 
 export default BASEConstants;

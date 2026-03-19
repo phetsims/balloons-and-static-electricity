@@ -15,7 +15,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import carrier000_wav from '../../../sounds/carrier000_wav.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
 const MIN_PLAYBACK_RATE_CHANGE = 0.03;
@@ -123,5 +122,3 @@ const mapSpeedToPlaybackRate = new LinearFunction( 0, 3, 0.5, 2, true );
 
 // function for mapping the speed of the balloon to the output level
 const mapSpeedToOutputLevel = new LinearFunction( 0, 3, 0.2, 1, false );
-
-balloonsAndStaticElectricity.register( 'BalloonVelocitySoundGenerator', BalloonVelocitySoundGenerator );

@@ -10,7 +10,6 @@
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import balloonsAndStaticElectricity from '../../../balloonsAndStaticElectricity.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
@@ -449,5 +448,3 @@ export default class BalloonChargeDescriber {
     return description;
   }
 }
-
-balloonsAndStaticElectricity.register( 'BalloonChargeDescriber', BalloonChargeDescriber );

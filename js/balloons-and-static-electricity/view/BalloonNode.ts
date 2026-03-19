@@ -596,5 +596,3 @@ export default class BalloonNode extends Node {
  * same highlights, InteractiveHighlighting is composed with the same Node that uses GrabDragInteraction.
  */
 class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path ) {}
-
-balloonsAndStaticElectricity.register( 'BalloonNode', BalloonNode );

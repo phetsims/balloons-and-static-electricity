@@ -13,7 +13,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 
 // constants
 const RADIUS = 8;
@@ -54,5 +53,3 @@ export default class PointChargeModel {
     return new Vector2( this.position.x + PointChargeModel.RADIUS, this.position.y + PointChargeModel.RADIUS );
   }
 }
-
-balloonsAndStaticElectricity.register( 'PointChargeModel', PointChargeModel );

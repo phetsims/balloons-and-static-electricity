@@ -11,7 +11,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BASEConstants from '../BASEConstants.js';
 import MovablePointChargeModel from '../model/MovablePointChargeModel.js';
 import PointChargeModel from '../model/PointChargeModel.js';
@@ -79,5 +78,3 @@ export default class MinusChargesCanvasNode extends CanvasNode {
     }
   }
 }
-
-balloonsAndStaticElectricity.register( 'MinusChargesCanvasNode', MinusChargesCanvasNode );

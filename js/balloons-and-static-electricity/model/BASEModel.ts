@@ -14,7 +14,6 @@ import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import ScanningPropertySet from './ScanningPropertySet.js';
@@ -188,5 +187,3 @@ export default class BASEModel {
     return balloonsAdjacent && this.bothBalloonsVisible();
   }
 }
-
-balloonsAndStaticElectricity.register( 'BASEModel', BASEModel );

@@ -8,7 +8,6 @@
  */
 
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
-import balloonsAndStaticElectricity from '../balloonsAndStaticElectricity.js';
 
 const BASEQueryParameters = QueryStringMachine.getAll( {
 
@@ -30,7 +29,5 @@ const BASEQueryParameters = QueryStringMachine.getAll( {
   // debugging - show positions of center of balloon and center of balloon charges
   showBalloonChargeCenter: { type: 'flag' }
 } );
-
-balloonsAndStaticElectricity.register( 'BASEQueryParameters', BASEQueryParameters );
 
 export default BASEQueryParameters;

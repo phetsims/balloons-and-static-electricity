@@ -8,8 +8,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import balloonsAndStaticElectricity from '../balloonsAndStaticElectricity.js';
-
 const BASEA11yStrings = {
 
   //------------------------------------------------------------------------
@@ -858,7 +856,5 @@ if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
 
 // verify that object is immutable, without the runtime penalty in production code
 if ( assert ) { Object.freeze( BASEA11yStrings ); }
-
-balloonsAndStaticElectricity.register( 'BASEA11yStrings', BASEA11yStrings );
 
 export default BASEA11yStrings;

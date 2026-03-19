@@ -23,7 +23,6 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
-import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
@@ -341,5 +340,3 @@ export default class ControlPanel extends Node {
 
   }
 }
-
-balloonsAndStaticElectricity.register( 'ControlPanel', ControlPanel );
