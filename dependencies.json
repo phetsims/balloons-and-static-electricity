@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "91a5cd657160c7a7ae287136d261eaeed28c2fba",
+    "sha": "79efb2cf0ad5618829247a3e0d563fccb097fac3",
     "branch": "1.3-phetio"
   },
   "brand": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "07dd6b6031cb44b9c79ef01f40e9aa51ed0078f4",
+    "sha": "3e097aea23efbb07dab7b25d11798b6f27ee3cad",
     "branch": "HEAD"
   },
   "kite": {
