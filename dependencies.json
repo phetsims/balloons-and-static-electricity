@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "balloons-and-static-electricity": {
-    "sha": "302f38839412a1e362268bd99556ba618bca7338",
+    "sha": "04b961086889b58edd10cc18bf23bca43e62ea69",
     "branch": "1.5"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "97b907489cf068efd30ba44a300e75c20bedd628",
+    "sha": "ab375ddf171d28e5191cdeedf2732594ba29bbda",
     "branch": "HEAD"
   },
   "dot": {
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "f8d12891ff7017c2524098771c0b5f651be37708",
+    "sha": "14b9c8f45a0e09c03b5518a77928708a8475d8ae",
     "branch": "HEAD"
   },
   "phet-core": {
