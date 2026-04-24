@@ -150,10 +150,8 @@ export default class BASESummaryNode extends ScreenSummaryContent {
    *   many pairs of negative and positive charges." or
    * "Sweater has positive net charge, showing several positive charges. Wall has zero  net charge, showing several
    *   positive charges."
-   *
-   * public for unit tests
    */
-  public getSweaterAndWallChargeDescription(): string {
+  private getSweaterAndWallChargeDescription(): string {
     let description: string;
 
     const chargesShown = this.model.showChargesProperty.get();
@@ -201,10 +199,8 @@ export default class BASESummaryNode extends ScreenSummaryContent {
    *
    * "Yellow balloon has negative net charge, a few more negative charges than positive charges." or
    * “Yellow balloon has negative net charge, several more negative charges than positive charges. Green balloon has negative net charge, a few more negative charges than positive charges. Yellow balloon has negative net charge, showing several negative charges. Green balloon has negative net charge, showing a few negative charges.”
-   *
-   * Just public for unit tests
    */
-  public getBalloonChargeDescription(): string {
+  private getBalloonChargeDescription(): string {
     let description: string;
 
     const yellowChargeRange = BASEDescriber.getDescribedChargeRange( this.yellowBalloon.chargeProperty.get() );
