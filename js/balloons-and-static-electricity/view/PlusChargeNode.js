@@ -7,6 +7,7 @@
  */
 
 import Circle from '../../../../scenery/js/nodes/Circle.js';
+import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
@@ -45,10 +46,15 @@ class PlusChargeNode extends Node {
 
   /**
    * @param {Vector2} position
+   * @param {Object} [options]
    */
-  constructor( position ) {
+  constructor( position, options ) {
 
-    super( { pickable: false } );
+    options = merge( {
+      pickable: false
+    }, options );
+
+    super( options );
 
     this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
 

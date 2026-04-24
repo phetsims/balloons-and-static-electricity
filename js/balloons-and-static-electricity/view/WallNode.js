@@ -14,7 +14,6 @@ import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js'
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import WallDescriber from './describers/WallDescriber.js';
 import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
-import PlusChargeNode from './PlusChargeNode.js';
 
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
@@ -50,20 +49,11 @@ class WallNode extends Node {
 
     this.addChild( this.wallNode );
 
-    const plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
-    plusChargesNode.translate( -wallModel.x, 0 );
-
-    // draw plusCharges on the wall
-    wallModel.plusCharges.forEach( entry => {
-      plusChargesNode.addChild( new PlusChargeNode( entry.position ) );
-    } );
-    this.addChild( plusChargesNode );
-
-    // The minus charges on the wall and rendered using Canvas for performance, bounds widened so that charges are fully
-    // visible in wider layouts, see #409.
+    // The wall charges are rendered using Canvas for performance, bounds widened so that charges are fully visible in
+    // wider layouts, see #409.
     const wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
-    const minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.minusCharges );
-    this.addChild( minusChargesNode );
+    const chargesCanvasNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.plusCharges, wallModel.minusCharges );
+    this.addChild( chargesCanvasNode );
 
     wallModel.isVisibleProperty.link( isVisible => {
       this.visible = isVisible;
@@ -71,8 +61,7 @@ class WallNode extends Node {
 
     // show charges based on draw property
     model.showChargesProperty.link( value => {
-      plusChargesNode.visible = ( value === 'all' );
-      minusChargesNode.visible = ( value === 'all' );
+      chargesCanvasNode.visible = ( value === 'all' );
     } );
 
     // pdom - when the balloons change position, update the description of the induced charge in the wall
@@ -86,9 +75,14 @@ class WallNode extends Node {
     model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
 
-    // Update minus charges indicating induced charge when balloons move.
-    model.yellowBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
-    model.greenBalloon.positionProperty.link( minusChargesNode.invalidatePaint.bind( minusChargesNode ) );
+    // Update wall charge rendering when balloons affect induced charge.
+    const invalidateChargesNodePaint = chargesCanvasNode.invalidatePaint.bind( chargesCanvasNode );
+    model.yellowBalloon.positionProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.positionProperty.link( invalidateChargesNodePaint );
+    model.yellowBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
+    model.yellowBalloon.chargeProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.chargeProperty.link( invalidateChargesNodePaint );
   }
 }
 
