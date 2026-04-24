@@ -50,19 +50,13 @@ export default class SweaterNode extends Node {
     // create the sweater image
     const sweater = new Image( sweater_png, { tandem: tandem.createTandem( 'sweater' ) } );
 
-    // Balloons and Static Electricity has unit tests which run outside the context of simLauncher and hence not all
-    // images may have dimensions by now.
-    if ( sweater.width > 0 && sweater.height > 0 ) {
+    assert && assert( sweater.width > 0 && sweater.height > 0, 'images should have dimensions' );
 
-      // scale image to match model, then set position
-      sweater.scale(
-        this.sweaterModel.width / sweater.width,
-        this.sweaterModel.height / sweater.height
-      );
-    }
-    else {
-      assert && assert( window.hasOwnProperty( 'QUnit' ), 'Images should have dimensions unless we are running a unit test' );
-    }
+    // scale image to match model, then set position
+    sweater.scale(
+      this.sweaterModel.width / sweater.width,
+      this.sweaterModel.height / sweater.height
+    );
 
     sweater.left = this.sweaterModel.x;
     sweater.top = this.sweaterModel.y;

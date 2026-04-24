@@ -40,9 +40,6 @@ const BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined
 
 export default class BASEView extends ScreenView {
 
-  // for QUnit tests
-  public readonly wallNode: WallNode;
-
   // sound generator for the deflection of the charges in the wall, never disposed
   private readonly chargeDeflectionSoundGenerator: ChargeDeflectionSoundGenerator;
 
@@ -70,14 +67,14 @@ export default class BASEView extends ScreenView {
 
     const sweaterNode = new SweaterNode( model, tandem.createTandem( 'sweaterNode' ) );
 
-    this.wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
+    const wallNode = new WallNode( model, tandem.createTandem( 'wall' ) );
 
     this.addChild( sweaterNode );
-    this.addChild( this.wallNode );
+    this.addChild( wallNode );
 
     // Show black to the right side of the wall so it doesn't look like empty space over there.
     this.addChild( new Rectangle(
-      model.wall.x + this.wallNode.wallNode.width,
+      model.wall.x + wallNode.wallNode.width,
       0,
       1000,
       1000,
@@ -85,7 +82,7 @@ export default class BASEView extends ScreenView {
     ) );
 
     // Add black to the left of the screen to match the black region to the right of the wall
-    const maxX = this.layoutBounds.maxX - model.wall.x - this.wallNode.wallNode.width;
+    const maxX = this.layoutBounds.maxX - model.wall.x - wallNode.wallNode.width;
     this.addChild( new Rectangle(
       maxX - 1000,
       0,
@@ -202,7 +199,7 @@ export default class BASEView extends ScreenView {
       sweaterNode,
       this.yellowBalloonLayerNode,
       this.greenBalloonLayerNode,
-      this.wallNode
+      wallNode
     ];
     this.pdomControlAreaNode.pdomOrder = [ controlPanel ];
 

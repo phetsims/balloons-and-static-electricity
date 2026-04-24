@@ -259,10 +259,8 @@ export default class BASESummaryNode extends ScreenSummaryContent {
    * "Negative charges in wall move away from Yellow Balloon a lot. Positive charges do not move." or
    * "Negative charges in wall move away from balloons quite a lot. Positive charges do not move." or
    * "Negative charges in wall move away from Green Balloon a little bit. Positive charges do not move."
-   *
-   * public for unit tests
    */
-  public getInducedChargeDescription(): string {
+  private getInducedChargeDescription(): string {
     let description = '';
 
     const yellowBalloon = this.yellowBalloon;
