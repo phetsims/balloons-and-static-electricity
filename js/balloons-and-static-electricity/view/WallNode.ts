@@ -46,11 +46,6 @@ export default class WallNode extends Node {
 
     this.addChild( this.wallNode );
 
-    // Plus charges are rendered in MinusChargesCanvasNode for rendering consistency, this node remains to preserve
-    // tandem structure.
-    const plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
-    this.addChild( plusChargesNode );
-
     // The wall charges are rendered using Canvas for performance, bounds widened so that charges are fully visible in
     // wider layouts, see #409.
     const wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
@@ -63,7 +58,6 @@ export default class WallNode extends Node {
 
     // show charges based on draw property
     model.showChargesProperty.link( value => {
-      plusChargesNode.visible = ( value === 'all' );
       chargesCanvasNode.visible = ( value === 'all' );
     } );
 
