@@ -7,8 +7,9 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
+import merge from '../../../../phet-core/js/merge.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
@@ -44,9 +45,13 @@ const sharedPlusChargeNode = rasterizeNode( icon, { resolution: BASEConstants.IM
 
 export default class PlusChargeNode extends Node {
 
-  public constructor( position: Vector2 ) {
+  public constructor( position: Vector2, options?: NodeOptions ) {
 
-    super( { pickable: false } );
+    const resolvedOptions = merge( {
+      pickable: false
+    }, options );
+
+    super( resolvedOptions );
 
     this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
 
