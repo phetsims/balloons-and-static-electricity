@@ -50,7 +50,7 @@ const getPlusChargeNode = createSharedChargeNodeGetter( () => {
   } );
 } );
 
-export default class MinusChargesCanvasNode extends CanvasNode {
+export default class ChargesCanvasNode extends CanvasNode {
 
   private readonly plusCharges: PointChargeModel[];
   private readonly minusCharges: MovablePointChargeModel[];

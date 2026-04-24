@@ -13,8 +13,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import wall_png from '../../../images/wall_png.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEModel from '../model/BASEModel.js';
+import ChargesCanvasNode from './ChargesCanvasNode.js';
 import WallDescriber from './describers/WallDescriber.js';
-import MinusChargesCanvasNode from './MinusChargesCanvasNode.js';
 
 const wallLabelString = BASEA11yStrings.wallLabel.value;
 
@@ -54,8 +54,8 @@ export default class WallNode extends Node {
     // The wall charges are rendered using Canvas for performance, bounds widened so that charges are fully visible in
     // wider layouts, see #409.
     const wallBounds = new Bounds2( 0, 0, wallModel.width + 20, wallModel.height );
-    const minusChargesNode = new MinusChargesCanvasNode( wallModel.x, wallBounds, wallModel.plusCharges, wallModel.minusCharges );
-    this.addChild( minusChargesNode );
+    const chargesCanvasNode = new ChargesCanvasNode( wallModel.x, wallBounds, wallModel.plusCharges, wallModel.minusCharges );
+    this.addChild( chargesCanvasNode );
 
     wallModel.isVisibleProperty.link( isVisible => {
       this.visible = isVisible;
@@ -64,7 +64,7 @@ export default class WallNode extends Node {
     // show charges based on draw property
     model.showChargesProperty.link( value => {
       plusChargesNode.visible = ( value === 'all' );
-      minusChargesNode.visible = ( value === 'all' );
+      chargesCanvasNode.visible = ( value === 'all' );
     } );
 
     // pdom - when the balloons change position, update the description of the induced charge in the wall
@@ -79,12 +79,12 @@ export default class WallNode extends Node {
     model.showChargesProperty.link( updateWallDescription );
 
     // Update wall charge rendering when balloons affect induced charge.
-    const invalidateMinusChargesNodePaint = minusChargesNode.invalidatePaint.bind( minusChargesNode );
-    model.yellowBalloon.positionProperty.link( invalidateMinusChargesNodePaint );
-    model.greenBalloon.positionProperty.link( invalidateMinusChargesNodePaint );
-    model.yellowBalloon.isVisibleProperty.link( invalidateMinusChargesNodePaint );
-    model.greenBalloon.isVisibleProperty.link( invalidateMinusChargesNodePaint );
-    model.yellowBalloon.chargeProperty.link( invalidateMinusChargesNodePaint );
-    model.greenBalloon.chargeProperty.link( invalidateMinusChargesNodePaint );
+    const invalidateChargesNodePaint = chargesCanvasNode.invalidatePaint.bind( chargesCanvasNode );
+    model.yellowBalloon.positionProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.positionProperty.link( invalidateChargesNodePaint );
+    model.yellowBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
+    model.yellowBalloon.chargeProperty.link( invalidateChargesNodePaint );
+    model.greenBalloon.chargeProperty.link( invalidateChargesNodePaint );
   }
 }
