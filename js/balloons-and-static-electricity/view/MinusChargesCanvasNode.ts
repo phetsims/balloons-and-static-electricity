@@ -19,32 +19,36 @@ import PlusChargeNode from './PlusChargeNode.js';
 
 // Node converted to image to be drawn in canvas - scale up the node, then back down when converting to image so it
 // doesn't look fuzzy
-const scale = 3.0;
-const PLUS_CHARGE_OFFSET = 8 * BASEConstants.IMAGE_PADDING;
-let minusChargeNode: MinusChargeNode | null = null;
-let plusChargeNode: PlusChargeNode | null = null;
+const SCALE = 3.0;
+
+// Offset for the plus charges so that they appear up and to the left relative to minus charges
+// when no force is applied.
+const PLUS_CHARGE_OFFSET = 8;
 
 // This is to prevent an instrumented phet-io instance from being created outside a constructor,
 // see https://github.com/phetsims/phet-io-wrappers/issues/97
-const getChargeNode = (): MinusChargeNode => {
-  if ( !minusChargeNode ) {
-    minusChargeNode = new MinusChargeNode( new Vector2( 0, 0 ), {
-      scale: scale
-    } );
-  }
-  return minusChargeNode;
+const createSharedChargeNodeGetter = <T>( createNode: () => T ): () => T => {
+  let sharedNode: T | null = null;
+
+  return () => {
+    if ( !sharedNode ) {
+      sharedNode = createNode();
+    }
+    return sharedNode;
+  };
 };
 
-// This is to prevent an instrumented phet-io instance from being created outside a constructor,
-// see https://github.com/phetsims/phet-io-wrappers/issues/97
-const getPlusChargeNode = (): PlusChargeNode => {
-  if ( !plusChargeNode ) {
-    plusChargeNode = new PlusChargeNode( new Vector2( 0, 0 ), {
-      scale: scale
-    } );
-  }
-  return plusChargeNode;
-};
+const getMinusChargeNode = createSharedChargeNodeGetter( () => {
+  return new MinusChargeNode( new Vector2( 0, 0 ), {
+    scale: SCALE
+  } );
+} );
+
+const getPlusChargeNode = createSharedChargeNodeGetter( () => {
+  return new PlusChargeNode( new Vector2( 0, 0 ), {
+    scale: SCALE
+  } );
+} );
 
 export default class MinusChargesCanvasNode extends CanvasNode {
 
@@ -71,7 +75,7 @@ export default class MinusChargesCanvasNode extends CanvasNode {
     this.wallX = wallX;
 
     // created synchronously so that it can be drawn immediately in paintCanvas
-    this.minusChargeImageNode = rasterizeNode( getChargeNode(), { wrap: false } );
+    this.minusChargeImageNode = rasterizeNode( getMinusChargeNode(), { wrap: false } );
     this.plusChargeImageNode = rasterizeNode( getPlusChargeNode(), { wrap: false } );
   }
 
@@ -82,7 +86,7 @@ export default class MinusChargesCanvasNode extends CanvasNode {
 
     // we scaled up the node before converting to image so that it looks less pixelated, so now we need to
     // scale it back down
-    context.scale( 1 / scale, 1 / scale );
+    context.scale( 1 / SCALE, 1 / SCALE );
 
     // Draw plus charges first, then minus charges, to preserve the previous layering.
     for ( let i = 0; i < this.plusCharges.length; i++ ) {
@@ -90,8 +94,8 @@ export default class MinusChargesCanvasNode extends CanvasNode {
       const chargePosition = charge.position;
 
       // Preserve a visible static offset between plus and minus charges when there is no induced motion.
-      const xPosition = ( chargePosition.x - this.wallX - PLUS_CHARGE_OFFSET ) * scale;
-      const yPosition = ( chargePosition.y - PLUS_CHARGE_OFFSET ) * scale;
+      const xPosition = ( chargePosition.x - this.wallX - PLUS_CHARGE_OFFSET ) * SCALE;
+      const yPosition = ( chargePosition.y - PLUS_CHARGE_OFFSET ) * SCALE;
 
       context.drawImage( this.plusChargeImageNode.image, xPosition, yPosition );
     }
@@ -100,8 +104,8 @@ export default class MinusChargesCanvasNode extends CanvasNode {
       const charge = this.minusCharges[ i ];
       const chargePosition = charge.positionProperty.get();
 
-      const xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale );
-      const yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * scale;
+      const xPosition = ( ( chargePosition.x - this.wallX + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * SCALE );
+      const yPosition = ( chargePosition.y + PointChargeModel.RADIUS - BASEConstants.IMAGE_PADDING ) * SCALE;
 
       context.drawImage( this.minusChargeImageNode.image, xPosition, yPosition );
     }
