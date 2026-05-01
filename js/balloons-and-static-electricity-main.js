@@ -30,7 +30,7 @@ simLauncher.launch( () => {
       softwareDevelopment: 'Sam Reid, John Blanco',
       team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul, Kathy Perkins, Taliesin Smith',
       qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson, ' +
-                        'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero, ' +
+                        'Emily Miller, Matthew Moore, Elise Morgan, Liam Mulhall, Oliver Orejola, Valentina Pérez, Benjamin Roberts, Jacob Romero, ' +
                         'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
       graphicArts: 'Sharon Siman-Tov',
       soundDesign: 'Ashton Morris',
