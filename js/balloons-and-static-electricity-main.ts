@@ -44,9 +44,9 @@ simLauncher.launch( () => {
     )
   ], {
     credits: {
-      leadDesign: 'Noah Podolefsky & Sam Reid',
-      softwareDevelopment: 'Sam Reid, John Blanco',
-      team: 'Wendy Adams, Jesse Greenberg, Trish Loeblein, Emily B. Moore, Ariel Paul,<br>Kathy Perkins, Taliesin Smith',
+      leadDesign: 'Noah Podolefsky, Sam Reid',
+      softwareDevelopment: 'Sam Reid, John Blanco, Jesse Greenberg',
+      team: 'Wendy Adams, Trish Loeblein, Emily B. Moore, Ariel Paul, Kathy Perkins, <br>Amy Rouinfar, Taliesin Smith',
       qualityAssurance: 'Logan Bray, Steele Dalton, Bryce Griebenow, Ethan Johnson,<br>' +
                         'Emily Miller, Elise Morgan, Liam Mulhall, Oliver Orejola, Benjamin Roberts, Jacob Romero,<br>' +
                         'Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
