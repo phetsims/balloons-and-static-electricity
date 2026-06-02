@@ -23,9 +23,9 @@ const icon = new Node( {
     new Circle( RADIUS, {
       x: 0, y: 0,
       fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
-        .addColorStop( 0, '#4fcfff' )
-        .addColorStop( 0.5, '#2cbef5' )
-        .addColorStop( 1, '#00a9e8' )
+        .addColorStop( 0, '#0FBBFF' )
+        .addColorStop( 0.5, '#009DD6' )
+        .addColorStop( 1, '#0092C7' )
     } ),
 
     new Rectangle( 0, 0, 11, 2, {
