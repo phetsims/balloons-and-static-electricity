@@ -82,16 +82,14 @@ export default class ControlPanel extends Node {
       replaceNewlines: true,
       align: 'center' as const,
       font: textOptions.font,
-      maxWidth: textOptions.maxWidth,
-      tandem: tandem.createTandem( 'addWallText' )
+      maxWidth: textOptions.maxWidth
     } );
     const removeWallText = new RichText( removeWallString, {
       replaceNewlines: true,
       align: 'center' as const,
       center: addWallText.center,
       font: textOptions.font,
-      maxWidth: textOptions.maxWidth,
-      tandem: tandem.createTandem( 'removeWallText' )
+      maxWidth: textOptions.maxWidth
     } );
 
     this.wallToggleButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
@@ -122,8 +120,7 @@ export default class ControlPanel extends Node {
         balloonAppletShowAllChargesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
-          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
-          tandem: tandem.createTandem( 'allChargesText' )
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth
         }
       ),
       value: 'allCharges',
@@ -136,8 +133,7 @@ export default class ControlPanel extends Node {
         balloonAppletShowNoChargesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
-          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
-          tandem: tandem.createTandem( 'noChargesText' )
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth
         }
       ),
       value: 'noCharges',
@@ -150,8 +146,7 @@ export default class ControlPanel extends Node {
         balloonAppletShowChargeDifferencesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
-          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth,
-          tandem: tandem.createTandem( 'differentialChargesText' )
+          maxWidth: RADIO_BUTTON_TEXT_OPTIONS.maxWidth
         }
       ),
       value: 'chargeDifferences',
@@ -217,12 +212,10 @@ export default class ControlPanel extends Node {
     // 'Reset Balloons' button
     const resetBalloonToggleNode = new BooleanToggleNode( model.greenBalloon.isVisibleProperty,
       new Text( resetBalloonsString, {
-        font: CONTROLS_FONT,
-        tandem: tandem.createTandem( 'resetBalloonsText' )
+        font: CONTROLS_FONT
       } ),
       new Text( resetBalloonString, {
-        font: CONTROLS_FONT,
-        tandem: tandem.createTandem( 'resetBalloonText' )
+        font: CONTROLS_FONT
       } ), { maxWidth: 140, tandem: Tandem.OPT_OUT } );
     const resetBalloonButtonListener = () => {
 
