@@ -11,7 +11,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import GetSetButtonsIO from '../../../../tandem/js/types/GetSetButtonsIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import BalloonModel from './BalloonModel.js';
 import PointChargeModel from './PointChargeModel.js';
 
@@ -76,7 +81,11 @@ const CHARGE_PAIR_POSITIONS = [
   new Vector2( 290, 337 )
 ];
 
-export default class SweaterModel {
+type SweaterModelStateObject = {
+  movedValues: boolean[];
+};
+
+export default class SweaterModel extends PhetioObject {
 
   // dimensions of the sweater, empirically determined to match design spec
   public readonly width = 305;
@@ -105,6 +114,12 @@ export default class SweaterModel {
   public readonly minusCharges: PointChargeModel[] = [];
 
   public constructor( x: number, y: number, tandem: Tandem ) {
+
+    super( {
+      tandem: tandem,
+      phetioType: SweaterModel.SweaterModelIO,
+      phetioState: true
+    } );
 
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
@@ -217,4 +232,27 @@ export default class SweaterModel {
     } );
     this.chargeProperty.set( 0 );
   }
+
+  public static readonly SweaterModelIO = new IOType<SweaterModel, SweaterModelStateObject>( 'SweaterModelIO', {
+    documentation: 'IOType for SweaterModel. Serializes charge transfer state without exposing individual charges.',
+    supertype: GetSetButtonsIO,
+    valueType: SweaterModel,
+    stateSchema: {
+      movedValues: ArrayIO( BooleanIO )
+    },
+    toStateObject: sweaterModel => ( {
+      movedValues: sweaterModel.minusCharges.map( minusCharge => minusCharge.movedProperty.value )
+    } ),
+    applyState: ( sweaterModel, stateObject ) => {
+      assert && assert(
+        stateObject.movedValues.length === sweaterModel.minusCharges.length,
+        'SweaterModel state should have one moved value for each minus charge.'
+      );
+
+      stateObject.movedValues.forEach( ( movedValue, index ) => {
+        sweaterModel.minusCharges[ index ].movedProperty.value = movedValue;
+      } );
+      sweaterModel.chargeProperty.value = stateObject.movedValues.filter( movedValue => movedValue ).length;
+    }
+  } );
 }
