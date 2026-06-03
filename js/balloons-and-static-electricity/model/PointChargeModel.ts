@@ -12,7 +12,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const RADIUS = 8;
@@ -32,14 +31,11 @@ export default class PointChargeModel {
   public static readonly RADIUS = RADIUS;
   public static readonly CHARGE = CHARGE;
 
-  public constructor( x: number, y: number, tandem: Tandem, phetioState: boolean ) {
+  public constructor( x: number, y: number ) {
 
     this.position = new Vector2( x, y );
 
-    this.movedProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'movedProperty' ),
-      phetioState: phetioState
-    } );
+    this.movedProperty = new BooleanProperty( false );
   }
 
   public reset(): void {

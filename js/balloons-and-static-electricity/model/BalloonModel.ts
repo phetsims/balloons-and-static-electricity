@@ -286,22 +286,20 @@ export default class BalloonModel {
 
     // neutral pair of charges
     this.positionsOfStartCharges.forEach( entry => {
-      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], Tandem.OPT_OUT, false );
+      const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.plusCharges.push( plusCharge );
 
       // minus charges at same position of positive charge, shifted down and to the right by charge radius
       const minusCharge = new PointChargeModel(
         entry[ 0 ] + PointChargeModel.RADIUS,
-        entry[ 1 ] + PointChargeModel.RADIUS,
-        Tandem.OPT_OUT,
-        false
+        entry[ 1 ] + PointChargeModel.RADIUS
       );
       this.minusCharges.push( minusCharge );
     } );
 
     // charges that we can get from sweater, only negative charges
     POSITIONS.forEach( entry => {
-      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ], Tandem.OPT_OUT, false );
+      const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.minusCharges.push( minusCharge );
     } );
 

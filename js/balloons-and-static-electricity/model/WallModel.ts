@@ -64,26 +64,20 @@ export default class WallModel {
     this.dx = Utils.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
 
-    const minusCharges = tandem.createTandem( 'minusCharges' );
-
-    let index = 0;
     for ( let i = 0; i < this.numX; i++ ) {
       for ( let k = 0; k < this.numY; k++ ) {
 
         // plus
         const position = this.calculatePosition( i, k );
-        const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ], Tandem.OPT_OUT, false );
+        const plusCharge = new PointChargeModel( x + position[ 0 ], position[ 1 ] );
         this.plusCharges.push( plusCharge );
 
         // minus
         const minusCharge = new MovablePointChargeModel(
           x + position[ 0 ] - PointChargeModel.RADIUS,
-          position[ 1 ] - PointChargeModel.RADIUS,
-          minusCharges.createTandem( `minusCharge${index}` ),
-          false
+          position[ 1 ] - PointChargeModel.RADIUS
         );
         this.minusCharges.push( minusCharge );
-        index++;
       }
     }
 

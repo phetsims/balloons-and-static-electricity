@@ -158,23 +158,17 @@ export default class SweaterModel {
     }
     this.chargedArea.close();
 
-    const plusChargesGroupTandem = tandem.createTandem( 'plusCharges' ).createGroupTandem( 'plusCharge', 0 );
-    const minusChargesGroupTandem = tandem.createTandem( 'minusCharges' ).createGroupTandem( 'minusCharge', 0 );
     CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
       const plusCharge = new PointChargeModel(
         chargePairPosition.x,
-        chargePairPosition.y,
-        plusChargesGroupTandem.createNextTandem(),
-        false
+        chargePairPosition.y
       );
       this.plusCharges.push( plusCharge );
 
       // minus
       const minusCharge = new PointChargeModel(
         chargePairPosition.x + PointChargeModel.RADIUS,
-        chargePairPosition.y + PointChargeModel.RADIUS,
-        minusChargesGroupTandem.createNextTandem(),
-        true
+        chargePairPosition.y + PointChargeModel.RADIUS
       );
       this.minusCharges.push( minusCharge );
     } );

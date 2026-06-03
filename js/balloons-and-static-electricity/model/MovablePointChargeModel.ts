@@ -11,7 +11,6 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import PointChargeModel from './PointChargeModel.js';
 
 export default class MovablePointChargeModel extends PointChargeModel {
@@ -19,13 +18,11 @@ export default class MovablePointChargeModel extends PointChargeModel {
   // position of the point charge
   public readonly positionProperty: Vector2Property;
 
-  public constructor( x: number, y: number, tandem: Tandem, phetioState: boolean ) {
+  public constructor( x: number, y: number ) {
 
-    super( x, y, tandem, phetioState );
+    super( x, y );
 
     this.positionProperty = new Vector2Property( this.position, {
-      tandem: tandem.createTandem( 'positionProperty' ),
-      phetioState: phetioState,
       valueComparisonStrategy: 'equalsFunction'
     } );
   }
