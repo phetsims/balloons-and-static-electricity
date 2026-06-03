@@ -126,7 +126,8 @@ export default class SweaterModel extends PhetioObject {
       tandem: tandem.createTandem( 'chargeProperty' ),
       numberType: 'Integer',
       range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.x = x;

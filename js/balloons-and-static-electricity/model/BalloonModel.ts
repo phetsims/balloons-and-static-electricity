@@ -134,6 +134,9 @@ type SelfOptions = {
 
   // Whether clients can set isVisibleProperty through the PhET-iO API.
   isVisiblePropertyPhetioReadOnly?: boolean;
+
+  // Whether isVisibleProperty is featured in PhET-iO Studio.
+  isVisiblePropertyPhetioFeatured?: boolean;
 };
 export type BalloonModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -237,14 +240,16 @@ export default class BalloonModel {
   public constructor( x: number, y: number, balloonsAndStaticElectricityModel: BASEModel, providedOptions: BalloonModelOptions ) {
 
     const options = optionize<BalloonModelOptions, SelfOptions, PhetioObjectOptions>()( {
-      isVisiblePropertyPhetioReadOnly: true
+      isVisiblePropertyPhetioReadOnly: true,
+      isVisiblePropertyPhetioFeatured: false
     }, providedOptions );
 
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       range: new Range( -POSITIONS.length, 0 ),
       tandem: options.tandem.createTandem( 'chargeProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
@@ -255,7 +260,8 @@ export default class BalloonModel {
 
     this.isVisibleProperty = new BooleanProperty( options.defaultVisibility, {
       tandem: options.tandem.createTandem( 'isVisibleProperty' ),
-      phetioReadOnly: options.isVisiblePropertyPhetioReadOnly
+      phetioReadOnly: options.isVisiblePropertyPhetioReadOnly,
+      phetioFeatured: options.isVisiblePropertyPhetioFeatured
     } );
 
     this.userControlledProperty = new BooleanProperty( false, {
@@ -277,12 +283,14 @@ export default class BalloonModel {
 
     this.onSweaterProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'onSweaterProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.touchingWallProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'touchingWallProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.playAreaColumnProperty = new Property<PlayAreaColumn | null>( null );
@@ -299,7 +307,8 @@ export default class BalloonModel {
 
     this.inducingChargeProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'inducingChargeProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.oldPosition = this.positionProperty.get().copy();

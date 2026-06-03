@@ -86,7 +86,8 @@ export default class BASEModel {
     this.greenBalloon = new BalloonModel( 380, 130, this, {
       defaultVisibility: false,
       tandem: tandem.createTandem( 'greenBalloon' ),
-      isVisiblePropertyPhetioReadOnly: false
+      isVisiblePropertyPhetioReadOnly: false,
+      isVisiblePropertyPhetioFeatured: true
     } );
 
     // assign 'other' balloon references

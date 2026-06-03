@@ -52,7 +52,8 @@ export default class WallModel {
   public constructor( x: number, width: number, height: number, yellowBalloon: BalloonModel, greenBalloon: BalloonModel, tandem: Tandem ) {
 
     this.isVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'isVisibleProperty' )
+      tandem: tandem.createTandem( 'isVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.x = x;

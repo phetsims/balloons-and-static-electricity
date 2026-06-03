@@ -204,7 +204,10 @@ export default class ControlPanel extends Node {
           maskFill: BASEConstants.backgroundColorProperty,
           ariaLabel: twoBalloonExperimentLabelString,
           containerTagName: 'div',
-          descriptionContent: twoBalloonExperimentDescriptionString
+          descriptionContent: twoBalloonExperimentDescriptionString,
+          visiblePropertyOptions: {
+            phetioFeatured: true
+          }
         }
       );
     }
