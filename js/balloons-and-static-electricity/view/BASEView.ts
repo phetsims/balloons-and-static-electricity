@@ -91,7 +91,7 @@ export default class BASEView extends ScreenView {
       { fill: 'black', tandem: tandem.createTandem( 'spaceToLeftOfWall' ) }
     ) );
 
-    const controlPanel = new ControlPanel( model, this, tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new ControlPanel( model, this, tandem );
 
     this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
       model.wall,
