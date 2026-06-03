@@ -9,7 +9,6 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import wall_png from '../../../images/wall_png.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEModel from '../model/BASEModel.js';
@@ -24,7 +23,7 @@ export default class WallNode extends Node {
   private readonly wallDescriber: WallDescriber;
   public readonly wallNode: Image;
 
-  public constructor( model: BASEModel, tandem: Tandem ) {
+  public constructor( model: BASEModel ) {
 
     super( {
       pickable: false,
@@ -42,7 +41,7 @@ export default class WallNode extends Node {
     this.translate( wallModel.x, 0 );
 
     // add the background
-    this.wallNode = new Image( wall_png, { tandem: tandem.createTandem( 'wallNode' ) } );
+    this.wallNode = new Image( wall_png );
 
     this.addChild( this.wallNode );
 

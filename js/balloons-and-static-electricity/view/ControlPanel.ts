@@ -179,27 +179,22 @@ export default class ControlPanel extends Node {
 
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
-    const yellowBalloonImage = new Image( balloonYellow_png, { tandem: tandem.createTandem( 'yellowBalloonImage' ) } );
-    const twoBalloonIconTandem = tandem.createTandem( 'twoBalloonIcon' );
+    const yellowBalloonImage = new Image( balloonYellow_png );
     const twoBalloonIcon = new Node( {
       children: [
-        new Image( balloonGreen_png, { x: 160, tandem: twoBalloonIconTandem.createTandem( 'greenBalloonImage' ) } ),
+        new Image( balloonGreen_png, { x: 160 } ),
         yellowBalloonImage
       ],
-      scale: scale,
-      tandem: twoBalloonIconTandem
+      scale: scale
     } );
 
-    const oneBalloonIconTandem = tandem.createTandem( 'oneBalloonIcon' );
     const oneBalloonIcon = new Node( {
       children: [
         new Image( balloonYellow_png, {
-          x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2,
-          tandem: oneBalloonIconTandem.createTandem( 'yellowBalloonImage' )
+          x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2
         } )
       ],
-      scale: scale,
-      tandem: oneBalloonIconTandem
+      scale: scale
     } );
 
     let showSecondBalloonSelector: TwoSceneSelectionNode<boolean> | null = null;
@@ -228,7 +223,7 @@ export default class ControlPanel extends Node {
       new Text( resetBalloonString, {
         font: CONTROLS_FONT,
         tandem: tandem.createTandem( 'resetBalloonText' )
-      } ), { maxWidth: 140, tandem: tandem.createTandem( 'resetBalloonToggleNode' ) } );
+      } ), { maxWidth: 140, tandem: Tandem.OPT_OUT } );
     const resetBalloonButtonListener = () => {
 
       // disable other alerts until after we are finished resetting the balloons
@@ -314,7 +309,7 @@ export default class ControlPanel extends Node {
     }
     else {
       visibilityControls = [
-        new Panel( showChargesRadioButtonGroup, { tandem: tandem.createTandem( 'visibilityPanel' ) } ),
+        new Panel( showChargesRadioButtonGroup, { tandem: Tandem.OPT_OUT } ),
         balloonsPanel
       ];
       controlsLeft = 70;
