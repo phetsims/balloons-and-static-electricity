@@ -175,7 +175,7 @@ export default class BalloonPositionDescriber {
     let string = '';
 
     if ( this.balloonModel.onSweater() ) {
-      if ( !this.balloonModel.isDraggedProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
+      if ( !this.balloonModel.userControlledProperty.get() && Math.abs( this.balloonModel.chargeProperty.get() ) > 0 ) {
 
         // has charged and not dragging, balloon is sticking to the object
         string = balloonStickingToString;
@@ -688,7 +688,7 @@ export default class BalloonPositionDescriber {
     let description;
 
     const direction = this.balloonModel.directionProperty.get();
-    if ( this.balloonModel.isDraggedProperty.get() ) {
+    if ( this.balloonModel.userControlledProperty.get() ) {
 
       // when dragged, just the direction
       description = this.getDraggingDirectionDescription( direction! );

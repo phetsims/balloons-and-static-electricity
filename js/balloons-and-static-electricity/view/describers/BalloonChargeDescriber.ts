@@ -89,7 +89,7 @@ export default class BalloonChargeDescriber {
 
     // when the balloon is grabbed or released, reset reference forces for describing changes to induced charge
     // in the wall
-    balloonModel.isDraggedProperty.link( () => {
+    balloonModel.userControlledProperty.link( () => {
       this.resetReferenceForces();
     } );
   }
@@ -131,7 +131,7 @@ export default class BalloonChargeDescriber {
    *   negative charges than positive charges." or
    */
   public getCombinedRelativeChargeDescription(): string {
-    assert && assert( this.balloonModel.isDraggedProperty.get(), 'alert should only be generated if balloon is grabbed' );
+    assert && assert( this.balloonModel.userControlledProperty.get(), 'alert should only be generated if balloon is grabbed' );
     let description = '';
 
     // the relative charge, used in all cases

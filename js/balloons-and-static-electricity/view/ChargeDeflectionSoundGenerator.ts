@@ -114,7 +114,7 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
     // this motion causes changes in the positions of the wall charges.
     balloons.forEach( ( balloon: BalloonModel ) => {
       balloon.positionProperty.link( () => {
-        if ( !balloon.isDraggedProperty.value && balloon.inducingChargeProperty.value ) {
+        if ( !balloon.userControlledProperty.value && balloon.inducingChargeProperty.value ) {
           this.produceSoundForBinChanges( balloon );
         }
       } );

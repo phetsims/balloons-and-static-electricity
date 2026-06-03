@@ -183,12 +183,12 @@ export default class BASEView extends ScreenView {
 
     // When one of the balloons is picked up, move its content and cue nodes to the front.
     Multilink.multilink(
-      [ model.yellowBalloon.isDraggedProperty, model.greenBalloon.isDraggedProperty ],
-      ( yellowDragged, greenDragged ) => {
-        if ( yellowDragged ) {
+      [ model.yellowBalloon.userControlledProperty, model.greenBalloon.userControlledProperty ],
+      ( yellowUserControlled, greenUserControlled ) => {
+        if ( yellowUserControlled ) {
           this.yellowBalloonLayerNode.moveToFront();
         }
-        else if ( greenDragged ) {
+        else if ( greenUserControlled ) {
           this.greenBalloonLayerNode.moveToFront();
         }
       }

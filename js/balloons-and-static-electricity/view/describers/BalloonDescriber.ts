@@ -109,7 +109,7 @@ export default class BalloonDescriber extends Alerter {
   private describedPosition: Vector2;
   private describedVisible: boolean;
   private describedTouchingWall: boolean;
-  private describedIsDragged: boolean;
+  private describedUserControlled: boolean;
   private describedWallVisible: boolean;
   private describedDirection: string | null;
   private describedCharge: number;
@@ -199,7 +199,7 @@ export default class BalloonDescriber extends Alerter {
     this.describedPosition = balloon.positionProperty.get();
     this.describedVisible = balloon.isVisibleProperty.get();
     this.describedTouchingWall = balloon.touchingWallProperty.get();
-    this.describedIsDragged = balloon.isDraggedProperty.get();
+    this.describedUserControlled = balloon.userControlledProperty.get();
     this.describedWallVisible = wall.isVisibleProperty.get();
     this.describedDirection = null;
     this.describedCharge = 0;
@@ -252,7 +252,7 @@ export default class BalloonDescriber extends Alerter {
 
     // pdom - if we enter/leave the sweater announce that immediately
     balloon.onSweaterProperty.link( onSweater => {
-      if ( balloon.isDraggedProperty.get() ) {
+      if ( balloon.userControlledProperty.get() ) {
         this.addAccessibleContextResponse( this.movementDescriber.getOnSweaterString( onSweater ) );
       }
 
@@ -297,7 +297,7 @@ export default class BalloonDescriber extends Alerter {
     this.describedPosition = this.balloonModel.positionProperty.get();
     this.describedVisible = this.balloonModel.isVisibleProperty.get();
     this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
-    this.describedIsDragged = this.balloonModel.isDraggedProperty.get();
+    this.describedUserControlled = this.balloonModel.userControlledProperty.get();
     this.describedWallVisible = this.wall.isVisibleProperty.get();
     this.describedDirection = null;
     this.describedCharge = 0;
@@ -745,13 +745,13 @@ export default class BalloonDescriber extends Alerter {
     const nextPosition = model.positionProperty.get();
     const nextVisible = model.isVisibleProperty.get();
     const nextTouchingWall = model.touchingWallProperty.get();
-    const nextIsDragged = model.isDraggedProperty.get();
+    const nextUserControlled = model.userControlledProperty.get();
     const nextWallVisible = this.wall.isVisibleProperty.get();
     const nextCharge = model.chargeProperty.get();
 
     // update timers that determine the next time certain alerts should be announced
     this.timeSinceChargeAlert += dt * 1000;
-    if ( !model.isDraggedProperty.get() ) { this.timeSinceReleaseAlert += dt * 1000; }
+    if ( !model.userControlledProperty.get() ) { this.timeSinceReleaseAlert += dt * 1000; }
 
     if ( !this.shortMovementFromPointer() ) {
 
@@ -760,7 +760,7 @@ export default class BalloonDescriber extends Alerter {
            this.balloonModel.directionProperty.get() &&
            this.describedDirection !== this.balloonModel.directionProperty.get() ) {
 
-        if ( this.balloonModel.isDraggedProperty.get() || model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
+        if ( this.balloonModel.userControlledProperty.get() || model.timeSinceRelease > RELEASE_DESCRIPTION_TIME_DELAY ) {
           this.directionUtterance.alert = this.movementDescriber.getDirectionChangedDescription();
 
           this.sendAlert( this.directionUtterance );
@@ -772,7 +772,7 @@ export default class BalloonDescriber extends Alerter {
       if ( this.timeSinceChargeAlert > CHARGE_DESCRIPTION_REFRESH_RATE ) {
         if ( this.chargeOnStartDrag === this.chargeOnEndDrag ) {
           if ( this.rubAlertDirty ) {
-            if ( nextIsDragged && model.onSweater() ) {
+            if ( nextUserControlled && model.onSweater() ) {
               this.noChargePickupUtterance.alert = this.getNoChargePickupDescription();
               this.sendAlert( this.noChargePickupUtterance );
             }
@@ -811,7 +811,7 @@ export default class BalloonDescriber extends Alerter {
     // alerts that might stem from changes to balloon velocity (independent movement)
     if ( !nextVelocity.equals( this.describedVelocity ) ) {
       if ( nextVelocity.equals( Vector2.ZERO ) ) {
-        if ( model.isDraggedProperty.get() ) {
+        if ( model.userControlledProperty.get() ) {
           if ( model.onSweater() || model.touchingWall() ) {
 
             // while dragging, just attractive state and position
@@ -848,7 +848,7 @@ export default class BalloonDescriber extends Alerter {
       // to alerting every position because 1) it reduces the number of alerts that occur and 2) it waits until
       // a user has finished interacting to make an announcement, and AT produce garbled/interrupted output if
       // user makes an interaction while a new alert is being announced
-      if ( model.isDraggedProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) && !this.shortMovementFromPointer() ) {
+      if ( model.userControlledProperty.get() && nextDragVelocity.equals( Vector2.ZERO ) && !this.shortMovementFromPointer() ) {
 
         // ignore changes that occur while the user is "jumping" the balloon (using hotkeys to snap to a new position)
         if ( !model.jumping ) {
@@ -921,7 +921,7 @@ export default class BalloonDescriber extends Alerter {
     if ( this.describedTouchingWall !== nextTouchingWall ) {
       if ( !model.jumping ) {
         if ( nextTouchingWall ) {
-          if ( model.isDraggedProperty.get() && this.showChargesProperty.get() === 'all' ) {
+          if ( model.userControlledProperty.get() && this.showChargesProperty.get() === 'all' ) {
             this.sendAlert( this.getWallRubbingDescriptionWithChargePairs() );
             this.describeWallRub = false;
           }
@@ -937,10 +937,10 @@ export default class BalloonDescriber extends Alerter {
     }
 
     // any alerts that might be generated when the balloon is picked up and released
-    if ( this.describedIsDragged !== nextIsDragged ) {
+    if ( this.describedUserControlled !== nextUserControlled ) {
       utterance = '';
 
-      if ( nextIsDragged ) {
+      if ( nextUserControlled ) {
         utterance = this.movementDescriber.getGrabbedAlert();
         this.grabReleaseUtterance.alert = utterance;
         this.sendAlert( this.grabReleaseUtterance );
@@ -969,7 +969,7 @@ export default class BalloonDescriber extends Alerter {
     }
 
     // any changes to position from independent balloon movement (not dragging)
-    if ( nextVisible && !nextIsDragged ) {
+    if ( nextVisible && !nextUserControlled ) {
       utterance = '';
 
       if ( !this.initialMovementDescribed ) {
@@ -1021,7 +1021,7 @@ export default class BalloonDescriber extends Alerter {
     this.describedPosition = nextPosition;
     this.describedVisible = nextVisible;
     this.describedTouchingWall = nextTouchingWall;
-    this.describedIsDragged = nextIsDragged;
+    this.describedUserControlled = nextUserControlled;
     this.describedWallVisible = nextWallVisible;
     this.describedCharge = nextCharge;
   }

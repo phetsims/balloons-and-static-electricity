@@ -134,7 +134,7 @@ export default class BalloonModel {
   public readonly velocityProperty: Vector2Property;
 
   public readonly isVisibleProperty: BooleanProperty;
-  public readonly isDraggedProperty: BooleanProperty;
+  public readonly userControlledProperty: BooleanProperty;
 
   // whether this balloon is being dragged with a mouse or touch pointer
   public draggingWithPointer = false;
@@ -243,8 +243,8 @@ export default class BalloonModel {
       phetioReadOnly: true
     } );
 
-    this.isDraggedProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'isDraggedProperty' ),
+    this.userControlledProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'userControlledProperty' ),
       phetioReadOnly: true
     } );
 
@@ -341,15 +341,15 @@ export default class BalloonModel {
       }
     } );
 
-    this.isDraggedProperty.lazyLink( isDragged => {
+    this.userControlledProperty.lazyLink( userControlled => {
 
       // When the user starts dragging a balloon, set its non-dragging velocity to zero.
-      if ( isDragged ) {
+      if ( userControlled ) {
         this.velocityProperty.set( Vector2.ZERO );
       }
 
       // When the balloon is released, reset the timer that indicates when it was released.
-      if ( !isDragged ) {
+      if ( !userControlled ) {
         this.timeSinceRelease = 0;
       }
     } );
@@ -643,7 +643,7 @@ export default class BalloonModel {
     if ( !notResetVisibility ) {
       this.isVisibleProperty.reset();
     }
-    this.isDraggedProperty.reset();
+    this.userControlledProperty.reset();
 
     this.successfulPickUp = false;
 
@@ -667,7 +667,7 @@ export default class BalloonModel {
       dt = 1 / 60 * 1000; // nominal time stamp at 60 fps
     }
 
-    if ( this.isDraggedProperty.get() ) {
+    if ( this.userControlledProperty.get() ) {
 
       // drag the balloon, which may cause it to pick up charges
       this.dragBalloon( model, dt );
@@ -877,11 +877,11 @@ export default class BalloonModel {
   }
 
   /**
-   * Get the force on this balloon model from another balloon model. If the other balloon is being dragged, or is
-   * invisible, zero is returned. See getForce() for the actual force calculation
+   * Get the force on this balloon model from another balloon model. If the other balloon is user-controlled, or is
+   * invisible, zero is returned. See getForce() for the actual force calculation.
    */
   public getOtherBalloonForce(): Vector2 {
-    if ( this.isDraggedProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
+    if ( this.userControlledProperty.get() || !this.isVisibleProperty.get() || !this.other.isVisibleProperty.get() ) {
       return new Vector2( 0, 0 );
     }
     const kqq = BalloonModel.FORCE_CONSTANT * this.chargeProperty.get() * this.other.chargeProperty.get();

@@ -191,7 +191,7 @@ export default class BalloonNode extends Node {
 
     // Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting velocities.
     const endDragListener = () => {
-      model.isDraggedProperty.set( false );
+      model.userControlledProperty.set( false );
       model.velocityProperty.set( new Vector2( 0, 0 ) );
       model.dragVelocityProperty.set( new Vector2( 0, 0 ) );
       releaseBalloonSoundPlayer.play();
@@ -228,7 +228,7 @@ export default class BalloonNode extends Node {
       allowTouchSnag: true,
       start: () => {
         model.draggingWithPointer = true;
-        model.isDraggedProperty.set( true );
+        model.userControlledProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
       drag: options?.pointerDrag || resolvedOptions.pointerDrag,
@@ -403,7 +403,7 @@ export default class BalloonNode extends Node {
     };
     model.positionProperty.link( updateAccessibleDescription );
     model.chargeProperty.link( updateAccessibleDescription );
-    model.isDraggedProperty.link( updateAccessibleDescription );
+    model.userControlledProperty.link( updateAccessibleDescription );
     globalModel.showChargesProperty.link( updateAccessibleDescription );
 
     const dragBoundsProperty = new Property( this.getDragBounds() );
@@ -474,7 +474,7 @@ export default class BalloonNode extends Node {
       accessibleHelpText: grabBalloonKeyboardHelpString,
 
       onGrab: () => {
-        model.isDraggedProperty.set( true );
+        model.userControlledProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
 
