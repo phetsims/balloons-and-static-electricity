@@ -233,6 +233,30 @@ export default class SweaterModel extends PhetioObject {
     this.chargeProperty.set( 0 );
   }
 
+  /**
+   * Serializes charge transfer state for PhET-iO.
+   */
+  private toStateObject(): SweaterModelStateObject {
+    return {
+      movedValues: this.minusCharges.map( minusCharge => minusCharge.movedProperty.value )
+    };
+  }
+
+  /**
+   * Restores charge transfer state from PhET-iO.
+   */
+  private applyState( stateObject: SweaterModelStateObject ): void {
+    assert && assert(
+      stateObject.movedValues.length === this.minusCharges.length,
+      'SweaterModel state should have one moved value for each minus charge.'
+    );
+
+    stateObject.movedValues.forEach( ( movedValue, index ) => {
+      this.minusCharges[ index ].movedProperty.value = movedValue;
+    } );
+    this.chargeProperty.value = stateObject.movedValues.filter( movedValue => movedValue ).length;
+  }
+
   public static readonly SweaterModelIO = new IOType<SweaterModel, SweaterModelStateObject>( 'SweaterModelIO', {
     documentation: 'IOType for SweaterModel. Serializes charge transfer state without exposing individual charges.',
     supertype: GetSetButtonsIO,
@@ -240,19 +264,7 @@ export default class SweaterModel extends PhetioObject {
     stateSchema: {
       movedValues: ArrayIO( BooleanIO )
     },
-    toStateObject: sweaterModel => ( {
-      movedValues: sweaterModel.minusCharges.map( minusCharge => minusCharge.movedProperty.value )
-    } ),
-    applyState: ( sweaterModel, stateObject ) => {
-      assert && assert(
-        stateObject.movedValues.length === sweaterModel.minusCharges.length,
-        'SweaterModel state should have one moved value for each minus charge.'
-      );
-
-      stateObject.movedValues.forEach( ( movedValue, index ) => {
-        sweaterModel.minusCharges[ index ].movedProperty.value = movedValue;
-      } );
-      sweaterModel.chargeProperty.value = stateObject.movedValues.filter( movedValue => movedValue ).length;
-    }
+    toStateObject: sweaterModel => sweaterModel.toStateObject(),
+    applyState: ( sweaterModel, stateObject ) => sweaterModel.applyState( stateObject )
   } );
 }
