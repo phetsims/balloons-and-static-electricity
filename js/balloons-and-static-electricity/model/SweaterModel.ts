@@ -15,7 +15,6 @@ import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import GetSetButtonsIO from '../../../../tandem/js/types/GetSetButtonsIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import BalloonModel from './BalloonModel.js';
 import PointChargeModel from './PointChargeModel.js';
