@@ -79,8 +79,15 @@ export default class BASEModel {
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
     this.playAreaBounds = new Bounds2( 0, 0, width - this.wallWidth, height );
-    this.yellowBalloon = new BalloonModel( 440, 100, this, true, tandem.createTandem( 'yellowBalloon' ) );
-    this.greenBalloon = new BalloonModel( 380, 130, this, false, tandem.createTandem( 'greenBalloon' ) );
+    this.yellowBalloon = new BalloonModel( 440, 100, this, {
+      defaultVisibility: true,
+      tandem: tandem.createTandem( 'yellowBalloon' )
+    } );
+    this.greenBalloon = new BalloonModel( 380, 130, this, {
+      defaultVisibility: false,
+      tandem: tandem.createTandem( 'greenBalloon' ),
+      isVisiblePropertyPhetioReadOnly: false
+    } );
 
     // assign 'other' balloon references
     this.yellowBalloon.other = this.greenBalloon;

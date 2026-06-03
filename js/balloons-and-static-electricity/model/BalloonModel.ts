@@ -17,7 +17,9 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
@@ -125,6 +127,16 @@ for ( let i = 0; i < POSITIONS.length; i++ ) {
 }
 const AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
 
+type SelfOptions = {
+
+  // Is the balloon visible by default?
+  defaultVisibility: boolean;
+
+  // Whether clients can set isVisibleProperty through the PhET-iO API.
+  isVisiblePropertyPhetioReadOnly?: boolean;
+};
+export type BalloonModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+
 export default class BalloonModel {
 
   // charge on the balloon, range goes from negative values to 0
@@ -220,53 +232,56 @@ export default class BalloonModel {
    * @param x - initial x position
    * @param y - initial y position
    * @param balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
-   * @param defaultVisibility - is the balloon visible by default?
-   * @param tandem
+   * @param providedOptions
    */
-  public constructor( x: number, y: number, balloonsAndStaticElectricityModel: BASEModel, defaultVisibility: boolean, tandem: Tandem ) {
+  public constructor( x: number, y: number, balloonsAndStaticElectricityModel: BASEModel, providedOptions: BalloonModelOptions ) {
+
+    const options = optionize<BalloonModelOptions, SelfOptions, PhetioObjectOptions>()( {
+      isVisiblePropertyPhetioReadOnly: true
+    }, providedOptions );
 
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       range: new Range( -POSITIONS.length, 0 ),
-      tandem: tandem.createTandem( 'chargeProperty' ),
+      tandem: options.tandem.createTandem( 'chargeProperty' ),
       phetioReadOnly: true
     } );
 
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
-      tandem: tandem.createTandem( 'velocityProperty' ),
+      tandem: options.tandem.createTandem( 'velocityProperty' ),
       valueComparisonStrategy: 'equalsFunction',
       phetioReadOnly: true
     } );
 
-    this.isVisibleProperty = new BooleanProperty( defaultVisibility, {
-      tandem: tandem.createTandem( 'isVisibleProperty' ),
-      phetioReadOnly: true
+    this.isVisibleProperty = new BooleanProperty( options.defaultVisibility, {
+      tandem: options.tandem.createTandem( 'isVisibleProperty' ),
+      phetioReadOnly: options.isVisiblePropertyPhetioReadOnly
     } );
 
     this.userControlledProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'userControlledProperty' ),
+      tandem: options.tandem.createTandem( 'userControlledProperty' ),
       phetioReadOnly: true
     } );
 
     this.positionProperty = new Vector2Property( new Vector2( x, y ), {
-      tandem: tandem.createTandem( 'positionProperty' ),
+      tandem: options.tandem.createTandem( 'positionProperty' ),
       valueComparisonStrategy: 'equalsFunction',
       phetioReadOnly: true
     } );
 
     this.dragVelocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
-      tandem: tandem.createTandem( 'dragVelocityProperty' ),
+      tandem: options.tandem.createTandem( 'dragVelocityProperty' ),
       valueComparisonStrategy: 'equalsFunction',
       phetioReadOnly: true
     } );
 
     this.onSweaterProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'onSweaterProperty' ),
+      tandem: options.tandem.createTandem( 'onSweaterProperty' ),
       phetioReadOnly: true
     } );
 
     this.touchingWallProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'touchingWallProperty' ),
+      tandem: options.tandem.createTandem( 'touchingWallProperty' ),
       phetioReadOnly: true
     } );
 
@@ -277,13 +292,13 @@ export default class BalloonModel {
     this.playAreaLandmarkProperty = new Property<string | null>( null );
 
     this.directionProperty = new Property<string | null>( null, {
-      tandem: tandem.createTandem( 'directionProperty' ),
+      tandem: options.tandem.createTandem( 'directionProperty' ),
       phetioValueType: NullableIO( StringIO ),
       phetioReadOnly: true
     } );
 
     this.inducingChargeProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'inducingChargeProperty' ),
+      tandem: options.tandem.createTandem( 'inducingChargeProperty' ),
       phetioReadOnly: true
     } );
 
