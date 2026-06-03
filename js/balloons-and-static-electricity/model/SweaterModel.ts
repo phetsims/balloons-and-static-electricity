@@ -118,7 +118,8 @@ export default class SweaterModel extends PhetioObject {
     super( {
       tandem: tandem,
       phetioType: SweaterModel.SweaterModelIO,
-      phetioState: true
+      phetioState: true,
+      phetioReadOnly: true
     } );
 
     this.chargeProperty = new NumberProperty( 0, {
