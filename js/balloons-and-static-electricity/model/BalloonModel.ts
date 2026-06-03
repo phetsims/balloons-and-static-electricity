@@ -234,33 +234,40 @@ export default class BalloonModel {
 
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
-      valueComparisonStrategy: 'equalsFunction'
+      valueComparisonStrategy: 'equalsFunction',
+      phetioReadOnly: true
     } );
 
     this.isVisibleProperty = new BooleanProperty( defaultVisibility, {
-      tandem: tandem.createTandem( 'isVisibleProperty' )
+      tandem: tandem.createTandem( 'isVisibleProperty' ),
+      phetioReadOnly: true
     } );
 
     this.isDraggedProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'isDraggedProperty' )
+      tandem: tandem.createTandem( 'isDraggedProperty' ),
+      phetioReadOnly: true
     } );
 
     this.positionProperty = new Vector2Property( new Vector2( x, y ), {
       tandem: tandem.createTandem( 'positionProperty' ),
-      valueComparisonStrategy: 'equalsFunction'
+      valueComparisonStrategy: 'equalsFunction',
+      phetioReadOnly: true
     } );
 
     this.dragVelocityProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'dragVelocityProperty' ),
-      valueComparisonStrategy: 'equalsFunction'
+      valueComparisonStrategy: 'equalsFunction',
+      phetioReadOnly: true
     } );
 
     this.onSweaterProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'onSweaterProperty' )
+      tandem: tandem.createTandem( 'onSweaterProperty' ),
+      phetioReadOnly: true
     } );
 
     this.touchingWallProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'touchingWallProperty' )
+      tandem: tandem.createTandem( 'touchingWallProperty' ),
+      phetioReadOnly: true
     } );
 
     this.playAreaColumnProperty = new Property<PlayAreaColumn | null>( null );
@@ -271,11 +278,13 @@ export default class BalloonModel {
 
     this.directionProperty = new Property<string | null>( null, {
       tandem: tandem.createTandem( 'directionProperty' ),
-      phetioValueType: NullableIO( StringIO )
+      phetioValueType: NullableIO( StringIO ),
+      phetioReadOnly: true
     } );
 
     this.inducingChargeProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'inducingChargeProperty' )
+      tandem: tandem.createTandem( 'inducingChargeProperty' ),
+      phetioReadOnly: true
     } );
 
     this.oldPosition = this.positionProperty.get().copy();
