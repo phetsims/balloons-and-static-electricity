@@ -261,7 +261,6 @@ export default class SweaterModel extends PhetioObject {
 
   public static readonly SweaterModelIO = new IOType<SweaterModel, SweaterModelStateObject>( 'SweaterModelIO', {
     documentation: 'IOType for SweaterModel. Serializes charge transfer state without exposing individual charges.',
-    supertype: GetSetButtonsIO,
     valueType: SweaterModel,
     stateSchema: {
       movedValues: ArrayIO( BooleanIO )
