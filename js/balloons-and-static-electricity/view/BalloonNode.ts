@@ -173,9 +173,7 @@ export default class BalloonNode extends Node {
       containerTagName: resolvedOptions.containerTagName,
       tagName: resolvedOptions.tagName,
       accessibleHeading: resolvedOptions.accessibleHeading,
-      visiblePropertyOptions: {
-        tandem: Tandem.OPT_OUT
-      },
+      phetioVisiblePropertyInstrumented: false,
       tandem: tandem
     } );
 
