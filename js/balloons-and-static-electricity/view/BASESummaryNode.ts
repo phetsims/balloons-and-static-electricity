@@ -100,7 +100,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
 
     Multilink.multilink( [ this.yellowBalloon.chargeProperty, this.greenBalloon.chargeProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty, model.sweater.chargeProperty ],
       ( yellowBalloonCharge, greenBalloonCharge, greenBalloonVisible, showCharges ) => {
-        const chargesVisible = showCharges !== 'none';
+        const chargesVisible = showCharges !== 'noCharges';
         balloonChargeNode.accessibleVisible = chargesVisible;
         sweaterWallChargeNode.accessibleVisible = chargesVisible;
 
@@ -113,9 +113,9 @@ export default class BASESummaryNode extends ScreenSummaryContent {
 
     Multilink.multilink( [ this.yellowBalloon.positionProperty, this.greenBalloon.positionProperty, this.greenBalloon.isVisibleProperty, model.showChargesProperty, model.wall.isVisibleProperty ], ( yellowPosition, greenPosition, greenVisible, showCharges, wallVisible ) => {
 
-      // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'all'
+      // the induced charge item is only available if one balloon is visible, inducing charge, and showCharges setting is set to 'allCharges'
       const inducingCharge = this.yellowBalloon.inducingChargeAndVisible() || this.greenBalloon.inducingChargeAndVisible();
-      const showInducingItem = inducingCharge && wallVisible && showCharges === 'all';
+      const showInducingItem = inducingCharge && wallVisible && showCharges === 'allCharges';
       inducedChargeNode.accessibleVisible = showInducingItem;
 
       if ( showInducingItem ) {
@@ -166,7 +166,7 @@ export default class BASESummaryNode extends ScreenSummaryContent {
         charge: zeroString
       } );
 
-      const patternString = chargesShown === 'all' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
+      const patternString = chargesShown === 'allCharges' ? summaryObjectEachHasPatternString : summaryObjectEachPatternString;
 
       // both have same described charge, can be described with wallChargeString
       description = StringUtils.fillIn( patternString, {

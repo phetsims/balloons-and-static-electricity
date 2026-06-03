@@ -71,7 +71,7 @@ export default class SweaterDescriber {
   public getSweaterDescription( showCharges: string ): string {
 
     // if we are not showing any charges, just return a description for the position
-    if ( showCharges === 'none' ) {
+    if ( showCharges === 'noCharges' ) {
       return sweaterPositionString;
     }
 
@@ -85,7 +85,7 @@ export default class SweaterDescriber {
     } );
 
     let chargeString;
-    if ( showCharges === 'all' ) {
+    if ( showCharges === 'allCharges' ) {
 
       // special case - if sweater is totally out of charges, say "no more negative charges, only positive charges""
       if ( sweaterCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
@@ -152,7 +152,7 @@ export default class SweaterDescriber {
     const absCharge = Math.abs( charge );
     const relative = SweaterDescriber.getRelativeChargeDescription( absCharge );
 
-    if ( shownCharges === 'all' ) {
+    if ( shownCharges === 'allCharges' ) {
       if ( absCharge === BASEConstants.MAX_BALLOON_CHARGE ) {
 
         // if no more charges remaining on sweater, special description like "no more negative charges, only positive"
@@ -172,7 +172,7 @@ export default class SweaterDescriber {
         } );
       }
     }
-    else if ( shownCharges === 'diff' ) {
+    else if ( shownCharges === 'chargeDifferences' ) {
       const showingString = StringUtils.fillIn( sweaterRelativeChargeDifferencesPatternString, {
         charge: relative
       } );
@@ -206,12 +206,12 @@ export default class SweaterDescriber {
    */
   public static getNoMoreChargesAlert( charge: number, shownCharges: string ): string {
     let alert = '';
-    if ( shownCharges === 'all' ) {
+    if ( shownCharges === 'allCharges' ) {
       alert = StringUtils.fillIn( sweaterHasRelativeChargePatternString, {
         relativeCharge: sweaterNoMoreChargesString
       } );
     }
-    else if ( shownCharges === 'diff' ) {
+    else if ( shownCharges === 'chargeDifferences' ) {
       alert = SweaterDescriber.getRelativeChargeDescriptionWithLabel( charge, shownCharges );
     }
 
@@ -238,7 +238,7 @@ export default class SweaterDescriber {
    */
   public static getMoreChargesDescription( balloon: BalloonModel, sweaterCharge: number, sweaterCharges: PointChargeModel[], shownCharges: string ): string {
     assert && assert( sweaterCharge < BASEConstants.MAX_BALLOON_CHARGE, 'no more charges on sweater' );
-    assert && assert( shownCharges !== 'none', 'this description should not be used when no charges are shown' );
+    assert && assert( shownCharges !== 'noCharges', 'this description should not be used when no charges are shown' );
 
     // get the next charge to describe
     let charge!: PointChargeModel;
@@ -257,10 +257,10 @@ export default class SweaterDescriber {
     const patternString = BalloonDirectionEnum.isRelativeDirection( direction! ) ? moreChargesFurtherPatternString : moreChargesPatternString;
 
     let moreChargesString = '';
-    if ( shownCharges === 'all' ) {
+    if ( shownCharges === 'allCharges' ) {
       moreChargesString = morePairsOfChargesString;
     }
-    else if ( shownCharges === 'diff' ) {
+    else if ( shownCharges === 'chargeDifferences' ) {
       moreChargesString = moreHiddenPairsOfChargesString;
     }
 
@@ -289,12 +289,12 @@ export default class SweaterDescriber {
     // description of the charges shown, like 'a few more positive charges than negative charges'
     let chargeString;
     const relativeChargeString = BASEDescriber.getRelativeChargeDescription( charge );
-    if ( chargesShown === 'all' ) {
+    if ( chargesShown === 'allCharges' ) {
       chargeString = ( charge === 0 ) ?
                      StringUtils.fillIn( summaryNeutralChargesPatternString, { amount: manyString } ) :
                      StringUtils.fillIn( sweaterRelativeChargePatternString, { charge: relativeChargeString } );
     }
-    else if ( chargesShown === 'diff' ) {
+    else if ( chargesShown === 'chargeDifferences' ) {
       chargeString = ( charge === 0 ) ?
                      showingNoChargesString :
                      StringUtils.fillIn( sweaterShowingPatternString, { charge: relativeChargeString } );

@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-export const ShowChargesConstValues = [ 'all', 'none', 'diff' ];
+export const ShowChargesConstValues = [ 'allCharges', 'noCharges', 'chargeDifferences' ];
 
 type ShowChargesValues = typeof ShowChargesConstValues[number];
 

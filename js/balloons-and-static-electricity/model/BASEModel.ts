@@ -23,7 +23,7 @@ import WallModel from './WallModel.js';
 
 export default class BASEModel {
 
-  // charge visibility setting, valid values of 'all', 'none', 'diff'
+  // charge visibility setting, valid values of 'allCharges', 'noCharges', 'chargeDifferences'
   public readonly showChargesProperty: StringUnionProperty<ShowChargesValues>;
 
   // whether the two balloons are considered 'next to' each other, primarily used for a11y
@@ -65,7 +65,7 @@ export default class BASEModel {
    */
   public constructor( width: number, height: number, tandem: Tandem ) {
 
-    this.showChargesProperty = new StringUnionProperty<ShowChargesValues>( 'all', {
+    this.showChargesProperty = new StringUnionProperty<ShowChargesValues>( 'allCharges', {
       validValues: ShowChargesConstValues,
       tandem: tandem.createTandem( 'showChargesProperty' ),
       phetioFeatured: true

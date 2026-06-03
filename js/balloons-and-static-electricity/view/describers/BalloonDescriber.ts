@@ -348,7 +348,7 @@ export default class BalloonDescriber extends Alerter {
       statement: attractiveStateAndPositionString
     } );
 
-    if ( showCharges === 'none' ) {
+    if ( showCharges === 'noCharges' ) {
       description = attractiveStateAndPositionString;
     }
     else {
@@ -381,7 +381,7 @@ export default class BalloonDescriber extends Alerter {
     const newCharge = this.balloonModel.chargeProperty.get();
     const newRange = BASEDescriber.getDescribedChargeRange( newCharge );
 
-    if ( shownCharges === 'none' ) {
+    if ( shownCharges === 'noCharges' ) {
       description = this.movementDescriber.getAttractiveStateAndPositionDescription();
       description = StringUtils.fillIn( singleStatementPatternString, { statement: description } );
     }
@@ -418,12 +418,12 @@ export default class BalloonDescriber extends Alerter {
         balloon: this.accessibleName
       } );
 
-      if ( shownCharges === 'all' ) {
+      if ( shownCharges === 'allCharges' ) {
         description = StringUtils.fillIn( singleStatementPatternString, {
           statement: picksUpCharges
         } );
       }
-      else if ( shownCharges === 'diff' ) {
+      else if ( shownCharges === 'chargeDifferences' ) {
         description = StringUtils.fillIn( balloonPicksUpMoreChargesDiffPatternString, {
           pickUp: picksUpCharges
         } );
@@ -449,12 +449,12 @@ export default class BalloonDescriber extends Alerter {
       balloon: this.accessibleName
     } );
 
-    if ( shownCharges === 'all' ) {
+    if ( shownCharges === 'allCharges' ) {
       description = StringUtils.fillIn( singleStatementPatternString, {
         statement: picksUpCharges
       } );
     }
-    else if ( shownCharges === 'diff' ) {
+    else if ( shownCharges === 'chargeDifferences' ) {
       description = StringUtils.fillIn( balloonPicksUpChargesDiffPatternString, {
         pickUp: picksUpCharges
       } );
@@ -480,7 +480,7 @@ export default class BalloonDescriber extends Alerter {
     const balloonPositionString = this.movementDescriber.getAttractiveStateAndPositionDescription();
     const sweaterCharge = this.model.sweater.chargeProperty.get();
 
-    if ( chargesShown === 'none' ) {
+    if ( chargesShown === 'noCharges' ) {
 
       // if no charges are shown, just describe position of balloon as a complete sentence
       alert = StringUtils.fillIn( singleStatementPatternString, {
@@ -492,14 +492,14 @@ export default class BalloonDescriber extends Alerter {
       // there are still charges on the sweater
       const sweaterCharges = this.model.sweater.minusCharges;
       const moreChargesString = SweaterDescriber.getMoreChargesDescription( this.balloonModel, sweaterCharge, sweaterCharges, chargesShown );
-      if ( chargesShown === 'all' ) {
+      if ( chargesShown === 'allCharges' ) {
         alert = StringUtils.fillIn( noChargePickupPatternString, {
           noChange: noChangeInChargesString,
           balloonPosition: balloonPositionString,
           moreChargesPosition: moreChargesString
         } );
       }
-      else if ( chargesShown === 'diff' ) {
+      else if ( chargesShown === 'chargeDifferences' ) {
         alert = StringUtils.fillIn( noChargePickupPatternString, {
           noChange: noChangeInNetChargeString,
           balloonPosition: balloonPositionString,
@@ -510,7 +510,7 @@ export default class BalloonDescriber extends Alerter {
     else {
 
       // there are no more charges remaining on the sweater
-      if ( chargesShown === 'all' ) {
+      if ( chargesShown === 'allCharges' ) {
         const relativeSweaterCharge = SweaterDescriber.getNetChargeDescription( sweaterCharge );
         let relativeBalloonCharge = this.chargeDescriber.getNetChargeDescriptionWithLabel();
         relativeBalloonCharge = StringUtils.fillIn( singleStatementPatternString, { statement: relativeBalloonCharge } );
@@ -523,7 +523,7 @@ export default class BalloonDescriber extends Alerter {
           hint: releaseHintString
         } );
       }
-      else if ( chargesShown === 'diff' ) {
+      else if ( chargesShown === 'chargeDifferences' ) {
         alert = StringUtils.fillIn( noChargePickupHintPatternString, {
           noChange: noChangeInNetChargeString,
           balloonPosition: balloonPositionString,
@@ -560,11 +560,11 @@ export default class BalloonDescriber extends Alerter {
 
     const shownCharges = this.showChargesProperty.get();
     const wallVisible = this.wall.isVisibleProperty.get();
-    if ( shownCharges === 'none' ) {
+    if ( shownCharges === 'noCharges' ) {
       descriptionString = atPositionString;
     }
     else {
-      if ( shownCharges === 'all' ) {
+      if ( shownCharges === 'allCharges' ) {
         let inducedChargeString;
 
         // if balloons are adjacent, the resultant induced charge description is modified
@@ -643,7 +643,7 @@ export default class BalloonDescriber extends Alerter {
         }
       }
 
-      // combine charge and position portions of the description for 'all' and 'diff' charge views
+      // combine charge and position portions of the description for 'allCharges' and 'chargeDifferences' charge views
       descriptionString = StringUtils.fillIn( wallRubPatternString, {
         position: atPositionString,
         charge: chargeString
@@ -797,7 +797,7 @@ export default class BalloonDescriber extends Alerter {
       }
 
       // announce pickup of last charge, as long as charges are visible
-      if ( Math.abs( nextCharge ) === BASEConstants.MAX_BALLOON_CHARGE && this.showChargesProperty.get() !== 'none' ) {
+      if ( Math.abs( nextCharge ) === BASEConstants.MAX_BALLOON_CHARGE && this.showChargesProperty.get() !== 'noCharges' ) {
         alert = this.getLastChargePickupDescription();
         this.chargePickupUtterance.alert = alert;
         this.sendAlert( this.chargePickupUtterance );
@@ -921,7 +921,7 @@ export default class BalloonDescriber extends Alerter {
     if ( this.describedTouchingWall !== nextTouchingWall ) {
       if ( !model.jumping ) {
         if ( nextTouchingWall ) {
-          if ( model.userControlledProperty.get() && this.showChargesProperty.get() === 'all' ) {
+          if ( model.userControlledProperty.get() && this.showChargesProperty.get() === 'allCharges' ) {
             this.sendAlert( this.getWallRubbingDescriptionWithChargePairs() );
             this.describeWallRub = false;
           }

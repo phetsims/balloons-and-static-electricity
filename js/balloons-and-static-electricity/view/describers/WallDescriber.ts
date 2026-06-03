@@ -82,7 +82,7 @@ export default class WallDescriber {
     let description;
 
     // if no charges are shown, the position is the only part of the description
-    if ( this.showChargesProperty.get() === 'none' ) {
+    if ( this.showChargesProperty.get() === 'noCharges' ) {
       description = StringUtils.fillIn( singleStatementPatternString, {
         statement: wallPositionString
       } );
@@ -116,7 +116,7 @@ export default class WallDescriber {
 
     // if all charges are shown, and a balloon is inducing charge, generate the description for induced charge which
     // can change depending on whether balloons are adjacent or whether both balloons are inducing at the same time
-    if ( wallVisible && chargesShown === 'all' ) {
+    if ( wallVisible && chargesShown === 'allCharges' ) {
       if ( yellowInducingAndVisible ) {
         yellowBalloonInducedChargeString = WallDescriber.getInducedChargeDescription( yellowBalloon, yellowBalloonLabelString, wallVisible, {
           includePositiveChargeInfo: false
@@ -160,11 +160,11 @@ export default class WallDescriber {
     }
 
     // get the description for what charges are currently shown
-    const shownChargesString = ( chargesShown === 'diff' ) ? showingNoChargesString : manyChargePairsString;
+    const shownChargesString = ( chargesShown === 'chargeDifferences' ) ? showingNoChargesString : manyChargePairsString;
 
     // if there is an induced charge, include it in the full charge description
     let wallChargeString;
-    if ( ( yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible ) && chargesShown === 'all' && wallVisible ) {
+    if ( ( yellowBalloon.inducingChargeProperty.get() || greenInducingAndVisible ) && chargesShown === 'allCharges' && wallVisible ) {
       inducedChargeString = StringUtils.fillIn( wallInducedChargeSummaryPatternString, {
         inducedCharge: inducedChargeString,
         positiveCharges: positiveChargesDoNotMoveString

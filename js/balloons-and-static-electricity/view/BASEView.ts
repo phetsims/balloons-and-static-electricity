@@ -98,7 +98,7 @@ export default class BASEView extends ScreenView {
       model.balloons,
       {
         initialOutputLevel: 0.3,
-        enabledProperty: new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'all' )
+        enabledProperty: new DerivedProperty( [ model.showChargesProperty ], showCharges => showCharges === 'allCharges' )
       }
     );
     soundManager.addSoundGenerator( this.chargeDeflectionSoundGenerator );

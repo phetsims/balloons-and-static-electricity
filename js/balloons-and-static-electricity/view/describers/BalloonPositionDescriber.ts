@@ -555,7 +555,7 @@ export default class BalloonPositionDescriber {
     }
 
     // if balloon touching wall and inducing charge, include induced charge information
-    if ( this.balloonModel.touchingWall() && this.model.showChargesProperty.get() === 'all' ) {
+    if ( this.balloonModel.touchingWall() && this.model.showChargesProperty.get() === 'allCharges' ) {
       const wallVisible = this.model.wall.isVisibleProperty.get();
 
       const thisInducingAndVisible = this.balloonModel.inducingChargeAndVisible();
@@ -729,7 +729,7 @@ export default class BalloonPositionDescriber {
 
     const shownCharges = this.model.showChargesProperty.get();
 
-    if ( shownCharges === 'all' && this.wall.isVisibleProperty.get() ) {
+    if ( shownCharges === 'allCharges' && this.wall.isVisibleProperty.get() ) {
 
       // don't include information about adjacency to other balloon in this position  description
       const chargePositionString = this.getPositionDescriptionWithoutOverlap();
@@ -786,7 +786,7 @@ export default class BalloonPositionDescriber {
 
     // get a description of the relative charge of the grabbed balloon, and possibly the other relative charge
     // of the other balloon if visible
-    if ( chargesShown !== 'none' ) {
+    if ( chargesShown !== 'noCharges' ) {
       let chargeDescription;
 
       if ( this.model.getBalloonsAdjacent() ) {
@@ -863,8 +863,8 @@ export default class BalloonPositionDescriber {
       const showCharges = this.model.showChargesProperty.get();
 
       // if jumping to wall, describe as if balloon is rubbing along the wall for the first time
-      if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'none' ) {
-        if ( showCharges === 'all' ) {
+      if ( this.balloonModel.touchingWallProperty.get() && showCharges !== 'noCharges' ) {
+        if ( showCharges === 'allCharges' ) {
 
           // describer pairs of charges in the wall if they are visible
           description = this.balloonDescriber.getWallRubbingDescriptionWithChargePairs();
@@ -873,7 +873,7 @@ export default class BalloonPositionDescriber {
           description = this.balloonDescriber.getWallRubbingDescription();
         }
       }
-      else if ( wallVisible && inducingCharge && showCharges === 'all' ) {
+      else if ( wallVisible && inducingCharge && showCharges === 'allCharges' ) {
 
         // if there is an induced charge and the charges are visible, describe induced charge summary
         const inducedChargeDescription = WallDescriber.getInducedChargeDescriptionWithNoAmount( this.balloonModel, this.accessibleName, wallVisible );

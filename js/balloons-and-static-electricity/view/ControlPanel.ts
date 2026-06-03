@@ -126,7 +126,7 @@ export default class ControlPanel extends Node {
           tandem: tandem.createTandem( 'allChargesText' )
         }
       ),
-      value: 'all',
+      value: 'allCharges',
       tandemName: 'showAllChargesRadioButton',
       options: {
         accessibleName: balloonAppletShowAllChargesString
@@ -140,7 +140,7 @@ export default class ControlPanel extends Node {
           tandem: tandem.createTandem( 'noChargesText' )
         }
       ),
-      value: 'none',
+      value: 'noCharges',
       tandemName: 'showNoChargesRadioButton',
       options: {
         accessibleName: balloonAppletShowNoChargesString
@@ -154,7 +154,7 @@ export default class ControlPanel extends Node {
           tandem: tandem.createTandem( 'differentialChargesText' )
         }
       ),
-      value: 'diff',
+      value: 'chargeDifferences',
       tandemName: 'showChargeDifferencesRadioButton',
       options: {
         accessibleName: balloonAppletShowChargeDifferencesString
@@ -169,19 +169,12 @@ export default class ControlPanel extends Node {
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
     model.showChargesProperty.lazyLink( value => {
-      let alertString: string | undefined;
-      if ( value === 'all' ) {
-        alertString = showAllChargesAlertString;
-      }
-      else if ( value === 'none' ) {
-        alertString = shoNoChargesAlertString;
-      }
-      else if ( value === 'diff' ) {
-        alertString = showChargeDifferencesAlertString;
-      }
+      const alertString = value === 'allCharges'        ? showAllChargesAlertString :
+                          value === 'noCharges'         ? shoNoChargesAlertString :
+                          value === 'chargeDifferences' ? showChargeDifferencesAlertString :
+                          ( () => { throw new Error( `Unrecognized value: ${value}` ); } )();
 
-      assert && assert( alertString, `no interactive alert for showChargesProperty value ${value}` );
-      this.addAccessibleContextResponse( alertString! );
+      this.addAccessibleContextResponse( alertString );
     } );
 
     // Radio buttons for selecting 1 vs 2 balloons

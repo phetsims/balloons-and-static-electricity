@@ -419,7 +419,7 @@ const BASEDescriber = {
     let description: string;
 
     const relativeCharge = BASEDescriber.getRelativeChargeDescription( numberOfCharges );
-    if ( chargesShown === 'all' ) {
+    if ( chargesShown === 'allCharges' ) {
       description = StringUtils.fillIn( summaryNeutralChargesPatternString, {
         amount: relativeCharge
       } );

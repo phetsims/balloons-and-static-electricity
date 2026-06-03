@@ -58,7 +58,7 @@ export default class WallNode extends Node {
 
     // show charges based on draw property
     model.showChargesProperty.link( value => {
-      chargesCanvasNode.visible = ( value === 'all' );
+      chargesCanvasNode.visible = ( value === 'allCharges' );
     } );
 
     // pdom - when the balloons change position, update the description of the induced charge in the wall

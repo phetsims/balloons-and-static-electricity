@@ -307,12 +307,12 @@ export default class BalloonNode extends Node {
 
     // show charges based on showCharges property
     globalModel.showChargesProperty.link( value => {
-      if ( value === 'diff' ) {
+      if ( value === 'chargeDifferences' ) {
         originalChargesNode.visible = false;
         addedChargesNode.visible = true;
       }
       else {
-        const visibility = ( value === 'all' );
+        const visibility = ( value === 'allCharges' );
         originalChargesNode.visible = visibility;
         addedChargesNode.visible = visibility;
       }
@@ -321,7 +321,7 @@ export default class BalloonNode extends Node {
     // a value that reflects whether charges are being shown on the balloon
     const chargesShownOnBalloonProperty = new DerivedProperty(
       [ globalModel.showChargesProperty ],
-      showCharges => showCharges !== 'none'
+      showCharges => showCharges !== 'noCharges'
     );
 
     // sound generation for charges moving on to this balloon

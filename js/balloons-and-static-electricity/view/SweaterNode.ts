@@ -84,7 +84,7 @@ export default class SweaterNode extends Node {
 
     // show all, none or charge difference
     const updateChargesVisibilityOnSweater = () => {
-      if ( model.showChargesProperty.get() === 'none' ) {
+      if ( model.showChargesProperty.get() === 'noCharges' ) {
         this.plusChargesNode.visible = false;
         this.minusChargesNode.visible = false;
       }
@@ -92,7 +92,7 @@ export default class SweaterNode extends Node {
         this.plusChargesNode.visible = true;
         this.minusChargesNode.visible = true;
 
-        const showAll = ( model.showChargesProperty.get() === 'all' );
+        const showAll = ( model.showChargesProperty.get() === 'allCharges' );
         for ( let i = 0; i < this.sweaterModel.minusCharges.length; i++ ) {
           const plusChargeNodes = this.plusChargesNode.children;
           const minusChargeNodes = this.minusChargesNode.children;

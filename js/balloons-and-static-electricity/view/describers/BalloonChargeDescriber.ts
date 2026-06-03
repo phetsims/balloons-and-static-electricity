@@ -182,7 +182,7 @@ export default class BalloonChargeDescriber {
     if ( inducingChargeOrTouchingWall ) {
       const wallVisible = this.model.wall.isVisibleProperty.get();
 
-      if ( chargesShown === 'diff' ) {
+      if ( chargesShown === 'chargeDifferences' ) {
 
         // if showing charge differences, no charges are shown, so include that information
         const balloonsAdjacent = this.model.getBalloonsAdjacent();
@@ -323,7 +323,7 @@ export default class BalloonChargeDescriber {
     return !jumping &&
            !this.balloonModel.touchingWall() &&
            wallVisible &&
-           chargesShown === 'all' &&
+           chargesShown === 'allCharges' &&
            ( this.balloonModel.inducingChargeProperty.get() );
   }
 
@@ -333,7 +333,7 @@ export default class BalloonChargeDescriber {
   public getSummaryRelativeChargeDescription(): string {
     const chargesShown = this.showChargesProperty.get();
 
-    if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'all' ) {
+    if ( this.balloonModel.chargeProperty.get() === 0 && chargesShown === 'allCharges' ) {
       return summaryBalloonNeutralChargeString;
     }
     else {
@@ -352,12 +352,12 @@ export default class BalloonChargeDescriber {
     const chargesShown = this.showChargesProperty.get();
     let chargeDescription = BalloonChargeDescriber.getRelativeChargeDescription( this.balloonModel, chargesShown );
 
-    if ( chargesShown === 'all' ) {
+    if ( chargesShown === 'allCharges' ) {
       chargeDescription = StringUtils.fillIn( balloonHasChargePatternString, {
         charge: chargeDescription
       } );
     }
-    else if ( chargesShown === 'diff' ) {
+    else if ( chargesShown === 'chargeDifferences' ) {
       const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString;
       chargeDescription = StringUtils.fillIn( balloonHasChargeShowingPatternString, {
         charge: chargeString,
@@ -391,21 +391,16 @@ export default class BalloonChargeDescriber {
     let description = '';
     const chargeValue = Math.abs( balloonModel.chargeProperty.get() );
 
-    // if charge view is 'diff' and there are no charges, we simply say that there are no
+    // if charge view is 'chargeDifferences' and there are no charges, we simply say that there are no
     // charges shown
-    if ( chargeValue === 0 && showCharges === 'diff' ) {
+    if ( chargeValue === 0 && showCharges === 'chargeDifferences' ) {
       description = showingNoChargesString;
     }
     else {
       const relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
-      let stringPattern = '';
-      if ( showCharges === 'all' ) {
-        stringPattern = balloonRelativeChargePatternString;
-      }
-      else if ( showCharges === 'diff' ) {
-        stringPattern = balloonChargeDifferencesPatternString;
-      }
-      assert && assert( stringPattern, `stringPattern not found for showChargesProperty value ${showCharges}` );
+      const stringPattern = showCharges === 'allCharges'        ? balloonRelativeChargePatternString :
+                            showCharges === 'chargeDifferences' ? balloonChargeDifferencesPatternString :
+                            ( () => { throw new Error( `Unrecognized showCharges: ${showCharges}` ); } )();
 
       description = StringUtils.fillIn( stringPattern, {
         amount: relativeChargesString
@@ -426,15 +421,15 @@ export default class BalloonChargeDescriber {
   public static getRelativeChargeDescriptionWithLabel( balloonModel: BalloonModel, showCharges: ShowChargesValues, label: string ): string {
     let description = '';
     const relativeCharge = BalloonChargeDescriber.getRelativeChargeDescription( balloonModel, showCharges );
-    assert && assert( showCharges !== 'none', 'relative description with label should never be read when no charges are shown' );
+    assert && assert( showCharges !== 'noCharges', 'relative description with label should never be read when no charges are shown' );
 
-    if ( showCharges === 'all' ) {
+    if ( showCharges === 'allCharges' ) {
       description = StringUtils.fillIn( balloonHasRelativeChargePatternString, {
         balloonLabel: label,
         relativeCharge: relativeCharge
       } );
     }
-    else if ( showCharges === 'diff' ) {
+    else if ( showCharges === 'chargeDifferences' ) {
       const balloonCharge = balloonModel.chargeProperty.get();
       const chargeString = ( balloonCharge < 0 ) ? balloonNegativeString : balloonZeroString;
 
