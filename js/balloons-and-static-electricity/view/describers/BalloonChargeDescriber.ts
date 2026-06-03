@@ -398,7 +398,7 @@ export default class BalloonChargeDescriber {
     }
     else {
       const relativeChargesString = BASEDescriber.getRelativeChargeDescription( chargeValue );
-      const stringPattern = showCharges === 'allCharges'        ? balloonRelativeChargePatternString :
+      const stringPattern = showCharges === 'allCharges' ? balloonRelativeChargePatternString :
                             showCharges === 'chargeDifferences' ? balloonChargeDifferencesPatternString :
                             ( () => { throw new Error( `Unrecognized showCharges: ${showCharges}` ); } )();
 

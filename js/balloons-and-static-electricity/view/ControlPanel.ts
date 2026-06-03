@@ -164,8 +164,8 @@ export default class ControlPanel extends Node {
     // pdom - announce an alert that describes the state of charge visibility, linked lazily
     // so that we don't get any alerts on sim startup
     model.showChargesProperty.lazyLink( value => {
-      const alertString = value === 'allCharges'        ? showAllChargesAlertString :
-                          value === 'noCharges'         ? shoNoChargesAlertString :
+      const alertString = value === 'allCharges' ? showAllChargesAlertString :
+                          value === 'noCharges' ? shoNoChargesAlertString :
                           value === 'chargeDifferences' ? showChargeDifferencesAlertString :
                           ( () => { throw new Error( `Unrecognized value: ${value}` ); } )();
 
