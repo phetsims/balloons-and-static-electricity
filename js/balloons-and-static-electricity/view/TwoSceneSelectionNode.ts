@@ -94,17 +94,17 @@ export default class TwoSceneSelectionNode<T> extends InteractiveHighlighting( N
 
       buttonAppearanceStrategyOptions: {
         selectedButtonOpacity: 1,
-        deselectedButtonOpacity: 0.6,
+        deselectedButtonOpacity: 1,
         selectedStroke: 'black',
-        deselectedStroke: new Color( 50, 50, 50 ),
-        selectedLineWidth: 1.5,
-        deselectedLineWidth: 1,
+        deselectedStroke: new Color( 150, 150, 150 ),
+        selectedLineWidth: 2,
+        deselectedLineWidth: 0.5,
         overButtonOpacity: 0.8
       },
       contentAppearanceStrategyOptions: {
         overContentOpacity: 0.8,
         selectedContentOpacity: 1,
-        deselectedContentOpacity: 0.6
+        deselectedContentOpacity: 1
       },
 
       // These margins are *within* each button, relative to the largest of the two icons
