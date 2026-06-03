@@ -185,10 +185,9 @@ export default class BalloonNode extends Node {
     this.jumpingUtterance = new Utterance();
 
     const originalChargesNode = new Node( {
-      pickable: false,
-      tandem: Tandem.OPT_OUT
+      pickable: false
     } );
-    const addedChargesNode = new Node( { pickable: false, tandem: Tandem.OPT_OUT } );
+    const addedChargesNode = new Node( { pickable: false } );
 
     // Finish a drag interaction by updating the Property tracking that the balloon is dragged and resetting velocities.
     const endDragListener = () => {
@@ -242,8 +241,6 @@ export default class BalloonNode extends Node {
     this.addInputListener( dragListener );
 
     const balloonImageNode = new Image( imageSource, {
-      tandem: Tandem.OPT_OUT,
-
       // the balloonImageNode is not pickable so that mouse and touch areas which are smaller than the bounds
       // of the image can be used by setting them on the parent of the image
       pickable: false

@@ -216,7 +216,7 @@ export default class ControlPanel extends Node {
       } ),
       new Text( resetBalloonString, {
         font: CONTROLS_FONT
-      } ), { maxWidth: 140, tandem: Tandem.OPT_OUT } );
+      } ), { maxWidth: 140 } );
     const resetBalloonButtonListener = () => {
 
       // disable other alerts until after we are finished resetting the balloons
@@ -302,7 +302,7 @@ export default class ControlPanel extends Node {
     }
     else {
       visibilityControls = [
-        new Panel( showChargesRadioButtonGroup, { tandem: Tandem.OPT_OUT } ),
+        new Panel( showChargesRadioButtonGroup ),
         balloonsPanel
       ];
       controlsLeft = 70;

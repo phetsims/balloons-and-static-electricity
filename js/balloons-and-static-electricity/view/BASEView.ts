@@ -65,7 +65,7 @@ export default class BASEView extends ScreenView {
       tandem: tandem
     } );
 
-    const sweaterNode = new SweaterNode( model, Tandem.OPT_OUT );
+    const sweaterNode = new SweaterNode( model );
 
     const wallNode = new WallNode( model );
 
@@ -78,7 +78,7 @@ export default class BASEView extends ScreenView {
       0,
       1000,
       1000,
-      { fill: 'black', tandem: Tandem.OPT_OUT }
+      { fill: 'black' }
     ) );
 
     // Add black to the left of the screen to match the black region to the right of the wall
@@ -88,7 +88,7 @@ export default class BASEView extends ScreenView {
       0,
       1000,
       1000,
-      { fill: 'black', tandem: Tandem.OPT_OUT }
+      { fill: 'black' }
     ) );
 
     const controlPanel = new ControlPanel( model, this, tandem );
@@ -128,8 +128,7 @@ export default class BASEView extends ScreenView {
     this.yellowBalloonTetherNode = new TetherNode(
       model.yellowBalloon,
       tetherAnchorPoint,
-      new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
-      Tandem.OPT_OUT
+      new Vector2( this.yellowBalloonNode.width / 2, this.yellowBalloonNode.height - BALLOON_TIE_POINT_HEIGHT )
     );
     this.greenBalloonNode = new BalloonNode(
       model.greenBalloon,
@@ -156,8 +155,7 @@ export default class BASEView extends ScreenView {
     this.greenBalloonTetherNode = new TetherNode(
       model.greenBalloon,
       tetherAnchorPoint,
-      new Vector2( this.greenBalloonNode.width / 2, this.greenBalloonNode.height - BALLOON_TIE_POINT_HEIGHT ),
-      Tandem.OPT_OUT
+      new Vector2( this.greenBalloonNode.width / 2, this.greenBalloonNode.height - BALLOON_TIE_POINT_HEIGHT )
     );
 
     // created after all other view objects so we can access each describer

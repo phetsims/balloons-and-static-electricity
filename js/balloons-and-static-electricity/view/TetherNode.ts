@@ -11,12 +11,11 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import BalloonModel from '../model/BalloonModel.js';
 
 export default class TetherNode extends Path {
 
-  public constructor( balloonModel: BalloonModel, anchorPoint: Vector2, tetherPointOffset: Vector2, tandem: Tandem ) {
+  public constructor( balloonModel: BalloonModel, anchorPoint: Vector2, tetherPointOffset: Vector2 ) {
 
     const anchorPointCopy = anchorPoint.copy();
 
@@ -33,8 +32,7 @@ export default class TetherNode extends Path {
     } ), {
       stroke: '#000000',
       lineWidth: 1,
-      pickable: false,
-      tandem: tandem
+      pickable: false
     } );
   }
 }

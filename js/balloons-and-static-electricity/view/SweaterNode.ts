@@ -12,7 +12,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import sweater_png from '../../../images/sweater_png.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
@@ -31,7 +30,7 @@ export default class SweaterNode extends Node {
   private readonly minusChargesNode: Node;
   private readonly sweaterModel: SweaterModel;
 
-  public constructor( model: BASEModel, tandem: Tandem ) {
+  public constructor( model: BASEModel ) {
 
     super( {
       pickable: false,
@@ -40,15 +39,14 @@ export default class SweaterNode extends Node {
       accessibleHeading: sweaterLabelString
     } );
 
-    this.plusChargesNode = new Node( { tandem: tandem.createTandem( 'plusChargesNode' ) } );
+    this.plusChargesNode = new Node();
     this.minusChargesNode = new Node( {
-      layerSplit: true,
-      tandem: tandem.createTandem( 'minusChargesNode' )
+      layerSplit: true
     } );
     this.sweaterModel = model.sweater;
 
     // create the sweater image
-    const sweater = new Image( sweater_png, { tandem: tandem.createTandem( 'sweater' ) } );
+    const sweater = new Image( sweater_png );
 
     assert && assert( sweater.width > 0 && sweater.height > 0, 'images should have dimensions' );
 
