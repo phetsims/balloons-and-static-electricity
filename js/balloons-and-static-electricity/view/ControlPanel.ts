@@ -64,7 +64,7 @@ const CONTROLS_FONT = new PhetFont( 15 );
 export default class ControlPanel extends Node {
 
   // Add/Remove wall button
-  private readonly wallButton: BooleanRectangularToggleButton;
+  private readonly wallToggleButton: BooleanRectangularToggleButton;
 
   public constructor( model: BASEModel, view: BASEView, tandem: Tandem ) {
 
@@ -94,9 +94,9 @@ export default class ControlPanel extends Node {
       tandem: tandem.createTandem( 'removeWallText' )
     } );
 
-    this.wallButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
+    this.wallToggleButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
       baseColor: 'rgb( 255, 200, 0 )',
-      tandem: tandem.createTandem( 'wallButton' ),
+      tandem: tandem.createTandem( 'wallToggleButton' ),
 
       // pdom
       descriptionContent: removeWallDescriptionString,
@@ -106,7 +106,7 @@ export default class ControlPanel extends Node {
 
     // when the wall toggles visibility, make an alert that this has happened and update the button text content
     model.wall.isVisibleProperty.lazyLink( wallVisible => {
-      this.wallButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
+      this.wallToggleButton.innerContent = model.wall.isVisibleProperty.get() ? removeWallString : addWallString;
 
       const alertDescription = wallVisible ? wallAddedString : wallRemovedString;
       this.addAccessibleContextResponse( alertDescription );
@@ -304,7 +304,7 @@ export default class ControlPanel extends Node {
     const controls = new HBox( {
       spacing: 14,
       align: 'bottom',
-      children: [ resetAllButton, this.wallButton ]
+      children: [ resetAllButton, this.wallToggleButton ]
     } );
 
     const layoutBounds = view.layoutBounds;
@@ -336,7 +336,7 @@ export default class ControlPanel extends Node {
     } ) );
     this.addChild( controls );
 
-    this.pdomOrder = [ this.wallButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
+    this.pdomOrder = [ this.wallToggleButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
 
   }
 }
