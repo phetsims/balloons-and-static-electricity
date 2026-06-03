@@ -25,7 +25,9 @@ const icon = new Node( {
       fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
         .addColorStop( 0, '#f97d7d' )
         .addColorStop( 0.5, '#ed4545' )
-        .addColorStop( 1, '#f00' )
+        .addColorStop( 1, '#f00' ),
+      stroke: 'black',
+      lineWidth: 0.5
     } ),
 
     new Rectangle( 0, 0, 11, 2, {
