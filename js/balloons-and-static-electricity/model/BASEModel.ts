@@ -37,7 +37,7 @@ export default class BASEModel {
   // Model of the sweater, position empirically determined to match design
   public readonly sweater: SweaterModel;
 
-  // TODO: Add documentation for playAreaBounds, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
+  // bounds for the area where balloons can move, excluding the wall when it is visible
   public readonly playAreaBounds: Bounds2;
 
   public readonly yellowBalloon: BalloonModel;
