@@ -24,6 +24,11 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
 import type BASEModel from './BASEModel.js';
+import {
+  AVERAGE_BALLOON_CHARGE_Y,
+  BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS,
+  BALLOON_START_CHARGE_POSITIONS
+} from './ChargePositions.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import { BALLOON_DIRECTION_VALUES, BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
@@ -53,79 +58,6 @@ const DIRECTION_MAP = {
   DOWN_RIGHT: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD )
 };
 const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
-
-// collection of charge positions on the balloon, relative to the top left corners
-// charges will appear in these positions as the balloon collects electrons
-// TODO: Move this into a separate file?, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-const POSITIONS = [
-  [ 14, 70 ],
-  [ 18, 60 ],
-  [ 14, 90 ],
-  [ 24, 130 ],
-  [ 22, 120 ],
-  [ 14, 79 ],
-  [ 25, 140 ],
-  [ 18, 108 ],
-  [ 19, 50 ],
-  [ 44, 150 ],
-  [ 16, 100 ],
-  [ 20, 80 ],
-  [ 50, 160 ],
-  [ 34, 140 ],
-  [ 50, 20 ],
-  [ 30, 30 ],
-  [ 22, 72 ],
-  [ 24, 105 ],
-  [ 20, 110 ],
-  [ 40, 150 ],
-  [ 26, 110 ],
-  [ 30, 115 ],
-  [ 24, 87 ],
-  [ 24, 60 ],
-  [ 24, 40 ],
-  [ 38, 24 ],
-  [ 30, 80 ],
-  [ 30, 50 ],
-  [ 34, 82 ],
-  [ 32, 130 ],
-  [ 30, 108 ],
-  [ 30, 50 ],
-  [ 40, 94 ],
-  [ 30, 100 ],
-  [ 35, 90 ],
-  [ 24, 95 ],
-  [ 34, 100 ],
-  [ 35, 40 ],
-  [ 30, 60 ],
-  [ 32, 72 ],
-  [ 30, 105 ],
-  [ 34, 140 ],
-  [ 30, 120 ],
-  [ 30, 130 ],
-  [ 30, 85 ],
-  [ 34, 77 ],
-  [ 35, 90 ],
-  [ 40, 85 ],
-  [ 34, 90 ],
-  [ 35, 50 ],
-  [ 46, 34 ],
-  [ 32, 72 ],
-  [ 30, 105 ],
-  [ 34, 140 ],
-  [ 34, 120 ],
-  [ 30, 60 ],
-  [ 30, 85 ],
-  [ 34, 77 ]
-];
-
-// determine average Y position for the charges in the balloon, used to calculate the average vertical position of
-// the visual charge center
-// TODO: If POSITIONS is moved into a new file, this should move there, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-let positionYSum = 0;
-for ( let i = 0; i < POSITIONS.length; i++ ) {
-  positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
-}
-const AVERAGE_CHARGE_Y = ( positionYSum / POSITIONS.length );
 
 type SelfOptions = {
 
@@ -205,15 +137,6 @@ export default class BalloonModel {
   // the old position of the balloon, used throughout the model and view
   public oldPosition: Vector2;
 
-  // positions of neutral atoms on balloon, don't change during simulation
-  // TODO: If we have a new file for charge positions form the above TODO, these could live in that new file to as a different constant. See https://github.com/phetsims/balloons-and-static-electricity/issues/601
-  private readonly positionsOfStartCharges = [
-    [ 44, 50 ],
-    [ 88, 50 ],
-    [ 44, 140 ],
-    [ 88, 140 ]
-  ];
-
   // will emit an event when the balloon is reset
   public readonly resetEmitter: Emitter;
 
@@ -251,7 +174,7 @@ export default class BalloonModel {
 
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
-      range: new Range( -POSITIONS.length, 0 ),
+      range: new Range( -BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.length, 0 ),
       tandem: options.tandem.createTandem( 'chargeProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
@@ -323,7 +246,7 @@ export default class BalloonModel {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
-    this.positionsOfStartCharges.forEach( entry => {
+    BALLOON_START_CHARGE_POSITIONS.forEach( entry => {
       const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.plusCharges.push( plusCharge );
 
@@ -336,7 +259,7 @@ export default class BalloonModel {
     } );
 
     // charges that we can get from sweater, only negative charges
-    POSITIONS.forEach( entry => {
+    BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.forEach( entry => {
       const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.minusCharges.push( minusCharge );
     } );
@@ -599,7 +522,7 @@ export default class BalloonModel {
    */
   public getChargeCenter(): Vector2 {
     const centerX = this.getCenter().x;
-    const centerY = this.positionProperty.get().y + AVERAGE_CHARGE_Y;
+    const centerY = this.positionProperty.get().y + AVERAGE_BALLOON_CHARGE_Y;
     return new Vector2( centerX, centerY );
   }
 

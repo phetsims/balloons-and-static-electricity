@@ -17,70 +17,8 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import BalloonModel from './BalloonModel.js';
+import { SWEATER_CHARGE_PAIR_POSITIONS } from './ChargePositions.js';
 import PointChargeModel from './PointChargeModel.js';
-
-// positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
-// TODO: Related to the TODO in BalloonModel, we want to factor these out into a charge positions file.
-//  So we will have one file holding charges for the sweater and the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-const CHARGE_PAIR_POSITIONS = [
-  new Vector2( 104, 64 ),
-  new Vector2( 94, 90 ),
-  new Vector2( 85, 121 ),
-  new Vector2( 80, 147 ),
-  new Vector2( 76, 178 ),
-  new Vector2( 74, 209 ),
-  new Vector2( 71, 242 ),
-  new Vector2( 67, 273 ),
-  new Vector2( 67, 304 ),
-  new Vector2( 61, 330 ),
-  new Vector2( 140, 85 ),
-  new Vector2( 142, 116 ),
-  new Vector2( 145, 145 ),
-  new Vector2( 145, 174 ),
-  new Vector2( 143, 205 ),
-  new Vector2( 140, 237 ),
-  new Vector2( 138, 267 ),
-  new Vector2( 132, 296 ),
-  new Vector2( 128, 327 ),
-  new Vector2( 170, 98 ),
-  new Vector2( 171, 129 ),
-  new Vector2( 171, 160 ),
-  new Vector2( 172, 191 ),
-  new Vector2( 171, 223 ),
-  new Vector2( 169, 254 ),
-  new Vector2( 167, 287 ),
-  new Vector2( 163, 318 ),
-  new Vector2( 163, 350 ),
-  new Vector2( 208, 88 ),
-  new Vector2( 208, 117 ),
-  new Vector2( 206, 148 ),
-  new Vector2( 205, 179 ),
-  new Vector2( 203, 210 ),
-  new Vector2( 202, 241 ),
-  new Vector2( 200, 272 ),
-  new Vector2( 197, 302 ),
-  new Vector2( 196, 333 ),
-  new Vector2( 239, 75 ),
-  new Vector2( 236, 105 ),
-  new Vector2( 234, 135 ),
-  new Vector2( 233, 166 ),
-  new Vector2( 232, 197 ),
-  new Vector2( 231, 229 ),
-  new Vector2( 230, 260 ),
-  new Vector2( 227, 291 ),
-  new Vector2( 226, 321 ),
-  new Vector2( 224, 350 ),
-  new Vector2( 266, 59 ),
-  new Vector2( 283, 90 ),
-  new Vector2( 292, 121 ),
-  new Vector2( 292, 152 ),
-  new Vector2( 292, 187 ),
-  new Vector2( 290, 217 ),
-  new Vector2( 295, 247 ),
-  new Vector2( 296, 278 ),
-  new Vector2( 295, 308 ),
-  new Vector2( 290, 337 )
-];
 
 type SweaterModelStateObject = {
   movedValues: boolean[];
@@ -126,7 +64,7 @@ export default class SweaterModel extends PhetioObject {
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
       numberType: 'Integer',
-      range: new Range( 0, CHARGE_PAIR_POSITIONS.length ),
+      range: new Range( 0, SWEATER_CHARGE_PAIR_POSITIONS.length ),
       phetioReadOnly: true,
       phetioFeatured: true
     } );
@@ -151,7 +89,7 @@ export default class SweaterModel extends PhetioObject {
     _.times( numSlices ).forEach( sliceNumber => {
       shapeDefiningPoints.push( this.center.copy() );
       const slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
-      CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
+      SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
         let angle = chargePairPosition.minus( this.center ).angle;
 
         // convert negative angles
@@ -176,7 +114,7 @@ export default class SweaterModel extends PhetioObject {
     }
     this.chargedArea.close();
 
-    CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
+    SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
       const plusCharge = new PointChargeModel(
         chargePairPosition.x,
         chargePairPosition.y
