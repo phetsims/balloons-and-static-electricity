@@ -8,7 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BalloonModel from './BalloonModel.js';
@@ -62,8 +62,7 @@ export default class WallModel {
 
     this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
 
-    // TODO: Utils.roundSymmetric is deprecated. Import from Utils.roundSymmetric instead, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-    this.dx = Utils.roundSymmetric( width / this.numX + 2 );
+    this.dx = roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
 
     for ( let i = 0; i < this.numX; i++ ) {
