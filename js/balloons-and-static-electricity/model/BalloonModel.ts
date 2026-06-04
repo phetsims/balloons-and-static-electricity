@@ -19,6 +19,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
@@ -37,27 +38,6 @@ import SweaterModel from './SweaterModel.js';
 
 // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
 const VELOCITY_ARRAY_LENGTH = 5;
-
-// threshold for diagonal movement is +/- 15 degrees from diagonals
-// TODO: Can we use MovementAlerter.ts for this instead?, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
-
-// map that determines if the balloon is moving up, down, horizontally or along a diagonal between two points
-// TODO: Can we use MovementAlerter.ts for this instead? https://github.com/phetsims/balloons-and-static-electricity/issues/601
-const DIRECTION_MAP = {
-  UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-  DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-  RIGHT: new Range( -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
-
-  // atan2 wraps around PI, so we will use absolute value in checks
-  LEFT: new Range( 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, Math.PI ),
-
-  UP_LEFT: new Range( -3 * Math.PI - DIAGONAL_MOVEMENT_THRESHOLD, -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-  DOWN_LEFT: new Range( 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-  UP_RIGHT: new Range( -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD ),
-  DOWN_RIGHT: new Range( Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD, Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD )
-};
-const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
 type SelfOptions = {
 
@@ -893,26 +873,10 @@ export default class BalloonModel {
    * @returns one of DirectionEnum
    */
   public static getDirection( pointA: Vector2, pointB: Vector2 ): BalloonDirection | null {
-    let direction: BalloonDirection | undefined;
-
     const dx = pointA.x - pointB.x;
     const dy = pointA.y - pointB.y;
     const angle = Math.atan2( dy, dx );
-
-    // atan2 wraps around Math.PI, so special check for moving left from absolute value
-    if ( DIRECTION_MAP.LEFT.contains( Math.abs( angle ) ) ) {
-      direction = BALLOON_DIRECTION_VALUES.LEFT;
-    }
-
-    // otherwise, angle will be in one of the ranges in DIRECTION_MAP
-    for ( let i = 0; i < DIRECTION_MAP_KEYS.length; i++ ) {
-      const key = DIRECTION_MAP_KEYS[ i ] as keyof typeof DIRECTION_MAP;
-      const entry = DIRECTION_MAP[ key ];
-      if ( entry.contains( angle ) ) {
-        direction = key;
-        break;
-      }
-    }
+    const direction = MovementAlerter.getDirectionEnumerableFromAngle( angle ) as BalloonDirection | undefined;
 
     return direction || null;
   }
