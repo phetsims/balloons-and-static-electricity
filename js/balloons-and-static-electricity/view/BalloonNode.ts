@@ -17,6 +17,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/grab-drag/GrabDragInteraction.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -64,16 +65,27 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
+type BalloonVelocitySoundGeneratorOptions = {
+  enabledProperty?: BooleanProperty;
+  basisSound?: WrappedAudioBuffer;
+};
+
+type BalloonRubbingSoundGeneratorOptions = {
+  centerFrequency?: number;
+};
+
 type BalloonNodeOptions = {
-  balloonVelocitySoundGeneratorOptions?: {
-    enabledProperty?: BooleanProperty;
-    basisSound?: WrappedAudioBuffer;
-  };
-  balloonRubbingSoundGeneratorOptions?: {
-    centerFrequency?: number;
-  };
+  balloonVelocitySoundGeneratorOptions?: BalloonVelocitySoundGeneratorOptions;
+  balloonRubbingSoundGeneratorOptions?: BalloonRubbingSoundGeneratorOptions;
   pointerDrag?: () => void;
   keyboardDrag?: () => void;
+};
+
+type ResolvedBalloonNodeOptions = Required<BalloonNodeOptions> & {
+  cursor: 'pointer';
+  containerTagName: 'div';
+  tagName: 'div';
+  accessibleHeading: string;
 };
 
 export default class BalloonNode extends Node {
@@ -139,32 +151,37 @@ export default class BalloonNode extends Node {
                       tandem: Tandem,
                       options?: BalloonNodeOptions ) {
 
+    const resolvedOptions = combineOptions<ResolvedBalloonNodeOptions>(
+      {
+        cursor: 'pointer' as const,
 
-    // TODO: We have a better pattern for options now with combineOptions, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-    const resolvedOptions = {
-      cursor: 'pointer' as const,
+        // options passed to the drift velocity sound generator
+        balloonVelocitySoundGeneratorOptions: combineOptions<BalloonVelocitySoundGeneratorOptions>( {
+          enabledProperty: model.isVisibleProperty
+        }, options?.balloonVelocitySoundGeneratorOptions ),
 
-      // options passed to the drift velocity sound generator
-      balloonVelocitySoundGeneratorOptions: {
-        enabledProperty: model.isVisibleProperty
+        // options passed to the balloon rubbing sound generator
+        balloonRubbingSoundGeneratorOptions: combineOptions<BalloonRubbingSoundGeneratorOptions>(
+          {},
+          options?.balloonRubbingSoundGeneratorOptions
+        ),
+
+        // additional method to call at end of pointer drag
+        pointerDrag: () => { /* intentionally empty */ },
+
+        // additional method to call at end of keyboard drag
+        keyboardDrag: () => { /* intentionally empty */ },
+
+        // pdom - this node will act as a container for more accessible content, its children will implement
+        // most of the keyboard navigation
+        containerTagName: 'div',
+        tagName: 'div',
+        accessibleHeading: accessibleLabelString
+
       },
-
-      // options passed to the balloon rubbing sound generator
-      balloonRubbingSoundGeneratorOptions: {},
-
-      // additional method to call at end of pointer drag
-      pointerDrag: () => { /* intentionally empty */ },
-
-      // additional method to call at end of keyboard drag
-      keyboardDrag: () => { /* intentionally empty */ },
-
-      // pdom - this node will act as a container for more accessible content, its children will implement
-      // most of the keyboard navigation
-      containerTagName: 'div',
-      tagName: 'div',
-      accessibleHeading: accessibleLabelString
-
-    };
+      options?.pointerDrag ? { pointerDrag: options.pointerDrag } : undefined,
+      options?.keyboardDrag ? { keyboardDrag: options.keyboardDrag } : undefined
+    );
 
     // super constructor
     super( {
@@ -237,7 +254,7 @@ export default class BalloonNode extends Node {
         model.userControlledProperty.set( true );
         grabBalloonSoundPlayer.play();
       },
-      drag: options?.pointerDrag || resolvedOptions.pointerDrag,
+      drag: resolvedOptions.pointerDrag,
       end: () => {
         endDragListener();
         model.draggingWithPointer = false;
@@ -342,14 +359,14 @@ export default class BalloonNode extends Node {
     soundManager.addSoundGenerator( new BalloonVelocitySoundGenerator(
       model.velocityProperty,
       model.touchingWallProperty,
-      options?.balloonVelocitySoundGeneratorOptions || resolvedOptions.balloonVelocitySoundGeneratorOptions
+      resolvedOptions.balloonVelocitySoundGeneratorOptions
     ) );
 
     this.balloonRubbingSoundGenerator = new BalloonRubbingSoundGenerator(
       model.dragVelocityProperty,
       model.onSweaterProperty,
       model.touchingWallProperty,
-      options?.balloonRubbingSoundGeneratorOptions || resolvedOptions.balloonRubbingSoundGeneratorOptions
+      resolvedOptions.balloonRubbingSoundGeneratorOptions
     );
     soundManager.addSoundGenerator( this.balloonRubbingSoundGenerator );
 
@@ -427,7 +444,7 @@ export default class BalloonNode extends Node {
           this.addAccessibleContextResponse( boundaryUtterance );
         }
       },
-      drag: options?.keyboardDrag || resolvedOptions.keyboardDrag,
+      drag: resolvedOptions.keyboardDrag,
       tandem: tandem.createTandem( 'keyboardDragListener' )
     } );
 
