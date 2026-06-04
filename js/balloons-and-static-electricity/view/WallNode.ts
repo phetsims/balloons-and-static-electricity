@@ -6,6 +6,7 @@
  @author Vasily Shakhov (Mlearner)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -66,20 +67,22 @@ export default class WallNode extends Node {
     };
 
     // pdom - attach listeners to update descriptions of the wall, no need to dispose
-    // TODO: Use multilink instead? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
-    model.yellowBalloon.positionProperty.link( updateWallDescription );
-    model.greenBalloon.positionProperty.link( updateWallDescription );
-    model.greenBalloon.isVisibleProperty.link( updateWallDescription );
-    model.showChargesProperty.link( updateWallDescription );
+    Multilink.multilink( [
+      model.yellowBalloon.positionProperty,
+      model.greenBalloon.positionProperty,
+      model.greenBalloon.isVisibleProperty,
+      model.showChargesProperty
+    ], updateWallDescription );
 
     // Update wall charge rendering when balloons affect induced charge.
-    // TODO: Use multilink instead? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
     const invalidateChargesNodePaint = chargesCanvasNode.invalidatePaint.bind( chargesCanvasNode );
-    model.yellowBalloon.positionProperty.link( invalidateChargesNodePaint );
-    model.greenBalloon.positionProperty.link( invalidateChargesNodePaint );
-    model.yellowBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
-    model.greenBalloon.isVisibleProperty.link( invalidateChargesNodePaint );
-    model.yellowBalloon.chargeProperty.link( invalidateChargesNodePaint );
-    model.greenBalloon.chargeProperty.link( invalidateChargesNodePaint );
+    Multilink.multilink( [
+      model.yellowBalloon.positionProperty,
+      model.greenBalloon.positionProperty,
+      model.yellowBalloon.isVisibleProperty,
+      model.greenBalloon.isVisibleProperty,
+      model.yellowBalloon.chargeProperty,
+      model.greenBalloon.chargeProperty
+    ], invalidateChargesNodePaint );
   }
 }
