@@ -24,11 +24,10 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
 import BalloonDirectionEnum from './BalloonDirectionEnum.js';
-import { BalloonDirection } from './PlayAreaMapTypes.js';
 import type BASEModel from './BASEModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
-import { PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
+import { BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
 import PointChargeModel from './PointChargeModel.js';
 import SweaterModel from './SweaterModel.js';
 
@@ -519,7 +518,8 @@ export default class BalloonModel {
       difference = this.getCenter().y - range.min;
     }
 
-    // TODO: This seems too downstream to be a good solution. Why don't we apply to the above cases during phet-io-state fuzz? https://github.com/phetsims/balloons-and-static-electricity/issues/575
+    // This fixes a phet-io-state fuzz issue. It is not clear if it is best, but we are not aware of a better
+    // solution. See https://github.com/phetsims/balloons-and-static-electricity/issues/575
     if ( !range ) {
       return 0;
     }

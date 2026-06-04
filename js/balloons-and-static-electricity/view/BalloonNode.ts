@@ -136,6 +136,8 @@ export default class BalloonNode extends Node {
                       globalModel: BASEModel,
                       accessibleLabelString: string,
                       otherAccessibleLabelString: string,
+
+                      // TODO: This argument is unused, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
                       layoutBounds: Bounds2,
                       interactionCueParentNode: Node,
                       responseParentNode: Node,
