@@ -33,11 +33,6 @@ import SweaterModel from './SweaterModel.js';
 // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
 const VELOCITY_ARRAY_LENGTH = 5;
 
-// TODO: These constants are sort of duplicated in statics and instance variables, is there a better way
-//  to organize them? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
-const BALLOON_WIDTH = 134;
-const BALLOON_HEIGHT = 222;
-
 // threshold for diagonal movement is +/- 15 degrees from diagonals
 // TODO: Can we use MovementAlerter.ts for this instead?, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
@@ -198,8 +193,8 @@ export default class BalloonModel {
   public successfulPickUp = false;
 
   // dimensions of the balloon
-  public readonly width = BALLOON_WIDTH;
-  public readonly height = BALLOON_HEIGHT;
+  public readonly width = BalloonModel.BALLOON_WIDTH;
+  public readonly height = BalloonModel.BALLOON_HEIGHT;
 
   // the closest minus charge to the balloon which is in the wall
   public closestChargeInWall: MovablePointChargeModel | null = null;
@@ -235,7 +230,8 @@ export default class BalloonModel {
 
   // static properties
   public static readonly FORCE_CONSTANT = 0.05;
-  public static readonly BALLOON_WIDTH = BALLOON_WIDTH;
+  public static readonly BALLOON_WIDTH = 134;
+  public static readonly BALLOON_HEIGHT = 222;
 
   /**
    * Constructor
