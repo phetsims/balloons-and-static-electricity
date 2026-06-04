@@ -580,7 +580,10 @@ export default class BalloonNode extends Node {
     );
   }
 
-  // TODO: Documentation, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
+  /**
+   * Gets the direction the user is attempting to move the balloon with keyboard input. This assumes the listener is
+   * actively moving in one direction when called.
+   */
   public getAttemptedMovementDirection( listener: KeyboardDragListener ): BalloonDirection {
     let direction: BalloonDirection | undefined;
     if ( listener.movingLeft() ) {
