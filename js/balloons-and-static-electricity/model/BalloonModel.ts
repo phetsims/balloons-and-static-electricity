@@ -93,8 +93,8 @@ export default class BalloonModel {
   // whether the balloon is currently inducing a charge in the wall
   public readonly inducingChargeProperty: BooleanProperty;
 
-  // TODO: Enhance this documentation, this part is tricky, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-  // array of instantaneous velocity of balloon last 5 ticks
+  // Rolling buffers of squared x/y drag velocity samples from the most recent ticks. The attached counter tracks the
+  // next index to overwrite so dragBalloon can compute a smoothed speed for charge pickup.
   private xVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
   private yVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
 
