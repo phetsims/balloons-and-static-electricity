@@ -93,6 +93,9 @@ export default class BASEView extends ScreenView {
 
     const controlPanel = new ControlPanel( model, this, tandem );
 
+    // Interaction cues are above balloons and tethers, but below the control panel.
+    const interactionCueLayerNode = new Node();
+
     this.chargeDeflectionSoundGenerator = new ChargeDeflectionSoundGenerator(
       model.wall,
       model.balloons,
@@ -110,6 +113,7 @@ export default class BASEView extends ScreenView {
       yellowBalloonLabelString,
       greenBalloonLabelString,
       this.layoutBounds,
+      interactionCueLayerNode,
       this,
       tandem.createTandem( 'yellowBalloonNode' ),
       {
@@ -137,6 +141,7 @@ export default class BASEView extends ScreenView {
       greenBalloonLabelString,
       yellowBalloonLabelString,
       this.layoutBounds,
+      interactionCueLayerNode,
       this,
       tandem.createTandem( 'greenBalloonNode' ),
       {
@@ -162,11 +167,16 @@ export default class BASEView extends ScreenView {
     const screenSummaryNode = new BASESummaryNode( model, this.yellowBalloonNode, this.greenBalloonNode );
     this.setScreenSummaryContent( screenSummaryNode );
 
+    // Contains the balloon layers so z-order changes keep the balloons and tethers below the control panel.
+    const balloonLayerNode = new Node();
+
     this.greenBalloonLayerNode = new Node( { children: [ this.greenBalloonTetherNode, this.greenBalloonNode ] } );
-    this.addChild( this.greenBalloonLayerNode );
+    balloonLayerNode.addChild( this.greenBalloonLayerNode );
 
     this.yellowBalloonLayerNode = new Node( { children: [ this.yellowBalloonTetherNode, this.yellowBalloonNode ] } );
-    this.addChild( this.yellowBalloonLayerNode );
+    balloonLayerNode.addChild( this.yellowBalloonLayerNode );
+    this.addChild( balloonLayerNode );
+    this.addChild( interactionCueLayerNode );
 
     // Only show the selected balloon(s)
     model.greenBalloon.isVisibleProperty.link( isVisible => {
@@ -179,7 +189,7 @@ export default class BASEView extends ScreenView {
     // Make sure that we start with the correct z-order for the balloons.
     this.setDefaultBalloonZOrder();
 
-    // When one of the balloons is picked up, move its content and cue nodes to the front.
+    // When one of the balloons is picked up, move its content to the front of the balloon layer.
     Multilink.multilink(
       [ model.yellowBalloon.userControlledProperty, model.greenBalloon.userControlledProperty ],
       ( yellowUserControlled, greenUserControlled ) => {

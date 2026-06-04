@@ -126,8 +126,8 @@ export default class BalloonNode extends Node {
    * @param accessibleLabelString - the accessible label for this balloon
    * @param otherAccessibleLabelString - the accessible label for the "other" balloon
    * @param layoutBounds - layout bounds of the ScreenView containing this node
-   * @param parentNode - parent Node for interaction cues of GrabDragInteraction, and the Node to speak
-   *                     through for the Describer
+   * @param interactionCueParentNode - parent Node for interaction cues of GrabDragInteraction
+   * @param responseParentNode - Node to speak through for the Describer
    * @param tandem
    * @param options
    */
@@ -137,7 +137,8 @@ export default class BalloonNode extends Node {
                       accessibleLabelString: string,
                       otherAccessibleLabelString: string,
                       layoutBounds: Bounds2,
-                      parentNode: Node,
+                      interactionCueParentNode: Node,
+                      responseParentNode: Node,
                       tandem: Tandem,
                       options?: BalloonNodeOptions ) {
 
@@ -180,7 +181,14 @@ export default class BalloonNode extends Node {
     this.model = model;
     this.globalModel = globalModel;
 
-    this.describer = new BalloonDescriber( globalModel, globalModel.wall, model, accessibleLabelString, otherAccessibleLabelString, parentNode );
+    this.describer = new BalloonDescriber(
+      globalModel,
+      globalModel.wall,
+      model,
+      accessibleLabelString,
+      otherAccessibleLabelString,
+      responseParentNode
+    );
 
     this.jumpingUtterance = new Utterance();
 
@@ -460,7 +468,7 @@ export default class BalloonNode extends Node {
     const grabDragTargetNode = new InteractiveHighlightInteractionNode( this.touchArea );
     this.addChild( grabDragTargetNode );
 
-    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, parentNode, {
+    const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, interactionCueParentNode, {
       objectToGrabString: accessibleLabelString,
       dragCueNode: interactionCueNode,
       listenersWhileGrabbed: [ hotkeyListener ],
