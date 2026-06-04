@@ -43,6 +43,7 @@ simLauncher.launch( () => {
       }
     )
   ], {
+    phetioDesigned: true,
     credits: {
       leadDesign: 'Noah Podolefsky, Sam Reid',
       softwareDevelopment: 'Sam Reid, John Blanco, Jesse Greenberg',
