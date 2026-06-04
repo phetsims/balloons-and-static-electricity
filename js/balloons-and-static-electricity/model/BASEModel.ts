@@ -52,18 +52,6 @@ export default class BASEModel {
   // broadcasts an event when we step the model
   public readonly stepEmitter: Emitter<[ number ]>;
 
-  // TODO: I think these are unused. If so, they can be removed. If not, we might use a different data structure
-  //   or something in common code like MovementAlerter.ts. https://github.com/phetsims/balloons-and-static-electricity/issues/601
-  // static properties
-  public static readonly LEFT = 'LEFT';
-  public static readonly RIGHT = 'RIGHT';
-  public static readonly UP = 'UP';
-  public static readonly DOWN = 'DOWN';
-  public static readonly UP_LEFT = 'UP_LEFT';
-  public static readonly UP_RIGHT = 'UP_RIGHT';
-  public static readonly DOWN_LEFT = 'DOWN_LEFT';
-  public static readonly DOWN_RIGHT = 'DOWN_RIGHT';
-
   /**
    * Constructor for main model for the Balloons and Static Electricity sim.
    * TODO: width and height do not need to be arguments. Instead of passing them through, declare them in
