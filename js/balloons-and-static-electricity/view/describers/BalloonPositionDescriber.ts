@@ -12,11 +12,10 @@ import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
-import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
-import { BalloonDirection } from '../../model/PlayAreaMapTypes.js';
+import { BALLOON_DIRECTION_VALUES, BalloonDirection } from '../../model/PlayAreaMapTypes.js';
 import WallModel from '../../model/WallModel.js';
 import BalloonDescriber from './BalloonDescriber.js';
 import BASEDescriber from './BASEDescriber.js';
@@ -348,19 +347,19 @@ export default class BalloonPositionDescriber {
     assert && assert( this.balloonModel.isTouchingBoundary(), 'balloon is not touching a boundary' );
 
     let boundaryString = '';
-    if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BalloonDirectionEnum.DOWN ) {
+    if ( this.balloonModel.isTouchingBottomBoundary() && attemptedDirection === BALLOON_DIRECTION_VALUES.DOWN ) {
       boundaryString = atBottomString;
     }
-    else if ( this.balloonModel.isTouchingLeftBoundary() && attemptedDirection === BalloonDirectionEnum.LEFT ) {
+    else if ( this.balloonModel.isTouchingLeftBoundary() && attemptedDirection === BALLOON_DIRECTION_VALUES.LEFT ) {
       boundaryString = atLeftEdgeString;
     }
-    else if ( this.balloonModel.touchingWall() && attemptedDirection === BalloonDirectionEnum.RIGHT ) {
+    else if ( this.balloonModel.touchingWall() && attemptedDirection === BALLOON_DIRECTION_VALUES.RIGHT ) {
       boundaryString = atWallString;
     }
-    else if ( this.balloonModel.isTouchingRightEdge() && attemptedDirection === BalloonDirectionEnum.RIGHT ) {
+    else if ( this.balloonModel.isTouchingRightEdge() && attemptedDirection === BALLOON_DIRECTION_VALUES.RIGHT ) {
       boundaryString = atRightEdgeString;
     }
-    else if ( this.balloonModel.isTouchingTopBoundary() && attemptedDirection === BalloonDirectionEnum.UP ) {
+    else if ( this.balloonModel.isTouchingTopBoundary() && attemptedDirection === BALLOON_DIRECTION_VALUES.UP ) {
       boundaryString = atTopString;
     }
 
@@ -609,7 +608,7 @@ export default class BalloonPositionDescriber {
 
   /**
    * Get a movement description from the movement direction tracked in the model.  The direction
-   * is one of BalloonDirectionEnum.
+   * is one of DirectionEnum.
    */
   private getDraggingDirectionDescription( direction: string ): string {
     const movementString = BALLOON_DIRECTION_DRAGGING_MAP[ direction as keyof typeof BALLOON_DIRECTION_DRAGGING_MAP ];
@@ -641,12 +640,12 @@ export default class BalloonPositionDescriber {
     const balloonCenterY = this.balloonModel.getCenterY();
     const balloonDirection = this.balloonModel.directionProperty.get();
 
-    if ( balloonDirection === BalloonDirectionEnum.LEFT ) {
+    if ( balloonDirection === BALLOON_DIRECTION_VALUES.LEFT ) {
 
       // if right of center, describe closer to center, otherwise closer to sweater
       nearestObjectString = ( balloonCenterX > centerPlayAreaX ) ? centerOfPlayAreaString : sweaterString;
     }
-    else if ( balloonDirection === BalloonDirectionEnum.RIGHT ) {
+    else if ( balloonDirection === BALLOON_DIRECTION_VALUES.RIGHT ) {
 
       if ( balloonCenterX < centerPlayAreaX ) {
 
@@ -659,12 +658,12 @@ export default class BalloonPositionDescriber {
         nearestObjectString = this.model.wall.isVisibleProperty.get() ? wallString : rightEdgeOfPlayAreaString;
       }
     }
-    else if ( balloonDirection === BalloonDirectionEnum.UP ) {
+    else if ( balloonDirection === BALLOON_DIRECTION_VALUES.UP ) {
 
       // below center describe closer to center, otherwise closer to top of play area
       nearestObjectString = ( balloonCenterY > centerPlayAreaY ) ? centerOfPlayAreaString : topEdgeOfPlayAreaString;
     }
-    else if ( balloonDirection === BalloonDirectionEnum.DOWN ) {
+    else if ( balloonDirection === BALLOON_DIRECTION_VALUES.DOWN ) {
 
       // above center describe closer to center, otherwise closer to bottom edge of play area
       nearestObjectString = ( balloonCenterY < centerPlayAreaY ) ? centerOfPlayAreaString : bottomEdgeOfPlayAreaString;

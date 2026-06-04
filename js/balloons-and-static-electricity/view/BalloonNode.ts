@@ -46,11 +46,10 @@ import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectric
 import BASEA11yStrings from '../BASEA11yStrings.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
-import BalloonDirectionEnum from '../model/BalloonDirectionEnum.js';
 import BalloonModel from '../model/BalloonModel.js';
 import BASEModel from '../model/BASEModel.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
-import { BalloonDirection } from '../model/PlayAreaMapTypes.js';
+import { BALLOON_DIRECTION_VALUES, BalloonDirection } from '../model/PlayAreaMapTypes.js';
 import BalloonInteractionCueNode from './BalloonInteractionCueNode.js';
 import BalloonRubbingSoundGenerator from './BalloonRubbingSoundGenerator.js';
 import BalloonVelocitySoundGenerator from './BalloonVelocitySoundGenerator.js';
@@ -572,16 +571,16 @@ export default class BalloonNode extends Node {
   public getAttemptedMovementDirection( listener: KeyboardDragListener ): BalloonDirection {
     let direction: BalloonDirection | undefined;
     if ( listener.movingLeft() ) {
-      direction = BalloonDirectionEnum.LEFT;
+      direction = BALLOON_DIRECTION_VALUES.LEFT;
     }
     else if ( listener.movingRight() ) {
-      direction = BalloonDirectionEnum.RIGHT;
+      direction = BALLOON_DIRECTION_VALUES.RIGHT;
     }
     else if ( listener.movingUp() ) {
-      direction = BalloonDirectionEnum.UP;
+      direction = BALLOON_DIRECTION_VALUES.UP;
     }
     else if ( listener.movingDown() ) {
-      direction = BalloonDirectionEnum.DOWN;
+      direction = BALLOON_DIRECTION_VALUES.DOWN;
     }
 
     assert && assert( direction );

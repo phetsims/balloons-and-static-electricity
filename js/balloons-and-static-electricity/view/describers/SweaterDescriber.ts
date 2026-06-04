@@ -9,9 +9,9 @@
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
-import BalloonDirectionEnum from '../../model/BalloonDirectionEnum.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
+import { isRelativeBalloonDirection } from '../../model/PlayAreaMapTypes.js';
 import PointChargeModel from '../../model/PointChargeModel.js';
 import SweaterModel from '../../model/SweaterModel.js';
 import BASEDescriber from './BASEDescriber.js';
@@ -254,7 +254,7 @@ export default class SweaterDescriber {
     assert && assert( direction, 'direction should not be null when called with valid positions' );
     const directionDescription = BASEDescriber.getDirectionDescription( direction! );
 
-    const patternString = BalloonDirectionEnum.isRelativeDirection( direction! ) ? moreChargesFurtherPatternString : moreChargesPatternString;
+    const patternString = isRelativeBalloonDirection( direction! ) ? moreChargesFurtherPatternString : moreChargesPatternString;
 
     let moreChargesString = '';
     if ( shownCharges === 'allCharges' ) {

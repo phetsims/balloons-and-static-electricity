@@ -386,9 +386,9 @@ const BASEDescriber = {
   },
 
   /**
-   * Get a direction description from one of BalloonDirectionEnum. Something like down', or 'up and to the left'.
+   * Get a direction description from one of DirectionEnum. Something like down', or 'up and to the left'.
    *
-   * @param direction - one of BalloonDirectionEnum
+   * @param direction - one of DirectionEnum
    */
   getDirectionDescription( direction: BalloonDirection ): string {
     return DIRECTION_MAP[ direction ];

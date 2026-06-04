@@ -23,11 +23,10 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
-import BalloonDirectionEnum from './BalloonDirectionEnum.js';
 import type BASEModel from './BASEModel.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
-import { BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
+import { BALLOON_DIRECTION_VALUES, BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
 import PointChargeModel from './PointChargeModel.js';
 import SweaterModel from './SweaterModel.js';
 
@@ -181,7 +180,7 @@ export default class BalloonModel {
   // if the balloon is in a landmark position, this Property will be a key of PlayAreaMap.LANDMARK_RANGES
   public readonly playAreaLandmarkProperty: Property<string | null>;
 
-  // the direction of movement, can be one of BalloonDirectionEnum
+  // the direction of movement, can be one of DirectionEnum
   public readonly directionProperty: Property<string | null>;
 
   // whether the balloon is currently inducing a charge in the wall
@@ -478,7 +477,7 @@ export default class BalloonModel {
    */
   public movingHorizontally(): boolean {
     const direction = this.directionProperty.get();
-    return direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.RIGHT;
+    return direction === BALLOON_DIRECTION_VALUES.LEFT || direction === BALLOON_DIRECTION_VALUES.RIGHT;
   }
 
   /**
@@ -486,7 +485,7 @@ export default class BalloonModel {
    */
   public movingVertically(): boolean {
     const direction = this.directionProperty.get();
-    return direction === BalloonDirectionEnum.UP || direction === BalloonDirectionEnum.DOWN;
+    return direction === BALLOON_DIRECTION_VALUES.UP || direction === BALLOON_DIRECTION_VALUES.DOWN;
   }
 
   /**
@@ -494,10 +493,10 @@ export default class BalloonModel {
    */
   public movingDiagonally(): boolean {
     const direction = this.directionProperty.get();
-    return direction === BalloonDirectionEnum.UP_LEFT ||
-           direction === BalloonDirectionEnum.UP_RIGHT ||
-           direction === BalloonDirectionEnum.DOWN_LEFT ||
-           direction === BalloonDirectionEnum.DOWN_RIGHT;
+    return direction === BALLOON_DIRECTION_VALUES.UP_LEFT ||
+           direction === BALLOON_DIRECTION_VALUES.UP_RIGHT ||
+           direction === BALLOON_DIRECTION_VALUES.DOWN_LEFT ||
+           direction === BALLOON_DIRECTION_VALUES.DOWN_RIGHT;
   }
 
   /**
@@ -505,9 +504,9 @@ export default class BalloonModel {
    */
   public movingRight(): boolean {
     const direction = this.directionProperty.get();
-    return direction === BalloonDirectionEnum.RIGHT ||
-           direction === BalloonDirectionEnum.UP_RIGHT ||
-           direction === BalloonDirectionEnum.DOWN_RIGHT;
+    return direction === BALLOON_DIRECTION_VALUES.RIGHT ||
+           direction === BALLOON_DIRECTION_VALUES.UP_RIGHT ||
+           direction === BALLOON_DIRECTION_VALUES.DOWN_RIGHT;
   }
 
   /**
@@ -542,7 +541,7 @@ export default class BalloonModel {
 
     // progress is the difference of the calculated proportion if moving to the left or up
     const direction = this.directionProperty.get();
-    if ( direction === BalloonDirectionEnum.LEFT || direction === BalloonDirectionEnum.UP ) {
+    if ( direction === BALLOON_DIRECTION_VALUES.LEFT || direction === BALLOON_DIRECTION_VALUES.UP ) {
       progress = 1 - progress;
     }
 
@@ -967,12 +966,12 @@ export default class BalloonModel {
   }
 
   /**
-   * Get the direction of movement that would take you from point A to point B, returning one of BalloonDirectionEnum,
+   * Get the direction of movement that would take you from point A to point B, returning one of DirectionEnum,
    * LEFT, RIGHT,  UP, DOWN,  UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT. Uses Math.atan2, so the angle is mapped from
    * 0 to +/- Math.PI.
    * @param pointA
    * @param pointB
-   * @returns one of BalloonDirectionEnum
+   * @returns one of DirectionEnum
    */
   public static getDirection( pointA: Vector2, pointB: Vector2 ): BalloonDirection | null {
     let direction: BalloonDirection | undefined;
@@ -983,7 +982,7 @@ export default class BalloonModel {
 
     // atan2 wraps around Math.PI, so special check for moving left from absolute value
     if ( DIRECTION_MAP.LEFT.contains( Math.abs( angle ) ) ) {
-      direction = BalloonDirectionEnum.LEFT;
+      direction = BALLOON_DIRECTION_VALUES.LEFT;
     }
 
     // otherwise, angle will be in one of the ranges in DIRECTION_MAP
