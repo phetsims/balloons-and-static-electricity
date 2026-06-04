@@ -35,6 +35,9 @@ For an exemplar, see https://github.com/phetsims/balancing-chemical-equations/bl
 * TypeScript implementation
 * Dynamic Locale: see _Preferences > Localization > Languages_ 
 * PhET-iO support for PhET Studio
+* Fix minor layering bugs.
+* Fix minor bugs with pan and zoom.
+* Fix various visual bugs with accessibility hints.
 
 ### Other Changes
 * Improved color contrast.
