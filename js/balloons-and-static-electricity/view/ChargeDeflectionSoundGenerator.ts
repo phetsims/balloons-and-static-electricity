@@ -36,6 +36,15 @@ const PENTATONIC_SCALE_MULTIPLIERS = [
 
 export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
+  /**
+   * Map bin number to a playback rate for a sound clip.
+   */
+  private static readonly mapBinToPlaybackRate = ( bin: number ): number => {
+    const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;
+    const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
+    return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
+  };
+
   // list of original, non-deflected charge positions, used to determine the amount of deflection
   private readonly originalChargePositions: Vector2[];
 
@@ -256,7 +265,9 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
           // Check whether the charge has moved since the last drag.
           if ( !charge.positionProperty.value.equals( this.previousChargePositions[ chargeIndex ] ) ) {
 
-            const playbackRateForBin = mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] );
+            const playbackRateForBin = ChargeDeflectionSoundGenerator.mapBinToPlaybackRate(
+              this.chargeDeflectionBins[ chargeIndex ]
+            );
 
             // Only play the sound if the same playback rate hasn't already been kicked off on another charge.
             if ( !usedPlaybackRates.includes( playbackRateForBin ) ) {
@@ -311,13 +322,3 @@ const mapNormalizedDeflectionToBin = ( normalizedDeflection: number ): number =>
   return bin;
 };
 
-/**
- * map bin number to a playback rate for a sound clip
- *
- * TODO: Make this a private, readonly static method (I prefer that pattern), see https://github.com/phetsims/balloons-and-static-electricity/issues/601
- */
-const mapBinToPlaybackRate = ( bin: number ): number => {
-  const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;
-  const index = bin % PENTATONIC_SCALE_MULTIPLIERS.length;
-  return PENTATONIC_SCALE_MULTIPLIERS[ index ] * Math.pow( 2, octave );
-};
