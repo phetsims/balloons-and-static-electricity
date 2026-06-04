@@ -248,7 +248,7 @@ export default class ControlPanel extends Node {
       content: resetBalloonToggleNode,
 
       // TODO: Colors in this simulation should use our newer style of using a colors file and Properties.
-      // See MembraneTransportColors for example, https://github.com/phetsims/balloons-and-static-electricity/issues/601
+      //   See MembraneTransportColors for example, https://github.com/phetsims/balloons-and-static-electricity/issues/601
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
       tandem: tandem.createTandem( 'resetBalloonButton' ),

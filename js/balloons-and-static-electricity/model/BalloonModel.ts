@@ -243,7 +243,7 @@ export default class BalloonModel {
    * @param x - initial x position
    * @param y - initial y position
    *
-   * // TODO: Can we decouple the entire BASEModel from BalloonModel here?
+   * // TODO: Can we decouple the entire BASEModel from BalloonModel here? https://github.com/phetsims/balloons-and-static-electricity/issues/601
    * @param balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param providedOptions
    */
