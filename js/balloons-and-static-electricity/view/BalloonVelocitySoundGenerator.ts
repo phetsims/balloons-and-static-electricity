@@ -117,6 +117,7 @@ export default class BalloonVelocitySoundGenerator extends SoundClip {
   }
 }
 
+// TODO: Move these up to the top, constants should be above types in the file, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 // function for mapping the speed of the balloon to the playback rate of the carrier sound, empirically determined
 const mapSpeedToPlaybackRate = new LinearFunction( 0, 3, 0.5, 2, true );
 

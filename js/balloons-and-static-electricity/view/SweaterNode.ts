@@ -23,7 +23,6 @@ import PlusChargeNode from './PlusChargeNode.js';
 
 const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
 
-
 export default class SweaterNode extends Node {
 
   private readonly plusChargesNode: Node;

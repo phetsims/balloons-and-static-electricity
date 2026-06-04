@@ -46,6 +46,7 @@ const balloonHasChargeShowingPatternString = BASEA11yStrings.balloonHasChargeSho
 
 export default class BalloonChargeDescriber {
 
+  // TODO: Add documentation according to our Typescript style here, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   private readonly model: BASEModel;
   private readonly balloonModel: BalloonModel;
   private readonly wall: WallModel;
@@ -62,6 +63,7 @@ export default class BalloonChargeDescriber {
   // charge changes between consecutive balloon movements, so we can say charges "continue" to move away.
   private previousForceMagnitudeNormalized: number;
 
+  // TODO: Documentation for these according to our style guidelines, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   public constructor( model: BASEModel, balloonModel: BalloonModel, accessibleName: string, otherAccessibleName: string ) {
 
     this.model = model;

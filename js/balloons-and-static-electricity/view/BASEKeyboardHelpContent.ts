@@ -32,9 +32,7 @@ export default class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpConten
   public constructor() {
 
     //  the sections of help content
-    const balloonGrabHelpSection = new BalloonGrabHelpSection( {
-      textMaxWidth: BALLOON_CONTENT_MAX_WIDTH
-    } );
+    const balloonGrabHelpSection = new BalloonGrabHelpSection();
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
       textMaxWidth: GENERAL_CONTENT_MAX_WIDTH
     } );
@@ -62,7 +60,7 @@ export default class BASEKeyboardHelpContent extends TwoColumnKeyboardHelpConten
  * the existing translations for this content.
  */
 class BalloonGrabHelpSection extends KeyboardHelpSection {
-  public constructor( options?: KeyboardHelpSectionOptions ) {
+  public constructor() {
     const labelWithContent = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
       keys: [ 'space', 'enter' ],
       repoName: balloonsAndStaticElectricity.name,

@@ -66,12 +66,14 @@ export default class WallNode extends Node {
     };
 
     // pdom - attach listeners to update descriptions of the wall, no need to dispose
+    // TODO: Use multilink instead? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
     model.yellowBalloon.positionProperty.link( updateWallDescription );
     model.greenBalloon.positionProperty.link( updateWallDescription );
     model.greenBalloon.isVisibleProperty.link( updateWallDescription );
     model.showChargesProperty.link( updateWallDescription );
 
     // Update wall charge rendering when balloons affect induced charge.
+    // TODO: Use multilink instead? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
     const invalidateChargesNodePaint = chargesCanvasNode.invalidatePaint.bind( chargesCanvasNode );
     model.yellowBalloon.positionProperty.link( invalidateChargesNodePaint );
     model.greenBalloon.positionProperty.link( invalidateChargesNodePaint );

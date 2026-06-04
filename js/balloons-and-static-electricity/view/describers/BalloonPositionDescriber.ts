@@ -118,6 +118,8 @@ const MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 const SLOW_BALLOON_SPEED = 0.09;
 
 // maps magnitude of velocity to the description
+// TODO: Is there a better way to do this kind of map? See if you can find "described ranges" in membrane-transport
+//   and see how it was done there. See https://github.com/phetsims/balloons-and-static-electricity/issues/601.
 const BALLOON_VELOCITY_MAP = {
   EXTREMELY_SLOWLY_RANGE: {
     range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 200 ),
@@ -143,6 +145,7 @@ const BALLOON_VELOCITY_MAP = {
 
 export default class BalloonPositionDescriber {
 
+  // TODO: Documentat according to our guidelines, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   private readonly model: BASEModel;
   private readonly wall: WallModel;
   private readonly balloonModel: BalloonModel;

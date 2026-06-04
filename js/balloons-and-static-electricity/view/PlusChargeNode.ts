@@ -3,6 +3,8 @@
 /**
  * Scenery display object (scene graph node) for the plusCharge.
  *
+ * TODO: This file is very similar to MinusChargeNode, can we factor anything out? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
+ *
  @author Vasily Shakhov (Mlearner)
  */
 

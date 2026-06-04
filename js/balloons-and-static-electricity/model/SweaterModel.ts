@@ -20,6 +20,8 @@ import BalloonModel from './BalloonModel.js';
 import PointChargeModel from './PointChargeModel.js';
 
 // positions of the charge pairs, in absolute model coordinates (i.e. not relative to the sweater position)
+// TODO: Related to the TODO in BalloonModel, we want to factor these out into a charge positions file.
+//  So we will have one file holding charges for the sweater and the balloon, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const CHARGE_PAIR_POSITIONS = [
   new Vector2( 104, 64 ),
   new Vector2( 94, 90 ),

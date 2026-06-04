@@ -106,8 +106,11 @@ export default class BalloonDescriber extends Alerter {
   // variables tracking state and how it changes between description steps, see step() below
   private describedVelocity: Vector2;
   private describedDragVelocity: Vector2;
+
+  // TODO: IT does not seem like these are used. If unused, remove them, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   private describedPosition: Vector2;
   private describedVisible: boolean;
+
   private describedTouchingWall: boolean;
   private describedUserControlled: boolean;
   private describedWallVisible: boolean;

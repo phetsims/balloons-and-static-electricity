@@ -33,13 +33,18 @@ import SweaterModel from './SweaterModel.js';
 
 // constants, most if not all of which were empirically determined to elicit the desired appearance and behavior
 const VELOCITY_ARRAY_LENGTH = 5;
+
+// TODO: These constants are sort of duplicated in statics and instance variables, is there a better way
+//  to organize them? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const BALLOON_WIDTH = 134;
 const BALLOON_HEIGHT = 222;
 
 // threshold for diagonal movement is +/- 15 degrees from diagonals
+// TODO: Can we use MovementAlerter.ts for this instead?, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const DIAGONAL_MOVEMENT_THRESHOLD = 15 * Math.PI / 180;
 
 // map that determines if the balloon is moving up, down, horizontally or along a diagonal between two points
+// TODO: Can we use MovementAlerter.ts for this instead? https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const DIRECTION_MAP = {
   UP: new Range( -3 * Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, -Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
   DOWN: new Range( Math.PI / 4 + DIAGONAL_MOVEMENT_THRESHOLD, 3 * Math.PI / 4 - DIAGONAL_MOVEMENT_THRESHOLD ),
@@ -57,6 +62,7 @@ const DIRECTION_MAP_KEYS = Object.keys( DIRECTION_MAP );
 
 // collection of charge positions on the balloon, relative to the top left corners
 // charges will appear in these positions as the balloon collects electrons
+// TODO: Move this into a separate file?, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const POSITIONS = [
   [ 14, 70 ],
   [ 18, 60 ],
@@ -120,6 +126,7 @@ const POSITIONS = [
 
 // determine average Y position for the charges in the balloon, used to calculate the average vertical position of
 // the visual charge center
+// TODO: If POSITIONS is moved into a new file, this should move there, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
 let positionYSum = 0;
 for ( let i = 0; i < POSITIONS.length; i++ ) {
   positionYSum += POSITIONS[ i ][ 1 ]; // y coordinate is second value
@@ -180,6 +187,7 @@ export default class BalloonModel {
   // whether the balloon is currently inducing a charge in the wall
   public readonly inducingChargeProperty: BooleanProperty;
 
+  // TODO: Enhance this documentation, this part is tricky, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   // array of instantaneous velocity of balloon last 5 ticks
   private xVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
   private yVelocityArray: number[] & { counter: number } = Object.assign( [ 0, 0, 0, 0, 0 ], { counter: 0 } );
@@ -204,6 +212,7 @@ export default class BalloonModel {
   public oldPosition: Vector2;
 
   // positions of neutral atoms on balloon, don't change during simulation
+  // TODO: If we have a new file for charge positions form the above TODO, these could live in that new file to as a different constant. See https://github.com/phetsims/balloons-and-static-electricity/issues/601
   private readonly positionsOfStartCharges = [
     [ 44, 50 ],
     [ 88, 50 ],
@@ -233,6 +242,8 @@ export default class BalloonModel {
    * Constructor
    * @param x - initial x position
    * @param y - initial y position
+   *
+   * // TODO: Can we decouple the entire BASEModel from BalloonModel here?
    * @param balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param providedOptions
    */

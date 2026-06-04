@@ -145,6 +145,7 @@ export default class BalloonNode extends Node {
                       options?: BalloonNodeOptions ) {
 
 
+    // TODO: We have a better pattern for options now with combineOptions, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
     const resolvedOptions = {
       cursor: 'pointer' as const,
 
@@ -567,6 +568,7 @@ export default class BalloonNode extends Node {
     );
   }
 
+  // TODO: Documentation, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
   public getAttemptedMovementDirection( listener: KeyboardDragListener ): BalloonDirection {
     let direction: BalloonDirection | undefined;
     if ( listener.movingLeft() ) {
@@ -602,5 +604,7 @@ export default class BalloonNode extends Node {
  * A node that mixes InteractiveHighlighting to support Interactive Highlights. The GrabDragInteraction implements
  * the highlights used for interaction, and they are applied to a child of this Node. In order to use the
  * same highlights, InteractiveHighlighting is composed with the same Node that uses GrabDragInteraction.
+ *
+ * TODO: Is there a better pattern for this? It doesn't seem like this should be necessary, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
  */
 class InteractiveHighlightInteractionNode extends InteractiveHighlighting( Path ) {}

@@ -8,6 +8,8 @@
  *
  * This is not instrumented for phet-io because external users will not see or use it.
  *
+ * TODO: Look for ways to modernise this file, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
+ *
  @author Jesse Greenberg (PhET Interactive Simulations)
  */
 

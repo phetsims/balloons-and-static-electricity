@@ -11,6 +11,9 @@
  * The X_POSITIONS define critical places in the play area and the landmarks are slim columns around these, with
  * width LANDMARK_WIDTH.
  *
+ * TODO: This file is kind of large, and I feel like there might be a better way to manage these data structures.
+ *   What do you think? https://github.com/phetsims/balloons-and-static-electricity/issues/601
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 

@@ -62,6 +62,7 @@ export default class WallModel {
 
     this.bounds = new Bounds2( this.x, this.y, this.x + width, this.y + height );
 
+    // TODO: Utils.roundSymmetric is deprecated. Import from Utils.roundSymmetric instead, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
     this.dx = Utils.roundSymmetric( width / this.numX + 2 );
     this.dy = height / this.numY;
 

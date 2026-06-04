@@ -116,6 +116,8 @@ export default class ControlPanel extends Node {
       maxWidth: 200
     };
     const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
+
+      // TODO: Remove unused tandem arguments here, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
       createNode: ( tandem: Tandem ) => new Text(
         balloonAppletShowAllChargesString,
         {
@@ -172,6 +174,7 @@ export default class ControlPanel extends Node {
       this.addAccessibleContextResponse( alertString );
     } );
 
+    // TODO: Factor these out of the constructor, lets have private static methods that create the icons, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
     // Radio buttons for selecting 1 vs 2 balloons
     const scale = 0.14;
     const yellowBalloonImage = new Image( balloonYellow_png );
@@ -222,6 +225,7 @@ export default class ControlPanel extends Node {
       } ), { maxWidth: 140 } );
     const resetBalloonButtonListener = () => {
 
+      // TODO: Do we still need this? I think not, we should be able to use flush option of addAccessibleContextResponse options, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
       // disable other alerts until after we are finished resetting the balloons
       this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = false; } );
 
@@ -242,6 +246,9 @@ export default class ControlPanel extends Node {
     };
     const resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
+
+      // TODO: Colors in this simulation should use our newer style of using a colors file and Properties.
+      // See MembraneTransportColors for example, https://github.com/phetsims/balloons-and-static-electricity/issues/601
       baseColor: 'rgb( 255, 200, 0 )',
       listener: resetBalloonButtonListener,
       tandem: tandem.createTandem( 'resetBalloonButton' ),

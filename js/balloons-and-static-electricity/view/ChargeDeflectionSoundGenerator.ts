@@ -313,6 +313,8 @@ const mapNormalizedDeflectionToBin = ( normalizedDeflection: number ): number =>
 
 /**
  * map bin number to a playback rate for a sound clip
+ *
+ * TODO: Make this a private, readonly static method (I prefer that pattern), see https://github.com/phetsims/balloons-and-static-electricity/issues/601
  */
 const mapBinToPlaybackRate = ( bin: number ): number => {
   const octave = Math.floor( bin / PENTATONIC_SCALE_MULTIPLIERS.length ) + OCTAVES_OFFSET;
