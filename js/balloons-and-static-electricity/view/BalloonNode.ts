@@ -124,7 +124,6 @@ export default class BalloonNode extends Node {
    * @param globalModel
    * @param accessibleLabelString - the accessible label for this balloon
    * @param otherAccessibleLabelString - the accessible label for the "other" balloon
-   * @param layoutBounds - layout bounds of the ScreenView containing this node
    * @param interactionCueParentNode - parent Node for interaction cues of GrabDragInteraction
    * @param responseParentNode - Node to speak through for the Describer
    * @param tandem
@@ -135,9 +134,6 @@ export default class BalloonNode extends Node {
                       globalModel: BASEModel,
                       accessibleLabelString: string,
                       otherAccessibleLabelString: string,
-
-                      // TODO: This argument is unused, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-                      layoutBounds: Bounds2,
                       interactionCueParentNode: Node,
                       responseParentNode: Node,
                       tandem: Tandem,
