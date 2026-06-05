@@ -17,7 +17,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import BASEConstants from '../BASEConstants.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
-import ScanningPropertySet from './ScanningPropertySet.js';
 import SweaterModel from './SweaterModel.js';
 import WallModel from './WallModel.js';
 
@@ -47,9 +46,6 @@ export default class BASEModel {
 
   public readonly yellowBalloon: BalloonModel;
   public readonly greenBalloon: BalloonModel;
-
-  // set of Properties that indicate where the user is while scanning for objects in the play area
-  public readonly scanningPropertySet: ScanningPropertySet;
 
   // Model of the wall
   public readonly wall: WallModel;
@@ -84,8 +80,6 @@ export default class BASEModel {
     // assign 'other' balloon references
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
-
-    this.scanningPropertySet = new ScanningPropertySet();
 
     this.wall = new WallModel( this.width - this.wallWidth, this.wallWidth, this.height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
