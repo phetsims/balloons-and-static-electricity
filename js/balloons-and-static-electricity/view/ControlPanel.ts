@@ -60,6 +60,8 @@ const resetBalloonsDescriptionPatternString = BASEA11yStrings.resetBalloonsDescr
 // constants
 const BOTTOM_CONTROL_SPACING = 10;
 const CONTROLS_FONT = new PhetFont( 15 );
+const BALLOON_ICON_SCALE = 0.14;
+const GREEN_BALLOON_ICON_X = 160;
 
 export default class ControlPanel extends Node {
 
@@ -172,26 +174,9 @@ export default class ControlPanel extends Node {
       this.addAccessibleContextResponse( alertString );
     } );
 
-    // TODO: Factor these out of the constructor, lets have private static methods that create the icons, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
     // Radio buttons for selecting 1 vs 2 balloons
-    const scale = 0.14;
-    const yellowBalloonImage = new Image( balloonYellow_png );
-    const twoBalloonIcon = new Node( {
-      children: [
-        new Image( balloonGreen_png, { x: 160 } ),
-        yellowBalloonImage
-      ],
-      scale: scale
-    } );
-
-    const oneBalloonIcon = new Node( {
-      children: [
-        new Image( balloonYellow_png, {
-          x: twoBalloonIcon.width / scale / 2 - yellowBalloonImage.width / 2
-        } )
-      ],
-      scale: scale
-    } );
+    const twoBalloonIcon = ControlPanel.createTwoBalloonIcon();
+    const oneBalloonIcon = ControlPanel.createOneBalloonIcon( twoBalloonIcon.width / BALLOON_ICON_SCALE );
 
     let showSecondBalloonSelector: TwoSceneSelectionNode<boolean> | null = null;
     if ( !BASEQueryParameters.hideBalloonSwitch ) {
@@ -327,5 +312,25 @@ export default class ControlPanel extends Node {
 
     this.pdomOrder = [ this.wallToggleButton, balloonsPanel, showChargesRadioButtonGroup, resetAllButton ];
 
+  }
+
+  private static createTwoBalloonIcon(): Node {
+    return new Node( {
+      children: [
+        new Image( balloonGreen_png, { x: GREEN_BALLOON_ICON_X } ),
+        new Image( balloonYellow_png )
+      ],
+      scale: BALLOON_ICON_SCALE
+    } );
+  }
+
+  private static createOneBalloonIcon( twoBalloonIconUnscaledWidth: number ): Node {
+    const yellowBalloonImage = new Image( balloonYellow_png );
+    yellowBalloonImage.x = twoBalloonIconUnscaledWidth / 2 - yellowBalloonImage.width / 2;
+
+    return new Node( {
+      children: [ yellowBalloonImage ],
+      scale: BALLOON_ICON_SCALE
+    } );
   }
 }
