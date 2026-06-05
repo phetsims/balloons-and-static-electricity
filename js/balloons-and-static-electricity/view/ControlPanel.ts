@@ -116,9 +116,7 @@ export default class ControlPanel extends Node {
       maxWidth: 200
     };
     const showChargesRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.showChargesProperty, [ {
-
-      // TODO: Remove unused tandem arguments here, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-      createNode: ( tandem: Tandem ) => new Text(
+      createNode: () => new Text(
         balloonAppletShowAllChargesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
@@ -131,7 +129,7 @@ export default class ControlPanel extends Node {
         accessibleName: balloonAppletShowAllChargesString
       }
     }, {
-      createNode: ( tandem: Tandem ) => new Text(
+      createNode: () => new Text(
         balloonAppletShowNoChargesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
@@ -144,7 +142,7 @@ export default class ControlPanel extends Node {
         accessibleName: balloonAppletShowNoChargesString
       }
     }, {
-      createNode: ( tandem: Tandem ) => new Text(
+      createNode: () => new Text(
         balloonAppletShowChargeDifferencesString,
         {
           font: RADIO_BUTTON_TEXT_OPTIONS.font,
