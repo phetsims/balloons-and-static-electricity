@@ -20,6 +20,7 @@ import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import carrier002_wav from '../../../sounds/carrier002_wav.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
+import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
 import BalloonNode from './BalloonNode.js';
@@ -61,7 +62,7 @@ export default class BASEView extends ScreenView {
       // A PhET wide decision was made to not update custom layout bounds even if they do not match the
       // default layout bounds in ScreenView. Do not change these bounds as changes could break or disturb
       // any phet-io instrumentation. https://github.com/phetsims/phet-io/issues/1939
-      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
+      layoutBounds: new Bounds2( 0, 0, BASEConstants.WIDTH, BASEConstants.HEIGHT ),
       tandem: tandem
     } );
 

@@ -28,10 +28,7 @@ simLauncher.launch( () => {
   //Create and start the sim
   new Sim( balloonsAndStaticElectricityTitleStringProperty, [
     new Screen(
-      () => new BASEModel(
-        768,
-        504,
-        balloonsAndStaticElectricityScreenTandem.createTandem( 'model' ) ),
+      () => new BASEModel( balloonsAndStaticElectricityScreenTandem.createTandem( 'model' ) ),
       model => new BASEView(
         model,
         balloonsAndStaticElectricityScreenTandem.createTandem( 'view' )

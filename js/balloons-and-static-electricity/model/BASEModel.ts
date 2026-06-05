@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BASEConstants from '../BASEConstants.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import ScanningPropertySet from './ScanningPropertySet.js';
@@ -29,8 +30,8 @@ export default class BASEModel {
   // whether the two balloons are considered 'next to' each other, primarily used for a11y
   public readonly balloonsAdjacentProperty: Property<boolean>;
 
-  public readonly width: number;
-  public readonly height: number;
+  public readonly width = BASEConstants.WIDTH;
+  public readonly height = BASEConstants.HEIGHT;
 
   public readonly wallWidth = 80;
 
@@ -52,12 +53,7 @@ export default class BASEModel {
   // broadcasts an event when we step the model
   public readonly stepEmitter: Emitter<[ number ]>;
 
-  /**
-   * Constructor for main model for the Balloons and Static Electricity sim.
-   * TODO: width and height do not need to be arguments. Instead of passing them through, declare them in
-   *   BASEConstants and pull them from there. https://github.com/phetsims/balloons-and-static-electricity/issues/601
-   */
-  public constructor( width: number, height: number, tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     this.showChargesProperty = new StringUnionProperty<ShowChargesValues>( 'allCharges', {
       validValues: ShowChargesConstValues,
@@ -67,12 +63,9 @@ export default class BASEModel {
 
     this.balloonsAdjacentProperty = new Property( false );
 
-    this.width = width;
-    this.height = height;
-
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
-    this.playAreaBounds = new Bounds2( 0, 0, width - this.wallWidth, height );
+    this.playAreaBounds = new Bounds2( 0, 0, this.width - this.wallWidth, this.height );
     this.yellowBalloon = new BalloonModel( 440, 100, this, {
       defaultVisibility: true,
       tandem: tandem.createTandem( 'yellowBalloon' )
@@ -90,7 +83,7 @@ export default class BASEModel {
 
     this.scanningPropertySet = new ScanningPropertySet();
 
-    this.wall = new WallModel( width - this.wallWidth, this.wallWidth, height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
+    this.wall = new WallModel( this.width - this.wallWidth, this.wallWidth, this.height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
     this.stepEmitter = new Emitter( {
       parameters: [ { valueType: 'number' } ]
@@ -100,7 +93,7 @@ export default class BASEModel {
     this.wall.isVisibleProperty.link( isVisible => {
 
       // update the model bounds
-      const newWidth = isVisible ? width - this.wallWidth : width;
+      const newWidth = isVisible ? this.width - this.wallWidth : this.width;
       this.playAreaBounds.setMaxX( newWidth );
     } );
 
