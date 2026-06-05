@@ -18,9 +18,13 @@ import BASEConstants from '../BASEConstants.js';
 import BalloonModel from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import ScanningPropertySet from './ScanningPropertySet.js';
-import ShowChargesValues, { ShowChargesConstValues } from './ShowChargesValues.js';
 import SweaterModel from './SweaterModel.js';
 import WallModel from './WallModel.js';
+
+const SHOW_CHARGES_VALUES = [ 'allCharges', 'noCharges', 'chargeDifferences' ] as const;
+
+export type ShowChargesValues = typeof SHOW_CHARGES_VALUES[number];
+export const ShowChargesConstValues: ShowChargesValues[] = [ ...SHOW_CHARGES_VALUES ];
 
 export default class BASEModel {
 

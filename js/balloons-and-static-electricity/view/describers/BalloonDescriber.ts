@@ -31,9 +31,8 @@ import Utterance, { TAlertable } from '../../../../../utterance-queue/js/Utteran
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
-import BASEModel from '../../model/BASEModel.js';
+import BASEModel, { type ShowChargesValues } from '../../model/BASEModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
-import ShowChargesValues from '../../model/ShowChargesValues.js';
 import WallModel from '../../model/WallModel.js';
 import BalloonChargeDescriber from './BalloonChargeDescriber.js';
 import BalloonPositionDescriber from './BalloonPositionDescriber.js';
