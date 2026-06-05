@@ -8,9 +8,7 @@
  *
  * This is not instrumented for phet-io because external users will not see or use it.
  *
- * TODO: Look for ways to modernise this file, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
- *
- @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -19,63 +17,55 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 
+const COLUMN_OPTIONS = { fill: 'rgba( 0, 0, 255, 0.5 )' };
+const ROW_OPTIONS = { fill: 'rgba( 200, 200, 200, 0.5 )' };
+const LANDMARK_OPTIONS = { fill: 'rgba( 250, 0, 50, 0.45 )' };
+const LINE_OPTIONS = { stroke: 'rgba( 0, 0, 0, 0.4 )', lineWidth: 2, lineDash: [ 2, 4 ] };
+
 export default class PlayAreaGridNode extends Node {
 
   public constructor( layoutBounds: Bounds2 ) {
 
-    super( { pickable: false } );
-    const blueOptions = { fill: 'rgba(0,0,255,0.5)' };
-    const greyOptions = { fill: 'rgba(200,200,200,0.5)' };
-    const redOptions = { fill: 'rgba(250,0,50,0.45)' };
+    super( {
+      pickable: false,
+      children: PlayAreaGridNode.createChildren( layoutBounds )
+    } );
+  }
 
-    const columns = PlayAreaMap.COLUMN_RANGES;
-    const rows = PlayAreaMap.ROW_RANGES;
-    const landmarks = PlayAreaMap.LANDMARK_RANGES;
+  private static createChildren( layoutBounds: Bounds2 ): Node[] {
+    const children: Node[] = [];
 
-    // draw each column
-    let i = 0;
-    let minValue: number;
-    let maxValue: number;
-    Object.entries( columns ).forEach( ( [ key, column ] ) => {
-      if ( i % 2 === 0 ) {
-        minValue = Math.max( layoutBounds.minX, column.min );
-        maxValue = Math.min( layoutBounds.maxX, column.max );
-        const width = maxValue - minValue;
-        this.addChild( new Rectangle( minValue, 0, width, PlayAreaMap.HEIGHT, blueOptions ) );
+    Object.values( PlayAreaMap.COLUMN_RANGES ).forEach( ( column, index ) => {
+      if ( index % 2 === 0 ) {
+        const minX = Math.max( layoutBounds.minX, column.min );
+        const maxX = Math.min( layoutBounds.maxX, column.max );
+        children.push( new Rectangle( minX, 0, maxX - minX, PlayAreaMap.HEIGHT, COLUMN_OPTIONS ) );
       }
-      i++;
     } );
 
-    // draw each row
-    Object.entries( rows ).forEach( ( [ key, row ] ) => {
-      if ( i % 2 === 0 ) {
-        minValue = Math.max( layoutBounds.minY, row.min );
-        maxValue = Math.min( layoutBounds.maxY, row.max );
-        const height = maxValue - minValue;
-        this.addChild( new Rectangle( 0, minValue, PlayAreaMap.WIDTH, height, greyOptions ) );
+    const columnCount = Object.values( PlayAreaMap.COLUMN_RANGES ).length;
+    Object.values( PlayAreaMap.ROW_RANGES ).forEach( ( row, index ) => {
+      if ( ( columnCount + index ) % 2 === 0 ) {
+        const minY = Math.max( layoutBounds.minY, row.min );
+        const maxY = Math.min( layoutBounds.maxY, row.max );
+        children.push( new Rectangle( 0, minY, PlayAreaMap.WIDTH, maxY - minY, ROW_OPTIONS ) );
       }
-      i++;
     } );
 
-    // draw rectangles around the landmark regions
-    Object.entries( landmarks ).forEach( ( [ key, landmark ] ) => {
-      minValue = Math.max( layoutBounds.minX, landmark.min );
-      maxValue = Math.min( layoutBounds.maxX, landmark.max );
-      const landmarkWidth = maxValue - minValue;
-      this.addChild( new Rectangle( minValue, 0, landmarkWidth, PlayAreaMap.HEIGHT, redOptions ) );
+    Object.values( PlayAreaMap.LANDMARK_RANGES ).forEach( landmark => {
+      const minX = Math.max( layoutBounds.minX, landmark.min );
+      const maxX = Math.min( layoutBounds.maxX, landmark.max );
+      children.push( new Rectangle( minX, 0, maxX - minX, PlayAreaMap.HEIGHT, LANDMARK_OPTIONS ) );
     } );
 
-    // draw the lines to along critical balloon positions along both x and y
-    const lineOptions = { stroke: 'rgba(0, 0, 0,0.4)', lineWidth: 2, lineDash: [ 2, 4 ] };
-    const xPositions = PlayAreaMap.X_POSITIONS;
-    const yPositions = PlayAreaMap.Y_POSITIONS;
-
-    Object.entries( xPositions ).forEach( ( [ key, xPosition ] ) => {
-      this.addChild( new Line( xPosition, 0, xPosition, PlayAreaMap.HEIGHT, lineOptions ) );
+    Object.values( PlayAreaMap.X_POSITIONS ).forEach( xPosition => {
+      children.push( new Line( xPosition, 0, xPosition, PlayAreaMap.HEIGHT, LINE_OPTIONS ) );
     } );
 
-    Object.entries( yPositions ).forEach( ( [ key, yPosition ] ) => {
-      this.addChild( new Line( 0, yPosition, PlayAreaMap.WIDTH, yPosition, lineOptions ) );
+    Object.values( PlayAreaMap.Y_POSITIONS ).forEach( yPosition => {
+      children.push( new Line( 0, yPosition, PlayAreaMap.WIDTH, yPosition, LINE_OPTIONS ) );
     } );
+
+    return children;
   }
 }
