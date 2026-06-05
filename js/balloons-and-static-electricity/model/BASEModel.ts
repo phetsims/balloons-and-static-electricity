@@ -50,6 +50,9 @@ export default class BASEModel {
   // Model of the wall
   public readonly wall: WallModel;
 
+  // Convenience list of both balloons for shared iteration and bookkeeping.
+  public readonly balloons: readonly BalloonModel[];
+
   // broadcasts an event when we step the model
   public readonly stepEmitter: Emitter<[ number ]>;
 
@@ -80,6 +83,7 @@ export default class BASEModel {
     // assign 'other' balloon references
     this.yellowBalloon.other = this.greenBalloon;
     this.greenBalloon.other = this.yellowBalloon;
+    this.balloons = [ this.yellowBalloon, this.greenBalloon ];
 
     this.wall = new WallModel( this.width - this.wallWidth, this.wallWidth, this.height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
 
@@ -127,15 +131,6 @@ export default class BASEModel {
     this.reset();
   }
 
-
-  /**
-   * Get all the ballons in an array, for ease of iterating over them.
-   *
-   * TODO: Don't make this a getter, make this a public readonly variable. https://github.com/phetsims/balloons-and-static-electricity/issues/601
-   */
-  public get balloons(): BalloonModel[] {
-    return [ this.yellowBalloon, this.greenBalloon ];
-  }
 
   /**
    * Called by the animation loop.
