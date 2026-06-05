@@ -31,7 +31,10 @@ export default class PointChargeModel {
   public static readonly RADIUS = RADIUS;
   public static readonly CHARGE = CHARGE;
 
-  // TODO: Add documentation to these parameters, https://github.com/phetsims/balloons-and-static-electricity/issues/601
+  /**
+   * @param x - x-coordinate in model coordinates.
+   * @param y - y-coordinate in model coordinates.
+   */
   public constructor( x: number, y: number ) {
 
     this.position = new Vector2( x, y );
