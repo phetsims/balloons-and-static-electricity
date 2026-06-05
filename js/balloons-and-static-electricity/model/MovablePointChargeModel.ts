@@ -18,7 +18,10 @@ export default class MovablePointChargeModel extends PointChargeModel {
   // position of the point charge
   public readonly positionProperty: Vector2Property;
 
-  // TODO: Documentation for these arguments in our style, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
+  /**
+   * @param x - initial x position of the upper-left corner of the point charge
+   * @param y - initial y position of the upper-left corner of the point charge
+   */
   public constructor( x: number, y: number ) {
     super( x, y );
 
