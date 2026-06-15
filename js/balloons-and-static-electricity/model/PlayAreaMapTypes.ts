@@ -3,8 +3,6 @@
 /**
  * Type definitions for PlayAreaMap regions to avoid repetition across files.
  *
- * TODO: Is there a way that we can avoid declaring these explicitly? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
- *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 

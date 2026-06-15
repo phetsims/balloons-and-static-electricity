@@ -64,7 +64,6 @@ const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 // constants
 const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
-const InteractiveHighlightingPath = InteractiveHighlighting( Path );
 
 type BalloonVelocitySoundGeneratorOptions = {
   enabledProperty?: BooleanProperty;
@@ -131,7 +130,6 @@ export default class BalloonNode extends Node {
   } );
 
   /**
-   * @mixes InteractiveHighlighting
    * @param model
    * @param imageSource - image source from the image plugin
    * @param globalModel
@@ -481,7 +479,7 @@ export default class BalloonNode extends Node {
     // because it is important that that Node be pickable: false for the touch areas. The Node takes
     // the shape of the touchArea so that bounds do not interfere or extend beyond the elliptical touch
     // area shape.
-    const grabDragTargetNode = new InteractiveHighlightingPath( this.touchArea );
+    const grabDragTargetNode = new ( InteractiveHighlighting( Path ) )( this.touchArea );
     this.addChild( grabDragTargetNode );
 
     const grabDragInteraction = new GrabDragInteraction( grabDragTargetNode, this.keyboardDragListener, interactionCueParentNode, {
