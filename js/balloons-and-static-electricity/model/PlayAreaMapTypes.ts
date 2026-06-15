@@ -18,7 +18,7 @@ export type PlayAreaRow = 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_A
 export type BalloonDirection = 'LEFT' | 'RIGHT' | 'UP' | 'DOWN' | 'UP_LEFT' | 'UP_RIGHT' | 'DOWN_LEFT' | 'DOWN_RIGHT';
 
 type SharedDirectionEnum = typeof DirectionEnum & {
-  isRelativeDirection: ( direction: object ) => boolean;
+  keys: BalloonDirection[];
 };
 
 const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
@@ -26,7 +26,3 @@ const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
 export const BALLOON_DIRECTION_VALUES = Object.fromEntries(
   sharedDirectionEnum.keys.map( direction => [ direction, direction ] )
 ) as Record<BalloonDirection, BalloonDirection>;
-
-export const isRelativeBalloonDirection = ( direction: BalloonDirection ): boolean => {
-  return sharedDirectionEnum.isRelativeDirection( sharedDirectionEnum.getValue( direction ) );
-};

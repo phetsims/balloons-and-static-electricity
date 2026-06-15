@@ -7,11 +7,12 @@
  */
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import DirectionEnum from '../../../../../scenery-phet/js/accessibility/describers/DirectionEnum.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import BASEModel from '../../model/BASEModel.js';
-import { isRelativeBalloonDirection } from '../../model/PlayAreaMapTypes.js';
+import { BalloonDirection } from '../../model/PlayAreaMapTypes.js';
 import PointChargeModel from '../../model/PointChargeModel.js';
 import SweaterModel from '../../model/SweaterModel.js';
 import BASEDescriber from './BASEDescriber.js';
@@ -45,6 +46,17 @@ const summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralCharges
 const sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
 const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
+
+type SharedDirectionEnum = typeof DirectionEnum & {
+  getValue: ( direction: BalloonDirection ) => object;
+  isRelativeDirection: ( direction: object ) => boolean;
+};
+
+const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
+
+const isRelativeBalloonDirection = ( direction: BalloonDirection ): boolean => {
+  return sharedDirectionEnum.isRelativeDirection( sharedDirectionEnum.getValue( direction ) );
+};
 
 export default class SweaterDescriber {
 
