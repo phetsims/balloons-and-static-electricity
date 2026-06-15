@@ -33,9 +33,6 @@ export default class BASEModel {
   // whether the two balloons are considered 'next to' each other, primarily used for a11y
   public readonly balloonsAdjacentProperty: Property<boolean>;
 
-  public readonly width = BASEConstants.WIDTH;
-  public readonly height = BASEConstants.HEIGHT;
-
   public readonly wallWidth = 80;
 
   // Model of the sweater, position empirically determined to match design
@@ -68,7 +65,7 @@ export default class BASEModel {
 
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
-    this.playAreaBounds = new Bounds2( 0, 0, this.width - this.wallWidth, this.height );
+    this.playAreaBounds = new Bounds2( 0, 0, BASEConstants.WIDTH - this.wallWidth, BASEConstants.HEIGHT );
     this.yellowBalloon = new BalloonModel( 440, 100, this, {
       defaultVisibility: true,
       tandem: tandem.createTandem( 'yellowBalloon' )
@@ -85,7 +82,14 @@ export default class BASEModel {
     this.greenBalloon.other = this.yellowBalloon;
     this.balloons = [ this.yellowBalloon, this.greenBalloon ];
 
-    this.wall = new WallModel( this.width - this.wallWidth, this.wallWidth, this.height, this.yellowBalloon, this.greenBalloon, tandem.createTandem( 'wall' ) );
+    this.wall = new WallModel(
+      BASEConstants.WIDTH - this.wallWidth,
+      this.wallWidth,
+      BASEConstants.HEIGHT,
+      this.yellowBalloon,
+      this.greenBalloon,
+      tandem.createTandem( 'wall' )
+    );
 
     this.stepEmitter = new Emitter( {
       parameters: [ { valueType: 'number' } ]
@@ -95,7 +99,7 @@ export default class BASEModel {
     this.wall.isVisibleProperty.link( isVisible => {
 
       // update the model bounds
-      const newWidth = isVisible ? this.width - this.wallWidth : this.width;
+      const newWidth = isVisible ? BASEConstants.WIDTH - this.wallWidth : BASEConstants.WIDTH;
       this.playAreaBounds.setMaxX( newWidth );
     } );
 

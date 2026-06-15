@@ -223,14 +223,14 @@ export default class BalloonNode extends Node {
     const boundsWithoutWall = new Bounds2(
       0,
       0,
-      globalModel.width - BalloonModel.BALLOON_WIDTH,
-      globalModel.height - BalloonModel.BALLOON_HEIGHT
+      BASEConstants.WIDTH - BalloonModel.BALLOON_WIDTH,
+      BASEConstants.HEIGHT - BalloonModel.BALLOON_HEIGHT
     );
     const boundsWithWall = new Bounds2(
       0,
       0,
-      globalModel.width - globalModel.wallWidth - BalloonModel.BALLOON_WIDTH,
-      globalModel.height - BalloonModel.BALLOON_HEIGHT
+      BASEConstants.WIDTH - globalModel.wallWidth - BalloonModel.BALLOON_WIDTH,
+      BASEConstants.HEIGHT - BalloonModel.BALLOON_HEIGHT
     );
     const balloonDragBoundsProperty = new Property( boundsWithWall );
     globalModel.wall.isVisibleProperty.link( isWallVisible => {
