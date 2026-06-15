@@ -6,23 +6,24 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import DirectionEnum from '../../../../scenery-phet/js/accessibility/describers/DirectionEnum.js';
+// Column type for play area regions.
+export type PlayAreaColumn = 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' |
+                             'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE';
 
-// Column type for play area regions
-export type PlayAreaColumn = 'LEFT_ARM' | 'LEFT_SIDE_OF_SWEATER' | 'RIGHT_SIDE_OF_SWEATER' | 'RIGHT_ARM' | 'LEFT_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'RIGHT_PLAY_AREA' | 'RIGHT_EDGE';
-
-// Row type for play area regions  
+// Row type for play area regions.
 export type PlayAreaRow = 'UPPER_PLAY_AREA' | 'CENTER_PLAY_AREA' | 'LOWER_PLAY_AREA';
 
-// Direction type for balloon movement - includes all cardinal and diagonal directions
-export type BalloonDirection = 'LEFT' | 'RIGHT' | 'UP' | 'DOWN' | 'UP_LEFT' | 'UP_RIGHT' | 'DOWN_LEFT' | 'DOWN_RIGHT';
+// Direction values for balloon movement, including all cardinal and diagonal directions.
+export const BALLOON_DIRECTION_VALUES = {
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT',
+  UP: 'UP',
+  DOWN: 'DOWN',
+  UP_LEFT: 'UP_LEFT',
+  UP_RIGHT: 'UP_RIGHT',
+  DOWN_LEFT: 'DOWN_LEFT',
+  DOWN_RIGHT: 'DOWN_RIGHT'
+} as const;
 
-type SharedDirectionEnum = typeof DirectionEnum & {
-  keys: BalloonDirection[];
-};
-
-const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
-
-export const BALLOON_DIRECTION_VALUES = Object.fromEntries(
-  sharedDirectionEnum.keys.map( direction => [ direction, direction ] )
-) as Record<BalloonDirection, BalloonDirection>;
+export type BalloonDirection =
+  typeof BALLOON_DIRECTION_VALUES[ keyof typeof BALLOON_DIRECTION_VALUES ];
