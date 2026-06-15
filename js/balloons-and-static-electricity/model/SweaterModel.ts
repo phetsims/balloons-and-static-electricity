@@ -17,7 +17,7 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import BalloonModel from './BalloonModel.js';
-import { SWEATER_CHARGE_PAIR_POSITIONS } from './ChargePositions.js';
+import ChargePositions from './ChargePositions.js';
 import PointChargeModel from './PointChargeModel.js';
 
 type SweaterModelStateObject = {
@@ -64,7 +64,7 @@ export default class SweaterModel extends PhetioObject {
     this.chargeProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'chargeProperty' ),
       numberType: 'Integer',
-      range: new Range( 0, SWEATER_CHARGE_PAIR_POSITIONS.length ),
+      range: new Range( 0, ChargePositions.SWEATER_CHARGE_PAIR_POSITIONS.length ),
       phetioReadOnly: true,
       phetioFeatured: true
     } );
@@ -89,7 +89,7 @@ export default class SweaterModel extends PhetioObject {
     _.times( numSlices ).forEach( sliceNumber => {
       shapeDefiningPoints.push( this.center.copy() );
       const slice = new Range( sliceNumber * sliceWidth, ( sliceNumber + 1 ) * sliceWidth );
-      SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
+      ChargePositions.SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
         let angle = chargePairPosition.minus( this.center ).angle;
 
         // convert negative angles
@@ -114,7 +114,7 @@ export default class SweaterModel extends PhetioObject {
     }
     this.chargedArea.close();
 
-    SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
+    ChargePositions.SWEATER_CHARGE_PAIR_POSITIONS.forEach( chargePairPosition => {
       const plusCharge = new PointChargeModel(
         chargePairPosition.x,
         chargePairPosition.y

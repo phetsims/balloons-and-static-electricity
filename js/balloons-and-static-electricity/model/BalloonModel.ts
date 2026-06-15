@@ -25,7 +25,7 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
 import type BASEModel from './BASEModel.js';
-import { AVERAGE_BALLOON_CHARGE_Y, BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS, BALLOON_START_CHARGE_POSITIONS } from './ChargePositions.js';
+import ChargePositions from './ChargePositions.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import { BALLOON_DIRECTION_VALUES, BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
@@ -146,7 +146,7 @@ export default class BalloonModel {
 
     this.chargeProperty = new NumberProperty( 0, {
       numberType: 'Integer',
-      range: new Range( -BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.length, 0 ),
+      range: new Range( -ChargePositions.BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.length, 0 ),
       tandem: options.tandem.createTandem( 'chargeProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
@@ -218,7 +218,7 @@ export default class BalloonModel {
     this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
-    BALLOON_START_CHARGE_POSITIONS.forEach( entry => {
+    ChargePositions.BALLOON_START_CHARGE_POSITIONS.forEach( entry => {
       const plusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.plusCharges.push( plusCharge );
 
@@ -231,7 +231,7 @@ export default class BalloonModel {
     } );
 
     // charges that we can get from sweater, only negative charges
-    BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.forEach( entry => {
+    ChargePositions.BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS.forEach( entry => {
       const minusCharge = new PointChargeModel( entry[ 0 ], entry[ 1 ] );
       this.minusCharges.push( minusCharge );
     } );
@@ -502,7 +502,7 @@ export default class BalloonModel {
    */
   public getChargeCenter(): Vector2 {
     const centerX = this.getCenter().x;
-    const centerY = this.positionProperty.get().y + AVERAGE_BALLOON_CHARGE_Y;
+    const centerY = this.positionProperty.get().y + ChargePositions.AVERAGE_BALLOON_CHARGE_Y;
     return new Vector2( centerX, centerY );
   }
 
