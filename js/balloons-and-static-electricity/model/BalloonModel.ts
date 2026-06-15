@@ -100,10 +100,6 @@ export default class BalloonModel {
   // flag that indicates whether the balloon has successfully been picked up since the last reset
   public successfulPickUp = false;
 
-  // dimensions of the balloon
-  public readonly width = BalloonModel.BALLOON_WIDTH;
-  public readonly height = BalloonModel.BALLOON_HEIGHT;
-
   // the closest minus charge to the balloon which is in the wall
   public closestChargeInWall: MovablePointChargeModel | null = null;
 
@@ -243,14 +239,19 @@ export default class BalloonModel {
     this.bounds = new Bounds2(
       this.positionProperty.get().x,
       this.positionProperty.get().y,
-      this.positionProperty.get().x + this.width,
-      this.positionProperty.get().y + this.height
+      this.positionProperty.get().x + BalloonModel.BALLOON_WIDTH,
+      this.positionProperty.get().y + BalloonModel.BALLOON_HEIGHT
     );
 
     // When the position changes, update the bounds of balloon, direction of movement, and whether the
     // balloon is touching an object.  No need to dispose as balloons exist for life of sim.
     this.positionProperty.link( ( position, oldPosition ) => {
-      this.bounds.setMinMax( position.x, position.y, position.x + this.width, position.y + this.height );
+      this.bounds.setMinMax(
+        position.x,
+        position.y,
+        position.x + BalloonModel.BALLOON_WIDTH,
+        position.y + BalloonModel.BALLOON_HEIGHT
+      );
 
       if ( oldPosition ) {
 
@@ -450,8 +451,8 @@ export default class BalloonModel {
    */
   public setCenter( center: Vector2 ): void {
     this.positionProperty.set( new Vector2(
-      center.x - this.width / 2,
-      center.y - this.height / 2
+      center.x - BalloonModel.BALLOON_WIDTH / 2,
+      center.y - BalloonModel.BALLOON_HEIGHT / 2
     ) );
   }
 
@@ -459,28 +460,31 @@ export default class BalloonModel {
    * Get the center position of the balloon.
    */
   public getCenter(): Vector2 {
-    return new Vector2( this.positionProperty.get().x + this.width / 2, this.positionProperty.get().y + this.height / 2 );
+    return new Vector2(
+      this.positionProperty.get().x + BalloonModel.BALLOON_WIDTH / 2,
+      this.positionProperty.get().y + BalloonModel.BALLOON_HEIGHT / 2
+    );
   }
 
   /**
    * Get the vertical center of the balloon model.
    */
   public getCenterY(): number {
-    return this.positionProperty.get().y + this.height / 2;
+    return this.positionProperty.get().y + BalloonModel.BALLOON_HEIGHT / 2;
   }
 
   /**
    * Get the horizontal center position of the balloon.
    */
   public getCenterX(): number {
-    return this.positionProperty.get().x + this.width / 2;
+    return this.positionProperty.get().x + BalloonModel.BALLOON_WIDTH / 2;
   }
 
   /**
    * Get the right edge of the balloon.
    */
   public getRight(): number {
-    return this.positionProperty.get().x + this.width;
+    return this.positionProperty.get().x + BalloonModel.BALLOON_WIDTH;
   }
 
   /**
@@ -728,10 +732,10 @@ export default class BalloonModel {
       const newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
       const newPosition = this.positionProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
 
-      if ( newPosition.x + this.width >= rightBound ) {
+      if ( newPosition.x + BalloonModel.BALLOON_WIDTH >= rightBound ) {
 
         // trying to go beyond right bound
-        newPosition.x = rightBound - this.width;
+        newPosition.x = rightBound - BalloonModel.BALLOON_WIDTH;
 
         if ( newVelocity.x > 0 ) {
           newVelocity.x = 0;
@@ -745,10 +749,10 @@ export default class BalloonModel {
           }
         }
       }
-      if ( newPosition.y + this.height >= model.playAreaBounds.maxY ) {
+      if ( newPosition.y + BalloonModel.BALLOON_HEIGHT >= model.playAreaBounds.maxY ) {
 
         // trying to go beyond bottom bound
-        newPosition.y = model.playAreaBounds.maxY - this.height;
+        newPosition.y = model.playAreaBounds.maxY - BalloonModel.BALLOON_HEIGHT;
         newVelocity.y = newVelocity.y > 0 ? 0 : newVelocity.y;
       }
       if ( newPosition.x <= model.playAreaBounds.minX ) {
@@ -783,7 +787,7 @@ export default class BalloonModel {
 
       // if the balloon has enough charge and is close enough to the wall, the wall attracts it more than the sweater
       if ( this.chargeProperty.get() < -5 ) {
-        const relDist = distFromWall - this.width;
+        const relDist = distFromWall - BalloonModel.BALLOON_WIDTH;
         const fright = 0.003;
         if ( relDist <= 40 + this.chargeProperty.get() / 8 ) {
           return new Vector2( -fright * this.chargeProperty.get() / 20.0, 0 );

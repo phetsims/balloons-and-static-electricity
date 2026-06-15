@@ -220,12 +220,17 @@ export default class BalloonNode extends Node {
     };
 
     // Set up the bounds Property that will keep track of where the balloon can be dragged.
-    const boundsWithoutWall = new Bounds2( 0, 0, globalModel.width - model.width, globalModel.height - model.height );
+    const boundsWithoutWall = new Bounds2(
+      0,
+      0,
+      globalModel.width - BalloonModel.BALLOON_WIDTH,
+      globalModel.height - BalloonModel.BALLOON_HEIGHT
+    );
     const boundsWithWall = new Bounds2(
       0,
       0,
-      globalModel.width - globalModel.wallWidth - model.width,
-      globalModel.height - model.height
+      globalModel.width - globalModel.wallWidth - BalloonModel.BALLOON_WIDTH,
+      globalModel.height - BalloonModel.BALLOON_HEIGHT
     );
     const balloonDragBoundsProperty = new Property( boundsWithWall );
     globalModel.wall.isVisibleProperty.link( isWallVisible => {
@@ -607,9 +612,12 @@ export default class BalloonNode extends Node {
    */
   private getDragBounds(): Bounds2 {
     const modelBounds = this.globalModel.playAreaBounds;
-    const balloonWidth = this.model.width;
-    const balloonHeight = this.model.height;
-    return new Bounds2( modelBounds.minX, modelBounds.minY, modelBounds.maxX - balloonWidth, modelBounds.maxY - balloonHeight );
+    return new Bounds2(
+      modelBounds.minX,
+      modelBounds.minY,
+      modelBounds.maxX - BalloonModel.BALLOON_WIDTH,
+      modelBounds.maxY - BalloonModel.BALLOON_HEIGHT
+    );
   }
 
 }
