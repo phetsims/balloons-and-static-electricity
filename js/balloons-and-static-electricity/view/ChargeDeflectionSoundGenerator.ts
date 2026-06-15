@@ -69,7 +69,7 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
    * @param balloons - the balloons modeled in the sim
    * @param options
    */
-  public constructor( wall: WallModel, balloons: BalloonModel[], options?: SoundGeneratorOptions ) {
+  public constructor( wall: WallModel, balloons: readonly BalloonModel[], options?: SoundGeneratorOptions ) {
 
     assert && assert( balloons.length === 2, `this assumes 2 balloons, found ${balloons.length}` );
 
@@ -201,7 +201,7 @@ export default class ChargeDeflectionSoundGenerator extends SoundGenerator {
 
           // The bin changed for the charge associated with this sound generator.  Map the bin to a playback rate and
           // play the sound.
-          soundGenerator.setPlaybackRate( mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] ), 0 );
+          soundGenerator.setPlaybackRate( ChargeDeflectionSoundGenerator.mapBinToPlaybackRate( this.chargeDeflectionBins[ chargeIndex ] ), 0 );
           soundGenerator.play();
         }
       } );

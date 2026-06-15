@@ -25,11 +25,7 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
 import type BASEModel from './BASEModel.js';
-import {
-  AVERAGE_BALLOON_CHARGE_Y,
-  BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS,
-  BALLOON_START_CHARGE_POSITIONS
-} from './ChargePositions.js';
+import { AVERAGE_BALLOON_CHARGE_Y, BALLOON_COLLECTED_MINUS_CHARGE_POSITIONS, BALLOON_START_CHARGE_POSITIONS } from './ChargePositions.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import { BALLOON_DIRECTION_VALUES, BalloonDirection, PlayAreaColumn, PlayAreaRow } from './PlayAreaMapTypes.js';
@@ -876,8 +872,7 @@ export default class BalloonModel {
     const dx = pointA.x - pointB.x;
     const dy = pointA.y - pointB.y;
     const angle = Math.atan2( dy, dx );
-    const direction = MovementAlerter.getDirectionEnumerableFromAngle( angle ) as BalloonDirection | undefined;
-
-    return direction || null;
+    const direction = MovementAlerter.getDirectionEnumerableFromAngle( angle );
+    return direction ? direction.toString() as BalloonDirection : null;
   }
 }
