@@ -148,11 +148,13 @@ export default class BalloonNode extends Node {
       cursor: 'pointer',
 
       // options passed to the drift velocity sound generator
+      // TODO: Do we really need to combineOptions on this?
       balloonVelocitySoundGeneratorOptions: combineOptions<BalloonVelocitySoundGeneratorOptions>( {
         enabledProperty: model.isVisibleProperty
       }, providedOptions?.balloonVelocitySoundGeneratorOptions ),
 
       // options passed to the balloon rubbing sound generator
+      // TODO: Do we really need to combineOptions on this?
       balloonRubbingSoundGeneratorOptions: combineOptions<BalloonRubbingSoundGeneratorOptions>(
         {},
         providedOptions?.balloonRubbingSoundGeneratorOptions

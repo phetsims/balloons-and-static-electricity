@@ -54,6 +54,7 @@ type SharedDirectionEnum = typeof DirectionEnum & {
 
 const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
 
+// TODO: Is this necessary? Why not use DirectionEnum directly?
 const isRelativeBalloonDirection = ( direction: BalloonDirection ): boolean => {
   return sharedDirectionEnum.isRelativeDirection( sharedDirectionEnum.getValue( direction ) );
 };
