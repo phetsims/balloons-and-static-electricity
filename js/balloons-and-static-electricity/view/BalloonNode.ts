@@ -148,13 +148,13 @@ export default class BalloonNode extends Node {
       cursor: 'pointer',
 
       // options passed to the drift velocity sound generator
-      // TODO: Do we really need to combineOptions on this?
+      // TODO: Do we really need to combineOptions on this? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
       balloonVelocitySoundGeneratorOptions: combineOptions<BalloonVelocitySoundGeneratorOptions>( {
         enabledProperty: model.isVisibleProperty
       }, providedOptions?.balloonVelocitySoundGeneratorOptions ),
 
       // options passed to the balloon rubbing sound generator
-      // TODO: Do we really need to combineOptions on this?
+      // TODO: Do we really need to combineOptions on this? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
       balloonRubbingSoundGeneratorOptions: combineOptions<BalloonRubbingSoundGeneratorOptions>(
         {},
         providedOptions?.balloonRubbingSoundGeneratorOptions

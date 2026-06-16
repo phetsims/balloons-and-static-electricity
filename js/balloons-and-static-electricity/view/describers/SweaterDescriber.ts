@@ -54,7 +54,7 @@ type SharedDirectionEnum = typeof DirectionEnum & {
 
 const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
 
-// TODO: Is this necessary? Why not use DirectionEnum directly?
+// TODO: Is this necessary? Why not use DirectionEnum directly? https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const isRelativeBalloonDirection = ( direction: BalloonDirection ): boolean => {
   return sharedDirectionEnum.isRelativeDirection( sharedDirectionEnum.getValue( direction ) );
 };
