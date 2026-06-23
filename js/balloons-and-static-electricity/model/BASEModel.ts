@@ -15,7 +15,7 @@ import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BASEConstants from '../BASEConstants.js';
-import BalloonModel from './BalloonModel.js';
+import BalloonModel, { type BalloonModelDependencies } from './BalloonModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
 import SweaterModel from './SweaterModel.js';
 import WallModel from './WallModel.js';
@@ -66,11 +66,20 @@ export default class BASEModel {
     this.sweater = new SweaterModel( 25, 20, tandem.createTandem( 'sweater' ) );
 
     this.playAreaBounds = new Bounds2( 0, 0, BASEConstants.WIDTH - this.wallWidth, BASEConstants.HEIGHT );
-    this.yellowBalloon = new BalloonModel( 440, 100, this, {
+
+    const balloonModelDependencies: BalloonModelDependencies = {
+      sweater: this.sweater,
+      playAreaBounds: this.playAreaBounds,
+      isWallVisible: () => this.wall.isVisibleProperty.get(),
+      getWallX: () => this.wall.x,
+      forceIndicatesInducedCharge: balloonForce => this.wall.forceIndicatesInducedCharge( balloonForce )
+    };
+
+    this.yellowBalloon = new BalloonModel( 440, 100, balloonModelDependencies, {
       defaultVisibility: true,
       tandem: tandem.createTandem( 'yellowBalloon' )
     } );
-    this.greenBalloon = new BalloonModel( 380, 130, this, {
+    this.greenBalloon = new BalloonModel( 380, 130, balloonModelDependencies, {
       defaultVisibility: false,
       tandem: tandem.createTandem( 'greenBalloon' ),
       isVisiblePropertyPhetioReadOnly: false,
@@ -142,7 +151,7 @@ export default class BASEModel {
   public step( dt: number ): void {
     this.balloons.forEach( balloon => {
       if ( balloon.isVisibleProperty.get() ) {
-        balloon.step( this, dt );
+        balloon.step( dt );
       }
     } );
 
