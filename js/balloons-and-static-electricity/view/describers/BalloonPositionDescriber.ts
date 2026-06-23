@@ -8,7 +8,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import BASEA11yStrings from '../../BASEA11yStrings.js';
@@ -116,31 +115,16 @@ const MAXIMUM_VELOCITY_ON_RELEASE = 0.4;
 // speed of the balloon to be considered moving slowly, determined empirically so that descriptions sound nice
 const SLOW_BALLOON_SPEED = 0.09;
 
-// maps magnitude of velocity to the description
-// TODO: Is there a better way to do this kind of map? See if you can find "described ranges" in membrane-transport
-//   and see how it was done there. See https://github.com/phetsims/balloons-and-static-electricity/issues/601.
-const BALLOON_VELOCITY_MAP = {
-  EXTREMELY_SLOWLY_RANGE: {
-    range: new Range( 0, MAXIMUM_VELOCITY_ON_RELEASE / 200 ),
-    description: extremelySlowlyString
-  },
-  VERY_SLOWLY_RANGE: {
-    range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 200, MAXIMUM_VELOCITY_ON_RELEASE / 100 ),
-    description: verySlowlyString
-  },
-  SLOWLY_RANGE: {
-    range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 100, MAXIMUM_VELOCITY_ON_RELEASE / 50 ),
-    description: slowlyString
-  },
-  QUICKLY_RANGE: {
-    range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 50, MAXIMUM_VELOCITY_ON_RELEASE / 4 ),
-    description: quicklyString
-  },
-  VERY_QUICKLY_RANGE: {
-    range: new Range( MAXIMUM_VELOCITY_ON_RELEASE / 4, Number.MAX_VALUE ),
-    description: veryQuicklyString
-  }
-};
+const QUICKLY_MAX_VELOCITY = MAXIMUM_VELOCITY_ON_RELEASE / 4;
+
+// Ordered by increasing velocity. The first threshold containing the velocity magnitude provides the description.
+const BALLOON_VELOCITY_DESCRIPTIONS = [
+  { maxVelocity: MAXIMUM_VELOCITY_ON_RELEASE / 200, description: extremelySlowlyString },
+  { maxVelocity: MAXIMUM_VELOCITY_ON_RELEASE / 100, description: verySlowlyString },
+  { maxVelocity: MAXIMUM_VELOCITY_ON_RELEASE / 50, description: slowlyString },
+  { maxVelocity: QUICKLY_MAX_VELOCITY, description: quicklyString },
+  { maxVelocity: Number.POSITIVE_INFINITY, description: veryQuicklyString }
+];
 
 export default class BalloonPositionDescriber {
 
@@ -585,17 +569,17 @@ export default class BalloonPositionDescriber {
   }
 
   /**
-   * Get a description of velocity for this balloon, one of "very slowly", "slowly", "quickly", "very quickly"
+   * Get a description of velocity for this balloon, one of "extremely slowly", "very slowly", "slowly", "quickly",
+   * "very quickly".
    */
   private getVelocityString(): string {
     let velocityString = '';
 
-    const balloonVelocity = this.balloonModel.velocityProperty.get();
+    const velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
 
-    const keys = Object.keys( BALLOON_VELOCITY_MAP );
-    for ( let i = 0; i < keys.length; i++ ) {
-      const entry = BALLOON_VELOCITY_MAP[ keys[ i ] as keyof typeof BALLOON_VELOCITY_MAP ];
-      if ( entry.range.contains( balloonVelocity.magnitude ) ) {
+    for ( let i = 0; i < BALLOON_VELOCITY_DESCRIPTIONS.length; i++ ) {
+      const entry = BALLOON_VELOCITY_DESCRIPTIONS[ i ];
+      if ( velocityMagnitude <= entry.maxVelocity ) {
         velocityString = entry.description;
         break;
       }
@@ -762,7 +746,7 @@ export default class BalloonPositionDescriber {
    */
   public balloonMovingAtContinuousDescriptionVelocity(): boolean {
     const velocityMagnitude = this.balloonModel.velocityProperty.get().magnitude;
-    return velocityMagnitude < BALLOON_VELOCITY_MAP.QUICKLY_RANGE.range.max &&
+    return velocityMagnitude < QUICKLY_MAX_VELOCITY &&
            velocityMagnitude > 0.0005; // value chosen empirically, see #413
   }
 
