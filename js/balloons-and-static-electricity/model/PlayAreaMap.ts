@@ -11,8 +11,8 @@
  * The X_POSITIONS define critical places in the play area and the landmarks are slim columns around these, with
  * width LANDMARK_WIDTH.
  *
- * TODO: This file is kind of large, and I feel like there might be a better way to manage these data structures.
- *   What do you think? https://github.com/phetsims/balloons-and-static-electricity/issues/601
+ * Static ranges are declared by responsibility: coordinate anchors, narrow landmark ranges, broad column ranges, and
+ * broad row ranges. Lookup helpers below preserve declaration order so later overlapping ranges can take precedence.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -75,6 +75,24 @@ const createNextRange = ( width: number, previousRange?: Range ): Range => {
  */
 const createLandmarkRange = ( xPosition: number ): Range => {
   return new Range( xPosition - HALF_LANDMARK_WIDTH, xPosition + HALF_LANDMARK_WIDTH );
+};
+
+/**
+ * Returns the last key whose range contains the coordinate. Later matches win, preserving the previous lookup behavior
+ * for overlapping map regions.
+ */
+const getContainingRangeKey = <T extends string>( ranges: Record<T, Range>, coordinate: number ): T | null => {
+  const rangeKeys = Object.keys( ranges ) as T[];
+
+  let containingRangeKey: T | null = null;
+  for ( let i = 0; i < rangeKeys.length; i++ ) {
+    const rangeKey = rangeKeys[ i ];
+    if ( ranges[ rangeKey ].contains( coordinate ) ) {
+      containingRangeKey = rangeKey;
+    }
+  }
+
+  return containingRangeKey;
 };
 
 // landmark ranges that surround critical x positions, but more are added below that depend on these ranges
@@ -150,18 +168,7 @@ const PlayAreaMap = {
    * Get the column of the play area for a given position in the model, including landmark positions.
    */
   getPlayAreaColumn( position: Vector2, wallVisible: boolean ): PlayAreaColumn {
-    const columns = COLUMN_RANGES;
-
-    // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
-    // loops
-    const columnsKeys = Object.keys( columns );
-
-    let column: string | undefined;
-    for ( let i = 0; i < columnsKeys.length; i++ ) {
-      if ( columns[ columnsKeys[ i ] as keyof typeof columns ].contains( position.x ) ) {
-        column = columnsKeys[ i ];
-      }
-    }
+    let column: string | null = getContainingRangeKey( COLUMN_RANGES, position.x );
     assert && assert( column, 'object should be in a column of the play area' );
 
     // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
@@ -176,18 +183,7 @@ const PlayAreaMap = {
    * Get the landmark of the play area for a given position in the model.
    */
   getPlayAreaLandmark( position: Vector2, wallVisible: boolean ): string | null {
-    const landmarks = LANDMARK_RANGES;
-
-    // loop through keys manually to prevent a many closures from being created during object iteration in 'for in'
-    // loops
-    const landmarksKeys = Object.keys( landmarks );
-
-    let landmark: string | null = null;
-    for ( let i = 0; i < landmarksKeys.length; i++ ) {
-      if ( landmarks[ landmarksKeys[ i ] as keyof typeof landmarks ].contains( position.x ) ) {
-        landmark = landmarksKeys[ i ];
-      }
-    }
+    let landmark: string | null = getContainingRangeKey( LANDMARK_RANGES, position.x );
 
     // the wall and the right edge of the play area overlap, so if the wall is visible, chose that description
     if ( wallVisible && landmark === 'RIGHT_EDGE' ) {
@@ -201,18 +197,7 @@ const PlayAreaMap = {
    * Get a row in the play area that contains the position in the model.
    */
   getPlayAreaRow( position: Vector2 ): PlayAreaRow {
-    const rows = PlayAreaMap.ROW_RANGES;
-
-    // loop through keys manually to prevent a many closures from being created during object iteration in 'for in' loops
-    const rowKeys = Object.keys( rows );
-
-    let row: PlayAreaRow | undefined;
-    let i;
-    for ( i = 0; i < rowKeys.length; i++ ) {
-      if ( rows[ rowKeys[ i ] as keyof typeof rows ].contains( position.y ) ) {
-        row = rowKeys[ i ] as PlayAreaRow;
-      }
-    }
+    const row = getContainingRangeKey( ROW_RANGES, position.y );
     assert && assert( row, 'item should be in a row of the play area' );
 
     return row!;
@@ -223,19 +208,7 @@ const PlayAreaMap = {
    * that surround critical x positions.
    */
   inLandmarkColumn( position: Vector2 ): boolean {
-    const landmarks = PlayAreaMap.LANDMARK_RANGES;
-
-    // loop through keys manually to prevent many closures from being created during object iteration in for loops
-    const landmarkKeys = Object.keys( landmarks );
-    let inLandmarkColumn = false;
-    for ( let i = 0; i < landmarkKeys.length; i++ ) {
-      if ( landmarks[ landmarkKeys[ i ] as keyof typeof landmarks ].contains( position.x ) ) {
-        inLandmarkColumn = true;
-        break;
-      }
-    }
-
-    return inLandmarkColumn;
+    return getContainingRangeKey( LANDMARK_RANGES, position.x ) !== null;
   }
 } as const;
 
