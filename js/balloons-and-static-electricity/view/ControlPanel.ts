@@ -208,10 +208,6 @@ export default class ControlPanel extends Node {
       } ), { maxWidth: 140 } );
     const resetBalloonButtonListener = () => {
 
-      // TODO: Do we still need this? I think not, we should be able to use flush option of addAccessibleContextResponse options, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-      // disable other alerts until after we are finished resetting the balloons
-      this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = false; } );
-
       model.sweater.reset();
       model.balloons.forEach( balloon => {
         balloon.reset( true );
@@ -220,12 +216,10 @@ export default class ControlPanel extends Node {
       // Make sure the balloons are correctly layered in the view.
       view.setDefaultBalloonZOrder();
 
-      this.forEachUtteranceQueue( utteranceQueue => { utteranceQueue.enabled = true; } );
-
-      // alert to assistive technology
+      // Flush queued responses so the reset announcement supersedes alerts generated during reset.
       this.addAccessibleContextResponse( StringUtils.fillIn( resetBalloonsAlertPatternString, {
         balloons: model.greenBalloon.isVisibleProperty.get() ? balloonsString : balloonString
-      } ) );
+      } ), { flush: true } );
     };
     const resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
