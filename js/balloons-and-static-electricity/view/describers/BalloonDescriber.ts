@@ -106,10 +106,6 @@ export default class BalloonDescriber extends Alerter {
   private describedVelocity: Vector2;
   private describedDragVelocity: Vector2;
 
-  // TODO: IT does not seem like these are used. If unused, remove them, see https://github.com/phetsims/balloons-and-static-electricity/issues/601
-  private describedPosition: Vector2;
-  private describedVisible: boolean;
-
   private describedTouchingWall: boolean;
   private describedUserControlled: boolean;
   private describedWallVisible: boolean;
@@ -198,8 +194,6 @@ export default class BalloonDescriber extends Alerter {
 
     this.describedVelocity = balloon.velocityProperty.get();
     this.describedDragVelocity = balloon.dragVelocityProperty.get();
-    this.describedPosition = balloon.positionProperty.get();
-    this.describedVisible = balloon.isVisibleProperty.get();
     this.describedTouchingWall = balloon.touchingWallProperty.get();
     this.describedUserControlled = balloon.userControlledProperty.get();
     this.describedWallVisible = wall.isVisibleProperty.get();
@@ -296,8 +290,6 @@ export default class BalloonDescriber extends Alerter {
     // reset all variables tracking previous descriptions
     this.describedVelocity = this.balloonModel.velocityProperty.get();
     this.describedDragVelocity = this.balloonModel.dragVelocityProperty.get();
-    this.describedPosition = this.balloonModel.positionProperty.get();
-    this.describedVisible = this.balloonModel.isVisibleProperty.get();
     this.describedTouchingWall = this.balloonModel.touchingWallProperty.get();
     this.describedUserControlled = this.balloonModel.userControlledProperty.get();
     this.describedWallVisible = this.wall.isVisibleProperty.get();
@@ -1020,8 +1012,6 @@ export default class BalloonDescriber extends Alerter {
     // update variables for next step
     this.describedVelocity = nextVelocity;
     this.describedDragVelocity = nextDragVelocity;
-    this.describedPosition = nextPosition;
-    this.describedVisible = nextVisible;
     this.describedTouchingWall = nextTouchingWall;
     this.describedUserControlled = nextUserControlled;
     this.describedWallVisible = nextWallVisible;
