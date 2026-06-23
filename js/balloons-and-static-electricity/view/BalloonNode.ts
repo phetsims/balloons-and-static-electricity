@@ -154,11 +154,7 @@ export default class BalloonNode extends Node {
       }, providedOptions?.balloonVelocitySoundGeneratorOptions ),
 
       // options passed to the balloon rubbing sound generator
-      // TODO: Do we really need to combineOptions on this? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
-      balloonRubbingSoundGeneratorOptions: combineOptions<BalloonRubbingSoundGeneratorOptions>(
-        {},
-        providedOptions?.balloonRubbingSoundGeneratorOptions
-      ),
+      balloonRubbingSoundGeneratorOptions: providedOptions?.balloonRubbingSoundGeneratorOptions,
 
       // additional method to call at end of pointer drag
       pointerDrag: () => { /* intentionally empty */ },
