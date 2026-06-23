@@ -25,7 +25,7 @@ import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
 import BASEA11yStrings from '../BASEA11yStrings.js';
-import BASEConstants from '../BASEConstants.js';
+import BASEColors from '../BASEColors.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
 import BASEView from './BASEView.js';
@@ -95,7 +95,7 @@ export default class ControlPanel extends Node {
     } );
 
     this.wallToggleButton = new BooleanRectangularToggleButton( model.wall.isVisibleProperty, removeWallText, addWallText, {
-      baseColor: 'rgb( 255, 200, 0 )',
+      baseColor: BASEColors.controlButtonBaseColorProperty,
       tandem: tandem.createTandem( 'wallToggleButton' ),
 
       // pdom
@@ -187,7 +187,7 @@ export default class ControlPanel extends Node {
         oneBalloonIcon,
         twoBalloonIcon, {
           tandem: tandem.createTandem( 'showSecondBalloonSelector' ),
-          maskFill: BASEConstants.backgroundColorProperty,
+          maskFill: BASEColors.backgroundColorProperty,
           ariaLabel: twoBalloonExperimentLabelString,
           containerTagName: 'div',
           descriptionContent: twoBalloonExperimentDescriptionString,
@@ -223,10 +223,7 @@ export default class ControlPanel extends Node {
     };
     const resetBalloonButton = new RectangularPushButton( {
       content: resetBalloonToggleNode,
-
-      // TODO: Colors in this simulation should use our newer style of using a colors file and Properties.
-      //   See MembraneTransportColors for example, https://github.com/phetsims/balloons-and-static-electricity/issues/601
-      baseColor: 'rgb( 255, 200, 0 )',
+      baseColor: BASEColors.controlButtonBaseColorProperty,
       listener: resetBalloonButtonListener,
       tandem: tandem.createTandem( 'resetBalloonButton' ),
 

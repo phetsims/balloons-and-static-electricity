@@ -10,7 +10,7 @@ import Screen from '../../joist/js/Screen.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import BASEConstants from './balloons-and-static-electricity/BASEConstants.js';
+import BASEColors from './balloons-and-static-electricity/BASEColors.js';
 import BASEModel from './balloons-and-static-electricity/model/BASEModel.js';
 import BASEKeyboardHelpContent from './balloons-and-static-electricity/view/BASEKeyboardHelpContent.js';
 import BASEView from './balloons-and-static-electricity/view/BASEView.js';
@@ -34,7 +34,7 @@ simLauncher.launch( () => {
         balloonsAndStaticElectricityScreenTandem.createTandem( 'view' )
       ),
       {
-        backgroundColorProperty: BASEConstants.backgroundColorProperty,
+        backgroundColorProperty: BASEColors.backgroundColorProperty,
         tandem: balloonsAndStaticElectricityScreenTandem,
         createKeyboardHelpNode: () => new BASEKeyboardHelpContent()
       }
