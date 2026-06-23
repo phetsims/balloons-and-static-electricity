@@ -24,6 +24,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import BASEConstants from '../BASEConstants.js';
+import type BASEModel from './BASEModel.js';
 import ChargePositions from './ChargePositions.js';
 import MovablePointChargeModel from './MovablePointChargeModel.js';
 import PlayAreaMap from './PlayAreaMap.js';
@@ -46,20 +47,6 @@ type SelfOptions = {
   isVisiblePropertyPhetioFeatured?: boolean;
 };
 export type BalloonModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
-
-export type BalloonModelDependencies = {
-
-  // Model of the sweater, used for charge transfer, sweater contact, and sweater force calculations.
-  readonly sweater: SweaterModel;
-
-  // Bounds for valid balloon positions in model coordinates.
-  readonly playAreaBounds: Bounds2;
-
-  // Wall callbacks are lazy because the wall is constructed after the balloons.
-  readonly isWallVisible: () => boolean;
-  readonly getWallX: () => number;
-  readonly forceIndicatesInducedCharge: ( balloonForce: Vector2 ) => boolean;
-};
 
 export default class BalloonModel {
 
@@ -128,8 +115,7 @@ export default class BalloonModel {
   public readonly plusCharges: PointChargeModel[] = [];
   public readonly minusCharges: PointChargeModel[] = [];
 
-  // Minimal parent-model surface needed for charge transfer and valid-position checks.
-  private readonly dependencies: BalloonModelDependencies;
+  private readonly balloonsAndStaticElectricityModel: BASEModel;
 
   // model bounds, updated when position changes
   public readonly bounds: Bounds2;
@@ -146,10 +132,12 @@ export default class BalloonModel {
    * Constructor
    * @param x - initial x position
    * @param y - initial y position
-   * @param dependencies - model data needed for valid-position checks and force calculations
+   *
+   * // TODO: Can we decouple the entire BASEModel from BalloonModel here? https://github.com/phetsims/balloons-and-static-electricity/issues/601
+   * @param balloonsAndStaticElectricityModel - ensure balloon is in valid position in model coordinates
    * @param providedOptions
    */
-  public constructor( x: number, y: number, dependencies: BalloonModelDependencies, providedOptions: BalloonModelOptions ) {
+  public constructor( x: number, y: number, balloonsAndStaticElectricityModel: BASEModel, providedOptions: BalloonModelOptions ) {
 
     const options = optionize<BalloonModelOptions, SelfOptions, PhetioObjectOptions>()( {
       isVisiblePropertyPhetioReadOnly: true,
@@ -227,7 +215,7 @@ export default class BalloonModel {
 
     this.resetEmitter = new Emitter();
 
-    this.dependencies = dependencies;
+    this.balloonsAndStaticElectricityModel = balloonsAndStaticElectricityModel;
 
     // neutral pair of charges
     ChargePositions.BALLOON_START_CHARGE_POSITIONS.forEach( entry => {
@@ -310,7 +298,7 @@ export default class BalloonModel {
    * if its center is in the charged area.
    */
   public onSweater(): boolean {
-    const sweaterBounds = this.dependencies.sweater.bounds;
+    const sweaterBounds = this.balloonsAndStaticElectricityModel.sweater.bounds;
     return sweaterBounds.intersectsBounds( this.bounds );
   }
 
@@ -318,7 +306,7 @@ export default class BalloonModel {
    * Returns whether the center of the balloon is within the charged area of the sweater.
    */
   public centerInSweaterChargedArea(): boolean {
-    return this.dependencies.sweater.chargedArea.containsPoint( this.getCenter() );
+    return this.balloonsAndStaticElectricityModel.sweater.chargedArea.containsPoint( this.getCenter() );
   }
 
   /**
@@ -376,7 +364,7 @@ export default class BalloonModel {
    */
   public touchingWall(): boolean {
     const atWall = this.getCenterX() === PlayAreaMap.X_POSITIONS.AT_WALL;
-    const wallVisible = this.dependencies.isWallVisible();
+    const wallVisible = this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get();
     return ( atWall && wallVisible );
   }
 
@@ -523,7 +511,7 @@ export default class BalloonModel {
    * right of the sweater edge, use  the left edge of the balloon. Otherwise, use the balloon center.
    */
   public getSweaterTouchingCenter(): Vector2 {
-    const sweater = this.dependencies.sweater;
+    const sweater = this.balloonsAndStaticElectricityModel.sweater;
     const sweaterRight = sweater.x + sweater.width;
 
     let centerX;
@@ -566,7 +554,7 @@ export default class BalloonModel {
 
     // otherwise, wall and balloon must be visible, and force must be large enough
     const balloonForce = BalloonModel.getForceToClosestWallCharge( this );
-    const forceLargeEnough = this.dependencies.forceIndicatesInducedCharge( balloonForce );
+    const forceLargeEnough = this.balloonsAndStaticElectricityModel.wall.forceIndicatesInducedCharge( balloonForce );
     return wallVisible && this.isVisibleProperty.get() && forceLargeEnough;
   }
 
@@ -598,9 +586,10 @@ export default class BalloonModel {
 
   /**
    * Steps the BalloonModel.
+   * @param model
    * @param dtSeconds - elapsed time in seconds
    */
-  public step( dtSeconds: number ): void {
+  public step( model: BASEModel, dtSeconds: number ): void {
 
     // seconds to milliseconds - really, the model is fairly 'unitless' but multiplying the
     // time step by 1000 makes the sim look and feel like the Java version
@@ -614,7 +603,7 @@ export default class BalloonModel {
     if ( this.userControlledProperty.get() ) {
 
       // drag the balloon, which may cause it to pick up charges
-      this.dragBalloon( dt );
+      this.dragBalloon( model, dt );
     }
     else {
       this.applyForce( dt );
@@ -629,7 +618,7 @@ export default class BalloonModel {
    * When balloon is dragged, check to see if we catch a minus charge.  Returns a boolean
    * that indicates whether a charge was picked up.
    */
-  public dragBalloon( dt: number ): boolean {
+  public dragBalloon( model: BASEModel, dt: number ): boolean {
 
     // Prevent a fuzzer error that tries to drag the balloon before step is called.
     if ( !this.oldPosition ) {
@@ -660,7 +649,7 @@ export default class BalloonModel {
 
     let chargeFound = false;
     if ( speed > 0 ) {
-      chargeFound = this.dependencies.sweater.checkAndTransferCharges( this );
+      chargeFound = model.sweater.checkAndTransferCharges( this );
     }
 
     return chargeFound;
@@ -693,7 +682,7 @@ export default class BalloonModel {
    */
   public isTouchingRightBoundary(): boolean {
     const balloonX = this.getCenter().x;
-    if ( this.dependencies.isWallVisible() ) {
+    if ( this.balloonsAndStaticElectricityModel.wall.isVisibleProperty.get() ) {
       return PlayAreaMap.X_POSITIONS.AT_WALL === balloonX;
     }
     else {
@@ -735,10 +724,10 @@ export default class BalloonModel {
   private applyForce( dt: number ): void {
 
     // only move if this balloon is not over the sweater
-    const playAreaBounds = this.dependencies.playAreaBounds;
+    const model = this.balloonsAndStaticElectricityModel;
     if ( !this.centerInSweaterChargedArea() ) {
 
-      const rightBound = playAreaBounds.maxX;
+      const rightBound = model.playAreaBounds.maxX;
       const force = this.getTotalForce();
       const newVelocity = this.velocityProperty.get().plus( force.timesScalar( dt ) );
       const newPosition = this.positionProperty.get().plus( this.velocityProperty.get().timesScalar( dt ) );
@@ -760,20 +749,20 @@ export default class BalloonModel {
           }
         }
       }
-      if ( newPosition.y + BalloonModel.BALLOON_HEIGHT >= playAreaBounds.maxY ) {
+      if ( newPosition.y + BalloonModel.BALLOON_HEIGHT >= model.playAreaBounds.maxY ) {
 
         // trying to go beyond bottom bound
-        newPosition.y = playAreaBounds.maxY - BalloonModel.BALLOON_HEIGHT;
+        newPosition.y = model.playAreaBounds.maxY - BalloonModel.BALLOON_HEIGHT;
         newVelocity.y = newVelocity.y > 0 ? 0 : newVelocity.y;
       }
-      if ( newPosition.x <= playAreaBounds.minX ) {
+      if ( newPosition.x <= model.playAreaBounds.minX ) {
 
         // trying to go  beyond left bound
-        newPosition.x = playAreaBounds.minX;
+        newPosition.x = model.playAreaBounds.minX;
         newVelocity.x = newVelocity.x < 0 ? 0 : newVelocity.x;
       }
-      if ( newPosition.y <= playAreaBounds.minY ) {
-        newPosition.y = playAreaBounds.minY;
+      if ( newPosition.y <= model.playAreaBounds.minY ) {
+        newPosition.y = model.playAreaBounds.minY;
         newVelocity.y = newVelocity.y < 0 ? 0 : newVelocity.y;
       }
 
@@ -792,8 +781,9 @@ export default class BalloonModel {
    * the sweater, the wall, and the other balloon if it is visible.
    */
   private getTotalForce(): Vector2 {
-    if ( this.dependencies.isWallVisible() ) {
-      const distFromWall = this.dependencies.getWallX() - this.positionProperty.get().x;
+    const model = this.balloonsAndStaticElectricityModel;
+    if ( model.wall.isVisibleProperty.get() ) {
+      const distFromWall = model.wall.x - this.positionProperty.get().x;
 
       // if the balloon has enough charge and is close enough to the wall, the wall attracts it more than the sweater
       if ( this.chargeProperty.get() < -5 ) {
@@ -805,7 +795,7 @@ export default class BalloonModel {
       }
     }
 
-    const force = this.getSweaterForce( this.dependencies.sweater );
+    const force = this.getSweaterForce( model.sweater );
     const other = this.getOtherBalloonForce();
     const sumOfForces = force.plus( other );
 
