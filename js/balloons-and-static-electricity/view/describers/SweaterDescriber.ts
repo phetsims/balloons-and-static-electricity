@@ -47,16 +47,16 @@ const sweaterShowingPatternString = BASEA11yStrings.sweaterShowingPattern.value;
 const showingAllPositiveChargesString = BASEA11yStrings.showingAllPositiveCharges.value;
 const singleStatementPatternString = BASEA11yStrings.singleStatementPattern.value;
 
-type SharedDirectionEnum = typeof DirectionEnum & {
-  getValue: ( direction: BalloonDirection ) => object;
+type DirectionEnumWithRelativeDirection = typeof DirectionEnum & {
   isRelativeDirection: ( direction: object ) => boolean;
 };
 
-const sharedDirectionEnum = DirectionEnum as SharedDirectionEnum;
+// DirectionEnum is implemented in JavaScript and adds isRelativeDirection in an EnumerationDeprecated beforeFreeze hook.
+// TypeScript sees only the base EnumerationDeprecated API, so this cast documents the dynamic helper boundary.
+const directionEnumWithRelativeDirection = DirectionEnum as DirectionEnumWithRelativeDirection;
 
-// TODO: Is this necessary? Why not use DirectionEnum directly? https://github.com/phetsims/balloons-and-static-electricity/issues/601
 const isRelativeBalloonDirection = ( direction: BalloonDirection ): boolean => {
-  return sharedDirectionEnum.isRelativeDirection( sharedDirectionEnum.getValue( direction ) );
+  return directionEnumWithRelativeDirection.isRelativeDirection( DirectionEnum.getValue( direction ) );
 };
 
 export default class SweaterDescriber {
