@@ -18,6 +18,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragInteraction from '../../../../scenery-phet/js/accessibility/grab-drag/GrabDragInteraction.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -144,16 +145,13 @@ export default class BalloonNode extends Node {
                       tandem: Tandem,
                       providedOptions?: BalloonNodeOptions ) {
 
-    const options = optionize<BalloonNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<BalloonNodeOptions, StrictOmit<SelfOptions, 'balloonRubbingSoundGeneratorOptions'>, NodeOptions>()( {
       cursor: 'pointer',
 
       // options passed to the drift velocity sound generator
       balloonVelocitySoundGeneratorOptions: {
         enabledProperty: model.isVisibleProperty
       },
-
-      // options passed to the balloon rubbing sound generator
-      balloonRubbingSoundGeneratorOptions: providedOptions?.balloonRubbingSoundGeneratorOptions,
 
       // additional method to call at end of pointer drag
       pointerDrag: () => { /* intentionally empty */ },
