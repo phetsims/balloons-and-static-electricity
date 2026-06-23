@@ -3,62 +3,24 @@
 /**
  * Scenery display object (scene graph node) for the plusCharge.
  *
- * TODO: This file is very similar to MinusChargeNode, can we factor anything out? See https://github.com/phetsims/balloons-and-static-electricity/issues/601
- *
  @author Vasily Shakhov (Mlearner)
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
-import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
-import BASEConstants from '../BASEConstants.js';
-import PointChargeModel from '../model/PointChargeModel.js';
+import ChargeNode, { ChargeNodeOptions, createSharedChargeNode } from './ChargeNode.js';
 
-const RADIUS = PointChargeModel.RADIUS;
-
-const icon = new Node( {
-  children: [
-    new Circle( RADIUS, {
-      x: 0, y: 0,
-      fill: new RadialGradient( 2, -3, 2, 2, -3, 7 )
-        .addColorStop( 0, '#f97d7d' )
-        .addColorStop( 0.5, '#ed4545' )
-        .addColorStop( 1, '#f00' ),
-      stroke: 'black',
-      lineWidth: 0.5
-    } ),
-
-    new Rectangle( 0, 0, 11, 2, {
-      fill: 'white',
-      centerX: 0,
-      centerY: 0
-    } ),
-
-    new Rectangle( 0, 0, 2, 11, {
-      fill: 'white',
-      centerX: 0,
-      centerY: 0
-    } )
-  ]
+const sharedPlusChargeNode = createSharedChargeNode( {
+  colorStops: [
+    { offset: 0, color: '#f97d7d' },
+    { offset: 0.5, color: '#ed4545' },
+    { offset: 1, color: '#f00' }
+  ],
+  includeVerticalBar: true
 } );
-const sharedPlusChargeNode = rasterizeNode( icon, { resolution: BASEConstants.IMAGE_SCALE } );
 
-export default class PlusChargeNode extends Node {
+export default class PlusChargeNode extends ChargeNode {
 
-  public constructor( position: Vector2, options?: NodeOptions ) {
-
-    const resolvedOptions = merge( {
-      pickable: false
-    }, options );
-
-    super( resolvedOptions );
-
-    this.translate( position.x + BASEConstants.IMAGE_PADDING, position.y + BASEConstants.IMAGE_PADDING );
-
-    this.addChild( sharedPlusChargeNode );
+  public constructor( position: Vector2, options?: ChargeNodeOptions ) {
+    super( position, sharedPlusChargeNode, options );
   }
 }
