@@ -11,12 +11,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import wall_png from '../../../images/wall_png.js';
-import BASEA11yStrings from '../BASEA11yStrings.js';
+import BalloonsAndStaticElectricityFluent from '../../BalloonsAndStaticElectricityFluent.js';
 import BASEModel from '../model/BASEModel.js';
 import ChargesCanvasNode from './ChargesCanvasNode.js';
 import WallDescriber from './describers/WallDescriber.js';
 
-const wallLabelString = BASEA11yStrings.wallLabel.value;
+const wallLabelString = BalloonsAndStaticElectricityFluent.a11y.wallLabelStringProperty.value;
 
 export default class WallNode extends Node {
 

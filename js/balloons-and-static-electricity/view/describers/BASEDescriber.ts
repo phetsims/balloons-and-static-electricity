@@ -10,84 +10,84 @@
 import Range from '../../../../../dot/js/Range.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import BASEA11yStrings from '../../BASEA11yStrings.js';
+import BalloonsAndStaticElectricityFluent from '../../../BalloonsAndStaticElectricityFluent.js';
 import BASEConstants from '../../BASEConstants.js';
 import BalloonModel from '../../model/BalloonModel.js';
 import PlayAreaMap from '../../model/PlayAreaMap.js';
 import { BalloonDirection } from '../../model/PlayAreaMapTypes.js';
 
 // play area grid strings
-const leftShoulderOfSweaterString = BASEA11yStrings.leftShoulderOfSweater.value;
-const leftArmOfSweaterString = BASEA11yStrings.leftArmOfSweater.value;
-const bottomLeftEdgeOfSweaterString = BASEA11yStrings.bottomLeftEdgeOfSweater.value;
+const leftShoulderOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.leftShoulderOfSweaterStringProperty.value;
+const leftArmOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.leftArmOfSweaterStringProperty.value;
+const bottomLeftEdgeOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.bottomLeftEdgeOfSweaterStringProperty.value;
 
-const upperLeftSideOfSweaterString = BASEA11yStrings.upperLeftSideOfSweater.value;
-const leftSideOfSweaterString = BASEA11yStrings.leftSideOfSweater.value;
-const lowerLeftSideOfSweaterString = BASEA11yStrings.lowerLeftSideOfSweater.value;
+const upperLeftSideOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.upperLeftSideOfSweaterStringProperty.value;
+const leftSideOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.leftSideOfSweaterStringProperty.value;
+const lowerLeftSideOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.lowerLeftSideOfSweaterStringProperty.value;
 
-const upperRightSideOfSweaterString = BASEA11yStrings.upperRightSideOfSweater.value;
-const rightSideOfSweaterString = BASEA11yStrings.rightSideOfSweater.value;
-const lowerRightSideOfSweater = BASEA11yStrings.lowerRightSideOfSweater.value;
+const upperRightSideOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.upperRightSideOfSweaterStringProperty.value;
+const rightSideOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.rightSideOfSweaterStringProperty.value;
+const lowerRightSideOfSweater = BalloonsAndStaticElectricityFluent.a11y.lowerRightSideOfSweaterStringProperty.value;
 
-const rightShoulderOfSweaterString = BASEA11yStrings.rightShoulderOfSweater.value;
-const rightArmOfSweaterString = BASEA11yStrings.rightArmOfSweater.value;
-const lowerRightArmOfSweaterString = BASEA11yStrings.lowerRightArmOfSweater.value;
+const rightShoulderOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.rightShoulderOfSweaterStringProperty.value;
+const rightArmOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.rightArmOfSweaterStringProperty.value;
+const lowerRightArmOfSweaterString = BalloonsAndStaticElectricityFluent.a11y.lowerRightArmOfSweaterStringProperty.value;
 
-const upperLeftSideOfPlayAreaString = BASEA11yStrings.upperLeftSideOfPlayArea.value;
-const leftSideOfPlayAreaString = BASEA11yStrings.leftSideOfPlayArea.value;
-const lowerLeftSideOfPlayAreaString = BASEA11yStrings.lowerLeftSideOfPlayArea.value;
+const upperLeftSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.upperLeftSideOfPlayAreaStringProperty.value;
+const leftSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.leftSideOfPlayAreaStringProperty.value;
+const lowerLeftSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.lowerLeftSideOfPlayAreaStringProperty.value;
 
-const upperCenterOfPlayAreaString = BASEA11yStrings.upperCenterOfPlayArea.value;
-const centerOfPlayAreaString = BASEA11yStrings.centerOfPlayArea.value;
-const lowerCenterOfPlayAreaString = BASEA11yStrings.lowerCenterOfPlayArea.value;
+const upperCenterOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.upperCenterOfPlayAreaStringProperty.value;
+const centerOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.centerOfPlayAreaStringProperty.value;
+const lowerCenterOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.lowerCenterOfPlayAreaStringProperty.value;
 
-const upperRightSideOfPlayAreaString = BASEA11yStrings.upperRightSideOfPlayArea.value;
-const rightSideOfPlayAreaString = BASEA11yStrings.rightSideOfPlayArea.value;
-const lowerRightSideOfPlayAreaString = BASEA11yStrings.lowerRightSideOfPlayArea.value;
+const upperRightSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.upperRightSideOfPlayAreaStringProperty.value;
+const rightSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.rightSideOfPlayAreaStringProperty.value;
+const lowerRightSideOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.lowerRightSideOfPlayAreaStringProperty.value;
 
-const upperWallString = BASEA11yStrings.upperWall.value;
-const wallString = BASEA11yStrings.wall.value;
-const lowerWallString = BASEA11yStrings.lowerWall.value;
+const upperWallString = BalloonsAndStaticElectricityFluent.a11y.upperWallStringProperty.value;
+const wallString = BalloonsAndStaticElectricityFluent.a11y.wallStringProperty.value;
+const lowerWallString = BalloonsAndStaticElectricityFluent.a11y.lowerWallStringProperty.value;
 
-const upperRightEdgeOfPlayAreaString = BASEA11yStrings.upperRightEdgeOfPlayArea.value;
-const rightEdgeOfPlayAreaString = BASEA11yStrings.rightEdgeOfPlayArea.value;
-const lowerRightEdgeOfPlayAreaString = BASEA11yStrings.lowerRightEdgeOfPlayArea.value;
-
-// charge strings
-const noString = BASEA11yStrings.no.value;
-const zeroString = BASEA11yStrings.zero.value;
-const aFewString = BASEA11yStrings.aFew.value;
-const severalString = BASEA11yStrings.several.value;
-const manyString = BASEA11yStrings.many.value;
-const negativeString = BASEA11yStrings.negative.value;
-
-const eachBalloonString = BASEA11yStrings.eachBalloon.value;
-const balloonNetChargePatternStringWithLabel = BASEA11yStrings.balloonNetChargePatternStringWithLabel.value;
-
-const landmarkNearSweaterString = BASEA11yStrings.landmarkNearSweater.value;
-const landmarkLeftEdgeString = BASEA11yStrings.landmarkLeftEdge.value;
-const landmarkNearUpperWallString = BASEA11yStrings.landmarkNearUpperWall.value;
-const landmarkNearWallString = BASEA11yStrings.landmarkNearWall.value;
-const landmarkNearLowerWallString = BASEA11yStrings.landmarkNearLowerWall.value;
-const landmarkNearUpperRightEdgeString = BASEA11yStrings.landmarkNearUpperRightEdge.value;
-const landmarkNearRightEdgeString = BASEA11yStrings.landmarkNearRightEdge.value;
-const landmarkNearLowerRightEdgeString = BASEA11yStrings.landmarkNearLowerRightEdge.value;
-const landmarkAtCenterPlayAreaString = BASEA11yStrings.landmarkAtCenterPlayArea.value;
-const landmarkAtUpperCenterPlayAreaString = BASEA11yStrings.landmarkAtUpperCenterPlayArea.value;
-const landmarkAtLowerCenterPlayAreaString = BASEA11yStrings.landmarkAtLowerCenterPlayArea.value;
-
-const upString = BASEA11yStrings.up.value;
-const leftString = BASEA11yStrings.left.value;
-const downString = BASEA11yStrings.down.value;
-const rightString = BASEA11yStrings.right.value;
-const upAndToTheRightString = BASEA11yStrings.upAndToTheRight.value;
-const upAndToTheLeftString = BASEA11yStrings.upAndToTheLeft.value;
-const downAndToTheRightString = BASEA11yStrings.downAndToTheRight.value;
-const downAndToTheLeftString = BASEA11yStrings.downAndToTheLeft.value;
+const upperRightEdgeOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.upperRightEdgeOfPlayAreaStringProperty.value;
+const rightEdgeOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.rightEdgeOfPlayAreaStringProperty.value;
+const lowerRightEdgeOfPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.lowerRightEdgeOfPlayAreaStringProperty.value;
 
 // charge strings
-const summaryNeutralChargesPatternString = BASEA11yStrings.summaryNeutralChargesPattern.value;
-const showingNoChargesString = BASEA11yStrings.showingNoCharges.value;
+const noString = BalloonsAndStaticElectricityFluent.a11y.noStringProperty.value;
+const zeroString = BalloonsAndStaticElectricityFluent.a11y.zeroStringProperty.value;
+const aFewString = BalloonsAndStaticElectricityFluent.a11y.aFewStringProperty.value;
+const severalString = BalloonsAndStaticElectricityFluent.a11y.severalStringProperty.value;
+const manyString = BalloonsAndStaticElectricityFluent.a11y.manyStringProperty.value;
+const negativeString = BalloonsAndStaticElectricityFluent.a11y.negativeStringProperty.value;
+
+const eachBalloonString = BalloonsAndStaticElectricityFluent.a11y.eachBalloonStringProperty.value;
+const balloonNetChargePatternStringWithLabel = BalloonsAndStaticElectricityFluent.a11y.balloonNetChargePatternStringWithLabelStringProperty.value;
+
+const landmarkNearSweaterString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearSweaterStringProperty.value;
+const landmarkLeftEdgeString = BalloonsAndStaticElectricityFluent.a11y.landmarkLeftEdgeStringProperty.value;
+const landmarkNearUpperWallString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearUpperWallStringProperty.value;
+const landmarkNearWallString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearWallStringProperty.value;
+const landmarkNearLowerWallString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearLowerWallStringProperty.value;
+const landmarkNearUpperRightEdgeString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearUpperRightEdgeStringProperty.value;
+const landmarkNearRightEdgeString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearRightEdgeStringProperty.value;
+const landmarkNearLowerRightEdgeString = BalloonsAndStaticElectricityFluent.a11y.landmarkNearLowerRightEdgeStringProperty.value;
+const landmarkAtCenterPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.landmarkAtCenterPlayAreaStringProperty.value;
+const landmarkAtUpperCenterPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.landmarkAtUpperCenterPlayAreaStringProperty.value;
+const landmarkAtLowerCenterPlayAreaString = BalloonsAndStaticElectricityFluent.a11y.landmarkAtLowerCenterPlayAreaStringProperty.value;
+
+const upString = BalloonsAndStaticElectricityFluent.a11y.upStringProperty.value;
+const leftString = BalloonsAndStaticElectricityFluent.a11y.leftStringProperty.value;
+const downString = BalloonsAndStaticElectricityFluent.a11y.downStringProperty.value;
+const rightString = BalloonsAndStaticElectricityFluent.a11y.rightStringProperty.value;
+const upAndToTheRightString = BalloonsAndStaticElectricityFluent.a11y.upAndToTheRightStringProperty.value;
+const upAndToTheLeftString = BalloonsAndStaticElectricityFluent.a11y.upAndToTheLeftStringProperty.value;
+const downAndToTheRightString = BalloonsAndStaticElectricityFluent.a11y.downAndToTheRightStringProperty.value;
+const downAndToTheLeftString = BalloonsAndStaticElectricityFluent.a11y.downAndToTheLeftStringProperty.value;
+
+// charge strings
+const summaryNeutralChargesPatternString = BalloonsAndStaticElectricityFluent.a11y.summaryNeutralChargesPatternStringProperty.value;
+const showingNoChargesString = BalloonsAndStaticElectricityFluent.a11y.showingNoChargesStringProperty.value;
 
 // constants
 const POSITION_DESCRIPTION_MAP = {

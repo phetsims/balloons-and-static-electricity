@@ -19,7 +19,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import balloonGreen_png from '../../../images/balloonGreen_png.js';
 import balloonYellow_png from '../../../images/balloonYellow_png.js';
 import carrier002_wav from '../../../sounds/carrier002_wav.js';
-import BASEA11yStrings from '../BASEA11yStrings.js';
+import BalloonsAndStaticElectricityFluent from '../../BalloonsAndStaticElectricityFluent.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
@@ -33,8 +33,8 @@ import SweaterNode from './SweaterNode.js';
 import TetherNode from './TetherNode.js';
 import WallNode from './WallNode.js';
 
-const greenBalloonLabelString = BASEA11yStrings.greenBalloonLabel.value;
-const yellowBalloonLabelString = BASEA11yStrings.yellowBalloonLabel.value;
+const greenBalloonLabelString = BalloonsAndStaticElectricityFluent.a11y.greenBalloonLabelStringProperty.value;
+const yellowBalloonLabelString = BalloonsAndStaticElectricityFluent.a11y.yellowBalloonLabelStringProperty.value;
 
 // constants
 const BALLOON_TIE_POINT_HEIGHT = 14; // empirically determined

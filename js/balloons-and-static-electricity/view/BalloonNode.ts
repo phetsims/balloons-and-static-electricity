@@ -45,7 +45,7 @@ import balloonRelease006_mp3 from '../../../sounds/balloonRelease006_mp3.js';
 import wallContact_mp3 from '../../../sounds/wallContact_mp3.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import BalloonsAndStaticElectricityStrings from '../../BalloonsAndStaticElectricityStrings.js';
-import BASEA11yStrings from '../BASEA11yStrings.js';
+import BalloonsAndStaticElectricityFluent from '../../BalloonsAndStaticElectricityFluent.js';
 import BASEConstants from '../BASEConstants.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BalloonModel from '../model/BalloonModel.js';
@@ -63,7 +63,7 @@ import PlusChargeNode from './PlusChargeNode.js';
 const X_POSITIONS = PlayAreaMap.X_POSITIONS;
 
 // constants
-const grabBalloonKeyboardHelpString = BASEA11yStrings.grabBalloonKeyboardHelp.value;
+const grabBalloonKeyboardHelpString = BalloonsAndStaticElectricityFluent.a11y.grabBalloonKeyboardHelpStringProperty.value;
 const GRAB_RELEASE_SOUND_LEVEL = 0.1; // empirically determined
 
 type BalloonVelocitySoundGeneratorOptions = {

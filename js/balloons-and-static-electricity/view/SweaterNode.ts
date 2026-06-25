@@ -13,7 +13,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
 import sweater_png from '../../../images/sweater_png.js';
-import BASEA11yStrings from '../BASEA11yStrings.js';
+import BalloonsAndStaticElectricityFluent from '../../BalloonsAndStaticElectricityFluent.js';
 import BASEQueryParameters from '../BASEQueryParameters.js';
 import BASEModel from '../model/BASEModel.js';
 import SweaterModel from '../model/SweaterModel.js';
@@ -21,7 +21,7 @@ import SweaterDescriber from './describers/SweaterDescriber.js';
 import MinusChargeNode from './MinusChargeNode.js';
 import PlusChargeNode from './PlusChargeNode.js';
 
-const sweaterLabelString = BASEA11yStrings.sweaterLabel.value;
+const sweaterLabelString = BalloonsAndStaticElectricityFluent.a11y.sweaterLabelStringProperty.value;
 
 export default class SweaterNode extends Node {
 
